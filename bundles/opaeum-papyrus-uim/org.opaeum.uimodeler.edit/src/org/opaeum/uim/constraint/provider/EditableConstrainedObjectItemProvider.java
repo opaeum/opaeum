@@ -156,22 +156,37 @@ public class EditableConstrainedObjectItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
+				 PerspectiveFactory.eINSTANCE.createNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
+				 PerspectiveFactory.eINSTANCE.createClassNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerOperationConstraint()));
+				 PerspectiveFactory.eINSTANCE.createPropertyNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerBehaviorConstraint()));
+				 PerspectiveFactory.eINSTANCE.createOperationNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createBehaviorNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createMultiplicityElementNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createParameterNavigationConstraint()));
 	}
 
 	/**

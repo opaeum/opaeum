@@ -468,15 +468,6 @@ public interface EditorPackage extends EPackage {
 	int EDITOR_PAGE__EDITABILITY = UimPackage.PAGE__EDITABILITY;
 
 	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EDITOR_PAGE__UML_ELEMENT_UID = UimPackage.PAGE__UML_ELEMENT_UID;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -493,6 +484,15 @@ public interface EditorPackage extends EPackage {
 	 * @ordered
 	 */
 	int EDITOR_PAGE__UNDER_USER_CONTROL = UimPackage.PAGE__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_PAGE__UML_ELEMENT_UID = UimPackage.PAGE__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
@@ -568,6 +568,15 @@ public interface EditorPackage extends EPackage {
 	int ACTION_BAR__VISIBILITY = PanelPackage.ABSTRACT_PANEL__VISIBILITY;
 
 	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_BAR__LABEL_OVERRIDE = PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE;
+
+	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -593,15 +602,6 @@ public interface EditorPackage extends EPackage {
 	 * @ordered
 	 */
 	int ACTION_BAR__UML_ELEMENT_UID = PanelPackage.ABSTRACT_PANEL__UML_ELEMENT_UID;
-
-	/**
-	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACTION_BAR__LABEL_OVERRIDE = PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Editor</b></em>' container reference.
@@ -741,22 +741,13 @@ public interface EditorPackage extends EPackage {
 	int OPERATION_MENU_ITEM__INHERIT_FROM_PARENT = ConstraintPackage.USER_INTERACTION_CONSTRAINT__INHERIT_FROM_PARENT;
 
 	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_MENU_ITEM__UML_ELEMENT_UID = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_MENU_ITEM__NAME = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 1;
+	int OPERATION_MENU_ITEM__NAME = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -765,7 +756,16 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_MENU_ITEM__UNDER_USER_CONTROL = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 2;
+	int OPERATION_MENU_ITEM__UNDER_USER_CONTROL = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_MENU_ITEM__UML_ELEMENT_UID = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
@@ -959,15 +959,6 @@ public interface EditorPackage extends EPackage {
 	int QUERY_RESULT_PAGE__EDITABILITY = UimPackage.PAGE__EDITABILITY;
 
 	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int QUERY_RESULT_PAGE__UML_ELEMENT_UID = UimPackage.PAGE__UML_ELEMENT_UID;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -984,6 +975,15 @@ public interface EditorPackage extends EPackage {
 	 * @ordered
 	 */
 	int QUERY_RESULT_PAGE__UNDER_USER_CONTROL = UimPackage.PAGE__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY_RESULT_PAGE__UML_ELEMENT_UID = UimPackage.PAGE__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.

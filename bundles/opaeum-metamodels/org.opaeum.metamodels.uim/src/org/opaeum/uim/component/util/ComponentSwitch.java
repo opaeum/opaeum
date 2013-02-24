@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.LabelContainer;
+import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.component.*;
@@ -104,6 +106,7 @@ public class ComponentSwitch<T> {
 				if (result == null) result = caseOutlayable(uimField);
 				if (result == null) result = caseConstrainedObject(uimField);
 				if (result == null) result = caseUserInteractionElement(uimField);
+				if (result == null) result = caseLabelContainer(uimField);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -112,6 +115,7 @@ public class ComponentSwitch<T> {
 				T result = caseUimComponent(uimComponent);
 				if (result == null) result = caseUserInteractionElement(uimComponent);
 				if (result == null) result = caseConstrainedObject(uimComponent);
+				if (result == null) result = caseLabelContainer(uimComponent);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -125,6 +129,7 @@ public class ComponentSwitch<T> {
 				if (result == null) result = caseEditableConstrainedObject(uimDataTable);
 				if (result == null) result = caseUserInteractionElement(uimDataTable);
 				if (result == null) result = caseConstrainedObject(uimDataTable);
+				if (result == null) result = caseLabelContainer(uimDataTable);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -135,6 +140,7 @@ public class ComponentSwitch<T> {
 				if (result == null) result = caseEditableConstrainedObject(uimContainer);
 				if (result == null) result = caseUserInteractionElement(uimContainer);
 				if (result == null) result = caseConstrainedObject(uimContainer);
+				if (result == null) result = caseLabelContainer(uimContainer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -157,6 +163,7 @@ public class ComponentSwitch<T> {
 				if (result == null) result = caseUimComponent(detailComponent);
 				if (result == null) result = caseUserInteractionElement(detailComponent);
 				if (result == null) result = caseConstrainedObject(detailComponent);
+				if (result == null) result = caseLabelContainer(detailComponent);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -333,6 +340,21 @@ public class ComponentSwitch<T> {
 	 * @generated
 	 */
 	public T caseUserInteractionElement(UserInteractionElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabelContainer(LabelContainer object) {
 		return null;
 	}
 

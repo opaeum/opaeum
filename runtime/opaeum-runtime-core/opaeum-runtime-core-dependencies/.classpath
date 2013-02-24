@@ -34,6 +34,6 @@
 	<classpathentry exported="true" kind="lib" path="target/libs/xalan-2.4.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/libs/xercesImpl-2.5.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/libs/hsqldb-2.2.9.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/libs/postgresql-9.1-901.jdbc4.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/libs/postgresql-9.1-901.jdbc4.jar" sourcepath="/home/ampie/.m2/repository/org/hibernate/hibernate-core/3.3.2.GA/hibernate-core-3.3.2.GA-sources.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

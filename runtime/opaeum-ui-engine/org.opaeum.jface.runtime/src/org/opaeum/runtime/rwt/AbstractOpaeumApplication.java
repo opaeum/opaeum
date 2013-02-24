@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -18,7 +17,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.rap.rwt.application.EntryPoint;
 import org.opaeum.ecore.EObject;
-import org.opaeum.org.opaeum.rap.metamodels.uim.UimInstantiator;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.IEnum;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.Environment;

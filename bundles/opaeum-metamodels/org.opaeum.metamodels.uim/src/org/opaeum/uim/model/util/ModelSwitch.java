@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.LabelContainer;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
@@ -141,6 +142,7 @@ public class ModelSwitch<T> {
 				if (result == null) result = caseLabeledElement(queryInvoker);
 				if (result == null) result = caseUserInteractionElement(queryInvoker);
 				if (result == null) result = caseUmlReference(queryInvoker);
+				if (result == null) result = caseLabelContainer(queryInvoker);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -154,6 +156,7 @@ public class ModelSwitch<T> {
 				if (result == null) result = caseLabeledElement(operationInvocationWizard);
 				if (result == null) result = caseUserInteractionElement(operationInvocationWizard);
 				if (result == null) result = caseUmlReference(operationInvocationWizard);
+				if (result == null) result = caseLabelContainer(operationInvocationWizard);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -166,6 +169,7 @@ public class ModelSwitch<T> {
 				if (result == null) result = caseLabeledElement(embeddedTaskEditor);
 				if (result == null) result = caseUserInteractionElement(embeddedTaskEditor);
 				if (result == null) result = caseUmlReference(embeddedTaskEditor);
+				if (result == null) result = caseLabelContainer(embeddedTaskEditor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -305,6 +309,21 @@ public class ModelSwitch<T> {
 	 * @generated
 	 */
 	public T caseUserInteractionElement(UserInteractionElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabelContainer(LabelContainer object) {
 		return null;
 	}
 

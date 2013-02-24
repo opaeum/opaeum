@@ -40,11 +40,6 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements ITrans
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitTextFileDirectory(TextDirectory textDir){
-		if(textDir.getSourceFolder().getProject().getName().equals("org.opeum.demo1.app")){
-			if(textDir.getName().equals("src") || textDir.getName().equals("bpm-src")){
-				System.out.println();
-			}
-		}
 		if(textDir instanceof SourceFolder && !((SourceFolder) textDir).isRegenerated()){
 			// do nothing,nocode generated into this folder
 		}else{

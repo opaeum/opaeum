@@ -28,6 +28,7 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextWorkspace;
 
@@ -66,6 +67,7 @@ public abstract class AbstractRecompileModelAction extends AbstractOpaeumAction{
 								p.removeModel(OJWorkspace.class);
 								p.removeModel(TextWorkspace.class);
 								p.replaceModel(ouf.getEmfWorkspace());
+								p.replaceModel(new OJUtil(true));
 								OpaeumConfig cfg = ouf.getConfig();
 								Collection<SourceFolderDefinition> values = cfg.getSourceFolderDefinitions().values();
 								for(SourceFolderDefinition sfd:values){

@@ -1,7 +1,5 @@
 package org.opaeum.simulation.actions;
 
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
-
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Classifier;
@@ -11,6 +9,7 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
@@ -37,7 +36,7 @@ import org.opaeum.runtime.persistence.UmtPersistence;
 public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 	@VisitBefore(matchSubclasses = true)
 	public void visitWorkspace(EmfWorkspace nmws){
-		OJPackage pkg = findOrCreatePackage(UtilityCreator.getUtilPathName());
+		OJPackage pkg = findOrCreatePackage(ojUtil.utilPackagePath(nmws));
 		OJAnnotatedClass clss = new OJAnnotatedClass(NameConverter.capitalize(nmws.getName()) + "DataGenerator");
 		pkg.addToClasses(clss);
 		createTextPath(clss, SimulationSourceFolderId.GEN_SRC);
@@ -45,8 +44,9 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 		OJAnnotatedOperation main = new OJAnnotatedOperation("main");
 		main.addParam("args", new OJPathName("String[]"));
 		main.setStatic(true);
-		main.addToThrows(new OJPathName("java.text.ParseException"));
+		main.addToThrows(new OJPathName("Exception"));
 		clss.addToOperations(main);
+		main.getBody().addToStatements(ojUtil.utilClass(nmws, "Environment") + ".INSTANCE.register()");
 		TreeIterator<EObject> eAllContents = simulationModel.eAllContents();
 		int i = 0;
 		OJAnnotatedOperation registerABunch = null;
@@ -55,7 +55,7 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 			if(eObject instanceof SimulatingSlot){
 				if(i % 200 == 0){
 					registerABunch = new OJAnnotatedOperation("register" + i / 200);
-					OJPathName pe = new OJPathName("java.text.ParseException");
+					OJPathName pe = new OJPathName("Exception");
 					registerABunch.addToThrows(pe);
 					clss.addToImports(pe);
 					clss.addToOperations(registerABunch);
@@ -79,12 +79,13 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 			bnField.setInitExp("(" + bnpn.getLast() + ")" + dataGeneratorName(getLibrary().getBusinessNetwork(), bni)
 					+ ".INSTANCE.generateInstance(null)");
 			intializeBlock.addToLocals(bnField);
-			if(nmws.getApplicationRoot() != null){
-				OJPathName bcpn = ojUtil.classifierPathname(nmws.getApplicationRoot());
+			Classifier applicationRoot = nmws.getApplicationRoot();
+			if(applicationRoot != null){
+				OJPathName bcpn = ojUtil.classifierPathname(applicationRoot);
 				OJAnnotatedField rootField = new OJAnnotatedField("businessCollaboration", bcpn);
 				rootField.setInitExp("new " + bcpn.getLast() + "(businessNetwork)");
 				intializeBlock.addToLocals(rootField);
-				for(Property p:nmws.getOpaeumLibrary().getEffectiveAttributes(nmws.getApplicationRoot())){
+				for(Property p:EmfPropertyUtil.getEffectiveProperties(applicationRoot)){
 					if(!p.isDerived() && p.isComposite()){
 						for(InstanceSpecification is:getInstances(p.getType())){
 							registerBlock.addToStatements("SimulationMetaData.getInstance().registerEntityInstanceSimulation(\"" + is.getQualifiedName()
@@ -105,6 +106,7 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 			main.getBody().addToStatements("persistence.beginTransaction()");
 			main.getBody().addToStatements("SimulationMetaData.getInstance().populateReferences()");
 			main.getBody().addToStatements("persistence.commitTransaction()");
+			main.getBody().addToStatements("System.exit(0)");
 		}
 	}
 	private void processSlot(OJAnnotatedClass clss,OJAnnotatedOperation main,SimulatingSlot slot){
@@ -151,6 +153,7 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 						if(EmfClassifierUtil.isStructuredDataType(nakedPeer)){
 							methodName = "registerStructInstanceSimulation";
 						}else{
+
 							methodName = "registerEntityInstanceSimulation";
 						}
 						main.getBody().addToStatements(
@@ -166,6 +169,7 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 						if(EmfClassifierUtil.isStructuredDataType(nakedPeer)){
 							methodName = "registerStructInstanceSimulation";
 						}else{
+
 							methodName = "registerEntityInstanceSimulation";
 						}
 						main.getBody().addToStatements(

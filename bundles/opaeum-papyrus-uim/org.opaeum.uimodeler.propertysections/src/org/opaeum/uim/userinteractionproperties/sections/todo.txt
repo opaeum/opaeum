@@ -42,6 +42,8 @@ Implement sourcepopulation constraints on parameters
 
 New Tasks:
 UIM:
+Disable/enablefields for inheritFRomParent,requires...Ownership etc. drive defaults from UimContentAdapter
+Introduce PinNavigationContraint
 Introduce logic to keep track of all UmlReferences referring to a uml element;
 DEfine an RMI service that takes a bytearray in and updates userinterface resources from it
 Add forcedLabelWidth and sameWidth to AbstractPanel

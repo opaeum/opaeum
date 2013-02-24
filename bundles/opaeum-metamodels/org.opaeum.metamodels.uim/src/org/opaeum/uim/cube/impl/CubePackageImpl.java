@@ -448,6 +448,7 @@ public class CubePackageImpl extends EPackageImpl implements CubePackage {
 		cubeQueryEClass.getESuperTypes().add(theUimPackage.getPage());
 		dimensionBindingEClass.getESuperTypes().add(theBindingPackage.getUimBinding());
 		levelPropertyEClass.getESuperTypes().add(theUimPackage.getLabeledElement());
+		levelPropertyEClass.getESuperTypes().add(theUimPackage.getUmlReference());
 		rowAxisEntryEClass.getESuperTypes().add(this.getAxisEntry());
 		columnAxisEntryEClass.getESuperTypes().add(this.getAxisEntry());
 		measurePropertyEClass.getESuperTypes().add(theUimPackage.getUmlReference());

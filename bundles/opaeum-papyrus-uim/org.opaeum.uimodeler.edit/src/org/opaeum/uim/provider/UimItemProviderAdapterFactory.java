@@ -231,6 +231,29 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.LabelContainer} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected LabelContainerItemProvider labelContainerItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.LabelContainer}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createLabelContainerAdapter() {
+		if (labelContainerItemProvider == null) {
+			labelContainerItemProvider = new LabelContainerItemProvider(this);
+		}
+
+		return labelContainerItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -336,6 +359,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 		if (labeledElementItemProvider != null) labeledElementItemProvider.dispose();
 		if (ignoredElementItemProvider != null) ignoredElementItemProvider.dispose();
 		if (pageOrderingItemProvider != null) pageOrderingItemProvider.dispose();
+		if (labelContainerItemProvider != null) labelContainerItemProvider.dispose();
 	}
 
 }

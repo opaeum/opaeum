@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.eclipse.gmf.runtime.notation.View;
 import org.opaeum.uim.perspective.EditorConfiguration;
-import org.opaeum.uim.perspective.ExplorerConfiguration;
+import org.opaeum.uim.perspective.NavigatorConfiguration;
 import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PropertiesConfiguration;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.EditorConfigurationEditPart;
@@ -52,7 +52,7 @@ public class UimDiagramUpdater{
 			}
 		}
 		{
-			ExplorerConfiguration childElement = modelElement.getExplorer();
+			NavigatorConfiguration childElement = modelElement.getExplorer();
 			int visualID = UimVisualIDRegistry.getNodeVisualID(view, childElement);
 			if(visualID == ExplorerConfigurationEditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));

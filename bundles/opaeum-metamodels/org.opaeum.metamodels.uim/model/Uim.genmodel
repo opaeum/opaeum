@@ -29,16 +29,16 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//Page/panel"/>
     </genClasses>
     <genClasses ecoreClass="Uim.ecore#//Labels"/>
-    <genClasses ecoreClass="Uim.ecore#//LabeledElement">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//LabeledElement/labelOverride"/>
-    </genClasses>
+    <genClasses ecoreClass="Uim.ecore#//LabeledElement"/>
     <genClasses ecoreClass="Uim.ecore#//IgnoredElement">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//IgnoredElement/userInterfaceRoot"/>
     </genClasses>
     <genClasses ecoreClass="Uim.ecore#//PageOrdering">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Uim.ecore#//PageOrdering/page"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//PageOrdering/position"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Uim.ecore#//PageOrdering/labelOverride"/>
+    </genClasses>
+    <genClasses ecoreClass="Uim.ecore#//LabelContainer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//LabelContainer/labelOverride"/>
     </genClasses>
     <nestedGenPackages prefix="Control" basePackage="org.opaeum.uim" resource="XML"
         disposableProviderFactory="true" ecorePackage="Uim.ecore#//control">
@@ -287,33 +287,40 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//perspective/ViewAllocation/height"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//perspective/ViewAllocation/position"/>
       </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//perspective/ExplorerConfiguration">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/classes"/>
+      <genClasses ecoreClass="Uim.ecore#//perspective/NavigatorConfiguration">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/NavigatorConfiguration/classes"/>
       </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//perspective/ExplorerClassConstraint">
-        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerClassConstraint/explorerConfiguration"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerClassConstraint/properties"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerClassConstraint/newObjectConstraint"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerClassConstraint/behaviors"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerClassConstraint/operations"/>
+      <genClasses ecoreClass="Uim.ecore#//perspective/ClassNavigationConstraint">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ClassNavigationConstraint/explorerConfiguration"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ClassNavigationConstraint/properties"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ClassNavigationConstraint/behaviors"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ClassNavigationConstraint/operations"/>
       </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//perspective/ExplorerPropertyConstraint">
-        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerPropertyConstraint/owner"/>
+      <genClasses ecoreClass="Uim.ecore#//perspective/PropertyNavigationConstraint">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/PropertyNavigationConstraint/owner"/>
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//perspective/EditorConfiguration"/>
       <genClasses ecoreClass="Uim.ecore#//perspective/PropertiesConfiguration"/>
-      <genClasses image="false" ecoreClass="Uim.ecore#//perspective/ExplorerConstraint">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//perspective/ExplorerConstraint/hidden"/>
+      <genClasses ecoreClass="Uim.ecore#//perspective/NavigationConstraint">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//perspective/NavigationConstraint/hidden"/>
       </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//perspective/ExplorerOperationConstraint">
-        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerOperationConstraint/owner"/>
+      <genClasses ecoreClass="Uim.ecore#//perspective/OperationNavigationConstraint">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/OperationNavigationConstraint/owner"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/OperationNavigationConstraint/invocationConstraint"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/OperationNavigationConstraint/parameters"/>
       </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//perspective/ExplorerBehaviorConstraint">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerBehaviorConstraint/invocationConstraint"/>
-        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerBehaviorConstraint/owner"/>
+      <genClasses ecoreClass="Uim.ecore#//perspective/BehaviorNavigationConstraint">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/BehaviorNavigationConstraint/invocationConstraint"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/BehaviorNavigationConstraint/owner"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/BehaviorNavigationConstraint/parameters"/>
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//perspective/InboxConfiguration"/>
       <genClasses ecoreClass="Uim.ecore#//perspective/OutboxConfiguration"/>
+      <genClasses ecoreClass="Uim.ecore#//perspective/ParameterNavigationConstraint"/>
+      <genClasses ecoreClass="Uim.ecore#//perspective/MultiplicityElementNavigationConstraint">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/MultiplicityElementNavigationConstraint/removeConstraint"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/MultiplicityElementNavigationConstraint/addConstraint"/>
+      </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Cube" basePackage="org.opaeum.uim" resource="XML" disposableProviderFactory="true"
         ecorePackage="Uim.ecore#//cube">
@@ -388,7 +395,6 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//component/UimField/minimumLabelWidth"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//component/UimField/binding"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//component/UimField/orientation"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//component/UimField/labelOverride"/>
       </genClasses>
       <genClasses image="false" ecoreClass="Uim.ecore#//component/UimComponent">
         <genOperations ecoreOperation="Uim.ecore#//component/UimComponent/getParent"/>
@@ -396,7 +402,6 @@
       <genClasses ecoreClass="Uim.ecore#//component/UimDataTable">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//component/UimDataTable/binding"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//component/UimDataTable/actionsOnMultipleSelection"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//component/UimDataTable/labelOverride"/>
       </genClasses>
       <genClasses image="false" ecoreClass="Uim.ecore#//component/UimContainer">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//component/UimContainer/children"/>

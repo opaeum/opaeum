@@ -1,5 +1,6 @@
 package ocltests.util;
 
+import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 
 public class OcltestsJavaMetaInfoMap extends JavaMetaInfoMap {

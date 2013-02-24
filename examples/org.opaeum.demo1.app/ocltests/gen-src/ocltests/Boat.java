@@ -44,6 +44,7 @@ import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -230,7 +231,7 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 		@PropertyConstraint(message="Maximum speed",method="isMaximumSpeed"),isComposite=false,opaeumId=3791110638885068466l,uuid="ocltests.uml@_hbIYcOEgEeGhxPe2keryuw")
 	@NumlMetaInfo(uuid="ocltests.uml@_hbIYcOEgEeGhxPe2keryuw")
 	public Integer getMaximumSpeed() {
-		Integer result = (sum2() + this.getSail(SailPosition.FRONT).getSize());
+		Integer result = (sum6() + this.getSail(SailPosition.FRONT).getSize());
 		
 		return result;
 	}
@@ -283,27 +284,23 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	
 	public void init(CompositionNode owner) {
 		this.setName( "MyNamessssss" );
-		createComponents();
-		for ( Sail c : getSail() ) {
-			c.init(this);
-		}
 	}
 	
 	public boolean isAllInstancesHaveSails() {
 		boolean result = false;
-		result = forAll6();
+		result = forAll4();
 		return result;
 	}
 	
 	public boolean isHasName() {
 		boolean result = false;
-		result = (collectionLiteral3().size() > 0);
+		result = (collectionLiteral1().size() > 0);
 		return result;
 	}
 	
 	public boolean isHasSailForEachSailPosition() {
 		boolean result = false;
-		result = forAll5();
+		result = forAll3();
 		return result;
 	}
 	
@@ -448,7 +445,7 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	
 	/** Implements Set {self.sail}->collect(s : Sail | s.size.+(5))
 	 */
-	private Collection<Integer> collect1() {
+	private Collection<Integer> collect5() {
 		Collection<Integer> result = new ArrayList<Integer>();
 		for ( Sail s : this.getSail() ) {
 			Integer bodyExpResult = (s.getSize() + 5);
@@ -459,7 +456,7 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	
 	/** Implements Set {self.name}
 	 */
-	private Set<String> collectionLiteral3() {
+	private Set<String> collectionLiteral1() {
 		Set<String> myList = new HashSet<String>();
 		if ( this.getName() != null ) {
 			myList.add( this.getName() );
@@ -471,7 +468,7 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	 * 
 	 * @param t 
 	 */
-	private Set<Sail> collectionLiteral4(SailPosition t) {
+	private Set<Sail> collectionLiteral2(SailPosition t) {
 		Set<Sail> myList = new HashSet<Sail>();
 		if ( this.getSail(t) != null ) {
 			myList.add( this.getSail(t) );
@@ -481,9 +478,9 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	
 	/** Implements ocltests::SailPosition.allInstances()->forAll(t : SailPosition | Set {self.sail[t]}->size().>(0))
 	 */
-	private boolean forAll5() {
+	private boolean forAll3() {
 		for ( SailPosition t : SailPosition.getValues() ) {
-			if ( !(collectionLiteral4(t).size() > 0) ) {
+			if ( !(collectionLiteral2(t).size() > 0) ) {
 				return false;
 			}
 		}
@@ -492,7 +489,7 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	
 	/** Implements ocltests::Boat.allInstances()->forAll(temp1 : Boat | Set {temp1.sail}->size().>(0))
 	 */
-	private boolean forAll6() {
+	private boolean forAll4() {
 		for ( Boat temp1 : Boat.allInstances(persistence) ) {
 			if ( !(temp1.getSail().size() > 0) ) {
 				return false;
@@ -503,9 +500,9 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	
 	/** Implements Set {self.sail}->collect(s : Sail | s.size.+(5))->sum() on Set {self.sail}->collect(s : Sail | s.size.+(5))
 	 */
-	private Integer sum2() {
+	private Integer sum6() {
 		Integer result = 0;
-		for ( Integer elem : collect1() ) {
+		for ( Integer elem : collect5() ) {
 			result = result + elem;
 		}
 		return result;

@@ -29,6 +29,9 @@ public abstract class AbstractHibernatePersistence implements AbstractPersistenc
 		setFilterDeletedObjects(true);
 	}
 	public AbstractHibernatePersistence(Environment e){
+		if(e==null){
+			System.out.println();
+		}
 		COUNT++;
 		SESSION_COUNT++;
 		this.environment=e;

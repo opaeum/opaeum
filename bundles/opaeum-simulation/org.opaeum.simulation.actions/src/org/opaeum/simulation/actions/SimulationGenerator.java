@@ -1,13 +1,14 @@
 package org.opaeum.simulation.actions;
 
-import java.text.ParseException;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Enumeration;
@@ -46,8 +47,7 @@ import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.CompositionNode;
 
 public class SimulationGenerator extends AbstractSimulationCodeGenerator{
-	@VisitBefore(match = {Interface.class,Component.class,Class.class,DataType.class,
-			Association.class,Actor.class},matchSubclasses = true)
+	@VisitBefore(match = {Interface.class,Component.class,Class.class,DataType.class,Association.class,Actor.class,Collaboration.class},matchSubclasses = true)
 	public void visitClassifier(Classifier nc){
 		List<InstanceSpecification> iss = getInstances(nc);
 		if(iss.size() > 0){
@@ -66,9 +66,9 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 				dataGenerator.addToImports("org.opaeum.simulation.SimulationMetaData");
 				buildCreator(nc, dataGenerator, is);
 				OJAnnotatedOperation populator = new OJAnnotatedOperation("populateReferences");
-				populator.addToThrows(ParseException.class.getName());
+				populator.addToThrows(Exception.class.getName());
 				dataGenerator.addToOperations(populator);
-				populator.getOwner().addToImports(ParseException.class.getName());
+				populator.getOwner().addToImports(Exception.class.getName());
 				if(EmfClassifierUtil.isStructuredDataType(nc)){
 					populator.addParam("in", new OJPathName(Object.class.getName()));
 				}else{
@@ -83,11 +83,11 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 						Property p = (Property) slot.getDefiningFeature();
 						if(EmfClassifierUtil.isCompositionParticipant(p.getType()) && !p.isComposite()
 								&& !(p.getOtherEnd() != null && p.getOtherEnd().isComposite() && !EmfPropertyUtil.isInverse(p))){
-							PropertyMap m = ojUtil.buildStructuralFeatureMap(p);
+							PropertyMap m = ojUtil.buildStructuralFeatureMap(getLibrary().findEffectiveAttribute(nc, p.getName()));
 							OJWhileStatement whileSize = buildLoopForSize(is, populator, slot, m);
 							populator.getOwner().addToImports(m.javaBaseTypePath());
-							String getReference = "(" + m.javaBaseType() + ")SimulationMetaData.getInstance().getEntityValueProvider(\""
-									+ is.getQualifiedName() + "\",\"" + m.umlName() + "\").getNextReference()";
+							String getReference = "(" + m.javaBaseType() + ")SimulationMetaData.getInstance().getEntityValueProvider(\"" + is.getQualifiedName() + "\",\""
+									+ m.umlName() + "\").getNextReference()";
 							;
 							if(m.isMany()){
 								whileSize.getBody().addToStatements("instance." + m.adder() + "(" + getReference + ")");
@@ -116,18 +116,18 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 				}
 			}
 		}
-		if( EmfClassifierUtil.isCompositionParticipant(nc) && getLibrary().getEndToComposite(nc) != null){
+		if(EmfClassifierUtil.isCompositionParticipant(nc) && EmfPropertyUtil.getEndToComposite(nc) != null){
 			creator.getBody().addToStatements("result.addToOwningObject()");
 		}
 		return creator;
 	}
-	private void generateComplexStructuredData(OJAnnotatedClass dataGenerator,InstanceSpecification is,OJAnnotatedOperation creator,
-			SimulatingSlot slot,Property p){
+	private void generateComplexStructuredData(OJAnnotatedClass dataGenerator,InstanceSpecification is,OJAnnotatedOperation creator,SimulatingSlot slot,Property p){
 		PropertyMap m = ojUtil.buildStructuralFeatureMap(p);
 		boolean hasEntityValueProvider = false;
 		for(ValueSpecification vs:slot.getValues()){
 			if(vs instanceof ContainedActualInstance){
-				OJPathName generatorPathName = super.dataGeneratorName((Classifier) p.getType(), ((ContainedActualInstance) vs).getContainedInstance());
+				ContainedActualInstance cai = (ContainedActualInstance) vs;
+				OJPathName generatorPathName = super.dataGeneratorName(cai.getContainedInstance().getClassifiers().get(0), cai.getContainedInstance());
 				dataGenerator.addToImports(generatorPathName);
 				if(EmfClassifierUtil.isStructuredDataType(p.getType())){
 					creator.getBody().addToStatements(generatorPathName.getLast() + ".INSTANCE.generateInstance()");
@@ -141,28 +141,26 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 			}
 		}
 		if(hasEntityValueProvider){
-			createNewInstanceFromSimulation(is, creator, slot, m,  EmfClassifierUtil.isStructuredDataType(p.getType()) ? "Struct" : "Entity");
+			createNewInstanceFromSimulation(is, creator, slot, m, EmfClassifierUtil.isStructuredDataType(p.getType()) ? "Struct" : "Entity");
 		}
 	}
-	private void createNewInstanceFromSimulation(InstanceSpecification is,OJAnnotatedOperation creator,SimulatingSlot slot,
-			PropertyMap m,String obsolete){
+	private void createNewInstanceFromSimulation(InstanceSpecification is,OJAnnotatedOperation creator,SimulatingSlot slot,PropertyMap m,String obsolete){
 		OJWhileStatement whileSize = buildLoopForSize(is, creator, slot, m);
 		creator.getOwner().addToImports(m.javaBaseTypePath());
 		// Will be added by addToOwningObject
 		if(EmfClassifierUtil.isStructuredDataType(m.getProperty().getType())){
 			if(m.isMany()){
 				whileSize.getBody().addToStatements(
-						"result." + m.adder() + "((" + m.javaBaseType() + ")SimulationMetaData.getInstance().getStructValueProvider(\""
-								+ is.getQualifiedName() + "\",\"" + m.umlName() + "\").createNewInstance())");
+						"result." + m.adder() + "((" + m.javaBaseType() + ")SimulationMetaData.getInstance().getStructValueProvider(\"" + is.getQualifiedName() + "\",\""
+								+ m.umlName() + "\").createNewInstance())");
 			}else{
 				whileSize.getBody().addToStatements(
-						"result." + m.setter() + "((" + m.javaBaseType() + ")SimulationMetaData.getInstance().getStructValueProvider(\""
-								+ is.getQualifiedName() + "\",\"" + m.umlName() + "\").createNewInstance())");
+						"result." + m.setter() + "((" + m.javaBaseType() + ")SimulationMetaData.getInstance().getStructValueProvider(\"" + is.getQualifiedName() + "\",\""
+								+ m.umlName() + "\").createNewInstance())");
 			}
 		}else{
 			whileSize.getBody().addToStatements(
-					"SimulationMetaData.getInstance().getEntityValueProvider(\"" + is.getQualifiedName() + "\",\"" + m.umlName()
-							+ "\").createNewInstance(result)");
+					"SimulationMetaData.getInstance().getEntityValueProvider(\"" + is.getQualifiedName() + "\",\"" + m.umlName() + "\").createNewInstance(result)");
 		}
 	}
 	private String calculateSize(InstanceSpecification is,SimulatingSlot slot,PropertyMap m){
@@ -192,8 +190,8 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 				OJPathName strat = new OJPathName(b.getRuntimeStrategyFactory());
 				creator.getOwner().addToImports(strat);
 				creator.getOwner().addToImports(map.javaBaseTypePath());
-				creator.getOwner().addToImports(ParseException.class.getName());
-				creator.addToThrows(ParseException.class.getName());
+				creator.getOwner().addToImports(Exception.class.getName());
+				creator.addToThrows(Exception.class.getName());
 				addGivenValue(creator, map, "(" + map.javaBaseType() + ")new " + strat.getLast()
 						+ "().getStrategy(org.opaeum.runtime.strategy.FromStringConverter.class).fromString(\"" + b.getStringValue() + "\")");
 			}else if(vs instanceof LiteralString){
@@ -216,8 +214,8 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 				OJWhileStatement whileSize = buildLoopForSize(is, creator, slot, map);
 				// Will be added by addToOwningObject
 				creator.getOwner().addToImports(map.javaBaseDefaultTypePath());
-				String newVal = "(" + map.javaBaseType() + ")SimulationMetaData.getInstance().getNextValueForProperty(\"" + is.getQualifiedName()
-						+ "\",\"" + slot.getDefiningFeature().getName() + "\")";
+				String newVal = "(" + map.javaBaseType() + ")SimulationMetaData.getInstance().getNextValueForProperty(\"" + is.getQualifiedName() + "\",\""
+						+ slot.getDefiningFeature().getName() + "\")";
 				if(map.isMany()){
 					whileSize.getBody().addToStatements("result." + map.adder() + "(" + newVal + ")");
 				}else{
@@ -226,8 +224,7 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 			}
 		}
 	}
-	private OJWhileStatement buildLoopForSize(InstanceSpecification is,OJAnnotatedOperation creator,SimulatingSlot slot,
-			PropertyMap map){
+	private OJWhileStatement buildLoopForSize(InstanceSpecification is,OJAnnotatedOperation creator,SimulatingSlot slot,PropertyMap map){
 		OJBlock block = new OJBlock();
 		creator.getBody().addToStatements(block);
 		OJAnnotatedField countField = new OJAnnotatedField(map.umlName() + "Count", new OJPathName("int"));
@@ -244,7 +241,7 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 		OJPathName pn1 = ojUtil.classifierPathname(nc);
 		OJAnnotatedOperation creator = new OJAnnotatedOperation(name);
 		dataGenerator.addToOperations(creator);
-		creator.addToThrows(ParseException.class.getName());
+		creator.addToThrows(Exception.class.getName());
 		creator.setReturnType(pn1);
 		if(EmfClassifierUtil.isCompositionParticipant(nc)){
 			creator.addParam("parent", new OJPathName(CompositionNode.class.getName()));
@@ -264,7 +261,7 @@ public class SimulationGenerator extends AbstractSimulationCodeGenerator{
 			}else{
 				creator.initializeResultVariable("new " + pn1.getLast() + "()");
 			}
-			if(getLibrary().getEndToComposite(nc) != null){
+			if(EmfPropertyUtil.getEndToComposite(nc) != null){
 				creator.getBody().addToStatements("result.init(parent)");
 			}
 		}else{

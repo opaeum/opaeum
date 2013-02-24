@@ -12,6 +12,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.opaeum.uim.LabelContainer;
+import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInteractionElement;
@@ -39,6 +41,7 @@ import org.opaeum.uim.panel.PanelPackage;
  *   <li>{@link org.opaeum.uim.component.impl.UimDataTableImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.opaeum.uim.component.impl.UimDataTableImpl#isUnderUserControl <em>Under User Control</em>}</li>
  *   <li>{@link org.opaeum.uim.component.impl.UimDataTableImpl#getVisibility <em>Visibility</em>}</li>
+ *   <li>{@link org.opaeum.uim.component.impl.UimDataTableImpl#getLabelOverride <em>Label Override</em>}</li>
  *   <li>{@link org.opaeum.uim.component.impl.UimDataTableImpl#getEditability <em>Editability</em>}</li>
  *   <li>{@link org.opaeum.uim.component.impl.UimDataTableImpl#getChildren <em>Children</em>}</li>
  *   <li>{@link org.opaeum.uim.component.impl.UimDataTableImpl#getPreferredWidth <em>Preferred Width</em>}</li>
@@ -47,7 +50,6 @@ import org.opaeum.uim.panel.PanelPackage;
  *   <li>{@link org.opaeum.uim.component.impl.UimDataTableImpl#getFillVertically <em>Fill Vertically</em>}</li>
  *   <li>{@link org.opaeum.uim.component.impl.UimDataTableImpl#getBinding <em>Binding</em>}</li>
  *   <li>{@link org.opaeum.uim.component.impl.UimDataTableImpl#getActionsOnMultipleSelection <em>Actions On Multiple Selection</em>}</li>
- *   <li>{@link org.opaeum.uim.component.impl.UimDataTableImpl#getLabelOverride <em>Label Override</em>}</li>
  * </ul>
  * </p>
  *
@@ -103,6 +105,16 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 	 * @ordered
 	 */
 	protected UserInteractionConstraint visibility;
+
+	/**
+	 * The cached value of the '{@link #getLabelOverride() <em>Label Override</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLabelOverride()
+	 * @generated
+	 * @ordered
+	 */
+	protected Labels labelOverride;
 
 	/**
 	 * The cached value of the '{@link #getEditability() <em>Editability</em>}' containment reference.
@@ -223,16 +235,6 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 	 * @ordered
 	 */
 	protected EList<AbstractActionButton> actionsOnMultipleSelection;
-
-	/**
-	 * The cached value of the '{@link #getLabelOverride() <em>Label Override</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLabelOverride()
-	 * @generated
-	 * @ordered
-	 */
-	protected Labels labelOverride;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -612,6 +614,8 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 		switch (featureID) {
 			case ComponentPackage.UIM_DATA_TABLE__VISIBILITY:
 				return basicSetVisibility(null, msgs);
+			case ComponentPackage.UIM_DATA_TABLE__LABEL_OVERRIDE:
+				return basicSetLabelOverride(null, msgs);
 			case ComponentPackage.UIM_DATA_TABLE__EDITABILITY:
 				return basicSetEditability(null, msgs);
 			case ComponentPackage.UIM_DATA_TABLE__CHILDREN:
@@ -620,8 +624,6 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 				return basicSetBinding(null, msgs);
 			case ComponentPackage.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION:
 				return ((InternalEList<?>)getActionsOnMultipleSelection()).basicRemove(otherEnd, msgs);
-			case ComponentPackage.UIM_DATA_TABLE__LABEL_OVERRIDE:
-				return basicSetLabelOverride(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -640,6 +642,8 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 				return isUnderUserControl();
 			case ComponentPackage.UIM_DATA_TABLE__VISIBILITY:
 				return getVisibility();
+			case ComponentPackage.UIM_DATA_TABLE__LABEL_OVERRIDE:
+				return getLabelOverride();
 			case ComponentPackage.UIM_DATA_TABLE__EDITABILITY:
 				return getEditability();
 			case ComponentPackage.UIM_DATA_TABLE__CHILDREN:
@@ -656,8 +660,6 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 				return getBinding();
 			case ComponentPackage.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION:
 				return getActionsOnMultipleSelection();
-			case ComponentPackage.UIM_DATA_TABLE__LABEL_OVERRIDE:
-				return getLabelOverride();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -679,6 +681,9 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 				return;
 			case ComponentPackage.UIM_DATA_TABLE__VISIBILITY:
 				setVisibility((UserInteractionConstraint)newValue);
+				return;
+			case ComponentPackage.UIM_DATA_TABLE__LABEL_OVERRIDE:
+				setLabelOverride((Labels)newValue);
 				return;
 			case ComponentPackage.UIM_DATA_TABLE__EDITABILITY:
 				setEditability((UserInteractionConstraint)newValue);
@@ -706,9 +711,6 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 				getActionsOnMultipleSelection().clear();
 				getActionsOnMultipleSelection().addAll((Collection<? extends AbstractActionButton>)newValue);
 				return;
-			case ComponentPackage.UIM_DATA_TABLE__LABEL_OVERRIDE:
-				setLabelOverride((Labels)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -729,6 +731,9 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 				return;
 			case ComponentPackage.UIM_DATA_TABLE__VISIBILITY:
 				setVisibility((UserInteractionConstraint)null);
+				return;
+			case ComponentPackage.UIM_DATA_TABLE__LABEL_OVERRIDE:
+				setLabelOverride((Labels)null);
 				return;
 			case ComponentPackage.UIM_DATA_TABLE__EDITABILITY:
 				setEditability((UserInteractionConstraint)null);
@@ -754,9 +759,6 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 			case ComponentPackage.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION:
 				getActionsOnMultipleSelection().clear();
 				return;
-			case ComponentPackage.UIM_DATA_TABLE__LABEL_OVERRIDE:
-				setLabelOverride((Labels)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -775,6 +777,8 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 				return underUserControl != UNDER_USER_CONTROL_EDEFAULT;
 			case ComponentPackage.UIM_DATA_TABLE__VISIBILITY:
 				return visibility != null;
+			case ComponentPackage.UIM_DATA_TABLE__LABEL_OVERRIDE:
+				return labelOverride != null;
 			case ComponentPackage.UIM_DATA_TABLE__EDITABILITY:
 				return editability != null;
 			case ComponentPackage.UIM_DATA_TABLE__CHILDREN:
@@ -791,8 +795,6 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 				return binding != null;
 			case ComponentPackage.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION:
 				return actionsOnMultipleSelection != null && !actionsOnMultipleSelection.isEmpty();
-			case ComponentPackage.UIM_DATA_TABLE__LABEL_OVERRIDE:
-				return labelOverride != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -814,6 +816,12 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 		if (baseClass == ConstrainedObject.class) {
 			switch (derivedFeatureID) {
 				case ComponentPackage.UIM_DATA_TABLE__VISIBILITY: return ConstraintPackage.CONSTRAINED_OBJECT__VISIBILITY;
+				default: return -1;
+			}
+		}
+		if (baseClass == LabelContainer.class) {
+			switch (derivedFeatureID) {
+				case ComponentPackage.UIM_DATA_TABLE__LABEL_OVERRIDE: return UimPackage.LABEL_CONTAINER__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}
@@ -863,6 +871,12 @@ public class UimDataTableImpl extends MasterComponentImpl implements UimDataTabl
 		if (baseClass == ConstrainedObject.class) {
 			switch (baseFeatureID) {
 				case ConstraintPackage.CONSTRAINED_OBJECT__VISIBILITY: return ComponentPackage.UIM_DATA_TABLE__VISIBILITY;
+				default: return -1;
+			}
+		}
+		if (baseClass == LabelContainer.class) {
+			switch (baseFeatureID) {
+				case UimPackage.LABEL_CONTAINER__LABEL_OVERRIDE: return ComponentPackage.UIM_DATA_TABLE__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}

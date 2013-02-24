@@ -6,24 +6,27 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.LabelContainer;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.constraint.RootUserInteractionConstraint;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
 import org.opaeum.uim.perspective.*;
+import org.opaeum.uim.perspective.BehaviorNavigationConstraint;
+import org.opaeum.uim.perspective.ClassNavigationConstraint;
 import org.opaeum.uim.perspective.EditorConfiguration;
-import org.opaeum.uim.perspective.ExplorerBehaviorConstraint;
-import org.opaeum.uim.perspective.ExplorerClassConstraint;
-import org.opaeum.uim.perspective.ExplorerConfiguration;
-import org.opaeum.uim.perspective.ExplorerConstraint;
-import org.opaeum.uim.perspective.ExplorerOperationConstraint;
-import org.opaeum.uim.perspective.ExplorerPropertyConstraint;
 import org.opaeum.uim.perspective.InboxConfiguration;
+import org.opaeum.uim.perspective.MultiplicityElementNavigationConstraint;
+import org.opaeum.uim.perspective.NavigationConstraint;
+import org.opaeum.uim.perspective.NavigatorConfiguration;
+import org.opaeum.uim.perspective.OperationNavigationConstraint;
 import org.opaeum.uim.perspective.OutboxConfiguration;
+import org.opaeum.uim.perspective.ParameterNavigationConstraint;
 import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PerspectivePackage;
 import org.opaeum.uim.perspective.PropertiesConfiguration;
+import org.opaeum.uim.perspective.PropertyNavigationConstraint;
 import org.opaeum.uim.perspective.ViewAllocation;
 
 /**
@@ -114,35 +117,38 @@ public class PerspectiveSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case PerspectivePackage.EXPLORER_CONFIGURATION: {
-				ExplorerConfiguration explorerConfiguration = (ExplorerConfiguration)theEObject;
-				T result = caseExplorerConfiguration(explorerConfiguration);
-				if (result == null) result = caseViewAllocation(explorerConfiguration);
-				if (result == null) result = caseUserInteractionElement(explorerConfiguration);
+			case PerspectivePackage.NAVIGATOR_CONFIGURATION: {
+				NavigatorConfiguration navigatorConfiguration = (NavigatorConfiguration)theEObject;
+				T result = caseNavigatorConfiguration(navigatorConfiguration);
+				if (result == null) result = caseViewAllocation(navigatorConfiguration);
+				if (result == null) result = caseUserInteractionElement(navigatorConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case PerspectivePackage.EXPLORER_CLASS_CONSTRAINT: {
-				ExplorerClassConstraint explorerClassConstraint = (ExplorerClassConstraint)theEObject;
-				T result = caseExplorerClassConstraint(explorerClassConstraint);
-				if (result == null) result = caseExplorerConstraint(explorerClassConstraint);
-				if (result == null) result = caseUserInteractionConstraint(explorerClassConstraint);
-				if (result == null) result = caseLabeledElement(explorerClassConstraint);
-				if (result == null) result = caseRootUserInteractionConstraint(explorerClassConstraint);
-				if (result == null) result = caseUmlReference(explorerClassConstraint);
-				if (result == null) result = caseUserInteractionElement(explorerClassConstraint);
+			case PerspectivePackage.CLASS_NAVIGATION_CONSTRAINT: {
+				ClassNavigationConstraint classNavigationConstraint = (ClassNavigationConstraint)theEObject;
+				T result = caseClassNavigationConstraint(classNavigationConstraint);
+				if (result == null) result = caseNavigationConstraint(classNavigationConstraint);
+				if (result == null) result = caseUserInteractionConstraint(classNavigationConstraint);
+				if (result == null) result = caseLabeledElement(classNavigationConstraint);
+				if (result == null) result = caseRootUserInteractionConstraint(classNavigationConstraint);
+				if (result == null) result = caseUserInteractionElement(classNavigationConstraint);
+				if (result == null) result = caseUmlReference(classNavigationConstraint);
+				if (result == null) result = caseLabelContainer(classNavigationConstraint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case PerspectivePackage.EXPLORER_PROPERTY_CONSTRAINT: {
-				ExplorerPropertyConstraint explorerPropertyConstraint = (ExplorerPropertyConstraint)theEObject;
-				T result = caseExplorerPropertyConstraint(explorerPropertyConstraint);
-				if (result == null) result = caseExplorerConstraint(explorerPropertyConstraint);
-				if (result == null) result = caseUserInteractionConstraint(explorerPropertyConstraint);
-				if (result == null) result = caseLabeledElement(explorerPropertyConstraint);
-				if (result == null) result = caseRootUserInteractionConstraint(explorerPropertyConstraint);
-				if (result == null) result = caseUmlReference(explorerPropertyConstraint);
-				if (result == null) result = caseUserInteractionElement(explorerPropertyConstraint);
+			case PerspectivePackage.PROPERTY_NAVIGATION_CONSTRAINT: {
+				PropertyNavigationConstraint propertyNavigationConstraint = (PropertyNavigationConstraint)theEObject;
+				T result = casePropertyNavigationConstraint(propertyNavigationConstraint);
+				if (result == null) result = caseMultiplicityElementNavigationConstraint(propertyNavigationConstraint);
+				if (result == null) result = caseNavigationConstraint(propertyNavigationConstraint);
+				if (result == null) result = caseUserInteractionConstraint(propertyNavigationConstraint);
+				if (result == null) result = caseLabeledElement(propertyNavigationConstraint);
+				if (result == null) result = caseRootUserInteractionConstraint(propertyNavigationConstraint);
+				if (result == null) result = caseUserInteractionElement(propertyNavigationConstraint);
+				if (result == null) result = caseUmlReference(propertyNavigationConstraint);
+				if (result == null) result = caseLabelContainer(propertyNavigationConstraint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -162,38 +168,41 @@ public class PerspectiveSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case PerspectivePackage.EXPLORER_CONSTRAINT: {
-				ExplorerConstraint explorerConstraint = (ExplorerConstraint)theEObject;
-				T result = caseExplorerConstraint(explorerConstraint);
-				if (result == null) result = caseUserInteractionConstraint(explorerConstraint);
-				if (result == null) result = caseLabeledElement(explorerConstraint);
-				if (result == null) result = caseRootUserInteractionConstraint(explorerConstraint);
-				if (result == null) result = caseUmlReference(explorerConstraint);
-				if (result == null) result = caseUserInteractionElement(explorerConstraint);
+			case PerspectivePackage.NAVIGATION_CONSTRAINT: {
+				NavigationConstraint navigationConstraint = (NavigationConstraint)theEObject;
+				T result = caseNavigationConstraint(navigationConstraint);
+				if (result == null) result = caseUserInteractionConstraint(navigationConstraint);
+				if (result == null) result = caseLabeledElement(navigationConstraint);
+				if (result == null) result = caseRootUserInteractionConstraint(navigationConstraint);
+				if (result == null) result = caseUserInteractionElement(navigationConstraint);
+				if (result == null) result = caseUmlReference(navigationConstraint);
+				if (result == null) result = caseLabelContainer(navigationConstraint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case PerspectivePackage.EXPLORER_OPERATION_CONSTRAINT: {
-				ExplorerOperationConstraint explorerOperationConstraint = (ExplorerOperationConstraint)theEObject;
-				T result = caseExplorerOperationConstraint(explorerOperationConstraint);
-				if (result == null) result = caseExplorerConstraint(explorerOperationConstraint);
-				if (result == null) result = caseUserInteractionConstraint(explorerOperationConstraint);
-				if (result == null) result = caseLabeledElement(explorerOperationConstraint);
-				if (result == null) result = caseRootUserInteractionConstraint(explorerOperationConstraint);
-				if (result == null) result = caseUmlReference(explorerOperationConstraint);
-				if (result == null) result = caseUserInteractionElement(explorerOperationConstraint);
+			case PerspectivePackage.OPERATION_NAVIGATION_CONSTRAINT: {
+				OperationNavigationConstraint operationNavigationConstraint = (OperationNavigationConstraint)theEObject;
+				T result = caseOperationNavigationConstraint(operationNavigationConstraint);
+				if (result == null) result = caseNavigationConstraint(operationNavigationConstraint);
+				if (result == null) result = caseUserInteractionConstraint(operationNavigationConstraint);
+				if (result == null) result = caseLabeledElement(operationNavigationConstraint);
+				if (result == null) result = caseRootUserInteractionConstraint(operationNavigationConstraint);
+				if (result == null) result = caseUserInteractionElement(operationNavigationConstraint);
+				if (result == null) result = caseUmlReference(operationNavigationConstraint);
+				if (result == null) result = caseLabelContainer(operationNavigationConstraint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case PerspectivePackage.EXPLORER_BEHAVIOR_CONSTRAINT: {
-				ExplorerBehaviorConstraint explorerBehaviorConstraint = (ExplorerBehaviorConstraint)theEObject;
-				T result = caseExplorerBehaviorConstraint(explorerBehaviorConstraint);
-				if (result == null) result = caseExplorerConstraint(explorerBehaviorConstraint);
-				if (result == null) result = caseUserInteractionConstraint(explorerBehaviorConstraint);
-				if (result == null) result = caseLabeledElement(explorerBehaviorConstraint);
-				if (result == null) result = caseRootUserInteractionConstraint(explorerBehaviorConstraint);
-				if (result == null) result = caseUmlReference(explorerBehaviorConstraint);
-				if (result == null) result = caseUserInteractionElement(explorerBehaviorConstraint);
+			case PerspectivePackage.BEHAVIOR_NAVIGATION_CONSTRAINT: {
+				BehaviorNavigationConstraint behaviorNavigationConstraint = (BehaviorNavigationConstraint)theEObject;
+				T result = caseBehaviorNavigationConstraint(behaviorNavigationConstraint);
+				if (result == null) result = caseNavigationConstraint(behaviorNavigationConstraint);
+				if (result == null) result = caseUserInteractionConstraint(behaviorNavigationConstraint);
+				if (result == null) result = caseLabeledElement(behaviorNavigationConstraint);
+				if (result == null) result = caseRootUserInteractionConstraint(behaviorNavigationConstraint);
+				if (result == null) result = caseUserInteractionElement(behaviorNavigationConstraint);
+				if (result == null) result = caseUmlReference(behaviorNavigationConstraint);
+				if (result == null) result = caseLabelContainer(behaviorNavigationConstraint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -210,6 +219,33 @@ public class PerspectiveSwitch<T> {
 				T result = caseOutboxConfiguration(outboxConfiguration);
 				if (result == null) result = caseViewAllocation(outboxConfiguration);
 				if (result == null) result = caseUserInteractionElement(outboxConfiguration);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PerspectivePackage.PARAMETER_NAVIGATION_CONSTRAINT: {
+				ParameterNavigationConstraint parameterNavigationConstraint = (ParameterNavigationConstraint)theEObject;
+				T result = caseParameterNavigationConstraint(parameterNavigationConstraint);
+				if (result == null) result = caseMultiplicityElementNavigationConstraint(parameterNavigationConstraint);
+				if (result == null) result = caseNavigationConstraint(parameterNavigationConstraint);
+				if (result == null) result = caseUserInteractionConstraint(parameterNavigationConstraint);
+				if (result == null) result = caseLabeledElement(parameterNavigationConstraint);
+				if (result == null) result = caseRootUserInteractionConstraint(parameterNavigationConstraint);
+				if (result == null) result = caseUserInteractionElement(parameterNavigationConstraint);
+				if (result == null) result = caseUmlReference(parameterNavigationConstraint);
+				if (result == null) result = caseLabelContainer(parameterNavigationConstraint);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PerspectivePackage.MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT: {
+				MultiplicityElementNavigationConstraint multiplicityElementNavigationConstraint = (MultiplicityElementNavigationConstraint)theEObject;
+				T result = caseMultiplicityElementNavigationConstraint(multiplicityElementNavigationConstraint);
+				if (result == null) result = caseNavigationConstraint(multiplicityElementNavigationConstraint);
+				if (result == null) result = caseUserInteractionConstraint(multiplicityElementNavigationConstraint);
+				if (result == null) result = caseLabeledElement(multiplicityElementNavigationConstraint);
+				if (result == null) result = caseRootUserInteractionConstraint(multiplicityElementNavigationConstraint);
+				if (result == null) result = caseUserInteractionElement(multiplicityElementNavigationConstraint);
+				if (result == null) result = caseUmlReference(multiplicityElementNavigationConstraint);
+				if (result == null) result = caseLabelContainer(multiplicityElementNavigationConstraint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -248,47 +284,47 @@ public class PerspectiveSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Explorer Configuration</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Navigator Configuration</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Explorer Configuration</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Navigator Configuration</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseExplorerConfiguration(ExplorerConfiguration object) {
+	public T caseNavigatorConfiguration(NavigatorConfiguration object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Explorer Class Constraint</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Class Navigation Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Explorer Class Constraint</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Class Navigation Constraint</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseExplorerClassConstraint(ExplorerClassConstraint object) {
+	public T caseClassNavigationConstraint(ClassNavigationConstraint object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Explorer Property Constraint</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Property Navigation Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Explorer Property Constraint</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Property Navigation Constraint</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseExplorerPropertyConstraint(ExplorerPropertyConstraint object) {
+	public T casePropertyNavigationConstraint(PropertyNavigationConstraint object) {
 		return null;
 	}
 
@@ -323,47 +359,47 @@ public class PerspectiveSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Explorer Constraint</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Navigation Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Explorer Constraint</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Navigation Constraint</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseExplorerConstraint(ExplorerConstraint object) {
+	public T caseNavigationConstraint(NavigationConstraint object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Explorer Operation Constraint</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Operation Navigation Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Explorer Operation Constraint</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Operation Navigation Constraint</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseExplorerOperationConstraint(ExplorerOperationConstraint object) {
+	public T caseOperationNavigationConstraint(OperationNavigationConstraint object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Explorer Behavior Constraint</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Behavior Navigation Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Explorer Behavior Constraint</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Behavior Navigation Constraint</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseExplorerBehaviorConstraint(ExplorerBehaviorConstraint object) {
+	public T caseBehaviorNavigationConstraint(BehaviorNavigationConstraint object) {
 		return null;
 	}
 
@@ -398,17 +434,32 @@ public class PerspectiveSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Uml Reference</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Parameter Navigation Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Uml Reference</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Parameter Navigation Constraint</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUmlReference(UmlReference object) {
+	public T caseParameterNavigationConstraint(ParameterNavigationConstraint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Multiplicity Element Navigation Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Multiplicity Element Navigation Constraint</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMultiplicityElementNavigationConstraint(MultiplicityElementNavigationConstraint object) {
 		return null;
 	}
 
@@ -439,6 +490,36 @@ public class PerspectiveSwitch<T> {
 	 * @generated
 	 */
 	public T caseUserInteractionConstraint(UserInteractionConstraint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Uml Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Uml Reference</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUmlReference(UmlReference object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabelContainer(LabelContainer object) {
 		return null;
 	}
 

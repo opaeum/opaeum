@@ -34,12 +34,12 @@ public interface PerspectiveConfiguration extends UserInteractionElement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Explorer</em>' containment reference.
-	 * @see #setExplorer(ExplorerConfiguration)
+	 * @see #setExplorer(NavigatorConfiguration)
 	 * @see org.opaeum.uim.perspective.PerspectivePackage#getPerspectiveConfiguration_Explorer()
 	 * @model containment="true"
 	 * @generated
 	 */
-	ExplorerConfiguration getExplorer();
+	NavigatorConfiguration getExplorer();
 
 	/**
 	 * Sets the value of the '{@link org.opaeum.uim.perspective.PerspectiveConfiguration#getExplorer <em>Explorer</em>}' containment reference.
@@ -49,7 +49,7 @@ public interface PerspectiveConfiguration extends UserInteractionElement {
 	 * @see #getExplorer()
 	 * @generated
 	 */
-	void setExplorer(ExplorerConfiguration value);
+	void setExplorer(NavigatorConfiguration value);
 
 	/**
 	 * Returns the value of the '<em><b>Editor</b></em>' containment reference.

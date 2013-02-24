@@ -29,7 +29,7 @@ import org.opaeum.uim.UimPackage;
  * @generated
  */
 public class LabeledElementItemProvider
-	extends UmlReferenceItemProvider
+	extends UserInteractionElementItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -57,52 +57,29 @@ public class LabeledElementItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
-			addUnderUserControlPropertyDescriptor(object);
+			addUmlElementUidPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature.
+	 * This adds a property descriptor for the Uml Element Uid feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addNamePropertyDescriptor(Object object) {
+	protected void addUmlElementUidPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_UserInteractionElement_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_name_feature", "_UI_UserInteractionElement_type"),
-				 UimPackage.Literals.USER_INTERACTION_ELEMENT__NAME,
+				 getString("_UI_UmlReference_umlElementUid_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
+				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
 				 true,
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Under User Control feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addUnderUserControlPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_UserInteractionElement_underUserControl_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_underUserControl_feature", "_UI_UserInteractionElement_type"),
-				 UimPackage.Literals.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -119,7 +96,7 @@ public class LabeledElementItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(UimPackage.Literals.LABELED_ELEMENT__LABEL_OVERRIDE);
+			childrenFeatures.add(UimPackage.Literals.LABEL_CONTAINER__LABEL_OVERRIDE);
 		}
 		return childrenFeatures;
 	}
@@ -174,8 +151,7 @@ public class LabeledElementItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(LabeledElement.class)) {
-			case UimPackage.LABELED_ELEMENT__NAME:
-			case UimPackage.LABELED_ELEMENT__UNDER_USER_CONTROL:
+			case UimPackage.LABELED_ELEMENT__UML_ELEMENT_UID:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case UimPackage.LABELED_ELEMENT__LABEL_OVERRIDE:
@@ -198,7 +174,7 @@ public class LabeledElementItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UimPackage.Literals.LABELED_ELEMENT__LABEL_OVERRIDE,
+				(UimPackage.Literals.LABEL_CONTAINER__LABEL_OVERRIDE,
 				 UimFactory.eINSTANCE.createLabels()));
 	}
 

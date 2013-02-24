@@ -11,6 +11,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Class;
@@ -97,9 +98,13 @@ public class EmfStateMachineUtil{
 			}
 		}
 	}
-	public static StateMachine getStateMachine(Element s){
+	public static StateMachine getNearestApplicableStateMachine(Element s){
 		while(!(s instanceof StateMachine || s == null)){
-			s = s.getOwner();
+			if(s instanceof BehavioredClassifier && ((BehavioredClassifier) s).getClassifierBehavior() instanceof StateMachine){
+				s=((BehavioredClassifier) s).getClassifierBehavior();
+			}else{
+				s = (Element) EmfElementFinder.getContainer(s);
+			}
 		}
 		return (StateMachine) s;
 	}

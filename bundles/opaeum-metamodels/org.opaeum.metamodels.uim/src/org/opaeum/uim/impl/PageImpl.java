@@ -7,6 +7,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.opaeum.uim.LabelContainer;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.Page;
@@ -23,9 +24,9 @@ import org.opaeum.uim.panel.AbstractPanel;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opaeum.uim.impl.PageImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.PageImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.PageImpl#isUnderUserControl <em>Under User Control</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.PageImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.PageImpl#getLabelOverride <em>Label Override</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.PageImpl#getPanel <em>Panel</em>}</li>
  * </ul>
@@ -34,24 +35,6 @@ import org.opaeum.uim.panel.AbstractPanel;
  * @generated
  */
 public class PageImpl extends EditableConstrainedObjectImpl implements Page {
-	/**
-	 * The default value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getUmlElementUid()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String UML_ELEMENT_UID_EDEFAULT = null;
-	/**
-	 * The cached value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getUmlElementUid()
-	 * @generated
-	 * @ordered
-	 */
-	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -88,6 +71,24 @@ public class PageImpl extends EditableConstrainedObjectImpl implements Page {
 	 * @ordered
 	 */
 	protected boolean underUserControl = UNDER_USER_CONTROL_EDEFAULT;
+	/**
+	 * The default value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUmlElementUid()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String UML_ELEMENT_UID_EDEFAULT = null;
+	/**
+	 * The cached value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUmlElementUid()
+	 * @generated
+	 * @ordered
+	 */
+	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
 	/**
 	 * The cached value of the '{@link #getLabelOverride() <em>Label Override</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -130,27 +131,6 @@ public class PageImpl extends EditableConstrainedObjectImpl implements Page {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getUmlElementUid() {
-		return umlElementUid;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setUmlElementUid(String newUmlElementUid) {
-		String oldUmlElementUid = umlElementUid;
-		umlElementUid = newUmlElementUid;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.PAGE__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public String getName() {
 		return name;
 	}
@@ -186,6 +166,27 @@ public class PageImpl extends EditableConstrainedObjectImpl implements Page {
 		underUserControl = newUnderUserControl;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.PAGE__UNDER_USER_CONTROL, oldUnderUserControl, underUserControl));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getUmlElementUid() {
+		return umlElementUid;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUmlElementUid(String newUmlElementUid) {
+		String oldUmlElementUid = umlElementUid;
+		umlElementUid = newUmlElementUid;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.PAGE__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
 	}
 
 	/**
@@ -298,12 +299,12 @@ public class PageImpl extends EditableConstrainedObjectImpl implements Page {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UimPackage.PAGE__UML_ELEMENT_UID:
-				return getUmlElementUid();
 			case UimPackage.PAGE__NAME:
 				return getName();
 			case UimPackage.PAGE__UNDER_USER_CONTROL:
 				return isUnderUserControl();
+			case UimPackage.PAGE__UML_ELEMENT_UID:
+				return getUmlElementUid();
 			case UimPackage.PAGE__LABEL_OVERRIDE:
 				return getLabelOverride();
 			case UimPackage.PAGE__PANEL:
@@ -320,14 +321,14 @@ public class PageImpl extends EditableConstrainedObjectImpl implements Page {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UimPackage.PAGE__UML_ELEMENT_UID:
-				setUmlElementUid((String)newValue);
-				return;
 			case UimPackage.PAGE__NAME:
 				setName((String)newValue);
 				return;
 			case UimPackage.PAGE__UNDER_USER_CONTROL:
 				setUnderUserControl((Boolean)newValue);
+				return;
+			case UimPackage.PAGE__UML_ELEMENT_UID:
+				setUmlElementUid((String)newValue);
 				return;
 			case UimPackage.PAGE__LABEL_OVERRIDE:
 				setLabelOverride((Labels)newValue);
@@ -347,14 +348,14 @@ public class PageImpl extends EditableConstrainedObjectImpl implements Page {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UimPackage.PAGE__UML_ELEMENT_UID:
-				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
-				return;
 			case UimPackage.PAGE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
 			case UimPackage.PAGE__UNDER_USER_CONTROL:
 				setUnderUserControl(UNDER_USER_CONTROL_EDEFAULT);
+				return;
+			case UimPackage.PAGE__UML_ELEMENT_UID:
+				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
 				return;
 			case UimPackage.PAGE__LABEL_OVERRIDE:
 				setLabelOverride((Labels)null);
@@ -374,12 +375,12 @@ public class PageImpl extends EditableConstrainedObjectImpl implements Page {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UimPackage.PAGE__UML_ELEMENT_UID:
-				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
 			case UimPackage.PAGE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case UimPackage.PAGE__UNDER_USER_CONTROL:
 				return underUserControl != UNDER_USER_CONTROL_EDEFAULT;
+			case UimPackage.PAGE__UML_ELEMENT_UID:
+				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
 			case UimPackage.PAGE__LABEL_OVERRIDE:
 				return labelOverride != null;
 			case UimPackage.PAGE__PANEL:
@@ -395,12 +396,6 @@ public class PageImpl extends EditableConstrainedObjectImpl implements Page {
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == UmlReference.class) {
-			switch (derivedFeatureID) {
-				case UimPackage.PAGE__UML_ELEMENT_UID: return UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
-				default: return -1;
-			}
-		}
 		if (baseClass == UserInteractionElement.class) {
 			switch (derivedFeatureID) {
 				case UimPackage.PAGE__NAME: return UimPackage.USER_INTERACTION_ELEMENT__NAME;
@@ -408,9 +403,20 @@ public class PageImpl extends EditableConstrainedObjectImpl implements Page {
 				default: return -1;
 			}
 		}
+		if (baseClass == UmlReference.class) {
+			switch (derivedFeatureID) {
+				case UimPackage.PAGE__UML_ELEMENT_UID: return UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		if (baseClass == LabelContainer.class) {
+			switch (derivedFeatureID) {
+				case UimPackage.PAGE__LABEL_OVERRIDE: return UimPackage.LABEL_CONTAINER__LABEL_OVERRIDE;
+				default: return -1;
+			}
+		}
 		if (baseClass == LabeledElement.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.PAGE__LABEL_OVERRIDE: return UimPackage.LABELED_ELEMENT__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}
@@ -424,12 +430,6 @@ public class PageImpl extends EditableConstrainedObjectImpl implements Page {
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == UmlReference.class) {
-			switch (baseFeatureID) {
-				case UimPackage.UML_REFERENCE__UML_ELEMENT_UID: return UimPackage.PAGE__UML_ELEMENT_UID;
-				default: return -1;
-			}
-		}
 		if (baseClass == UserInteractionElement.class) {
 			switch (baseFeatureID) {
 				case UimPackage.USER_INTERACTION_ELEMENT__NAME: return UimPackage.PAGE__NAME;
@@ -437,9 +437,20 @@ public class PageImpl extends EditableConstrainedObjectImpl implements Page {
 				default: return -1;
 			}
 		}
+		if (baseClass == UmlReference.class) {
+			switch (baseFeatureID) {
+				case UimPackage.UML_REFERENCE__UML_ELEMENT_UID: return UimPackage.PAGE__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		if (baseClass == LabelContainer.class) {
+			switch (baseFeatureID) {
+				case UimPackage.LABEL_CONTAINER__LABEL_OVERRIDE: return UimPackage.PAGE__LABEL_OVERRIDE;
+				default: return -1;
+			}
+		}
 		if (baseClass == LabeledElement.class) {
 			switch (baseFeatureID) {
-				case UimPackage.LABELED_ELEMENT__LABEL_OVERRIDE: return UimPackage.PAGE__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}
@@ -456,12 +467,12 @@ public class PageImpl extends EditableConstrainedObjectImpl implements Page {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (umlElementUid: ");
-		result.append(umlElementUid);
-		result.append(", name: ");
+		result.append(" (name: ");
 		result.append(name);
 		result.append(", underUserControl: ");
 		result.append(underUserControl);
+		result.append(", umlElementUid: ");
+		result.append(umlElementUid);
 		result.append(')');
 		return result.toString();
 	}

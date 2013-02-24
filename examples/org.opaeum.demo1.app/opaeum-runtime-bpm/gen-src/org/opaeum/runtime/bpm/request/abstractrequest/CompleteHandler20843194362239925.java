@@ -3,6 +3,7 @@ package org.opaeum.runtime.bpm.request.abstractrequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.opaeum.hibernate.domain.InternalHibernatePersistence;
 import org.opaeum.runtime.bpm.request.AbstractRequest;

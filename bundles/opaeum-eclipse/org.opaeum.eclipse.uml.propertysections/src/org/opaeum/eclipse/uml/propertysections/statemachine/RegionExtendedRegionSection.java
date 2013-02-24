@@ -25,7 +25,7 @@ public class RegionExtendedRegionSection extends AbstractChooserPropertySection{
 		if(getRegion().getState() != null && getRegion().getState().getRedefinedState() != null){
 			result.addAll(getRegion().getState().getRedefinedState().getRegions());
 		}else{
-			StateMachine sm = EmfStateMachineUtil.getStateMachine(getRegion());
+			StateMachine sm = EmfStateMachineUtil.getNearestApplicableStateMachine(getRegion());
 			for(Classifier psm:sm.getGenerals()){
 				if(psm instanceof StateMachine){
 					result.addAll(((StateMachine) psm).getRegions());

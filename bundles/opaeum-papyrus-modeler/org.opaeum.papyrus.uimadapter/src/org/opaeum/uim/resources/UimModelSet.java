@@ -34,7 +34,6 @@ import org.eclipse.papyrus.infra.core.resource.uml.UmlModel;
 import org.eclipse.papyrus.infra.core.resource.uml.UmlUtils;
 import org.eclipse.papyrus.infra.core.sashwindows.di.PageRef;
 import org.eclipse.papyrus.infra.core.sashwindows.di.SashWindowsMngr;
-import org.eclipse.papyrus.infra.core.sashwindows.di.TabFolder;
 import org.eclipse.papyrus.infra.services.resourceloading.OnDemandLoadingModelSet;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
@@ -50,16 +49,16 @@ import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.newchild.IOpaeumResourceSet;
 import org.opaeum.papyrus.PapyrusEObjectSelectorUI;
-import org.opaeum.uim.perspective.ExplorerConstraint;
+import org.opaeum.uim.perspective.NavigationConstraint;
 import org.opaeum.uim.uml2uim.FormSynchronizer2;
 import org.opaeum.uim.uml2uim.PerspectiveCreator;
 import org.opaeum.uim.uml2uim.UimResourceUtil;
 import org.opaeum.uim.util.UmlUimLinks;
-import org.opaeum.uimodeler.common.IExplorerMap;
+import org.opaeum.uimodeler.common.IUIElementMapMap;
 import org.opaeum.uimodeler.util.InMemoryNotationCommandQueue;
 import org.opaeum.uimodeler.util.UimContentAdapter;
 
-public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResourceSet,IExplorerMap{
+public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResourceSet,IUIElementMapMap{
 	private PerspectiveCreator perspectiveCreator;
 	private InMemoryNotationResource inMemoryNotationModel;
 	private IFile primaryFile;
@@ -131,26 +130,28 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 	private void doOpaeumInitialization(){
 		this.primaryFile = ResourcesPlugin.getWorkspace().getRoot().getFile(getFilenameWithoutExtension().addFileExtension("uml"));
 		final OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(getPrimaryFile().getParent());
-		final PapyrusEObjectSelectorUI selector = new PapyrusEObjectSelectorUI(PlatformUI.getWorkbench().getActiveWorkbenchWindow());
-		final Runnable runnable = new Runnable(){
-			@Override
-			public void run(){
-				EcoreUtil.resolveAll(UimModelSet.this);
-				ctx.startSynch(getTransactionalEditingDomain(), getPrimaryFile(), selector);
-				openUmlFile = OpaeumEclipseContext.findOpenUmlFileFor(getRootObject());
-				HashSet<EClassifier> set = new HashSet<EClassifier>();
-				set.add(UMLPackage.eINSTANCE.getType());
-				set.add(UMLPackage.eINSTANCE.getClassifier());
-				set.add(UMLPackage.eINSTANCE.getInterface());
-				set.add(UMLPackage.eINSTANCE.getSignal());
-				set.add(UMLPackage.eINSTANCE.getOperation());
-				openUmlFile.getTypeCacheAdapter().loadRelevantElements(getRootObject(), set);
-				if(openUmlFile.getConfig().isUiModelerActive()){
-					doOpaeumUimInitialization();
+		if(ctx != null){
+			final PapyrusEObjectSelectorUI selector = new PapyrusEObjectSelectorUI(PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+			final Runnable runnable = new Runnable(){
+				@Override
+				public void run(){
+					EcoreUtil.resolveAll(UimModelSet.this);
+					ctx.startSynch(getTransactionalEditingDomain(), getPrimaryFile(), selector);
+					openUmlFile = OpaeumEclipseContext.findOpenUmlFileFor(getRootObject());
+					HashSet<EClassifier> set = new HashSet<EClassifier>();
+					set.add(UMLPackage.eINSTANCE.getType());
+					set.add(UMLPackage.eINSTANCE.getClassifier());
+					set.add(UMLPackage.eINSTANCE.getInterface());
+					set.add(UMLPackage.eINSTANCE.getSignal());
+					set.add(UMLPackage.eINSTANCE.getOperation());
+					openUmlFile.getTypeCacheAdapter().loadRelevantElements(getRootObject(), set);
+					if(openUmlFile.getConfig().isUiModelerActive()){
+						doOpaeumUimInitialization();
+					}
 				}
-			}
-		};
-		runnable.run();
+			};
+			runnable.run();
+		}
 		// runAsyncExclusive(runnable);
 	}
 	private void runAsyncExclusive(final Runnable runnable){
@@ -243,26 +244,23 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 			public void run(){
 				try{
 					UimContentAdapter additionalContentAdapter = new UimContentAdapter(UimModelSet.this);
-					perspectiveCreator=additionalContentAdapter.getPerspectiveCreator();
+					perspectiveCreator = additionalContentAdapter.getPerspectiveCreator();
 					getOpenUmlFile().setAdditionalContentAdapter(additionalContentAdapter);
 					URI dirUri = getOpenUmlFile().getEmfWorkspace().getDirectoryUri();
 					FormSynchronizer2 fs = new FormSynchronizer2(dirUri, UimModelSet.this, false);
-					Collection<EObject> clsses = getOpenUmlFile().getTypeCacheAdapter().getReachableObjectsOfType(getRootObject(),
-							UMLPackage.eINSTANCE.getClassifier());
+					Collection<EObject> clsses = getOpenUmlFile().getTypeCacheAdapter().getReachableObjectsOfType(getRootObject(), UMLPackage.eINSTANCE.getClassifier());
 					for(EObject cls:clsses){
 						if(!UimResourceUtil.hasUiResource((Classifier) cls, UimModelSet.this, dirUri)){
 							fs.beforeClass((Classifier) cls);
 						}
 					}
-					Collection<EObject> ops = getOpenUmlFile().getTypeCacheAdapter().getReachableObjectsOfType(getRootObject(),
-							UMLPackage.eINSTANCE.getOperation());
+					Collection<EObject> ops = getOpenUmlFile().getTypeCacheAdapter().getReachableObjectsOfType(getRootObject(), UMLPackage.eINSTANCE.getOperation());
 					for(EObject op:ops){
 						if(!UimResourceUtil.hasUiResource((Operation) op, UimModelSet.this, dirUri)){
 							fs.beforeOperation((Operation) op);
 						}
 					}
-					Collection<EObject> acts = getOpenUmlFile().getTypeCacheAdapter().getReachableObjectsOfType(getRootObject(),
-							UMLPackage.eINSTANCE.getAction());
+					Collection<EObject> acts = getOpenUmlFile().getTypeCacheAdapter().getReachableObjectsOfType(getRootObject(), UMLPackage.eINSTANCE.getAction());
 					for(EObject ac:acts){
 						if(!UimResourceUtil.hasUiResource((Action) ac, UimModelSet.this, dirUri)){
 							fs.beforeAction((Action) ac);
@@ -280,18 +278,18 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 	public IContainer getUimDirectory(){
 		// TODO Auto-generated method stub
 		String o = getOpenUmlFile().getConfig().getProjectNameOverride();
-		if(o!=null &&o.length()>0){
+		if(o != null && o.length() > 0){
 			IProject p = (IProject) ResourcesPlugin.getWorkspace().getRoot().findMember(o);
-			if(p!=null && p.exists()){
+			if(p != null && p.exists()){
 				return p;
 			}
 		}
-		//TODO think about this case??
+		// TODO think about this case??
 		return null;
 	}
 	@Override
-	public ExplorerConstraint getConstraintFor(Element e){
-		if(perspectiveCreator==null){
+	public NavigationConstraint getElementFor(Element e){
+		if(perspectiveCreator == null){
 			return null;
 		}
 		return perspectiveCreator.getConstraintFor(e);

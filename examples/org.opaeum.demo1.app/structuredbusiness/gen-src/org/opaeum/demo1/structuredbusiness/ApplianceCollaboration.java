@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -15,9 +16,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -33,6 +31,7 @@ import org.hibernate.annotations.Where;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.demo1.structuredbusiness.util.Stdlib;
+import org.opaeum.demo1.structuredbusiness.util.StructuredbusinessFormatter;
 import org.opaeum.hibernate.domain.InternalHibernatePersistence;
 import org.opaeum.runtime.bpm.organization.BusinessCollaboration_Business;
 import org.opaeum.runtime.bpm.organization.BusinessCollaboration_BusinessActor;
@@ -48,6 +47,7 @@ import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -60,8 +60,7 @@ import org.w3c.dom.NodeList;
 @Table(name="appliance_collaboration",schema="structuredbusiness")
 @Entity(name="ApplianceCollaboration")
 public class ApplianceCollaboration implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessCollaboration, Serializable {
-	@ManyToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY)
-	@JoinColumn(name="appliance_doctor_id",nullable=true)
+	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="applianceCollaboration")
 	protected ApplianceDoctor applianceDoctor;
 	@Where(clause="business_collaboration_type='914890@_J3MS8HkAEeKsL8ZaFiY2TQ'")
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
@@ -92,9 +91,10 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
-	@ManyToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY)
-	@JoinColumn(name="online_customer_id",nullable=true)
-	protected OnlineCustomer onlineCustomer;
+	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
+	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
+	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="applianceCollaboration",targetEntity=OnlineCustomer.class)
+	protected Set<OnlineCustomer> onlineCustomer = new HashSet<OnlineCustomer>();
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
@@ -104,10 +104,7 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	static final private long serialVersionUID = 4051364711987601726l;
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
-	@ManyToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,targetEntity=Supplier.class)
-	@JoinTable(inverseJoinColumns=
-		@JoinColumn(name="supplier_id"),joinColumns=
-		@JoinColumn(name="appliance_collaboration_id"),name="appliance_collaboration_supplier",schema="structuredbusiness")
+	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="applianceCollaboration",targetEntity=Supplier.class)
 	protected Set<Supplier> supplier = new HashSet<Supplier>();
 	private String uid;
 
@@ -123,6 +120,7 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	/** Default constructor for ApplianceCollaboration
 	 */
 	public ApplianceCollaboration() {
+		System.out.println();
 	}
 
 	public void addAllToBusinessCollaboration_BusinessActor_businessActor(Set<BusinessCollaboration_BusinessActor> businessCollaboration_BusinessActor_businessActor) {
@@ -134,6 +132,12 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	public void addAllToBusinessCollaboration_Business_business(Set<BusinessCollaboration_Business> businessCollaboration_Business_business) {
 		for ( BusinessCollaboration_Business o : businessCollaboration_Business_business ) {
 			addToBusinessCollaboration_Business_business(o);
+		}
+	}
+	
+	public void addAllToOnlineCustomer(Set<OnlineCustomer> onlineCustomer) {
+		for ( OnlineCustomer o : onlineCustomer ) {
+			addToOnlineCustomer(o);
 		}
 	}
 	
@@ -163,6 +167,14 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 		}
 	}
 	
+	public void addToOnlineCustomer(OnlineCustomer onlineCustomer) {
+		if ( onlineCustomer!=null ) {
+			onlineCustomer.z_internalRemoveFromApplianceCollaboration(onlineCustomer.getApplianceCollaboration());
+			onlineCustomer.z_internalAddToApplianceCollaboration(this);
+			z_internalAddToOnlineCustomer(onlineCustomer);
+		}
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
@@ -170,7 +182,11 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	}
 	
 	public void addToSupplier(Supplier supplier) {
-		z_internalAddToSupplier(supplier);
+		if ( supplier!=null ) {
+			supplier.z_internalRemoveFromApplianceCollaboration(supplier.getApplianceCollaboration());
+			supplier.z_internalAddToApplianceCollaboration(this);
+			z_internalAddToSupplier(supplier);
+		}
 	}
 	
 	static public Set<? extends ApplianceCollaboration> allInstances(AbstractPersistence persistence) {
@@ -218,7 +234,7 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 							curVal=org.opaeum.demo1.structuredbusiness.util.StructuredbusinessJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						this.setOnlineCustomer(curVal);
+						this.addToOnlineCustomer(curVal);
 						map.put(curVal.getUid(), curVal);
 					}
 				}
@@ -258,6 +274,13 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 		}
 	}
 	
+	public void clearOnlineCustomer() {
+		Set<OnlineCustomer> tmp = new HashSet<OnlineCustomer>(getOnlineCustomer());
+		for ( OnlineCustomer o : tmp ) {
+			removeFromOnlineCustomer(o);
+		}
+	}
+	
 	public void clearSupplier() {
 		Set<Supplier> tmp = new HashSet<Supplier>(getSupplier());
 		for ( Supplier o : tmp ) {
@@ -280,9 +303,6 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	public void createComponents() {
 		if ( getApplianceDoctor()==null ) {
 			setApplianceDoctor(new ApplianceDoctor());
-		}
-		if ( getOnlineCustomer()==null ) {
-			setOnlineCustomer(new OnlineCustomer());
 		}
 	}
 	
@@ -394,8 +414,8 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	
 	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6747053811070959370l,opposite="applianceCollaboration",uuid="914890@_S_5j4HkAEeKsL8ZaFiY2TQ")
 	@NumlMetaInfo(uuid="914890@_S_5j4HkAEeKsL8ZaFiY2TQ")
-	public OnlineCustomer getOnlineCustomer() {
-		OnlineCustomer result = this.onlineCustomer;
+	public Set<OnlineCustomer> getOnlineCustomer() {
+		Set result = this.onlineCustomer;
 		
 		return result;
 	}
@@ -429,9 +449,6 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	
 	public void init(CompositionNode owner) {
 		this.z_internalAddToBusinessNetwork((BusinessNetwork)owner);
-		createComponents();
-		getApplianceDoctor().init(this);
-		getOnlineCustomer().init(this);
 	}
 	
 	public void markDeleted() {
@@ -442,8 +459,8 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 		if ( getApplianceDoctor()!=null ) {
 			getApplianceDoctor().markDeleted();
 		}
-		if ( getOnlineCustomer()!=null ) {
-			getOnlineCustomer().markDeleted();
+		for ( OnlineCustomer child : new ArrayList<OnlineCustomer>(getOnlineCustomer()) ) {
+			child.markDeleted();
 		}
 		for ( Supplier child : new ArrayList<Supplier>(getSupplier()) ) {
 			child.markDeleted();
@@ -530,6 +547,13 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 		}
 	}
 	
+	public void removeAllFromOnlineCustomer(Set<OnlineCustomer> onlineCustomer) {
+		Set<OnlineCustomer> tmp = new HashSet<OnlineCustomer>(onlineCustomer);
+		for ( OnlineCustomer o : tmp ) {
+			removeFromOnlineCustomer(o);
+		}
+	}
+	
 	public void removeAllFromSupplier(Set<Supplier> supplier) {
 		Set<Supplier> tmp = new HashSet<Supplier>(supplier);
 		for ( Supplier o : tmp ) {
@@ -551,11 +575,24 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 		}
 	}
 	
+	public void removeFromOnlineCustomer(OnlineCustomer onlineCustomer) {
+		if ( onlineCustomer!=null ) {
+			onlineCustomer.z_internalRemoveFromApplianceCollaboration(this);
+			z_internalRemoveFromOnlineCustomer(onlineCustomer);
+			onlineCustomer.markDeleted();
+		}
+	}
+	
 	public void removeFromOwningObject() {
 		this.markDeleted();
 	}
 	
 	public void removeFromSupplier(Supplier supplier) {
+		if ( supplier!=null ) {
+			supplier.z_internalRemoveFromApplianceCollaboration(this);
+			z_internalRemoveFromSupplier(supplier);
+			supplier.markDeleted();
+		}
 	}
 	
 	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
@@ -563,8 +600,33 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	}
 	
 	public void setApplianceDoctor(ApplianceDoctor applianceDoctor) {
+		ApplianceDoctor oldValue = this.getApplianceDoctor();
 		propertyChangeSupport.firePropertyChange("applianceDoctor",getApplianceDoctor(),applianceDoctor);
-		this.z_internalAddToApplianceDoctor(applianceDoctor);
+		if ( oldValue==null ) {
+			if ( applianceDoctor!=null ) {
+				ApplianceCollaboration oldOther = (ApplianceCollaboration)applianceDoctor.getApplianceCollaboration();
+				applianceDoctor.z_internalRemoveFromApplianceCollaboration(oldOther);
+				if ( oldOther != null ) {
+					oldOther.z_internalRemoveFromApplianceDoctor(applianceDoctor);
+				}
+				applianceDoctor.z_internalAddToApplianceCollaboration((ApplianceCollaboration)this);
+			}
+			this.z_internalAddToApplianceDoctor(applianceDoctor);
+		} else {
+			if ( !oldValue.equals(applianceDoctor) ) {
+				oldValue.z_internalRemoveFromApplianceCollaboration(this);
+				z_internalRemoveFromApplianceDoctor(oldValue);
+				if ( applianceDoctor!=null ) {
+					ApplianceCollaboration oldOther = (ApplianceCollaboration)applianceDoctor.getApplianceCollaboration();
+					applianceDoctor.z_internalRemoveFromApplianceCollaboration(oldOther);
+					if ( oldOther != null ) {
+						oldOther.z_internalRemoveFromApplianceDoctor(applianceDoctor);
+					}
+					applianceDoctor.z_internalAddToApplianceCollaboration((ApplianceCollaboration)this);
+				}
+				this.z_internalAddToApplianceDoctor(applianceDoctor);
+			}
+		}
 	}
 	
 	public void setBusinessCollaboration_BusinessActor_businessActor(Set<BusinessCollaboration_BusinessActor> businessCollaboration_BusinessActor_businessActor) {
@@ -638,9 +700,10 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 		this.objectVersion=objectVersion;
 	}
 	
-	public void setOnlineCustomer(OnlineCustomer onlineCustomer) {
+	public void setOnlineCustomer(Set<OnlineCustomer> onlineCustomer) {
 		propertyChangeSupport.firePropertyChange("onlineCustomer",getOnlineCustomer(),onlineCustomer);
-		this.z_internalAddToOnlineCustomer(onlineCustomer);
+		this.clearOnlineCustomer();
+		this.addAllToOnlineCustomer(onlineCustomer);
 	}
 	
 	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
@@ -675,13 +738,11 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 			sb.append("\n" + getApplianceDoctor().toXmlString());
 			sb.append("\n</applianceDoctor>");
 		}
-		if ( getOnlineCustomer()==null ) {
-			sb.append("\n<onlineCustomer/>");
-		} else {
-			sb.append("\n<onlineCustomer propertyId=\"6747053811070959370\">");
-			sb.append("\n" + getOnlineCustomer().toXmlString());
-			sb.append("\n</onlineCustomer>");
+		sb.append("\n<onlineCustomer propertyId=\"6747053811070959370\">");
+		for ( OnlineCustomer onlineCustomer : getOnlineCustomer() ) {
+			sb.append("\n" + onlineCustomer.toXmlString());
 		}
+		sb.append("\n</onlineCustomer>");
 		sb.append("\n<supplier propertyId=\"5617383462103121156\">");
 		for ( Supplier supplier : getSupplier() ) {
 			sb.append("\n" + supplier.toXmlString());
@@ -724,7 +785,7 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	}
 	
 	public void z_internalAddToOnlineCustomer(OnlineCustomer onlineCustomer) {
-		this.onlineCustomer=onlineCustomer;
+		this.onlineCustomer.add(onlineCustomer);
 	}
 	
 	public void z_internalAddToSupplier(Supplier supplier) {
@@ -760,10 +821,7 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	}
 	
 	public void z_internalRemoveFromOnlineCustomer(OnlineCustomer onlineCustomer) {
-		if ( getOnlineCustomer()!=null && onlineCustomer!=null && onlineCustomer.equals(getOnlineCustomer()) ) {
-			this.onlineCustomer=null;
-			this.onlineCustomer=null;
-		}
+		this.onlineCustomer.remove(onlineCustomer);
 	}
 	
 	public void z_internalRemoveFromSupplier(Supplier supplier) {

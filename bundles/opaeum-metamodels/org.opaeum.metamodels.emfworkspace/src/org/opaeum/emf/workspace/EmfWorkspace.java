@@ -39,9 +39,11 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
+import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.resource.UMLResource;
+import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.emulated.IEmulatedElement;
@@ -62,7 +64,8 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 	private OpaeumLibrary library;
 	private Map<String,Resource> resources = new HashMap<String,Resource>();
 	private Set<Package> generatingModels = new HashSet<Package>();
-	private Set<Package> primaryModels = new HashSet<Package>();
+	private Set<Model> potentialGeneratingModels;
+	private Set<Package> primaryModels;
 	private ResourceSet resourceSet;
 	private URI directoryUri;
 	private String identifier;
@@ -123,6 +126,7 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 		return library;
 	}
 	public void calculatePrimaryModels(){
+		primaryModels = new HashSet<Package>();
 		for(Element pkg:getOwnedElements()){
 			if(isPrimaryModelOrProfile((Package) pkg, directoryUri)){
 				primaryModels.add((Package) pkg);
@@ -144,6 +148,9 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 		return result;
 	}
 	public Set<Package> getPrimaryRootObjects(){
+		if(primaryModels == null){
+			calculatePrimaryModels();
+		}
 		return primaryModels;
 	}
 	public Set<Package> getGeneratingModelsOrProfiles(){
@@ -187,9 +194,8 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 	}
 	public static boolean isUtilzedModel(Package pkg){
 		boolean isUtilizedModel = false;
-		if(pkg != null
-				&& (pkg.getName() == null || (!pkg.eResource().getURI().toString().contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase(
-						"ecore"))) && isRootObject(pkg)){
+		if(pkg != null && (pkg.getName() == null || (!pkg.eResource().getURI().toString().contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore")))
+				&& isRootObject(pkg)){
 			// NB!! this is sometimes called during resourceloading which causes a concurrentmod ex here... not clear why
 			boolean hasStereotype = false;
 			try{
@@ -566,8 +572,10 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 	public Set<Element> getDependentElements(Element e){
 		return EmfElementFinder.getDependentElements(e);
 	}
+	@Deprecated
 	public Classifier getApplicationRoot(){
-		if(this.applicationRoot == null || getOpaeumLibrary().getEndToComposite(this.applicationRoot) != null){
+		//TODO this only works if we have loaded the entire directory!!!!!
+		Classifier applicationRoot =null;
 			outer:for(Package p:getPrimaryRootObjects()){
 				TreeIterator<EObject> iter = p.eAllContents();
 				while(iter.hasNext()){
@@ -575,18 +583,37 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 					if(eObject instanceof Class || eObject instanceof Component || eObject instanceof Collaboration){
 						Classifier c = (Classifier) eObject;
 						if(!c.isAbstract()){
-							if(getOpaeumLibrary().getEndToComposite(c) == null){
-								this.applicationRoot = c;
-								break outer;
+							Property eoc = getOpaeumLibrary().getEndToComposite(c);
+							if(eoc == null || eoc.getType().equals(library.getBusinessNetwork())){
+								if(c instanceof Collaboration && EmfClassifierUtil.isBusinessCollaboration(c)){
+									applicationRoot = c;
+									break outer;
+								}else{
+									applicationRoot = c;
+
+								}
 							}
 						}
 					}
 				}
 			}
-		}
 		return applicationRoot;
 	}
 	public VersionNumber getVersion(){
 		return version;
+	}
+	public Set<Model> getPotentialGeneratingModels(){
+		if(potentialGeneratingModels == null){
+			potentialGeneratingModels = new HashSet<Model>();
+			for(Element p:getOwnedElements()){
+				if(p instanceof Model){
+					Model model = (Model) p;
+					if(isPrimaryModelOrProfile(model, getDirectoryUri()) || EmfPackageUtil.isRegeneratingLibrary(model)){
+						potentialGeneratingModels.add(model);
+					}
+				}
+			}
+		}
+		return potentialGeneratingModels;
 	}
 }

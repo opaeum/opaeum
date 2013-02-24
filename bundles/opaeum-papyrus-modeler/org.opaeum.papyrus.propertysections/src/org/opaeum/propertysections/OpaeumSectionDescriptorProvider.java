@@ -148,7 +148,6 @@ import org.opaeum.eclipse.uml.propertysections.standardprofile.PackageMappedImpl
 import org.opaeum.eclipse.uml.propertysections.standardprofile.PersistentNameSection;
 import org.opaeum.eclipse.uml.propertysections.standardprofile.PropertyRoleInCubeSection;
 import org.opaeum.eclipse.uml.propertysections.standardprofile.SecondEndRoleInCubeSection;
-import org.opaeum.eclipse.uml.propertysections.standardprofile.UserInterfaceTextSection;
 import org.opaeum.eclipse.uml.propertysections.statemachine.RegionExtendedRegionSection;
 import org.opaeum.eclipse.uml.propertysections.statemachine.StateRedefinedStateSection;
 import org.opaeum.eclipse.uml.propertysections.statemachine.TransitionGuardSection;
@@ -260,7 +259,6 @@ public class OpaeumSectionDescriptorProvider extends AbstractSectionDescriptorPr
 		addExtended(new PropertyNotInProfileFilter(), new PropertyRoleInCubeSection());
 		addExtended(Model.class, new ModelModelTypeSection());
 		addSecondEnd(Association.class, new SecondEndRoleInCubeSection());
-		add(NamedElement.class, new UserInterfaceTextSection()).setTabId("org.opaeum.eclipse.i8nTab");
 		//Composite Structures
 		addBasic(new DelegationFilter(), new ConnectorSelectionSection());
 		addBasic(new InterfacesFilter(), new PortRequiredInterfaces());

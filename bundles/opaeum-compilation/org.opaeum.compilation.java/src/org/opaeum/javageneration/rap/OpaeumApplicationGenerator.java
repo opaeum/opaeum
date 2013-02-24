@@ -76,7 +76,7 @@ public class OpaeumApplicationGenerator extends AbstractJavaProducingVisitor{
 		newBusinessCollaboration.addParam("bn", new OJPathName("org.opaeum.runtime.organization.IBusinessNetwork"));
 		app.addToOperations(newBusinessCollaboration);
 		BehavioredClassifier businessCollaboration = null;
-		if(workspace.getCrossReferenceAdapter() != null){
+		if(workspace.getCrossReferenceAdapter() != null &&getLibrary().getBusinessCollaboration()!=null){
 			Collection<Setting> ir = workspace.getCrossReferenceAdapter().getNonNavigableInverseReferences(getLibrary().getBusinessCollaboration());
 			for(Setting setting:ir){
 				if(setting.getEObject() instanceof InterfaceRealization){

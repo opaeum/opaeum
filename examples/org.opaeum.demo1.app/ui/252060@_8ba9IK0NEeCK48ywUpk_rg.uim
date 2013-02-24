@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_eyFFRnzhEeK4RO8Gc0PbkA" name="onResumed" umlElementUid="252060@_8ba9IK0NEeCK48ywUpk_rg" linkedUmlResource="OpaeumBPM.library.uml">
-  <pageOrdering xmi:id="_ezXesXzhEeK4RO8Gc0PbkA" page="_ezXesHzhEeK4RO8Gc0PbkA"/>
-  <pages xmi:id="_ezXesHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_8ba9IK0NEeCK48ywUpk_rg" name="Operation: On resumed">
-    <panel xsi:type="panel:GridPanel" xmi:id="_ezXesnzhEeK4RO8Gc0PbkA" name="OnResumed" numberOfColumns="1">
-      <children xsi:type="comp:UimField" xmi:id="_ezXes3zhEeK4RO8Gc0PbkA" name="Resumed by" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-        <control xsi:type="ctl:UimDropdown" xmi:id="_ezXetHzhEeK4RO8Gc0PbkA"/>
-        <binding xmi:id="_ezXetXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_9Y_YoK0NEeCK48ywUpk_rg"/>
+<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NVOg7X2yEeKdOuVcMz9Nmw" name="onResumed" umlElementUid="252060@_8ba9IK0NEeCK48ywUpk_rg" linkedUmlResource="OpaeumBPM.library.uml">
+  <pageOrdering xmi:id="_NeFh8H2yEeKdOuVcMz9Nmw" page="_NeE6-H2yEeKdOuVcMz9Nmw"/>
+  <pages xmi:id="_NeE6-H2yEeKdOuVcMz9Nmw" umlElementUid="252060@_8ba9IK0NEeCK48ywUpk_rg" name="Operation: On resumed">
+    <panel xsi:type="panel:GridPanel" xmi:id="_NeFh8X2yEeKdOuVcMz9Nmw" name="OnResumed" numberOfColumns="1">
+      <children xsi:type="comp:UimField" xmi:id="_NeFh8n2yEeKdOuVcMz9Nmw" name="Resumed by" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown" xmi:id="_NeFh832yEeKdOuVcMz9Nmw"/>
+        <binding xmi:id="_NeFh9H2yEeKdOuVcMz9Nmw" umlElementUid="252060@_9Y_YoK0NEeCK48ywUpk_rg"/>
       </children>
     </panel>
   </pages>

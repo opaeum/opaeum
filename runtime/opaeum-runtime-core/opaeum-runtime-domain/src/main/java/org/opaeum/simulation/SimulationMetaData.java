@@ -85,7 +85,7 @@ public class SimulationMetaData{
 		}
 		value.buckets.add(range);
 	}
-	public void populateReferences(){
+	public void populateReferences() throws Exception{
 		for(EntityValueProvider evp:this.entitySimulationProviders.values()){
 			evp.populateReferences();
 		}
@@ -146,7 +146,7 @@ public class SimulationMetaData{
 		ValueProvider valueProvider = propertyObjectValueProviders.get(simulationName + propertyName);
 		return valueProvider.getNextValue();
 	}
-	public Object createNewInstanceForProperty(String simulationName,String propertyName,CompositionNode parent){
+	public Object createNewInstanceForProperty(String simulationName,String propertyName,CompositionNode parent) throws Exception{
 		return entitySimulationProviders.get(simulationName + propertyName).createNewInstance(parent);
 	}
 	@SuppressWarnings("rawtypes")

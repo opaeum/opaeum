@@ -130,7 +130,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 	}
 	private void state(Vertex vertex){
 		StateMap map = ojUtil.buildStateMap(vertex);
-		StateMachine umlStateMachine = EmfStateMachineUtil.getStateMachine(vertex);
+		StateMachine umlStateMachine = EmfStateMachineUtil.getNearestApplicableStateMachine(vertex);
 		OJAnnotatedClass ojStateMachine = findJavaClass(umlStateMachine);
 		OJPathName javaType = map.javaType();
 		if(EmfElementUtil.isMarkedForDeletion(vertex)){
@@ -267,7 +267,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 		if(EmfStateMachineUtil.doesWorkOnEntry(vertex)){
 			OJAnnotatedOperation onEntry = new OJAnnotatedOperation("onEntry");
 			stateClass.addToOperations(onEntry);
-			OJPathName tokenPathName = ojUtil.tokenPathName(EmfStateMachineUtil.getStateMachine(vertex));
+			OJPathName tokenPathName = ojUtil.tokenPathName(EmfStateMachineUtil.getNearestApplicableStateMachine(vertex));
 			onEntry.addParam("token", tokenPathName);
 			boolean isComplexState = false;
 			onEntry.getBody().addToStatements("super.onEntry(token)");
@@ -341,7 +341,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 		}
 	};
 	private void transition(Transition transition){
-		StateMachine umlStateMachine = EmfStateMachineUtil.getStateMachine(transition);
+		StateMachine umlStateMachine = EmfStateMachineUtil.getNearestApplicableStateMachine(transition);
 		if(EmfElementUtil.isMarkedForDeletion(transition)){
 			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.getOldClassifierPathname(transition));
 		}else{
@@ -453,7 +453,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			if(ojUtil.requiresJavaRename(r)){
 				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.getOldClassifierPathname(r));
 			}
-			StateMachine umlStateMachine = EmfStateMachineUtil.getStateMachine(r);
+			StateMachine umlStateMachine = EmfStateMachineUtil.getNearestApplicableStateMachine(r);
 			OJPathName classifierPathname = ojUtil.classifierPathname(r);
 			OJAnnotatedClass regionActivation = new OJAnnotatedClass(classifierPathname.getLast());
 			javaModel.findOrCreatePackage(classifierPathname.getHead()).addToClasses(regionActivation);

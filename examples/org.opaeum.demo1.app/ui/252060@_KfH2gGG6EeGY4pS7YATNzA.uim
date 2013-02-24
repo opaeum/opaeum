@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_exw8OXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_KfH2gGG6EeGY4pS7YATNzA" name="I business actor base User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_exw8OnzhEeK4RO8Gc0PbkA" name="Edit IBusinessActorBase" umlElementUid="252060@_KfH2gGG6EeGY4pS7YATNzA">
-    <pageOrdering xmi:id="_exw8PHzhEeK4RO8Gc0PbkA" page="_exw8O3zhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_exw8O3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_KfH2gGG6EeGY4pS7YATNzA" name="Edit I business actor base">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exw8PXzhEeK4RO8Gc0PbkA" name="IBusinessActorBase" numberOfColumns="1"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NVeYgn2yEeKdOuVcMz9Nmw" umlElementUid="252060@_KfH2gGG6EeGY4pS7YATNzA" name="I business actor base User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_NVeYg32yEeKdOuVcMz9Nmw" name="Edit IBusinessActorBase" umlElementUid="252060@_KfH2gGG6EeGY4pS7YATNzA">
+    <pageOrdering xmi:id="_NVeYhX2yEeKdOuVcMz9Nmw" page="_NVeYhH2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_NVeYhH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_KfH2gGG6EeGY4pS7YATNzA" name="Edit I business actor base">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NVeYhn2yEeKdOuVcMz9Nmw" name="IBusinessActorBase" numberOfColumns="1"/>
     </pages>
-    <actionBar xmi:id="_exw8PnzhEeK4RO8Gc0PbkA" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_exw8P3zhEeK4RO8Gc0PbkA" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_exw8QHzhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+    <actionBar xmi:id="_NVeYh32yEeKdOuVcMz9Nmw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVeYiH2yEeKdOuVcMz9Nmw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVeYiX2yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_exyKa3zhEeK4RO8Gc0PbkA" name="Create IBusinessActorBase" umlElementUid="252060@_KfH2gGG6EeGY4pS7YATNzA">
-    <pageOrdering xmi:id="_exyKbXzhEeK4RO8Gc0PbkA" page="_exyKbHzhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_exyKbHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_KfH2gGG6EeGY4pS7YATNzA" name="CreateI business actor base">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exyKbnzhEeK4RO8Gc0PbkA" name="IBusinessActorBase" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_NVg0wX2yEeKdOuVcMz9Nmw" name="Create IBusinessActorBase" umlElementUid="252060@_KfH2gGG6EeGY4pS7YATNzA">
+    <pageOrdering xmi:id="_NVg0w32yEeKdOuVcMz9Nmw" page="_NVg0wn2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_NVg0wn2yEeKdOuVcMz9Nmw" umlElementUid="252060@_KfH2gGG6EeGY4pS7YATNzA" name="CreateI business actor base">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NVg0xH2yEeKdOuVcMz9Nmw" name="IBusinessActorBase" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </model:ClassUserInteractionModel>

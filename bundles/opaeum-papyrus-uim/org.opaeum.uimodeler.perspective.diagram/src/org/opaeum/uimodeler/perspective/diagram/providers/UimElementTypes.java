@@ -161,7 +161,7 @@ public class UimElementTypes{
 			elements.put(PerspectiveConfiguration_1000, PerspectivePackage.eINSTANCE.getPerspectiveConfiguration());
 			elements.put(EditorConfiguration_2001, PerspectivePackage.eINSTANCE.getEditorConfiguration());
 			elements.put(PropertiesConfiguration_2002, PerspectivePackage.eINSTANCE.getPropertiesConfiguration());
-			elements.put(ExplorerConfiguration_2003, PerspectivePackage.eINSTANCE.getExplorerConfiguration());
+			elements.put(ExplorerConfiguration_2003, PerspectivePackage.eINSTANCE.getNavigatorConfiguration());
 		}
 		return (ENamedElement) elements.get(type);
 	}

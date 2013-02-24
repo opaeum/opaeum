@@ -1,13 +1,16 @@
 package org.opaeum.simulation.actions;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Type;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -32,8 +35,8 @@ public class AbstractSimulationCodeGenerator extends AbstractJavaProducingVisito
 	public AbstractSimulationCodeGenerator(){
 		super();
 	}
-	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace,SimulationModel sm, OJUtil ojUtil){
-		this.initialize(pac, config, textWorkspace, workspace,ojUtil);
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace,SimulationModel sm,OJUtil ojUtil){
+		this.initialize(pac, config, textWorkspace, workspace, ojUtil);
 		this.simulationModel = sm;
 		TreeIterator<EObject> eAllContents = simulationModel.eAllContents();
 		while(eAllContents.hasNext()){
@@ -47,9 +50,18 @@ public class AbstractSimulationCodeGenerator extends AbstractJavaProducingVisito
 				}
 			}
 		}
-		//mmmm, dangerous
+		// mmmm, dangerous
 		SourceFolderDefinition agssfd = config.getSourceFolderDefinition(JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
-		config.defineSourceFolder(SimulationSourceFolderId.GEN_SRC, agssfd.getProjectNameStrategy(), agssfd.getProjectQualifier(), simulationModel.getName().toLowerCase());
+		config.defineSourceFolder(SimulationSourceFolderId.GEN_SRC, agssfd.getProjectNameStrategy(), agssfd.getProjectQualifier(), simulationModel.getName()
+				.toLowerCase());
+	}
+	@Override
+	public Collection<Element> getChildren(Element root){
+		if(root instanceof EmfWorkspace){
+			return new HashSet<Element>(((EmfWorkspace) root).getPotentialGeneratingModels());
+		}else{
+			return super.getChildren(root);
+		}
 	}
 	protected List<InstanceSpecification> getInstances(Type nc){
 		List<InstanceSpecification> list = instances.get(nc);

@@ -7,6 +7,8 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.opaeum.uim.LabelContainer;
+import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInteractionElement;
@@ -33,6 +35,7 @@ import org.opaeum.uim.panel.PanelPackage;
  * <ul>
  *   <li>{@link org.opaeum.uim.component.impl.UimFieldImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.opaeum.uim.component.impl.UimFieldImpl#isUnderUserControl <em>Under User Control</em>}</li>
+ *   <li>{@link org.opaeum.uim.component.impl.UimFieldImpl#getLabelOverride <em>Label Override</em>}</li>
  *   <li>{@link org.opaeum.uim.component.impl.UimFieldImpl#getPreferredWidth <em>Preferred Width</em>}</li>
  *   <li>{@link org.opaeum.uim.component.impl.UimFieldImpl#getPreferredHeight <em>Preferred Height</em>}</li>
  *   <li>{@link org.opaeum.uim.component.impl.UimFieldImpl#getFillHorizontally <em>Fill Horizontally</em>}</li>
@@ -42,7 +45,6 @@ import org.opaeum.uim.panel.PanelPackage;
  *   <li>{@link org.opaeum.uim.component.impl.UimFieldImpl#getMinimumLabelWidth <em>Minimum Label Width</em>}</li>
  *   <li>{@link org.opaeum.uim.component.impl.UimFieldImpl#getBinding <em>Binding</em>}</li>
  *   <li>{@link org.opaeum.uim.component.impl.UimFieldImpl#getOrientation <em>Orientation</em>}</li>
- *   <li>{@link org.opaeum.uim.component.impl.UimFieldImpl#getLabelOverride <em>Label Override</em>}</li>
  * </ul>
  * </p>
  *
@@ -88,6 +90,16 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 	 * @ordered
 	 */
 	protected boolean underUserControl = UNDER_USER_CONTROL_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getLabelOverride() <em>Label Override</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLabelOverride()
+	 * @generated
+	 * @ordered
+	 */
+	protected Labels labelOverride;
 
 	/**
 	 * The default value of the '{@link #getPreferredWidth() <em>Preferred Width</em>}' attribute.
@@ -248,16 +260,6 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 	 * @ordered
 	 */
 	protected Orientation orientation = ORIENTATION_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getLabelOverride() <em>Label Override</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLabelOverride()
-	 * @generated
-	 * @ordered
-	 */
-	protected Labels labelOverride;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -635,12 +637,12 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case ComponentPackage.UIM_FIELD__LABEL_OVERRIDE:
+				return basicSetLabelOverride(null, msgs);
 			case ComponentPackage.UIM_FIELD__CONTROL:
 				return basicSetControl(null, msgs);
 			case ComponentPackage.UIM_FIELD__BINDING:
 				return basicSetBinding(null, msgs);
-			case ComponentPackage.UIM_FIELD__LABEL_OVERRIDE:
-				return basicSetLabelOverride(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -657,6 +659,8 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 				return getName();
 			case ComponentPackage.UIM_FIELD__UNDER_USER_CONTROL:
 				return isUnderUserControl();
+			case ComponentPackage.UIM_FIELD__LABEL_OVERRIDE:
+				return getLabelOverride();
 			case ComponentPackage.UIM_FIELD__PREFERRED_WIDTH:
 				return getPreferredWidth();
 			case ComponentPackage.UIM_FIELD__PREFERRED_HEIGHT:
@@ -675,8 +679,6 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 				return getBinding();
 			case ComponentPackage.UIM_FIELD__ORIENTATION:
 				return getOrientation();
-			case ComponentPackage.UIM_FIELD__LABEL_OVERRIDE:
-				return getLabelOverride();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -694,6 +696,9 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 				return;
 			case ComponentPackage.UIM_FIELD__UNDER_USER_CONTROL:
 				setUnderUserControl((Boolean)newValue);
+				return;
+			case ComponentPackage.UIM_FIELD__LABEL_OVERRIDE:
+				setLabelOverride((Labels)newValue);
 				return;
 			case ComponentPackage.UIM_FIELD__PREFERRED_WIDTH:
 				setPreferredWidth((Integer)newValue);
@@ -722,9 +727,6 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 			case ComponentPackage.UIM_FIELD__ORIENTATION:
 				setOrientation((Orientation)newValue);
 				return;
-			case ComponentPackage.UIM_FIELD__LABEL_OVERRIDE:
-				setLabelOverride((Labels)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -742,6 +744,9 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 				return;
 			case ComponentPackage.UIM_FIELD__UNDER_USER_CONTROL:
 				setUnderUserControl(UNDER_USER_CONTROL_EDEFAULT);
+				return;
+			case ComponentPackage.UIM_FIELD__LABEL_OVERRIDE:
+				setLabelOverride((Labels)null);
 				return;
 			case ComponentPackage.UIM_FIELD__PREFERRED_WIDTH:
 				setPreferredWidth(PREFERRED_WIDTH_EDEFAULT);
@@ -770,9 +775,6 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 			case ComponentPackage.UIM_FIELD__ORIENTATION:
 				setOrientation(ORIENTATION_EDEFAULT);
 				return;
-			case ComponentPackage.UIM_FIELD__LABEL_OVERRIDE:
-				setLabelOverride((Labels)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -789,6 +791,8 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case ComponentPackage.UIM_FIELD__UNDER_USER_CONTROL:
 				return underUserControl != UNDER_USER_CONTROL_EDEFAULT;
+			case ComponentPackage.UIM_FIELD__LABEL_OVERRIDE:
+				return labelOverride != null;
 			case ComponentPackage.UIM_FIELD__PREFERRED_WIDTH:
 				return PREFERRED_WIDTH_EDEFAULT == null ? preferredWidth != null : !PREFERRED_WIDTH_EDEFAULT.equals(preferredWidth);
 			case ComponentPackage.UIM_FIELD__PREFERRED_HEIGHT:
@@ -807,8 +811,6 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 				return binding != null;
 			case ComponentPackage.UIM_FIELD__ORIENTATION:
 				return orientation != ORIENTATION_EDEFAULT;
-			case ComponentPackage.UIM_FIELD__LABEL_OVERRIDE:
-				return labelOverride != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -824,6 +826,12 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 			switch (derivedFeatureID) {
 				case ComponentPackage.UIM_FIELD__NAME: return UimPackage.USER_INTERACTION_ELEMENT__NAME;
 				case ComponentPackage.UIM_FIELD__UNDER_USER_CONTROL: return UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
+				default: return -1;
+			}
+		}
+		if (baseClass == LabelContainer.class) {
+			switch (derivedFeatureID) {
+				case ComponentPackage.UIM_FIELD__LABEL_OVERRIDE: return UimPackage.LABEL_CONTAINER__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}
@@ -855,6 +863,12 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 			switch (baseFeatureID) {
 				case UimPackage.USER_INTERACTION_ELEMENT__NAME: return ComponentPackage.UIM_FIELD__NAME;
 				case UimPackage.USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL: return ComponentPackage.UIM_FIELD__UNDER_USER_CONTROL;
+				default: return -1;
+			}
+		}
+		if (baseClass == LabelContainer.class) {
+			switch (baseFeatureID) {
+				case UimPackage.LABEL_CONTAINER__LABEL_OVERRIDE: return ComponentPackage.UIM_FIELD__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}

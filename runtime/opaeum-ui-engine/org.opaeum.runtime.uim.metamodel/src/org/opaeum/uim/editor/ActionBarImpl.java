@@ -6,9 +6,8 @@ import java.util.Map;
 
 import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
-import org.opaeum.org.opaeum.rap.metamodels.uim.UimInstantiator;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.component.UimContainer;
@@ -56,6 +55,18 @@ public class ActionBarImpl extends EObjectImpl implements ActionBar {
 				map.put(curVal.getUid(), curVal);
 				curVal.eContainer(this);
 			}
+			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
+				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
+				Labels curVal;
+				if ( typeString==null ||typeString.trim().length()==0 ) {
+					typeString="Labels";
+				}
+				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
+				this.setLabelOverride(curVal);
+				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
+				map.put(curVal.getUid(), curVal);
+				curVal.eContainer(this);
+			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("editability") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
 				UserInteractionConstraint curVal;
@@ -76,18 +87,6 @@ public class ActionBarImpl extends EObjectImpl implements ActionBar {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.getChildren().add(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
-			}
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
-				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
-				Labels curVal;
-				if ( typeString==null ||typeString.trim().length()==0 ) {
-					typeString="Labels";
-				}
-				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
-				this.setLabelOverride(curVal);
 				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
 				map.put(curVal.getUid(), curVal);
 				curVal.eContainer(this);
@@ -151,14 +150,14 @@ public class ActionBarImpl extends EObjectImpl implements ActionBar {
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("visibility") ) {
 				((org.opaeum.uim.constraint.UserInteractionConstraint)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
 			}
+			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
+				((org.opaeum.uim.Labels)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("editability") ) {
 				((org.opaeum.uim.constraint.UserInteractionConstraint)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("children") ) {
 				((org.opaeum.uim.component.UimComponent)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
-			}
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
-				((org.opaeum.uim.Labels)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
 			}
 		}
 	}

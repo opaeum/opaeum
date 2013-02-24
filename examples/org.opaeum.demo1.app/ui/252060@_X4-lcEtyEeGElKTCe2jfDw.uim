@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ey_rSHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_X4-lcEtyEeGElKTCe2jfDw" name="Person fullfills actor role User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_ey_rSXzhEeK4RO8Gc0PbkA" name="Edit PersonFullfillsActorRole" umlElementUid="252060@_X4-lcEtyEeGElKTCe2jfDw">
-    <pageOrdering xmi:id="_ey_rS3zhEeK4RO8Gc0PbkA" page="_ey_rSnzhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_ey_rSnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_X4-lcEtyEeGElKTCe2jfDw" name="Edit Person fullfills actor role">
-      <panel xsi:type="panel:GridPanel" xmi:id="_ey_rTHzhEeK4RO8Gc0PbkA" name="PersonFullfillsActorRole" numberOfColumns="1"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_Nd8_EH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_X4-lcEtyEeGElKTCe2jfDw" name="Person fullfills actor role User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_Nd8_EX2yEeKdOuVcMz9Nmw" name="Edit PersonFullfillsActorRole" umlElementUid="252060@_X4-lcEtyEeGElKTCe2jfDw">
+    <pageOrdering xmi:id="_Nd8_E32yEeKdOuVcMz9Nmw" page="_Nd8_En2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_Nd8_En2yEeKdOuVcMz9Nmw" umlElementUid="252060@_X4-lcEtyEeGElKTCe2jfDw" name="Edit Person fullfills actor role">
+      <panel xsi:type="panel:GridPanel" xmi:id="_Nd8_FH2yEeKdOuVcMz9Nmw" name="PersonFullfillsActorRole" numberOfColumns="1"/>
     </pages>
-    <actionBar xmi:id="_ey_rTXzhEeK4RO8Gc0PbkA" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_ey_rTnzhEeK4RO8Gc0PbkA" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_ey_rT3zhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+    <actionBar xmi:id="_Nd8_FX2yEeKdOuVcMz9Nmw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_Nd8_Fn2yEeKdOuVcMz9Nmw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_Nd8_F32yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_ey_rUHzhEeK4RO8Gc0PbkA" name="Create PersonFullfillsActorRole" umlElementUid="252060@_X4-lcEtyEeGElKTCe2jfDw">
-    <pageOrdering xmi:id="_ey_rUnzhEeK4RO8Gc0PbkA" page="_ey_rUXzhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_ey_rUXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_X4-lcEtyEeGElKTCe2jfDw" name="CreatePerson fullfills actor role">
-      <panel xsi:type="panel:GridPanel" xmi:id="_ey_rU3zhEeK4RO8Gc0PbkA" name="PersonFullfillsActorRole" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_Nd8_GH2yEeKdOuVcMz9Nmw" name="Create PersonFullfillsActorRole" umlElementUid="252060@_X4-lcEtyEeGElKTCe2jfDw">
+    <pageOrdering xmi:id="_Nd8_Gn2yEeKdOuVcMz9Nmw" page="_Nd8_GX2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_Nd8_GX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_X4-lcEtyEeGElKTCe2jfDw" name="CreatePerson fullfills actor role">
+      <panel xsi:type="panel:GridPanel" xmi:id="_Nd8_G32yEeKdOuVcMz9Nmw" name="PersonFullfillsActorRole" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </model:ClassUserInteractionModel>

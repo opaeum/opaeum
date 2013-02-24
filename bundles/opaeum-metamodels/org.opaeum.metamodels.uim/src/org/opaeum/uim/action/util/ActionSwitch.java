@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.LabelContainer;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
@@ -104,6 +105,7 @@ public class ActionSwitch<T> {
 				if (result == null) result = caseOutlayable(builtInActionButton);
 				if (result == null) result = caseUserInteractionElement(builtInActionButton);
 				if (result == null) result = caseConstrainedObject(builtInActionButton);
+				if (result == null) result = caseLabelContainer(builtInActionButton);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -114,6 +116,7 @@ public class ActionSwitch<T> {
 				if (result == null) result = caseOutlayable(abstractActionButton);
 				if (result == null) result = caseUserInteractionElement(abstractActionButton);
 				if (result == null) result = caseConstrainedObject(abstractActionButton);
+				if (result == null) result = caseLabelContainer(abstractActionButton);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -127,6 +130,7 @@ public class ActionSwitch<T> {
 				if (result == null) result = caseUmlReference(transitionButton);
 				if (result == null) result = caseUserInteractionElement(transitionButton);
 				if (result == null) result = caseConstrainedObject(transitionButton);
+				if (result == null) result = caseLabelContainer(transitionButton);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -140,6 +144,7 @@ public class ActionSwitch<T> {
 				if (result == null) result = caseUmlReference(linkToQuery);
 				if (result == null) result = caseUserInteractionElement(linkToQuery);
 				if (result == null) result = caseConstrainedObject(linkToQuery);
+				if (result == null) result = caseLabelContainer(linkToQuery);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -153,6 +158,7 @@ public class ActionSwitch<T> {
 				if (result == null) result = caseUmlReference(invocationButton);
 				if (result == null) result = caseUserInteractionElement(invocationButton);
 				if (result == null) result = caseConstrainedObject(invocationButton);
+				if (result == null) result = caseLabelContainer(invocationButton);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -163,6 +169,7 @@ public class ActionSwitch<T> {
 				if (result == null) result = caseOutlayable(abstractLink);
 				if (result == null) result = caseUserInteractionElement(abstractLink);
 				if (result == null) result = caseConstrainedObject(abstractLink);
+				if (result == null) result = caseLabelContainer(abstractLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -174,6 +181,7 @@ public class ActionSwitch<T> {
 				if (result == null) result = caseOutlayable(builtInLink);
 				if (result == null) result = caseUserInteractionElement(builtInLink);
 				if (result == null) result = caseConstrainedObject(builtInLink);
+				if (result == null) result = caseLabelContainer(builtInLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -313,6 +321,21 @@ public class ActionSwitch<T> {
 	 * @generated
 	 */
 	public T caseConstrainedObject(ConstrainedObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabelContainer(LabelContainer object) {
 		return null;
 	}
 

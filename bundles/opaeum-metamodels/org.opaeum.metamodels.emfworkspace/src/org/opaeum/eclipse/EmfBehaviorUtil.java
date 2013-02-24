@@ -94,7 +94,7 @@ public class EmfBehaviorUtil{
 		if(behavioralElement instanceof Behavior){
 			Behavior behavior = (Behavior) behavioralElement;
 			if(behavioralElement.getOwner() instanceof Transition || behavioralElement.getOwner() instanceof State){
-				return EmfStateMachineUtil.getStateMachine(behavioralElement.getOwner());
+				return EmfStateMachineUtil.getNearestApplicableStateMachine(behavioralElement.getOwner());
 			}else if(hasExecutionInstance(behavior)){
 				return behavior;
 			}else if(behavior.getContext() != null){

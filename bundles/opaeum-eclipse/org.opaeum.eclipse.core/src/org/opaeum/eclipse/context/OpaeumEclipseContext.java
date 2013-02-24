@@ -144,20 +144,19 @@ public class OpaeumEclipseContext{
 			ResourceSet rst;
 			rst = new ResourceSetImpl();
 			URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
-//			if(dew == null){
-				dew = new EmfWorkspace(uri, rst, getConfig().getVersion(), getConfig().getApplicationIdentifier(), getConfig().getMavenGroupId());
-				dew.setUriToFileConverter(new EclipseUriToFileConverter());
-				dew.setName(getConfig().getApplicationName());
-				for(IResource r:umlDirectory.members()){
-					monitor.subTask("Loading " + r.getName());
-					if(r instanceof IFile && r.getFileExtension().equals("uml")){
-						final Resource resource = dew.getResourceSet().getResource(
-								URI.createPlatformResourceURI(((IFile) r).getFullPath().toString(), true), true);
-						EcoreUtil.resolveAll(resource);
-					}
-					monitor.worked(100 / umlDirectory.members().length);
+			// if(dew == null){
+			dew = new EmfWorkspace(uri, rst, getConfig().getVersion(), getConfig().getApplicationIdentifier(), getConfig().getMavenGroupId());
+			dew.setUriToFileConverter(new EclipseUriToFileConverter());
+			dew.setName(getConfig().getApplicationName());
+			for(IResource r:umlDirectory.members()){
+				monitor.subTask("Loading " + r.getName());
+				if(r instanceof IFile && r.getFileExtension().equals("uml")){
+					final Resource resource = dew.getResourceSet().getResource(URI.createPlatformResourceURI(((IFile) r).getFullPath().toString(), true), true);
+					EcoreUtil.resolveAll(resource);
 				}
-//			}
+				monitor.worked(100 / umlDirectory.members().length);
+			}
+			// }
 			dew.guessGeneratingModelsAndProfiles(URI.createPlatformResourceURI(umlDirectory.getFullPath().toString(), true));
 			return dew;
 		}catch(CoreException e){
@@ -198,10 +197,15 @@ public class OpaeumEclipseContext{
 			if(newContext){
 				cfg = new OpaeumConfig(new File(umlDir.getLocation().toFile(), "opaeum.properties"));
 				cfg.loadDefaults(umlDir.getName());
-				OpaeumConfigDialog dlg = new OpaeumConfigDialog(Display.getDefault().getActiveShell(), cfg, umlDir);
-				final int dlgResult = dlg.open();
-				if(dlgResult != Window.OK){
-					return null;
+				if(umlDir.getName().equals("simulation")){
+					cfg.setSimulationContext(true);
+					cfg.store();
+				}else{
+					OpaeumConfigDialog dlg = new OpaeumConfigDialog(Display.getDefault().getActiveShell(), cfg, umlDir);
+					final int dlgResult = dlg.open();
+					if(dlgResult != Window.OK){
+						return null;
+					}
 				}
 				try{
 					umlDir.refreshLocal(IResource.DEPTH_INFINITE, null);

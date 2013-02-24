@@ -22,7 +22,7 @@ public class TransitionRedefinedTransitionSection extends AbstractChooserPropert
 	@Override
 	protected Object[] getComboFeatureValues(){
 		List<Object> result = new ArrayList<Object>();
-		StateMachine sm = EmfStateMachineUtil.getStateMachine(getTransition());
+		StateMachine sm = EmfStateMachineUtil.getNearestApplicableStateMachine(getTransition());
 		for(Classifier psm:sm.getGenerals()){
 			if(psm instanceof StateMachine){
 				result.addAll(EmfStateMachineUtil.getTransitionsRecursively((StateMachine) psm));

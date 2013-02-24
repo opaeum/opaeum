@@ -113,6 +113,7 @@ public class UimSwitch<T> {
 				if (result == null) result = caseLabeledElement(userInterfaceRoot);
 				if (result == null) result = caseUserInteractionElement(userInterfaceRoot);
 				if (result == null) result = caseUmlReference(userInterfaceRoot);
+				if (result == null) result = caseLabelContainer(userInterfaceRoot);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -122,8 +123,9 @@ public class UimSwitch<T> {
 				if (result == null) result = caseEditableConstrainedObject(page);
 				if (result == null) result = caseLabeledElement(page);
 				if (result == null) result = caseConstrainedObject(page);
-				if (result == null) result = caseUmlReference(page);
 				if (result == null) result = caseUserInteractionElement(page);
+				if (result == null) result = caseUmlReference(page);
+				if (result == null) result = caseLabelContainer(page);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -138,8 +140,9 @@ public class UimSwitch<T> {
 			case UimPackage.LABELED_ELEMENT: {
 				LabeledElement labeledElement = (LabeledElement)theEObject;
 				T result = caseLabeledElement(labeledElement);
-				if (result == null) result = caseUmlReference(labeledElement);
 				if (result == null) result = caseUserInteractionElement(labeledElement);
+				if (result == null) result = caseUmlReference(labeledElement);
+				if (result == null) result = caseLabelContainer(labeledElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -153,6 +156,16 @@ public class UimSwitch<T> {
 			case UimPackage.PAGE_ORDERING: {
 				PageOrdering pageOrdering = (PageOrdering)theEObject;
 				T result = casePageOrdering(pageOrdering);
+				if (result == null) result = caseLabeledElement(pageOrdering);
+				if (result == null) result = caseUserInteractionElement(pageOrdering);
+				if (result == null) result = caseUmlReference(pageOrdering);
+				if (result == null) result = caseLabelContainer(pageOrdering);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UimPackage.LABEL_CONTAINER: {
+				LabelContainer labelContainer = (LabelContainer)theEObject;
+				T result = caseLabelContainer(labelContainer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -277,6 +290,21 @@ public class UimSwitch<T> {
 	 * @generated
 	 */
 	public T casePageOrdering(PageOrdering object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabelContainer(LabelContainer object) {
 		return null;
 	}
 

@@ -5,8 +5,6 @@ import org.eclipse.draw2d.TreeSearch;
 import org.eclipse.gmf.runtime.diagram.ui.figures.BorderItemsAwareFreeFormLayer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.opaeum.uim.swt.IUimWidget;
 import org.opaeum.uimodeler.common.UimFigureUtil;
 

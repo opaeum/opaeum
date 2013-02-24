@@ -305,7 +305,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			ap.putAttribute("opaeumId", EmfWorkspace.getOpaeumId(elem));
 			ap.putAttribute("name", elem.getName());
 			if(EmfElementUtil.getDocumentation(elem) != null){
-				ap.putAttribute("shortDescripion", EmfElementUtil.getDocumentation(elem));
+				ap.putAttribute("shortDescription", EmfElementUtil.getDocumentation(elem));
 			}
 			if(EmfClassifierUtil.isSimpleType(pMap.getBaseType())){
 				DataType e = (DataType) pMap.getBaseType();

@@ -54,6 +54,6 @@ public class TextStrategyFactory extends AbstractStrategyFactory{
 	}
 	@Override
 	public String getRuntimeStrategyFactory(){
-		return "org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory";
+		return "org.opaeum.runtime.strategy.TextStrategyFactory";
 	}
 }

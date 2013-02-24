@@ -85,6 +85,15 @@ public interface UimFactory extends EFactory {
 	PageOrdering createPageOrdering();
 
 	/**
+	 * Returns a new object of class '<em>Label Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Label Container</em>'.
+	 * @generated
+	 */
+	LabelContainer createLabelContainer();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

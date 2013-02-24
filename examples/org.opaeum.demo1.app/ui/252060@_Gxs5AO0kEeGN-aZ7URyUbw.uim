@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_exa-E3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_Gxs5AO0kEeGN-aZ7URyUbw" name="I notification receiver User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_exa-FHzhEeK4RO8Gc0PbkA" name="Edit INotificationReceiver" umlElementUid="252060@_Gxs5AO0kEeGN-aZ7URyUbw">
-    <pageOrdering xmi:id="_exblAXzhEeK4RO8Gc0PbkA" page="_exblAHzhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_exblAHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Gxs5AO0kEeGN-aZ7URyUbw" name="Edit I notification receiver">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exblAnzhEeK4RO8Gc0PbkA" name="INotificationReceiver" numberOfColumns="1">
-        <children xsi:type="comp:UimField" xmi:id="_exblA3zhEeK4RO8Gc0PbkA" name="Preferred notification type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_exblBHzhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_ezGY9XzhEeK4RO8Gc0PbkA" umlElementUid="252060@_nqIHkO0kEeGN-aZ7URyUbw"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NVJoYn2yEeKdOuVcMz9Nmw" umlElementUid="252060@_Gxs5AO0kEeGN-aZ7URyUbw" name="I notification receiver User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_NVJoY32yEeKdOuVcMz9Nmw" name="Edit INotificationReceiver" umlElementUid="252060@_Gxs5AO0kEeGN-aZ7URyUbw">
+    <pageOrdering xmi:id="_NVJoZX2yEeKdOuVcMz9Nmw" page="_NVJoZH2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_NVJoZH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_Gxs5AO0kEeGN-aZ7URyUbw" name="Edit I notification receiver">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NVJoZn2yEeKdOuVcMz9Nmw" name="INotificationReceiver" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_NVJoZ32yEeKdOuVcMz9Nmw" name="Preferred notification type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_NVJoaH2yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_Ndz1In2yEeKdOuVcMz9Nmw" umlElementUid="252060@_nqIHkO0kEeGN-aZ7URyUbw"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_exblBnzhEeK4RO8Gc0PbkA" name="Preferred e mail address type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_exblB3zhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_ezGY9nzhEeK4RO8Gc0PbkA" umlElementUid="252060@_5anGoO0kEeGN-aZ7URyUbw"/>
+        <children xsi:type="comp:UimField" xmi:id="_NVJoan2yEeKdOuVcMz9Nmw" name="Preferred e mail address type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_NVJoa32yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_Ndz1I32yEeKdOuVcMz9Nmw" umlElementUid="252060@_5anGoO0kEeGN-aZ7URyUbw"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_exblCXzhEeK4RO8Gc0PbkA" name="Preferred phone number type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_exblCnzhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_ezGY93zhEeK4RO8Gc0PbkA" umlElementUid="252060@_6H5DYO0kEeGN-aZ7URyUbw"/>
+        <children xsi:type="comp:UimField" xmi:id="_NVJobX2yEeKdOuVcMz9Nmw" name="Preferred phone number type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_NVJobn2yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_Ndz1JH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_6H5DYO0kEeGN-aZ7URyUbw"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_exblDHzhEeK4RO8Gc0PbkA" name="Preferred e mail address" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_exblDXzhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_ezGY-HzhEeK4RO8Gc0PbkA" umlElementUid="252060@_jUSd0O0mEeGN-aZ7URyUbw"/>
+        <children xsi:type="comp:UimField" xmi:id="_NVJocH2yEeKdOuVcMz9Nmw" name="Preferred e mail address" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_NVJocX2yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_Ndz1JX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_jUSd0O0mEeGN-aZ7URyUbw"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_exblD3zhEeK4RO8Gc0PbkA" name="Preferred phone number" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_exblEHzhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_ezGY-XzhEeK4RO8Gc0PbkA" umlElementUid="252060@_v3024O0mEeGN-aZ7URyUbw"/>
+        <children xsi:type="comp:UimField" xmi:id="_NVKPcH2yEeKdOuVcMz9Nmw" name="Preferred phone number" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_NVKPcX2yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_Ndz1Jn2yEeKdOuVcMz9Nmw" umlElementUid="252060@_v3024O0mEeGN-aZ7URyUbw"/>
         </children>
       </panel>
     </pages>
-    <actionBar xmi:id="_exblEnzhEeK4RO8Gc0PbkA" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_exblE3zhEeK4RO8Gc0PbkA" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_exblFHzhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+    <actionBar xmi:id="_NVKPc32yEeKdOuVcMz9Nmw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVKPdH2yEeKdOuVcMz9Nmw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVKPdX2yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_exdac3zhEeK4RO8Gc0PbkA" name="Create INotificationReceiver" umlElementUid="252060@_Gxs5AO0kEeGN-aZ7URyUbw">
-    <pageOrdering xmi:id="_exdadXzhEeK4RO8Gc0PbkA" page="_exdadHzhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_exdadHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_Gxs5AO0kEeGN-aZ7URyUbw" name="CreateI notification receiver">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exdadnzhEeK4RO8Gc0PbkA" name="INotificationReceiver" numberOfColumns="1">
-        <children xsi:type="comp:UimField" xmi:id="_exdad3zhEeK4RO8Gc0PbkA" name="Preferred notification type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_exdaeHzhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_ezHAA3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_nqIHkO0kEeGN-aZ7URyUbw"/>
+  <newObjectWizard xmi:id="_NVKPjH2yEeKdOuVcMz9Nmw" name="Create INotificationReceiver" umlElementUid="252060@_Gxs5AO0kEeGN-aZ7URyUbw">
+    <pageOrdering xmi:id="_NVKPjn2yEeKdOuVcMz9Nmw" page="_NVKPjX2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_NVKPjX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_Gxs5AO0kEeGN-aZ7URyUbw" name="CreateI notification receiver">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NVKPj32yEeKdOuVcMz9Nmw" name="INotificationReceiver" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_NVKPkH2yEeKdOuVcMz9Nmw" name="Preferred notification type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_NVKPkX2yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_Nd1Dan2yEeKdOuVcMz9Nmw" umlElementUid="252060@_nqIHkO0kEeGN-aZ7URyUbw"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_exdaenzhEeK4RO8Gc0PbkA" name="Preferred e mail address type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_exdae3zhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_ezHABHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_5anGoO0kEeGN-aZ7URyUbw"/>
+        <children xsi:type="comp:UimField" xmi:id="_NVKPk32yEeKdOuVcMz9Nmw" name="Preferred e mail address type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_NVKPlH2yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_Nd1Da32yEeKdOuVcMz9Nmw" umlElementUid="252060@_5anGoO0kEeGN-aZ7URyUbw"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_exdafXzhEeK4RO8Gc0PbkA" name="Preferred phone number type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_exdafnzhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_ezHABXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_6H5DYO0kEeGN-aZ7URyUbw"/>
+        <children xsi:type="comp:UimField" xmi:id="_NVKPln2yEeKdOuVcMz9Nmw" name="Preferred phone number type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_NVKPl32yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_Nd1DbH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_6H5DYO0kEeGN-aZ7URyUbw"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_exdagHzhEeK4RO8Gc0PbkA" name="Preferred e mail address" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_exeBQHzhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_ezHABnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_jUSd0O0mEeGN-aZ7URyUbw"/>
+        <children xsi:type="comp:UimField" xmi:id="_NVKPmX2yEeKdOuVcMz9Nmw" name="Preferred e mail address" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_NVKPmn2yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_Nd1DbX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_jUSd0O0mEeGN-aZ7URyUbw"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_exeBQnzhEeK4RO8Gc0PbkA" name="Preferred phone number" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_exeBQ3zhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_ezHAB3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_v3024O0mEeGN-aZ7URyUbw"/>
+        <children xsi:type="comp:UimField" xmi:id="_NVKPnH2yEeKdOuVcMz9Nmw" name="Preferred phone number" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_NVKPnX2yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_Nd1Dbn2yEeKdOuVcMz9Nmw" umlElementUid="252060@_v3024O0mEeGN-aZ7URyUbw"/>
         </children>
       </panel>
     </pages>

@@ -3,6 +3,7 @@ package org.opaeum.runtime.bpm.document.ibusinessdocument;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.hibernate.domain.InternalHibernatePersistence;

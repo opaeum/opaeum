@@ -1,7 +1,9 @@
 package org.opaeum.runtime.bpm.organization;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,6 +15,7 @@ import org.opaeum.runtime.bpm.request.ParticipationInRequest;
 import org.opaeum.runtime.bpm.request.ParticipationInTask;
 import org.opaeum.runtime.bpm.request.ParticipationParticipant;
 import org.opaeum.runtime.bpm.request.TaskRequest;
+import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;

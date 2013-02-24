@@ -4,15 +4,16 @@ import java.util.Map;
 
 import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
-import org.opaeum.org.opaeum.rap.metamodels.uim.UimInstantiator;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
-import org.opaeum.runtime.environment.Environment;
+import org.opaeum.uim.Labels;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class UimComponentImpl extends EObjectImpl implements UimComponent {
+	private Labels labelOverride;
 	private String name;
 	private String uid;
 	private boolean underUserControl;
@@ -43,6 +44,18 @@ public class UimComponentImpl extends EObjectImpl implements UimComponent {
 				map.put(curVal.getUid(), curVal);
 				curVal.eContainer(this);
 			}
+			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
+				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
+				Labels curVal;
+				if ( typeString==null ||typeString.trim().length()==0 ) {
+					typeString="Labels";
+				}
+				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
+				this.setLabelOverride(curVal);
+				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
+				map.put(curVal.getUid(), curVal);
+				curVal.eContainer(this);
+			}
 		}
 	}
 	
@@ -50,6 +63,10 @@ public class UimComponentImpl extends EObjectImpl implements UimComponent {
 		EObject result = null;
 		
 		return result;
+	}
+	
+	public Labels getLabelOverride() {
+		return this.labelOverride;
 	}
 	
 	public String getName() {
@@ -82,7 +99,14 @@ public class UimComponentImpl extends EObjectImpl implements UimComponent {
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("visibility") ) {
 				((org.opaeum.uim.constraint.UserInteractionConstraint)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
 			}
+			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
+				((org.opaeum.uim.Labels)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+			}
 		}
+	}
+	
+	public void setLabelOverride(Labels labelOverride) {
+		this.labelOverride=labelOverride;
 	}
 	
 	public void setName(String name) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension point="org.eclipse.papyrus.views.properties.environment">
+   <!--extension point="org.eclipse.papyrus.views.properties.environment">
       <environment environmentModel="Model/Environment.xmi">
       </environment>
    </extension>
@@ -16,7 +16,7 @@
       <extension point="org.eclipse.papyrus.views.properties.context">
          <context contextModel="Model/UMLNotation/UMLNotation.ctx">
          </context>
-      </extension>
+      </extension-->
 
    <extension
          point="org.eclipse.emf.facet.infra.query.registration">
@@ -51,14 +51,20 @@
 		<propertyTabs contributorId="TreeOutlinePage">
 			<propertyTab id="org.opaeum.eclipse.opaeumTab" category="domain"
 				label="Basic" indented="false" />
-			<propertyTab id="org.opaeum.eclipse.deadlinesTab" category="domain"
-				afterTab="org.opaeum.eclipse.opaeumTab" label="Deadlines" indented="true" />
-			<propertyTab id="org.opaeum.eclipse.extendedTab" category="domain" afterTab="org.opaeum.eclipse.opaeumTab"
+			<propertyTab id="org.opaeum.eclipse.invariantsTab"
+				category="domain" indented="true" label="Invariants"
+				afterTab="org.opaeum.eclipse.opaeumTab" />
+			<propertyTab id="org.opaeum.eclipse.redefinitionsTab"
+				category="domain" label="Redefinitions and Unions" indented="true"
+				afterTab="org.opaeum.eclipse.invariantsTab" />
+			<propertyTab id="org.opaeum.eclipse.qualifiersTab"
+				category="domain" label="Qualifiers" indented="true"
+				afterTab="org.opaeum.eclipse.redefinitionsTab" />
+			<propertyTab id="org.opaeum.eclipse.extendedTab" category="domain" afterTab="org.opaeum.eclipse.qualifiersTab"
 				label="Extended" indented="false" />
-			<propertyTab id="org.opaeum.eclipse.i8nTab" category="domain" afterTab="org.opaeum.eclipse.extendedTab"
-				label="Languages" indented="true" />
-			
-			<propertyTab id="org.opaeum.eclipse.firstEndTab" category="domain" afterTab="org.opaeum.eclipse.i8nTab"
+			<propertyTab id="org.opaeum.eclipse.deadlinesTab" category="domain"
+				afterTab="org.opaeum.eclipse.extendedTab" label="Deadlines" indented="true" />
+			<propertyTab id="org.opaeum.eclipse.firstEndTab" category="domain" afterTab="org.opaeum.eclipse.deadlinesTab"
 				label="First End" indented="false" />
 			<propertyTab id="org.opaeum.eclipse.firstEndQualifiersTab" category="domain" afterTab="org.opaeum.eclipse.firstEndTab"
 				label="Qualifiers" indented="true" />
@@ -71,29 +77,20 @@
 				label="Qualifiers" indented="true" />
 			<propertyTab id="org.opaeum.eclipse.secondEndRedefinitionsTab" category="domain" afterTab="org.opaeum.eclipse.secondEndQualifiersTab"
 				label="Redefinitions" indented="true" />
-			
+
 				
 			<propertyTab id="org.opaeum.eclipse.interfacesTab"
 				category="domain" label="Interfaces" indented="true"
-				afterTab="org.opaeum.eclipse.opaeumTab" />
-			<propertyTab id="org.opaeum.eclipse.redefinitionsTab"
-				category="domain" label="Redefinitions and Unions" indented="true"
-				afterTab="org.opaeum.eclipse.opaeumTab" />
-			<propertyTab id="org.opaeum.eclipse.qualifiersTab"
-				category="domain" label="Qualifiers" indented="true"
-				afterTab="org.opaeum.eclipse.opaeumTab" />
+				afterTab="org.opaeum.eclipse.secondEndRedefinitionsTab" />
 			<propertyTab id="org.opaeum.eclipse.parametersTab"
 				category="domain" indented="true" label="Parameters"
-				afterTab="org.opaeum.eclipse.opaeumTab" />
+				afterTab="org.opaeum.eclipse.interfacesTab" />
 			<propertyTab id="org.opaeum.eclipse.preconditionsTab"
 				category="domain" indented="true" label="Preconditions"
 				afterTab="org.opaeum.eclipse.parametersTab" />
 			<propertyTab id="org.opaeum.eclipse.postconditionsTab"
 				category="domain" indented="true" label="Postconditions"
 				afterTab="org.opaeum.eclipse.preconditionsTab" />
-			<propertyTab id="org.opaeum.eclipse.invariantsTab"
-				category="domain" indented="true" label="Invariants"
-				afterTab="org.opaeum.eclipse.opaeumTab" />
 			<propertyTab id="org.opaeum.papyrus.profilesTab"
 				category="domain" label="Profiles" afterTab="org.opaeum.eclipse.opaeumTab" />
 			<propertyTab id="org.opaeum.papyrus.stereotypesTab" 

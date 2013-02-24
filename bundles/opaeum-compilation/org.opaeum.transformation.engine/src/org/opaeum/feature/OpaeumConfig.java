@@ -59,6 +59,7 @@ public class OpaeumConfig{
 	private static final String UI_MODULE_ACTIVE = "opaeum.ui.module.active";
 	private static final String JDBC_DRIVER = "opaeum.jdbc.driver";
 	private static final String DB_NAME = "opaeum.database.name";
+	private static final String IS_SIMULATION_CONTEXT = "opaeum.is.simulation.context";
 	private static Map<String,Class<?>> classRegistry = new HashMap<String,Class<?>>();
 	private Properties props = new SortedProperties();
 	private File outputRoot;
@@ -490,7 +491,7 @@ public class OpaeumConfig{
 		return availableLocales;
 	}
 	public boolean isUiModelerActive(){
-		return "true".equalsIgnoreCase(props.getProperty(UI_MODULE_ACTIVE));
+		return "true".equalsIgnoreCase(props.getProperty(UI_MODULE_ACTIVE)) && !isSimulationContext();
 	}
 	public void setUiModelerActive(boolean t){
 		props.setProperty(UI_MODULE_ACTIVE, "" + t);
@@ -536,5 +537,11 @@ public class OpaeumConfig{
 			registerClass(class1);
 			store();
 		}
+	}
+	public boolean isSimulationContext(){
+		return this.props.getProperty(IS_SIMULATION_CONTEXT, "false").equals("true");
+	}
+	public void setSimulationContext(boolean t){
+		props.setProperty(IS_SIMULATION_CONTEXT, ""+t);
 	}
 }

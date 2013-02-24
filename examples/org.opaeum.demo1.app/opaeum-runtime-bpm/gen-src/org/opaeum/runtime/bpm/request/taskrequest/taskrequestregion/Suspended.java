@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.Transient;
 
 import org.opaeum.runtime.bpm.request.TaskRequest;
+import org.opaeum.runtime.bpm.request.TaskRequestState;
 import org.opaeum.runtime.bpm.request.taskrequest.TaskRequestRegion;
 import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.suspended.Region1;
 import org.opaeum.runtime.domain.CancelledEvent;

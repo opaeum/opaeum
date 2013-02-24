@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.opaeum.uim.LabelContainer;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.UimPackage;
@@ -25,9 +26,9 @@ import org.opaeum.uim.editor.OperationMenuItem;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opaeum.uim.editor.impl.OperationMenuItemImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.impl.OperationMenuItemImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.impl.OperationMenuItemImpl#isUnderUserControl <em>Under User Control</em>}</li>
+ *   <li>{@link org.opaeum.uim.editor.impl.OperationMenuItemImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.impl.OperationMenuItemImpl#getLabelOverride <em>Label Override</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.impl.OperationMenuItemImpl#getMenuConfiguration <em>Menu Configuration</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.impl.OperationMenuItemImpl#isHidden <em>Hidden</em>}</li>
@@ -37,26 +38,6 @@ import org.opaeum.uim.editor.OperationMenuItem;
  * @generated
  */
 public class OperationMenuItemImpl extends UserInteractionConstraintImpl implements OperationMenuItem {
-	/**
-	 * The default value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getUmlElementUid()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String UML_ELEMENT_UID_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getUmlElementUid()
-	 * @generated
-	 * @ordered
-	 */
-	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
-
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -96,6 +77,26 @@ public class OperationMenuItemImpl extends UserInteractionConstraintImpl impleme
 	 * @ordered
 	 */
 	protected boolean underUserControl = UNDER_USER_CONTROL_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUmlElementUid()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String UML_ELEMENT_UID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUmlElementUid()
+	 * @generated
+	 * @ordered
+	 */
+	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getLabelOverride() <em>Label Override</em>}' containment reference.
@@ -151,27 +152,6 @@ public class OperationMenuItemImpl extends UserInteractionConstraintImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getUmlElementUid() {
-		return umlElementUid;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setUmlElementUid(String newUmlElementUid) {
-		String oldUmlElementUid = umlElementUid;
-		umlElementUid = newUmlElementUid;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EditorPackage.OPERATION_MENU_ITEM__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public String getName() {
 		return name;
 	}
@@ -207,6 +187,27 @@ public class OperationMenuItemImpl extends UserInteractionConstraintImpl impleme
 		underUserControl = newUnderUserControl;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, EditorPackage.OPERATION_MENU_ITEM__UNDER_USER_CONTROL, oldUnderUserControl, underUserControl));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getUmlElementUid() {
+		return umlElementUid;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUmlElementUid(String newUmlElementUid) {
+		String oldUmlElementUid = umlElementUid;
+		umlElementUid = newUmlElementUid;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EditorPackage.OPERATION_MENU_ITEM__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
 	}
 
 	/**
@@ -368,12 +369,12 @@ public class OperationMenuItemImpl extends UserInteractionConstraintImpl impleme
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case EditorPackage.OPERATION_MENU_ITEM__UML_ELEMENT_UID:
-				return getUmlElementUid();
 			case EditorPackage.OPERATION_MENU_ITEM__NAME:
 				return getName();
 			case EditorPackage.OPERATION_MENU_ITEM__UNDER_USER_CONTROL:
 				return isUnderUserControl();
+			case EditorPackage.OPERATION_MENU_ITEM__UML_ELEMENT_UID:
+				return getUmlElementUid();
 			case EditorPackage.OPERATION_MENU_ITEM__LABEL_OVERRIDE:
 				return getLabelOverride();
 			case EditorPackage.OPERATION_MENU_ITEM__MENU_CONFIGURATION:
@@ -392,14 +393,14 @@ public class OperationMenuItemImpl extends UserInteractionConstraintImpl impleme
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case EditorPackage.OPERATION_MENU_ITEM__UML_ELEMENT_UID:
-				setUmlElementUid((String)newValue);
-				return;
 			case EditorPackage.OPERATION_MENU_ITEM__NAME:
 				setName((String)newValue);
 				return;
 			case EditorPackage.OPERATION_MENU_ITEM__UNDER_USER_CONTROL:
 				setUnderUserControl((Boolean)newValue);
+				return;
+			case EditorPackage.OPERATION_MENU_ITEM__UML_ELEMENT_UID:
+				setUmlElementUid((String)newValue);
 				return;
 			case EditorPackage.OPERATION_MENU_ITEM__LABEL_OVERRIDE:
 				setLabelOverride((Labels)newValue);
@@ -422,14 +423,14 @@ public class OperationMenuItemImpl extends UserInteractionConstraintImpl impleme
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case EditorPackage.OPERATION_MENU_ITEM__UML_ELEMENT_UID:
-				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
-				return;
 			case EditorPackage.OPERATION_MENU_ITEM__NAME:
 				setName(NAME_EDEFAULT);
 				return;
 			case EditorPackage.OPERATION_MENU_ITEM__UNDER_USER_CONTROL:
 				setUnderUserControl(UNDER_USER_CONTROL_EDEFAULT);
+				return;
+			case EditorPackage.OPERATION_MENU_ITEM__UML_ELEMENT_UID:
+				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
 				return;
 			case EditorPackage.OPERATION_MENU_ITEM__LABEL_OVERRIDE:
 				setLabelOverride((Labels)null);
@@ -452,12 +453,12 @@ public class OperationMenuItemImpl extends UserInteractionConstraintImpl impleme
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case EditorPackage.OPERATION_MENU_ITEM__UML_ELEMENT_UID:
-				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
 			case EditorPackage.OPERATION_MENU_ITEM__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case EditorPackage.OPERATION_MENU_ITEM__UNDER_USER_CONTROL:
 				return underUserControl != UNDER_USER_CONTROL_EDEFAULT;
+			case EditorPackage.OPERATION_MENU_ITEM__UML_ELEMENT_UID:
+				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
 			case EditorPackage.OPERATION_MENU_ITEM__LABEL_OVERRIDE:
 				return labelOverride != null;
 			case EditorPackage.OPERATION_MENU_ITEM__MENU_CONFIGURATION:
@@ -475,12 +476,6 @@ public class OperationMenuItemImpl extends UserInteractionConstraintImpl impleme
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == UmlReference.class) {
-			switch (derivedFeatureID) {
-				case EditorPackage.OPERATION_MENU_ITEM__UML_ELEMENT_UID: return UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
-				default: return -1;
-			}
-		}
 		if (baseClass == UserInteractionElement.class) {
 			switch (derivedFeatureID) {
 				case EditorPackage.OPERATION_MENU_ITEM__NAME: return UimPackage.USER_INTERACTION_ELEMENT__NAME;
@@ -488,9 +483,20 @@ public class OperationMenuItemImpl extends UserInteractionConstraintImpl impleme
 				default: return -1;
 			}
 		}
+		if (baseClass == UmlReference.class) {
+			switch (derivedFeatureID) {
+				case EditorPackage.OPERATION_MENU_ITEM__UML_ELEMENT_UID: return UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		if (baseClass == LabelContainer.class) {
+			switch (derivedFeatureID) {
+				case EditorPackage.OPERATION_MENU_ITEM__LABEL_OVERRIDE: return UimPackage.LABEL_CONTAINER__LABEL_OVERRIDE;
+				default: return -1;
+			}
+		}
 		if (baseClass == LabeledElement.class) {
 			switch (derivedFeatureID) {
-				case EditorPackage.OPERATION_MENU_ITEM__LABEL_OVERRIDE: return UimPackage.LABELED_ELEMENT__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}
@@ -504,12 +510,6 @@ public class OperationMenuItemImpl extends UserInteractionConstraintImpl impleme
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == UmlReference.class) {
-			switch (baseFeatureID) {
-				case UimPackage.UML_REFERENCE__UML_ELEMENT_UID: return EditorPackage.OPERATION_MENU_ITEM__UML_ELEMENT_UID;
-				default: return -1;
-			}
-		}
 		if (baseClass == UserInteractionElement.class) {
 			switch (baseFeatureID) {
 				case UimPackage.USER_INTERACTION_ELEMENT__NAME: return EditorPackage.OPERATION_MENU_ITEM__NAME;
@@ -517,9 +517,20 @@ public class OperationMenuItemImpl extends UserInteractionConstraintImpl impleme
 				default: return -1;
 			}
 		}
+		if (baseClass == UmlReference.class) {
+			switch (baseFeatureID) {
+				case UimPackage.UML_REFERENCE__UML_ELEMENT_UID: return EditorPackage.OPERATION_MENU_ITEM__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		if (baseClass == LabelContainer.class) {
+			switch (baseFeatureID) {
+				case UimPackage.LABEL_CONTAINER__LABEL_OVERRIDE: return EditorPackage.OPERATION_MENU_ITEM__LABEL_OVERRIDE;
+				default: return -1;
+			}
+		}
 		if (baseClass == LabeledElement.class) {
 			switch (baseFeatureID) {
-				case UimPackage.LABELED_ELEMENT__LABEL_OVERRIDE: return EditorPackage.OPERATION_MENU_ITEM__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}
@@ -536,12 +547,12 @@ public class OperationMenuItemImpl extends UserInteractionConstraintImpl impleme
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (umlElementUid: ");
-		result.append(umlElementUid);
-		result.append(", name: ");
+		result.append(" (name: ");
 		result.append(name);
 		result.append(", underUserControl: ");
 		result.append(underUserControl);
+		result.append(", umlElementUid: ");
+		result.append(umlElementUid);
 		result.append(", hidden: ");
 		result.append(hidden);
 		result.append(')');

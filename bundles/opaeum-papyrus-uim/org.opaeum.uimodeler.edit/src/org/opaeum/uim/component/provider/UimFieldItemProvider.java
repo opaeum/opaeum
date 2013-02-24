@@ -288,9 +288,9 @@ public class UimFieldItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
+			childrenFeatures.add(UimPackage.Literals.LABEL_CONTAINER__LABEL_OVERRIDE);
 			childrenFeatures.add(ComponentPackage.Literals.UIM_FIELD__CONTROL);
 			childrenFeatures.add(ComponentPackage.Literals.UIM_FIELD__BINDING);
-			childrenFeatures.add(ComponentPackage.Literals.UIM_FIELD__LABEL_OVERRIDE);
 		}
 		return childrenFeatures;
 	}
@@ -356,9 +356,9 @@ public class UimFieldItemProvider
 			case ComponentPackage.UIM_FIELD__ORIENTATION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
+			case ComponentPackage.UIM_FIELD__LABEL_OVERRIDE:
 			case ComponentPackage.UIM_FIELD__CONTROL:
 			case ComponentPackage.UIM_FIELD__BINDING:
-			case ComponentPackage.UIM_FIELD__LABEL_OVERRIDE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -375,6 +375,11 @@ public class UimFieldItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.LABEL_CONTAINER__LABEL_OVERRIDE,
+				 UimFactory.eINSTANCE.createLabels()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -470,11 +475,6 @@ public class UimFieldItemProvider
 			(createChildParameter
 				(ComponentPackage.Literals.UIM_FIELD__BINDING,
 				 BindingFactory.eINSTANCE.createFieldBinding()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ComponentPackage.Literals.UIM_FIELD__LABEL_OVERRIDE,
-				 UimFactory.eINSTANCE.createLabels()));
 	}
 
 	/**

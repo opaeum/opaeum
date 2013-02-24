@@ -190,7 +190,7 @@ public class EmfPropertyUtil{
 		}else if(e instanceof State){
 			State class1 = (State) e;
 			if(class1 != null){
-				return new ArrayList<TypedElement>(EmfStateMachineUtil.getStateMachine(class1).getAllAttributes());
+				return new ArrayList<TypedElement>(EmfStateMachineUtil.getNearestApplicableStateMachine(class1).getAllAttributes());
 			}
 		}else if(e instanceof Operation){
 			Operation operation = (Operation) e;

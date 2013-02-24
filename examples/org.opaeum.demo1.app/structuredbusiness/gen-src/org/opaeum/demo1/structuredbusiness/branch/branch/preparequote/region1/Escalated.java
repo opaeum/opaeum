@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.opaeum.demo1.structuredbusiness.branch.Branch;
 import org.opaeum.demo1.structuredbusiness.branch.branch.PrepareQuote;
+import org.opaeum.demo1.structuredbusiness.branch.branch.PrepareQuoteState;
 import org.opaeum.demo1.structuredbusiness.branch.branch.PrepareQuoteToken;
 import org.opaeum.demo1.structuredbusiness.branch.branch.preparequote.Region1;
 import org.opaeum.runtime.domain.CancelledEvent;

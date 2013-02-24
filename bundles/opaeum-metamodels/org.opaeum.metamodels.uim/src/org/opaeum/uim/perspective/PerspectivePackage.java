@@ -205,14 +205,14 @@ public interface PerspectivePackage extends EPackage {
 	int VIEW_ALLOCATION_FEATURE_COUNT = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ExplorerConfigurationImpl <em>Explorer Configuration</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.NavigatorConfigurationImpl <em>Navigator Configuration</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.perspective.impl.ExplorerConfigurationImpl
-	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerConfiguration()
+	 * @see org.opaeum.uim.perspective.impl.NavigatorConfigurationImpl
+	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getNavigatorConfiguration()
 	 * @generated
 	 */
-	int EXPLORER_CONFIGURATION = 2;
+	int NAVIGATOR_CONFIGURATION = 2;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -221,7 +221,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONFIGURATION__NAME = VIEW_ALLOCATION__NAME;
+	int NAVIGATOR_CONFIGURATION__NAME = VIEW_ALLOCATION__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -230,7 +230,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONFIGURATION__UNDER_USER_CONTROL = VIEW_ALLOCATION__UNDER_USER_CONTROL;
+	int NAVIGATOR_CONFIGURATION__UNDER_USER_CONTROL = VIEW_ALLOCATION__UNDER_USER_CONTROL;
 
 	/**
 	 * The feature id for the '<em><b>Width</b></em>' attribute.
@@ -239,7 +239,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONFIGURATION__WIDTH = VIEW_ALLOCATION__WIDTH;
+	int NAVIGATOR_CONFIGURATION__WIDTH = VIEW_ALLOCATION__WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Height</b></em>' attribute.
@@ -248,7 +248,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONFIGURATION__HEIGHT = VIEW_ALLOCATION__HEIGHT;
+	int NAVIGATOR_CONFIGURATION__HEIGHT = VIEW_ALLOCATION__HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Position</b></em>' attribute.
@@ -257,7 +257,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONFIGURATION__POSITION = VIEW_ALLOCATION__POSITION;
+	int NAVIGATOR_CONFIGURATION__POSITION = VIEW_ALLOCATION__POSITION;
 
 	/**
 	 * The feature id for the '<em><b>Classes</b></em>' containment reference list.
@@ -266,36 +266,26 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONFIGURATION__CLASSES = VIEW_ALLOCATION_FEATURE_COUNT + 0;
+	int NAVIGATOR_CONFIGURATION__CLASSES = VIEW_ALLOCATION_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Explorer Configuration</em>' class.
+	 * The number of structural features of the '<em>Navigator Configuration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONFIGURATION_FEATURE_COUNT = VIEW_ALLOCATION_FEATURE_COUNT + 1;
+	int NAVIGATOR_CONFIGURATION_FEATURE_COUNT = VIEW_ALLOCATION_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ExplorerClassConstraintImpl <em>Explorer Class Constraint</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.NavigationConstraintImpl <em>Navigation Constraint</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.perspective.impl.ExplorerClassConstraintImpl
-	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerClassConstraint()
+	 * @see org.opaeum.uim.perspective.impl.NavigationConstraintImpl
+	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getNavigationConstraint()
 	 * @generated
 	 */
-	int EXPLORER_CLASS_CONSTRAINT = 3;
-
-	/**
-	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ExplorerConstraintImpl <em>Explorer Constraint</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.perspective.impl.ExplorerConstraintImpl
-	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerConstraint()
-	 * @generated
-	 */
-	int EXPLORER_CONSTRAINT = 7;
+	int NAVIGATION_CONSTRAINT = 7;
 
 	/**
 	 * The feature id for the '<em><b>Requires Group Ownership</b></em>' attribute.
@@ -304,7 +294,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP = ConstraintPackage.USER_INTERACTION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP;
+	int NAVIGATION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP = ConstraintPackage.USER_INTERACTION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP;
 
 	/**
 	 * The feature id for the '<em><b>Requires Ownership</b></em>' attribute.
@@ -313,7 +303,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONSTRAINT__REQUIRES_OWNERSHIP = ConstraintPackage.USER_INTERACTION_CONSTRAINT__REQUIRES_OWNERSHIP;
+	int NAVIGATION_CONSTRAINT__REQUIRES_OWNERSHIP = ConstraintPackage.USER_INTERACTION_CONSTRAINT__REQUIRES_OWNERSHIP;
 
 	/**
 	 * The feature id for the '<em><b>Required Roles</b></em>' containment reference list.
@@ -322,7 +312,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONSTRAINT__REQUIRED_ROLES = ConstraintPackage.USER_INTERACTION_CONSTRAINT__REQUIRED_ROLES;
+	int NAVIGATION_CONSTRAINT__REQUIRED_ROLES = ConstraintPackage.USER_INTERACTION_CONSTRAINT__REQUIRED_ROLES;
 
 	/**
 	 * The feature id for the '<em><b>Open To Public</b></em>' attribute.
@@ -331,7 +321,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONSTRAINT__OPEN_TO_PUBLIC = ConstraintPackage.USER_INTERACTION_CONSTRAINT__OPEN_TO_PUBLIC;
+	int NAVIGATION_CONSTRAINT__OPEN_TO_PUBLIC = ConstraintPackage.USER_INTERACTION_CONSTRAINT__OPEN_TO_PUBLIC;
 
 	/**
 	 * The feature id for the '<em><b>Required States</b></em>' containment reference list.
@@ -340,7 +330,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONSTRAINT__REQUIRED_STATES = ConstraintPackage.USER_INTERACTION_CONSTRAINT__REQUIRED_STATES;
+	int NAVIGATION_CONSTRAINT__REQUIRED_STATES = ConstraintPackage.USER_INTERACTION_CONSTRAINT__REQUIRED_STATES;
 
 	/**
 	 * The feature id for the '<em><b>Inherit From Parent</b></em>' attribute.
@@ -349,16 +339,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONSTRAINT__INHERIT_FROM_PARENT = ConstraintPackage.USER_INTERACTION_CONSTRAINT__INHERIT_FROM_PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_CONSTRAINT__UML_ELEMENT_UID = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 0;
+	int NAVIGATION_CONSTRAINT__INHERIT_FROM_PARENT = ConstraintPackage.USER_INTERACTION_CONSTRAINT__INHERIT_FROM_PARENT;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -367,7 +348,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONSTRAINT__NAME = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 1;
+	int NAVIGATION_CONSTRAINT__NAME = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -376,7 +357,16 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONSTRAINT__UNDER_USER_CONTROL = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 2;
+	int NAVIGATION_CONSTRAINT__UNDER_USER_CONTROL = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_CONSTRAINT__UML_ELEMENT_UID = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
@@ -385,7 +375,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONSTRAINT__LABEL_OVERRIDE = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 3;
+	int NAVIGATION_CONSTRAINT__LABEL_OVERRIDE = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
@@ -394,16 +384,26 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONSTRAINT__HIDDEN = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 4;
+	int NAVIGATION_CONSTRAINT__HIDDEN = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 4;
 
 	/**
-	 * The number of structural features of the '<em>Explorer Constraint</em>' class.
+	 * The number of structural features of the '<em>Navigation Constraint</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONSTRAINT_FEATURE_COUNT = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 5;
+	int NAVIGATION_CONSTRAINT_FEATURE_COUNT = ConstraintPackage.USER_INTERACTION_CONSTRAINT_FEATURE_COUNT + 5;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ClassNavigationConstraintImpl <em>Class Navigation Constraint</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.perspective.impl.ClassNavigationConstraintImpl
+	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getClassNavigationConstraint()
+	 * @generated
+	 */
+	int CLASS_NAVIGATION_CONSTRAINT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Requires Group Ownership</b></em>' attribute.
@@ -412,7 +412,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP = EXPLORER_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP;
+	int CLASS_NAVIGATION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP = NAVIGATION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP;
 
 	/**
 	 * The feature id for the '<em><b>Requires Ownership</b></em>' attribute.
@@ -421,7 +421,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT__REQUIRES_OWNERSHIP = EXPLORER_CONSTRAINT__REQUIRES_OWNERSHIP;
+	int CLASS_NAVIGATION_CONSTRAINT__REQUIRES_OWNERSHIP = NAVIGATION_CONSTRAINT__REQUIRES_OWNERSHIP;
 
 	/**
 	 * The feature id for the '<em><b>Required Roles</b></em>' containment reference list.
@@ -430,7 +430,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT__REQUIRED_ROLES = EXPLORER_CONSTRAINT__REQUIRED_ROLES;
+	int CLASS_NAVIGATION_CONSTRAINT__REQUIRED_ROLES = NAVIGATION_CONSTRAINT__REQUIRED_ROLES;
 
 	/**
 	 * The feature id for the '<em><b>Open To Public</b></em>' attribute.
@@ -439,7 +439,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT__OPEN_TO_PUBLIC = EXPLORER_CONSTRAINT__OPEN_TO_PUBLIC;
+	int CLASS_NAVIGATION_CONSTRAINT__OPEN_TO_PUBLIC = NAVIGATION_CONSTRAINT__OPEN_TO_PUBLIC;
 
 	/**
 	 * The feature id for the '<em><b>Required States</b></em>' containment reference list.
@@ -448,7 +448,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT__REQUIRED_STATES = EXPLORER_CONSTRAINT__REQUIRED_STATES;
+	int CLASS_NAVIGATION_CONSTRAINT__REQUIRED_STATES = NAVIGATION_CONSTRAINT__REQUIRED_STATES;
 
 	/**
 	 * The feature id for the '<em><b>Inherit From Parent</b></em>' attribute.
@@ -457,16 +457,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT__INHERIT_FROM_PARENT = EXPLORER_CONSTRAINT__INHERIT_FROM_PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_CLASS_CONSTRAINT__UML_ELEMENT_UID = EXPLORER_CONSTRAINT__UML_ELEMENT_UID;
+	int CLASS_NAVIGATION_CONSTRAINT__INHERIT_FROM_PARENT = NAVIGATION_CONSTRAINT__INHERIT_FROM_PARENT;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -475,7 +466,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT__NAME = EXPLORER_CONSTRAINT__NAME;
+	int CLASS_NAVIGATION_CONSTRAINT__NAME = NAVIGATION_CONSTRAINT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -484,7 +475,16 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT__UNDER_USER_CONTROL = EXPLORER_CONSTRAINT__UNDER_USER_CONTROL;
+	int CLASS_NAVIGATION_CONSTRAINT__UNDER_USER_CONTROL = NAVIGATION_CONSTRAINT__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_NAVIGATION_CONSTRAINT__UML_ELEMENT_UID = NAVIGATION_CONSTRAINT__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
@@ -493,7 +493,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT__LABEL_OVERRIDE = EXPLORER_CONSTRAINT__LABEL_OVERRIDE;
+	int CLASS_NAVIGATION_CONSTRAINT__LABEL_OVERRIDE = NAVIGATION_CONSTRAINT__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
@@ -502,7 +502,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT__HIDDEN = EXPLORER_CONSTRAINT__HIDDEN;
+	int CLASS_NAVIGATION_CONSTRAINT__HIDDEN = NAVIGATION_CONSTRAINT__HIDDEN;
 
 	/**
 	 * The feature id for the '<em><b>Explorer Configuration</b></em>' container reference.
@@ -511,7 +511,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT__EXPLORER_CONFIGURATION = EXPLORER_CONSTRAINT_FEATURE_COUNT + 0;
+	int CLASS_NAVIGATION_CONSTRAINT__EXPLORER_CONFIGURATION = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
@@ -520,16 +520,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT__PROPERTIES = EXPLORER_CONSTRAINT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>New Object Constraint</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_CLASS_CONSTRAINT__NEW_OBJECT_CONSTRAINT = EXPLORER_CONSTRAINT_FEATURE_COUNT + 2;
+	int CLASS_NAVIGATION_CONSTRAINT__PROPERTIES = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Behaviors</b></em>' containment reference list.
@@ -538,7 +529,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT__BEHAVIORS = EXPLORER_CONSTRAINT_FEATURE_COUNT + 3;
+	int CLASS_NAVIGATION_CONSTRAINT__BEHAVIORS = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Operations</b></em>' containment reference list.
@@ -547,26 +538,26 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT__OPERATIONS = EXPLORER_CONSTRAINT_FEATURE_COUNT + 4;
+	int CLASS_NAVIGATION_CONSTRAINT__OPERATIONS = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the '<em>Explorer Class Constraint</em>' class.
+	 * The number of structural features of the '<em>Class Navigation Constraint</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CLASS_CONSTRAINT_FEATURE_COUNT = EXPLORER_CONSTRAINT_FEATURE_COUNT + 5;
+	int CLASS_NAVIGATION_CONSTRAINT_FEATURE_COUNT = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 4;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ExplorerPropertyConstraintImpl <em>Explorer Property Constraint</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.PropertyNavigationConstraintImpl <em>Property Navigation Constraint</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.perspective.impl.ExplorerPropertyConstraintImpl
-	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerPropertyConstraint()
+	 * @see org.opaeum.uim.perspective.impl.PropertyNavigationConstraintImpl
+	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getPropertyNavigationConstraint()
 	 * @generated
 	 */
-	int EXPLORER_PROPERTY_CONSTRAINT = 4;
+	int PROPERTY_NAVIGATION_CONSTRAINT = 4;
 
 	/**
 	 * The feature id for the '<em><b>Requires Group Ownership</b></em>' attribute.
@@ -575,7 +566,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_PROPERTY_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP = EXPLORER_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP;
+	int PROPERTY_NAVIGATION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP = NAVIGATION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP;
 
 	/**
 	 * The feature id for the '<em><b>Requires Ownership</b></em>' attribute.
@@ -584,7 +575,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_PROPERTY_CONSTRAINT__REQUIRES_OWNERSHIP = EXPLORER_CONSTRAINT__REQUIRES_OWNERSHIP;
+	int PROPERTY_NAVIGATION_CONSTRAINT__REQUIRES_OWNERSHIP = NAVIGATION_CONSTRAINT__REQUIRES_OWNERSHIP;
 
 	/**
 	 * The feature id for the '<em><b>Required Roles</b></em>' containment reference list.
@@ -593,7 +584,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_PROPERTY_CONSTRAINT__REQUIRED_ROLES = EXPLORER_CONSTRAINT__REQUIRED_ROLES;
+	int PROPERTY_NAVIGATION_CONSTRAINT__REQUIRED_ROLES = NAVIGATION_CONSTRAINT__REQUIRED_ROLES;
 
 	/**
 	 * The feature id for the '<em><b>Open To Public</b></em>' attribute.
@@ -602,7 +593,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_PROPERTY_CONSTRAINT__OPEN_TO_PUBLIC = EXPLORER_CONSTRAINT__OPEN_TO_PUBLIC;
+	int PROPERTY_NAVIGATION_CONSTRAINT__OPEN_TO_PUBLIC = NAVIGATION_CONSTRAINT__OPEN_TO_PUBLIC;
 
 	/**
 	 * The feature id for the '<em><b>Required States</b></em>' containment reference list.
@@ -611,7 +602,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_PROPERTY_CONSTRAINT__REQUIRED_STATES = EXPLORER_CONSTRAINT__REQUIRED_STATES;
+	int PROPERTY_NAVIGATION_CONSTRAINT__REQUIRED_STATES = NAVIGATION_CONSTRAINT__REQUIRED_STATES;
 
 	/**
 	 * The feature id for the '<em><b>Inherit From Parent</b></em>' attribute.
@@ -620,16 +611,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_PROPERTY_CONSTRAINT__INHERIT_FROM_PARENT = EXPLORER_CONSTRAINT__INHERIT_FROM_PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_PROPERTY_CONSTRAINT__UML_ELEMENT_UID = EXPLORER_CONSTRAINT__UML_ELEMENT_UID;
+	int PROPERTY_NAVIGATION_CONSTRAINT__INHERIT_FROM_PARENT = NAVIGATION_CONSTRAINT__INHERIT_FROM_PARENT;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -638,7 +620,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_PROPERTY_CONSTRAINT__NAME = EXPLORER_CONSTRAINT__NAME;
+	int PROPERTY_NAVIGATION_CONSTRAINT__NAME = NAVIGATION_CONSTRAINT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -647,7 +629,16 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_PROPERTY_CONSTRAINT__UNDER_USER_CONTROL = EXPLORER_CONSTRAINT__UNDER_USER_CONTROL;
+	int PROPERTY_NAVIGATION_CONSTRAINT__UNDER_USER_CONTROL = NAVIGATION_CONSTRAINT__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_NAVIGATION_CONSTRAINT__UML_ELEMENT_UID = NAVIGATION_CONSTRAINT__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
@@ -656,7 +647,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_PROPERTY_CONSTRAINT__LABEL_OVERRIDE = EXPLORER_CONSTRAINT__LABEL_OVERRIDE;
+	int PROPERTY_NAVIGATION_CONSTRAINT__LABEL_OVERRIDE = NAVIGATION_CONSTRAINT__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
@@ -665,7 +656,25 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_PROPERTY_CONSTRAINT__HIDDEN = EXPLORER_CONSTRAINT__HIDDEN;
+	int PROPERTY_NAVIGATION_CONSTRAINT__HIDDEN = NAVIGATION_CONSTRAINT__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Remove Constraint</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_NAVIGATION_CONSTRAINT__REMOVE_CONSTRAINT = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Add Constraint</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_NAVIGATION_CONSTRAINT__ADD_CONSTRAINT = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' container reference.
@@ -674,16 +683,16 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_PROPERTY_CONSTRAINT__OWNER = EXPLORER_CONSTRAINT_FEATURE_COUNT + 0;
+	int PROPERTY_NAVIGATION_CONSTRAINT__OWNER = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Explorer Property Constraint</em>' class.
+	 * The number of structural features of the '<em>Property Navigation Constraint</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_PROPERTY_CONSTRAINT_FEATURE_COUNT = EXPLORER_CONSTRAINT_FEATURE_COUNT + 1;
+	int PROPERTY_NAVIGATION_CONSTRAINT_FEATURE_COUNT = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.EditorConfigurationImpl <em>Editor Configuration</em>}' class.
@@ -814,14 +823,14 @@ public interface PerspectivePackage extends EPackage {
 	int PROPERTIES_CONFIGURATION_FEATURE_COUNT = VIEW_ALLOCATION_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ExplorerOperationConstraintImpl <em>Explorer Operation Constraint</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.OperationNavigationConstraintImpl <em>Operation Navigation Constraint</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.perspective.impl.ExplorerOperationConstraintImpl
-	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerOperationConstraint()
+	 * @see org.opaeum.uim.perspective.impl.OperationNavigationConstraintImpl
+	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getOperationNavigationConstraint()
 	 * @generated
 	 */
-	int EXPLORER_OPERATION_CONSTRAINT = 8;
+	int OPERATION_NAVIGATION_CONSTRAINT = 8;
 
 	/**
 	 * The feature id for the '<em><b>Requires Group Ownership</b></em>' attribute.
@@ -830,7 +839,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_OPERATION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP = EXPLORER_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP;
+	int OPERATION_NAVIGATION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP = NAVIGATION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP;
 
 	/**
 	 * The feature id for the '<em><b>Requires Ownership</b></em>' attribute.
@@ -839,7 +848,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_OPERATION_CONSTRAINT__REQUIRES_OWNERSHIP = EXPLORER_CONSTRAINT__REQUIRES_OWNERSHIP;
+	int OPERATION_NAVIGATION_CONSTRAINT__REQUIRES_OWNERSHIP = NAVIGATION_CONSTRAINT__REQUIRES_OWNERSHIP;
 
 	/**
 	 * The feature id for the '<em><b>Required Roles</b></em>' containment reference list.
@@ -848,7 +857,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_OPERATION_CONSTRAINT__REQUIRED_ROLES = EXPLORER_CONSTRAINT__REQUIRED_ROLES;
+	int OPERATION_NAVIGATION_CONSTRAINT__REQUIRED_ROLES = NAVIGATION_CONSTRAINT__REQUIRED_ROLES;
 
 	/**
 	 * The feature id for the '<em><b>Open To Public</b></em>' attribute.
@@ -857,7 +866,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_OPERATION_CONSTRAINT__OPEN_TO_PUBLIC = EXPLORER_CONSTRAINT__OPEN_TO_PUBLIC;
+	int OPERATION_NAVIGATION_CONSTRAINT__OPEN_TO_PUBLIC = NAVIGATION_CONSTRAINT__OPEN_TO_PUBLIC;
 
 	/**
 	 * The feature id for the '<em><b>Required States</b></em>' containment reference list.
@@ -866,7 +875,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_OPERATION_CONSTRAINT__REQUIRED_STATES = EXPLORER_CONSTRAINT__REQUIRED_STATES;
+	int OPERATION_NAVIGATION_CONSTRAINT__REQUIRED_STATES = NAVIGATION_CONSTRAINT__REQUIRED_STATES;
 
 	/**
 	 * The feature id for the '<em><b>Inherit From Parent</b></em>' attribute.
@@ -875,16 +884,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_OPERATION_CONSTRAINT__INHERIT_FROM_PARENT = EXPLORER_CONSTRAINT__INHERIT_FROM_PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_OPERATION_CONSTRAINT__UML_ELEMENT_UID = EXPLORER_CONSTRAINT__UML_ELEMENT_UID;
+	int OPERATION_NAVIGATION_CONSTRAINT__INHERIT_FROM_PARENT = NAVIGATION_CONSTRAINT__INHERIT_FROM_PARENT;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -893,7 +893,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_OPERATION_CONSTRAINT__NAME = EXPLORER_CONSTRAINT__NAME;
+	int OPERATION_NAVIGATION_CONSTRAINT__NAME = NAVIGATION_CONSTRAINT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -902,7 +902,16 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_OPERATION_CONSTRAINT__UNDER_USER_CONTROL = EXPLORER_CONSTRAINT__UNDER_USER_CONTROL;
+	int OPERATION_NAVIGATION_CONSTRAINT__UNDER_USER_CONTROL = NAVIGATION_CONSTRAINT__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NAVIGATION_CONSTRAINT__UML_ELEMENT_UID = NAVIGATION_CONSTRAINT__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
@@ -911,7 +920,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_OPERATION_CONSTRAINT__LABEL_OVERRIDE = EXPLORER_CONSTRAINT__LABEL_OVERRIDE;
+	int OPERATION_NAVIGATION_CONSTRAINT__LABEL_OVERRIDE = NAVIGATION_CONSTRAINT__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
@@ -920,7 +929,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_OPERATION_CONSTRAINT__HIDDEN = EXPLORER_CONSTRAINT__HIDDEN;
+	int OPERATION_NAVIGATION_CONSTRAINT__HIDDEN = NAVIGATION_CONSTRAINT__HIDDEN;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' container reference.
@@ -929,125 +938,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_OPERATION_CONSTRAINT__OWNER = EXPLORER_CONSTRAINT_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Explorer Operation Constraint</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_OPERATION_CONSTRAINT_FEATURE_COUNT = EXPLORER_CONSTRAINT_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ExplorerBehaviorConstraintImpl <em>Explorer Behavior Constraint</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.perspective.impl.ExplorerBehaviorConstraintImpl
-	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerBehaviorConstraint()
-	 * @generated
-	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT = 9;
-
-	/**
-	 * The feature id for the '<em><b>Requires Group Ownership</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP = EXPLORER_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP;
-
-	/**
-	 * The feature id for the '<em><b>Requires Ownership</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT__REQUIRES_OWNERSHIP = EXPLORER_CONSTRAINT__REQUIRES_OWNERSHIP;
-
-	/**
-	 * The feature id for the '<em><b>Required Roles</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT__REQUIRED_ROLES = EXPLORER_CONSTRAINT__REQUIRED_ROLES;
-
-	/**
-	 * The feature id for the '<em><b>Open To Public</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT__OPEN_TO_PUBLIC = EXPLORER_CONSTRAINT__OPEN_TO_PUBLIC;
-
-	/**
-	 * The feature id for the '<em><b>Required States</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT__REQUIRED_STATES = EXPLORER_CONSTRAINT__REQUIRED_STATES;
-
-	/**
-	 * The feature id for the '<em><b>Inherit From Parent</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT__INHERIT_FROM_PARENT = EXPLORER_CONSTRAINT__INHERIT_FROM_PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT__UML_ELEMENT_UID = EXPLORER_CONSTRAINT__UML_ELEMENT_UID;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT__NAME = EXPLORER_CONSTRAINT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT__UNDER_USER_CONTROL = EXPLORER_CONSTRAINT__UNDER_USER_CONTROL;
-
-	/**
-	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT__LABEL_OVERRIDE = EXPLORER_CONSTRAINT__LABEL_OVERRIDE;
-
-	/**
-	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT__HIDDEN = EXPLORER_CONSTRAINT__HIDDEN;
+	int OPERATION_NAVIGATION_CONSTRAINT__OWNER = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Invocation Constraint</b></em>' containment reference.
@@ -1056,7 +947,143 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT__INVOCATION_CONSTRAINT = EXPLORER_CONSTRAINT_FEATURE_COUNT + 0;
+	int OPERATION_NAVIGATION_CONSTRAINT__INVOCATION_CONSTRAINT = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NAVIGATION_CONSTRAINT__PARAMETERS = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Operation Navigation Constraint</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NAVIGATION_CONSTRAINT_FEATURE_COUNT = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.BehaviorNavigationConstraintImpl <em>Behavior Navigation Constraint</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.perspective.impl.BehaviorNavigationConstraintImpl
+	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getBehaviorNavigationConstraint()
+	 * @generated
+	 */
+	int BEHAVIOR_NAVIGATION_CONSTRAINT = 9;
+
+	/**
+	 * The feature id for the '<em><b>Requires Group Ownership</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_NAVIGATION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP = NAVIGATION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP;
+
+	/**
+	 * The feature id for the '<em><b>Requires Ownership</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_NAVIGATION_CONSTRAINT__REQUIRES_OWNERSHIP = NAVIGATION_CONSTRAINT__REQUIRES_OWNERSHIP;
+
+	/**
+	 * The feature id for the '<em><b>Required Roles</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_NAVIGATION_CONSTRAINT__REQUIRED_ROLES = NAVIGATION_CONSTRAINT__REQUIRED_ROLES;
+
+	/**
+	 * The feature id for the '<em><b>Open To Public</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_NAVIGATION_CONSTRAINT__OPEN_TO_PUBLIC = NAVIGATION_CONSTRAINT__OPEN_TO_PUBLIC;
+
+	/**
+	 * The feature id for the '<em><b>Required States</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_NAVIGATION_CONSTRAINT__REQUIRED_STATES = NAVIGATION_CONSTRAINT__REQUIRED_STATES;
+
+	/**
+	 * The feature id for the '<em><b>Inherit From Parent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_NAVIGATION_CONSTRAINT__INHERIT_FROM_PARENT = NAVIGATION_CONSTRAINT__INHERIT_FROM_PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_NAVIGATION_CONSTRAINT__NAME = NAVIGATION_CONSTRAINT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_NAVIGATION_CONSTRAINT__UNDER_USER_CONTROL = NAVIGATION_CONSTRAINT__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_NAVIGATION_CONSTRAINT__UML_ELEMENT_UID = NAVIGATION_CONSTRAINT__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_NAVIGATION_CONSTRAINT__LABEL_OVERRIDE = NAVIGATION_CONSTRAINT__LABEL_OVERRIDE;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_NAVIGATION_CONSTRAINT__HIDDEN = NAVIGATION_CONSTRAINT__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Invocation Constraint</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_NAVIGATION_CONSTRAINT__INVOCATION_CONSTRAINT = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' container reference.
@@ -1065,16 +1092,25 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT__OWNER = EXPLORER_CONSTRAINT_FEATURE_COUNT + 1;
+	int BEHAVIOR_NAVIGATION_CONSTRAINT__OWNER = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Explorer Behavior Constraint</em>' class.
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_BEHAVIOR_CONSTRAINT_FEATURE_COUNT = EXPLORER_CONSTRAINT_FEATURE_COUNT + 2;
+	int BEHAVIOR_NAVIGATION_CONSTRAINT__PARAMETERS = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Behavior Navigation Constraint</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BEHAVIOR_NAVIGATION_CONSTRAINT_FEATURE_COUNT = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.InboxConfigurationImpl <em>Inbox Configuration</em>}' class.
@@ -1205,6 +1241,278 @@ public interface PerspectivePackage extends EPackage {
 	int OUTBOX_CONFIGURATION_FEATURE_COUNT = VIEW_ALLOCATION_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.MultiplicityElementNavigationConstraintImpl <em>Multiplicity Element Navigation Constraint</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.perspective.impl.MultiplicityElementNavigationConstraintImpl
+	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getMultiplicityElementNavigationConstraint()
+	 * @generated
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT = 13;
+
+	/**
+	 * The feature id for the '<em><b>Requires Group Ownership</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP = NAVIGATION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP;
+
+	/**
+	 * The feature id for the '<em><b>Requires Ownership</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__REQUIRES_OWNERSHIP = NAVIGATION_CONSTRAINT__REQUIRES_OWNERSHIP;
+
+	/**
+	 * The feature id for the '<em><b>Required Roles</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__REQUIRED_ROLES = NAVIGATION_CONSTRAINT__REQUIRED_ROLES;
+
+	/**
+	 * The feature id for the '<em><b>Open To Public</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__OPEN_TO_PUBLIC = NAVIGATION_CONSTRAINT__OPEN_TO_PUBLIC;
+
+	/**
+	 * The feature id for the '<em><b>Required States</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__REQUIRED_STATES = NAVIGATION_CONSTRAINT__REQUIRED_STATES;
+
+	/**
+	 * The feature id for the '<em><b>Inherit From Parent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__INHERIT_FROM_PARENT = NAVIGATION_CONSTRAINT__INHERIT_FROM_PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__NAME = NAVIGATION_CONSTRAINT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__UNDER_USER_CONTROL = NAVIGATION_CONSTRAINT__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__UML_ELEMENT_UID = NAVIGATION_CONSTRAINT__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__LABEL_OVERRIDE = NAVIGATION_CONSTRAINT__LABEL_OVERRIDE;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__HIDDEN = NAVIGATION_CONSTRAINT__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Remove Constraint</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__REMOVE_CONSTRAINT = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Add Constraint</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__ADD_CONSTRAINT = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Multiplicity Element Navigation Constraint</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT_FEATURE_COUNT = NAVIGATION_CONSTRAINT_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ParameterNavigationConstraintImpl <em>Parameter Navigation Constraint</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.perspective.impl.ParameterNavigationConstraintImpl
+	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getParameterNavigationConstraint()
+	 * @generated
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT = 12;
+
+	/**
+	 * The feature id for the '<em><b>Requires Group Ownership</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP = MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__REQUIRES_GROUP_OWNERSHIP;
+
+	/**
+	 * The feature id for the '<em><b>Requires Ownership</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT__REQUIRES_OWNERSHIP = MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__REQUIRES_OWNERSHIP;
+
+	/**
+	 * The feature id for the '<em><b>Required Roles</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT__REQUIRED_ROLES = MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__REQUIRED_ROLES;
+
+	/**
+	 * The feature id for the '<em><b>Open To Public</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT__OPEN_TO_PUBLIC = MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__OPEN_TO_PUBLIC;
+
+	/**
+	 * The feature id for the '<em><b>Required States</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT__REQUIRED_STATES = MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__REQUIRED_STATES;
+
+	/**
+	 * The feature id for the '<em><b>Inherit From Parent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT__INHERIT_FROM_PARENT = MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__INHERIT_FROM_PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT__NAME = MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT__UNDER_USER_CONTROL = MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT__UML_ELEMENT_UID = MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT__LABEL_OVERRIDE = MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__LABEL_OVERRIDE;
+
+	/**
+	 * The feature id for the '<em><b>Hidden</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT__HIDDEN = MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__HIDDEN;
+
+	/**
+	 * The feature id for the '<em><b>Remove Constraint</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT__REMOVE_CONSTRAINT = MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__REMOVE_CONSTRAINT;
+
+	/**
+	 * The feature id for the '<em><b>Add Constraint</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT__ADD_CONSTRAINT = MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__ADD_CONSTRAINT;
+
+	/**
+	 * The number of structural features of the '<em>Parameter Navigation Constraint</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER_NAVIGATION_CONSTRAINT_FEATURE_COUNT = MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.opaeum.uim.perspective.PositionInPerspective <em>Position In Perspective</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1212,7 +1520,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getPositionInPerspective()
 	 * @generated
 	 */
-	int POSITION_IN_PERSPECTIVE = 12;
+	int POSITION_IN_PERSPECTIVE = 14;
 
 
 	/**
@@ -1324,111 +1632,100 @@ public interface PerspectivePackage extends EPackage {
 	EAttribute getViewAllocation_Position();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.ExplorerConfiguration <em>Explorer Configuration</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.NavigatorConfiguration <em>Navigator Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Explorer Configuration</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerConfiguration
+	 * @return the meta object for class '<em>Navigator Configuration</em>'.
+	 * @see org.opaeum.uim.perspective.NavigatorConfiguration
 	 * @generated
 	 */
-	EClass getExplorerConfiguration();
+	EClass getNavigatorConfiguration();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ExplorerConfiguration#getClasses <em>Classes</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.NavigatorConfiguration#getClasses <em>Classes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Classes</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerConfiguration#getClasses()
-	 * @see #getExplorerConfiguration()
+	 * @see org.opaeum.uim.perspective.NavigatorConfiguration#getClasses()
+	 * @see #getNavigatorConfiguration()
 	 * @generated
 	 */
-	EReference getExplorerConfiguration_Classes();
+	EReference getNavigatorConfiguration_Classes();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.ExplorerClassConstraint <em>Explorer Class Constraint</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.ClassNavigationConstraint <em>Class Navigation Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Explorer Class Constraint</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerClassConstraint
+	 * @return the meta object for class '<em>Class Navigation Constraint</em>'.
+	 * @see org.opaeum.uim.perspective.ClassNavigationConstraint
 	 * @generated
 	 */
-	EClass getExplorerClassConstraint();
+	EClass getClassNavigationConstraint();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.ExplorerClassConstraint#getExplorerConfiguration <em>Explorer Configuration</em>}'.
+	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.ClassNavigationConstraint#getExplorerConfiguration <em>Explorer Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the container reference '<em>Explorer Configuration</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerClassConstraint#getExplorerConfiguration()
-	 * @see #getExplorerClassConstraint()
+	 * @see org.opaeum.uim.perspective.ClassNavigationConstraint#getExplorerConfiguration()
+	 * @see #getClassNavigationConstraint()
 	 * @generated
 	 */
-	EReference getExplorerClassConstraint_ExplorerConfiguration();
+	EReference getClassNavigationConstraint_ExplorerConfiguration();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ExplorerClassConstraint#getProperties <em>Properties</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ClassNavigationConstraint#getProperties <em>Properties</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Properties</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerClassConstraint#getProperties()
-	 * @see #getExplorerClassConstraint()
+	 * @see org.opaeum.uim.perspective.ClassNavigationConstraint#getProperties()
+	 * @see #getClassNavigationConstraint()
 	 * @generated
 	 */
-	EReference getExplorerClassConstraint_Properties();
+	EReference getClassNavigationConstraint_Properties();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.perspective.ExplorerClassConstraint#getNewObjectConstraint <em>New Object Constraint</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>New Object Constraint</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerClassConstraint#getNewObjectConstraint()
-	 * @see #getExplorerClassConstraint()
-	 * @generated
-	 */
-	EReference getExplorerClassConstraint_NewObjectConstraint();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ExplorerClassConstraint#getBehaviors <em>Behaviors</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ClassNavigationConstraint#getBehaviors <em>Behaviors</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Behaviors</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerClassConstraint#getBehaviors()
-	 * @see #getExplorerClassConstraint()
+	 * @see org.opaeum.uim.perspective.ClassNavigationConstraint#getBehaviors()
+	 * @see #getClassNavigationConstraint()
 	 * @generated
 	 */
-	EReference getExplorerClassConstraint_Behaviors();
+	EReference getClassNavigationConstraint_Behaviors();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ExplorerClassConstraint#getOperations <em>Operations</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ClassNavigationConstraint#getOperations <em>Operations</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Operations</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerClassConstraint#getOperations()
-	 * @see #getExplorerClassConstraint()
+	 * @see org.opaeum.uim.perspective.ClassNavigationConstraint#getOperations()
+	 * @see #getClassNavigationConstraint()
 	 * @generated
 	 */
-	EReference getExplorerClassConstraint_Operations();
+	EReference getClassNavigationConstraint_Operations();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.ExplorerPropertyConstraint <em>Explorer Property Constraint</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.PropertyNavigationConstraint <em>Property Navigation Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Explorer Property Constraint</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerPropertyConstraint
+	 * @return the meta object for class '<em>Property Navigation Constraint</em>'.
+	 * @see org.opaeum.uim.perspective.PropertyNavigationConstraint
 	 * @generated
 	 */
-	EClass getExplorerPropertyConstraint();
+	EClass getPropertyNavigationConstraint();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.ExplorerPropertyConstraint#getOwner <em>Owner</em>}'.
+	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.PropertyNavigationConstraint#getOwner <em>Owner</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the container reference '<em>Owner</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerPropertyConstraint#getOwner()
-	 * @see #getExplorerPropertyConstraint()
+	 * @see org.opaeum.uim.perspective.PropertyNavigationConstraint#getOwner()
+	 * @see #getPropertyNavigationConstraint()
 	 * @generated
 	 */
-	EReference getExplorerPropertyConstraint_Owner();
+	EReference getPropertyNavigationConstraint_Owner();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.EditorConfiguration <em>Editor Configuration</em>}'.
@@ -1451,78 +1748,111 @@ public interface PerspectivePackage extends EPackage {
 	EClass getPropertiesConfiguration();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.ExplorerConstraint <em>Explorer Constraint</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.NavigationConstraint <em>Navigation Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Explorer Constraint</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerConstraint
+	 * @return the meta object for class '<em>Navigation Constraint</em>'.
+	 * @see org.opaeum.uim.perspective.NavigationConstraint
 	 * @generated
 	 */
-	EClass getExplorerConstraint();
+	EClass getNavigationConstraint();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opaeum.uim.perspective.ExplorerConstraint#isHidden <em>Hidden</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.perspective.NavigationConstraint#isHidden <em>Hidden</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Hidden</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerConstraint#isHidden()
-	 * @see #getExplorerConstraint()
+	 * @see org.opaeum.uim.perspective.NavigationConstraint#isHidden()
+	 * @see #getNavigationConstraint()
 	 * @generated
 	 */
-	EAttribute getExplorerConstraint_Hidden();
+	EAttribute getNavigationConstraint_Hidden();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.ExplorerOperationConstraint <em>Explorer Operation Constraint</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.OperationNavigationConstraint <em>Operation Navigation Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Explorer Operation Constraint</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerOperationConstraint
+	 * @return the meta object for class '<em>Operation Navigation Constraint</em>'.
+	 * @see org.opaeum.uim.perspective.OperationNavigationConstraint
 	 * @generated
 	 */
-	EClass getExplorerOperationConstraint();
+	EClass getOperationNavigationConstraint();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.ExplorerOperationConstraint#getOwner <em>Owner</em>}'.
+	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.OperationNavigationConstraint#getOwner <em>Owner</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the container reference '<em>Owner</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerOperationConstraint#getOwner()
-	 * @see #getExplorerOperationConstraint()
+	 * @see org.opaeum.uim.perspective.OperationNavigationConstraint#getOwner()
+	 * @see #getOperationNavigationConstraint()
 	 * @generated
 	 */
-	EReference getExplorerOperationConstraint_Owner();
+	EReference getOperationNavigationConstraint_Owner();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.ExplorerBehaviorConstraint <em>Explorer Behavior Constraint</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Explorer Behavior Constraint</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerBehaviorConstraint
-	 * @generated
-	 */
-	EClass getExplorerBehaviorConstraint();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.perspective.ExplorerBehaviorConstraint#getInvocationConstraint <em>Invocation Constraint</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.perspective.OperationNavigationConstraint#getInvocationConstraint <em>Invocation Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Invocation Constraint</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerBehaviorConstraint#getInvocationConstraint()
-	 * @see #getExplorerBehaviorConstraint()
+	 * @see org.opaeum.uim.perspective.OperationNavigationConstraint#getInvocationConstraint()
+	 * @see #getOperationNavigationConstraint()
 	 * @generated
 	 */
-	EReference getExplorerBehaviorConstraint_InvocationConstraint();
+	EReference getOperationNavigationConstraint_InvocationConstraint();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.ExplorerBehaviorConstraint#getOwner <em>Owner</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.OperationNavigationConstraint#getParameters <em>Parameters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Parameters</em>'.
+	 * @see org.opaeum.uim.perspective.OperationNavigationConstraint#getParameters()
+	 * @see #getOperationNavigationConstraint()
+	 * @generated
+	 */
+	EReference getOperationNavigationConstraint_Parameters();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.BehaviorNavigationConstraint <em>Behavior Navigation Constraint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Behavior Navigation Constraint</em>'.
+	 * @see org.opaeum.uim.perspective.BehaviorNavigationConstraint
+	 * @generated
+	 */
+	EClass getBehaviorNavigationConstraint();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.perspective.BehaviorNavigationConstraint#getInvocationConstraint <em>Invocation Constraint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Invocation Constraint</em>'.
+	 * @see org.opaeum.uim.perspective.BehaviorNavigationConstraint#getInvocationConstraint()
+	 * @see #getBehaviorNavigationConstraint()
+	 * @generated
+	 */
+	EReference getBehaviorNavigationConstraint_InvocationConstraint();
+
+	/**
+	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.BehaviorNavigationConstraint#getOwner <em>Owner</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the container reference '<em>Owner</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerBehaviorConstraint#getOwner()
-	 * @see #getExplorerBehaviorConstraint()
+	 * @see org.opaeum.uim.perspective.BehaviorNavigationConstraint#getOwner()
+	 * @see #getBehaviorNavigationConstraint()
 	 * @generated
 	 */
-	EReference getExplorerBehaviorConstraint_Owner();
+	EReference getBehaviorNavigationConstraint_Owner();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.BehaviorNavigationConstraint#getParameters <em>Parameters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Parameters</em>'.
+	 * @see org.opaeum.uim.perspective.BehaviorNavigationConstraint#getParameters()
+	 * @see #getBehaviorNavigationConstraint()
+	 * @generated
+	 */
+	EReference getBehaviorNavigationConstraint_Parameters();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.InboxConfiguration <em>Inbox Configuration</em>}'.
@@ -1543,6 +1873,48 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getOutboxConfiguration();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.ParameterNavigationConstraint <em>Parameter Navigation Constraint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Parameter Navigation Constraint</em>'.
+	 * @see org.opaeum.uim.perspective.ParameterNavigationConstraint
+	 * @generated
+	 */
+	EClass getParameterNavigationConstraint();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.MultiplicityElementNavigationConstraint <em>Multiplicity Element Navigation Constraint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Multiplicity Element Navigation Constraint</em>'.
+	 * @see org.opaeum.uim.perspective.MultiplicityElementNavigationConstraint
+	 * @generated
+	 */
+	EClass getMultiplicityElementNavigationConstraint();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.perspective.MultiplicityElementNavigationConstraint#getRemoveConstraint <em>Remove Constraint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Remove Constraint</em>'.
+	 * @see org.opaeum.uim.perspective.MultiplicityElementNavigationConstraint#getRemoveConstraint()
+	 * @see #getMultiplicityElementNavigationConstraint()
+	 * @generated
+	 */
+	EReference getMultiplicityElementNavigationConstraint_RemoveConstraint();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.perspective.MultiplicityElementNavigationConstraint#getAddConstraint <em>Add Constraint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Add Constraint</em>'.
+	 * @see org.opaeum.uim.perspective.MultiplicityElementNavigationConstraint#getAddConstraint()
+	 * @see #getMultiplicityElementNavigationConstraint()
+	 * @generated
+	 */
+	EReference getMultiplicityElementNavigationConstraint_AddConstraint();
 
 	/**
 	 * Returns the meta object for enum '{@link org.opaeum.uim.perspective.PositionInPerspective <em>Position In Perspective</em>}'.
@@ -1661,14 +2033,14 @@ public interface PerspectivePackage extends EPackage {
 		EAttribute VIEW_ALLOCATION__POSITION = eINSTANCE.getViewAllocation_Position();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.ExplorerConfigurationImpl <em>Explorer Configuration</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.NavigatorConfigurationImpl <em>Navigator Configuration</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.perspective.impl.ExplorerConfigurationImpl
-		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerConfiguration()
+		 * @see org.opaeum.uim.perspective.impl.NavigatorConfigurationImpl
+		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getNavigatorConfiguration()
 		 * @generated
 		 */
-		EClass EXPLORER_CONFIGURATION = eINSTANCE.getExplorerConfiguration();
+		EClass NAVIGATOR_CONFIGURATION = eINSTANCE.getNavigatorConfiguration();
 
 		/**
 		 * The meta object literal for the '<em><b>Classes</b></em>' containment reference list feature.
@@ -1676,17 +2048,17 @@ public interface PerspectivePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXPLORER_CONFIGURATION__CLASSES = eINSTANCE.getExplorerConfiguration_Classes();
+		EReference NAVIGATOR_CONFIGURATION__CLASSES = eINSTANCE.getNavigatorConfiguration_Classes();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.ExplorerClassConstraintImpl <em>Explorer Class Constraint</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.ClassNavigationConstraintImpl <em>Class Navigation Constraint</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.perspective.impl.ExplorerClassConstraintImpl
-		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerClassConstraint()
+		 * @see org.opaeum.uim.perspective.impl.ClassNavigationConstraintImpl
+		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getClassNavigationConstraint()
 		 * @generated
 		 */
-		EClass EXPLORER_CLASS_CONSTRAINT = eINSTANCE.getExplorerClassConstraint();
+		EClass CLASS_NAVIGATION_CONSTRAINT = eINSTANCE.getClassNavigationConstraint();
 
 		/**
 		 * The meta object literal for the '<em><b>Explorer Configuration</b></em>' container reference feature.
@@ -1694,7 +2066,7 @@ public interface PerspectivePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXPLORER_CLASS_CONSTRAINT__EXPLORER_CONFIGURATION = eINSTANCE.getExplorerClassConstraint_ExplorerConfiguration();
+		EReference CLASS_NAVIGATION_CONSTRAINT__EXPLORER_CONFIGURATION = eINSTANCE.getClassNavigationConstraint_ExplorerConfiguration();
 
 		/**
 		 * The meta object literal for the '<em><b>Properties</b></em>' containment reference list feature.
@@ -1702,15 +2074,7 @@ public interface PerspectivePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXPLORER_CLASS_CONSTRAINT__PROPERTIES = eINSTANCE.getExplorerClassConstraint_Properties();
-
-		/**
-		 * The meta object literal for the '<em><b>New Object Constraint</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXPLORER_CLASS_CONSTRAINT__NEW_OBJECT_CONSTRAINT = eINSTANCE.getExplorerClassConstraint_NewObjectConstraint();
+		EReference CLASS_NAVIGATION_CONSTRAINT__PROPERTIES = eINSTANCE.getClassNavigationConstraint_Properties();
 
 		/**
 		 * The meta object literal for the '<em><b>Behaviors</b></em>' containment reference list feature.
@@ -1718,7 +2082,7 @@ public interface PerspectivePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXPLORER_CLASS_CONSTRAINT__BEHAVIORS = eINSTANCE.getExplorerClassConstraint_Behaviors();
+		EReference CLASS_NAVIGATION_CONSTRAINT__BEHAVIORS = eINSTANCE.getClassNavigationConstraint_Behaviors();
 
 		/**
 		 * The meta object literal for the '<em><b>Operations</b></em>' containment reference list feature.
@@ -1726,17 +2090,17 @@ public interface PerspectivePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXPLORER_CLASS_CONSTRAINT__OPERATIONS = eINSTANCE.getExplorerClassConstraint_Operations();
+		EReference CLASS_NAVIGATION_CONSTRAINT__OPERATIONS = eINSTANCE.getClassNavigationConstraint_Operations();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.ExplorerPropertyConstraintImpl <em>Explorer Property Constraint</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.PropertyNavigationConstraintImpl <em>Property Navigation Constraint</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.perspective.impl.ExplorerPropertyConstraintImpl
-		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerPropertyConstraint()
+		 * @see org.opaeum.uim.perspective.impl.PropertyNavigationConstraintImpl
+		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getPropertyNavigationConstraint()
 		 * @generated
 		 */
-		EClass EXPLORER_PROPERTY_CONSTRAINT = eINSTANCE.getExplorerPropertyConstraint();
+		EClass PROPERTY_NAVIGATION_CONSTRAINT = eINSTANCE.getPropertyNavigationConstraint();
 
 		/**
 		 * The meta object literal for the '<em><b>Owner</b></em>' container reference feature.
@@ -1744,7 +2108,7 @@ public interface PerspectivePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXPLORER_PROPERTY_CONSTRAINT__OWNER = eINSTANCE.getExplorerPropertyConstraint_Owner();
+		EReference PROPERTY_NAVIGATION_CONSTRAINT__OWNER = eINSTANCE.getPropertyNavigationConstraint_Owner();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.EditorConfigurationImpl <em>Editor Configuration</em>}' class.
@@ -1767,14 +2131,14 @@ public interface PerspectivePackage extends EPackage {
 		EClass PROPERTIES_CONFIGURATION = eINSTANCE.getPropertiesConfiguration();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.ExplorerConstraintImpl <em>Explorer Constraint</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.NavigationConstraintImpl <em>Navigation Constraint</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.perspective.impl.ExplorerConstraintImpl
-		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerConstraint()
+		 * @see org.opaeum.uim.perspective.impl.NavigationConstraintImpl
+		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getNavigationConstraint()
 		 * @generated
 		 */
-		EClass EXPLORER_CONSTRAINT = eINSTANCE.getExplorerConstraint();
+		EClass NAVIGATION_CONSTRAINT = eINSTANCE.getNavigationConstraint();
 
 		/**
 		 * The meta object literal for the '<em><b>Hidden</b></em>' attribute feature.
@@ -1782,17 +2146,17 @@ public interface PerspectivePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute EXPLORER_CONSTRAINT__HIDDEN = eINSTANCE.getExplorerConstraint_Hidden();
+		EAttribute NAVIGATION_CONSTRAINT__HIDDEN = eINSTANCE.getNavigationConstraint_Hidden();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.ExplorerOperationConstraintImpl <em>Explorer Operation Constraint</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.OperationNavigationConstraintImpl <em>Operation Navigation Constraint</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.perspective.impl.ExplorerOperationConstraintImpl
-		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerOperationConstraint()
+		 * @see org.opaeum.uim.perspective.impl.OperationNavigationConstraintImpl
+		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getOperationNavigationConstraint()
 		 * @generated
 		 */
-		EClass EXPLORER_OPERATION_CONSTRAINT = eINSTANCE.getExplorerOperationConstraint();
+		EClass OPERATION_NAVIGATION_CONSTRAINT = eINSTANCE.getOperationNavigationConstraint();
 
 		/**
 		 * The meta object literal for the '<em><b>Owner</b></em>' container reference feature.
@@ -1800,17 +2164,7 @@ public interface PerspectivePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXPLORER_OPERATION_CONSTRAINT__OWNER = eINSTANCE.getExplorerOperationConstraint_Owner();
-
-		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.ExplorerBehaviorConstraintImpl <em>Explorer Behavior Constraint</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.perspective.impl.ExplorerBehaviorConstraintImpl
-		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerBehaviorConstraint()
-		 * @generated
-		 */
-		EClass EXPLORER_BEHAVIOR_CONSTRAINT = eINSTANCE.getExplorerBehaviorConstraint();
+		EReference OPERATION_NAVIGATION_CONSTRAINT__OWNER = eINSTANCE.getOperationNavigationConstraint_Owner();
 
 		/**
 		 * The meta object literal for the '<em><b>Invocation Constraint</b></em>' containment reference feature.
@@ -1818,7 +2172,33 @@ public interface PerspectivePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXPLORER_BEHAVIOR_CONSTRAINT__INVOCATION_CONSTRAINT = eINSTANCE.getExplorerBehaviorConstraint_InvocationConstraint();
+		EReference OPERATION_NAVIGATION_CONSTRAINT__INVOCATION_CONSTRAINT = eINSTANCE.getOperationNavigationConstraint_InvocationConstraint();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION_NAVIGATION_CONSTRAINT__PARAMETERS = eINSTANCE.getOperationNavigationConstraint_Parameters();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.BehaviorNavigationConstraintImpl <em>Behavior Navigation Constraint</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.perspective.impl.BehaviorNavigationConstraintImpl
+		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getBehaviorNavigationConstraint()
+		 * @generated
+		 */
+		EClass BEHAVIOR_NAVIGATION_CONSTRAINT = eINSTANCE.getBehaviorNavigationConstraint();
+
+		/**
+		 * The meta object literal for the '<em><b>Invocation Constraint</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BEHAVIOR_NAVIGATION_CONSTRAINT__INVOCATION_CONSTRAINT = eINSTANCE.getBehaviorNavigationConstraint_InvocationConstraint();
 
 		/**
 		 * The meta object literal for the '<em><b>Owner</b></em>' container reference feature.
@@ -1826,7 +2206,15 @@ public interface PerspectivePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXPLORER_BEHAVIOR_CONSTRAINT__OWNER = eINSTANCE.getExplorerBehaviorConstraint_Owner();
+		EReference BEHAVIOR_NAVIGATION_CONSTRAINT__OWNER = eINSTANCE.getBehaviorNavigationConstraint_Owner();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BEHAVIOR_NAVIGATION_CONSTRAINT__PARAMETERS = eINSTANCE.getBehaviorNavigationConstraint_Parameters();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.InboxConfigurationImpl <em>Inbox Configuration</em>}' class.
@@ -1847,6 +2235,42 @@ public interface PerspectivePackage extends EPackage {
 		 * @generated
 		 */
 		EClass OUTBOX_CONFIGURATION = eINSTANCE.getOutboxConfiguration();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.ParameterNavigationConstraintImpl <em>Parameter Navigation Constraint</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.perspective.impl.ParameterNavigationConstraintImpl
+		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getParameterNavigationConstraint()
+		 * @generated
+		 */
+		EClass PARAMETER_NAVIGATION_CONSTRAINT = eINSTANCE.getParameterNavigationConstraint();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.MultiplicityElementNavigationConstraintImpl <em>Multiplicity Element Navigation Constraint</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.perspective.impl.MultiplicityElementNavigationConstraintImpl
+		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getMultiplicityElementNavigationConstraint()
+		 * @generated
+		 */
+		EClass MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT = eINSTANCE.getMultiplicityElementNavigationConstraint();
+
+		/**
+		 * The meta object literal for the '<em><b>Remove Constraint</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__REMOVE_CONSTRAINT = eINSTANCE.getMultiplicityElementNavigationConstraint_RemoveConstraint();
+
+		/**
+		 * The meta object literal for the '<em><b>Add Constraint</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT__ADD_CONSTRAINT = eINSTANCE.getMultiplicityElementNavigationConstraint_AddConstraint();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.perspective.PositionInPerspective <em>Position In Perspective</em>}' enum.

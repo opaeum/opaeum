@@ -83,7 +83,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 		ap.putAttribute("opaeumId", EmfWorkspace.getOpaeumId(property));
 		if(property.getOwnedComments().size() > 0){
-			ap.putAttribute("shortDescripion", property.getOwnedComments().get(0).getBody());
+			ap.putAttribute("shortDescription", property.getOwnedComments().get(0).getBody());
 		}
 		if(property.getOtherEnd() != null){
 			ap.putAttribute("opposite", property.getOtherEnd().getName());

@@ -11,6 +11,9 @@ import org.eclipse.ui.views.properties.tabbed.ITabDescriptor;
 
 public class OpaeumTabDescriptorProvider extends XWTTabDescriptorProvider{
 	protected void orderTabDescriptors(final List<ITabDescriptor> descriptors){
+		if(true){
+			return;
+		}
 		Collections.sort(descriptors, new Comparator<ITabDescriptor>(){
 			public int compare(ITabDescriptor tabDescriptor1,ITabDescriptor tabDescriptor2){
 

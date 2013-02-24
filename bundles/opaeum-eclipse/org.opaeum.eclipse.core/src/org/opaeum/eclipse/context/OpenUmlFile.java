@@ -89,6 +89,7 @@ public class OpenUmlFile extends EContentAdapter{
 	private TypeCacheAdapter typeCacheAdapter;
 	private EObjectSelectorUI eObjectSelectorUI;
 	private Adapter additionalContentAdapter;
+	private boolean isClosing=false;
 	public OpenUmlFile(EditingDomain editingDomain,IFile f,OpaeumConfig cfg){
 		super();
 		Package model = findRootObjectInFile(f, editingDomain.getResourceSet());
@@ -163,8 +164,7 @@ public class OpenUmlFile extends EContentAdapter{
 	}
 	@SuppressWarnings("unchecked")
 	public static HashSet<Class<? extends ITransformationStep>> getTransformationSteps(OpaeumConfig cfg){
-		HashSet<Class<? extends ITransformationStep>> result = new HashSet<Class<? extends ITransformationStep>>(
-				Arrays.asList(ActionValidation.class));
+		HashSet<Class<? extends ITransformationStep>> result = new HashSet<Class<? extends ITransformationStep>>(Arrays.asList(ActionValidation.class));
 		Set<Class<? extends AbstractValidator>> allSteps = ValidationPhase.getAllValidationSteps();
 		if(cfg.shouldBeCm1Compatible()){
 			// TODO ignore linkage steps as they will be included from Javatransformations
@@ -187,54 +187,56 @@ public class OpenUmlFile extends EContentAdapter{
 	@Override
 	public void notifyChanged(final Notification notification){
 		super.notifyChanged(notification);
-		if(notification.getNotifier() instanceof ResourceSet && notification.getNewValue() instanceof UMLResource){
-			resourcesBeingLoaded.add((UMLResource) notification.getNewValue());
-		}else if(notification.getNotifier() instanceof UMLResource){
-			manageResourceEvent(notification);
-		}
-		if(!suspended && resourcesBeingLoaded.isEmpty()){
-			linker.notifyChanged(notification);
-			if(additionalContentAdapter != null){
-				additionalContentAdapter.notifyChanged(notification);
+		if(!isClosing){
+			if(notification.getNotifier() instanceof ResourceSet && notification.getNewValue() instanceof UMLResource){
+				resourcesBeingLoaded.add((UMLResource) notification.getNewValue());
+			}else if(notification.getNotifier() instanceof UMLResource){
+				manageResourceEvent(notification);
 			}
-			if(notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.ADD_MANY
-					|| notification.getEventType() == Notification.SET){
-				final boolean annotationCreated = notification.getNotifier() instanceof EModelElement
-						&& EcorePackage.eINSTANCE.getEModelElement_EAnnotations().equals(notification.getFeature());
-				if(!(annotationCreated)){
-					if(notification.getNotifier() instanceof DynamicEObjectImpl){
-						scheduleSynchronization((Element) UMLUtil.getBaseElement((EObject) notification.getNotifier()));
-					}else{
-						if(notification.getNotifier() instanceof Element){
-							EObject o = null;
-							if(notification.getEventType() == Notification.ADD && notification.getFeature() instanceof EReference
-									&& ((EReference) notification.getFeature()).isContainment() && notification.getNewValue() instanceof Element){
-								// new object
-								o = (EObject) notification.getNewValue();
-								scheduleSynchronization(o);
-							}else if(notification.getNotifier() instanceof EObject){
-								o = (EObject) notification.getNotifier();
-								scheduleSynchronization(o);
+			if(!suspended && resourcesBeingLoaded.isEmpty()){
+				linker.notifyChanged(notification);
+				if(additionalContentAdapter != null){
+					additionalContentAdapter.notifyChanged(notification);
+				}
+				if(notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.ADD_MANY
+						|| notification.getEventType() == Notification.SET){
+					final boolean annotationCreated = notification.getNotifier() instanceof EModelElement
+							&& EcorePackage.eINSTANCE.getEModelElement_EAnnotations().equals(notification.getFeature());
+					if(!(annotationCreated)){
+						if(notification.getNotifier() instanceof DynamicEObjectImpl){
+							scheduleSynchronization((Element) UMLUtil.getBaseElement((EObject) notification.getNotifier()));
+						}else{
+							if(notification.getNotifier() instanceof Element){
+								EObject o = null;
+								if(notification.getEventType() == Notification.ADD && notification.getFeature() instanceof EReference
+										&& ((EReference) notification.getFeature()).isContainment() && notification.getNewValue() instanceof Element){
+									// new object
+									o = (EObject) notification.getNewValue();
+									scheduleSynchronization(o);
+								}else if(notification.getNotifier() instanceof EObject){
+									o = (EObject) notification.getNotifier();
+									scheduleSynchronization(o);
+								}
 							}
 						}
 					}
-				}
-			}else if(notification.getEventType() == Notification.REMOVE || notification.getEventType() == Notification.REMOVE_MANY){
-				if(notification.getFeature() instanceof EReference && ((EReference) notification.getFeature()).isContainment()
-						&& notification.getOldValue() instanceof Element){
-					// Deletion
-					final Element oldValue = (Element) notification.getOldValue();
-					final Resource eResource = ((EObject) notification.getNotifier()).eResource();
-					storeTempId(oldValue, eResource);
-					scheduleSynchronization(oldValue);
-				}else if(notification.getNotifier() instanceof DynamicEObjectImpl){
-					scheduleSynchronization((Element) UMLUtil.getBaseElement((EObject) notification.getNotifier()));
-				}else if(notification.getNotifier() instanceof EObject){
-					scheduleSynchronization((EObject) notification.getNotifier());
+				}else if(notification.getEventType() == Notification.REMOVE || notification.getEventType() == Notification.REMOVE_MANY){
+					if(notification.getFeature() instanceof EReference && ((EReference) notification.getFeature()).isContainment()
+							&& notification.getOldValue() instanceof Element){
+						// Deletion
+						final Element oldValue = (Element) notification.getOldValue();
+						final Resource eResource = ((EObject) notification.getNotifier()).eResource();
+						storeTempId(oldValue, eResource);
+						scheduleSynchronization(oldValue);
+					}else if(notification.getNotifier() instanceof DynamicEObjectImpl){
+						scheduleSynchronization((Element) UMLUtil.getBaseElement((EObject) notification.getNotifier()));
+					}else if(notification.getNotifier() instanceof EObject){
+						scheduleSynchronization((EObject) notification.getNotifier());
+					}
 				}
 			}
+			typeCacheAdapter.notifyChanged(notification);
 		}
-		typeCacheAdapter.notifyChanged(notification);
 	}
 	private void storeTempId(final Element ne,final Resource eResource){
 		final StringBuilder uriFragment = new StringBuilder();
@@ -319,6 +321,7 @@ public class OpenUmlFile extends EContentAdapter{
 		this.synchronizationListener.remove(editingContext);
 	}
 	public void release(){
+		isClosing=true;
 		for(OpaeumSynchronizationListener l:this.synchronizationListener){
 			l.onClose(this);
 		}
@@ -368,14 +371,12 @@ public class OpenUmlFile extends EContentAdapter{
 						if(emfChanges.size() > 0){
 							long start = System.currentTimeMillis();
 							Set<Element> changedElements = new HashSet<Element>();
-							for(Object object:transformationProcess.processElements(emfChanges, ValidationPhase.class,
-									new ProgressMonitorTransformationLog(monitor, 50))){
+							for(Object object:transformationProcess.processElements(emfChanges, ValidationPhase.class, new ProgressMonitorTransformationLog(monitor, 50))){
 								if(object instanceof Element){
 									changedElements.add(EmfElementFinder.getNearestClassifier((Element) object));
 								}
 							}
-							OpaeumSynchronizationListener[] array = synchronizationListener
-									.toArray(new OpaeumSynchronizationListener[synchronizationListener.size()]);
+							OpaeumSynchronizationListener[] array = synchronizationListener.toArray(new OpaeumSynchronizationListener[synchronizationListener.size()]);
 							for(OpaeumSynchronizationListener listener:array){
 								listener.synchronizationComplete(OpenUmlFile.this, changedElements);
 							}

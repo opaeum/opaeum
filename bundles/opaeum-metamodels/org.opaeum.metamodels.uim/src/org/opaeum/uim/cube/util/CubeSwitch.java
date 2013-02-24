@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.LabelContainer;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Page;
 import org.opaeum.uim.UmlReference;
@@ -106,8 +107,9 @@ public class CubeSwitch<T> {
 				if (result == null) result = caseEditableConstrainedObject(cubeQuery);
 				if (result == null) result = caseLabeledElement(cubeQuery);
 				if (result == null) result = caseConstrainedObject(cubeQuery);
-				if (result == null) result = caseUmlReference(cubeQuery);
 				if (result == null) result = caseUserInteractionElement(cubeQuery);
+				if (result == null) result = caseUmlReference(cubeQuery);
+				if (result == null) result = caseLabelContainer(cubeQuery);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -129,8 +131,9 @@ public class CubeSwitch<T> {
 				LevelProperty levelProperty = (LevelProperty)theEObject;
 				T result = caseLevelProperty(levelProperty);
 				if (result == null) result = caseLabeledElement(levelProperty);
-				if (result == null) result = caseUmlReference(levelProperty);
 				if (result == null) result = caseUserInteractionElement(levelProperty);
+				if (result == null) result = caseUmlReference(levelProperty);
+				if (result == null) result = caseLabelContainer(levelProperty);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -162,6 +165,7 @@ public class CubeSwitch<T> {
 				if (result == null) result = caseLabeledElement(cubeQueryEditor);
 				if (result == null) result = caseUmlReference(cubeQueryEditor);
 				if (result == null) result = caseUserInteractionElement(cubeQueryEditor);
+				if (result == null) result = caseLabelContainer(cubeQueryEditor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -346,6 +350,21 @@ public class CubeSwitch<T> {
 	 * @generated
 	 */
 	public T caseEditableConstrainedObject(EditableConstrainedObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabelContainer(LabelContainer object) {
 		return null;
 	}
 

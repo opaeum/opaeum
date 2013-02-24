@@ -7,6 +7,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Page;
 import org.opaeum.uim.PageOrdering;
 import org.opaeum.uim.UimFactory;
@@ -17,7 +18,11 @@ import org.opaeum.uim.binding.UimBinding;
 import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.UimDataTable;
 import org.opaeum.uim.component.UimField;
+import org.opaeum.uim.constraint.ConstraintPackage;
+import org.opaeum.uim.constraint.UserInteractionConstraint;
 import org.opaeum.uim.control.ControlKind;
+import org.opaeum.uim.perspective.NavigationConstraint;
+import org.opaeum.uim.perspective.PerspectivePackage;
 import org.opaeum.uim.resources.UimModelSet;
 import org.opaeum.uim.uml2uim.FormSynchronizer2;
 import org.opaeum.uim.uml2uim.PerspectiveCreator;
@@ -61,6 +66,33 @@ public class UimContentAdapter extends EContentAdapter{
 						if(po.getPage() == page || po.getPage() == null){
 							iterator.remove();
 						}
+					}
+				}
+				if(notification.getNotifier() instanceof UserInteractionConstraint){
+					UserInteractionConstraint uic=(UserInteractionConstraint) notification.getNotifier();
+					if(notification.getFeatureID(UserInteractionConstraint.class)==ConstraintPackage.USER_INTERACTION_CONSTRAINT__INHERIT_FROM_PARENT){
+						uic.setRequiresOwnership(false);
+						if(notification.getNewBooleanValue()){
+							uic.setRequiresGroupOwnership(false);
+						}else{
+							uic.setRequiresGroupOwnership(true);
+						}
+					}
+					if(notification.getFeatureID(NavigationConstraint.class)==PerspectivePackage.NAVIGATION_CONSTRAINT__HIDDEN){
+						uic.setInheritFromParent(false);
+						uic.setRequiresOwnership(false);
+						if(notification.getNewBooleanValue()){
+							uic.setRequiresGroupOwnership(false);
+						}else{
+							uic.setRequiresGroupOwnership(true);
+						}
+					}
+
+				}
+				if(notification.getNewValue() instanceof LabeledElement){
+					LabeledElement le = (LabeledElement) notification.getNewValue();
+					if(le.getLabelOverride()==null){
+						le.setLabelOverride(UimFactory.eINSTANCE.createLabels());
 					}
 				}
 				if(notification.getNewValue() instanceof InvocationButton && notification.getEventType() == Notification.ADD){

@@ -1,64 +1,64 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_exvHMHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg" name="Id book User Interface Model" linkedUmlResource="BusinessStructureModel.uml">
-  <primaryEditor xmi:id="_exvHMXzhEeK4RO8Gc0PbkA" name="Edit IdBook" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
-    <superUserInterfaces href="252060@_cOzTkF9lEeG3X_yvufTVmw.uim#_exqOgXzhEeK4RO8Gc0PbkA"/>
-    <pageOrdering xmi:id="_exvHNHzhEeK4RO8Gc0PbkA" page="_exvHM3zhEeK4RO8Gc0PbkA"/>
-    <pageOrdering xmi:id="_exvHP3zhEeK4RO8Gc0PbkA" page="_exvHPnzhEeK4RO8Gc0PbkA" position="1"/>
-    <pages xmi:id="_exvHM3zhEeK4RO8Gc0PbkA" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg" name="Edit Id book">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exvHNXzhEeK4RO8Gc0PbkA" name="IdBook" numberOfColumns="1">
-        <children xsi:type="comp:UimField" xmi:id="_exvHNnzhEeK4RO8Gc0PbkA" name="Id number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimText" xmi:id="_exvHN3zhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_exvHOHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_SoyjIHpiEeGlh5y8zQdYBA"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NdFcYH2yEeKdOuVcMz9Nmw" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg" name="Id book User Interface Model" linkedUmlResource="BusinessStructureModel.uml">
+  <primaryEditor xmi:id="_NdFcYX2yEeKdOuVcMz9Nmw" name="Edit IdBook" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
+    <superUserInterfaces href="252060@_cOzTkF9lEeG3X_yvufTVmw.uim#_NUvYsX2yEeKdOuVcMz9Nmw"/>
+    <pageOrdering xmi:id="_NdFcZH2yEeKdOuVcMz9Nmw" page="_NdFcY32yEeKdOuVcMz9Nmw"/>
+    <pageOrdering xmi:id="_NdFcb32yEeKdOuVcMz9Nmw" page="_NdFcbn2yEeKdOuVcMz9Nmw" position="1"/>
+    <pages xmi:id="_NdFcY32yEeKdOuVcMz9Nmw" name="Edit Id book" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NdFcZX2yEeKdOuVcMz9Nmw" name="IdBook" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_NdFcZn2yEeKdOuVcMz9Nmw" name="Id number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_NdFcZ32yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_NdFcaH2yEeKdOuVcMz9Nmw" umlElementUid="914890@_SoyjIHpiEeGlh5y8zQdYBA"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_exvHOXzhEeK4RO8Gc0PbkA" name="Full names" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimText" xmi:id="_exvHOnzhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_exvHO3zhEeK4RO8Gc0PbkA" umlElementUid="914890@_U5_wwHpiEeGlh5y8zQdYBA"/>
+        <children xsi:type="comp:UimField" xmi:id="_NdFcaX2yEeKdOuVcMz9Nmw" name="Full names" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_NdFcan2yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_NdFca32yEeKdOuVcMz9Nmw" umlElementUid="914890@_U5_wwHpiEeGlh5y8zQdYBA"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_exvHPHzhEeK4RO8Gc0PbkA" name="Date of birth" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
-          <binding xmi:id="_exvHPXzhEeK4RO8Gc0PbkA" umlElementUid="914890@_aFhacHpiEeGlh5y8zQdYBA"/>
-        </children>
-      </panel>
-    </pages>
-    <pages xmi:id="_exvHPnzhEeK4RO8Gc0PbkA" umlElementUid="914890@_oo71UGCfEeG6xvYqJACneg" name="Is ai business document">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exvHQHzhEeK4RO8Gc0PbkA" numberOfColumns="1">
-        <children xsi:type="comp:UimField" xmi:id="_exvHQXzhEeK4RO8Gc0PbkA" name="Document type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_exvHQnzhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_exvuEHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_3FqBQF9lEeG3X_yvufTVmw"/>
+        <children xsi:type="comp:UimField" xmi:id="_NdFcbH2yEeKdOuVcMz9Nmw" name="Date of birth" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+          <binding xmi:id="_NdFcbX2yEeKdOuVcMz9Nmw" umlElementUid="914890@_aFhacHpiEeGlh5y8zQdYBA"/>
         </children>
       </panel>
     </pages>
-    <actionBar xmi:id="_exvuEXzhEeK4RO8Gc0PbkA" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_exvuEnzhEeK4RO8Gc0PbkA" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_exvuE3zhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
-      <children xsi:type="action:InvocationButton" xmi:id="_exvuFHzhEeK4RO8Gc0PbkA" name="Make copy" umlElementUid="252060@_nx6xcF9lEeG3X_yvufTVmw">
-        <popup href="252060@_nx6xcF9lEeG3X_yvufTVmw.uim#_exqOjHzhEeK4RO8Gc0PbkA"/>
+    <pages xmi:id="_NdFcbn2yEeKdOuVcMz9Nmw" name="Is ai business document" umlElementUid="914890@_oo71UGCfEeG6xvYqJACneg">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NdFccH2yEeKdOuVcMz9Nmw" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_NdFccX2yEeKdOuVcMz9Nmw" name="Document type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_NdFccn2yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_NdFcc32yEeKdOuVcMz9Nmw" umlElementUid="252060@_3FqBQF9lEeG3X_yvufTVmw"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar xmi:id="_NdFcdH2yEeKdOuVcMz9Nmw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NdFcdX2yEeKdOuVcMz9Nmw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NdFcdn2yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_NdFcd32yEeKdOuVcMz9Nmw" name="Make copy" umlElementUid="252060@_nx6xcF9lEeG3X_yvufTVmw">
+        <popup href="252060@_nx6xcF9lEeG3X_yvufTVmw.uim#_NUv_wH2yEeKdOuVcMz9Nmw"/>
       </children>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_exvuFXzhEeK4RO8Gc0PbkA" name="Create IdBook" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
-    <superUserInterfaces href="252060@_cOzTkF9lEeG3X_yvufTVmw.uim#_exqOjXzhEeK4RO8Gc0PbkA"/>
-    <pageOrdering xmi:id="_exvuGHzhEeK4RO8Gc0PbkA" page="_exvuF3zhEeK4RO8Gc0PbkA"/>
-    <pageOrdering xmi:id="_exvuI3zhEeK4RO8Gc0PbkA" page="_exvuInzhEeK4RO8Gc0PbkA" position="1"/>
-    <pages xmi:id="_exvuF3zhEeK4RO8Gc0PbkA" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg" name="CreateId book">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exvuGXzhEeK4RO8Gc0PbkA" name="IdBook" numberOfColumns="1">
-        <children xsi:type="comp:UimField" xmi:id="_exvuGnzhEeK4RO8Gc0PbkA" name="Id number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimText" xmi:id="_exvuG3zhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_exvuHHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_SoyjIHpiEeGlh5y8zQdYBA"/>
+  <newObjectWizard xmi:id="_NdFceH2yEeKdOuVcMz9Nmw" name="Create IdBook" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
+    <superUserInterfaces href="252060@_cOzTkF9lEeG3X_yvufTVmw.uim#_NUv_wX2yEeKdOuVcMz9Nmw"/>
+    <pageOrdering xmi:id="_NdFce32yEeKdOuVcMz9Nmw" page="_NdFcen2yEeKdOuVcMz9Nmw"/>
+    <pageOrdering xmi:id="_NdFchn2yEeKdOuVcMz9Nmw" page="_NdFchX2yEeKdOuVcMz9Nmw" position="1"/>
+    <pages xmi:id="_NdFcen2yEeKdOuVcMz9Nmw" name="CreateId book" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NdFcfH2yEeKdOuVcMz9Nmw" name="IdBook" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_NdFcfX2yEeKdOuVcMz9Nmw" name="Id number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_NdFcfn2yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_NdFcf32yEeKdOuVcMz9Nmw" umlElementUid="914890@_SoyjIHpiEeGlh5y8zQdYBA"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_exvuHXzhEeK4RO8Gc0PbkA" name="Full names" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimText" xmi:id="_exvuHnzhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_exvuH3zhEeK4RO8Gc0PbkA" umlElementUid="914890@_U5_wwHpiEeGlh5y8zQdYBA"/>
+        <children xsi:type="comp:UimField" xmi:id="_NdFcgH2yEeKdOuVcMz9Nmw" name="Full names" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_NdFcgX2yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_NdFcgn2yEeKdOuVcMz9Nmw" umlElementUid="914890@_U5_wwHpiEeGlh5y8zQdYBA"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_exvuIHzhEeK4RO8Gc0PbkA" name="Date of birth" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
-          <binding xmi:id="_exvuIXzhEeK4RO8Gc0PbkA" umlElementUid="914890@_aFhacHpiEeGlh5y8zQdYBA"/>
+        <children xsi:type="comp:UimField" xmi:id="_NdFcg32yEeKdOuVcMz9Nmw" name="Date of birth" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+          <binding xmi:id="_NdFchH2yEeKdOuVcMz9Nmw" umlElementUid="914890@_aFhacHpiEeGlh5y8zQdYBA"/>
         </children>
       </panel>
     </pages>
-    <pages xmi:id="_exvuInzhEeK4RO8Gc0PbkA" umlElementUid="914890@_oo71UGCfEeG6xvYqJACneg" name="Is ai business document">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exvuJHzhEeK4RO8Gc0PbkA" numberOfColumns="1">
-        <children xsi:type="comp:UimField" xmi:id="_exvuJXzhEeK4RO8Gc0PbkA" name="Document type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_exvuJnzhEeK4RO8Gc0PbkA"/>
-          <binding xmi:id="_exvuJ3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_3FqBQF9lEeG3X_yvufTVmw"/>
+    <pages xmi:id="_NdFchX2yEeKdOuVcMz9Nmw" name="Is ai business document" umlElementUid="914890@_oo71UGCfEeG6xvYqJACneg">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NdFch32yEeKdOuVcMz9Nmw" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_NdFciH2yEeKdOuVcMz9Nmw" name="Document type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_NdFciX2yEeKdOuVcMz9Nmw"/>
+          <binding xmi:id="_NdFcin2yEeKdOuVcMz9Nmw" umlElementUid="252060@_3FqBQF9lEeG3X_yvufTVmw"/>
         </children>
       </panel>
     </pages>

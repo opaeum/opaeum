@@ -9,15 +9,29 @@ public class NotificationTypeResolver extends AbstractEnumResolver implements En
 
 
 	public IEnum fromOpaeumId(long i) {
-		throw new RuntimeException();
+		IEnum result = null;
+		if ( i==6159557950617470138l ) {
+			result = NotificationType.EMAIL;
+		} else {
+		
+		}
+		return result;
 	}
 	
 	public Class<?> returnedClass() {
-		return NotificationType.class;
+		return org.opaeum.runtime.event.NotificationType.class;
 	}
 	
 	public long toOpaeumId(IEnum en) {
-		throw new RuntimeException();
+		long result = -1;
+		switch ( (NotificationType)en ) {
+			case EMAIL:
+				result = 6159557950617470138l;
+			break;
+		
+		}
+		
+		return result;
 	}
 
 }

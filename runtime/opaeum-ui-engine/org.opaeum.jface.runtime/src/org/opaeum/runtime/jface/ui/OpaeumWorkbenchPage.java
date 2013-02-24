@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
@@ -18,8 +17,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.jface.entityeditor.EntityEditorInputJface;
 import org.opaeum.runtime.jface.navigator.OpaeumNavigator;
-import org.opaeum.runtime.jface.navigator.PersistentObjectTreeItem;
-import org.opaeum.runtime.jface.navigator.PropertyTreeItem;
 import org.opaeum.runtime.rwt.Activator;
 import org.opaeum.runtime.rwt.OpaeumRapSession;
 

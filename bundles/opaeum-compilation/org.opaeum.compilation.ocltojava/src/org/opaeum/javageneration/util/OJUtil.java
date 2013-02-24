@@ -97,8 +97,14 @@ public class OJUtil extends OJUtill{
 	private Map<Namespace,OJPathName> statePathnames = new HashMap<Namespace,OJPathName>();
 	private Map<Package,Map<String,MappedType>> typeMap = new HashMap<Package,Map<String,MappedType>>();
 	private OJPathName environmentPathname;
+	private boolean regenMappedTypes;
 	public OJUtil(){
 		super();
+		instanceCount++;
+	}
+	public OJUtil(boolean regenMappedTypes){
+		super();
+		this.regenMappedTypes = regenMappedTypes;
 		instanceCount++;
 	}
 	public OJPathName environmentPathname(){
@@ -109,7 +115,7 @@ public class OJUtil extends OJUtill{
 			clearCache();
 		}
 		this.library = workspace.getOpaeumLibrary();
-		this.environmentPathname=utilClass(workspace, "Environment");
+		this.environmentPathname = utilClass(workspace, "Environment");
 	}
 	public OpaeumLibrary getLibrary(){
 		return library;
@@ -292,7 +298,7 @@ public class OJUtil extends OJUtill{
 	public ClassifierMap buildClassifierMap(Classifier c){
 		String key = c.getQualifiedName();
 		if(c instanceof CollectionType){
-			key+=((CollectionType) c).getElementType().getQualifiedName();
+			key += ((CollectionType) c).getElementType().getQualifiedName();
 		}
 		ClassifierMap result = classifierMaps.get(key);
 		if(result == null){
@@ -330,8 +336,7 @@ public class OJUtil extends OJUtill{
 		OJPathName result = statePathnames.get(activity);
 		if(result == null){
 			Namespace namespace = (Namespace) EmfElementFinder.getContainer(activity);
-			statePathnames.put(activity, result = new ImmutablePathName(packagePathname(namespace), classifierPathname(activity).getLast()
-					+ "State"));
+			statePathnames.put(activity, result = new ImmutablePathName(packagePathname(namespace), classifierPathname(activity).getLast() + "State"));
 		}
 		return result;
 	}
@@ -397,7 +402,7 @@ public class OJUtil extends OJUtill{
 			OJPathName result = utilPackagePath(e).getCopy();
 			return result.append(NameConverter.capitalize(((EmfWorkspace) e).getName()) + suffix);
 		}else{
-			Package owner=EmfElementFinder.getRootObject(e);
+			Package owner = EmfElementFinder.getRootObject(e);
 			OJPathName result = utilPackagePath(owner).getCopy();
 			return result.append(NameConverter.capitalize(((Namespace) owner).getName()) + suffix);
 		}
@@ -462,7 +467,9 @@ public class OJUtil extends OJUtill{
 	}
 	public CodeGenerationStrategy getCodeGenerationStrategy(NamedElement c){
 		CodeGenerationStrategy codeGenerationStrategy = CodeGenerationStrategy.ALL;
-		if(getTypeMap(EmfElementFinder.getRootObject(c)).containsKey(c.getQualifiedName())){
+		if(regenMappedTypes){
+			return codeGenerationStrategy;
+		}else if(getTypeMap(EmfElementFinder.getRootObject(c)).containsKey(c.getQualifiedName())){
 			codeGenerationStrategy = CodeGenerationStrategy.NO_CODE;
 		}else if(c instanceof Classifier){
 			Classifier cl = (Classifier) c;

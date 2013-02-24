@@ -1,5 +1,6 @@
 package org.opaeum.demo1.structuredbusiness.util;
 
+import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 
 public class StructuredbusinessJavaMetaInfoMap extends JavaMetaInfoMap {
@@ -12,6 +13,7 @@ public class StructuredbusinessJavaMetaInfoMap extends JavaMetaInfoMap {
 		putClass(org.opaeum.demo1.structuredbusiness.ApplianceCollaboration.class,"914890@_J3MS8HkAEeKsL8ZaFiY2TQ");
 		putClass(org.opaeum.demo1.structuredbusiness.ApplianceDoctor.class,"914890@_CQTWAGOeEeGwMNo027LgxA");
 		putMethod(org.opaeum.demo1.structuredbusiness.ApplianceDoctor.class,"914890@_FGOJ8H4bEeGW5bASaRr7SQ",4272470142100685737l);
+		putClass(org.opaeum.demo1.structuredbusiness.appliancedoctor.BusinessStateMachine1.class,"914890@_cTMn8H2lEeK5F45wEGRv4A");
 		putClass(org.opaeum.demo1.structuredbusiness.OnlineCustomer.class,"914890@_xQY8oGFKEeG2AvOqZt1NZQ");
 		putClass(org.opaeum.demo1.structuredbusiness.Supplier.class,"914890@_-N6PwGK6EeGNuoaMwaBk1w");
 		putClass(org.opaeum.demo1.structuredbusiness.appliance.ApplianceComponent.class,"914890@_x_4WgHJ6EeG5aYCQXxe9BQ");

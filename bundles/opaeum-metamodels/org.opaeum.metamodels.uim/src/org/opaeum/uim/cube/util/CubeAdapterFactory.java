@@ -6,6 +6,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.LabelContainer;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Page;
 import org.opaeum.uim.UmlReference;
@@ -122,12 +123,16 @@ public class CubeAdapterFactory extends AdapterFactoryImpl {
 				return createEditableConstrainedObjectAdapter();
 			}
 			@Override
+			public Adapter caseUserInteractionElement(UserInteractionElement object) {
+				return createUserInteractionElementAdapter();
+			}
+			@Override
 			public Adapter caseUmlReference(UmlReference object) {
 				return createUmlReferenceAdapter();
 			}
 			@Override
-			public Adapter caseUserInteractionElement(UserInteractionElement object) {
-				return createUserInteractionElementAdapter();
+			public Adapter caseLabelContainer(LabelContainer object) {
+				return createLabelContainerAdapter();
 			}
 			@Override
 			public Adapter caseLabeledElement(LabeledElement object) {
@@ -330,6 +335,20 @@ public class CubeAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEditableConstrainedObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.LabelContainer <em>Label Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.LabelContainer
+	 * @generated
+	 */
+	public Adapter createLabelContainerAdapter() {
 		return null;
 	}
 

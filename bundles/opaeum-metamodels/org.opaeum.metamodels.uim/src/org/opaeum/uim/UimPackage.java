@@ -251,22 +251,13 @@ public interface UimPackage extends EPackage {
 	int PAGE__EDITABILITY = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY;
 
 	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PAGE__UML_ELEMENT_UID = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PAGE__NAME = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 1;
+	int PAGE__NAME = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -275,7 +266,16 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PAGE__UNDER_USER_CONTROL = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 2;
+	int PAGE__UNDER_USER_CONTROL = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE__UML_ELEMENT_UID = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
@@ -388,22 +388,13 @@ public interface UimPackage extends EPackage {
 	int LABELED_ELEMENT = 5;
 
 	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LABELED_ELEMENT__UML_ELEMENT_UID = UML_REFERENCE__UML_ELEMENT_UID;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LABELED_ELEMENT__NAME = UML_REFERENCE_FEATURE_COUNT + 0;
+	int LABELED_ELEMENT__NAME = USER_INTERACTION_ELEMENT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
@@ -412,7 +403,16 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LABELED_ELEMENT__UNDER_USER_CONTROL = UML_REFERENCE_FEATURE_COUNT + 1;
+	int LABELED_ELEMENT__UNDER_USER_CONTROL = USER_INTERACTION_ELEMENT__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABELED_ELEMENT__UML_ELEMENT_UID = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
@@ -421,7 +421,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LABELED_ELEMENT__LABEL_OVERRIDE = UML_REFERENCE_FEATURE_COUNT + 2;
+	int LABELED_ELEMENT__LABEL_OVERRIDE = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Labeled Element</em>' class.
@@ -430,7 +430,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LABELED_ELEMENT_FEATURE_COUNT = UML_REFERENCE_FEATURE_COUNT + 3;
+	int LABELED_ELEMENT_FEATURE_COUNT = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 2;
 
 
 	/**
@@ -482,13 +482,49 @@ public interface UimPackage extends EPackage {
 	int PAGE_ORDERING = 7;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE_ORDERING__NAME = LABELED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Under User Control</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE_ORDERING__UNDER_USER_CONTROL = LABELED_ELEMENT__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE_ORDERING__UML_ELEMENT_UID = LABELED_ELEMENT__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE_ORDERING__LABEL_OVERRIDE = LABELED_ELEMENT__LABEL_OVERRIDE;
+
+	/**
 	 * The feature id for the '<em><b>Page</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PAGE_ORDERING__PAGE = 0;
+	int PAGE_ORDERING__PAGE = LABELED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Position</b></em>' attribute.
@@ -497,16 +533,7 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PAGE_ORDERING__POSITION = 1;
-
-	/**
-	 * The feature id for the '<em><b>Label Override</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PAGE_ORDERING__LABEL_OVERRIDE = 2;
+	int PAGE_ORDERING__POSITION = LABELED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Page Ordering</em>' class.
@@ -515,7 +542,36 @@ public interface UimPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PAGE_ORDERING_FEATURE_COUNT = 3;
+	int PAGE_ORDERING_FEATURE_COUNT = LABELED_ELEMENT_FEATURE_COUNT + 2;
+
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.impl.LabelContainerImpl <em>Label Container</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.impl.LabelContainerImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getLabelContainer()
+	 * @generated
+	 */
+	int LABEL_CONTAINER = 8;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_CONTAINER__LABEL_OVERRIDE = 0;
+
+	/**
+	 * The number of structural features of the '<em>Label Container</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_CONTAINER_FEATURE_COUNT = 1;
 
 
 	/**
@@ -678,17 +734,6 @@ public interface UimPackage extends EPackage {
 	EClass getLabeledElement();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.LabeledElement#getLabelOverride <em>Label Override</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Label Override</em>'.
-	 * @see org.opaeum.uim.LabeledElement#getLabelOverride()
-	 * @see #getLabeledElement()
-	 * @generated
-	 */
-	EReference getLabeledElement_LabelOverride();
-
-	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.IgnoredElement <em>Ignored Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -742,15 +787,25 @@ public interface UimPackage extends EPackage {
 	EAttribute getPageOrdering_Position();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opaeum.uim.PageOrdering#getLabelOverride <em>Label Override</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.LabelContainer <em>Label Container</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Label Override</em>'.
-	 * @see org.opaeum.uim.PageOrdering#getLabelOverride()
-	 * @see #getPageOrdering()
+	 * @return the meta object for class '<em>Label Container</em>'.
+	 * @see org.opaeum.uim.LabelContainer
 	 * @generated
 	 */
-	EReference getPageOrdering_LabelOverride();
+	EClass getLabelContainer();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.LabelContainer#getLabelOverride <em>Label Override</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Label Override</em>'.
+	 * @see org.opaeum.uim.LabelContainer#getLabelOverride()
+	 * @see #getLabelContainer()
+	 * @generated
+	 */
+	EReference getLabelContainer_LabelOverride();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -907,14 +962,6 @@ public interface UimPackage extends EPackage {
 		EClass LABELED_ELEMENT = eINSTANCE.getLabeledElement();
 
 		/**
-		 * The meta object literal for the '<em><b>Label Override</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference LABELED_ELEMENT__LABEL_OVERRIDE = eINSTANCE.getLabeledElement_LabelOverride();
-
-		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.impl.IgnoredElementImpl <em>Ignored Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -959,12 +1006,22 @@ public interface UimPackage extends EPackage {
 		EAttribute PAGE_ORDERING__POSITION = eINSTANCE.getPageOrdering_Position();
 
 		/**
-		 * The meta object literal for the '<em><b>Label Override</b></em>' reference feature.
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.LabelContainerImpl <em>Label Container</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.impl.LabelContainerImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getLabelContainer()
+		 * @generated
+		 */
+		EClass LABEL_CONTAINER = eINSTANCE.getLabelContainer();
+
+		/**
+		 * The meta object literal for the '<em><b>Label Override</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PAGE_ORDERING__LABEL_OVERRIDE = eINSTANCE.getPageOrdering_LabelOverride();
+		EReference LABEL_CONTAINER__LABEL_OVERRIDE = eINSTANCE.getLabelContainer_LabelOverride();
 
 	}
 

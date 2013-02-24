@@ -13,7 +13,7 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonLabelProvider;
 import org.opaeum.uim.perspective.EditorConfiguration;
-import org.opaeum.uim.perspective.ExplorerConfiguration;
+import org.opaeum.uim.perspective.NavigatorConfiguration;
 import org.opaeum.uim.perspective.PropertiesConfiguration;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.EditorConfigurationEditPart;
 import org.opaeum.uimodeler.perspective.diagram.edit.parts.ExplorerConfigurationEditPart;
@@ -169,7 +169,7 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 	 * @generated
 	 */
 	private String getExplorerConfiguration_2003Text(View view){
-		ExplorerConfiguration domainModelElement = (ExplorerConfiguration) view.getElement();
+		NavigatorConfiguration domainModelElement = (NavigatorConfiguration) view.getElement();
 		if(domainModelElement != null){
 			return String.valueOf(domainModelElement.getWidth());
 		}else{

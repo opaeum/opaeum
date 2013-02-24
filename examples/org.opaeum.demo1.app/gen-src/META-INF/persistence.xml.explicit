@@ -10,6 +10,7 @@
 		<class>org.opaeum.runtime.bpm.businesscalendar.WorkDay</class>
 		<class>org.opaeum.runtime.bpm.costing.QuantifiedResourcePricePerUnit</class>
 		<class>ocltests.SailPositionEntity</class>
+		<class>org.opaeum.demo1.structuredbusiness.appliancedoctor.BusinessStateMachine1</class>
 		<class>org.opaeum.demo1.structuredbusiness.branch.Technician</class>
 		<class>ocltests.BusinessRole1</class>
 		<class>ocltests.Boat</class>
@@ -41,9 +42,9 @@
 		<class>org.opaeum.demo1.structuredbusiness.branch.branch.PrepareQuoteToken</class>
 		<class>org.opaeum.runtime.bpm.costing.PricePerUnit</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.RecurringHoliday</class>
+		<class>org.opaeum.runtime.bpm.request.RequestParticipationKindEntity</class>
 		<class>org.opaeum.demo1.structuredbusiness.branch.IdBook</class>
 		<class>org.opaeum.demo1.structuredbusiness.branch.Branch</class>
-		<class>org.opaeum.runtime.bpm.request.RequestParticipationKindEntity</class>
 		<class>org.opaeum.runtime.bpm.opaeumsimpletypes.DayOfWeekEntity</class>
 		<class>org.opaeum.runtime.bpm.contact.PersonEMailAddress</class>
 		<class>org.opaeum.demo1.structuredbusiness.appliance.ApplianceTypeEntity</class>
@@ -78,7 +79,8 @@
 		<class>org.opaeum.demo1.structuredbusiness.branch.CityEntity</class>
 		<class>org.opaeum.runtime.bpm.request.ProcessRequestToken</class>
 		<class>org.opaeum.demo1.structuredbusiness.OnlineCustomer</class>
-		<class>org.opeum.demo1.util</class>
+		<class>org.opaeum.demo1.structuredbusiness.appliancedoctor.BusinessStateMachine1Token</class>
+		<class>org.opaeum.demo1.util</class>
 		<class>org.opaeum.audit.AuditEntry</class>
 		<class>org.opaeum.audit.AuditEntryPropertyChange</class>
 		<class>org.opaeum.audit.EntityPropertyChange</class>
@@ -110,7 +112,7 @@
 			<property name="hibernate.connection.password" value="" /-->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect" />
 			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
-			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5433/demo1" />
+			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/demo1" />
 			<property name="hibernate.connection.username" value="postgres" />
 			<property name="hibernate.connection.password" value="postgres" />
 			<property name="hibernate.archive.autodetection" value="false" />

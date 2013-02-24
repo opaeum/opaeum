@@ -9,19 +9,21 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.opaeum.uim.perspective.*;
+import org.opaeum.uim.perspective.BehaviorNavigationConstraint;
+import org.opaeum.uim.perspective.ClassNavigationConstraint;
 import org.opaeum.uim.perspective.EditorConfiguration;
-import org.opaeum.uim.perspective.ExplorerBehaviorConstraint;
-import org.opaeum.uim.perspective.ExplorerClassConstraint;
-import org.opaeum.uim.perspective.ExplorerConfiguration;
-import org.opaeum.uim.perspective.ExplorerOperationConstraint;
-import org.opaeum.uim.perspective.ExplorerPropertyConstraint;
 import org.opaeum.uim.perspective.InboxConfiguration;
+import org.opaeum.uim.perspective.MultiplicityElementNavigationConstraint;
+import org.opaeum.uim.perspective.NavigatorConfiguration;
+import org.opaeum.uim.perspective.OperationNavigationConstraint;
 import org.opaeum.uim.perspective.OutboxConfiguration;
+import org.opaeum.uim.perspective.ParameterNavigationConstraint;
 import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PerspectiveFactory;
 import org.opaeum.uim.perspective.PerspectivePackage;
 import org.opaeum.uim.perspective.PositionInPerspective;
 import org.opaeum.uim.perspective.PropertiesConfiguration;
+import org.opaeum.uim.perspective.PropertyNavigationConstraint;
 
 /**
  * <!-- begin-user-doc -->
@@ -68,15 +70,18 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case PerspectivePackage.PERSPECTIVE_CONFIGURATION: return createPerspectiveConfiguration();
-			case PerspectivePackage.EXPLORER_CONFIGURATION: return createExplorerConfiguration();
-			case PerspectivePackage.EXPLORER_CLASS_CONSTRAINT: return createExplorerClassConstraint();
-			case PerspectivePackage.EXPLORER_PROPERTY_CONSTRAINT: return createExplorerPropertyConstraint();
+			case PerspectivePackage.NAVIGATOR_CONFIGURATION: return createNavigatorConfiguration();
+			case PerspectivePackage.CLASS_NAVIGATION_CONSTRAINT: return createClassNavigationConstraint();
+			case PerspectivePackage.PROPERTY_NAVIGATION_CONSTRAINT: return createPropertyNavigationConstraint();
 			case PerspectivePackage.EDITOR_CONFIGURATION: return createEditorConfiguration();
 			case PerspectivePackage.PROPERTIES_CONFIGURATION: return createPropertiesConfiguration();
-			case PerspectivePackage.EXPLORER_OPERATION_CONSTRAINT: return createExplorerOperationConstraint();
-			case PerspectivePackage.EXPLORER_BEHAVIOR_CONSTRAINT: return createExplorerBehaviorConstraint();
+			case PerspectivePackage.NAVIGATION_CONSTRAINT: return createNavigationConstraint();
+			case PerspectivePackage.OPERATION_NAVIGATION_CONSTRAINT: return createOperationNavigationConstraint();
+			case PerspectivePackage.BEHAVIOR_NAVIGATION_CONSTRAINT: return createBehaviorNavigationConstraint();
 			case PerspectivePackage.INBOX_CONFIGURATION: return createInboxConfiguration();
 			case PerspectivePackage.OUTBOX_CONFIGURATION: return createOutboxConfiguration();
+			case PerspectivePackage.PARAMETER_NAVIGATION_CONSTRAINT: return createParameterNavigationConstraint();
+			case PerspectivePackage.MULTIPLICITY_ELEMENT_NAVIGATION_CONSTRAINT: return createMultiplicityElementNavigationConstraint();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -127,9 +132,9 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ExplorerConfiguration createExplorerConfiguration() {
-		ExplorerConfigurationImpl explorerConfiguration = new ExplorerConfigurationImpl();
-		return explorerConfiguration;
+	public NavigatorConfiguration createNavigatorConfiguration() {
+		NavigatorConfigurationImpl navigatorConfiguration = new NavigatorConfigurationImpl();
+		return navigatorConfiguration;
 	}
 
 	/**
@@ -137,9 +142,9 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ExplorerClassConstraint createExplorerClassConstraint() {
-		ExplorerClassConstraintImpl explorerClassConstraint = new ExplorerClassConstraintImpl();
-		return explorerClassConstraint;
+	public ClassNavigationConstraint createClassNavigationConstraint() {
+		ClassNavigationConstraintImpl classNavigationConstraint = new ClassNavigationConstraintImpl();
+		return classNavigationConstraint;
 	}
 
 	/**
@@ -147,9 +152,9 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ExplorerPropertyConstraint createExplorerPropertyConstraint() {
-		ExplorerPropertyConstraintImpl explorerPropertyConstraint = new ExplorerPropertyConstraintImpl();
-		return explorerPropertyConstraint;
+	public PropertyNavigationConstraint createPropertyNavigationConstraint() {
+		PropertyNavigationConstraintImpl propertyNavigationConstraint = new PropertyNavigationConstraintImpl();
+		return propertyNavigationConstraint;
 	}
 
 	/**
@@ -177,9 +182,9 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ExplorerOperationConstraint createExplorerOperationConstraint() {
-		ExplorerOperationConstraintImpl explorerOperationConstraint = new ExplorerOperationConstraintImpl();
-		return explorerOperationConstraint;
+	public NavigationConstraint createNavigationConstraint() {
+		NavigationConstraintImpl navigationConstraint = new NavigationConstraintImpl();
+		return navigationConstraint;
 	}
 
 	/**
@@ -187,9 +192,19 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ExplorerBehaviorConstraint createExplorerBehaviorConstraint() {
-		ExplorerBehaviorConstraintImpl explorerBehaviorConstraint = new ExplorerBehaviorConstraintImpl();
-		return explorerBehaviorConstraint;
+	public OperationNavigationConstraint createOperationNavigationConstraint() {
+		OperationNavigationConstraintImpl operationNavigationConstraint = new OperationNavigationConstraintImpl();
+		return operationNavigationConstraint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BehaviorNavigationConstraint createBehaviorNavigationConstraint() {
+		BehaviorNavigationConstraintImpl behaviorNavigationConstraint = new BehaviorNavigationConstraintImpl();
+		return behaviorNavigationConstraint;
 	}
 
 	/**
@@ -210,6 +225,26 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	public OutboxConfiguration createOutboxConfiguration() {
 		OutboxConfigurationImpl outboxConfiguration = new OutboxConfigurationImpl();
 		return outboxConfiguration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ParameterNavigationConstraint createParameterNavigationConstraint() {
+		ParameterNavigationConstraintImpl parameterNavigationConstraint = new ParameterNavigationConstraintImpl();
+		return parameterNavigationConstraint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MultiplicityElementNavigationConstraint createMultiplicityElementNavigationConstraint() {
+		MultiplicityElementNavigationConstraintImpl multiplicityElementNavigationConstraint = new MultiplicityElementNavigationConstraintImpl();
+		return multiplicityElementNavigationConstraint;
 	}
 
 	/**

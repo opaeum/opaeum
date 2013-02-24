@@ -33,6 +33,14 @@ import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.runtime.environment.Environment;
 
 public class MoneyInDefaultCurrencyStrategyFactory extends AbstractStrategyFactory{
+	public static class MyTestModelStrategy implements TestModelValueStrategy{
+
+		@Override
+		public String getDefaultStringValue(int seed){
+			return (123.23*seed) + "";
+		}
+		
+	}
 	public static class MyFormatterStrategy implements FormatterStrategy{
 		@Override
 		public void implementParse(OJAnnotatedOperation parse){
@@ -109,7 +117,7 @@ public class MoneyInDefaultCurrencyStrategyFactory extends AbstractStrategyFacto
 	@SuppressWarnings("unchecked")
 	public MoneyInDefaultCurrencyStrategyFactory(){
 		super(MyJpaStrategy.class, MyConfigurableDataStrategy.class, DateTestModelValueStrategy.class, MyAttributeStrategy.class,
-				MyFormatterStrategy.class);
+				MyFormatterStrategy.class,MyTestModelStrategy.class);
 	}
 	private static void addCUrrencyFormat(OJUtil ojUtil, OJAnnotatedClass owner,OJBlock block){
 		owner.addToImports("java.text.NumberFormat");

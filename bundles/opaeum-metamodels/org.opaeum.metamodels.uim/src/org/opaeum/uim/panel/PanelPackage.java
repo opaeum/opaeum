@@ -94,6 +94,15 @@ public interface PanelPackage extends EPackage {
 	int ABSTRACT_PANEL__VISIBILITY = ComponentPackage.UIM_CONTAINER__VISIBILITY;
 
 	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_PANEL__LABEL_OVERRIDE = ComponentPackage.UIM_CONTAINER__LABEL_OVERRIDE;
+
+	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -121,22 +130,13 @@ public interface PanelPackage extends EPackage {
 	int ABSTRACT_PANEL__UML_ELEMENT_UID = ComponentPackage.UIM_CONTAINER_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ABSTRACT_PANEL__LABEL_OVERRIDE = ComponentPackage.UIM_CONTAINER_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>Abstract Panel</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_PANEL_FEATURE_COUNT = ComponentPackage.UIM_CONTAINER_FEATURE_COUNT + 2;
+	int ABSTRACT_PANEL_FEATURE_COUNT = ComponentPackage.UIM_CONTAINER_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.panel.impl.CollapsiblePanelImpl <em>Collapsible Panel</em>}' class.
@@ -176,6 +176,15 @@ public interface PanelPackage extends EPackage {
 	int COLLAPSIBLE_PANEL__VISIBILITY = ABSTRACT_PANEL__VISIBILITY;
 
 	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLAPSIBLE_PANEL__LABEL_OVERRIDE = ABSTRACT_PANEL__LABEL_OVERRIDE;
+
+	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -201,15 +210,6 @@ public interface PanelPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLAPSIBLE_PANEL__UML_ELEMENT_UID = ABSTRACT_PANEL__UML_ELEMENT_UID;
-
-	/**
-	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COLLAPSIBLE_PANEL__LABEL_OVERRIDE = ABSTRACT_PANEL__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -303,6 +303,15 @@ public interface PanelPackage extends EPackage {
 	int GRID_PANEL__VISIBILITY = COLLAPSIBLE_PANEL__VISIBILITY;
 
 	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GRID_PANEL__LABEL_OVERRIDE = COLLAPSIBLE_PANEL__LABEL_OVERRIDE;
+
+	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -328,15 +337,6 @@ public interface PanelPackage extends EPackage {
 	 * @ordered
 	 */
 	int GRID_PANEL__UML_ELEMENT_UID = COLLAPSIBLE_PANEL__UML_ELEMENT_UID;
-
-	/**
-	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GRID_PANEL__LABEL_OVERRIDE = COLLAPSIBLE_PANEL__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -439,6 +439,15 @@ public interface PanelPackage extends EPackage {
 	int VERTICAL_PANEL__VISIBILITY = COLLAPSIBLE_PANEL__VISIBILITY;
 
 	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VERTICAL_PANEL__LABEL_OVERRIDE = COLLAPSIBLE_PANEL__LABEL_OVERRIDE;
+
+	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -464,15 +473,6 @@ public interface PanelPackage extends EPackage {
 	 * @ordered
 	 */
 	int VERTICAL_PANEL__UML_ELEMENT_UID = COLLAPSIBLE_PANEL__UML_ELEMENT_UID;
-
-	/**
-	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VERTICAL_PANEL__LABEL_OVERRIDE = COLLAPSIBLE_PANEL__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -566,6 +566,15 @@ public interface PanelPackage extends EPackage {
 	int HORIZONTAL_PANEL__VISIBILITY = COLLAPSIBLE_PANEL__VISIBILITY;
 
 	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HORIZONTAL_PANEL__LABEL_OVERRIDE = COLLAPSIBLE_PANEL__LABEL_OVERRIDE;
+
+	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -591,15 +600,6 @@ public interface PanelPackage extends EPackage {
 	 * @ordered
 	 */
 	int HORIZONTAL_PANEL__UML_ELEMENT_UID = COLLAPSIBLE_PANEL__UML_ELEMENT_UID;
-
-	/**
-	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HORIZONTAL_PANEL__LABEL_OVERRIDE = COLLAPSIBLE_PANEL__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.

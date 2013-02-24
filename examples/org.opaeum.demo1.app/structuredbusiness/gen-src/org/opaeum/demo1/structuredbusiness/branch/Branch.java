@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IToken;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.organization.IOrganizationNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.w3c.dom.Element;
@@ -151,8 +153,10 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	@Column(name="surname")
 	@Basic
 	protected String surname;
-	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="branch")
-	protected Technician technician;
+	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
+	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
+	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="branch",targetEntity=Technician.class)
+	protected Set<Technician> technician = new HashSet<Technician>();
 	private String uid;
 
 	/** This constructor is intended for easy initialization in unit tests
@@ -174,18 +178,18 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		ApplianceDoctor result = null;
 		Set<FailedConstraint> failedConstraints = new HashSet<FailedConstraint>();
 		if ( !collectionLiteral12(parameter1ll).isEmpty() ) {
-			String message = org.opeum.demo1.util.Demo1Environment.INSTANCE.getMessage("structuredbusiness::branch::Branch::Operation1::newConstraint4" );
+			String message = org.opaeum.demo1.util.Demo1Environment.INSTANCE.getMessage("structuredbusiness::branch::Branch::Operation1::newConstraint4" );
 			failedConstraints.add(new FailedConstraint(null, message));
 		}
 		if ( !(parameter1ll == null) ) {
-			String message = org.opeum.demo1.util.Demo1Environment.INSTANCE.getMessage("structuredbusiness::branch::Branch::Operation1::newConstraint" );
+			String message = org.opaeum.demo1.util.Demo1Environment.INSTANCE.getMessage("structuredbusiness::branch::Branch::Operation1::newConstraint" );
 			failedConstraints.add(new FailedConstraint("parameter1ll" ,message));
 		}
 		if ( failedConstraints.size()>0 ) {
 			throw new FailedConstraintsException(true,failedConstraints);
 		}
 		if ( !((sum15(parameter1ll, failedConstraints)) > (Double)2.3) ) {
-			String message = org.opeum.demo1.util.Demo1Environment.INSTANCE.getMessage("structuredbusiness::branch::Branch::Operation1::newConstraint1" );
+			String message = org.opaeum.demo1.util.Demo1Environment.INSTANCE.getMessage("structuredbusiness::branch::Branch::Operation1::newConstraint1" );
 			failedConstraints.add(new FailedConstraint("sdfgdkkfsdfs" ,message));
 		}
 		if ( failedConstraints.size()>0 ) {
@@ -213,9 +217,9 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	static public StandaloneSingleScreenTask1 StandaloneSingleScreenTask1WithMultiplePotentialOwners(IToken returnInfo) {
 		StandaloneSingleScreenTask1 result = new StandaloneSingleScreenTask1();
-		((TaskRequest)result.getRequest()).setPotentialOwners(org.opeum.demo1.util.Demo1Environment.INSTANCE.getCurrentPersistence().readAll(Branch.class));
+		((TaskRequest)result.getRequest()).setPotentialOwners(org.opaeum.demo1.util.Demo1Environment.INSTANCE.getCurrentPersistence().readAll(Branch.class));
 		result.setRequest(new TaskRequest());
-		org.opeum.demo1.util.Demo1Environment.INSTANCE.getCurrentPersistence().persist(result);
+		org.opaeum.demo1.util.Demo1Environment.INSTANCE.getCurrentPersistence().persist(result);
 		return result;
 	}
 	
@@ -252,6 +256,12 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	public void addAllToStandaloneSingleScreenTask1(List<StandaloneSingleScreenTask1> standaloneSingleScreenTask1) {
 		for ( StandaloneSingleScreenTask1 o : standaloneSingleScreenTask1 ) {
 			addToStandaloneSingleScreenTask1(o);
+		}
+	}
+	
+	public void addAllToTechnician(Set<Technician> technician) {
+		for ( Technician o : technician ) {
+			addToTechnician(o);
 		}
 	}
 	
@@ -312,6 +322,14 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		}
 	}
 	
+	public void addToTechnician(Technician technician) {
+		if ( technician!=null ) {
+			technician.z_internalRemoveFromBranch(technician.getBranch());
+			technician.z_internalAddToBranch(this);
+			z_internalAddToTechnician(technician);
+		}
+	}
+	
 	static public Set<? extends Branch> allInstances(AbstractPersistence persistence) {
 		if ( mockedAllInstances==null ) {
 			return new HashSet(persistence.readAll(org.opaeum.demo1.structuredbusiness.branch.Branch.class));
@@ -369,7 +387,7 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 							curVal=org.opaeum.demo1.structuredbusiness.util.StructuredbusinessJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						this.setTechnician(curVal);
+						this.addToTechnician(curVal);
 						map.put(curVal.getUid(), curVal);
 					}
 				}
@@ -509,6 +527,13 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		}
 	}
 	
+	public void clearTechnician() {
+		Set<Technician> tmp = new HashSet<Technician>(getTechnician());
+		for ( Technician o : tmp ) {
+			removeFromTechnician(o);
+		}
+	}
+	
 	public boolean consumeProductAnnouncementEvent(ProductAnnouncement signal) {
 		boolean result = false;
 		if ( !result ) {
@@ -524,9 +549,6 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public void copyShallowState(Branch from, Branch to) {
 		to.setCity(from.getCity());
-		if ( from.getTechnician()!=null ) {
-			to.setTechnician(from.getTechnician().makeShallowCopy());
-		}
 		to.setName(from.getName());
 		to.setSurname(from.getSurname());
 		to.setNumberOfOpenPositions(from.getNumberOfOpenPositions());
@@ -537,8 +559,8 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 			to.addToCustomerAssistant(child.makeCopy());
 		}
 		to.setCity(from.getCity());
-		if ( from.getTechnician()!=null ) {
-			to.setTechnician(from.getTechnician().makeCopy());
+		for ( Technician child : from.getTechnician() ) {
+			to.addToTechnician(child.makeCopy());
 		}
 		for ( Job child : from.getJob() ) {
 			to.addToJob(child.makeCopy());
@@ -555,9 +577,6 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void createComponents() {
-		if ( getTechnician()==null ) {
-			setTechnician(new Technician());
-		}
 	}
 	
 	public CustomerAssistant createCustomerAssistant() {
@@ -806,10 +825,10 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6994431291756453463l,opposite="branch",uuid="914890@_JaIUoJKfEeGiJMBDeZRymA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6994431291756453463l,opposite="branch",shortDescription="",uuid="914890@_JaIUoJKfEeGiJMBDeZRymA")
 	@NumlMetaInfo(uuid="914890@_JaIUoJKfEeGiJMBDeZRymA")
-	public Technician getTechnician() {
-		Technician result = this.technician;
+	public Set<Technician> getTechnician() {
+		Set result = this.technician;
 		
 		return result;
 	}
@@ -827,8 +846,6 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public void init(CompositionNode owner) {
 		this.z_internalAddToDishwashersInc((ApplianceDoctor)owner);
-		createComponents();
-		getTechnician().init(this);
 	}
 	
 	public Branch makeCopy() {
@@ -855,8 +872,8 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		for ( CustomerAssistant child : new ArrayList<CustomerAssistant>(getCustomerAssistant()) ) {
 			child.markDeleted();
 		}
-		if ( getTechnician()!=null ) {
-			getTechnician().markDeleted();
+		for ( Technician child : new ArrayList<Technician>(getTechnician()) ) {
+			child.markDeleted();
 		}
 		for ( Job child : new ArrayList<Job>(getJob()) ) {
 			child.markDeleted();
@@ -1004,6 +1021,13 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		}
 	}
 	
+	public void removeAllFromTechnician(Set<Technician> technician) {
+		Set<Technician> tmp = new HashSet<Technician>(technician);
+		for ( Technician o : tmp ) {
+			removeFromTechnician(o);
+		}
+	}
+	
 	public void removeFromCustomerAssistant(CustomerAssistant customerAssistant) {
 		if ( customerAssistant!=null ) {
 			customerAssistant.z_internalRemoveFromBranch(this);
@@ -1051,6 +1075,14 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 			standaloneSingleScreenTask1.z_internalRemoveFromContextObject(this);
 			z_internalRemoveFromStandaloneSingleScreenTask1(standaloneSingleScreenTask1);
 			standaloneSingleScreenTask1.markDeleted();
+		}
+	}
+	
+	public void removeFromTechnician(Technician technician) {
+		if ( technician!=null ) {
+			technician.z_internalRemoveFromBranch(this);
+			z_internalRemoveFromTechnician(technician);
+			technician.markDeleted();
 		}
 	}
 	
@@ -1187,34 +1219,10 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		this.addAllToStandaloneSingleScreenTask1(standaloneSingleScreenTask1);
 	}
 	
-	public void setTechnician(Technician technician) {
-		Technician oldValue = this.getTechnician();
+	public void setTechnician(Set<Technician> technician) {
 		propertyChangeSupport.firePropertyChange("technician",getTechnician(),technician);
-		if ( oldValue==null ) {
-			if ( technician!=null ) {
-				Branch oldOther = (Branch)technician.getBranch();
-				technician.z_internalRemoveFromBranch(oldOther);
-				if ( oldOther != null ) {
-					oldOther.z_internalRemoveFromTechnician(technician);
-				}
-				technician.z_internalAddToBranch((Branch)this);
-			}
-			this.z_internalAddToTechnician(technician);
-		} else {
-			if ( !oldValue.equals(technician) ) {
-				oldValue.z_internalRemoveFromBranch(this);
-				z_internalRemoveFromTechnician(oldValue);
-				if ( technician!=null ) {
-					Branch oldOther = (Branch)technician.getBranch();
-					technician.z_internalRemoveFromBranch(oldOther);
-					if ( oldOther != null ) {
-						oldOther.z_internalRemoveFromTechnician(technician);
-					}
-					technician.z_internalAddToBranch((Branch)this);
-				}
-				this.z_internalAddToTechnician(technician);
-			}
-		}
+		this.clearTechnician();
+		this.addAllToTechnician(technician);
 	}
 	
 	public void setUid(String newUid) {
@@ -1249,13 +1257,11 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 			sb.append("\n" + customerAssistant.toXmlString());
 		}
 		sb.append("\n</customerAssistant>");
-		if ( getTechnician()==null ) {
-			sb.append("\n<technician/>");
-		} else {
-			sb.append("\n<technician propertyId=\"6994431291756453463\">");
-			sb.append("\n" + getTechnician().toXmlString());
-			sb.append("\n</technician>");
+		sb.append("\n<technician propertyId=\"6994431291756453463\">");
+		for ( Technician technician : getTechnician() ) {
+			sb.append("\n" + technician.toXmlString());
 		}
+		sb.append("\n</technician>");
 		sb.append("\n<job propertyId=\"9026526080661167087\">");
 		for ( Job job : getJob() ) {
 			sb.append("\n" + job.toXmlString());
@@ -1344,7 +1350,7 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void z_internalAddToTechnician(Technician technician) {
-		this.technician=technician;
+		this.technician.add(technician);
 	}
 	
 	public void z_internalRemoveFromCity(City city) {
@@ -1418,10 +1424,7 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void z_internalRemoveFromTechnician(Technician technician) {
-		if ( getTechnician()!=null && technician!=null && technician.equals(getTechnician()) ) {
-			this.technician=null;
-			this.technician=null;
-		}
+		this.technician.remove(technician);
 	}
 	
 	/** Implements self.participationsInRequests->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::initiator))->collect(temp2 : ParticipationInRequest | temp2.request)

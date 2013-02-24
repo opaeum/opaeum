@@ -3,9 +3,12 @@ package org.opaeum.demo1.structuredbusiness.branch.branch;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -61,10 +64,12 @@ import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IExecutionElement;
 import org.opaeum.runtime.domain.IObserver;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IProcessObjectBase;
 import org.opaeum.runtime.domain.IProcessStep;
 import org.opaeum.runtime.domain.IToken;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.statemachines.IStateMachineExecution;
 import org.opaeum.runtime.statemachines.RegionActivation;
@@ -597,7 +602,6 @@ public class PrepareQuote implements IStateMachineExecution, IPersistentObject, 
 	
 	public void init(CompositionNode owner) {
 		this.z_internalAddToContextObject((Branch)owner);
-		createComponents();
 	}
 	
 	public boolean isStepActive(Class<? extends IExecutionElement> clss) {

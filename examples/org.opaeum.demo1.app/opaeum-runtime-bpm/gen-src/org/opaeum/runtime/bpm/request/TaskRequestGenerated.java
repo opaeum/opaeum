@@ -3,11 +3,13 @@ package org.opaeum.runtime.bpm.request;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,6 +30,7 @@ import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.hibernate.domain.CumulativeDuration;
 import org.opaeum.hibernate.domain.Duration;
 import org.opaeum.hibernate.domain.InternalHibernatePersistence;
 import org.opaeum.hibernate.domain.ReturnInfo;
@@ -70,6 +73,7 @@ import org.opaeum.runtime.domain.IToken;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.domain.TaskDelegation;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.statemachines.IStateMachineExecution;
 import org.opaeum.runtime.statemachines.RegionActivation;
@@ -421,16 +425,16 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 		boolean result = false;
 		result=super.consumeStartOccurrence();
 		for ( IToken token : getTokens() ) {
-			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Active ) {
-				Active state = (Active)token.getCurrentExecutionElement();
-				if ( result==false &&  state.getActiveToInProgress().consumeStartOccurrence() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Reserved ) {
+				Reserved state = (Reserved)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getReservedToInProgress().consumeStartOccurrence() ) {
 					result=true;
 					break;
 				}
 			}
-			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Reserved ) {
-				Reserved state = (Reserved)token.getCurrentExecutionElement();
-				if ( result==false &&  state.getReservedToInProgress().consumeStartOccurrence() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Active ) {
+				Active state = (Active)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getActiveToInProgress().consumeStartOccurrence() ) {
 					result=true;
 					break;
 				}
@@ -457,6 +461,13 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 		boolean result = false;
 		result=super.consumeSuspendOccurrence();
 		for ( IToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof InProgress ) {
+				InProgress state = (InProgress)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getInProgressToSuspended().consumeSuspendOccurrence() ) {
+					result=true;
+					break;
+				}
+			}
 			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Ready ) {
 				Ready state = (Ready)token.getCurrentExecutionElement();
 				if ( result==false &&  state.getReadyToSuspended().consumeSuspendOccurrence() ) {
@@ -467,13 +478,6 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Reserved ) {
 				Reserved state = (Reserved)token.getCurrentExecutionElement();
 				if ( result==false &&  state.getReservedToSuspended().consumeSuspendOccurrence() ) {
-					result=true;
-					break;
-				}
-			}
-			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof InProgress ) {
-				InProgress state = (InProgress)token.getCurrentExecutionElement();
-				if ( result==false &&  state.getInProgressToSuspended().consumeSuspendOccurrence() ) {
 					result=true;
 					break;
 				}

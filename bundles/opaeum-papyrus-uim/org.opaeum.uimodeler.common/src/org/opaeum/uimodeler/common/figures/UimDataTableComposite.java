@@ -8,7 +8,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.wb.os.OSSupport;
 import org.opaeum.uim.swt.IUimWidget;
 import org.opaeum.uim.swt.TableAndActionBarComposite;
 import org.opaeum.uim.swt.UimSwtUtil;

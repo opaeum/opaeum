@@ -10,7 +10,7 @@ import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.opaeum.org.opaeum.rap.metamodels.uim.UimInstantiator;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -18,8 +18,7 @@ import org.w3c.dom.Element;
 public class UimReader{
 	public static void main(String[] args) throws Exception{
 		DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-		Document doc = db.parse(new File(
-				"/home/ampie/NewWorkspaces/cm1/capacity-planning/cp-model/models/ui/cp.uml@_V_GR8GOhEeKqj70SC2_qZg.uim"));
+		Document doc = db.parse(new File("/home/ampie/NewWorkspaces/opaeum/examples/org.opaeum.demo1.app/ui/perspective.uim"));
 		Element xml = doc.getDocumentElement();
 		EObject e = UimInstantiator.INSTANCE.newInstance(xml.getNodeName());
 		HashMap<String,Object> map = new HashMap<String,Object>();

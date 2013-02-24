@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.demo1.structuredbusiness.OnlineCustomer;
 import org.opaeum.demo1.structuredbusiness.jobs.Job;
 import org.opaeum.demo1.structuredbusiness.util.Stdlib;
+import org.opaeum.demo1.structuredbusiness.util.StructuredbusinessFormatter;
 import org.opaeum.hibernate.domain.InternalHibernatePersistence;
 import org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar;
 import org.opaeum.runtime.bpm.costing.RatePerTimeUnit;
@@ -68,6 +70,7 @@ import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.event.NotificationType;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
@@ -383,7 +386,7 @@ public class CustomerAssistant implements IPersistentObject, IEventGenerator, Hi
 		Set<FailedConstraint> failedConstraints = new HashSet<FailedConstraint>();
 		Date now = new Date();
 		if ( !(now.after(timeOfLead) == true) ) {
-			String message = org.opeum.demo1.util.Demo1Environment.INSTANCE.getMessage("structuredbusiness::branch::CustomerAssistant::followLead::newConstraint" );
+			String message = org.opaeum.demo1.util.Demo1Environment.INSTANCE.getMessage("structuredbusiness::branch::CustomerAssistant::followLead::newConstraint" );
 			failedConstraints.add(new FailedConstraint("timeOfLead" ,message));
 		}
 		if ( failedConstraints.size()>0 ) {
@@ -642,7 +645,6 @@ public class CustomerAssistant implements IPersistentObject, IEventGenerator, Hi
 		this.setPreferredEMailAddressType( PersonEMailAddressType.WORK );
 		this.setPreferredPhoneNumberType( PersonPhoneNumberType.CELL );
 		this.setPreferredNotificationType( NotificationType.EMAIL );
-		createComponents();
 	}
 	
 	public CustomerAssistant makeCopy() {

@@ -23,7 +23,6 @@ import org.opaeum.uim.panel.PanelPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.panel.impl.AbstractPanelImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
- *   <li>{@link org.opaeum.uim.panel.impl.AbstractPanelImpl#getLabelOverride <em>Label Override</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,15 +47,7 @@ public abstract class AbstractPanelImpl extends UimContainerImpl implements Abst
 	 * @ordered
 	 */
 	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
-	/**
-	 * The cached value of the '{@link #getLabelOverride() <em>Label Override</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLabelOverride()
-	 * @generated
-	 * @ordered
-	 */
-	protected Labels labelOverride;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -102,70 +93,11 @@ public abstract class AbstractPanelImpl extends UimContainerImpl implements Abst
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Labels getLabelOverride() {
-		return labelOverride;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetLabelOverride(Labels newLabelOverride, NotificationChain msgs) {
-		Labels oldLabelOverride = labelOverride;
-		labelOverride = newLabelOverride;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE, oldLabelOverride, newLabelOverride);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setLabelOverride(Labels newLabelOverride) {
-		if (newLabelOverride != labelOverride) {
-			NotificationChain msgs = null;
-			if (labelOverride != null)
-				msgs = ((InternalEObject)labelOverride).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE, null, msgs);
-			if (newLabelOverride != null)
-				msgs = ((InternalEObject)newLabelOverride).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE, null, msgs);
-			msgs = basicSetLabelOverride(newLabelOverride, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE, newLabelOverride, newLabelOverride));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE:
-				return basicSetLabelOverride(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case PanelPackage.ABSTRACT_PANEL__UML_ELEMENT_UID:
 				return getUmlElementUid();
-			case PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE:
-				return getLabelOverride();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -180,9 +112,6 @@ public abstract class AbstractPanelImpl extends UimContainerImpl implements Abst
 		switch (featureID) {
 			case PanelPackage.ABSTRACT_PANEL__UML_ELEMENT_UID:
 				setUmlElementUid((String)newValue);
-				return;
-			case PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE:
-				setLabelOverride((Labels)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -199,9 +128,6 @@ public abstract class AbstractPanelImpl extends UimContainerImpl implements Abst
 			case PanelPackage.ABSTRACT_PANEL__UML_ELEMENT_UID:
 				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
 				return;
-			case PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE:
-				setLabelOverride((Labels)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -216,8 +142,6 @@ public abstract class AbstractPanelImpl extends UimContainerImpl implements Abst
 		switch (featureID) {
 			case PanelPackage.ABSTRACT_PANEL__UML_ELEMENT_UID:
 				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
-			case PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE:
-				return labelOverride != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -237,7 +161,6 @@ public abstract class AbstractPanelImpl extends UimContainerImpl implements Abst
 		}
 		if (baseClass == LabeledElement.class) {
 			switch (derivedFeatureID) {
-				case PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE: return UimPackage.LABELED_ELEMENT__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}
@@ -259,7 +182,6 @@ public abstract class AbstractPanelImpl extends UimContainerImpl implements Abst
 		}
 		if (baseClass == LabeledElement.class) {
 			switch (baseFeatureID) {
-				case UimPackage.LABELED_ELEMENT__LABEL_OVERRIDE: return PanelPackage.ABSTRACT_PANEL__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}

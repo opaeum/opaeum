@@ -3,7 +3,9 @@ package org.opaeum.demo1.structuredbusiness.branch.branch;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -33,10 +35,13 @@ import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.demo1.structuredbusiness.branch.Branch;
 import org.opaeum.demo1.structuredbusiness.util.Stdlib;
+import org.opaeum.demo1.structuredbusiness.util.StructuredbusinessFormatter;
 import org.opaeum.hibernate.domain.InternalHibernatePersistence;
 import org.opaeum.hibernate.domain.ReturnInfo;
 import org.opaeum.runtime.bpm.organization.IParticipant;
 import org.opaeum.runtime.bpm.request.AbstractRequest;
+import org.opaeum.runtime.bpm.request.RequestParticipationKind;
+import org.opaeum.runtime.bpm.request.TaskParticipationKind;
 import org.opaeum.runtime.bpm.request.TaskRequest;
 import org.opaeum.runtime.bpm.requestobject.IStandaloneSingleScreenTask;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -49,6 +54,7 @@ import org.opaeum.runtime.domain.IToken;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.domain.TaskDelegation;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -397,7 +403,6 @@ public class StandaloneSingleScreenTask1 implements IPersistentObject, IEventGen
 	public void init(CompositionNode owner) {
 		this.z_internalAddToContextObject((Branch)owner);
 		this.setTaskRequest( ((TaskRequest) this.getRequest()) );
-		createComponents();
 	}
 	
 	public StandaloneSingleScreenTask1 makeCopy() {

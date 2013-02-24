@@ -2,6 +2,8 @@
  */
 package org.opaeum.uim.component;
 
+import org.opaeum.uim.LabelContainer;
+import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.constraint.ConstrainedObject;
 
@@ -15,7 +17,7 @@ import org.opaeum.uim.constraint.ConstrainedObject;
  * @model abstract="true"
  * @generated
  */
-public interface UimComponent extends UserInteractionElement, ConstrainedObject {
+public interface UimComponent extends UserInteractionElement, ConstrainedObject, LabelContainer {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

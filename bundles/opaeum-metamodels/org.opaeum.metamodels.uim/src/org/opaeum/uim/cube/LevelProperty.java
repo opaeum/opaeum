@@ -3,6 +3,7 @@
 package org.opaeum.uim.cube;
 
 import org.opaeum.uim.LabeledElement;
+import org.opaeum.uim.UmlReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,6 +15,6 @@ import org.opaeum.uim.LabeledElement;
  * @model
  * @generated
  */
-public interface LevelProperty extends LabeledElement {
+public interface LevelProperty extends LabeledElement, UmlReference {
 
 } // LevelProperty

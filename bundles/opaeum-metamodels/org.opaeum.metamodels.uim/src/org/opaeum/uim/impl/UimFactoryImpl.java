@@ -69,6 +69,7 @@ public class UimFactoryImpl extends EFactoryImpl implements UimFactory {
 			case UimPackage.LABELED_ELEMENT: return createLabeledElement();
 			case UimPackage.IGNORED_ELEMENT: return createIgnoredElement();
 			case UimPackage.PAGE_ORDERING: return createPageOrdering();
+			case UimPackage.LABEL_CONTAINER: return createLabelContainer();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -142,6 +143,16 @@ public class UimFactoryImpl extends EFactoryImpl implements UimFactory {
 	public PageOrdering createPageOrdering() {
 		PageOrderingImpl pageOrdering = new PageOrderingImpl();
 		return pageOrdering;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LabelContainer createLabelContainer() {
+		LabelContainerImpl labelContainer = new LabelContainerImpl();
+		return labelContainer;
 	}
 
 	/**

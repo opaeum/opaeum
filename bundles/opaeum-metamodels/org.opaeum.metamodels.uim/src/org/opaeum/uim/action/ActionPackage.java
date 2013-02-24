@@ -95,6 +95,15 @@ public interface ActionPackage extends EPackage {
 	int ABSTRACT_ACTION_BUTTON__VISIBILITY = ComponentPackage.UIM_COMPONENT__VISIBILITY;
 
 	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_ACTION_BUTTON__LABEL_OVERRIDE = ComponentPackage.UIM_COMPONENT__LABEL_OVERRIDE;
+
+	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -175,6 +184,15 @@ public interface ActionPackage extends EPackage {
 	 * @ordered
 	 */
 	int BUILT_IN_ACTION_BUTTON__VISIBILITY = ABSTRACT_ACTION_BUTTON__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUILT_IN_ACTION_BUTTON__LABEL_OVERRIDE = ABSTRACT_ACTION_BUTTON__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -277,6 +295,15 @@ public interface ActionPackage extends EPackage {
 	int TRANSITION_BUTTON__VISIBILITY = ABSTRACT_ACTION_BUTTON__VISIBILITY;
 
 	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION_BUTTON__LABEL_OVERRIDE = ABSTRACT_ACTION_BUTTON__LABEL_OVERRIDE;
+
+	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -322,22 +349,13 @@ public interface ActionPackage extends EPackage {
 	int TRANSITION_BUTTON__UML_ELEMENT_UID = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSITION_BUTTON__LABEL_OVERRIDE = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>Transition Button</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_BUTTON_FEATURE_COUNT = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 2;
+	int TRANSITION_BUTTON_FEATURE_COUNT = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.impl.AbstractLinkImpl <em>Abstract Link</em>}' class.
@@ -375,6 +393,15 @@ public interface ActionPackage extends EPackage {
 	 * @ordered
 	 */
 	int ABSTRACT_LINK__VISIBILITY = ComponentPackage.UIM_COMPONENT__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_LINK__LABEL_OVERRIDE = ComponentPackage.UIM_COMPONENT__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -459,6 +486,15 @@ public interface ActionPackage extends EPackage {
 	int LINK_TO_QUERY__VISIBILITY = ABSTRACT_LINK__VISIBILITY;
 
 	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK_TO_QUERY__LABEL_OVERRIDE = ABSTRACT_LINK__LABEL_OVERRIDE;
+
+	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -504,22 +540,13 @@ public interface ActionPackage extends EPackage {
 	int LINK_TO_QUERY__UML_ELEMENT_UID = ABSTRACT_LINK_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LINK_TO_QUERY__LABEL_OVERRIDE = ABSTRACT_LINK_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>Link To Query</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_TO_QUERY_FEATURE_COUNT = ABSTRACT_LINK_FEATURE_COUNT + 2;
+	int LINK_TO_QUERY_FEATURE_COUNT = ABSTRACT_LINK_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.impl.InvocationButtonImpl <em>Invocation Button</em>}' class.
@@ -557,6 +584,15 @@ public interface ActionPackage extends EPackage {
 	 * @ordered
 	 */
 	int INVOCATION_BUTTON__VISIBILITY = ABSTRACT_ACTION_BUTTON__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOCATION_BUTTON__LABEL_OVERRIDE = ABSTRACT_ACTION_BUTTON__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -604,22 +640,13 @@ public interface ActionPackage extends EPackage {
 	int INVOCATION_BUTTON__UML_ELEMENT_UID = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INVOCATION_BUTTON__LABEL_OVERRIDE = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Popup</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INVOCATION_BUTTON__POPUP = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 2;
+	int INVOCATION_BUTTON__POPUP = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Invocation Button</em>' class.
@@ -628,7 +655,7 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INVOCATION_BUTTON_FEATURE_COUNT = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 3;
+	int INVOCATION_BUTTON_FEATURE_COUNT = ABSTRACT_ACTION_BUTTON_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.impl.BuiltInLinkImpl <em>Built In Link</em>}' class.
@@ -666,6 +693,15 @@ public interface ActionPackage extends EPackage {
 	 * @ordered
 	 */
 	int BUILT_IN_LINK__VISIBILITY = ABSTRACT_LINK__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUILT_IN_LINK__LABEL_OVERRIDE = ABSTRACT_LINK__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.

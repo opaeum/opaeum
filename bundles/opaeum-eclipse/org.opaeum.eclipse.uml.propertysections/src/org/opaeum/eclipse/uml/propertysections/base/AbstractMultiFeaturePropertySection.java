@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -114,14 +115,10 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 		return false;
 	}
 	@Override
-	public EObject getEObject(){
-		return super.getSelectedObject();
-	}
-	@Override
 	protected void setEnabled(boolean enabled){
 		super.setEnabled(enabled);
 		for(AbstractTabbedPropertySubsection<?,?> ss:subsections){
-			ss.setEnabled(enabled);
+			ss.setEnabled(ss.isEnabled() && enabled);
 		}
 	}
 	@Override
@@ -130,7 +127,7 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 		getWidgetFactory().adapt(multiFeatureComposite);
 		GridLayout rl = new GridLayout(subsections.size(), false);
 		rl.marginHeight = 0;
-		rl.marginWidth=0;
+		rl.marginWidth = 0;
 		rl.horizontalSpacing = 0;
 		// rl.verticalSpacing=0;
 		multiFeatureComposite.setLayout(rl);
@@ -189,7 +186,7 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 	protected Control findAffectedControl(BrokenRule entry){
 		for(EStructuralFeature eStructuralFeature:entry.getRule().getFeatures()){
 			for(AbstractTabbedPropertySubsection<?,?> ss:this.subsections){
-				if(ss.getFeature()!=null&& ss.getFeature().equals(eStructuralFeature)){
+				if(ss.getFeature() != null && ss.getFeature().equals(eStructuralFeature)){
 					return ss.getControl();
 				}
 			}

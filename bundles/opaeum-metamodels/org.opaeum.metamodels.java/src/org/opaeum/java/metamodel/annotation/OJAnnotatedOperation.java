@@ -54,6 +54,9 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 	}
 	@Override
 	public String toJavaString(){
+		if(getName().equals("populateReferences")){
+			System.out.println();
+		}
 		StringBuilder result = new StringBuilder();
 		if(!getComment().equals("")){
 			addJavaDocComment(result);

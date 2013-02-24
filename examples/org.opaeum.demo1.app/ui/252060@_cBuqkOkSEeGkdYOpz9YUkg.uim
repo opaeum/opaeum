@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_exaW5nzhEeK4RO8Gc0PbkA" umlElementUid="252060@_cBuqkOkSEeGkdYOpz9YUkg" name="I participant base User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_exaW53zhEeK4RO8Gc0PbkA" name="Edit IParticipantBase" umlElementUid="252060@_cBuqkOkSEeGkdYOpz9YUkg">
-    <pageOrdering xmi:id="_exaW6XzhEeK4RO8Gc0PbkA" page="_exaW6HzhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_exaW6HzhEeK4RO8Gc0PbkA" umlElementUid="252060@_cBuqkOkSEeGkdYOpz9YUkg" name="Edit I participant base">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exaW6nzhEeK4RO8Gc0PbkA" name="IParticipantBase" numberOfColumns="1"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NUx08n2yEeKdOuVcMz9Nmw" umlElementUid="252060@_cBuqkOkSEeGkdYOpz9YUkg" name="I participant base User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_NUx0832yEeKdOuVcMz9Nmw" name="Edit IParticipantBase" umlElementUid="252060@_cBuqkOkSEeGkdYOpz9YUkg">
+    <pageOrdering xmi:id="_NUx09X2yEeKdOuVcMz9Nmw" page="_NUx09H2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_NUx09H2yEeKdOuVcMz9Nmw" umlElementUid="252060@_cBuqkOkSEeGkdYOpz9YUkg" name="Edit I participant base">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NUx09n2yEeKdOuVcMz9Nmw" name="IParticipantBase" numberOfColumns="1"/>
     </pages>
-    <actionBar xmi:id="_exaW63zhEeK4RO8Gc0PbkA" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_exaW7HzhEeK4RO8Gc0PbkA" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_exaW7XzhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+    <actionBar xmi:id="_NUx0932yEeKdOuVcMz9Nmw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NUx0-H2yEeKdOuVcMz9Nmw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NUx0-X2yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_exdaU3zhEeK4RO8Gc0PbkA" name="Create IParticipantBase" umlElementUid="252060@_cBuqkOkSEeGkdYOpz9YUkg">
-    <pageOrdering xmi:id="_exdaVXzhEeK4RO8Gc0PbkA" page="_exdaVHzhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_exdaVHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_cBuqkOkSEeGkdYOpz9YUkg" name="CreateI participant base">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exdaVnzhEeK4RO8Gc0PbkA" name="IParticipantBase" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_NU2tdX2yEeKdOuVcMz9Nmw" name="Create IParticipantBase" umlElementUid="252060@_cBuqkOkSEeGkdYOpz9YUkg">
+    <pageOrdering xmi:id="_NU2td32yEeKdOuVcMz9Nmw" page="_NU2tdn2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_NU2tdn2yEeKdOuVcMz9Nmw" umlElementUid="252060@_cBuqkOkSEeGkdYOpz9YUkg" name="CreateI participant base">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NU2teH2yEeKdOuVcMz9Nmw" name="IParticipantBase" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </model:ClassUserInteractionModel>

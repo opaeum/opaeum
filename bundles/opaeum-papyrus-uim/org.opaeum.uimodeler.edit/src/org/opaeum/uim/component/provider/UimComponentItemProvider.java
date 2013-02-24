@@ -17,6 +17,8 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.opaeum.uim.UimFactory;
+import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.constraint.ConstraintFactory;
@@ -78,6 +80,7 @@ public class UimComponentItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY);
+			childrenFeatures.add(UimPackage.Literals.LABEL_CONTAINER__LABEL_OVERRIDE);
 		}
 		return childrenFeatures;
 	}
@@ -122,6 +125,7 @@ public class UimComponentItemProvider
 
 		switch (notification.getFeatureID(UimComponent.class)) {
 			case ComponentPackage.UIM_COMPONENT__VISIBILITY:
+			case ComponentPackage.UIM_COMPONENT__LABEL_OVERRIDE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -152,22 +156,42 @@ public class UimComponentItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
+				 PerspectiveFactory.eINSTANCE.createNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
+				 PerspectiveFactory.eINSTANCE.createClassNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerOperationConstraint()));
+				 PerspectiveFactory.eINSTANCE.createPropertyNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerBehaviorConstraint()));
+				 PerspectiveFactory.eINSTANCE.createOperationNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createBehaviorNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createMultiplicityElementNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createParameterNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.LABEL_CONTAINER__LABEL_OVERRIDE,
+				 UimFactory.eINSTANCE.createLabels()));
 	}
 
 	/**

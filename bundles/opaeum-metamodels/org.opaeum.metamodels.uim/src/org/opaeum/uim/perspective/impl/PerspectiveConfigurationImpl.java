@@ -9,8 +9,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.opaeum.uim.impl.UserInteractionElementImpl;
 import org.opaeum.uim.perspective.EditorConfiguration;
-import org.opaeum.uim.perspective.ExplorerConfiguration;
 import org.opaeum.uim.perspective.InboxConfiguration;
+import org.opaeum.uim.perspective.NavigatorConfiguration;
 import org.opaeum.uim.perspective.OutboxConfiguration;
 import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PerspectivePackage;
@@ -42,7 +42,7 @@ public class PerspectiveConfigurationImpl extends UserInteractionElementImpl imp
 	 * @generated
 	 * @ordered
 	 */
-	protected ExplorerConfiguration explorer;
+	protected NavigatorConfiguration explorer;
 
 	/**
 	 * The cached value of the '{@link #getEditor() <em>Editor</em>}' containment reference.
@@ -108,7 +108,7 @@ public class PerspectiveConfigurationImpl extends UserInteractionElementImpl imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ExplorerConfiguration getExplorer() {
+	public NavigatorConfiguration getExplorer() {
 		return explorer;
 	}
 
@@ -117,8 +117,8 @@ public class PerspectiveConfigurationImpl extends UserInteractionElementImpl imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetExplorer(ExplorerConfiguration newExplorer, NotificationChain msgs) {
-		ExplorerConfiguration oldExplorer = explorer;
+	public NotificationChain basicSetExplorer(NavigatorConfiguration newExplorer, NotificationChain msgs) {
+		NavigatorConfiguration oldExplorer = explorer;
 		explorer = newExplorer;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PerspectivePackage.PERSPECTIVE_CONFIGURATION__EXPLORER, oldExplorer, newExplorer);
@@ -132,7 +132,7 @@ public class PerspectiveConfigurationImpl extends UserInteractionElementImpl imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setExplorer(ExplorerConfiguration newExplorer) {
+	public void setExplorer(NavigatorConfiguration newExplorer) {
 		if (newExplorer != explorer) {
 			NotificationChain msgs = null;
 			if (explorer != null)
@@ -371,7 +371,7 @@ public class PerspectiveConfigurationImpl extends UserInteractionElementImpl imp
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case PerspectivePackage.PERSPECTIVE_CONFIGURATION__EXPLORER:
-				setExplorer((ExplorerConfiguration)newValue);
+				setExplorer((NavigatorConfiguration)newValue);
 				return;
 			case PerspectivePackage.PERSPECTIVE_CONFIGURATION__EDITOR:
 				setEditor((EditorConfiguration)newValue);
@@ -398,7 +398,7 @@ public class PerspectiveConfigurationImpl extends UserInteractionElementImpl imp
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case PerspectivePackage.PERSPECTIVE_CONFIGURATION__EXPLORER:
-				setExplorer((ExplorerConfiguration)null);
+				setExplorer((NavigatorConfiguration)null);
 				return;
 			case PerspectivePackage.PERSPECTIVE_CONFIGURATION__EDITOR:
 				setEditor((EditorConfiguration)null);

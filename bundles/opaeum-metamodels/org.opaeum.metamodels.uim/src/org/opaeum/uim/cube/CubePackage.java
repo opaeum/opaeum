@@ -87,15 +87,6 @@ public interface CubePackage extends EPackage {
 	int CUBE_QUERY__EDITABILITY = UimPackage.PAGE__EDITABILITY;
 
 	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CUBE_QUERY__UML_ELEMENT_UID = UimPackage.PAGE__UML_ELEMENT_UID;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -112,6 +103,15 @@ public interface CubePackage extends EPackage {
 	 * @ordered
 	 */
 	int CUBE_QUERY__UNDER_USER_CONTROL = UimPackage.PAGE__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUBE_QUERY__UML_ELEMENT_UID = UimPackage.PAGE__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
@@ -252,15 +252,6 @@ public interface CubePackage extends EPackage {
 	int LEVEL_PROPERTY = 3;
 
 	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LEVEL_PROPERTY__UML_ELEMENT_UID = UimPackage.LABELED_ELEMENT__UML_ELEMENT_UID;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -277,6 +268,15 @@ public interface CubePackage extends EPackage {
 	 * @ordered
 	 */
 	int LEVEL_PROPERTY__UNDER_USER_CONTROL = UimPackage.LABELED_ELEMENT__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEVEL_PROPERTY__UML_ELEMENT_UID = UimPackage.LABELED_ELEMENT__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.

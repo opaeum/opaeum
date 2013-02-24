@@ -1,5 +1,6 @@
 package org.opaeum.simulation;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.apache.commons.math3.distribution.UniformIntegerDistribution;
@@ -8,7 +9,7 @@ import org.opaeum.runtime.domain.CompositionNode;
 public abstract class EntityInstanceSimulation extends AbstractBucket{
 	List<CompositionNode> values;
 	private UniformIntegerDistribution distribution;
-	public CompositionNode generateInstance(CompositionNode parent){
+	public CompositionNode generateInstance(CompositionNode parent) throws Exception{
 		CompositionNode result = createNewObject(parent);
 		values.add(result);
 		// Remember, multiple instances of this class will be created per property where it is referenced from. it will either be references
@@ -18,8 +19,8 @@ public abstract class EntityInstanceSimulation extends AbstractBucket{
 		this.distribution = null;
 		return result;
 	}
-	protected abstract CompositionNode createNewObject(CompositionNode parent);
-	protected abstract void populateReferences(CompositionNode compositionNode);
+	protected abstract CompositionNode createNewObject(CompositionNode parent) throws Exception;
+	protected abstract void populateReferences(CompositionNode compositionNode) throws Exception;
 	public CompositionNode getNextReference(){
 		count++;
 		if(getValues().size() == 1){
@@ -39,7 +40,7 @@ public abstract class EntityInstanceSimulation extends AbstractBucket{
 	public void setValues(List<CompositionNode> values){
 		this.values = values;
 	}
-	public void populateReferences(){
+	public void populateReferences() throws Exception{
 		List<CompositionNode> list = values;
 		for(CompositionNode compositionNode:list){
 			populateReferences(compositionNode);

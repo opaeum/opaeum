@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +70,7 @@ import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.event.NotificationType;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
@@ -649,7 +651,6 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		this.setPreferredEMailAddressType( PersonEMailAddressType.WORK );
 		this.setPreferredPhoneNumberType( PersonPhoneNumberType.CELL );
 		this.setPreferredNotificationType( NotificationType.EMAIL );
-		createComponents();
 	}
 	
 	public Manager makeCopy() {

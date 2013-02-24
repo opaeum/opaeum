@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_exq1mHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_q9boQOxcEeGCIZA5C6q3Tg" name="I process object base User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_exq1mXzhEeK4RO8Gc0PbkA" name="Edit IProcessObjectBase" umlElementUid="252060@_q9boQOxcEeGCIZA5C6q3Tg">
-    <pageOrdering xmi:id="_exq1m3zhEeK4RO8Gc0PbkA" page="_exq1mnzhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_exq1mnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_q9boQOxcEeGCIZA5C6q3Tg" name="Edit I process object base">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exq1nHzhEeK4RO8Gc0PbkA" name="IProcessObjectBase" numberOfColumns="1"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NVY48H2yEeKdOuVcMz9Nmw" umlElementUid="252060@_q9boQOxcEeGCIZA5C6q3Tg" name="I process object base User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_NVY48X2yEeKdOuVcMz9Nmw" name="Edit IProcessObjectBase" umlElementUid="252060@_q9boQOxcEeGCIZA5C6q3Tg">
+    <pageOrdering xmi:id="_NVY4832yEeKdOuVcMz9Nmw" page="_NVY48n2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_NVY48n2yEeKdOuVcMz9Nmw" umlElementUid="252060@_q9boQOxcEeGCIZA5C6q3Tg" name="Edit I process object base">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NVY49H2yEeKdOuVcMz9Nmw" name="IProcessObjectBase" numberOfColumns="1"/>
     </pages>
-    <actionBar xmi:id="_exq1nXzhEeK4RO8Gc0PbkA" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_exq1nnzhEeK4RO8Gc0PbkA" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_exq1n3zhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+    <actionBar xmi:id="_NVY49X2yEeKdOuVcMz9Nmw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVY49n2yEeKdOuVcMz9Nmw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVY4932yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_exsDu3zhEeK4RO8Gc0PbkA" name="Create IProcessObjectBase" umlElementUid="252060@_q9boQOxcEeGCIZA5C6q3Tg">
-    <pageOrdering xmi:id="_exsDvXzhEeK4RO8Gc0PbkA" page="_exsDvHzhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_exsDvHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_q9boQOxcEeGCIZA5C6q3Tg" name="CreateI process object base">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exsDvnzhEeK4RO8Gc0PbkA" name="IProcessObjectBase" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_NVaHLH2yEeKdOuVcMz9Nmw" name="Create IProcessObjectBase" umlElementUid="252060@_q9boQOxcEeGCIZA5C6q3Tg">
+    <pageOrdering xmi:id="_NVaHLn2yEeKdOuVcMz9Nmw" page="_NVaHLX2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_NVaHLX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_q9boQOxcEeGCIZA5C6q3Tg" name="CreateI process object base">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NVaHL32yEeKdOuVcMz9Nmw" name="IProcessObjectBase" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </model:ClassUserInteractionModel>

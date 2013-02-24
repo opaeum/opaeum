@@ -3,7 +3,9 @@ package org.opaeum.demo1.structuredbusiness.branch;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -36,7 +38,9 @@ import org.opaeum.runtime.domain.DocumentType;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.strategy.DateStrategyFactory;
 import org.w3c.dom.Element;
@@ -235,7 +239,6 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void init(CompositionNode owner) {
-		createComponents();
 	}
 	
 	@NumlMetaInfo(uuid="252060@_nx6xcF9lEeG3X_yvufTVmw")

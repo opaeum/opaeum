@@ -30,11 +30,11 @@ public class GenerateSimulationModelAction extends AbstractOpaeumAction{
 				try{
 					monitor.beginTask("Loading All Models", 1000);
 					EmfWorkspace ew = prepareDirectoryForTransformation(folder, monitor);
-					monitor.subTask("Generating Java Code");
+					monitor.subTask("Generating simulation model");
 					new SimulationModelGenerator(ew).run();
-					return new Status(IStatus.OK, OpaeumEclipsePlugin.PLUGIN_ID, "Model compiled successfully");
+					return new Status(IStatus.OK, OpaeumEclipsePlugin.PLUGIN_ID, "Simulation model generated successfully");
 				}catch(Exception e){
-					return OpaeumEclipsePlugin.logError("Simulation model could not be compiled", e);
+					return OpaeumEclipsePlugin.logError("Simulation model could not be generated", e);
 				}finally{
 					monitor.done();
 					MemoryUtil.printMemoryUsage();

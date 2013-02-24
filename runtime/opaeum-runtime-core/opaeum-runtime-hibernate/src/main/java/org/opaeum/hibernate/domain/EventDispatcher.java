@@ -236,8 +236,8 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 			NumlMetaInfo annotation = IntrospectionUtil.getOriginalClass(o.getClass()).getAnnotation(NumlMetaInfo.class);
 			if(annotation != null && annotation.applicationIdentifier().length() > 0){
 				try{
-					Environment env = Environment.getEnvironment(annotation.applicationIdentifier());
-					opaeumEnvironmentMap.put(session.getSessionFactory(), env);
+					environment=Environment.getEnvironment(annotation.applicationIdentifier());
+					opaeumEnvironmentMap.put(session.getSessionFactory(), environment);
 				}catch(Exception e){
 					new ExceptionAnalyser(e).throwRootCause();
 				}

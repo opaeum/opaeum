@@ -17,22 +17,46 @@
       <availablePage>
         <emfPageIdentifier href="BusinessStructureModel.notation#_QaxUsHkAEeKsL8ZaFiY2TQ"/>
       </availablePage>
+      <availablePage>
+        <emfPageIdentifier href="BusinessStructureModel.notation#_dt_K8H2lEeK5F45wEGRv4A"/>
+      </availablePage>
+      <availablePage>
+        <emfPageIdentifier href="tmp.notation#_0dAKkH6XEeKpcOSs24uZew"/>
+      </availablePage>
+      <availablePage>
+        <emfPageIdentifier href="tmp.notation#_0dCm1X6XEeKpcOSs24uZew"/>
+      </availablePage>
+      <availablePage>
+        <emfPageIdentifier href="tmp.notation#_0dDN_X6XEeKpcOSs24uZew"/>
+      </availablePage>
+      <availablePage>
+        <emfPageIdentifier href="tmp.notation#_0dD1EX6XEeKpcOSs24uZew"/>
+      </availablePage>
+      <availablePage>
+        <emfPageIdentifier href="tmp.notation#_0dEcHn6XEeKpcOSs24uZew"/>
+      </availablePage>
+      <availablePage>
+        <emfPageIdentifier href="tmp.notation#_0dFDGX6XEeKpcOSs24uZew"/>
+      </availablePage>
+      <availablePage>
+        <emfPageIdentifier href="tmp.notation#_0dO0EH6XEeKpcOSs24uZew"/>
+      </availablePage>
+      <availablePage>
+        <emfPageIdentifier href="tmp.notation#_0dPbJX6XEeKpcOSs24uZew"/>
+      </availablePage>
+      <availablePage>
+        <emfPageIdentifier href="tmp.notation#_0dQCU36XEeKpcOSs24uZew"/>
+      </availablePage>
+      <availablePage>
+        <emfPageIdentifier href="tmp.notation#_0dQpYX6XEeKpcOSs24uZew"/>
+      </availablePage>
+      <availablePage>
+        <emfPageIdentifier href="tmp.notation#_0dRQbn6XEeKpcOSs24uZew"/>
+      </availablePage>
     </pageList>
     <sashModel currentSelection="/0/@sashModel/@windows.0/@children.0">
       <windows>
         <children xsi:type="di:TabFolder">
-          <children>
-            <emfPageIdentifier href="BusinessStructureModel.notation#_tClkEHHgEeGus4aKic9sIg"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="BusinessStructureModel.notation#_JJ_d8BYUEeKsDbmQL25eBw"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="BusinessStructureModel.notation#_7aBMkJQiEeGrfptojSsLAQ"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="BusinessStructureModel.notation#_AD6mkHj2EeKiM5Dh_2eXTg"/>
-          </children>
           <children>
             <emfPageIdentifier href="BusinessStructureModel.notation#_QaxUsHkAEeKsL8ZaFiY2TQ"/>
           </children>

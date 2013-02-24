@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_exz_gXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_DY-LMF-hEeGSPaWW9iQb9Q" name="I person phone number User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_exz_gnzhEeK4RO8Gc0PbkA" name="Edit IPersonPhoneNumber" umlElementUid="252060@_DY-LMF-hEeGSPaWW9iQb9Q">
-    <pageOrdering xmi:id="_exz_hHzhEeK4RO8Gc0PbkA" page="_exz_g3zhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_exz_g3zhEeK4RO8Gc0PbkA" umlElementUid="252060@_DY-LMF-hEeGSPaWW9iQb9Q" name="Edit I person phone number">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exz_hXzhEeK4RO8Gc0PbkA" name="IPersonPhoneNumber" numberOfColumns="1"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NVMrsH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_DY-LMF-hEeGSPaWW9iQb9Q" name="I person phone number User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_NVMrsX2yEeKdOuVcMz9Nmw" name="Edit IPersonPhoneNumber" umlElementUid="252060@_DY-LMF-hEeGSPaWW9iQb9Q">
+    <pageOrdering xmi:id="_NVMrs32yEeKdOuVcMz9Nmw" page="_NVMrsn2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_NVMrsn2yEeKdOuVcMz9Nmw" umlElementUid="252060@_DY-LMF-hEeGSPaWW9iQb9Q" name="Edit I person phone number">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NVMrtH2yEeKdOuVcMz9Nmw" name="IPersonPhoneNumber" numberOfColumns="1"/>
     </pages>
-    <actionBar xmi:id="_exz_hnzhEeK4RO8Gc0PbkA" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_exz_h3zhEeK4RO8Gc0PbkA" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_exz_iHzhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+    <actionBar xmi:id="_NVMrtX2yEeKdOuVcMz9Nmw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVMrtn2yEeKdOuVcMz9Nmw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVMrt32yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_exz_iXzhEeK4RO8Gc0PbkA" name="Create IPersonPhoneNumber" umlElementUid="252060@_DY-LMF-hEeGSPaWW9iQb9Q">
-    <pageOrdering xmi:id="_exz_i3zhEeK4RO8Gc0PbkA" page="_exz_inzhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_exz_inzhEeK4RO8Gc0PbkA" umlElementUid="252060@_DY-LMF-hEeGSPaWW9iQb9Q" name="CreateI person phone number">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exz_jHzhEeK4RO8Gc0PbkA" name="IPersonPhoneNumber" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_NVMruH2yEeKdOuVcMz9Nmw" name="Create IPersonPhoneNumber" umlElementUid="252060@_DY-LMF-hEeGSPaWW9iQb9Q">
+    <pageOrdering xmi:id="_NVMrun2yEeKdOuVcMz9Nmw" page="_NVMruX2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_NVMruX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_DY-LMF-hEeGSPaWW9iQb9Q" name="CreateI person phone number">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NVMru32yEeKdOuVcMz9Nmw" name="IPersonPhoneNumber" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </model:ClassUserInteractionModel>

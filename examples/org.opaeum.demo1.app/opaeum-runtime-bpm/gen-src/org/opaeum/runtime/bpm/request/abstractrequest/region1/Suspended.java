@@ -3,6 +3,7 @@ package org.opaeum.runtime.bpm.request.abstractrequest.region1;
 import java.util.Set;
 
 import org.opaeum.runtime.bpm.request.AbstractRequest;
+import org.opaeum.runtime.bpm.request.AbstractRequestState;
 import org.opaeum.runtime.bpm.request.AbstractRequestToken;
 import org.opaeum.runtime.bpm.request.abstractrequest.Region1;
 import org.opaeum.runtime.domain.CancelledEvent;

@@ -93,72 +93,72 @@ public class PerspectiveItemProviderAdapterFactory extends PerspectiveAdapterFac
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ExplorerConfiguration} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.NavigatorConfiguration} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ExplorerConfigurationItemProvider explorerConfigurationItemProvider;
+	protected NavigatorConfigurationItemProvider navigatorConfigurationItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ExplorerConfiguration}.
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.NavigatorConfiguration}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createExplorerConfigurationAdapter() {
-		if (explorerConfigurationItemProvider == null) {
-			explorerConfigurationItemProvider = new ExplorerConfigurationItemProvider(this);
+	public Adapter createNavigatorConfigurationAdapter() {
+		if (navigatorConfigurationItemProvider == null) {
+			navigatorConfigurationItemProvider = new NavigatorConfigurationItemProvider(this);
 		}
 
-		return explorerConfigurationItemProvider;
+		return navigatorConfigurationItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ExplorerClassConstraint} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ClassNavigationConstraint} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ExplorerClassConstraintItemProvider explorerClassConstraintItemProvider;
+	protected ClassNavigationConstraintItemProvider classNavigationConstraintItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ExplorerClassConstraint}.
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ClassNavigationConstraint}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createExplorerClassConstraintAdapter() {
-		if (explorerClassConstraintItemProvider == null) {
-			explorerClassConstraintItemProvider = new ExplorerClassConstraintItemProvider(this);
+	public Adapter createClassNavigationConstraintAdapter() {
+		if (classNavigationConstraintItemProvider == null) {
+			classNavigationConstraintItemProvider = new ClassNavigationConstraintItemProvider(this);
 		}
 
-		return explorerClassConstraintItemProvider;
+		return classNavigationConstraintItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ExplorerPropertyConstraint} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.PropertyNavigationConstraint} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ExplorerPropertyConstraintItemProvider explorerPropertyConstraintItemProvider;
+	protected PropertyNavigationConstraintItemProvider propertyNavigationConstraintItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ExplorerPropertyConstraint}.
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.PropertyNavigationConstraint}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createExplorerPropertyConstraintAdapter() {
-		if (explorerPropertyConstraintItemProvider == null) {
-			explorerPropertyConstraintItemProvider = new ExplorerPropertyConstraintItemProvider(this);
+	public Adapter createPropertyNavigationConstraintAdapter() {
+		if (propertyNavigationConstraintItemProvider == null) {
+			propertyNavigationConstraintItemProvider = new PropertyNavigationConstraintItemProvider(this);
 		}
 
-		return explorerPropertyConstraintItemProvider;
+		return propertyNavigationConstraintItemProvider;
 	}
 
 	/**
@@ -208,49 +208,72 @@ public class PerspectiveItemProviderAdapterFactory extends PerspectiveAdapterFac
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ExplorerOperationConstraint} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.NavigationConstraint} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ExplorerOperationConstraintItemProvider explorerOperationConstraintItemProvider;
+	protected NavigationConstraintItemProvider navigationConstraintItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ExplorerOperationConstraint}.
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.NavigationConstraint}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createExplorerOperationConstraintAdapter() {
-		if (explorerOperationConstraintItemProvider == null) {
-			explorerOperationConstraintItemProvider = new ExplorerOperationConstraintItemProvider(this);
+	public Adapter createNavigationConstraintAdapter() {
+		if (navigationConstraintItemProvider == null) {
+			navigationConstraintItemProvider = new NavigationConstraintItemProvider(this);
 		}
 
-		return explorerOperationConstraintItemProvider;
+		return navigationConstraintItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ExplorerBehaviorConstraint} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.OperationNavigationConstraint} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ExplorerBehaviorConstraintItemProvider explorerBehaviorConstraintItemProvider;
+	protected OperationNavigationConstraintItemProvider operationNavigationConstraintItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ExplorerBehaviorConstraint}.
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.OperationNavigationConstraint}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createExplorerBehaviorConstraintAdapter() {
-		if (explorerBehaviorConstraintItemProvider == null) {
-			explorerBehaviorConstraintItemProvider = new ExplorerBehaviorConstraintItemProvider(this);
+	public Adapter createOperationNavigationConstraintAdapter() {
+		if (operationNavigationConstraintItemProvider == null) {
+			operationNavigationConstraintItemProvider = new OperationNavigationConstraintItemProvider(this);
 		}
 
-		return explorerBehaviorConstraintItemProvider;
+		return operationNavigationConstraintItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.BehaviorNavigationConstraint} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected BehaviorNavigationConstraintItemProvider behaviorNavigationConstraintItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.BehaviorNavigationConstraint}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createBehaviorNavigationConstraintAdapter() {
+		if (behaviorNavigationConstraintItemProvider == null) {
+			behaviorNavigationConstraintItemProvider = new BehaviorNavigationConstraintItemProvider(this);
+		}
+
+		return behaviorNavigationConstraintItemProvider;
 	}
 
 	/**
@@ -297,6 +320,52 @@ public class PerspectiveItemProviderAdapterFactory extends PerspectiveAdapterFac
 		}
 
 		return outboxConfigurationItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ParameterNavigationConstraint} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ParameterNavigationConstraintItemProvider parameterNavigationConstraintItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ParameterNavigationConstraint}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createParameterNavigationConstraintAdapter() {
+		if (parameterNavigationConstraintItemProvider == null) {
+			parameterNavigationConstraintItemProvider = new ParameterNavigationConstraintItemProvider(this);
+		}
+
+		return parameterNavigationConstraintItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.MultiplicityElementNavigationConstraint} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected MultiplicityElementNavigationConstraintItemProvider multiplicityElementNavigationConstraintItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.MultiplicityElementNavigationConstraint}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createMultiplicityElementNavigationConstraintAdapter() {
+		if (multiplicityElementNavigationConstraintItemProvider == null) {
+			multiplicityElementNavigationConstraintItemProvider = new MultiplicityElementNavigationConstraintItemProvider(this);
+		}
+
+		return multiplicityElementNavigationConstraintItemProvider;
 	}
 
 	/**
@@ -399,15 +468,18 @@ public class PerspectiveItemProviderAdapterFactory extends PerspectiveAdapterFac
 	 */
 	public void dispose() {
 		if (perspectiveConfigurationItemProvider != null) perspectiveConfigurationItemProvider.dispose();
-		if (explorerConfigurationItemProvider != null) explorerConfigurationItemProvider.dispose();
-		if (explorerClassConstraintItemProvider != null) explorerClassConstraintItemProvider.dispose();
-		if (explorerPropertyConstraintItemProvider != null) explorerPropertyConstraintItemProvider.dispose();
+		if (navigatorConfigurationItemProvider != null) navigatorConfigurationItemProvider.dispose();
+		if (classNavigationConstraintItemProvider != null) classNavigationConstraintItemProvider.dispose();
+		if (propertyNavigationConstraintItemProvider != null) propertyNavigationConstraintItemProvider.dispose();
 		if (editorConfigurationItemProvider != null) editorConfigurationItemProvider.dispose();
 		if (propertiesConfigurationItemProvider != null) propertiesConfigurationItemProvider.dispose();
-		if (explorerOperationConstraintItemProvider != null) explorerOperationConstraintItemProvider.dispose();
-		if (explorerBehaviorConstraintItemProvider != null) explorerBehaviorConstraintItemProvider.dispose();
+		if (navigationConstraintItemProvider != null) navigationConstraintItemProvider.dispose();
+		if (operationNavigationConstraintItemProvider != null) operationNavigationConstraintItemProvider.dispose();
+		if (behaviorNavigationConstraintItemProvider != null) behaviorNavigationConstraintItemProvider.dispose();
 		if (inboxConfigurationItemProvider != null) inboxConfigurationItemProvider.dispose();
 		if (outboxConfigurationItemProvider != null) outboxConfigurationItemProvider.dispose();
+		if (parameterNavigationConstraintItemProvider != null) parameterNavigationConstraintItemProvider.dispose();
+		if (multiplicityElementNavigationConstraintItemProvider != null) multiplicityElementNavigationConstraintItemProvider.dispose();
 	}
 
 }

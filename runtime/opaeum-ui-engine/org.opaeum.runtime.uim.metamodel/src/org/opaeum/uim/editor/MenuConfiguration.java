@@ -4,12 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.opaeum.ecore.EObject;
-import org.opaeum.runtime.domain.EcoreDataTypeParser;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.UserInteractionElement;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public interface MenuConfiguration extends EObject, UserInteractionElement {
 	public void buildTreeFromXml(Element xml, Map<String, Object> map);

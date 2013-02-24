@@ -21,13 +21,12 @@ import org.opaeum.uim.UimPackage;
  * <ul>
  *   <li>{@link org.opaeum.uim.impl.PageOrderingImpl#getPage <em>Page</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.PageOrderingImpl#getPosition <em>Position</em>}</li>
- *   <li>{@link org.opaeum.uim.impl.PageOrderingImpl#getLabelOverride <em>Label Override</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class PageOrderingImpl extends EObjectImpl implements PageOrdering {
+public class PageOrderingImpl extends LabeledElementImpl implements PageOrdering {
 	/**
 	 * The cached value of the '{@link #getPage() <em>Page</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -57,16 +56,6 @@ public class PageOrderingImpl extends EObjectImpl implements PageOrdering {
 	 * @ordered
 	 */
 	protected int position = POSITION_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getLabelOverride() <em>Label Override</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLabelOverride()
-	 * @generated
-	 * @ordered
-	 */
-	protected Labels labelOverride;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -151,44 +140,6 @@ public class PageOrderingImpl extends EObjectImpl implements PageOrdering {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Labels getLabelOverride() {
-		if (labelOverride != null && labelOverride.eIsProxy()) {
-			InternalEObject oldLabelOverride = (InternalEObject)labelOverride;
-			labelOverride = (Labels)eResolveProxy(oldLabelOverride);
-			if (labelOverride != oldLabelOverride) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UimPackage.PAGE_ORDERING__LABEL_OVERRIDE, oldLabelOverride, labelOverride));
-			}
-		}
-		return labelOverride;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Labels basicGetLabelOverride() {
-		return labelOverride;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setLabelOverride(Labels newLabelOverride) {
-		Labels oldLabelOverride = labelOverride;
-		labelOverride = newLabelOverride;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.PAGE_ORDERING__LABEL_OVERRIDE, oldLabelOverride, labelOverride));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -197,9 +148,6 @@ public class PageOrderingImpl extends EObjectImpl implements PageOrdering {
 				return basicGetPage();
 			case UimPackage.PAGE_ORDERING__POSITION:
 				return getPosition();
-			case UimPackage.PAGE_ORDERING__LABEL_OVERRIDE:
-				if (resolve) return getLabelOverride();
-				return basicGetLabelOverride();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -217,9 +165,6 @@ public class PageOrderingImpl extends EObjectImpl implements PageOrdering {
 				return;
 			case UimPackage.PAGE_ORDERING__POSITION:
 				setPosition((Integer)newValue);
-				return;
-			case UimPackage.PAGE_ORDERING__LABEL_OVERRIDE:
-				setLabelOverride((Labels)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -239,9 +184,6 @@ public class PageOrderingImpl extends EObjectImpl implements PageOrdering {
 			case UimPackage.PAGE_ORDERING__POSITION:
 				setPosition(POSITION_EDEFAULT);
 				return;
-			case UimPackage.PAGE_ORDERING__LABEL_OVERRIDE:
-				setLabelOverride((Labels)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -258,8 +200,6 @@ public class PageOrderingImpl extends EObjectImpl implements PageOrdering {
 				return page != null;
 			case UimPackage.PAGE_ORDERING__POSITION:
 				return position != POSITION_EDEFAULT;
-			case UimPackage.PAGE_ORDERING__LABEL_OVERRIDE:
-				return labelOverride != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -18,17 +19,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import javax.validation.constraints.Digits;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Where;
 import org.hibernate.validator.Email;
@@ -38,6 +42,7 @@ import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.demo1.structuredbusiness.appliance.ApplianceModel;
+import org.opaeum.demo1.structuredbusiness.appliancedoctor.BusinessStateMachine1;
 import org.opaeum.demo1.structuredbusiness.branch.Branch;
 import org.opaeum.demo1.structuredbusiness.branch.Manager;
 import org.opaeum.demo1.structuredbusiness.util.Stdlib;
@@ -56,27 +61,36 @@ import org.opaeum.runtime.bpm.request.TaskRequest;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
+import org.opaeum.runtime.domain.IActiveEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
+import org.opaeum.runtime.domain.IExecutionElement;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IProcessObjectBase;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
-import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.organization.IOrganizationNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.strategy.DateStrategyFactory;
 import org.opaeum.runtime.strategy.DateTimeStrategyFactory;
+import org.opaeum.runtime.strategy.TextStrategyFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 @NumlMetaInfo(applicationIdentifier="demo1",uuid="914890@_CQTWAGOeEeGwMNo027LgxA")
-@BusinessComponent(businessRoles=Manager.class)
+@BusinessComponent(businessRoles=Manager.class,isRoot=true)
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="appliance_doctor",schema="structuredbusiness")
+@Table(name="appliance_doctor",schema="structuredbusiness",uniqueConstraints=
+	@UniqueConstraint(columnNames={"appliance_collaboration_id","deleted_on"}))
 @Entity(name="ApplianceDoctor")
-public class ApplianceDoctor implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessComponent, Serializable {
+public class ApplianceDoctor implements IPersistentObject, IEventGenerator, IActiveEntity, HibernateEntity, CompositionNode, IBusinessComponent, Serializable {
+	@Index(columnNames="appliance_collaboration_id",name="idx_appliance_doctor_appliance_collaboration_id")
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="appliance_collaboration_id",nullable=true)
+	protected ApplianceCollaboration applianceCollaboration;
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="applianceDoctor",targetEntity=ApplianceModel.class)
@@ -88,6 +102,8 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="dishwashersInc",targetEntity=Branch.class)
 	protected Set<Branch> branch = new HashSet<Branch>();
+	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="contextObject")
+	protected BusinessStateMachine1 businessStateMachine1;
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
@@ -145,6 +161,15 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	@Basic
 	protected String vatNumber;
 
+	/** This constructor is intended for easy initialization in unit tests
+	 * 
+	 * @param owningObject 
+	 */
+	public ApplianceDoctor(ApplianceCollaboration owningObject) {
+		init(owningObject);
+		addToOwningObject();
+	}
+	
 	/** Default constructor for ApplianceDoctor
 	 */
 	public ApplianceDoctor() {
@@ -216,6 +241,8 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
+		getApplianceCollaboration().z_internalAddToApplianceDoctor((ApplianceDoctor)this);
+		startClassifierBehavior();
 	}
 	
 	public void addToParticipation(Participation participation) {
@@ -322,6 +349,24 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("businessStateMachine1") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("8035461708556021412")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						BusinessStateMachine1 curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=org.opaeum.demo1.structuredbusiness.util.StructuredbusinessJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.setBusinessStateMachine1(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organizationAsBusinessComponent_representedOrganization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3245714109628633948")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -410,6 +455,9 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		to.setName(from.getName());
 		to.setProperty1(from.getProperty1());
 		to.setAttribute1(from.getAttribute1());
+		if ( from.getBusinessStateMachine1()!=null ) {
+			to.setBusinessStateMachine1(from.getBusinessStateMachine1().makeShallowCopy());
+		}
 	}
 	
 	public void copyState(ApplianceDoctor from, ApplianceDoctor to) {
@@ -429,6 +477,9 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		to.setName(from.getName());
 		to.setProperty1(from.getProperty1());
 		to.setAttribute1(from.getAttribute1());
+		if ( from.getBusinessStateMachine1()!=null ) {
+			to.setBusinessStateMachine1(from.getBusinessStateMachine1().makeCopy());
+		}
 	}
 	
 	public ApplianceModel createApplianceModel() {
@@ -443,7 +494,16 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		return newInstance;
 	}
 	
+	public BusinessStateMachine1 createBusinessStateMachine1() {
+		BusinessStateMachine1 newInstance= new BusinessStateMachine1();
+		newInstance.init(this);
+		return newInstance;
+	}
+	
 	public void createComponents() {
+		if ( getBusinessStateMachine1()==null ) {
+			setBusinessStateMachine1(new BusinessStateMachine1());
+		}
 	}
 	
 	public Manager createManager() {
@@ -474,6 +534,14 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	public void generateAddAccountantEvent(@ParameterMetaInfo(name="name",opaeumId=341190338248797855l,uuid="914890@_HmRE0H4bEeGW5bASaRr7SQ") String name, @ParameterMetaInfo(name="isChartered",opaeumId=9099761849766142693l,uuid="914890@_MWWvsH4bEeGW5bASaRr7SQ") Boolean isChartered, @ParameterMetaInfo(name="manager",opaeumId=4684052632804621483l,uuid="914890@_RA5zQH4bEeGW5bASaRr7SQ") Manager manager) {
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3669353924925366634l,opposite="applianceDoctor",uuid="914890@_fPCikX6YEeKpcOSs24uZew")
+	@NumlMetaInfo(uuid="914890@_fPCikX6YEeKpcOSs24uZew")
+	public ApplianceCollaboration getApplianceCollaboration() {
+		ApplianceCollaboration result = this.applianceCollaboration;
+		
+		return result;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5635067770444539801l,opposite="applianceDoctor",uuid="914890@_wtFJEJK_EeGnpuq6_ber_Q")
 	@NumlMetaInfo(uuid="914890@_wtFJEJK_EeGnpuq6_ber_Q")
 	public Set<ApplianceModel> getApplianceModel() {
@@ -498,8 +566,21 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=8035461708556021412l,opposite="contextObject",uuid="914890@_cTMn8H2lEeK5F45wEGRv4A")
+	public BusinessStateMachine1 getBusinessStateMachine1() {
+		BusinessStateMachine1 result = this.businessStateMachine1;
+		
+		return result;
+	}
+	
 	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
+	}
+	
+	public IProcessObjectBase getClassifierBehavior() {
+		IProcessObjectBase result = getBusinessStateMachine1();
+		
+		return result;
 	}
 	
 	public Date getDeletedOn() {
@@ -550,7 +631,7 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4482302546737265492l,strategyFactory=SimpleTypeRuntimeStrategyFactory.class,uuid="914890@_h6e00BIeEeKr5f-zTsG0Vg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4482302546737265492l,strategyFactory=TextStrategyFactory.class,uuid="914890@_h6e00BIeEeKr5f-zTsG0Vg")
 	@NumlMetaInfo(uuid="914890@_h6e00BIeEeKr5f-zTsG0Vg")
 	public String getName() {
 		String result = this.name;
@@ -591,7 +672,7 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public CompositionNode getOwningObject() {
-		return null;
+		return getApplianceCollaboration();
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
@@ -689,7 +770,11 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void init(CompositionNode owner) {
-		createComponents();
+		this.z_internalAddToApplianceCollaboration((ApplianceCollaboration)owner);
+	}
+	
+	public boolean isStepActive(Class<? extends IExecutionElement> clss) {
+		return getBusinessStateMachine1()!=null && getBusinessStateMachine1().isStepActive(clss);
 	}
 	
 	public ApplianceDoctor makeCopy() {
@@ -710,6 +795,9 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		if ( getRepresentedOrganization()!=null ) {
 			getRepresentedOrganization().z_internalRemoveFromBusinessComponent(this);
 		}
+		if ( getApplianceCollaboration()!=null ) {
+			getApplianceCollaboration().z_internalRemoveFromApplianceDoctor(this);
+		}
 		for ( Manager child : new ArrayList<Manager>(getManager()) ) {
 			child.markDeleted();
 		}
@@ -718,6 +806,9 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		}
 		for ( ApplianceModel child : new ArrayList<ApplianceModel>(getApplianceModel()) ) {
 			child.markDeleted();
+		}
+		if ( getBusinessStateMachine1()!=null ) {
+			getBusinessStateMachine1().markDeleted();
 		}
 		if ( getOrganizationAsBusinessComponent_representedOrganization()!=null ) {
 			getOrganizationAsBusinessComponent_representedOrganization().markDeleted();
@@ -764,6 +855,16 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
 						((ApplianceModel)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("businessStateMachine1") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("8035461708556021412")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((BusinessStateMachine1)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
 					}
 				}
 			}
@@ -871,6 +972,36 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		propertyChangeSupport.removePropertyChangeListener(property,listener);
 	}
 	
+	public void setApplianceCollaboration(ApplianceCollaboration applianceCollaboration) {
+		ApplianceCollaboration oldValue = this.getApplianceCollaboration();
+		propertyChangeSupport.firePropertyChange("applianceCollaboration",getApplianceCollaboration(),applianceCollaboration);
+		if ( oldValue==null ) {
+			if ( applianceCollaboration!=null ) {
+				ApplianceDoctor oldOther = (ApplianceDoctor)applianceCollaboration.getApplianceDoctor();
+				applianceCollaboration.z_internalRemoveFromApplianceDoctor(oldOther);
+				if ( oldOther != null ) {
+					oldOther.z_internalRemoveFromApplianceCollaboration(applianceCollaboration);
+				}
+				applianceCollaboration.z_internalAddToApplianceDoctor((ApplianceDoctor)this);
+			}
+			this.z_internalAddToApplianceCollaboration(applianceCollaboration);
+		} else {
+			if ( !oldValue.equals(applianceCollaboration) ) {
+				oldValue.z_internalRemoveFromApplianceDoctor(this);
+				z_internalRemoveFromApplianceCollaboration(oldValue);
+				if ( applianceCollaboration!=null ) {
+					ApplianceDoctor oldOther = (ApplianceDoctor)applianceCollaboration.getApplianceDoctor();
+					applianceCollaboration.z_internalRemoveFromApplianceDoctor(oldOther);
+					if ( oldOther != null ) {
+						oldOther.z_internalRemoveFromApplianceCollaboration(applianceCollaboration);
+					}
+					applianceCollaboration.z_internalAddToApplianceDoctor((ApplianceDoctor)this);
+				}
+				this.z_internalAddToApplianceCollaboration(applianceCollaboration);
+			}
+		}
+	}
+	
 	public void setApplianceModel(Set<ApplianceModel> applianceModel) {
 		propertyChangeSupport.firePropertyChange("applianceModel",getApplianceModel(),applianceModel);
 		this.clearApplianceModel();
@@ -886,6 +1017,36 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		propertyChangeSupport.firePropertyChange("branch",getBranch(),branch);
 		this.clearBranch();
 		this.addAllToBranch(branch);
+	}
+	
+	public void setBusinessStateMachine1(BusinessStateMachine1 businessStateMachine1) {
+		BusinessStateMachine1 oldValue = this.getBusinessStateMachine1();
+		propertyChangeSupport.firePropertyChange("businessStateMachine1",getBusinessStateMachine1(),businessStateMachine1);
+		if ( oldValue==null ) {
+			if ( businessStateMachine1!=null ) {
+				ApplianceDoctor oldOther = (ApplianceDoctor)businessStateMachine1.getContextObject();
+				businessStateMachine1.z_internalRemoveFromContextObject(oldOther);
+				if ( oldOther != null ) {
+					oldOther.z_internalRemoveFromBusinessStateMachine1(businessStateMachine1);
+				}
+				businessStateMachine1.z_internalAddToContextObject((ApplianceDoctor)this);
+			}
+			this.z_internalAddToBusinessStateMachine1(businessStateMachine1);
+		} else {
+			if ( !oldValue.equals(businessStateMachine1) ) {
+				oldValue.z_internalRemoveFromContextObject(this);
+				z_internalRemoveFromBusinessStateMachine1(oldValue);
+				if ( businessStateMachine1!=null ) {
+					ApplianceDoctor oldOther = (ApplianceDoctor)businessStateMachine1.getContextObject();
+					businessStateMachine1.z_internalRemoveFromContextObject(oldOther);
+					if ( oldOther != null ) {
+						oldOther.z_internalRemoveFromBusinessStateMachine1(businessStateMachine1);
+					}
+					businessStateMachine1.z_internalAddToContextObject((ApplianceDoctor)this);
+				}
+				this.z_internalAddToBusinessStateMachine1(businessStateMachine1);
+			}
+		}
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -1004,6 +1165,12 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		this.z_internalAddToVatNumber(vatNumber);
 	}
 	
+	public void startClassifierBehavior() {
+		BusinessStateMachine1 _behavior = new BusinessStateMachine1(this);
+		_behavior.execute();
+		setBusinessStateMachine1(_behavior);
+	}
+	
 	public String toXmlReferenceString() {
 		return "<ApplianceDoctor uid=\""+getUid() + "\"/>";
 	}
@@ -1051,6 +1218,13 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 			sb.append("\n" + applianceModel.toXmlString());
 		}
 		sb.append("\n</applianceModel>");
+		if ( getBusinessStateMachine1()==null ) {
+			sb.append("\n<businessStateMachine1/>");
+		} else {
+			sb.append("\n<businessStateMachine1 propertyId=\"8035461708556021412\">");
+			sb.append("\n" + getBusinessStateMachine1().toXmlString());
+			sb.append("\n</businessStateMachine1>");
+		}
 		if ( getOrganizationAsBusinessComponent_representedOrganization()==null ) {
 			sb.append("\n<organizationAsBusinessComponent_representedOrganization/>");
 		} else {
@@ -1067,6 +1241,10 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		return sb.toString();
 	}
 	
+	public void z_internalAddToApplianceCollaboration(ApplianceCollaboration applianceCollaboration) {
+		this.applianceCollaboration=applianceCollaboration;
+	}
+	
 	public void z_internalAddToApplianceModel(ApplianceModel applianceModel) {
 		this.applianceModel.add(applianceModel);
 	}
@@ -1077,6 +1255,10 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	
 	public void z_internalAddToBranch(Branch branch) {
 		this.branch.add(branch);
+	}
+	
+	public void z_internalAddToBusinessStateMachine1(BusinessStateMachine1 businessStateMachine1) {
+		this.businessStateMachine1=businessStateMachine1;
 	}
 	
 	public void z_internalAddToInitiationDatell(Date initiationDatell) {
@@ -1127,6 +1309,13 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 		this.vatNumber=vatNumber;
 	}
 	
+	public void z_internalRemoveFromApplianceCollaboration(ApplianceCollaboration applianceCollaboration) {
+		if ( getApplianceCollaboration()!=null && applianceCollaboration!=null && applianceCollaboration.equals(getApplianceCollaboration()) ) {
+			this.applianceCollaboration=null;
+			this.applianceCollaboration=null;
+		}
+	}
+	
 	public void z_internalRemoveFromApplianceModel(ApplianceModel applianceModel) {
 		this.applianceModel.remove(applianceModel);
 	}
@@ -1140,6 +1329,13 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, Hibe
 	
 	public void z_internalRemoveFromBranch(Branch branch) {
 		this.branch.remove(branch);
+	}
+	
+	public void z_internalRemoveFromBusinessStateMachine1(BusinessStateMachine1 businessStateMachine1) {
+		if ( getBusinessStateMachine1()!=null && businessStateMachine1!=null && businessStateMachine1.equals(getBusinessStateMachine1()) ) {
+			this.businessStateMachine1=null;
+			this.businessStateMachine1=null;
+		}
 	}
 	
 	public void z_internalRemoveFromInitiationDatell(Date initiationDatell) {

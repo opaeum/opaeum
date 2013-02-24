@@ -62,33 +62,11 @@ public class PageItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addUmlElementUidPropertyDescriptor(object);
 			addNamePropertyDescriptor(object);
 			addUnderUserControlPropertyDescriptor(object);
+			addUmlElementUidPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Uml Element Uid feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addUmlElementUidPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_UmlReference_umlElementUid_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
-				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
 	/**
@@ -136,6 +114,28 @@ public class PageItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Uml Element Uid feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUmlElementUidPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UmlReference_umlElementUid_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
+				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -147,7 +147,7 @@ public class PageItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(UimPackage.Literals.LABELED_ELEMENT__LABEL_OVERRIDE);
+			childrenFeatures.add(UimPackage.Literals.LABEL_CONTAINER__LABEL_OVERRIDE);
 			childrenFeatures.add(UimPackage.Literals.PAGE__PANEL);
 		}
 		return childrenFeatures;
@@ -192,9 +192,9 @@ public class PageItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Page.class)) {
-			case UimPackage.PAGE__UML_ELEMENT_UID:
 			case UimPackage.PAGE__NAME:
 			case UimPackage.PAGE__UNDER_USER_CONTROL:
+			case UimPackage.PAGE__UML_ELEMENT_UID:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case UimPackage.PAGE__LABEL_OVERRIDE:
@@ -218,7 +218,7 @@ public class PageItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UimPackage.Literals.LABELED_ELEMENT__LABEL_OVERRIDE,
+				(UimPackage.Literals.LABEL_CONTAINER__LABEL_OVERRIDE,
 				 UimFactory.eINSTANCE.createLabels()));
 
 		newChildDescriptors.add

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.LabelContainer;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
@@ -109,6 +110,7 @@ public class PanelSwitch<T> {
 				if (result == null) result = caseUmlReference(gridPanel);
 				if (result == null) result = caseUserInteractionElement(gridPanel);
 				if (result == null) result = caseConstrainedObject(gridPanel);
+				if (result == null) result = caseLabelContainer(gridPanel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -125,6 +127,7 @@ public class PanelSwitch<T> {
 				if (result == null) result = caseUmlReference(verticalPanel);
 				if (result == null) result = caseUserInteractionElement(verticalPanel);
 				if (result == null) result = caseConstrainedObject(verticalPanel);
+				if (result == null) result = caseLabelContainer(verticalPanel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -141,6 +144,7 @@ public class PanelSwitch<T> {
 				if (result == null) result = caseUmlReference(horizontalPanel);
 				if (result == null) result = caseUserInteractionElement(horizontalPanel);
 				if (result == null) result = caseConstrainedObject(horizontalPanel);
+				if (result == null) result = caseLabelContainer(horizontalPanel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -154,6 +158,7 @@ public class PanelSwitch<T> {
 				if (result == null) result = caseUmlReference(abstractPanel);
 				if (result == null) result = caseUserInteractionElement(abstractPanel);
 				if (result == null) result = caseConstrainedObject(abstractPanel);
+				if (result == null) result = caseLabelContainer(abstractPanel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -169,6 +174,7 @@ public class PanelSwitch<T> {
 				if (result == null) result = caseUmlReference(collapsiblePanel);
 				if (result == null) result = caseUserInteractionElement(collapsiblePanel);
 				if (result == null) result = caseConstrainedObject(collapsiblePanel);
+				if (result == null) result = caseLabelContainer(collapsiblePanel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -299,6 +305,21 @@ public class PanelSwitch<T> {
 	 * @generated
 	 */
 	public T caseConstrainedObject(ConstrainedObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabelContainer(LabelContainer object) {
 		return null;
 	}
 

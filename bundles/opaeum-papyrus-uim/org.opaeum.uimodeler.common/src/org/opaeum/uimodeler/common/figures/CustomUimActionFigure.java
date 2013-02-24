@@ -8,11 +8,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.opaeum.uim.swt.IUimWidget;
 import org.opaeum.uim.swt.UimActivator;
-import org.opaeum.uimodeler.common.UimFigureUtil;
 
 public abstract class CustomUimActionFigure extends RectangleFigure implements ISWTFigure{
 	protected ButtonComposite button;

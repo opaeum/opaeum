@@ -4,9 +4,7 @@ import java.util.Map;
 
 import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
-import org.opaeum.org.opaeum.rap.metamodels.uim.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.component.UimField;
 import org.opaeum.uim.editor.ObjectEditor;
 import org.w3c.dom.Element;

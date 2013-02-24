@@ -16,6 +16,7 @@ import java.util.TreeSet;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ocl.uml.MessageType;
@@ -218,9 +219,15 @@ public class ArtificialElementFactory implements IPropertyEmulation{
 		return holder;
 	}
 	public Property findEffectiveAttribute(Classifier fromClass,String name){
-		for(Property p:getEffectiveAttributes(fromClass)){
+		for(Property p:getDirectlyImplementedAttributes(fromClass)){
 			if(p.getName().equals(name)){
-				return p;
+		return p;
+			}
+		}
+		for(Classifier classifier:fromClass.getGenerals()){
+			Property found = findEffectiveAttribute(classifier, name);
+			if(found!=null){
+				return found;
 			}
 		}
 		return null;

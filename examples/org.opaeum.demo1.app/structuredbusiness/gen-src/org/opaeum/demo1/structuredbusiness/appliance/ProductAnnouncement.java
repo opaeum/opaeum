@@ -3,13 +3,17 @@ package org.opaeum.demo1.structuredbusiness.appliance;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.persistence.Transient;
 
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.demo1.structuredbusiness.util.StructuredbusinessFormatter;
 import org.opaeum.runtime.domain.ISignal;
+import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.environment.Environment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

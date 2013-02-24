@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ezCHnXzhEeK4RO8Gc0PbkA" name="approve" umlElementUid="914890@_Y9DC0BYbEeKsDbmQL25eBw" linkedUmlResource="BusinessStructureModel.uml">
-  <pageOrdering xmi:id="_ezYFynzhEeK4RO8Gc0PbkA" page="_ezYFyXzhEeK4RO8Gc0PbkA"/>
-  <pages xmi:id="_ezYFyXzhEeK4RO8Gc0PbkA" umlElementUid="914890@_Y9DC0BYbEeKsDbmQL25eBw" name="Operation: Approve">
-    <panel xsi:type="panel:GridPanel" xmi:id="_ezYFy3zhEeK4RO8Gc0PbkA" name="Approve" numberOfColumns="1"/>
+<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NUkZlH2yEeKdOuVcMz9Nmw" name="approve" umlElementUid="914890@_Y9DC0BYbEeKsDbmQL25eBw" linkedUmlResource="BusinessStructureModel.uml">
+  <pageOrdering xmi:id="_NeACYX2yEeKdOuVcMz9Nmw" page="_NeACYH2yEeKdOuVcMz9Nmw"/>
+  <pages xmi:id="_NeACYH2yEeKdOuVcMz9Nmw" umlElementUid="914890@_Y9DC0BYbEeKsDbmQL25eBw" name="Operation: Approve">
+    <panel xsi:type="panel:GridPanel" xmi:id="_NeACYn2yEeKdOuVcMz9Nmw" name="Approve" numberOfColumns="1"/>
   </pages>
 </model:OperationInvocationWizard>

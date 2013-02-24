@@ -23,7 +23,6 @@ import org.opaeum.uim.action.InvocationButton;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.action.impl.InvocationButtonImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
- *   <li>{@link org.opaeum.uim.action.impl.InvocationButtonImpl#getLabelOverride <em>Label Override</em>}</li>
  *   <li>{@link org.opaeum.uim.action.impl.InvocationButtonImpl#getPopup <em>Popup</em>}</li>
  * </ul>
  * </p>
@@ -40,7 +39,6 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 	 * @ordered
 	 */
 	protected static final String UML_ELEMENT_UID_EDEFAULT = null;
-
 	/**
 	 * The cached value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -50,17 +48,6 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 	 * @ordered
 	 */
 	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getLabelOverride() <em>Label Override</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLabelOverride()
-	 * @generated
-	 * @ordered
-	 */
-	protected Labels labelOverride;
-
 	/**
 	 * The cached value of the '{@link #getPopup() <em>Popup</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -116,49 +103,6 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Labels getLabelOverride() {
-		return labelOverride;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetLabelOverride(Labels newLabelOverride, NotificationChain msgs) {
-		Labels oldLabelOverride = labelOverride;
-		labelOverride = newLabelOverride;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ActionPackage.INVOCATION_BUTTON__LABEL_OVERRIDE, oldLabelOverride, newLabelOverride);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setLabelOverride(Labels newLabelOverride) {
-		if (newLabelOverride != labelOverride) {
-			NotificationChain msgs = null;
-			if (labelOverride != null)
-				msgs = ((InternalEObject)labelOverride).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ActionPackage.INVOCATION_BUTTON__LABEL_OVERRIDE, null, msgs);
-			if (newLabelOverride != null)
-				msgs = ((InternalEObject)newLabelOverride).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ActionPackage.INVOCATION_BUTTON__LABEL_OVERRIDE, null, msgs);
-			msgs = basicSetLabelOverride(newLabelOverride, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.INVOCATION_BUTTON__LABEL_OVERRIDE, newLabelOverride, newLabelOverride));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public UserInterfaceRoot getPopup() {
 		if (popup != null && popup.eIsProxy()) {
 			InternalEObject oldPopup = (InternalEObject)popup;
@@ -198,26 +142,10 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ActionPackage.INVOCATION_BUTTON__LABEL_OVERRIDE:
-				return basicSetLabelOverride(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ActionPackage.INVOCATION_BUTTON__UML_ELEMENT_UID:
 				return getUmlElementUid();
-			case ActionPackage.INVOCATION_BUTTON__LABEL_OVERRIDE:
-				return getLabelOverride();
 			case ActionPackage.INVOCATION_BUTTON__POPUP:
 				if (resolve) return getPopup();
 				return basicGetPopup();
@@ -235,9 +163,6 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 		switch (featureID) {
 			case ActionPackage.INVOCATION_BUTTON__UML_ELEMENT_UID:
 				setUmlElementUid((String)newValue);
-				return;
-			case ActionPackage.INVOCATION_BUTTON__LABEL_OVERRIDE:
-				setLabelOverride((Labels)newValue);
 				return;
 			case ActionPackage.INVOCATION_BUTTON__POPUP:
 				setPopup((UserInterfaceRoot)newValue);
@@ -257,9 +182,6 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 			case ActionPackage.INVOCATION_BUTTON__UML_ELEMENT_UID:
 				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
 				return;
-			case ActionPackage.INVOCATION_BUTTON__LABEL_OVERRIDE:
-				setLabelOverride((Labels)null);
-				return;
 			case ActionPackage.INVOCATION_BUTTON__POPUP:
 				setPopup((UserInterfaceRoot)null);
 				return;
@@ -277,8 +199,6 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 		switch (featureID) {
 			case ActionPackage.INVOCATION_BUTTON__UML_ELEMENT_UID:
 				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
-			case ActionPackage.INVOCATION_BUTTON__LABEL_OVERRIDE:
-				return labelOverride != null;
 			case ActionPackage.INVOCATION_BUTTON__POPUP:
 				return popup != null;
 		}
@@ -300,7 +220,6 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 		}
 		if (baseClass == LabeledElement.class) {
 			switch (derivedFeatureID) {
-				case ActionPackage.INVOCATION_BUTTON__LABEL_OVERRIDE: return UimPackage.LABELED_ELEMENT__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}
@@ -322,7 +241,6 @@ public class InvocationButtonImpl extends AbstractActionButtonImpl implements In
 		}
 		if (baseClass == LabeledElement.class) {
 			switch (baseFeatureID) {
-				case UimPackage.LABELED_ELEMENT__LABEL_OVERRIDE: return ActionPackage.INVOCATION_BUTTON__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}

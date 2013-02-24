@@ -14,7 +14,7 @@ Import-Package: org.eclipse.swt,
  org.eclipse.swt.events,
  org.osgi.framework
 Export-Package: org.opaeum.ecore,
- org.opaeum.org.opaeum.rap.metamodels.uim,
+ org.opaeum.org.opaeum.runtime.uim.metamodel,
  org.opaeum.rap.metamodels.uim,
  org.opaeum.uim,
  org.opaeum.uim.action,

@@ -6,24 +6,27 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.LabelContainer;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.constraint.RootUserInteractionConstraint;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
 import org.opaeum.uim.perspective.*;
+import org.opaeum.uim.perspective.BehaviorNavigationConstraint;
+import org.opaeum.uim.perspective.ClassNavigationConstraint;
 import org.opaeum.uim.perspective.EditorConfiguration;
-import org.opaeum.uim.perspective.ExplorerBehaviorConstraint;
-import org.opaeum.uim.perspective.ExplorerClassConstraint;
-import org.opaeum.uim.perspective.ExplorerConfiguration;
-import org.opaeum.uim.perspective.ExplorerConstraint;
-import org.opaeum.uim.perspective.ExplorerOperationConstraint;
-import org.opaeum.uim.perspective.ExplorerPropertyConstraint;
 import org.opaeum.uim.perspective.InboxConfiguration;
+import org.opaeum.uim.perspective.MultiplicityElementNavigationConstraint;
+import org.opaeum.uim.perspective.NavigationConstraint;
+import org.opaeum.uim.perspective.NavigatorConfiguration;
+import org.opaeum.uim.perspective.OperationNavigationConstraint;
 import org.opaeum.uim.perspective.OutboxConfiguration;
+import org.opaeum.uim.perspective.ParameterNavigationConstraint;
 import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.opaeum.uim.perspective.PerspectivePackage;
 import org.opaeum.uim.perspective.PropertiesConfiguration;
+import org.opaeum.uim.perspective.PropertyNavigationConstraint;
 import org.opaeum.uim.perspective.ViewAllocation;
 
 /**
@@ -91,16 +94,16 @@ public class PerspectiveAdapterFactory extends AdapterFactoryImpl {
 				return createViewAllocationAdapter();
 			}
 			@Override
-			public Adapter caseExplorerConfiguration(ExplorerConfiguration object) {
-				return createExplorerConfigurationAdapter();
+			public Adapter caseNavigatorConfiguration(NavigatorConfiguration object) {
+				return createNavigatorConfigurationAdapter();
 			}
 			@Override
-			public Adapter caseExplorerClassConstraint(ExplorerClassConstraint object) {
-				return createExplorerClassConstraintAdapter();
+			public Adapter caseClassNavigationConstraint(ClassNavigationConstraint object) {
+				return createClassNavigationConstraintAdapter();
 			}
 			@Override
-			public Adapter caseExplorerPropertyConstraint(ExplorerPropertyConstraint object) {
-				return createExplorerPropertyConstraintAdapter();
+			public Adapter casePropertyNavigationConstraint(PropertyNavigationConstraint object) {
+				return createPropertyNavigationConstraintAdapter();
 			}
 			@Override
 			public Adapter caseEditorConfiguration(EditorConfiguration object) {
@@ -111,16 +114,16 @@ public class PerspectiveAdapterFactory extends AdapterFactoryImpl {
 				return createPropertiesConfigurationAdapter();
 			}
 			@Override
-			public Adapter caseExplorerConstraint(ExplorerConstraint object) {
-				return createExplorerConstraintAdapter();
+			public Adapter caseNavigationConstraint(NavigationConstraint object) {
+				return createNavigationConstraintAdapter();
 			}
 			@Override
-			public Adapter caseExplorerOperationConstraint(ExplorerOperationConstraint object) {
-				return createExplorerOperationConstraintAdapter();
+			public Adapter caseOperationNavigationConstraint(OperationNavigationConstraint object) {
+				return createOperationNavigationConstraintAdapter();
 			}
 			@Override
-			public Adapter caseExplorerBehaviorConstraint(ExplorerBehaviorConstraint object) {
-				return createExplorerBehaviorConstraintAdapter();
+			public Adapter caseBehaviorNavigationConstraint(BehaviorNavigationConstraint object) {
+				return createBehaviorNavigationConstraintAdapter();
 			}
 			@Override
 			public Adapter caseInboxConfiguration(InboxConfiguration object) {
@@ -129,6 +132,14 @@ public class PerspectiveAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseOutboxConfiguration(OutboxConfiguration object) {
 				return createOutboxConfigurationAdapter();
+			}
+			@Override
+			public Adapter caseParameterNavigationConstraint(ParameterNavigationConstraint object) {
+				return createParameterNavigationConstraintAdapter();
+			}
+			@Override
+			public Adapter caseMultiplicityElementNavigationConstraint(MultiplicityElementNavigationConstraint object) {
+				return createMultiplicityElementNavigationConstraintAdapter();
 			}
 			@Override
 			public Adapter caseUserInteractionElement(UserInteractionElement object) {
@@ -145,6 +156,10 @@ public class PerspectiveAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseUmlReference(UmlReference object) {
 				return createUmlReferenceAdapter();
+			}
+			@Override
+			public Adapter caseLabelContainer(LabelContainer object) {
+				return createLabelContainerAdapter();
 			}
 			@Override
 			public Adapter caseLabeledElement(LabeledElement object) {
@@ -199,44 +214,44 @@ public class PerspectiveAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.ExplorerConfiguration <em>Explorer Configuration</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.NavigatorConfiguration <em>Navigator Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.perspective.ExplorerConfiguration
+	 * @see org.opaeum.uim.perspective.NavigatorConfiguration
 	 * @generated
 	 */
-	public Adapter createExplorerConfigurationAdapter() {
+	public Adapter createNavigatorConfigurationAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.ExplorerClassConstraint <em>Explorer Class Constraint</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.ClassNavigationConstraint <em>Class Navigation Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.perspective.ExplorerClassConstraint
+	 * @see org.opaeum.uim.perspective.ClassNavigationConstraint
 	 * @generated
 	 */
-	public Adapter createExplorerClassConstraintAdapter() {
+	public Adapter createClassNavigationConstraintAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.ExplorerPropertyConstraint <em>Explorer Property Constraint</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.PropertyNavigationConstraint <em>Property Navigation Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.perspective.ExplorerPropertyConstraint
+	 * @see org.opaeum.uim.perspective.PropertyNavigationConstraint
 	 * @generated
 	 */
-	public Adapter createExplorerPropertyConstraintAdapter() {
+	public Adapter createPropertyNavigationConstraintAdapter() {
 		return null;
 	}
 
@@ -269,44 +284,44 @@ public class PerspectiveAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.ExplorerConstraint <em>Explorer Constraint</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.NavigationConstraint <em>Navigation Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.perspective.ExplorerConstraint
+	 * @see org.opaeum.uim.perspective.NavigationConstraint
 	 * @generated
 	 */
-	public Adapter createExplorerConstraintAdapter() {
+	public Adapter createNavigationConstraintAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.ExplorerOperationConstraint <em>Explorer Operation Constraint</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.OperationNavigationConstraint <em>Operation Navigation Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.perspective.ExplorerOperationConstraint
+	 * @see org.opaeum.uim.perspective.OperationNavigationConstraint
 	 * @generated
 	 */
-	public Adapter createExplorerOperationConstraintAdapter() {
+	public Adapter createOperationNavigationConstraintAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.ExplorerBehaviorConstraint <em>Explorer Behavior Constraint</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.BehaviorNavigationConstraint <em>Behavior Navigation Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.perspective.ExplorerBehaviorConstraint
+	 * @see org.opaeum.uim.perspective.BehaviorNavigationConstraint
 	 * @generated
 	 */
-	public Adapter createExplorerBehaviorConstraintAdapter() {
+	public Adapter createBehaviorNavigationConstraintAdapter() {
 		return null;
 	}
 
@@ -339,16 +354,30 @@ public class PerspectiveAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UmlReference <em>Uml Reference</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.ParameterNavigationConstraint <em>Parameter Navigation Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.UmlReference
+	 * @see org.opaeum.uim.perspective.ParameterNavigationConstraint
 	 * @generated
 	 */
-	public Adapter createUmlReferenceAdapter() {
+	public Adapter createParameterNavigationConstraintAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.MultiplicityElementNavigationConstraint <em>Multiplicity Element Navigation Constraint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.perspective.MultiplicityElementNavigationConstraint
+	 * @generated
+	 */
+	public Adapter createMultiplicityElementNavigationConstraintAdapter() {
 		return null;
 	}
 
@@ -377,6 +406,34 @@ public class PerspectiveAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createUserInteractionConstraintAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UmlReference <em>Uml Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.UmlReference
+	 * @generated
+	 */
+	public Adapter createUmlReferenceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.LabelContainer <em>Label Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.LabelContainer
+	 * @generated
+	 */
+	public Adapter createLabelContainerAdapter() {
 		return null;
 	}
 

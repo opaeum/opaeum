@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_exnyQHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_vf4noFYuEeGj5_I7bIwNoA" name="Organization as business component User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_exnyQXzhEeK4RO8Gc0PbkA" name="Edit OrganizationAsBusinessComponent" umlElementUid="252060@_vf4noFYuEeGj5_I7bIwNoA">
-    <pageOrdering xmi:id="_exnyQ3zhEeK4RO8Gc0PbkA" page="_exnyQnzhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_exnyQnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_vf4noFYuEeGj5_I7bIwNoA" name="Edit Organization as business component">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exnyRHzhEeK4RO8Gc0PbkA" name="OrganizationAsBusinessComponent" numberOfColumns="1"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NdCZEH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_vf4noFYuEeGj5_I7bIwNoA" name="Organization as business component User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_NdCZEX2yEeKdOuVcMz9Nmw" name="Edit OrganizationAsBusinessComponent" umlElementUid="252060@_vf4noFYuEeGj5_I7bIwNoA">
+    <pageOrdering xmi:id="_NdCZE32yEeKdOuVcMz9Nmw" page="_NdCZEn2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_NdCZEn2yEeKdOuVcMz9Nmw" umlElementUid="252060@_vf4noFYuEeGj5_I7bIwNoA" name="Edit Organization as business component">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NdCZFH2yEeKdOuVcMz9Nmw" name="OrganizationAsBusinessComponent" numberOfColumns="1"/>
     </pages>
-    <actionBar xmi:id="_exnyRXzhEeK4RO8Gc0PbkA" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_exnyRnzhEeK4RO8Gc0PbkA" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_exnyR3zhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+    <actionBar xmi:id="_NdCZFX2yEeKdOuVcMz9Nmw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NdCZFn2yEeKdOuVcMz9Nmw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NdCZF32yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_exnySHzhEeK4RO8Gc0PbkA" name="Create OrganizationAsBusinessComponent" umlElementUid="252060@_vf4noFYuEeGj5_I7bIwNoA">
-    <pageOrdering xmi:id="_exnySnzhEeK4RO8Gc0PbkA" page="_exnySXzhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_exnySXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_vf4noFYuEeGj5_I7bIwNoA" name="CreateOrganization as business component">
-      <panel xsi:type="panel:GridPanel" xmi:id="_exnyS3zhEeK4RO8Gc0PbkA" name="OrganizationAsBusinessComponent" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_NdCZGH2yEeKdOuVcMz9Nmw" name="Create OrganizationAsBusinessComponent" umlElementUid="252060@_vf4noFYuEeGj5_I7bIwNoA">
+    <pageOrdering xmi:id="_NdCZGn2yEeKdOuVcMz9Nmw" page="_NdCZGX2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_NdCZGX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_vf4noFYuEeGj5_I7bIwNoA" name="CreateOrganization as business component">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NdCZG32yEeKdOuVcMz9Nmw" name="OrganizationAsBusinessComponent" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </model:ClassUserInteractionModel>

@@ -12,11 +12,11 @@ public class EntityValueProvider{
 		Collections.sort(buckets);
 		return buckets.get(0).getNextReference();
 	}
-	public Object createNewInstance(CompositionNode parent){
+	public Object createNewInstance(CompositionNode parent) throws Exception{
 		Collections.sort(buckets);
 		return buckets.get(0).generateInstance(parent);
 	}
-	public void populateReferences(){
+	public void populateReferences() throws Exception{
 		for(EntityInstanceSimulation eis:buckets){
 			eis.populateReferences();
 		}

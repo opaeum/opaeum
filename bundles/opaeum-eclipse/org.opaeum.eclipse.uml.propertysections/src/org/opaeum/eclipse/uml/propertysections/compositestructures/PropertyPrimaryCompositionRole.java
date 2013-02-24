@@ -48,9 +48,10 @@ public class PropertyPrimaryCompositionRole extends AbstractBooleanPropertySecti
 					otherEnd.setName(NameConverter.decapitalize(p.getNamespace().getName()));
 					otherEnd.setUpper(1);
 					otherEnd.setType((Type)p.getOwner());
-					ass.getOwnedEnds().add(otherEnd);
+					ass.getNavigableOwnedEnds().add(otherEnd);
 					result.append(AddCommand.create(editingDomain, nearestPackage, UMLPackage.eINSTANCE.getPackage_OwnedType(), ass));
 					result.append(AddCommand.create(editingDomain, ass, UMLPackage.eINSTANCE.getAssociation_MemberEnd(), p));
+//					result.append(SetCommand.create(editingDomain, otherEnd, UMLPackage.eINSTANCE.getProperty__IsNavigable(),true));
 				}
 			}
 		}else{

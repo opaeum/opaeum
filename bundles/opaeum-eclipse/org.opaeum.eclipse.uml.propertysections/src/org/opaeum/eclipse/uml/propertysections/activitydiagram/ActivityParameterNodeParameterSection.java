@@ -22,7 +22,7 @@ public class ActivityParameterNodeParameterSection extends AbstractChooserProper
         choices.add("");
         choices.addAll(containingActivity.getOwnedParameters());
         if(containingActivity.getOwner() instanceof Transition || containingActivity.getOwner() instanceof State){
-        	StateMachine sm = EmfStateMachineUtil.getStateMachine(containingActivity);
+        	StateMachine sm = EmfStateMachineUtil.getNearestApplicableStateMachine(containingActivity);
         	choices.addAll(sm.getOwnedParameters());
         }
 		return choices.toArray();

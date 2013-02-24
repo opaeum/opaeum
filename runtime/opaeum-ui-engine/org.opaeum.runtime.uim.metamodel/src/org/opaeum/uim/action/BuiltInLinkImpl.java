@@ -4,9 +4,8 @@ import java.util.Map;
 
 import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
-import org.opaeum.org.opaeum.rap.metamodels.uim.UimInstantiator;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.component.UimContainer;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
@@ -18,6 +17,7 @@ public class BuiltInLinkImpl extends EObjectImpl implements BuiltInLink {
 	private Boolean fillHorizontally;
 	private Boolean fillVertically;
 	private BuiltInLinkKind kind;
+	private Labels labelOverride;
 	private Labels labels;
 	private String name;
 	private Integer preferredHeight;
@@ -66,6 +66,18 @@ public class BuiltInLinkImpl extends EObjectImpl implements BuiltInLink {
 				map.put(curVal.getUid(), curVal);
 				curVal.eContainer(this);
 			}
+			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
+				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
+				Labels curVal;
+				if ( typeString==null ||typeString.trim().length()==0 ) {
+					typeString="Labels";
+				}
+				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
+				this.setLabelOverride(curVal);
+				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
+				map.put(curVal.getUid(), curVal);
+				curVal.eContainer(this);
+			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labels") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
 				Labels curVal;
@@ -97,6 +109,10 @@ public class BuiltInLinkImpl extends EObjectImpl implements BuiltInLink {
 	
 	public BuiltInLinkKind getKind() {
 		return this.kind;
+	}
+	
+	public Labels getLabelOverride() {
+		return this.labelOverride;
 	}
 	
 	public Labels getLabels() {
@@ -141,6 +157,9 @@ public class BuiltInLinkImpl extends EObjectImpl implements BuiltInLink {
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("visibility") ) {
 				((org.opaeum.uim.constraint.UserInteractionConstraint)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
 			}
+			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
+				((org.opaeum.uim.Labels)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labels") ) {
 				((org.opaeum.uim.Labels)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
 			}
@@ -157,6 +176,10 @@ public class BuiltInLinkImpl extends EObjectImpl implements BuiltInLink {
 	
 	public void setKind(BuiltInLinkKind kind) {
 		this.kind=kind;
+	}
+	
+	public void setLabelOverride(Labels labelOverride) {
+		this.labelOverride=labelOverride;
 	}
 	
 	public void setLabels(Labels labels) {

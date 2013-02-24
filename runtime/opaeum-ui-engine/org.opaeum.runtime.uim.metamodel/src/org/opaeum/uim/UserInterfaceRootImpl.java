@@ -6,9 +6,8 @@ import java.util.Map;
 
 import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
-import org.opaeum.org.opaeum.rap.metamodels.uim.UimInstantiator;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.constraint.RootUserInteractionConstraint;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -133,7 +132,7 @@ public class UserInterfaceRootImpl extends EObjectImpl implements UserInterfaceR
 	}
 	
 	public List<Page> getPages() {
-		List<Page> result = null;
+		List result = null;
 		
 		return result;
 	}

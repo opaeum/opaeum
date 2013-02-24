@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.opaeum.uim.IgnoredElement;
+import org.opaeum.uim.LabelContainer;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.Page;
@@ -615,9 +616,14 @@ public class CubeQueryEditorImpl extends UmlReferenceImpl implements CubeQueryEd
 				default: return -1;
 			}
 		}
+		if (baseClass == LabelContainer.class) {
+			switch (derivedFeatureID) {
+				case CubePackage.CUBE_QUERY_EDITOR__LABEL_OVERRIDE: return UimPackage.LABEL_CONTAINER__LABEL_OVERRIDE;
+				default: return -1;
+			}
+		}
 		if (baseClass == LabeledElement.class) {
 			switch (derivedFeatureID) {
-				case CubePackage.CUBE_QUERY_EDITOR__LABEL_OVERRIDE: return UimPackage.LABELED_ELEMENT__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}
@@ -648,9 +654,14 @@ public class CubeQueryEditorImpl extends UmlReferenceImpl implements CubeQueryEd
 				default: return -1;
 			}
 		}
+		if (baseClass == LabelContainer.class) {
+			switch (baseFeatureID) {
+				case UimPackage.LABEL_CONTAINER__LABEL_OVERRIDE: return CubePackage.CUBE_QUERY_EDITOR__LABEL_OVERRIDE;
+				default: return -1;
+			}
+		}
 		if (baseClass == LabeledElement.class) {
 			switch (baseFeatureID) {
-				case UimPackage.LABELED_ELEMENT__LABEL_OVERRIDE: return CubePackage.CUBE_QUERY_EDITOR__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}

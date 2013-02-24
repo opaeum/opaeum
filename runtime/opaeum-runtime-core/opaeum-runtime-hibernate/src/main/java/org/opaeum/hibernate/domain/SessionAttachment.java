@@ -46,6 +46,9 @@ public class SessionAttachment{
 	private Environment environment;
 	public SessionAttachment(EventSource session,Environment env){
 		super();
+		if(env==null){
+			System.out.println();
+		}
 		this.environment = env;
 		this.session = session;
 		StringWriter sw = new StringWriter();

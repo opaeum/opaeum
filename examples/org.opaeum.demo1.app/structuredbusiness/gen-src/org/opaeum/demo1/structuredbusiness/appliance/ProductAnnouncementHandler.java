@@ -3,8 +3,10 @@ package org.opaeum.demo1.structuredbusiness.appliance;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.opaeum.hibernate.domain.InternalHibernatePersistence;
+import org.opaeum.runtime.domain.IActiveObject;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.environment.marshall.PropertyValue;
 import org.opaeum.runtime.environment.marshall.Value;

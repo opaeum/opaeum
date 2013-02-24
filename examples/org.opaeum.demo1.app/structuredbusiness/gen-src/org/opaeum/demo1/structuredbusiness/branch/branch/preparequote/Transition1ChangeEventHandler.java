@@ -3,6 +3,7 @@ package org.opaeum.demo1.structuredbusiness.branch.branch.preparequote;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.opaeum.demo1.structuredbusiness.branch.branch.PrepareQuote;
 import org.opaeum.hibernate.domain.AbstractToken;

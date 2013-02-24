@@ -151,7 +151,7 @@ public class CubeQueryEditorItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(UimPackage.Literals.LABELED_ELEMENT__LABEL_OVERRIDE);
+			childrenFeatures.add(UimPackage.Literals.LABEL_CONTAINER__LABEL_OVERRIDE);
 			childrenFeatures.add(UimPackage.Literals.USER_INTERFACE_ROOT__EDITABILITY);
 			childrenFeatures.add(UimPackage.Literals.USER_INTERFACE_ROOT__VISIBILITY);
 			childrenFeatures.add(UimPackage.Literals.USER_INTERFACE_ROOT__IGNORED_ELEMENTS);
@@ -240,7 +240,7 @@ public class CubeQueryEditorItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UimPackage.Literals.LABELED_ELEMENT__LABEL_OVERRIDE,
+				(UimPackage.Literals.LABEL_CONTAINER__LABEL_OVERRIDE,
 				 UimFactory.eINSTANCE.createLabels()));
 
 		newChildDescriptors.add
@@ -261,22 +261,37 @@ public class CubeQueryEditorItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.USER_INTERFACE_ROOT__EDITABILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
+				 PerspectiveFactory.eINSTANCE.createNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.USER_INTERFACE_ROOT__EDITABILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
+				 PerspectiveFactory.eINSTANCE.createClassNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.USER_INTERFACE_ROOT__EDITABILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerOperationConstraint()));
+				 PerspectiveFactory.eINSTANCE.createPropertyNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.USER_INTERFACE_ROOT__EDITABILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerBehaviorConstraint()));
+				 PerspectiveFactory.eINSTANCE.createOperationNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.USER_INTERFACE_ROOT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createBehaviorNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.USER_INTERFACE_ROOT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createMultiplicityElementNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.USER_INTERFACE_ROOT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createParameterNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -296,22 +311,37 @@ public class CubeQueryEditorItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.USER_INTERFACE_ROOT__VISIBILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
+				 PerspectiveFactory.eINSTANCE.createNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.USER_INTERFACE_ROOT__VISIBILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
+				 PerspectiveFactory.eINSTANCE.createClassNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.USER_INTERFACE_ROOT__VISIBILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerOperationConstraint()));
+				 PerspectiveFactory.eINSTANCE.createPropertyNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.USER_INTERFACE_ROOT__VISIBILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerBehaviorConstraint()));
+				 PerspectiveFactory.eINSTANCE.createOperationNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.USER_INTERFACE_ROOT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createBehaviorNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.USER_INTERFACE_ROOT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createMultiplicityElementNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.USER_INTERFACE_ROOT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createParameterNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter

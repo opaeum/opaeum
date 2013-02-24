@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.opaeum.uim.IgnoredElement;
+import org.opaeum.uim.LabelContainer;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.Page;
@@ -103,6 +104,13 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * @generated
 	 */
 	private EClass pageOrderingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass labelContainerEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -343,15 +351,6 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLabeledElement_LabelOverride() {
-		return (EReference)labeledElementEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getIgnoredElement() {
 		return ignoredElementEClass;
 	}
@@ -397,8 +396,17 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPageOrdering_LabelOverride() {
-		return (EReference)pageOrderingEClass.getEStructuralFeatures().get(2);
+	public EClass getLabelContainer() {
+		return labelContainerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLabelContainer_LabelOverride() {
+		return (EReference)labelContainerEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -449,7 +457,6 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		labelsEClass = createEClass(LABELS);
 
 		labeledElementEClass = createEClass(LABELED_ELEMENT);
-		createEReference(labeledElementEClass, LABELED_ELEMENT__LABEL_OVERRIDE);
 
 		ignoredElementEClass = createEClass(IGNORED_ELEMENT);
 		createEReference(ignoredElementEClass, IGNORED_ELEMENT__USER_INTERFACE_ROOT);
@@ -457,7 +464,9 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		pageOrderingEClass = createEClass(PAGE_ORDERING);
 		createEReference(pageOrderingEClass, PAGE_ORDERING__PAGE);
 		createEAttribute(pageOrderingEClass, PAGE_ORDERING__POSITION);
-		createEReference(pageOrderingEClass, PAGE_ORDERING__LABEL_OVERRIDE);
+
+		labelContainerEClass = createEClass(LABEL_CONTAINER);
+		createEReference(labelContainerEClass, LABEL_CONTAINER__LABEL_OVERRIDE);
 	}
 
 	/**
@@ -520,9 +529,11 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		pageEClass.getESuperTypes().add(theConstraintPackage.getEditableConstrainedObject());
 		pageEClass.getESuperTypes().add(this.getLabeledElement());
 		labelsEClass.getESuperTypes().add(theEcorePackage.getEAnnotation());
-		labeledElementEClass.getESuperTypes().add(this.getUmlReference());
 		labeledElementEClass.getESuperTypes().add(this.getUserInteractionElement());
+		labeledElementEClass.getESuperTypes().add(this.getUmlReference());
+		labeledElementEClass.getESuperTypes().add(this.getLabelContainer());
 		ignoredElementEClass.getESuperTypes().add(this.getUmlReference());
+		pageOrderingEClass.getESuperTypes().add(this.getLabeledElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(userInteractionElementEClass, UserInteractionElement.class, "UserInteractionElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -547,7 +558,6 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		initEClass(labelsEClass, Labels.class, "Labels", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(labeledElementEClass, LabeledElement.class, "LabeledElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getLabeledElement_LabelOverride(), this.getLabels(), null, "labelOverride", null, 0, 1, LabeledElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ignoredElementEClass, IgnoredElement.class, "IgnoredElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIgnoredElement_UserInterfaceRoot(), this.getUserInterfaceRoot(), this.getUserInterfaceRoot_IgnoredElements(), "userInterfaceRoot", null, 0, 1, IgnoredElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -555,7 +565,9 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		initEClass(pageOrderingEClass, PageOrdering.class, "PageOrdering", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPageOrdering_Page(), this.getPage(), null, "page", null, 0, 1, PageOrdering.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPageOrdering_Position(), theEcorePackage.getEInt(), "position", null, 0, 1, PageOrdering.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPageOrdering_LabelOverride(), this.getLabels(), null, "labelOverride", null, 0, 1, PageOrdering.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(labelContainerEClass, LabelContainer.class, "LabelContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getLabelContainer_LabelOverride(), this.getLabels(), null, "labelOverride", null, 0, 1, LabelContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

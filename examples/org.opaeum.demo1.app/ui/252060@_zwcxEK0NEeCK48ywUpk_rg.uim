@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_eyGTYHzhEeK4RO8Gc0PbkA" name="onStopped" umlElementUid="252060@_zwcxEK0NEeCK48ywUpk_rg" linkedUmlResource="OpaeumBPM.library.uml">
-  <pageOrdering xmi:id="_ezcXOnzhEeK4RO8Gc0PbkA" page="_ezcXOXzhEeK4RO8Gc0PbkA"/>
-  <pages xmi:id="_ezcXOXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_zwcxEK0NEeCK48ywUpk_rg" name="Operation: On stopped">
-    <panel xsi:type="panel:GridPanel" xmi:id="_ezcXO3zhEeK4RO8Gc0PbkA" name="OnStopped" numberOfColumns="1">
-      <children xsi:type="comp:UimField" xmi:id="_ezcXPHzhEeK4RO8Gc0PbkA" name="Stopped by" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-        <control xsi:type="ctl:UimDropdown" xmi:id="_ezcXPXzhEeK4RO8Gc0PbkA"/>
-        <binding xmi:id="_ezcXPnzhEeK4RO8Gc0PbkA" umlElementUid="252060@_1Xu38K0NEeCK48ywUpk_rg"/>
+<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NVPvAn2yEeKdOuVcMz9Nmw" name="onStopped" umlElementUid="252060@_zwcxEK0NEeCK48ywUpk_rg" linkedUmlResource="OpaeumBPM.library.uml">
+  <pageOrdering xmi:id="_NeGwH32yEeKdOuVcMz9Nmw" page="_NeGwHn2yEeKdOuVcMz9Nmw"/>
+  <pages xmi:id="_NeGwHn2yEeKdOuVcMz9Nmw" umlElementUid="252060@_zwcxEK0NEeCK48ywUpk_rg" name="Operation: On stopped">
+    <panel xsi:type="panel:GridPanel" xmi:id="_NeGwIH2yEeKdOuVcMz9Nmw" name="OnStopped" numberOfColumns="1">
+      <children xsi:type="comp:UimField" xmi:id="_NeGwIX2yEeKdOuVcMz9Nmw" name="Stopped by" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown" xmi:id="_NeGwIn2yEeKdOuVcMz9Nmw"/>
+        <binding xmi:id="_NeGwI32yEeKdOuVcMz9Nmw" umlElementUid="252060@_1Xu38K0NEeCK48ywUpk_rg"/>
       </children>
     </panel>
   </pages>

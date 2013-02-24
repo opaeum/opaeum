@@ -420,15 +420,6 @@ public interface WizardPackage extends EPackage {
 	int WIZARD_PAGE__EDITABILITY = UimPackage.PAGE__EDITABILITY;
 
 	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int WIZARD_PAGE__UML_ELEMENT_UID = UimPackage.PAGE__UML_ELEMENT_UID;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -445,6 +436,15 @@ public interface WizardPackage extends EPackage {
 	 * @ordered
 	 */
 	int WIZARD_PAGE__UNDER_USER_CONTROL = UimPackage.PAGE__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WIZARD_PAGE__UML_ELEMENT_UID = UimPackage.PAGE__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
@@ -747,15 +747,6 @@ public interface WizardPackage extends EPackage {
 	int OPERATION_RESULT_PAGE__EDITABILITY = UimPackage.PAGE__EDITABILITY;
 
 	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_RESULT_PAGE__UML_ELEMENT_UID = UimPackage.PAGE__UML_ELEMENT_UID;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -772,6 +763,15 @@ public interface WizardPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_RESULT_PAGE__UNDER_USER_CONTROL = UimPackage.PAGE__UNDER_USER_CONTROL;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_RESULT_PAGE__UML_ELEMENT_UID = UimPackage.PAGE__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.

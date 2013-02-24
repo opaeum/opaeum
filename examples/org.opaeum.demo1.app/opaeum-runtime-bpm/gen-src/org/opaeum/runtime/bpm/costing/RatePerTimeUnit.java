@@ -3,7 +3,9 @@ package org.opaeum.runtime.bpm.costing;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -37,7 +39,9 @@ import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.strategy.DateTimeStrategyFactory;
 import org.opaeum.runtime.strategy.MoneyInDefaultCurrencyStrategyFactory;
@@ -464,8 +468,8 @@ public class RatePerTimeUnit implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void z_internalAddToAdditionalCostToCompany(Double additionalCostToCompany) {
-		if ( additionalCostToCompanyCurrency!=null && !additionalCostToCompanyCurrency.equals(org.opeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency()) ) {
-			throw new CurrencyMismatchException(additionalCostToCompanyCurrency,org.opeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency());
+		if ( additionalCostToCompanyCurrency!=null && !additionalCostToCompanyCurrency.equals(org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency()) ) {
+			throw new CurrencyMismatchException(additionalCostToCompanyCurrency,org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency());
 		}
 		this.additionalCostToCompany=additionalCostToCompany;
 	}
@@ -475,15 +479,15 @@ public class RatePerTimeUnit implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void z_internalAddToRatePaidByCompany(Double ratePaidByCompany) {
-		if ( ratePaidByCompanyCurrency!=null && !ratePaidByCompanyCurrency.equals(org.opeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency()) ) {
-			throw new CurrencyMismatchException(ratePaidByCompanyCurrency,org.opeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency());
+		if ( ratePaidByCompanyCurrency!=null && !ratePaidByCompanyCurrency.equals(org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency()) ) {
+			throw new CurrencyMismatchException(ratePaidByCompanyCurrency,org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency());
 		}
 		this.ratePaidByCompany=ratePaidByCompany;
 	}
 	
 	public void z_internalAddToRatePaidByCustomer(Double ratePaidByCustomer) {
-		if ( ratePaidByCustomerCurrency!=null && !ratePaidByCustomerCurrency.equals(org.opeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency()) ) {
-			throw new CurrencyMismatchException(ratePaidByCustomerCurrency,org.opeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency());
+		if ( ratePaidByCustomerCurrency!=null && !ratePaidByCustomerCurrency.equals(org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency()) ) {
+			throw new CurrencyMismatchException(ratePaidByCustomerCurrency,org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency());
 		}
 		this.ratePaidByCustomer=ratePaidByCustomer;
 	}

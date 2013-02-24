@@ -18,7 +18,6 @@ import org.opaeum.uim.panel.Outlayable;
  * <ul>
  *   <li>{@link org.opaeum.uim.component.UimDataTable#getBinding <em>Binding</em>}</li>
  *   <li>{@link org.opaeum.uim.component.UimDataTable#getActionsOnMultipleSelection <em>Actions On Multiple Selection</em>}</li>
- *   <li>{@link org.opaeum.uim.component.UimDataTable#getLabelOverride <em>Label Override</em>}</li>
  * </ul>
  * </p>
  *
@@ -70,31 +69,5 @@ public interface UimDataTable extends MasterComponent, UimContainer, Outlayable 
 	 * @generated
 	 */
 	EList<AbstractActionButton> getActionsOnMultipleSelection();
-
-	/**
-	 * Returns the value of the '<em><b>Label Override</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Label Override</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Label Override</em>' containment reference.
-	 * @see #setLabelOverride(Labels)
-	 * @see org.opaeum.uim.component.ComponentPackage#getUimDataTable_LabelOverride()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Labels getLabelOverride();
-
-	/**
-	 * Sets the value of the '{@link org.opaeum.uim.component.UimDataTable#getLabelOverride <em>Label Override</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Label Override</em>' containment reference.
-	 * @see #getLabelOverride()
-	 * @generated
-	 */
-	void setLabelOverride(Labels value);
 
 } // UimDataTable

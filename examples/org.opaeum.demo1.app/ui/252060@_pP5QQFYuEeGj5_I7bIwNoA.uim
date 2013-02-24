@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_eyIIkHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_pP5QQFYuEeGj5_I7bIwNoA" name="BusinessCollaboration BusinessActor User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_eyIIkXzhEeK4RO8Gc0PbkA" name="Edit BusinessCollaboration_BusinessActor" umlElementUid="252060@_pP5QQFYuEeGj5_I7bIwNoA">
-    <pageOrdering xmi:id="_eyIIk3zhEeK4RO8Gc0PbkA" page="_eyIIknzhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_eyIIknzhEeK4RO8Gc0PbkA" umlElementUid="252060@_pP5QQFYuEeGj5_I7bIwNoA" name="Edit BusinessCollaboration BusinessActor">
-      <panel xsi:type="panel:GridPanel" xmi:id="_eyIIlHzhEeK4RO8Gc0PbkA" name="BusinessCollaboration_BusinessActor" numberOfColumns="1"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NVip8H2yEeKdOuVcMz9Nmw" umlElementUid="252060@_pP5QQFYuEeGj5_I7bIwNoA" name="BusinessCollaboration BusinessActor User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_NVip8X2yEeKdOuVcMz9Nmw" name="Edit BusinessCollaboration_BusinessActor" umlElementUid="252060@_pP5QQFYuEeGj5_I7bIwNoA">
+    <pageOrdering xmi:id="_NVjRAX2yEeKdOuVcMz9Nmw" page="_NVjRAH2yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_NVjRAH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_pP5QQFYuEeGj5_I7bIwNoA" name="Edit BusinessCollaboration BusinessActor">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NVjRAn2yEeKdOuVcMz9Nmw" name="BusinessCollaboration_BusinessActor" numberOfColumns="1"/>
     </pages>
-    <actionBar xmi:id="_eyIIlXzhEeK4RO8Gc0PbkA" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_eyIIlnzhEeK4RO8Gc0PbkA" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_eyIIl3zhEeK4RO8Gc0PbkA" name="Delete" kind="delete"/>
+    <actionBar xmi:id="_NVjRA32yEeKdOuVcMz9Nmw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVjRBH2yEeKdOuVcMz9Nmw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVjRBX2yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_eyIImHzhEeK4RO8Gc0PbkA" name="Create BusinessCollaboration_BusinessActor" umlElementUid="252060@_pP5QQFYuEeGj5_I7bIwNoA">
-    <pageOrdering xmi:id="_eyIImnzhEeK4RO8Gc0PbkA" page="_eyIImXzhEeK4RO8Gc0PbkA"/>
-    <pages xmi:id="_eyIImXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_pP5QQFYuEeGj5_I7bIwNoA" name="CreateBusinessCollaboration BusinessActor">
-      <panel xsi:type="panel:GridPanel" xmi:id="_eyIIm3zhEeK4RO8Gc0PbkA" name="BusinessCollaboration_BusinessActor" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_NVjRBn2yEeKdOuVcMz9Nmw" name="Create BusinessCollaboration_BusinessActor" umlElementUid="252060@_pP5QQFYuEeGj5_I7bIwNoA">
+    <pageOrdering xmi:id="_NVjRCH2yEeKdOuVcMz9Nmw" page="_NVjRB32yEeKdOuVcMz9Nmw"/>
+    <pages xmi:id="_NVjRB32yEeKdOuVcMz9Nmw" umlElementUid="252060@_pP5QQFYuEeGj5_I7bIwNoA" name="CreateBusinessCollaboration BusinessActor">
+      <panel xsi:type="panel:GridPanel" xmi:id="_NVjRCX2yEeKdOuVcMz9Nmw" name="BusinessCollaboration_BusinessActor" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </model:ClassUserInteractionModel>

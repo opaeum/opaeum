@@ -262,15 +262,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUimField_LabelOverride() {
-		return (EReference)uimFieldEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getUimComponent() {
 		return uimComponentEClass;
 	}
@@ -300,15 +291,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 	 */
 	public EReference getUimDataTable_ActionsOnMultipleSelection() {
 		return (EReference)uimDataTableEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getUimDataTable_LabelOverride() {
-		return (EReference)uimDataTableEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -444,14 +426,12 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		createEAttribute(uimFieldEClass, UIM_FIELD__MINIMUM_LABEL_WIDTH);
 		createEReference(uimFieldEClass, UIM_FIELD__BINDING);
 		createEAttribute(uimFieldEClass, UIM_FIELD__ORIENTATION);
-		createEReference(uimFieldEClass, UIM_FIELD__LABEL_OVERRIDE);
 
 		uimComponentEClass = createEClass(UIM_COMPONENT);
 
 		uimDataTableEClass = createEClass(UIM_DATA_TABLE);
 		createEReference(uimDataTableEClass, UIM_DATA_TABLE__BINDING);
 		createEReference(uimDataTableEClass, UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION);
-		createEReference(uimDataTableEClass, UIM_DATA_TABLE__LABEL_OVERRIDE);
 
 		uimContainerEClass = createEClass(UIM_CONTAINER);
 		createEReference(uimContainerEClass, UIM_CONTAINER__CHILDREN);
@@ -512,6 +492,7 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		uimFieldEClass.getESuperTypes().add(thePanelPackage.getOutlayable());
 		uimComponentEClass.getESuperTypes().add(theUimPackage.getUserInteractionElement());
 		uimComponentEClass.getESuperTypes().add(theConstraintPackage.getConstrainedObject());
+		uimComponentEClass.getESuperTypes().add(theUimPackage.getLabelContainer());
 		uimDataTableEClass.getESuperTypes().add(this.getMasterComponent());
 		uimDataTableEClass.getESuperTypes().add(this.getUimContainer());
 		uimDataTableEClass.getESuperTypes().add(thePanelPackage.getOutlayable());
@@ -528,7 +509,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEAttribute(getUimField_MinimumLabelWidth(), theEcorePackage.getEIntegerObject(), "minimumLabelWidth", "200", 0, 1, UimField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUimField_Binding(), theBindingPackage.getFieldBinding(), theBindingPackage.getFieldBinding_Field(), "binding", null, 1, 1, UimField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUimField_Orientation(), thePanelPackage.getOrientation(), "orientation", null, 0, 1, UimField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUimField_LabelOverride(), theUimPackage.getLabels(), null, "labelOverride", null, 0, 1, UimField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(uimComponentEClass, UimComponent.class, "UimComponent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -537,7 +517,6 @@ public class ComponentPackageImpl extends EPackageImpl implements ComponentPacka
 		initEClass(uimDataTableEClass, UimDataTable.class, "UimDataTable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUimDataTable_Binding(), theBindingPackage.getTableBinding(), theBindingPackage.getTableBinding_Table(), "binding", null, 0, 1, UimDataTable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUimDataTable_ActionsOnMultipleSelection(), theActionPackage.getAbstractActionButton(), null, "actionsOnMultipleSelection", null, 0, -1, UimDataTable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUimDataTable_LabelOverride(), theUimPackage.getLabels(), null, "labelOverride", null, 0, 1, UimDataTable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(uimContainerEClass, UimContainer.class, "UimContainer", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUimContainer_Children(), this.getUimComponent(), null, "children", null, 0, -1, UimContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

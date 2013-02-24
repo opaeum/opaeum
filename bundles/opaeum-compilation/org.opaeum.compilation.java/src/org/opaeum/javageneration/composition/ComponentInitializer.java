@@ -35,11 +35,13 @@ import org.opaeum.runtime.domain.CompositionNode;
 public class ComponentInitializer extends AbstractStructureVisitor{
 	@Override
 	protected boolean visitComplexStructure(OJAnnotatedClass ojClass, Classifier entity){
-			if(EmfClassifierUtil.isCompositionParticipant(entity) && !(entity instanceof Interface)){
+		boolean auto=false;	
+		if(EmfClassifierUtil.isCompositionParticipant(entity) && !(entity instanceof Interface)){
 				OJOperation init = ojClass.findOperation("init", Arrays.asList(new OJPathName(CompositionNode.class.getName())));
 				Set<? extends Property> aws = getLibrary().getDirectlyImplementedAttributes(entity);
-
-				init.getBody().addToStatements("createComponents()");
+				if(auto){
+					init.getBody().addToStatements("createComponents()");
+				}
 				OJOperation createComponents = new OJAnnotatedOperation("createComponents");
 				init.getOwner().addToOperations(createComponents);
 				createComponents.setBody(new OJBlock());
@@ -70,7 +72,7 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 											map.adder() + "(" + ojUtil.classifierPathname(en) + "." + OJUtil.toJavaLiteral(l) + ",new" + map.fieldname() + ")");
 								}
 								createComponents.getBody().addToStatements(ifEmpty);
-								if(EmfClassifierUtil.isCompositionParticipant((Classifier) map.getBaseType())){
+								if(EmfClassifierUtil.isCompositionParticipant((Classifier) map.getBaseType()) && auto){
 									OJForStatement whileIter = new OJForStatement("c", map.javaBaseTypePath(), map.getter() + "()");
 									whileIter.setBody(new OJBlock());
 									whileIter.getBody().addToStatements("c.init(this)");
@@ -80,7 +82,7 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 						}else if(map.isOne() && (np.isComposite() && np.getLower() == 1) && !(map.getBaseType() instanceof Association)){
 							OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", map.setter() + "(new " + map.javaBaseType() + "())");
 							createComponents.getBody().addToStatements(ifNull);
-							if(EmfClassifierUtil.isCompositionParticipant((Classifier) map.getBaseType())){
+							if(EmfClassifierUtil.isCompositionParticipant((Classifier) map.getBaseType())&& auto){
 								init.getBody().addToStatements(map.getter() + "().init(this)");
 							}
 						}

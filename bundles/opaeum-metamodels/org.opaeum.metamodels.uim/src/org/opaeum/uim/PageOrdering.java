@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.opaeum.uim.PageOrdering#getPage <em>Page</em>}</li>
  *   <li>{@link org.opaeum.uim.PageOrdering#getPosition <em>Position</em>}</li>
- *   <li>{@link org.opaeum.uim.PageOrdering#getLabelOverride <em>Label Override</em>}</li>
  * </ul>
  * </p>
  *
@@ -22,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface PageOrdering extends EObject {
+public interface PageOrdering extends LabeledElement {
 	/**
 	 * Returns the value of the '<em><b>Page</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -74,31 +73,5 @@ public interface PageOrdering extends EObject {
 	 * @generated
 	 */
 	void setPosition(int value);
-
-	/**
-	 * Returns the value of the '<em><b>Label Override</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Label Override</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Label Override</em>' reference.
-	 * @see #setLabelOverride(Labels)
-	 * @see org.opaeum.uim.UimPackage#getPageOrdering_LabelOverride()
-	 * @model
-	 * @generated
-	 */
-	Labels getLabelOverride();
-
-	/**
-	 * Sets the value of the '{@link org.opaeum.uim.PageOrdering#getLabelOverride <em>Label Override</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Label Override</em>' reference.
-	 * @see #getLabelOverride()
-	 * @generated
-	 */
-	void setLabelOverride(Labels value);
 
 } // PageOrdering

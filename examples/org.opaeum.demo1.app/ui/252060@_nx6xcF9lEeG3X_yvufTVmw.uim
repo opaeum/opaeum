@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_exqOjHzhEeK4RO8Gc0PbkA" name="makeCopy" umlElementUid="252060@_nx6xcF9lEeG3X_yvufTVmw" linkedUmlResource="OpaeumBPM.library.uml">
-  <pageOrdering xmi:id="_ezWQoXzhEeK4RO8Gc0PbkA" page="_ezWQoHzhEeK4RO8Gc0PbkA"/>
-  <pages xmi:id="_ezWQoHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_nx6xcF9lEeG3X_yvufTVmw" name="Operation: Make copy">
-    <panel xsi:type="panel:GridPanel" xmi:id="_ezWQonzhEeK4RO8Gc0PbkA" name="MakeCopy" numberOfColumns="1">
-      <children xsi:type="comp:UimField" xmi:id="_ezWQo3zhEeK4RO8Gc0PbkA" name="Result" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-        <control xsi:type="ctl:UimDropdown" xmi:id="_ezWQpHzhEeK4RO8Gc0PbkA"/>
-        <binding xmi:id="_ezWQpXzhEeK4RO8Gc0PbkA" umlElementUid="252060@_qe-NkF9lEeG3X_yvufTVmw"/>
+<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NUv_wH2yEeKdOuVcMz9Nmw" name="makeCopy" umlElementUid="252060@_nx6xcF9lEeG3X_yvufTVmw" linkedUmlResource="OpaeumBPM.library.uml">
+  <pageOrdering xmi:id="_NeGwJX2yEeKdOuVcMz9Nmw" page="_NeGwJH2yEeKdOuVcMz9Nmw"/>
+  <pages xmi:id="_NeGwJH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_nx6xcF9lEeG3X_yvufTVmw" name="Operation: Make copy">
+    <panel xsi:type="panel:GridPanel" xmi:id="_NeGwJn2yEeKdOuVcMz9Nmw" name="MakeCopy" numberOfColumns="1">
+      <children xsi:type="comp:UimField" xmi:id="_NeGwJ32yEeKdOuVcMz9Nmw" name="Result" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown" xmi:id="_NeGwKH2yEeKdOuVcMz9Nmw"/>
+        <binding xmi:id="_NeGwKX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_qe-NkF9lEeG3X_yvufTVmw"/>
       </children>
     </panel>
   </pages>

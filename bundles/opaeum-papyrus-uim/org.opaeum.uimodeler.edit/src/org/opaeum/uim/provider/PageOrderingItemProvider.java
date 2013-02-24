@@ -29,7 +29,7 @@ import org.opaeum.uim.UimPackage;
  * @generated
  */
 public class PageOrderingItemProvider
-	extends ItemProviderAdapter
+	extends LabeledElementItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -59,7 +59,6 @@ public class PageOrderingItemProvider
 
 			addPagePropertyDescriptor(object);
 			addPositionPropertyDescriptor(object);
-			addLabelOverridePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -109,28 +108,6 @@ public class PageOrderingItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Label Override feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addLabelOverridePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_PageOrdering_labelOverride_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PageOrdering_labelOverride_feature", "_UI_PageOrdering_type"),
-				 UimPackage.Literals.PAGE_ORDERING__LABEL_OVERRIDE,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
 	 * This returns PageOrdering.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -149,8 +126,10 @@ public class PageOrderingItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		PageOrdering pageOrdering = (PageOrdering)object;
-		return getString("_UI_PageOrdering_type") + " " + pageOrdering.getPosition();
+		String label = ((PageOrdering)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_PageOrdering_type") :
+			getString("_UI_PageOrdering_type") + " " + label;
 	}
 
 	/**
@@ -182,17 +161,6 @@ public class PageOrderingItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return UimEditPlugin.INSTANCE;
 	}
 
 }

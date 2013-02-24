@@ -113,7 +113,7 @@ public class UimVisualIDRegistry{
 			if(PerspectivePackage.eINSTANCE.getPropertiesConfiguration().isSuperTypeOf(domainElement.eClass())){
 				return PropertiesConfigurationEditPart.VISUAL_ID;
 			}
-			if(PerspectivePackage.eINSTANCE.getExplorerConfiguration().isSuperTypeOf(domainElement.eClass())){
+			if(PerspectivePackage.eINSTANCE.getNavigatorConfiguration().isSuperTypeOf(domainElement.eClass())){
 				return ExplorerConfigurationEditPart.VISUAL_ID;
 			}
 			break;

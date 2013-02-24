@@ -6,6 +6,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.LabelContainer;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
@@ -113,6 +114,10 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseConstrainedObject(ConstrainedObject object) {
 				return createConstrainedObjectAdapter();
+			}
+			@Override
+			public Adapter caseLabelContainer(LabelContainer object) {
+				return createLabelContainerAdapter();
 			}
 			@Override
 			public Adapter caseUimComponent(UimComponent object) {
@@ -273,6 +278,20 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createConstrainedObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.LabelContainer <em>Label Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.LabelContainer
+	 * @generated
+	 */
+	public Adapter createLabelContainerAdapter() {
 		return null;
 	}
 

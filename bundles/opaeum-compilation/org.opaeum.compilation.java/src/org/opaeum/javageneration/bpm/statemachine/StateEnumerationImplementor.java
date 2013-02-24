@@ -64,7 +64,7 @@ public class StateEnumerationImplementor extends ProcessStepEnumerationImplement
 		return false;
 	}
 	private void state(Vertex state){
-		StateMachine sm = EmfStateMachineUtil.getStateMachine(state);
+		StateMachine sm = EmfStateMachineUtil.getNearestApplicableStateMachine(state);
 		OJPackage p = findOrCreatePackage(ojUtil.packagePathname((Namespace) sm.getOwner()));
 		OJEnum e = (OJEnum) p.findClass(new OJPathName(sm.getName() + "State"));
 		State enclosingElement = state.getContainer().getState();

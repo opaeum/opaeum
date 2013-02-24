@@ -4,8 +4,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.opaeum.demo1.structuredbusiness.branch.Manager;
+import org.opaeum.demo1.util.Demo1Environment;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
-import org.opeum.demo1.util.Demo1Environment;
 
 public class InterfaceAssociationTest{
 	public void testInterfaceMany(){

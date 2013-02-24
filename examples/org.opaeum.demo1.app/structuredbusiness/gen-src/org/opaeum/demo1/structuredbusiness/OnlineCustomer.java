@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +17,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -26,12 +28,14 @@ import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.demo1.structuredbusiness.util.Stdlib;
+import org.opaeum.demo1.structuredbusiness.util.StructuredbusinessFormatter;
 import org.opaeum.hibernate.domain.InternalHibernatePersistence;
 import org.opaeum.runtime.bpm.organization.BusinessCollaboration_BusinessActor;
 import org.opaeum.runtime.bpm.organization.IBusinessActor;
@@ -58,6 +62,7 @@ import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.event.NotificationType;
 import org.opaeum.runtime.organization.IOrganizationNode;
 import org.opaeum.runtime.organization.IPersonNode;
@@ -73,6 +78,10 @@ import org.w3c.dom.NodeList;
 @Table(name="online_customer",schema="structuredbusiness")
 @Entity(name="OnlineCustomer")
 public class OnlineCustomer implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessActor, Serializable {
+	@Index(columnNames="appliance_collaboration_id",name="idx_online_customer_appliance_collaboration_id")
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="appliance_collaboration_id",nullable=true)
+	protected ApplianceCollaboration applianceCollaboration;
 	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="business_collaboration__business_actor_business_collaboration_id",nullable=true)
 	protected BusinessCollaboration_BusinessActor businessCollaboration_BusinessActor_businessCollaboration;
@@ -124,7 +133,7 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 	 * 
 	 * @param owningObject 
 	 */
-	public OnlineCustomer(IBusinessCollaboration owningObject) {
+	public OnlineCustomer(ApplianceCollaboration owningObject) {
 		init(owningObject);
 		addToOwningObject();
 	}
@@ -153,6 +162,7 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
+		getApplianceCollaboration().z_internalAddToOnlineCustomer((OnlineCustomer)this);
 	}
 	
 	public void addToParticipation(Participation participation) {
@@ -248,6 +258,14 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 			return other==this || ((OnlineCustomer)other).getUid().equals(this.getUid());
 		}
 		return false;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8071976635757431368l,opposite="onlineCustomer",uuid="914890@_d8YA0X6YEeKpcOSs24uZew")
+	@NumlMetaInfo(uuid="914890@_d8YA0X6YEeKpcOSs24uZew")
+	public ApplianceCollaboration getApplianceCollaboration() {
+		ApplianceCollaboration result = this.applianceCollaboration;
+		
+		return result;
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=124417441767574741l,opposite="businessActor",uuid="252060@_pP5QRFYuEeGj5_I7bIwNoA")
@@ -349,7 +367,7 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public CompositionNode getOwningObject() {
-		return getBusinessCollaboration();
+		return getApplianceCollaboration();
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
@@ -478,10 +496,10 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void init(CompositionNode owner) {
+		this.z_internalAddToApplianceCollaboration((ApplianceCollaboration)owner);
 		this.setPreferredEMailAddressType( PersonEMailAddressType.WORK );
 		this.setPreferredPhoneNumberType( PersonPhoneNumberType.CELL );
 		this.setPreferredNotificationType( NotificationType.EMAIL );
-		createComponents();
 	}
 	
 	public void markDeleted() {
@@ -491,6 +509,9 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 		}
 		if ( getRepresentedPerson()!=null ) {
 			getRepresentedPerson().z_internalRemoveFromBusinessActor(this);
+		}
+		if ( getApplianceCollaboration()!=null ) {
+			getApplianceCollaboration().z_internalRemoveFromOnlineCustomer(this);
 		}
 		if ( getOrganizationFullfillsActorRole_organization()!=null ) {
 			getOrganizationFullfillsActorRole_organization().z_internalRemoveFromBusinessActor(this);
@@ -583,6 +604,20 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void removePropertyChangeListener(String property, PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(property,listener);
+	}
+	
+	public void setApplianceCollaboration(ApplianceCollaboration applianceCollaboration) {
+		propertyChangeSupport.firePropertyChange("applianceCollaboration",getApplianceCollaboration(),applianceCollaboration);
+		if ( this.getApplianceCollaboration()!=null ) {
+			this.getApplianceCollaboration().z_internalRemoveFromOnlineCustomer(this);
+		}
+		if ( applianceCollaboration!=null ) {
+			applianceCollaboration.z_internalAddToOnlineCustomer(this);
+			this.z_internalAddToApplianceCollaboration(applianceCollaboration);
+			setDeletedOn(Stdlib.FUTURE);
+		} else {
+			markDeleted();
+		}
 	}
 	
 	public void setBusinessCollaboration_BusinessActor_businessCollaboration(BusinessCollaboration_BusinessActor businessCollaboration_BusinessActor_businessCollaboration) {
@@ -797,6 +832,10 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 		return sb.toString();
 	}
 	
+	public void z_internalAddToApplianceCollaboration(ApplianceCollaboration applianceCollaboration) {
+		this.applianceCollaboration=applianceCollaboration;
+	}
+	
 	public void z_internalAddToBusinessCollaboration_BusinessActor_businessCollaboration(BusinessCollaboration_BusinessActor businessCollaboration_BusinessActor_businessCollaboration) {
 		this.businessCollaboration_BusinessActor_businessCollaboration=businessCollaboration_BusinessActor_businessCollaboration;
 	}
@@ -841,6 +880,13 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 		PersonFullfillsActorRole newOne = new PersonFullfillsActorRole(this,representedPerson);
 		this.z_internalAddToPersonFullfillsActorRole_representedPerson(newOne);
 		newOne.getRepresentedPerson().z_internalAddToPersonFullfillsActorRole_businessActor(newOne);
+	}
+	
+	public void z_internalRemoveFromApplianceCollaboration(ApplianceCollaboration applianceCollaboration) {
+		if ( getApplianceCollaboration()!=null && applianceCollaboration!=null && applianceCollaboration.equals(getApplianceCollaboration()) ) {
+			this.applianceCollaboration=null;
+			this.applianceCollaboration=null;
+		}
 	}
 	
 	public void z_internalRemoveFromBusinessCollaboration_BusinessActor_businessCollaboration(BusinessCollaboration_BusinessActor businessCollaboration_BusinessActor_businessCollaboration) {

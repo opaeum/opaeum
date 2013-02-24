@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.opaeum.runtime.bpm.organization.IParticipant;
 import org.opaeum.runtime.bpm.request.TaskRequest;
+import org.opaeum.runtime.bpm.request.TaskRequestState;
 import org.opaeum.runtime.bpm.request.TaskRequestToken;
 import org.opaeum.runtime.bpm.request.abstractrequest.region1.Complete;
 import org.opaeum.runtime.bpm.request.taskrequest.TaskRequestRegion;
@@ -11,6 +12,7 @@ import org.opaeum.runtime.bpm.requestobject.IRequestObject;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.domain.TriggerMethod;
+import org.opaeum.runtime.environment.Environment;
 
 public class Completed<SME extends TaskRequest> extends Complete<SME> {
 	static public String ID = "252060@_dAgD4IoaEeCPduia_-NbFw";
@@ -63,7 +65,7 @@ public class Completed<SME extends TaskRequest> extends Complete<SME> {
 	public void onEntry(TaskRequestToken token) {
 		super.onEntry(token);
 		IRequestObject tgtCallOperationAction1=getStateMachineExecution().getTaskObject();
-		tgtCallOperationAction1.onCompleted((IParticipant)org.opeum.demo1.util.Demo1Environment.INSTANCE.getCurrentRole());
+		tgtCallOperationAction1.onCompleted((IParticipant)org.opaeum.demo1.util.Demo1Environment.INSTANCE.getCurrentRole());
 		token.setHasRunToCompletion(true);
 	}
 	

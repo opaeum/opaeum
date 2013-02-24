@@ -1,6 +1,5 @@
 package org.opaeum.uimodeler.common.figures;
 
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.swt.layout.GridLayout;

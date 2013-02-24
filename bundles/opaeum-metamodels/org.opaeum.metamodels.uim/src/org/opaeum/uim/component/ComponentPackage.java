@@ -104,13 +104,22 @@ public interface ComponentPackage extends EPackage {
 	int UIM_FIELD__UNDER_USER_CONTROL = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_FIELD__LABEL_OVERRIDE = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__PREFERRED_WIDTH = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 2;
+	int UIM_FIELD__PREFERRED_WIDTH = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Height</b></em>' attribute.
@@ -119,7 +128,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__PREFERRED_HEIGHT = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 3;
+	int UIM_FIELD__PREFERRED_HEIGHT = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Fill Horizontally</b></em>' attribute.
@@ -128,7 +137,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__FILL_HORIZONTALLY = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 4;
+	int UIM_FIELD__FILL_HORIZONTALLY = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Fill Vertically</b></em>' attribute.
@@ -137,7 +146,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__FILL_VERTICALLY = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 5;
+	int UIM_FIELD__FILL_VERTICALLY = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Control</b></em>' containment reference.
@@ -146,7 +155,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__CONTROL = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 6;
+	int UIM_FIELD__CONTROL = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Control Kind</b></em>' attribute.
@@ -155,7 +164,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__CONTROL_KIND = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 7;
+	int UIM_FIELD__CONTROL_KIND = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Minimum Label Width</b></em>' attribute.
@@ -164,7 +173,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__MINIMUM_LABEL_WIDTH = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 8;
+	int UIM_FIELD__MINIMUM_LABEL_WIDTH = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Binding</b></em>' containment reference.
@@ -173,7 +182,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__BINDING = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 9;
+	int UIM_FIELD__BINDING = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Orientation</b></em>' attribute.
@@ -182,16 +191,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_FIELD__ORIENTATION = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 10;
-
-	/**
-	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_FIELD__LABEL_OVERRIDE = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 11;
+	int UIM_FIELD__ORIENTATION = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 11;
 
 	/**
 	 * The number of structural features of the '<em>Uim Field</em>' class.
@@ -240,13 +240,22 @@ public interface ComponentPackage extends EPackage {
 	int UIM_COMPONENT__VISIBILITY = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_COMPONENT__LABEL_OVERRIDE = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Uim Component</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_COMPONENT_FEATURE_COUNT = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 1;
+	int UIM_COMPONENT_FEATURE_COUNT = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.component.impl.MasterComponentImpl <em>Master Component</em>}' class.
@@ -323,13 +332,22 @@ public interface ComponentPackage extends EPackage {
 	int UIM_DATA_TABLE__VISIBILITY = MASTER_COMPONENT_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DATA_TABLE__LABEL_OVERRIDE = MASTER_COMPONENT_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__EDITABILITY = MASTER_COMPONENT_FEATURE_COUNT + 3;
+	int UIM_DATA_TABLE__EDITABILITY = MASTER_COMPONENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
@@ -338,7 +356,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__CHILDREN = MASTER_COMPONENT_FEATURE_COUNT + 4;
+	int UIM_DATA_TABLE__CHILDREN = MASTER_COMPONENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Width</b></em>' attribute.
@@ -347,7 +365,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__PREFERRED_WIDTH = MASTER_COMPONENT_FEATURE_COUNT + 5;
+	int UIM_DATA_TABLE__PREFERRED_WIDTH = MASTER_COMPONENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Preferred Height</b></em>' attribute.
@@ -356,7 +374,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__PREFERRED_HEIGHT = MASTER_COMPONENT_FEATURE_COUNT + 6;
+	int UIM_DATA_TABLE__PREFERRED_HEIGHT = MASTER_COMPONENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Fill Horizontally</b></em>' attribute.
@@ -365,7 +383,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__FILL_HORIZONTALLY = MASTER_COMPONENT_FEATURE_COUNT + 7;
+	int UIM_DATA_TABLE__FILL_HORIZONTALLY = MASTER_COMPONENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Fill Vertically</b></em>' attribute.
@@ -374,7 +392,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__FILL_VERTICALLY = MASTER_COMPONENT_FEATURE_COUNT + 8;
+	int UIM_DATA_TABLE__FILL_VERTICALLY = MASTER_COMPONENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Binding</b></em>' containment reference.
@@ -383,7 +401,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__BINDING = MASTER_COMPONENT_FEATURE_COUNT + 9;
+	int UIM_DATA_TABLE__BINDING = MASTER_COMPONENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Actions On Multiple Selection</b></em>' containment reference list.
@@ -392,16 +410,7 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION = MASTER_COMPONENT_FEATURE_COUNT + 10;
-
-	/**
-	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_DATA_TABLE__LABEL_OVERRIDE = MASTER_COMPONENT_FEATURE_COUNT + 11;
+	int UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION = MASTER_COMPONENT_FEATURE_COUNT + 11;
 
 	/**
 	 * The number of structural features of the '<em>Uim Data Table</em>' class.
@@ -448,6 +457,15 @@ public interface ComponentPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_CONTAINER__VISIBILITY = UIM_COMPONENT__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_CONTAINER__LABEL_OVERRIDE = UIM_COMPONENT__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
@@ -540,6 +558,15 @@ public interface ComponentPackage extends EPackage {
 	 * @ordered
 	 */
 	int DETAIL_COMPONENT__VISIBILITY = UIM_COMPONENT__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Label Override</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DETAIL_COMPONENT__LABEL_OVERRIDE = UIM_COMPONENT__LABEL_OVERRIDE;
 
 	/**
 	 * The feature id for the '<em><b>Master Component</b></em>' reference.
@@ -681,17 +708,6 @@ public interface ComponentPackage extends EPackage {
 	EAttribute getUimField_Orientation();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.component.UimField#getLabelOverride <em>Label Override</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Label Override</em>'.
-	 * @see org.opaeum.uim.component.UimField#getLabelOverride()
-	 * @see #getUimField()
-	 * @generated
-	 */
-	EReference getUimField_LabelOverride();
-
-	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.component.UimComponent <em>Uim Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -732,17 +748,6 @@ public interface ComponentPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getUimDataTable_ActionsOnMultipleSelection();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.component.UimDataTable#getLabelOverride <em>Label Override</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Label Override</em>'.
-	 * @see org.opaeum.uim.component.UimDataTable#getLabelOverride()
-	 * @see #getUimDataTable()
-	 * @generated
-	 */
-	EReference getUimDataTable_LabelOverride();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.component.UimContainer <em>Uim Container</em>}'.
@@ -933,14 +938,6 @@ public interface ComponentPackage extends EPackage {
 		EAttribute UIM_FIELD__ORIENTATION = eINSTANCE.getUimField_Orientation();
 
 		/**
-		 * The meta object literal for the '<em><b>Label Override</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference UIM_FIELD__LABEL_OVERRIDE = eINSTANCE.getUimField_LabelOverride();
-
-		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.component.impl.UimComponentImpl <em>Uim Component</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -975,14 +972,6 @@ public interface ComponentPackage extends EPackage {
 		 * @generated
 		 */
 		EReference UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION = eINSTANCE.getUimDataTable_ActionsOnMultipleSelection();
-
-		/**
-		 * The meta object literal for the '<em><b>Label Override</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference UIM_DATA_TABLE__LABEL_OVERRIDE = eINSTANCE.getUimDataTable_LabelOverride();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.component.impl.UimContainerImpl <em>Uim Container</em>}' class.

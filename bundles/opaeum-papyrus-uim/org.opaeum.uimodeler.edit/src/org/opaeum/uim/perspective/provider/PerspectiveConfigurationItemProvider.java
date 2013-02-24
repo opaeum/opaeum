@@ -180,7 +180,7 @@ public class PerspectiveConfigurationItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(PerspectivePackage.Literals.PERSPECTIVE_CONFIGURATION__EXPLORER,
-				 PerspectiveFactory.eINSTANCE.createExplorerConfiguration()));
+				 PerspectiveFactory.eINSTANCE.createNavigatorConfiguration()));
 
 		newChildDescriptors.add
 			(createChildParameter

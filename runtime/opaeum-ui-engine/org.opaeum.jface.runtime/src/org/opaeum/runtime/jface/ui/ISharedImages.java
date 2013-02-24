@@ -2,9 +2,9 @@ package org.opaeum.runtime.jface.ui;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.Device;
 
 /**
  * A registry for common images used by the workbench which may be useful 

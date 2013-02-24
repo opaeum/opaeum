@@ -14,7 +14,6 @@ import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.wb.os.OSSupport;
 import org.opaeum.uim.swt.GridPanelComposite;
 import org.opaeum.uim.swt.IUimWidget;

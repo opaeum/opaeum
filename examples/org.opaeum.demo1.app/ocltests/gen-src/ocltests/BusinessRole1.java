@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+import ocltests.util.OcltestsFormatter;
 import ocltests.util.Stdlib;
 
 import org.hibernate.annotations.AccessType;
@@ -63,6 +65,7 @@ import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.event.NotificationType;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
@@ -558,7 +561,6 @@ public class BusinessRole1 implements IPersistentObject, IEventGenerator, Hibern
 		this.setPreferredEMailAddressType( PersonEMailAddressType.WORK );
 		this.setPreferredPhoneNumberType( PersonPhoneNumberType.CELL );
 		this.setPreferredNotificationType( NotificationType.EMAIL );
-		createComponents();
 	}
 	
 	public BusinessRole1 makeCopy() {

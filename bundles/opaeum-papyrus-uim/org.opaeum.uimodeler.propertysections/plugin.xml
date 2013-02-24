@@ -24,10 +24,32 @@
 				label="Control"/>    
 			<propertyTab
 				category="domain"
-				indented="true"
+				indented="false"
 				id="org.opaeum.uim.userinteractionproperties.navigation"
-				afterTab="org.opaeum.eclipse.opaeumTab"
-				label="UI Navigation"/>    
+				afterTab="org.opaeum.eclipse.postconditionsTab"
+				label="UI Rules for View"/>    
+			<propertyTab id="org.opaeum.eclipse.i8nTab" category="domain" afterTab="org.opaeum.uim.userinteractionproperties.navigation"
+				label="Languages" indented="true" />
+			
+		
+			<propertyTab
+				category="domain"
+				indented="true"
+				id="org.opaeum.uim.userinteractionproperties.securityOnAdd"
+				afterTab="org.opaeum.eclipse.i8nTab"
+				label="UI Rules for Add"/>    
+			<propertyTab
+				category="domain"
+				indented="true"
+				id="org.opaeum.uim.userinteractionproperties.securityOnRemove"
+				afterTab="org.opaeum.uim.userinteractionproperties.securityOnAdd"
+				label="UI Rules Remove"/>    
+			<propertyTab
+				category="domain"
+				indented="true"
+				id="org.opaeum.uim.userinteractionproperties.securityOnEdit"
+				afterTab="org.opaeum.uim.userinteractionproperties.securityOnRemove"
+				label="UI Rules for Edit"/>    
 		</propertyTabs>
 	</extension>
 
@@ -215,24 +237,96 @@
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementConstraintBooleanFeaturesSection"
 				tab="org.opaeum.uim.userinteractionproperties.navigation"
-				afterSection="org.opaeum.uim.userinteractionproperties.sections.MeasurePropertyPropertySection"
-				filter="org.opaeum.uim.userinteractionproperties.filters.NavigableUmlElementFilter"
-				class="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementConstraintBooleanFeaturesSection">
+				filter="org.opaeum.uim.userinteractionproperties.filters.uml.DisplayableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.uml.NavigableElementConstraintBooleanFeaturesSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementRequiredRolesSection"
 				tab="org.opaeum.uim.userinteractionproperties.navigation"
 				afterSection="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementConstraintBooleanFeaturesSection"
-				filter="org.opaeum.uim.userinteractionproperties.filters.NavigableUmlElementFilter"
-				class="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementRequiredRolesSection">
+				filter="org.opaeum.uim.userinteractionproperties.filters.uml.DisplayableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.uml.NavigableElementRequiredRolesSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementRequiredStatesSection"
 				tab="org.opaeum.uim.userinteractionproperties.navigation"
 				afterSection="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementRequiredRolesSection"
-				filter="org.opaeum.uim.userinteractionproperties.filters.NavigableUmlElementFilter"
-				class="org.opaeum.uim.userinteractionproperties.navigation.NavigableElementRequiredStatesSection">
+				filter="org.opaeum.uim.userinteractionproperties.filters.uml.DisplayableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.uml.NavigableElementRequiredStatesSection">
 			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnAddBooleanFeaturesSection"
+				tab="org.opaeum.uim.userinteractionproperties.securityOnAdd"
+				filter="org.opaeum.uim.userinteractionproperties.filters.uml.AddableAndRemovableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.uml.SecurityOnAddBooleanFeaturesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnAddRequiredRolesSection"
+				tab="org.opaeum.uim.userinteractionproperties.securityOnAdd"
+				afterSection="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnAddBooleanFeaturesSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.uml.AddableAndRemovableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.uml.SecurityOnAddRequiredRolesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnAddRequiredStatesSection"
+				tab="org.opaeum.uim.userinteractionproperties.securityOnAdd"
+				afterSection="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnAddRequiredRolesSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.uml.AddableAndRemovableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.uml.SecurityOnAddRequiredStatesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnRemoveBooleanFeaturesSection"
+				tab="org.opaeum.uim.userinteractionproperties.securityOnRemove"
+				filter="org.opaeum.uim.userinteractionproperties.filters.uml.AddableAndRemovableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.uml.SecurityOnRemoveBooleanFeaturesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnRemoveRequiredRolesSection"
+				tab="org.opaeum.uim.userinteractionproperties.securityOnRemove"
+				afterSection="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnRemoveBooleanFeaturesSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.uml.AddableAndRemovableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.uml.SecurityOnRemoveRequiredRolesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnRemoveRequiredStatesSection"
+				tab="org.opaeum.uim.userinteractionproperties.securityOnRemove"
+				afterSection="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnRemoveRequiredRolesSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.uml.AddableAndRemovableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.uml.SecurityOnRemoveRequiredStatesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnEditBooleanFeaturesSection"
+				tab="org.opaeum.uim.userinteractionproperties.securityOnEdit"
+				filter="org.opaeum.uim.userinteractionproperties.filters.uml.EditableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.uml.SecurityOnEditBooleanFeaturesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnEditRequiredRolesSection"
+				tab="org.opaeum.uim.userinteractionproperties.securityOnEdit"
+				afterSection="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnEditBooleanFeaturesSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.uml.EditableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.uml.SecurityOnEditRequiredRolesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnEditRequiredStatesSection"
+				tab="org.opaeum.uim.userinteractionproperties.securityOnRemove"
+				afterSection="org.opaeum.uim.userinteractionproperties.navigation.SecurityOnEditRequiredRolesSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.uml.EditableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.uml.SecurityOnEditRequiredStatesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.uml.NamedElementUserInterfaceTextSection"
+				tab="org.opaeum.eclipse.i8nTab"
+				filter="org.opaeum.uim.userinteractionproperties.filters.uml.DisplayableUmlElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.uml.NamedElementUserInterfaceTextSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.LabeledElementUserInterfaceTextSection"
+				tab="org.opaeum.eclipse.i8nTab"
+				filter="org.opaeum.uim.userinteractionproperties.filters.LabeledElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.LabeledElementUserInterfaceTextSection">
+			</propertySection>
+			
 		</propertySections>
 	</extension>
 	

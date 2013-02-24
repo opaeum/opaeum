@@ -228,9 +228,9 @@ public class EmfElementFinder{
 					if(a.getOwner() instanceof Transition){
 						Transition owner = (Transition) a.getOwner();
 						addTransitionParameters(result, owner);
-						a = EmfStateMachineUtil.getStateMachine(a.getOwner());
+						a = EmfStateMachineUtil.getNearestApplicableStateMachine(a.getOwner());
 					}else if(a.getOwner() instanceof State){
-						a = EmfStateMachineUtil.getStateMachine(a.getOwner());
+						a = EmfStateMachineUtil.getNearestApplicableStateMachine(a.getOwner());
 					}
 				}
 				a = (Element) EmfElementFinder.getContainer(a);

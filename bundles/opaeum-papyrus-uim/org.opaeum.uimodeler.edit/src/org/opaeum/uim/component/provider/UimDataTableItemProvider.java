@@ -222,11 +222,11 @@ public class UimDataTableItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY);
+			childrenFeatures.add(UimPackage.Literals.LABEL_CONTAINER__LABEL_OVERRIDE);
 			childrenFeatures.add(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY);
 			childrenFeatures.add(ComponentPackage.Literals.UIM_CONTAINER__CHILDREN);
 			childrenFeatures.add(ComponentPackage.Literals.UIM_DATA_TABLE__BINDING);
 			childrenFeatures.add(ComponentPackage.Literals.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION);
-			childrenFeatures.add(ComponentPackage.Literals.UIM_DATA_TABLE__LABEL_OVERRIDE);
 		}
 		return childrenFeatures;
 	}
@@ -290,11 +290,11 @@ public class UimDataTableItemProvider
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case ComponentPackage.UIM_DATA_TABLE__VISIBILITY:
+			case ComponentPackage.UIM_DATA_TABLE__LABEL_OVERRIDE:
 			case ComponentPackage.UIM_DATA_TABLE__EDITABILITY:
 			case ComponentPackage.UIM_DATA_TABLE__CHILDREN:
 			case ComponentPackage.UIM_DATA_TABLE__BINDING:
 			case ComponentPackage.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION:
-			case ComponentPackage.UIM_DATA_TABLE__LABEL_OVERRIDE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -325,22 +325,42 @@ public class UimDataTableItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
+				 PerspectiveFactory.eINSTANCE.createNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
+				 PerspectiveFactory.eINSTANCE.createClassNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerOperationConstraint()));
+				 PerspectiveFactory.eINSTANCE.createPropertyNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerBehaviorConstraint()));
+				 PerspectiveFactory.eINSTANCE.createOperationNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createBehaviorNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createMultiplicityElementNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
+				 PerspectiveFactory.eINSTANCE.createParameterNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.LABEL_CONTAINER__LABEL_OVERRIDE,
+				 UimFactory.eINSTANCE.createLabels()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -355,22 +375,37 @@ public class UimDataTableItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerClassConstraint()));
+				 PerspectiveFactory.eINSTANCE.createNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerPropertyConstraint()));
+				 PerspectiveFactory.eINSTANCE.createClassNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerOperationConstraint()));
+				 PerspectiveFactory.eINSTANCE.createPropertyNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
-				 PerspectiveFactory.eINSTANCE.createExplorerBehaviorConstraint()));
+				 PerspectiveFactory.eINSTANCE.createOperationNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createBehaviorNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createMultiplicityElementNavigationConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
+				 PerspectiveFactory.eINSTANCE.createParameterNavigationConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -451,11 +486,6 @@ public class UimDataTableItemProvider
 			(createChildParameter
 				(ComponentPackage.Literals.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION,
 				 ActionFactory.eINSTANCE.createInvocationButton()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ComponentPackage.Literals.UIM_DATA_TABLE__LABEL_OVERRIDE,
-				 UimFactory.eINSTANCE.createLabels()));
 	}
 
 	/**

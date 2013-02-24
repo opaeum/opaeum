@@ -64,6 +64,15 @@ public class UmlToUimSwitch extends UMLSwitch<Object>{
 			TypedElement typedElement = (TypedElement) notification.getNewValue();
 			refreshDataElements(typedElement);
 		}
+		if(notification.getNotifier() instanceof Property){
+			perspectiveCreator.visitProperty((Property) notification.getNotifier());
+		}
+		if(notification.getNotifier() instanceof Operation){
+			perspectiveCreator.visitOperation((Operation) notification.getNotifier());
+		}
+		if(notification.getNotifier() instanceof Classifier){
+			perspectiveCreator.visitClassifier((Classifier) notification.getNotifier());
+		}
 		return super.caseClassifier(object);
 	}
 	@Override

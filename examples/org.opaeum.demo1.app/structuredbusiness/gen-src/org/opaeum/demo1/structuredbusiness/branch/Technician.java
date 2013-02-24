@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,6 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -39,6 +39,7 @@ import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.demo1.structuredbusiness.util.Stdlib;
+import org.opaeum.demo1.structuredbusiness.util.StructuredbusinessFormatter;
 import org.opaeum.hibernate.domain.InternalHibernatePersistence;
 import org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar;
 import org.opaeum.runtime.bpm.costing.RatePerTimeUnit;
@@ -65,6 +66,7 @@ import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.event.NotificationType;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
@@ -78,8 +80,7 @@ import org.w3c.dom.NodeList;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="technician",schema="structuredbusiness",uniqueConstraints=
-	@UniqueConstraint(columnNames={"branch_id","deleted_on"}))
+@Table(name="technician",schema="structuredbusiness")
 @Entity(name="Technician")
 public class Technician implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessRole, Serializable {
 	@Index(columnNames="branch_id",name="idx_technician_branch_id")
@@ -584,7 +585,6 @@ public class Technician implements IPersistentObject, IEventGenerator, Hibernate
 		this.setPreferredEMailAddressType( PersonEMailAddressType.WORK );
 		this.setPreferredPhoneNumberType( PersonPhoneNumberType.CELL );
 		this.setPreferredNotificationType( NotificationType.EMAIL );
-		createComponents();
 	}
 	
 	public Technician makeCopy() {
@@ -727,32 +727,16 @@ public class Technician implements IPersistentObject, IEventGenerator, Hibernate
 	}
 	
 	public void setBranch(Branch branch) {
-		Branch oldValue = this.getBranch();
 		propertyChangeSupport.firePropertyChange("branch",getBranch(),branch);
-		if ( oldValue==null ) {
-			if ( branch!=null ) {
-				Technician oldOther = (Technician)branch.getTechnician();
-				branch.z_internalRemoveFromTechnician(oldOther);
-				if ( oldOther != null ) {
-					oldOther.z_internalRemoveFromBranch(branch);
-				}
-				branch.z_internalAddToTechnician((Technician)this);
-			}
+		if ( this.getBranch()!=null ) {
+			this.getBranch().z_internalRemoveFromTechnician(this);
+		}
+		if ( branch!=null ) {
+			branch.z_internalAddToTechnician(this);
 			this.z_internalAddToBranch(branch);
+			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			if ( !oldValue.equals(branch) ) {
-				oldValue.z_internalRemoveFromTechnician(this);
-				z_internalRemoveFromBranch(oldValue);
-				if ( branch!=null ) {
-					Technician oldOther = (Technician)branch.getTechnician();
-					branch.z_internalRemoveFromTechnician(oldOther);
-					if ( oldOther != null ) {
-						oldOther.z_internalRemoveFromBranch(branch);
-					}
-					branch.z_internalAddToTechnician((Technician)this);
-				}
-				this.z_internalAddToBranch(branch);
-			}
+			markDeleted();
 		}
 	}
 	

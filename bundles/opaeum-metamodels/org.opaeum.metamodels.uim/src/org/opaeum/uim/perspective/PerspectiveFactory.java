@@ -31,31 +31,31 @@ public interface PerspectiveFactory extends EFactory {
 	PerspectiveConfiguration createPerspectiveConfiguration();
 
 	/**
-	 * Returns a new object of class '<em>Explorer Configuration</em>'.
+	 * Returns a new object of class '<em>Navigator Configuration</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Explorer Configuration</em>'.
+	 * @return a new object of class '<em>Navigator Configuration</em>'.
 	 * @generated
 	 */
-	ExplorerConfiguration createExplorerConfiguration();
+	NavigatorConfiguration createNavigatorConfiguration();
 
 	/**
-	 * Returns a new object of class '<em>Explorer Class Constraint</em>'.
+	 * Returns a new object of class '<em>Class Navigation Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Explorer Class Constraint</em>'.
+	 * @return a new object of class '<em>Class Navigation Constraint</em>'.
 	 * @generated
 	 */
-	ExplorerClassConstraint createExplorerClassConstraint();
+	ClassNavigationConstraint createClassNavigationConstraint();
 
 	/**
-	 * Returns a new object of class '<em>Explorer Property Constraint</em>'.
+	 * Returns a new object of class '<em>Property Navigation Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Explorer Property Constraint</em>'.
+	 * @return a new object of class '<em>Property Navigation Constraint</em>'.
 	 * @generated
 	 */
-	ExplorerPropertyConstraint createExplorerPropertyConstraint();
+	PropertyNavigationConstraint createPropertyNavigationConstraint();
 
 	/**
 	 * Returns a new object of class '<em>Editor Configuration</em>'.
@@ -76,22 +76,31 @@ public interface PerspectiveFactory extends EFactory {
 	PropertiesConfiguration createPropertiesConfiguration();
 
 	/**
-	 * Returns a new object of class '<em>Explorer Operation Constraint</em>'.
+	 * Returns a new object of class '<em>Navigation Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Explorer Operation Constraint</em>'.
+	 * @return a new object of class '<em>Navigation Constraint</em>'.
 	 * @generated
 	 */
-	ExplorerOperationConstraint createExplorerOperationConstraint();
+	NavigationConstraint createNavigationConstraint();
 
 	/**
-	 * Returns a new object of class '<em>Explorer Behavior Constraint</em>'.
+	 * Returns a new object of class '<em>Operation Navigation Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Explorer Behavior Constraint</em>'.
+	 * @return a new object of class '<em>Operation Navigation Constraint</em>'.
 	 * @generated
 	 */
-	ExplorerBehaviorConstraint createExplorerBehaviorConstraint();
+	OperationNavigationConstraint createOperationNavigationConstraint();
+
+	/**
+	 * Returns a new object of class '<em>Behavior Navigation Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Behavior Navigation Constraint</em>'.
+	 * @generated
+	 */
+	BehaviorNavigationConstraint createBehaviorNavigationConstraint();
 
 	/**
 	 * Returns a new object of class '<em>Inbox Configuration</em>'.
@@ -110,6 +119,24 @@ public interface PerspectiveFactory extends EFactory {
 	 * @generated
 	 */
 	OutboxConfiguration createOutboxConfiguration();
+
+	/**
+	 * Returns a new object of class '<em>Parameter Navigation Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Parameter Navigation Constraint</em>'.
+	 * @generated
+	 */
+	ParameterNavigationConstraint createParameterNavigationConstraint();
+
+	/**
+	 * Returns a new object of class '<em>Multiplicity Element Navigation Constraint</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Multiplicity Element Navigation Constraint</em>'.
+	 * @generated
+	 */
+	MultiplicityElementNavigationConstraint createMultiplicityElementNavigationConstraint();
 
 	/**
 	 * Returns the package supported by this factory.

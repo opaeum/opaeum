@@ -3,7 +3,9 @@ package ocltests;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -40,7 +42,9 @@ import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -230,7 +234,6 @@ public class Sail implements IPersistentObject, IEventGenerator, HibernateEntity
 	
 	public void init(CompositionNode owner) {
 		this.z_internalAddToBoat((Boat)owner);
-		createComponents();
 	}
 	
 	public Sail makeCopy() {

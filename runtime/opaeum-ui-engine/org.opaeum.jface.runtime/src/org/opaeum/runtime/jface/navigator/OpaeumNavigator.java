@@ -2,7 +2,6 @@ package org.opaeum.runtime.jface.navigator;
 
 import java.lang.reflect.Modifier;
 import java.util.Date;
-import java.util.Map;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -33,7 +32,6 @@ import org.opaeum.runtime.jface.ui.IPartListener;
 import org.opaeum.runtime.jface.ui.IWorkbenchPart;
 import org.opaeum.runtime.jface.ui.OpaeumWorkbenchPage;
 import org.opaeum.runtime.organization.IPersonNode;
-import org.opaeum.runtime.persistence.event.ChangedEntity;
 import org.opaeum.runtime.rwt.Activator;
 import org.opaeum.runtime.rwt.OpaeumRapSession;
 

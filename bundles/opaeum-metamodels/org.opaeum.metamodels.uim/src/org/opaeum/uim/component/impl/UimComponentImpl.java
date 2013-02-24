@@ -7,6 +7,10 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.opaeum.uim.LabelContainer;
+import org.opaeum.uim.LabeledElement;
+import org.opaeum.uim.Labels;
+import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.component.UimContainer;
@@ -23,6 +27,7 @@ import org.opaeum.uim.impl.UserInteractionElementImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.component.impl.UimComponentImpl#getVisibility <em>Visibility</em>}</li>
+ *   <li>{@link org.opaeum.uim.component.impl.UimComponentImpl#getLabelOverride <em>Label Override</em>}</li>
  * </ul>
  * </p>
  *
@@ -38,6 +43,16 @@ public abstract class UimComponentImpl extends UserInteractionElementImpl implem
 	 * @ordered
 	 */
 	protected UserInteractionConstraint visibility;
+
+	/**
+	 * The cached value of the '{@link #getLabelOverride() <em>Label Override</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLabelOverride()
+	 * @generated
+	 * @ordered
+	 */
+	protected Labels labelOverride;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -106,6 +121,49 @@ public abstract class UimComponentImpl extends UserInteractionElementImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Labels getLabelOverride() {
+		return labelOverride;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetLabelOverride(Labels newLabelOverride, NotificationChain msgs) {
+		Labels oldLabelOverride = labelOverride;
+		labelOverride = newLabelOverride;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentPackage.UIM_COMPONENT__LABEL_OVERRIDE, oldLabelOverride, newLabelOverride);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLabelOverride(Labels newLabelOverride) {
+		if (newLabelOverride != labelOverride) {
+			NotificationChain msgs = null;
+			if (labelOverride != null)
+				msgs = ((InternalEObject)labelOverride).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.UIM_COMPONENT__LABEL_OVERRIDE, null, msgs);
+			if (newLabelOverride != null)
+				msgs = ((InternalEObject)newLabelOverride).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ComponentPackage.UIM_COMPONENT__LABEL_OVERRIDE, null, msgs);
+			msgs = basicSetLabelOverride(newLabelOverride, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.UIM_COMPONENT__LABEL_OVERRIDE, newLabelOverride, newLabelOverride));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public UimContainer getParent() {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
@@ -122,6 +180,8 @@ public abstract class UimComponentImpl extends UserInteractionElementImpl implem
 		switch (featureID) {
 			case ComponentPackage.UIM_COMPONENT__VISIBILITY:
 				return basicSetVisibility(null, msgs);
+			case ComponentPackage.UIM_COMPONENT__LABEL_OVERRIDE:
+				return basicSetLabelOverride(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -136,6 +196,8 @@ public abstract class UimComponentImpl extends UserInteractionElementImpl implem
 		switch (featureID) {
 			case ComponentPackage.UIM_COMPONENT__VISIBILITY:
 				return getVisibility();
+			case ComponentPackage.UIM_COMPONENT__LABEL_OVERRIDE:
+				return getLabelOverride();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -150,6 +212,9 @@ public abstract class UimComponentImpl extends UserInteractionElementImpl implem
 		switch (featureID) {
 			case ComponentPackage.UIM_COMPONENT__VISIBILITY:
 				setVisibility((UserInteractionConstraint)newValue);
+				return;
+			case ComponentPackage.UIM_COMPONENT__LABEL_OVERRIDE:
+				setLabelOverride((Labels)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -166,6 +231,9 @@ public abstract class UimComponentImpl extends UserInteractionElementImpl implem
 			case ComponentPackage.UIM_COMPONENT__VISIBILITY:
 				setVisibility((UserInteractionConstraint)null);
 				return;
+			case ComponentPackage.UIM_COMPONENT__LABEL_OVERRIDE:
+				setLabelOverride((Labels)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -180,6 +248,8 @@ public abstract class UimComponentImpl extends UserInteractionElementImpl implem
 		switch (featureID) {
 			case ComponentPackage.UIM_COMPONENT__VISIBILITY:
 				return visibility != null;
+			case ComponentPackage.UIM_COMPONENT__LABEL_OVERRIDE:
+				return labelOverride != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -197,6 +267,12 @@ public abstract class UimComponentImpl extends UserInteractionElementImpl implem
 				default: return -1;
 			}
 		}
+		if (baseClass == LabelContainer.class) {
+			switch (derivedFeatureID) {
+				case ComponentPackage.UIM_COMPONENT__LABEL_OVERRIDE: return UimPackage.LABEL_CONTAINER__LABEL_OVERRIDE;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -210,6 +286,12 @@ public abstract class UimComponentImpl extends UserInteractionElementImpl implem
 		if (baseClass == ConstrainedObject.class) {
 			switch (baseFeatureID) {
 				case ConstraintPackage.CONSTRAINED_OBJECT__VISIBILITY: return ComponentPackage.UIM_COMPONENT__VISIBILITY;
+				default: return -1;
+			}
+		}
+		if (baseClass == LabelContainer.class) {
+			switch (baseFeatureID) {
+				case UimPackage.LABEL_CONTAINER__LABEL_OVERRIDE: return ComponentPackage.UIM_COMPONENT__LABEL_OVERRIDE;
 				default: return -1;
 			}
 		}

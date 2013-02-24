@@ -1,5 +1,6 @@
 package org.opaeum.uim.userinteractionproperties.binding;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
@@ -7,10 +8,14 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.binding.BindingFactory;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.UimBinding;
@@ -26,7 +31,12 @@ public class BindingHelper implements ITypedElementProvider{
 	}
 	public Collection<TypedElement> getTypedElements(){
 		EObject owner = getOwner();
-		Classifier form = UmlUimLinks.getCurrentUmlLinks(owner).getNearestClass(owner);
+		Element form = UmlUimLinks.getCurrentUmlLinks(owner).getNearestUmlElement((UserInteractionElement) owner);
+		if(form instanceof Operation){
+			return new ArrayList<TypedElement>(((Operation) form).getOwnedParameters());
+		}else{
+			form = UmlUimLinks.getCurrentUmlLinks(owner).getNearestClass(owner);
+		}
 		return EmfElementFinder.getTypedElementsInScope(form);
 	}
 	public String getFeatureAsString(){

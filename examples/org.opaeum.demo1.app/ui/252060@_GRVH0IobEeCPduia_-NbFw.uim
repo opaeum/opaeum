@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_eyZOa3zhEeK4RO8Gc0PbkA" name="stop" umlElementUid="252060@_GRVH0IobEeCPduia_-NbFw" linkedUmlResource="OpaeumBPM.library.uml">
-  <pageOrdering xmi:id="_ezaiAXzhEeK4RO8Gc0PbkA" page="_ezaiAHzhEeK4RO8Gc0PbkA"/>
-  <pages xmi:id="_ezaiAHzhEeK4RO8Gc0PbkA" umlElementUid="252060@_GRVH0IobEeCPduia_-NbFw" name="Operation: Stop">
-    <panel xsi:type="panel:GridPanel" xmi:id="_ezaiAnzhEeK4RO8Gc0PbkA" name="Stop" numberOfColumns="1"/>
+<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_Ndazln2yEeKdOuVcMz9Nmw" name="stop" umlElementUid="252060@_GRVH0IobEeCPduia_-NbFw" linkedUmlResource="OpaeumBPM.library.uml">
+  <pageOrdering xmi:id="_NeBQjX2yEeKdOuVcMz9Nmw" page="_NeBQjH2yEeKdOuVcMz9Nmw"/>
+  <pages xmi:id="_NeBQjH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_GRVH0IobEeCPduia_-NbFw" name="Operation: Stop">
+    <panel xsi:type="panel:GridPanel" xmi:id="_NeBQjn2yEeKdOuVcMz9Nmw" name="Stop" numberOfColumns="1"/>
   </pages>
 </model:OperationInvocationWizard>

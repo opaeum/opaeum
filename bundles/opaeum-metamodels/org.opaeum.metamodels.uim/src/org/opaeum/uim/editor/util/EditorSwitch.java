@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.LabelContainer;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Page;
 import org.opaeum.uim.UmlReference;
@@ -112,6 +113,7 @@ public class EditorSwitch<T> {
 				if (result == null) result = caseLabeledElement(abstractEditor);
 				if (result == null) result = caseUserInteractionElement(abstractEditor);
 				if (result == null) result = caseUmlReference(abstractEditor);
+				if (result == null) result = caseLabelContainer(abstractEditor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -123,6 +125,7 @@ public class EditorSwitch<T> {
 				if (result == null) result = caseLabeledElement(instanceEditor);
 				if (result == null) result = caseUserInteractionElement(instanceEditor);
 				if (result == null) result = caseUmlReference(instanceEditor);
+				if (result == null) result = caseLabelContainer(instanceEditor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -135,6 +138,7 @@ public class EditorSwitch<T> {
 				if (result == null) result = caseLabeledElement(behaviorExecutionEditor);
 				if (result == null) result = caseUserInteractionElement(behaviorExecutionEditor);
 				if (result == null) result = caseUmlReference(behaviorExecutionEditor);
+				if (result == null) result = caseLabelContainer(behaviorExecutionEditor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -145,8 +149,9 @@ public class EditorSwitch<T> {
 				if (result == null) result = caseEditableConstrainedObject(editorPage);
 				if (result == null) result = caseLabeledElement(editorPage);
 				if (result == null) result = caseConstrainedObject(editorPage);
-				if (result == null) result = caseUmlReference(editorPage);
 				if (result == null) result = caseUserInteractionElement(editorPage);
+				if (result == null) result = caseUmlReference(editorPage);
+				if (result == null) result = caseLabelContainer(editorPage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -161,6 +166,7 @@ public class EditorSwitch<T> {
 				if (result == null) result = caseUmlReference(actionBar);
 				if (result == null) result = caseUserInteractionElement(actionBar);
 				if (result == null) result = caseConstrainedObject(actionBar);
+				if (result == null) result = caseLabelContainer(actionBar);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -177,8 +183,9 @@ public class EditorSwitch<T> {
 				if (result == null) result = caseUserInteractionConstraint(operationMenuItem);
 				if (result == null) result = caseLabeledElement(operationMenuItem);
 				if (result == null) result = caseRootUserInteractionConstraint(operationMenuItem);
-				if (result == null) result = caseUmlReference(operationMenuItem);
 				if (result == null) result = caseUserInteractionElement(operationMenuItem);
+				if (result == null) result = caseUmlReference(operationMenuItem);
+				if (result == null) result = caseLabelContainer(operationMenuItem);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -190,6 +197,7 @@ public class EditorSwitch<T> {
 				if (result == null) result = caseLabeledElement(responsibilityViewer);
 				if (result == null) result = caseUserInteractionElement(responsibilityViewer);
 				if (result == null) result = caseUmlReference(responsibilityViewer);
+				if (result == null) result = caseLabelContainer(responsibilityViewer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -200,8 +208,9 @@ public class EditorSwitch<T> {
 				if (result == null) result = caseEditableConstrainedObject(queryResultPage);
 				if (result == null) result = caseLabeledElement(queryResultPage);
 				if (result == null) result = caseConstrainedObject(queryResultPage);
-				if (result == null) result = caseUmlReference(queryResultPage);
 				if (result == null) result = caseUserInteractionElement(queryResultPage);
+				if (result == null) result = caseUmlReference(queryResultPage);
+				if (result == null) result = caseLabelContainer(queryResultPage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -214,6 +223,7 @@ public class EditorSwitch<T> {
 				if (result == null) result = caseLabeledElement(objectEditor);
 				if (result == null) result = caseUserInteractionElement(objectEditor);
 				if (result == null) result = caseUmlReference(objectEditor);
+				if (result == null) result = caseLabelContainer(objectEditor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -372,21 +382,6 @@ public class EditorSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Uml Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Uml Reference</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseUmlReference(UmlReference object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Labeled Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -443,6 +438,36 @@ public class EditorSwitch<T> {
 	 * @generated
 	 */
 	public T caseUserInteractionElement(UserInteractionElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Uml Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Uml Reference</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUmlReference(UmlReference object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Label Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabelContainer(LabelContainer object) {
 		return null;
 	}
 

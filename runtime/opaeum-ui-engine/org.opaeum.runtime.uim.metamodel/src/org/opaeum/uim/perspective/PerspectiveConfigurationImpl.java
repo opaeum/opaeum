@@ -4,16 +4,15 @@ import java.util.Map;
 
 import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
-import org.opaeum.org.opaeum.rap.metamodels.uim.UimInstantiator;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
-import org.opaeum.runtime.environment.Environment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class PerspectiveConfigurationImpl extends EObjectImpl implements PerspectiveConfiguration {
 	private EditorConfiguration editor;
-	private ExplorerConfiguration explorer;
+	private NavigatorConfiguration explorer;
 	private InboxConfiguration inbox;
 	private String name;
 	private OutboxConfiguration outbox;
@@ -36,9 +35,9 @@ public class PerspectiveConfigurationImpl extends EObjectImpl implements Perspec
 			Node currentPropertyNode = propertyNodes.item(i++);
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("explorer") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
-				ExplorerConfiguration curVal;
+				NavigatorConfiguration curVal;
 				if ( typeString==null ||typeString.trim().length()==0 ) {
-					typeString="persp:ExplorerConfiguration";
+					typeString="persp:NavigatorConfiguration";
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setExplorer(curVal);
@@ -82,6 +81,18 @@ public class PerspectiveConfigurationImpl extends EObjectImpl implements Perspec
 				map.put(curVal.getUid(), curVal);
 				curVal.eContainer(this);
 			}
+			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("outbox") ) {
+				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
+				OutboxConfiguration curVal;
+				if ( typeString==null ||typeString.trim().length()==0 ) {
+					typeString="persp:OutboxConfiguration";
+				}
+				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
+				this.setOutbox(curVal);
+				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
+				map.put(curVal.getUid(), curVal);
+				curVal.eContainer(this);
+			}
 		}
 	}
 	
@@ -95,7 +106,7 @@ public class PerspectiveConfigurationImpl extends EObjectImpl implements Perspec
 		return this.editor;
 	}
 	
-	public ExplorerConfiguration getExplorer() {
+	public NavigatorConfiguration getExplorer() {
 		return this.explorer;
 	}
 	
@@ -129,7 +140,7 @@ public class PerspectiveConfigurationImpl extends EObjectImpl implements Perspec
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("explorer") ) {
-				((org.opaeum.uim.perspective.ExplorerConfiguration)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.perspective.NavigatorConfiguration)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("editor") ) {
 				((org.opaeum.uim.perspective.EditorConfiguration)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
@@ -141,7 +152,7 @@ public class PerspectiveConfigurationImpl extends EObjectImpl implements Perspec
 				((org.opaeum.uim.perspective.InboxConfiguration)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("outbox") ) {
-				setOutbox((org.opaeum.uim.perspective.OutboxConfiguration)map.get(((Element)currentPropertyNode).getAttribute("xmi:id")));
+				((org.opaeum.uim.perspective.OutboxConfiguration)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
 			}
 		}
 	}
@@ -150,7 +161,7 @@ public class PerspectiveConfigurationImpl extends EObjectImpl implements Perspec
 		this.editor=editor;
 	}
 	
-	public void setExplorer(ExplorerConfiguration explorer) {
+	public void setExplorer(NavigatorConfiguration explorer) {
 		this.explorer=explorer;
 	}
 	

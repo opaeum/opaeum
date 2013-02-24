@@ -6,9 +6,8 @@ import java.util.Map;
 
 import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
-import org.opaeum.org.opaeum.rap.metamodels.uim.UimInstantiator;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.IgnoredElement;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.Page;
@@ -151,7 +150,7 @@ public class CubeQueryEditorImpl extends EObjectImpl implements CubeQueryEditor 
 	}
 	
 	public List<Page> getPages() {
-		List<Page> result = null;
+		List result = null;
 		
 		return result;
 	}

@@ -6,6 +6,8 @@ import org.opaeum.runtime.bpm.request.TaskRequestToken;
 import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.active.Region1;
 import org.opaeum.runtime.bpm.requestobject.IRequestObject;
 import org.opaeum.runtime.bpm.requestobject.ITaskObject;
+import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.statemachines.TransitionInstance;
 
 public class ReservedToInProgress<SME extends TaskRequest> extends TransitionInstance<SME, TaskRequestToken<SME>> {
@@ -26,7 +28,7 @@ public class ReservedToInProgress<SME extends TaskRequest> extends TransitionIns
 		TaskRequestToken<SME> token= getMainSource().exit();
 		super.onEntry(token);
 		IRequestObject tgtCallOperationAction1=((ITaskObject) getStateMachineExecution().getRequestObject());
-		tgtCallOperationAction1.onStarted((IParticipant)org.opeum.demo1.util.Demo1Environment.INSTANCE.getCurrentRole());
+		tgtCallOperationAction1.onStarted((IParticipant)org.opaeum.demo1.util.Demo1Environment.INSTANCE.getCurrentRole());
 		getMainTarget().enter(token,target);
 		super.onExit(token);
 		return result;

@@ -59,7 +59,7 @@ import org.opaeum.metamodel.validation.BrokenRule;
 
 public abstract class AbstractOpaeumPropertySection extends AbstractPropertySection implements OpaeumSynchronizationListener{
 	public static final String COMMAND_NAME = "Udate";
-	private boolean isRefreshing = false;
+	protected boolean isRefreshing = false;
 	private IStatusLineManager statusLineManager;
 	private Composite sectionComposite;
 	private EObject eObject;
@@ -193,8 +193,9 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 	}
 	protected void handleModelChanged(Notification msg){
 		Object notifier = msg.getNotifier();
-		if(notifier.equals(getSelectedObject()) && getFeature(getSelectedObject()) != null){
-			if(msg.getFeatureID(getSelectedObject().getClass()) == getFeature().getFeatureID()){
+		EObject featureOwner = getFeatureOwner(getSelectedObject());
+		if(notifier.equals(featureOwner) && getFeature(featureOwner) != null){
+			if(msg.getFeatureID(featureOwner.getClass()) == getFeature(featureOwner).getFeatureID()){
 				isRefreshing = true;
 				populateControls();
 				isRefreshing = false;
@@ -205,11 +206,12 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 		if(getOpenUmlFile() != null){
 			getOpenUmlFile().addSynchronizationListener(this);
 		}
-		if(getSelectedObject() == null){
-			return;
-		}
-		if(!getSelectedObject().eAdapters().contains(getModelListener())){
+		if(getSelectedObject() != null  && !getSelectedObject().eAdapters().contains(getModelListener())){
 			getModelListener().subscribeTo(getSelectedObject(), getModelListenerDepth());
+		}
+		EObject featureOwner = getFeatureOwner(getSelectedObject());
+		if(featureOwner != null  && !featureOwner.eAdapters().contains(getModelListener())){
+			getModelListener().subscribeTo(featureOwner, getModelListenerDepth());
 		}
 	}
 	protected int getModelListenerDepth(){

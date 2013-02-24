@@ -3,6 +3,7 @@ package org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.suspended.r
 import java.util.Set;
 
 import org.opaeum.runtime.bpm.request.TaskRequest;
+import org.opaeum.runtime.bpm.request.TaskRequestState;
 import org.opaeum.runtime.bpm.request.TaskRequestToken;
 import org.opaeum.runtime.bpm.request.taskrequest.taskrequestregion.suspended.Region1;
 import org.opaeum.runtime.domain.CancelledEvent;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ezCHm3zhEeK4RO8Gc0PbkA" name="submit" umlElementUid="914890@_SvOOoBYbEeKsDbmQL25eBw" linkedUmlResource="BusinessStructureModel.uml">
-  <pageOrdering xmi:id="_ezeMYXzhEeK4RO8Gc0PbkA" page="_ezeMYHzhEeK4RO8Gc0PbkA"/>
-  <pages xmi:id="_ezeMYHzhEeK4RO8Gc0PbkA" umlElementUid="914890@_SvOOoBYbEeKsDbmQL25eBw" name="Operation: Submit">
-    <panel xsi:type="panel:GridPanel" xmi:id="_ezeMYnzhEeK4RO8Gc0PbkA" name="Submit" numberOfColumns="1"/>
+<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NUkZkn2yEeKdOuVcMz9Nmw" name="submit" umlElementUid="914890@_SvOOoBYbEeKsDbmQL25eBw" linkedUmlResource="BusinessStructureModel.uml">
+  <pageOrdering xmi:id="_NeH-MX2yEeKdOuVcMz9Nmw" page="_NeH-MH2yEeKdOuVcMz9Nmw"/>
+  <pages xmi:id="_NeH-MH2yEeKdOuVcMz9Nmw" umlElementUid="914890@_SvOOoBYbEeKsDbmQL25eBw" name="Operation: Submit">
+    <panel xsi:type="panel:GridPanel" xmi:id="_NeH-Mn2yEeKdOuVcMz9Nmw" name="Submit" numberOfColumns="1"/>
   </pages>
 </model:OperationInvocationWizard>

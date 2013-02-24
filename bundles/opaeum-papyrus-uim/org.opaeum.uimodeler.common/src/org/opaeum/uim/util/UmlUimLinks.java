@@ -9,6 +9,7 @@ import java.util.WeakHashMap;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -44,6 +45,7 @@ import org.opaeum.uim.model.QueryInvoker;
 
 public class UmlUimLinks{
 	private EmfWorkspace primaryEmfWorkspace;
+	//TODO memory leak - primarEmfWorkspace points to the resource?
 	static Map<Resource,UmlUimLinks> linksMap = new WeakHashMap<Resource,UmlUimLinks>();
 	public UmlUimLinks(Resource uimResource,EmfWorkspace map){
 		linksMap.put(uimResource, this);
@@ -183,7 +185,10 @@ public class UmlUimLinks{
 		Element rc = getUmlElement(uf);
 		if(rc instanceof Classifier){
 			return delegateToContextIfRequired((Classifier) rc);
-		}else{
+		}else if(rc instanceof Operation){
+			return (Classifier) rc.getOwner();
+				
+		}else {
 			return null;
 		}
 	}

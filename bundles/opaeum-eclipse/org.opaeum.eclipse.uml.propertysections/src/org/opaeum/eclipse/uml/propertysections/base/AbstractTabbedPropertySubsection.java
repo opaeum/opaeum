@@ -45,6 +45,9 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 	public Composite getComposite(){
 		return composite;
 	}
+	public boolean isEnabled(){
+		return enabled;
+	}
 	public void setEnabled(boolean enabled){
 		this.enabled = enabled;
 		if(!(getControl() == null || getControl().isDisposed())){
@@ -96,7 +99,7 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 	}
 	@SuppressWarnings("unchecked")
 	public E getCurrentValue(EObject featureOwner){
-		if(featureOwner!=null &&  getFeature() != null && getFeature().getEContainingClass().isInstance(featureOwner)){
+		if(featureOwner != null && getFeature() != null && getFeature().getEContainingClass().isInstance(featureOwner)){
 			return (E) featureOwner.eGet(getFeature());
 		}else{
 			return null;
@@ -113,7 +116,8 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 		if(getControl() != null && !getControl().isDisposed()){
 			isRefreshing = true;
 			populateControls();
-			if(section.getSelectedObject() == null || (getFeature()!=null && !getFeature().getEContainingClass().isInstance(getFeatureOwner(section.getSelectedObject())))){
+			if(section.getSelectedObject() == null
+					|| (getFeature() != null && !getFeature().getEContainingClass().isInstance(getFeatureOwner(section.getSelectedObject())))){
 				getControl().setEnabled(false);
 			}else{
 				getControl().setEnabled(enabled);
@@ -126,16 +130,20 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 		if(!isRefreshing){
 			for(EObject selection:section.getEObjectList()){
 				EObject featureOwner = getFeatureOwner(selection);
-				if(featureOwner != null){
-					Command cmd = buildCommand(selection, featureOwner);
+				Command cmd = buildCommand(selection, featureOwner);
+				if(cmd != null){
 					section.getEditingDomain().getCommandStack().execute(cmd);
 				}
 			}
 		}
 	}
 	protected Command buildCommand(EObject selection,EObject featureOwner){
-		Command cmd = SetCommand.create(section.getEditingDomain(), featureOwner, getFeature(), getNewValue());
-		return cmd;
+		if(featureOwner != null){
+			Command cmd = SetCommand.create(section.getEditingDomain(), featureOwner, getFeature(), getNewValue());
+			return cmd;
+		}else{
+			return null;
+		}
 	}
 	public T getControl(){
 		return control;
@@ -193,7 +201,7 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 		}
 	}
 	protected boolean hasSelectedObject(){
-		return section.getSelectedObject() != null && getFeatureOwner(section.getSelectedObject())!=null;
+		return section.getSelectedObject() != null && getFeatureOwner(section.getSelectedObject()) != null;
 	}
 	protected EObject getFeatureOwner(EObject eObject){
 		return section.getFeatureOwner(eObject);

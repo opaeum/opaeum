@@ -27,7 +27,6 @@ import org.opaeum.uim.panel.Outlayable;
  *   <li>{@link org.opaeum.uim.component.UimField#getMinimumLabelWidth <em>Minimum Label Width</em>}</li>
  *   <li>{@link org.opaeum.uim.component.UimField#getBinding <em>Binding</em>}</li>
  *   <li>{@link org.opaeum.uim.component.UimField#getOrientation <em>Orientation</em>}</li>
- *   <li>{@link org.opaeum.uim.component.UimField#getLabelOverride <em>Label Override</em>}</li>
  * </ul>
  * </p>
  *
@@ -176,31 +175,5 @@ public interface UimField extends EditableConstrainedObject, UimComponent, Outla
 	 * @generated
 	 */
 	void setOrientation(Orientation value);
-
-	/**
-	 * Returns the value of the '<em><b>Label Override</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Label Override</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Label Override</em>' containment reference.
-	 * @see #setLabelOverride(Labels)
-	 * @see org.opaeum.uim.component.ComponentPackage#getUimField_LabelOverride()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Labels getLabelOverride();
-
-	/**
-	 * Sets the value of the '{@link org.opaeum.uim.component.UimField#getLabelOverride <em>Label Override</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Label Override</em>' containment reference.
-	 * @see #getLabelOverride()
-	 * @generated
-	 */
-	void setLabelOverride(Labels value);
 
 } // UimField

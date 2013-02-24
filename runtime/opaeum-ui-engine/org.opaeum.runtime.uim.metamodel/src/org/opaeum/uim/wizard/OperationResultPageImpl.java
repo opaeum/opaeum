@@ -4,9 +4,8 @@ import java.util.Map;
 
 import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
-import org.opaeum.org.opaeum.rap.metamodels.uim.UimInstantiator;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
 import org.opaeum.uim.model.OperationInvocationWizard;
@@ -29,14 +28,14 @@ public class OperationResultPageImpl extends EObjectImpl implements OperationRes
 
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("xmi:id"));
-		if ( xml.getAttribute("umlElementUid").length()>0 ) {
-			setUmlElementUid(EcoreDataTypeParser.getInstance().parseEString(xml.getAttribute("umlElementUid")));
-		}
 		if ( xml.getAttribute("name").length()>0 ) {
 			setName(EcoreDataTypeParser.getInstance().parseEString(xml.getAttribute("name")));
 		}
 		if ( xml.getAttribute("underUserControl").length()>0 ) {
 			setUnderUserControl(EcoreDataTypeParser.getInstance().parseEBoolean(xml.getAttribute("underUserControl")));
+		}
+		if ( xml.getAttribute("umlElementUid").length()>0 ) {
+			setUmlElementUid(EcoreDataTypeParser.getInstance().parseEString(xml.getAttribute("umlElementUid")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;

@@ -1,7 +1,6 @@
 package org.opaeum.runtime.jface.ui;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -23,8 +22,8 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.opaeum.runtime.domain.IPersistentObject;
-import org.opaeum.runtime.jface.entityeditor.EntityFormEditor;
 import org.opaeum.runtime.jface.entityeditor.EntityEditorInputJface;
+import org.opaeum.runtime.jface.entityeditor.EntityFormEditor;
 import org.opaeum.runtime.persistence.event.ChangedEntity;
 
 public class OpaeumEditorPane implements CTabFolder2Listener,SelectionListener,FocusListener,ISelectionListener{

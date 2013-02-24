@@ -28,18 +28,18 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Labels" eSuperTypes="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EAnnotation"/>
-  <eClassifiers xsi:type="ecore:EClass" name="LabeledElement" eSuperTypes="#//UmlReference #//UserInteractionElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="labelOverride" eType="#//Labels"
-        containment="true"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LabeledElement" eSuperTypes="#//UserInteractionElement #//UmlReference #//LabelContainer"/>
   <eClassifiers xsi:type="ecore:EClass" name="IgnoredElement" eSuperTypes="#//UmlReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="userInterfaceRoot" eType="#//UserInterfaceRoot"
         eOpposite="#//UserInterfaceRoot/ignoredElements"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PageOrdering">
+  <eClassifiers xsi:type="ecore:EClass" name="PageOrdering" eSuperTypes="#//LabeledElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="page" eType="#//Page"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="labelOverride" eType="#//Labels"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LabelContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="labelOverride" eType="#//Labels"
+        containment="true"/>
   </eClassifiers>
   <eSubpackages name="control" nsURI="http://opaeum.org/uimetamodel/control/1.0" nsPrefix="ctl">
     <eClassifiers xsi:type="ecore:EClass" name="UimNumberScroller" eSuperTypes="#//control/UimControl"/>
@@ -328,15 +328,16 @@
   <eSubpackages name="perspective" nsURI="http://opaeum.org/uimetamodel/perspective/1.0"
       nsPrefix="persp">
     <eClassifiers xsi:type="ecore:EClass" name="PerspectiveConfiguration" eSuperTypes="#//UserInteractionElement">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="explorer" eType="#//perspective/ExplorerConfiguration"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="explorer" eType="#//perspective/NavigatorConfiguration"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="editor" eType="#//perspective/EditorConfiguration"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference"  name="properties" eType="#//perspective/PropertiesConfiguration"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="properties" eType="#//perspective/PropertiesConfiguration"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference"  name="inbox" eType="#//perspective/InboxConfiguration"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inbox" eType="#//perspective/InboxConfiguration"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" containment="true" name="outbox" eType="#//perspective/OutboxConfiguration"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outbox" eType="#//perspective/OutboxConfiguration"
+          containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ViewAllocation" abstract="true" eSuperTypes="#//UserInteractionElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
@@ -357,44 +358,56 @@
       <eLiterals name="bottomRight" value="10"/>
       <eLiterals name="bottomLeft" value="11"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ExplorerConfiguration" eSuperTypes="#//perspective/ViewAllocation">
+    <eClassifiers xsi:type="ecore:EClass" name="NavigatorConfiguration" eSuperTypes="#//perspective/ViewAllocation">
       <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
-          eType="#//perspective/ExplorerClassConstraint" containment="true" eOpposite="#//perspective/ExplorerClassConstraint/explorerConfiguration"/>
+          eType="#//perspective/ClassNavigationConstraint" containment="true" eOpposite="#//perspective/ClassNavigationConstraint/explorerConfiguration"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ExplorerClassConstraint" eSuperTypes="#//perspective/ExplorerConstraint">
+    <eClassifiers xsi:type="ecore:EClass" name="ClassNavigationConstraint" eSuperTypes="#//perspective/NavigationConstraint">
       <eStructuralFeatures xsi:type="ecore:EReference" name="explorerConfiguration"
-          lowerBound="1" eType="#//perspective/ExplorerConfiguration" eOpposite="#//perspective/ExplorerConfiguration/classes"/>
+          lowerBound="1" eType="#//perspective/NavigatorConfiguration" eOpposite="#//perspective/NavigatorConfiguration/classes"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
-          eType="#//perspective/ExplorerPropertyConstraint" containment="true" eOpposite="#//perspective/ExplorerPropertyConstraint/owner"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="newObjectConstraint"
-          eType="#//constraint/UserInteractionConstraint" containment="true"/>
+          eType="#//perspective/PropertyNavigationConstraint" containment="true" eOpposite="#//perspective/PropertyNavigationConstraint/owner"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="behaviors" upperBound="-1"
-          eType="#//perspective/ExplorerBehaviorConstraint" containment="true" eOpposite="#//perspective/ExplorerBehaviorConstraint/owner"/>
+          eType="#//perspective/BehaviorNavigationConstraint" containment="true" eOpposite="#//perspective/BehaviorNavigationConstraint/owner"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
-          eType="#//perspective/ExplorerOperationConstraint" containment="true" eOpposite="#//perspective/ExplorerOperationConstraint/owner"/>
+          eType="#//perspective/OperationNavigationConstraint" containment="true"
+          eOpposite="#//perspective/OperationNavigationConstraint/owner"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ExplorerPropertyConstraint" eSuperTypes="#//perspective/ExplorerConstraint">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//perspective/ExplorerClassConstraint"
-          eOpposite="#//perspective/ExplorerClassConstraint/properties"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PropertyNavigationConstraint" eSuperTypes="#//perspective/NavigationConstraint #//perspective/MultiplicityElementNavigationConstraint">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//perspective/ClassNavigationConstraint"
+          eOpposite="#//perspective/ClassNavigationConstraint/properties"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="EditorConfiguration" eSuperTypes="#//perspective/ViewAllocation"/>
     <eClassifiers xsi:type="ecore:EClass" name="PropertiesConfiguration" eSuperTypes="#//perspective/ViewAllocation"/>
-    <eClassifiers xsi:type="ecore:EClass" name="ExplorerConstraint" abstract="true"
-        eSuperTypes="#//constraint/UserInteractionConstraint #//LabeledElement">
+    <eClassifiers xsi:type="ecore:EClass" name="NavigationConstraint" eSuperTypes="#//constraint/UserInteractionConstraint #//LabeledElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="hidden" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ExplorerOperationConstraint" eSuperTypes="#//perspective/ExplorerConstraint">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//perspective/ExplorerClassConstraint"
-          eOpposite="#//perspective/ExplorerClassConstraint/operations"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ExplorerBehaviorConstraint" eSuperTypes="#//perspective/ExplorerConstraint">
+    <eClassifiers xsi:type="ecore:EClass" name="OperationNavigationConstraint" eSuperTypes="#//perspective/NavigationConstraint">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//perspective/ClassNavigationConstraint"
+          eOpposite="#//perspective/ClassNavigationConstraint/operations"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="invocationConstraint"
-          eType="#//constraint/UserInteractionConstraint" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//perspective/ExplorerClassConstraint"
-          eOpposite="#//perspective/ExplorerClassConstraint/behaviors"/>
+          eType="#//perspective/NavigationConstraint" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+          eType="#//perspective/ParameterNavigationConstraint" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BehaviorNavigationConstraint" eSuperTypes="#//perspective/NavigationConstraint">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="invocationConstraint"
+          eType="#//perspective/NavigationConstraint" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="owner" eType="#//perspective/ClassNavigationConstraint"
+          eOpposite="#//perspective/ClassNavigationConstraint/behaviors"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+          eType="#//perspective/ParameterNavigationConstraint" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="InboxConfiguration" eSuperTypes="#//perspective/ViewAllocation"/>
     <eClassifiers xsi:type="ecore:EClass" name="OutboxConfiguration" eSuperTypes="#//perspective/ViewAllocation"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ParameterNavigationConstraint" eSuperTypes="#//perspective/MultiplicityElementNavigationConstraint"/>
+    <eClassifiers xsi:type="ecore:EClass" name="MultiplicityElementNavigationConstraint"
+        eSuperTypes="#//perspective/NavigationConstraint">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="removeConstraint" eType="#//perspective/NavigationConstraint"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="addConstraint" eType="#//perspective/NavigationConstraint"
+          containment="true"/>
+    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="cube" nsURI="http://opaeum.org/uimetamodel/cube/1.0" nsPrefix="cube">
     <eClassifiers xsi:type="ecore:EClass" name="CubeQuery" eSuperTypes="#//Page">
@@ -418,7 +431,7 @@
       </eOperations>
       <eOperations name="hashCode" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="LevelProperty" eSuperTypes="#//LabeledElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="LevelProperty" eSuperTypes="#//LabeledElement #//UmlReference"/>
     <eClassifiers xsi:type="ecore:EClass" name="RowAxisEntry" eSuperTypes="#//cube/AxisEntry"/>
     <eClassifiers xsi:type="ecore:EClass" name="ColumnAxisEntry" eSuperTypes="#//cube/AxisEntry"/>
     <eClassifiers xsi:type="ecore:EEnum" name="AggregationFormula">
@@ -493,10 +506,8 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="binding" lowerBound="1"
           eType="#//binding/FieldBinding" containment="true" eOpposite="#//binding/FieldBinding/field"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" eType="#//panel/Orientation"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="labelOverride" eType="#//Labels"
-          containment="true"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="UimComponent" abstract="true" eSuperTypes="#//UserInteractionElement #//constraint/ConstrainedObject">
+    <eClassifiers xsi:type="ecore:EClass" name="UimComponent" abstract="true" eSuperTypes="#//UserInteractionElement #//constraint/ConstrainedObject #//LabelContainer">
       <eOperations name="getParent" eType="#//component/UimContainer"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UimDataTable" eSuperTypes="#//component/MasterComponent #//component/UimContainer #//panel/Outlayable">
@@ -504,8 +515,6 @@
           containment="true" eOpposite="#//binding/TableBinding/table"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="actionsOnMultipleSelection"
           upperBound="-1" eType="#//action/AbstractActionButton" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="labelOverride" eType="#//Labels"
-          containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UimContainer" abstract="true" eSuperTypes="#//component/UimComponent #//constraint/EditableConstrainedObject">
       <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
