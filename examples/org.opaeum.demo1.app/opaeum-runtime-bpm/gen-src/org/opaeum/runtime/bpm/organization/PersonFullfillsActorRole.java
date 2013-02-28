@@ -204,8 +204,10 @@ public class PersonFullfillsActorRole implements IPersistentObject, HibernateEnt
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToRepresentedPerson((PersonNode)owner);
-		createComponents();
 	}
 	
 	public void markDeleted() {
@@ -306,9 +308,9 @@ public class PersonFullfillsActorRole implements IPersistentObject, HibernateEnt
 		if ( this.getRepresentedPerson()!=null ) {
 			this.getRepresentedPerson().z_internalRemoveFromPersonFullfillsActorRole_businessActor(this);
 		}
+		this.z_internalAddToRepresentedPerson(representedPerson);
 		if ( representedPerson!=null ) {
 			representedPerson.z_internalAddToPersonFullfillsActorRole_businessActor(this);
-			this.z_internalAddToRepresentedPerson(representedPerson);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -349,6 +351,9 @@ public class PersonFullfillsActorRole implements IPersistentObject, HibernateEnt
 	}
 	
 	public void z_internalAddToBusinessActor(IBusinessActor businessActor) {
+		if ( businessActor.equals(getBusinessActor()) ) {
+			return;
+		}
 		if ( this.businessActor==null ) {
 			this.businessActor=new UiidBasedInterfaceValue();
 		}
@@ -356,6 +361,9 @@ public class PersonFullfillsActorRole implements IPersistentObject, HibernateEnt
 	}
 	
 	public void z_internalAddToRepresentedPerson(PersonNode representedPerson) {
+		if ( representedPerson.equals(getRepresentedPerson()) ) {
+			return;
+		}
 		this.representedPerson=representedPerson;
 	}
 	

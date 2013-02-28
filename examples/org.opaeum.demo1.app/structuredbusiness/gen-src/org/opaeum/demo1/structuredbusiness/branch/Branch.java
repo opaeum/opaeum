@@ -845,6 +845,9 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToDishwashersInc((ApplianceDoctor)owner);
 	}
 	
@@ -1114,9 +1117,9 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		if ( this.getDishwashersInc()!=null ) {
 			this.getDishwashersInc().z_internalRemoveFromBranch(this);
 		}
+		this.z_internalAddToDishwashersInc(dishwashersInc);
 		if ( dishwashersInc!=null ) {
 			dishwashersInc.z_internalAddToBranch(this);
-			this.z_internalAddToDishwashersInc(dishwashersInc);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -1208,8 +1211,9 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		if ( this.getRepresentedOrganization()!=null ) {
 			this.getRepresentedOrganization().z_internalRemoveFromBusinessComponent(this);
 		}
+		this.z_internalAddToRepresentedOrganization(representedOrganization);
 		if ( representedOrganization!=null ) {
-			this.z_internalAddToRepresentedOrganization(representedOrganization);
+		
 		}
 	}
 	
@@ -1294,62 +1298,106 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void z_internalAddToCity(City city) {
+		if ( city.equals(getCity()) ) {
+			return;
+		}
 		this.city=city;
 	}
 	
 	public void z_internalAddToCustomerAssistant(CustomerAssistant customerAssistant) {
+		if ( getCustomerAssistant().contains(customerAssistant) ) {
+			return;
+		}
 		this.customerAssistant.add(customerAssistant);
 	}
 	
 	public void z_internalAddToDishwashersInc(ApplianceDoctor dishwashersInc) {
+		if ( dishwashersInc.equals(getDishwashersInc()) ) {
+			return;
+		}
 		this.dishwashersInc=dishwashersInc;
 	}
 	
 	public void z_internalAddToJob(Job job) {
+		if ( getJob().contains(job) ) {
+			return;
+		}
 		this.job.add(job);
 	}
 	
 	public void z_internalAddToName(String name) {
+		if ( name.equals(getName()) ) {
+			return;
+		}
 		this.name=name;
 	}
 	
 	public void z_internalAddToNumberOfOpenPositions(Double numberOfOpenPositions) {
+		if ( numberOfOpenPositions.equals(getNumberOfOpenPositions()) ) {
+			return;
+		}
 		this.numberOfOpenPositions=numberOfOpenPositions;
 	}
 	
 	public void z_internalAddToOrganizationAsBusinessComponent_representedOrganization(OrganizationAsBusinessComponent organizationAsBusinessComponent_representedOrganization) {
+		if ( organizationAsBusinessComponent_representedOrganization.equals(getOrganizationAsBusinessComponent_representedOrganization()) ) {
+			return;
+		}
 		this.organizationAsBusinessComponent_representedOrganization=organizationAsBusinessComponent_representedOrganization;
 	}
 	
 	public void z_internalAddToParticipation(Participation participation) {
-		ParticipationParticipant newOne = new ParticipationParticipant(this,participation);
+		ParticipationParticipant newOne;
+		if ( getParticipation().contains(participation) ) {
+			return;
+		}
+		newOne = new ParticipationParticipant(this,participation);
 		this.z_internalAddToParticipationParticipant_participation(newOne);
 		newOne.getParticipation().z_internalAddToParticipationParticipant_participant(newOne);
 	}
 	
 	public void z_internalAddToParticipationParticipant_participation(ParticipationParticipant participationParticipant_participation) {
+		if ( getParticipationParticipant_participation().contains(participationParticipant_participation) ) {
+			return;
+		}
 		this.participationParticipant_participation.add(participationParticipant_participation);
 	}
 	
 	public void z_internalAddToPrepareQuote(PrepareQuote prepareQuote) {
+		if ( getPrepareQuote().contains(prepareQuote) ) {
+			return;
+		}
 		this.prepareQuote.add(prepareQuote);
 	}
 	
 	public void z_internalAddToRepresentedOrganization(OrganizationNode representedOrganization) {
-		OrganizationAsBusinessComponent newOne = new OrganizationAsBusinessComponent(this,representedOrganization);
+		OrganizationAsBusinessComponent newOne;
+		if ( representedOrganization.equals(getRepresentedOrganization()) ) {
+			return;
+		}
+		newOne = new OrganizationAsBusinessComponent(this,representedOrganization);
 		this.z_internalAddToOrganizationAsBusinessComponent_representedOrganization(newOne);
 		newOne.getRepresentedOrganization().z_internalAddToOrganizationAsBusinessComponent_businessComponent(newOne);
 	}
 	
 	public void z_internalAddToStandaloneSingleScreenTask1(StandaloneSingleScreenTask1 standaloneSingleScreenTask1) {
+		if ( getStandaloneSingleScreenTask1().contains(standaloneSingleScreenTask1) ) {
+			return;
+		}
 		this.standaloneSingleScreenTask1.add(standaloneSingleScreenTask1);
 	}
 	
 	public void z_internalAddToSurname(String surname) {
+		if ( surname.equals(getSurname()) ) {
+			return;
+		}
 		this.surname=surname;
 	}
 	
 	public void z_internalAddToTechnician(Technician technician) {
+		if ( getTechnician().contains(technician) ) {
+			return;
+		}
 		this.technician.add(technician);
 	}
 	

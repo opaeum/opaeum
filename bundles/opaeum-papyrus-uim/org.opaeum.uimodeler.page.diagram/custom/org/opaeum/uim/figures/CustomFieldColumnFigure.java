@@ -1,21 +1,15 @@
 package org.opaeum.uim.figures;
 
-import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FlowLayout;
-import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.RectangleFigure;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.opaeum.uim.swt.ColumnComposite;
 import org.opaeum.uim.swt.IUimFieldComposite;
 import org.opaeum.uim.swt.IUimWidget;
-import org.opaeum.uimodeler.common.UimFigureUtil;
 import org.opaeum.uimodeler.common.figures.IUimFieldFigure;
 import org.opaeum.uimodeler.common.figures.UimDataTableComposite;
 

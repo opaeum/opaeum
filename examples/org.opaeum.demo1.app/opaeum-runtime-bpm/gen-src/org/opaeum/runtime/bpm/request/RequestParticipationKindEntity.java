@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 import org.opaeum.hibernate.domain.AbstractPersistentOpaeumIdEnum;
 
-@Table(name="request_participation_kind")
+@Table(name="request_participation_kind",schema="bpm")
 @Entity(name="RequestParticipationKindEntity")
 public class RequestParticipationKindEntity extends AbstractPersistentOpaeumIdEnum {
 

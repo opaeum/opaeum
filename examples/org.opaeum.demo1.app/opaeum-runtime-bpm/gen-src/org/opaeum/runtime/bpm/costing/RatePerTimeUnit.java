@@ -296,8 +296,10 @@ public class RatePerTimeUnit implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToTimedResource((ITimedResource)owner);
-		createComponents();
 	}
 	
 	public RatePerTimeUnit makeCopy() {
@@ -395,8 +397,8 @@ public class RatePerTimeUnit implements IPersistentObject, IEventGenerator, Hibe
 		if ( this.getTimedResource()!=null ) {
 			this.getTimedResource().z_internalRemoveFromRatePerTimeUnit(this);
 		}
+		this.z_internalAddToTimedResource(timedResource);
 		if ( timedResource!=null ) {
-			this.z_internalAddToTimedResource(timedResource);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -471,16 +473,25 @@ public class RatePerTimeUnit implements IPersistentObject, IEventGenerator, Hibe
 		if ( additionalCostToCompanyCurrency!=null && !additionalCostToCompanyCurrency.equals(org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency()) ) {
 			throw new CurrencyMismatchException(additionalCostToCompanyCurrency,org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency());
 		}
+		if ( additionalCostToCompany.equals(getAdditionalCostToCompany()) ) {
+			return;
+		}
 		this.additionalCostToCompany=additionalCostToCompany;
 	}
 	
 	public void z_internalAddToEffectiveFrom(Date effectiveFrom) {
+		if ( effectiveFrom.equals(getEffectiveFrom()) ) {
+			return;
+		}
 		this.effectiveFrom=effectiveFrom;
 	}
 	
 	public void z_internalAddToRatePaidByCompany(Double ratePaidByCompany) {
 		if ( ratePaidByCompanyCurrency!=null && !ratePaidByCompanyCurrency.equals(org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency()) ) {
 			throw new CurrencyMismatchException(ratePaidByCompanyCurrency,org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency());
+		}
+		if ( ratePaidByCompany.equals(getRatePaidByCompany()) ) {
+			return;
 		}
 		this.ratePaidByCompany=ratePaidByCompany;
 	}
@@ -489,20 +500,33 @@ public class RatePerTimeUnit implements IPersistentObject, IEventGenerator, Hibe
 		if ( ratePaidByCustomerCurrency!=null && !ratePaidByCustomerCurrency.equals(org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency()) ) {
 			throw new CurrencyMismatchException(ratePaidByCustomerCurrency,org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency());
 		}
+		if ( ratePaidByCustomer.equals(getRatePaidByCustomer()) ) {
+			return;
+		}
 		this.ratePaidByCustomer=ratePaidByCustomer;
 	}
 	
 	public void z_internalAddToTimeUnit(BusinessTimeUnit timeUnit) {
+		if ( timeUnit.equals(getTimeUnit()) ) {
+			return;
+		}
 		this.timeUnit=timeUnit;
 	}
 	
 	public void z_internalAddToTimedResource(ITimedResource timedResource) {
-		TimedResourceRatePerTimeUnit newOne = new TimedResourceRatePerTimeUnit(this,timedResource);
+		TimedResourceRatePerTimeUnit newOne;
+		if ( timedResource.equals(getTimedResource()) ) {
+			return;
+		}
+		newOne = new TimedResourceRatePerTimeUnit(this,timedResource);
 		this.z_internalAddToTimedResourceRatePerTimeUnit_timedResource(newOne);
 		newOne.getTimedResource().z_internalAddToTimedResourceRatePerTimeUnit_ratePerTimeUnit(newOne);
 	}
 	
 	public void z_internalAddToTimedResourceRatePerTimeUnit_timedResource(TimedResourceRatePerTimeUnit timedResourceRatePerTimeUnit_timedResource) {
+		if ( timedResourceRatePerTimeUnit_timedResource.equals(getTimedResourceRatePerTimeUnit_timedResource()) ) {
+			return;
+		}
 		this.timedResourceRatePerTimeUnit_timedResource=timedResourceRatePerTimeUnit_timedResource;
 	}
 	

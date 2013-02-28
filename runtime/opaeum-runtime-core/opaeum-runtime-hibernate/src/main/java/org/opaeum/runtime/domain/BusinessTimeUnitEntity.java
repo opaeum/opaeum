@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 import org.opaeum.hibernate.domain.AbstractPersistentOpaeumIdEnum;
 
-@Table(name="business_time_unit")
+@Table(name="business_time_unit",schema="bpm")
 @Entity(name="BusinessTimeUnitEntity")
 public class BusinessTimeUnitEntity extends AbstractPersistentOpaeumIdEnum {
 

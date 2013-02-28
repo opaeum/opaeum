@@ -10,8 +10,8 @@ import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.uim.UimInstantiator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

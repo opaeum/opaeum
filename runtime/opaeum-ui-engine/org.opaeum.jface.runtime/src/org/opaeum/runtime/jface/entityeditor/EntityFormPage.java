@@ -42,7 +42,8 @@ public class EntityFormPage implements IFormPage{
 		if(opaeumPage.getPanel() instanceof GridPanel){
 			GridLayout gl = new GridLayout();
 			body.setLayout(gl);
-			gl.numColumns = ((GridPanel) opaeumPage.getPanel()).getNumberOfColumns();
+			Integer numberOfColumns = ((GridPanel) opaeumPage.getPanel()).getNumberOfColumns();
+			gl.numColumns = numberOfColumns==null?1:numberOfColumns;
 		}
 		ComponentTreeBuilder builder = new ComponentTreeBuilder(getEditorInput());
 		List<UimComponent> children = opaeumPage.getPanel().getChildren();

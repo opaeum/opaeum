@@ -17,8 +17,8 @@
           <control xsi:type="ctl:UimText" xmi:id="_NdqESn2yEeKdOuVcMz9Nmw"/>
           <binding xmi:id="_NdqES32yEeKdOuVcMz9Nmw" umlElementUid="914890@_okhEQHsKEeGBGZr9IpIa3A"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_NdqETH2yEeKdOuVcMz9Nmw" name="Initiation datell" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
-          <binding xmi:id="_NdqETX2yEeKdOuVcMz9Nmw" umlElementUid="914890@_rZMyYHsKEeGBGZr9IpIa3A"/>
+        <children xsi:type="comp:UimField" xmi:id="_NdqETH2yEeKdOuVcMz9Nmw" name="Initiation datell" preferredHeight="25" fillHorizontally="true" controlKind="dateTimePopup" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDateTimePopup"/>
         </children>
         <children xsi:type="comp:UimField" xmi:id="_NdqETn2yEeKdOuVcMz9Nmw" name="Vat number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
           <control xsi:type="ctl:UimText" xmi:id="_NdqET32yEeKdOuVcMz9Nmw"/>

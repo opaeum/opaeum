@@ -120,7 +120,6 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	/** Default constructor for ApplianceCollaboration
 	 */
 	public ApplianceCollaboration() {
-		System.out.println();
 	}
 
 	public void addAllToBusinessCollaboration_BusinessActor_businessActor(Set<BusinessCollaboration_BusinessActor> businessCollaboration_BusinessActor_businessActor) {
@@ -448,6 +447,9 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToBusinessNetwork((BusinessNetwork)owner);
 	}
 	
@@ -646,8 +648,8 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 		if ( this.getBusinessNetwork()!=null ) {
 			this.getBusinessNetwork().z_internalRemoveFromBusinessCollaboration(this);
 		}
+		this.z_internalAddToBusinessNetwork(businessNetwork);
 		if ( businessNetwork!=null ) {
-			this.z_internalAddToBusinessNetwork(businessNetwork);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -763,32 +765,54 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	}
 	
 	public void z_internalAddToApplianceDoctor(ApplianceDoctor applianceDoctor) {
+		if ( applianceDoctor.equals(getApplianceDoctor()) ) {
+			return;
+		}
 		this.applianceDoctor=applianceDoctor;
 	}
 	
 	public void z_internalAddToBusinessCollaboration_BusinessActor_businessActor(BusinessCollaboration_BusinessActor businessCollaboration_BusinessActor_businessActor) {
+		if ( getBusinessCollaboration_BusinessActor_businessActor().contains(businessCollaboration_BusinessActor_businessActor) ) {
+			return;
+		}
 		this.businessCollaboration_BusinessActor_businessActor.add(businessCollaboration_BusinessActor_businessActor);
 	}
 	
 	public void z_internalAddToBusinessCollaboration_Business_business(BusinessCollaboration_Business businessCollaboration_Business_business) {
+		if ( getBusinessCollaboration_Business_business().contains(businessCollaboration_Business_business) ) {
+			return;
+		}
 		this.businessCollaboration_Business_business.add(businessCollaboration_Business_business);
 	}
 	
 	public void z_internalAddToBusinessNetwork(BusinessNetwork businessNetwork) {
-		BusinessNetworkFacilatatesCollaboration newOne = new BusinessNetworkFacilatatesCollaboration(this,businessNetwork);
+		BusinessNetworkFacilatatesCollaboration newOne;
+		if ( businessNetwork.equals(getBusinessNetwork()) ) {
+			return;
+		}
+		newOne = new BusinessNetworkFacilatatesCollaboration(this,businessNetwork);
 		this.z_internalAddToBusinessNetworkFacilatatesCollaboration_businessNetwork(newOne);
 		newOne.getBusinessNetwork().z_internalAddToBusinessNetworkFacilatatesCollaboration_businessCollaboration(newOne);
 	}
 	
 	public void z_internalAddToBusinessNetworkFacilatatesCollaboration_businessNetwork(BusinessNetworkFacilatatesCollaboration businessNetworkFacilatatesCollaboration_businessNetwork) {
+		if ( businessNetworkFacilatatesCollaboration_businessNetwork.equals(getBusinessNetworkFacilatatesCollaboration_businessNetwork()) ) {
+			return;
+		}
 		this.businessNetworkFacilatatesCollaboration_businessNetwork=businessNetworkFacilatatesCollaboration_businessNetwork;
 	}
 	
 	public void z_internalAddToOnlineCustomer(OnlineCustomer onlineCustomer) {
+		if ( getOnlineCustomer().contains(onlineCustomer) ) {
+			return;
+		}
 		this.onlineCustomer.add(onlineCustomer);
 	}
 	
 	public void z_internalAddToSupplier(Supplier supplier) {
+		if ( getSupplier().contains(supplier) ) {
+			return;
+		}
 		this.supplier.add(supplier);
 	}
 	

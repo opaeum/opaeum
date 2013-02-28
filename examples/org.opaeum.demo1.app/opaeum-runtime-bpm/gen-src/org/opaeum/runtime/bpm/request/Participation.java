@@ -194,7 +194,9 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 	}
 	
 	public void init(CompositionNode owner) {
-		createComponents();
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 	}
 	
 	public Participation makeCopy() {
@@ -276,8 +278,9 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 		if ( this.getParticipant()!=null ) {
 			this.getParticipant().z_internalRemoveFromParticipation(this);
 		}
+		this.z_internalAddToParticipant(participant);
 		if ( participant!=null ) {
-			this.z_internalAddToParticipant(participant);
+		
 		}
 	}
 	
@@ -338,12 +341,19 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 	}
 	
 	public void z_internalAddToParticipant(IParticipant participant) {
-		ParticipationParticipant newOne = new ParticipationParticipant(this,participant);
+		ParticipationParticipant newOne;
+		if ( participant.equals(getParticipant()) ) {
+			return;
+		}
+		newOne = new ParticipationParticipant(this,participant);
 		this.z_internalAddToParticipationParticipant_participant(newOne);
 		newOne.getParticipant().z_internalAddToParticipationParticipant_participation(newOne);
 	}
 	
 	public void z_internalAddToParticipationParticipant_participant(ParticipationParticipant participationParticipant_participant) {
+		if ( participationParticipant_participant.equals(getParticipationParticipant_participant()) ) {
+			return;
+		}
 		this.participationParticipant_participant=participationParticipant_participant;
 	}
 	

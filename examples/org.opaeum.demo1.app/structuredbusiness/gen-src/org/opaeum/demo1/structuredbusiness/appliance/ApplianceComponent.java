@@ -217,6 +217,9 @@ public class ApplianceComponent implements IPersistentObject, IEventGenerator, H
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToAppliance((ApplianceModel)owner);
 	}
 	
@@ -267,9 +270,9 @@ public class ApplianceComponent implements IPersistentObject, IEventGenerator, H
 		if ( this.getAppliance()!=null ) {
 			this.getAppliance().z_internalRemoveFromComponent(this);
 		}
+		this.z_internalAddToAppliance(appliance);
 		if ( appliance!=null ) {
 			appliance.z_internalAddToComponent(this);
-			this.z_internalAddToAppliance(appliance);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -332,14 +335,23 @@ public class ApplianceComponent implements IPersistentObject, IEventGenerator, H
 	}
 	
 	public void z_internalAddToAppliance(ApplianceModel appliance) {
+		if ( appliance.equals(getAppliance()) ) {
+			return;
+		}
 		this.appliance=appliance;
 	}
 	
 	public void z_internalAddToPartNumber(Integer partNumber) {
+		if ( partNumber.equals(getPartNumber()) ) {
+			return;
+		}
 		this.partNumber=partNumber;
 	}
 	
 	public void z_internalAddToPrice(Double price) {
+		if ( price.equals(getPrice()) ) {
+			return;
+		}
 		this.price=price;
 	}
 	

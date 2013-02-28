@@ -496,6 +496,9 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToApplianceCollaboration((ApplianceCollaboration)owner);
 		this.setPreferredEMailAddressType( PersonEMailAddressType.WORK );
 		this.setPreferredPhoneNumberType( PersonPhoneNumberType.CELL );
@@ -611,9 +614,9 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		if ( this.getApplianceCollaboration()!=null ) {
 			this.getApplianceCollaboration().z_internalRemoveFromSupplier(this);
 		}
+		this.z_internalAddToApplianceCollaboration(applianceCollaboration);
 		if ( applianceCollaboration!=null ) {
 			applianceCollaboration.z_internalAddToSupplier(this);
-			this.z_internalAddToApplianceCollaboration(applianceCollaboration);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -675,8 +678,9 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		if ( this.getOrganization()!=null ) {
 			this.getOrganization().z_internalRemoveFromBusinessActor(this);
 		}
+		this.z_internalAddToOrganization(organization);
 		if ( organization!=null ) {
-			this.z_internalAddToOrganization(organization);
+		
 		}
 	}
 	
@@ -780,8 +784,9 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		if ( this.getRepresentedPerson()!=null ) {
 			this.getRepresentedPerson().z_internalRemoveFromBusinessActor(this);
 		}
+		this.z_internalAddToRepresentedPerson(representedPerson);
 		if ( representedPerson!=null ) {
-			this.z_internalAddToRepresentedPerson(representedPerson);
+		
 		}
 	}
 	
@@ -833,51 +838,87 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 	}
 	
 	public void z_internalAddToApplianceCollaboration(ApplianceCollaboration applianceCollaboration) {
+		if ( applianceCollaboration.equals(getApplianceCollaboration()) ) {
+			return;
+		}
 		this.applianceCollaboration=applianceCollaboration;
 	}
 	
 	public void z_internalAddToBusinessCollaboration_BusinessActor_businessCollaboration(BusinessCollaboration_BusinessActor businessCollaboration_BusinessActor_businessCollaboration) {
+		if ( businessCollaboration_BusinessActor_businessCollaboration.equals(getBusinessCollaboration_BusinessActor_businessCollaboration()) ) {
+			return;
+		}
 		this.businessCollaboration_BusinessActor_businessCollaboration=businessCollaboration_BusinessActor_businessCollaboration;
 	}
 	
 	public void z_internalAddToOrganization(OrganizationNode organization) {
-		OrganizationFullfillsActorRole newOne = new OrganizationFullfillsActorRole(this,organization);
+		OrganizationFullfillsActorRole newOne;
+		if ( organization.equals(getOrganization()) ) {
+			return;
+		}
+		newOne = new OrganizationFullfillsActorRole(this,organization);
 		this.z_internalAddToOrganizationFullfillsActorRole_organization(newOne);
 		newOne.getOrganization().z_internalAddToOrganizationFullfillsActorRole_businessActor(newOne);
 	}
 	
 	public void z_internalAddToOrganizationFullfillsActorRole_organization(OrganizationFullfillsActorRole organizationFullfillsActorRole_organization) {
+		if ( organizationFullfillsActorRole_organization.equals(getOrganizationFullfillsActorRole_organization()) ) {
+			return;
+		}
 		this.organizationFullfillsActorRole_organization=organizationFullfillsActorRole_organization;
 	}
 	
 	public void z_internalAddToParticipation(Participation participation) {
-		ParticipationParticipant newOne = new ParticipationParticipant(this,participation);
+		ParticipationParticipant newOne;
+		if ( getParticipation().contains(participation) ) {
+			return;
+		}
+		newOne = new ParticipationParticipant(this,participation);
 		this.z_internalAddToParticipationParticipant_participation(newOne);
 		newOne.getParticipation().z_internalAddToParticipationParticipant_participant(newOne);
 	}
 	
 	public void z_internalAddToParticipationParticipant_participation(ParticipationParticipant participationParticipant_participation) {
+		if ( getParticipationParticipant_participation().contains(participationParticipant_participation) ) {
+			return;
+		}
 		this.participationParticipant_participation.add(participationParticipant_participation);
 	}
 	
 	public void z_internalAddToPersonFullfillsActorRole_representedPerson(PersonFullfillsActorRole personFullfillsActorRole_representedPerson) {
+		if ( personFullfillsActorRole_representedPerson.equals(getPersonFullfillsActorRole_representedPerson()) ) {
+			return;
+		}
 		this.personFullfillsActorRole_representedPerson=personFullfillsActorRole_representedPerson;
 	}
 	
 	public void z_internalAddToPreferredEMailAddressType(PersonEMailAddressType preferredEMailAddressType) {
+		if ( preferredEMailAddressType.equals(getPreferredEMailAddressType()) ) {
+			return;
+		}
 		this.preferredEMailAddressType=preferredEMailAddressType;
 	}
 	
 	public void z_internalAddToPreferredNotificationType(NotificationType preferredNotificationType) {
+		if ( preferredNotificationType.equals(getPreferredNotificationType()) ) {
+			return;
+		}
 		this.preferredNotificationType=preferredNotificationType;
 	}
 	
 	public void z_internalAddToPreferredPhoneNumberType(PersonPhoneNumberType preferredPhoneNumberType) {
+		if ( preferredPhoneNumberType.equals(getPreferredPhoneNumberType()) ) {
+			return;
+		}
 		this.preferredPhoneNumberType=preferredPhoneNumberType;
 	}
 	
 	public void z_internalAddToRepresentedPerson(PersonNode representedPerson) {
-		PersonFullfillsActorRole newOne = new PersonFullfillsActorRole(this,representedPerson);
+		PersonFullfillsActorRole newOne;
+		if ( representedPerson.equals(getRepresentedPerson()) ) {
+			return;
+		}
+		newOne = new PersonFullfillsActorRole(this,representedPerson);
 		this.z_internalAddToPersonFullfillsActorRole_representedPerson(newOne);
 		newOne.getRepresentedPerson().z_internalAddToPersonFullfillsActorRole_businessActor(newOne);
 	}

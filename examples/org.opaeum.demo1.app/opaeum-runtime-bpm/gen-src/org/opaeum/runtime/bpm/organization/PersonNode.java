@@ -863,19 +863,13 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToBusinessNetwork((BusinessNetwork)owner);
 		this.setPreferredEMailAddressType( PersonEMailAddressType.WORK );
 		this.setPreferredPhoneNumberType( PersonPhoneNumberType.CELL );
 		this.setPreferredNotificationType( NotificationType.EMAIL );
-		createComponents();
-		for ( PersonPhoneNumber c : getPhoneNumber() ) {
-			c.init(this);
-		}
-		getPhysicalAddress().init(this);
-		getPostalAddress().init(this);
-		for ( PersonEMailAddress c : getEMailAddress() ) {
-			c.init(this);
-		}
 	}
 	
 	public PersonNode makeCopy() {
@@ -1107,9 +1101,9 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		if ( this.getBusinessNetwork()!=null ) {
 			this.getBusinessNetwork().z_internalRemoveFromPerson(this.getUsername(),this);
 		}
+		this.z_internalAddToBusinessNetwork(businessNetwork);
 		if ( businessNetwork!=null ) {
 			businessNetwork.z_internalAddToPerson(this.getUsername(),this);
-			this.z_internalAddToBusinessNetwork(businessNetwork);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -1364,64 +1358,105 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public void z_internalAddToAuthenticationToken(String authenticationToken) {
+		if ( authenticationToken.equals(getAuthenticationToken()) ) {
+			return;
+		}
 		this.authenticationToken=authenticationToken;
 	}
 	
 	public void z_internalAddToBusinessActor(IBusinessActor businessActor) {
-		PersonFullfillsActorRole newOne = new PersonFullfillsActorRole(this,businessActor);
+		PersonFullfillsActorRole newOne;
+		if ( getBusinessActor().contains(businessActor) ) {
+			return;
+		}
+		newOne = new PersonFullfillsActorRole(this,businessActor);
 		this.z_internalAddToPersonFullfillsActorRole_businessActor(newOne);
 		newOne.getBusinessActor().z_internalAddToPersonFullfillsActorRole_representedPerson(newOne);
 	}
 	
 	public void z_internalAddToBusinessNetwork(BusinessNetwork businessNetwork) {
+		if ( businessNetwork.equals(getBusinessNetwork()) ) {
+			return;
+		}
 		this.businessNetwork=businessNetwork;
 	}
 	
 	public void z_internalAddToBusinessRole(IBusinessRole businessRole) {
-		PersonInBusinessRole newOne = new PersonInBusinessRole(this,businessRole);
+		PersonInBusinessRole newOne;
+		if ( getBusinessRole().contains(businessRole) ) {
+			return;
+		}
+		newOne = new PersonInBusinessRole(this,businessRole);
 		this.z_internalAddToPersonInBusinessRole_businessRole(newOne);
 		newOne.getBusinessRole().z_internalAddToPersonInBusinessRole_representedPerson(newOne);
 	}
 	
 	public void z_internalAddToEMailAddress(PersonEMailAddressType type, PersonEMailAddress eMailAddress) {
 		String key = type.getUid();
+		if ( getEMailAddress().contains(eMailAddress) ) {
+			return;
+		}
 		eMailAddress.z_internalAddToType(type);
 		this.eMailAddress.put(key.toString(),eMailAddress);
 		eMailAddress.setZ_keyOfEMailAddressOnPersonNode(key.toString());
 	}
 	
 	public void z_internalAddToFirstName(String firstName) {
+		if ( firstName.equals(getFirstName()) ) {
+			return;
+		}
 		this.firstName=firstName;
 	}
 	
 	public void z_internalAddToLeave(Leave leave) {
+		if ( getLeave().contains(leave) ) {
+			return;
+		}
 		this.leave.add(leave);
 	}
 	
 	public void z_internalAddToPersonFullfillsActorRole_businessActor(PersonFullfillsActorRole personFullfillsActorRole_businessActor) {
+		if ( getPersonFullfillsActorRole_businessActor().contains(personFullfillsActorRole_businessActor) ) {
+			return;
+		}
 		this.personFullfillsActorRole_businessActor.add(personFullfillsActorRole_businessActor);
 	}
 	
 	public void z_internalAddToPersonInBusinessRole_businessRole(PersonInBusinessRole personInBusinessRole_businessRole) {
+		if ( getPersonInBusinessRole_businessRole().contains(personInBusinessRole_businessRole) ) {
+			return;
+		}
 		this.personInBusinessRole_businessRole.add(personInBusinessRole_businessRole);
 	}
 	
 	public void z_internalAddToPhoneNumber(PersonPhoneNumberType type, PersonPhoneNumber phoneNumber) {
 		String key = type.getUid();
+		if ( getPhoneNumber().contains(phoneNumber) ) {
+			return;
+		}
 		phoneNumber.z_internalAddToType(type);
 		this.phoneNumber.put(key.toString(),phoneNumber);
 		phoneNumber.setZ_keyOfPhoneNumberOnPersonNode(key.toString());
 	}
 	
 	public void z_internalAddToPhysicalAddress(PhysicalAddress physicalAddress) {
+		if ( physicalAddress.equals(getPhysicalAddress()) ) {
+			return;
+		}
 		this.physicalAddress=physicalAddress;
 	}
 	
 	public void z_internalAddToPostalAddress(PostalAddress postalAddress) {
+		if ( postalAddress.equals(getPostalAddress()) ) {
+			return;
+		}
 		this.postalAddress=postalAddress;
 	}
 	
 	public void z_internalAddToPreferredEMailAddressType(PersonEMailAddressType preferredEMailAddressType) {
+		if ( preferredEMailAddressType.equals(getPreferredEMailAddressType()) ) {
+			return;
+		}
 		this.preferredEMailAddressType=preferredEMailAddressType;
 	}
 	
@@ -1430,26 +1465,44 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	}
 	
 	public void z_internalAddToPreferredNotificationType(NotificationType preferredNotificationType) {
+		if ( preferredNotificationType.equals(getPreferredNotificationType()) ) {
+			return;
+		}
 		this.preferredNotificationType=preferredNotificationType;
 	}
 	
 	public void z_internalAddToPreferredPhoneNumberType(PersonPhoneNumberType preferredPhoneNumberType) {
+		if ( preferredPhoneNumberType.equals(getPreferredPhoneNumberType()) ) {
+			return;
+		}
 		this.preferredPhoneNumberType=preferredPhoneNumberType;
 	}
 	
 	public void z_internalAddToRefreshToken(String refreshToken) {
+		if ( refreshToken.equals(getRefreshToken()) ) {
+			return;
+		}
 		this.refreshToken=refreshToken;
 	}
 	
 	public void z_internalAddToSurname(String surname) {
+		if ( surname.equals(getSurname()) ) {
+			return;
+		}
 		this.surname=surname;
 	}
 	
 	public void z_internalAddToTokenExpiryDateTime(Date tokenExpiryDateTime) {
+		if ( tokenExpiryDateTime.equals(getTokenExpiryDateTime()) ) {
+			return;
+		}
 		this.tokenExpiryDateTime=tokenExpiryDateTime;
 	}
 	
 	public void z_internalAddToUsername(String username) {
+		if ( username.equals(getUsername()) ) {
+			return;
+		}
 		this.username=username;
 	}
 	

@@ -21,7 +21,6 @@ import org.opaeum.uim.swt.UimSwtUtil;
 import org.opaeum.uimodeler.common.UimFigureUtil;
 import org.opaeum.uimodeler.common.figures.AbstractEventAdapter;
 import org.opaeum.uimodeler.common.figures.IUimFieldFigure;
-import org.opaeum.uimodeler.common.figures.WindowBuilderUtil;
 
 public final class UimFieldEventAdapter extends AbstractEventAdapter{
 	private IUimFieldFigure fig;

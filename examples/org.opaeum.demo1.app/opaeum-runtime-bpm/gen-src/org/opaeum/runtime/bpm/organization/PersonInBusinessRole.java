@@ -204,8 +204,10 @@ public class PersonInBusinessRole implements IPersistentObject, HibernateEntity,
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToBusinessRole((IBusinessRole)owner);
-		createComponents();
 	}
 	
 	public void markDeleted() {
@@ -306,9 +308,9 @@ public class PersonInBusinessRole implements IPersistentObject, HibernateEntity,
 		if ( this.getRepresentedPerson()!=null ) {
 			this.getRepresentedPerson().z_internalRemoveFromPersonInBusinessRole_businessRole(this);
 		}
+		this.z_internalAddToRepresentedPerson(representedPerson);
 		if ( representedPerson!=null ) {
 			representedPerson.z_internalAddToPersonInBusinessRole_businessRole(this);
-			this.z_internalAddToRepresentedPerson(representedPerson);
 		}
 	}
 	
@@ -346,6 +348,9 @@ public class PersonInBusinessRole implements IPersistentObject, HibernateEntity,
 	}
 	
 	public void z_internalAddToBusinessRole(IBusinessRole businessRole) {
+		if ( businessRole.equals(getBusinessRole()) ) {
+			return;
+		}
 		if ( this.businessRole==null ) {
 			this.businessRole=new UiidBasedInterfaceValue();
 		}
@@ -353,6 +358,9 @@ public class PersonInBusinessRole implements IPersistentObject, HibernateEntity,
 	}
 	
 	public void z_internalAddToRepresentedPerson(PersonNode representedPerson) {
+		if ( representedPerson.equals(getRepresentedPerson()) ) {
+			return;
+		}
 		this.representedPerson=representedPerson;
 	}
 	

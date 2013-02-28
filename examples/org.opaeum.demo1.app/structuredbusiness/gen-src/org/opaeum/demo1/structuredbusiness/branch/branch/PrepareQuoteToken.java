@@ -16,7 +16,7 @@ import org.opaeum.hibernate.domain.StateMachineToken;
 import org.opaeum.runtime.domain.IToken;
 
 @NumlMetaInfo(uuid="914890@_HHdlgBYUEeKsDbmQL25eBw")
-@Table(name="prepare_quote_token")
+@Table(name="prepare_quote_token",schema="structuredbusiness")
 @Inheritance(strategy=javax.persistence.InheritanceType.SINGLE_TABLE)
 @Entity(name="PrepareQuoteToken")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING)

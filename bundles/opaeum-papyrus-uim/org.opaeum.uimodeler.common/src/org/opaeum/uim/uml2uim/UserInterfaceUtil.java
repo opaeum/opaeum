@@ -191,7 +191,7 @@ public class UserInterfaceUtil{
 	public static UmlReference findRepresentingElement(Element c,EList<? extends UmlReference> classes){
 		String id = EmfWorkspace.getId(c);
 		for(UmlReference umlReference:classes){
-			if(id.equals(umlReference)){
+			if(id.equals(umlReference.getUmlElementUid())){
 				return umlReference;
 			}
 		}

@@ -235,8 +235,10 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToBusinessCalendar((BusinessCalendar)owner);
-		createComponents();
 	}
 	
 	public RecurringHoliday makeCopy() {
@@ -286,9 +288,9 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		if ( this.getBusinessCalendar()!=null ) {
 			this.getBusinessCalendar().z_internalRemoveFromRecurringHoliday(this);
 		}
+		this.z_internalAddToBusinessCalendar(businessCalendar);
 		if ( businessCalendar!=null ) {
 			businessCalendar.z_internalAddToRecurringHoliday(this);
-			this.z_internalAddToBusinessCalendar(businessCalendar);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -359,18 +361,30 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	public void z_internalAddToBusinessCalendar(BusinessCalendar businessCalendar) {
+		if ( businessCalendar.equals(getBusinessCalendar()) ) {
+			return;
+		}
 		this.businessCalendar=businessCalendar;
 	}
 	
 	public void z_internalAddToDay(Integer day) {
+		if ( day.equals(getDay()) ) {
+			return;
+		}
 		this.day=day;
 	}
 	
 	public void z_internalAddToMonth(Month month) {
+		if ( month.equals(getMonth()) ) {
+			return;
+		}
 		this.month=month;
 	}
 	
 	public void z_internalAddToName(String name) {
+		if ( name.equals(getName()) ) {
+			return;
+		}
 		this.name=name;
 	}
 	

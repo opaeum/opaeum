@@ -1,23 +1,17 @@
 package org.opaeum.runtime.rwt;
 
-import java.io.IOException;
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
-import org.eclipse.rap.rwt.application.EntryPoint;
-import org.opaeum.ecore.EObject;
-import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
+import org.hibernate.validator.HibernateValidator;
 import org.opaeum.runtime.domain.IEnum;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.Environment;
@@ -27,18 +21,15 @@ import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.Query;
 import org.opaeum.uim.model.AbstractUserInteractionModel;
+import org.opaeum.uim.perspective.PerspectiveConfiguration;
 import org.osgi.framework.Bundle;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 	Bundle bundle;
-	Map<String,URL> uimFiles;
-	Map<String,AbstractUserInteractionModel> userInteractionModels = Collections
-			.synchronizedMap(new HashMap<String,AbstractUserInteractionModel>());
+	Map<String,AbstractUimResourceWrapper> deployedUimFiles = Collections.synchronizedMap(new HashMap<String,AbstractUimResourceWrapper>());
 	private Validator validator;
 	protected ConversationalPersistence applicationPersistence;
+	private File developmentUiDirectory;
 	protected AbstractOpaeumApplication(Bundle bundle){
 		super();
 		this.bundle = bundle;
@@ -47,9 +38,16 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 	protected abstract IPersonNode newPersonNode(IBusinessNetwork bn,String emailAddress);
 	protected abstract IBusinessCollaborationBase newBusinessCollaboration(IBusinessNetwork findOrCreateBusinessNetwork);
 	@Override
-	public abstract Environment getEnvironment();
-	@Override
-	public abstract IBusinessCollaborationBase getRootBusinessCollaboration();
+	public void init(){
+		getEnvironment().register();
+		String path = getEnvironment().getProperty(Environment.DEV_UI_DIR);
+		if(path != null && path.length() > 0){
+			File file = new File(path);
+			if(file.exists() && file.isDirectory()){
+				developmentUiDirectory = file;
+			}
+		}
+	}
 	@Override
 	public synchronized IBusinessCollaborationBase createRootBusinessCollaboration(){
 		IBusinessCollaborationBase result = newBusinessCollaboration(findOrCreateBusinessNetwork());
@@ -57,11 +55,9 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 		return result;
 	}
 	@Override
-	public abstract Class<? extends EntryPoint> getEntryPointType();
-	@Override
 	public Validator getValidator(){
 		if(validator == null){
-			validator = Validation.buildDefaultValidatorFactory().getValidator();
+			validator = Validation.byProvider(HibernateValidator.class).configure().buildValidatorFactory().getValidator();
 		}
 		return validator;
 	}
@@ -106,6 +102,10 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 		return result;
 	}
 	@Override
+	public PerspectiveConfiguration getPerspectiveConfiguration(){
+		return (PerspectiveConfiguration) getResourceWrapper("perspective").getRoot();
+	}
+	@Override
 	public synchronized IPersonNode findOrCreatePersonByEMailAddress(String id){
 		// TODO find email addresses too
 		Query q = getApplicationPersistence().createQuery("from PersonNode where username=:username");
@@ -118,7 +118,7 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 		getApplicationPersistence().flush();
 		return newPerson;
 	}
-	private  ConversationalPersistence getApplicationPersistence(){
+	private ConversationalPersistence getApplicationPersistence(){
 		if(applicationPersistence == null){
 			applicationPersistence = getEnvironment().createConversationalPersistence();
 		}
@@ -126,39 +126,8 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 	}
 	@Override
 	public AbstractUserInteractionModel getUserInteractionModel(String id){
-		try{
-			AbstractUserInteractionModel result = userInteractionModels.get(id);
-			if(result == null){
-				DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-				Document doc = db.parse(getUimFiles().get(id).openStream());
-				Element xml = doc.getDocumentElement();
-				EObject e = UimInstantiator.INSTANCE.newInstance(xml.getNodeName());
-				HashMap<String,Object> map = new HashMap<String,Object>();
-				map.put(xml.getAttribute("xmi:id"), e);
-				e.buildTreeFromXml(xml, map);
-				e.populateReferencesFromXml(xml, map);
-				result = (AbstractUserInteractionModel) e;
-				userInteractionModels.put(id, result);
-			}
-			return result;
-		}catch(ParserConfigurationException e){
-			throw new RuntimeException(e);
-		}catch(SAXException e){
-			throw new RuntimeException(e);
-		}catch(IOException e){
-			throw new RuntimeException(e);
-		}
-	}
-	protected Map<String,URL> getUimFiles(){
-		if(uimFiles == null){
-			Enumeration<URL> entries = bundle.findEntries("/", "*.uim", true);
-			uimFiles = new HashMap<String,URL>();
-			while(entries.hasMoreElements()){
-				URL url = (URL) entries.nextElement();
-				uimFiles.put(url.getFile().substring(0, url.getFile().length() - 4), url);
-			}
-		}
-		return uimFiles;
+		AbstractUserInteractionModel result = (AbstractUserInteractionModel) getResourceWrapper(id).getRoot();
+		return result;
 	}
 	@Override
 	public String getIdentifier(){
@@ -167,5 +136,27 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 	@Override
 	public URL getCubeUrl(){
 		throw new IllegalStateException("getCubeUrl not implemented yet");
+	}
+	@Override
+	public void dispose(){
+		getEnvironment().unregister();
+		if(this.applicationPersistence != null && this.applicationPersistence.isOpen()){
+			this.applicationPersistence.close();
+		}
+		this.deployedUimFiles = null;
+		this.deployedUimFiles = null;
+		this.validator = null;
+	}
+	private AbstractUimResourceWrapper getResourceWrapper(String id){
+		AbstractUimResourceWrapper result = this.deployedUimFiles.get(id);
+		if(result == null){
+			if(developmentUiDirectory == null){
+				result = new BundleUimResourceWrapper(bundle, id);
+			}else{
+				result = new FileUimResourceWrapper(developmentUiDirectory, id);
+			}
+			this.deployedUimFiles.put(id, result);
+		}
+		return result;
 	}
 }

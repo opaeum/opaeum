@@ -217,8 +217,10 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToPerson((PersonNode)owner);
-		createComponents();
 	}
 	
 	public Leave makeCopy() {
@@ -293,9 +295,9 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		if ( this.getPerson()!=null ) {
 			this.getPerson().z_internalRemoveFromLeave(this);
 		}
+		this.z_internalAddToPerson(person);
 		if ( person!=null ) {
 			person.z_internalAddToLeave(this);
-			this.z_internalAddToPerson(person);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -333,14 +335,23 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 	}
 	
 	public void z_internalAddToFromDate(Date fromDate) {
+		if ( fromDate.equals(getFromDate()) ) {
+			return;
+		}
 		this.fromDate=fromDate;
 	}
 	
 	public void z_internalAddToPerson(PersonNode person) {
+		if ( person.equals(getPerson()) ) {
+			return;
+		}
 		this.person=person;
 	}
 	
 	public void z_internalAddToToDate(Date toDate) {
+		if ( toDate.equals(getToDate()) ) {
+			return;
+		}
 		this.toDate=toDate;
 	}
 	

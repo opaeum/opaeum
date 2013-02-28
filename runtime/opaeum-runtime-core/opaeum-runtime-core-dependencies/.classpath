@@ -30,7 +30,7 @@
 	<classpathentry exported="true" kind="lib" path="target/libs/log4j-1.2.14.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/libs/mondrian-3.5.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/libs/olap4j-1.1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/libs/validation-api-1.0.0.GA.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/libs/validation-api-1.0.0.GA.jar" sourcepath="/home/ampie/.m2/repository/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/libs/xalan-2.4.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/libs/xercesImpl-2.5.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/libs/hsqldb-2.2.9.jar"/>

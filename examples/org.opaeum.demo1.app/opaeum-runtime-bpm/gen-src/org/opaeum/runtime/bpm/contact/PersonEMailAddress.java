@@ -31,7 +31,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
-import org.hibernate.validator.Email;
+import org.hibernate.validator.constraints.Email;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.hibernate.domain.InternalHibernatePersistence;
@@ -237,8 +237,10 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToPerson((PersonNode)owner);
-		createComponents();
 	}
 	
 	public PersonEMailAddress makeCopy() {
@@ -313,9 +315,9 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 		if ( this.getPerson()!=null ) {
 			this.getPerson().z_internalRemoveFromEMailAddress(this.getType(),this);
 		}
+		this.z_internalAddToPerson(person);
 		if ( person!=null ) {
 			person.z_internalAddToEMailAddress(this.getType(),this);
-			this.z_internalAddToPerson(person);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -363,14 +365,23 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 	}
 	
 	public void z_internalAddToEmailAddress(String emailAddress) {
+		if ( emailAddress.equals(getEmailAddress()) ) {
+			return;
+		}
 		this.emailAddress=emailAddress;
 	}
 	
 	public void z_internalAddToPerson(PersonNode person) {
+		if ( person.equals(getPerson()) ) {
+			return;
+		}
 		this.person=person;
 	}
 	
 	public void z_internalAddToType(PersonEMailAddressType type) {
+		if ( type.equals(getType()) ) {
+			return;
+		}
 		this.type=type;
 	}
 	

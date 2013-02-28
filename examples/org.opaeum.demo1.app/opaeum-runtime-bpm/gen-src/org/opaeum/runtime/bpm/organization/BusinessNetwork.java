@@ -369,7 +369,9 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	}
 	
 	public void init(CompositionNode owner) {
-		createComponents();
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 	}
 	
 	public BusinessNetwork makeCopy() {
@@ -558,17 +560,27 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	}
 	
 	public void z_internalAddToBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
-		BusinessNetworkFacilatatesCollaboration newOne = new BusinessNetworkFacilatatesCollaboration(this,businessCollaboration);
+		BusinessNetworkFacilatatesCollaboration newOne;
+		if ( getBusinessCollaboration().contains(businessCollaboration) ) {
+			return;
+		}
+		newOne = new BusinessNetworkFacilatatesCollaboration(this,businessCollaboration);
 		this.z_internalAddToBusinessNetworkFacilatatesCollaboration_businessCollaboration(newOne);
 		newOne.getBusinessCollaboration().z_internalAddToBusinessNetworkFacilatatesCollaboration_businessNetwork(newOne);
 	}
 	
 	public void z_internalAddToBusinessNetworkFacilatatesCollaboration_businessCollaboration(BusinessNetworkFacilatatesCollaboration businessNetworkFacilatatesCollaboration_businessCollaboration) {
+		if ( getBusinessNetworkFacilatatesCollaboration_businessCollaboration().contains(businessNetworkFacilatatesCollaboration_businessCollaboration) ) {
+			return;
+		}
 		this.businessNetworkFacilatatesCollaboration_businessCollaboration.add(businessNetworkFacilatatesCollaboration_businessCollaboration);
 	}
 	
 	public void z_internalAddToOrganization(String name, OrganizationNode organization) {
 		String key = OpaeumLibraryForBPMFormatter.getInstance().formatStringQualifier(name);
+		if ( getOrganization().contains(organization) ) {
+			return;
+		}
 		organization.z_internalAddToName(name);
 		this.organization.put(key.toString(),organization);
 		organization.setZ_keyOfOrganizationOnBusinessNetwork(key.toString());
@@ -576,6 +588,9 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	
 	public void z_internalAddToPerson(String username, PersonNode person) {
 		String key = OpaeumLibraryForBPMFormatter.getInstance().formatStringQualifier(username);
+		if ( getPerson().contains(person) ) {
+			return;
+		}
 		person.z_internalAddToUsername(username);
 		this.person.put(key.toString(),person);
 		person.setZ_keyOfPersonOnBusinessNetwork(key.toString());

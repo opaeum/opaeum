@@ -230,9 +230,10 @@ public class QuantifiedResourcePricePerUnit implements IPersistentObject, Hibern
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToPricePerUnit((PricePerUnit)owner);
-		createComponents();
-		getPricePerUnit().init(this);
 	}
 	
 	public void markDeleted() {
@@ -333,9 +334,9 @@ public class QuantifiedResourcePricePerUnit implements IPersistentObject, Hibern
 		if ( this.getQuantifiedResource()!=null ) {
 			this.getQuantifiedResource().z_internalRemoveFromQuantifiedResourcePricePerUnit_pricePerUnit(this);
 		}
+		this.z_internalAddToQuantifiedResource(quantifiedResource);
 		if ( quantifiedResource!=null ) {
 			quantifiedResource.z_internalAddToQuantifiedResourcePricePerUnit_pricePerUnit(this);
-			this.z_internalAddToQuantifiedResource(quantifiedResource);
 		}
 	}
 	
@@ -373,10 +374,16 @@ public class QuantifiedResourcePricePerUnit implements IPersistentObject, Hibern
 	}
 	
 	public void z_internalAddToPricePerUnit(PricePerUnit pricePerUnit) {
+		if ( pricePerUnit.equals(getPricePerUnit()) ) {
+			return;
+		}
 		this.pricePerUnit=pricePerUnit;
 	}
 	
 	public void z_internalAddToQuantifiedResource(IQuantifiedResource quantifiedResource) {
+		if ( quantifiedResource.equals(getQuantifiedResource()) ) {
+			return;
+		}
 		if ( this.quantifiedResource==null ) {
 			this.quantifiedResource=new UiidBasedInterfaceValue();
 		}

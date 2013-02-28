@@ -35,7 +35,7 @@ public class InstanceSpecificationSlotsSection extends AbstractOpaeumPropertySec
 		this.slotsGroup = getWidgetFactory().createGroup(composite, getLabelText());
 		FormData fd = new FormData();
 		fd.top = new FormAttachment();
-		fd.left = new FormAttachment();
+		fd.left = new FormAttachment(getLabelCombo());
 		fd.bottom = new FormAttachment(100);
 		fd.right = new FormAttachment(100);
 		this.slotsGroup.setLayoutData(fd);

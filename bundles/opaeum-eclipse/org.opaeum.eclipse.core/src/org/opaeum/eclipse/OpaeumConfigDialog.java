@@ -29,6 +29,8 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -50,6 +52,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	private Text txtApplicationName;
 	private Text txtApplicationIdentifier;
 	private Text txtCompanyDomain;
+	private Text txtDevUser;
 	private Button chkGeneratePoms;
 	private Button chkAutoSync;
 	private Button chkIsUimModelerActive;
@@ -61,6 +64,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	private ComboViewer currencyComboViewer;
 	private IContainer modelDir;
 	private StringListViewer lstAdditionalPersistentClasses;
+	private Control i18nTabComposite;
 	public OpaeumConfigDialog(Shell shell,OpaeumConfig config,IContainer modelDir){
 		super(shell);
 		this.config = config;
@@ -81,23 +85,11 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 		generalItem.setControl(createGeneralTab(tabFolder));
 		generalItem.setText("General");
 		TabItem i8nItem = new TabItem(tabFolder, SWT.NONE);
-		i8nItem.setControl(createI8nTab(tabFolder));
+		i8nItem.setControl(i18nTabComposite = createI18nTab(tabFolder));
 		i8nItem.setText("Internationalization");
-//		TabItem dbItem = new TabItem(tabFolder, SWT.NONE);
-//		dbItem.setControl(createDbTab(tabFolder));
-//		dbItem.setText("Database");
 		return composite;
 	}
-//	private Control createDbTab(TabFolder tabFolder){
-//		Composite panel = new Composite(tabFolder, 0);
-//		panel.setLayout(new GridLayout(2, true));
-//		new Label(panel, 0).setText("Database Name");
-//		txtDatabaseName = new Text(panel, SWT.SINGLE | SWT.BORDER);
-//		txtDatabaseName.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
-//		txtDatabaseName.setText(config.getD
-//		return panel;
-//	}
-	private Control createI8nTab(TabFolder composite){
+	private Control createI18nTab(TabFolder composite){
 		Composite panel = new Composite(composite, 0);
 		panel.setLayout(new GridLayout(2, true));
 		new Label(panel, 0).setText("Supported Locales");
@@ -183,6 +175,10 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 		txtCompanyDomain = new Text(panel, SWT.SINGLE | SWT.BORDER);
 		txtCompanyDomain.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
 		txtCompanyDomain.setText(getDomainName());
+		new Label(panel, 0).setText("Developer Username");
+		txtDevUser = new Text(panel, SWT.SINGLE | SWT.BORDER);
+		txtDevUser.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
+		txtDevUser.setText(config.getDevUsername());
 		new Label(panel, 0).setText("New Version Number");
 		txtNewVersionNumber = new VersionText(panel, SWT.SINGLE | SWT.BORDER);
 		txtNewVersionNumber.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
@@ -199,6 +195,16 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 		chkIsUimModelerActive = new Button(panel, SWT.CHECK);
 		chkIsUimModelerActive.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
 		chkIsUimModelerActive.setSelection(config.isUiModelerActive());
+		chkIsUimModelerActive.addSelectionListener(new SelectionListener(){
+			@Override
+			public void widgetSelected(SelectionEvent e){
+				i18nTabComposite.setEnabled(chkIsUimModelerActive.getSelection());
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e){
+				// TODO Auto-generated method stub
+			}
+		});
 		new Label(panel, 0).setText("Source Folder Strategy");
 		cboSourceFolderStrategy = new CCombo(panel, SWT.BORDER);
 		cboSourceFolderStrategy.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
@@ -219,7 +225,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 			}
 		}
 		new Label(panel, 0).setText("Additional Persistent Classes");
-		this.lstAdditionalPersistentClasses=new StringListViewer(panel, SWT.BORDER);
+		this.lstAdditionalPersistentClasses = new StringListViewer(panel, SWT.BORDER);
 		this.lstAdditionalPersistentClasses.setContentProvider(new ArrayContentProvider());
 		this.lstAdditionalPersistentClasses.setInput(config.getAdditionalPersistentClasses());
 		lstAdditionalPersistentClasses.getControl().setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
@@ -268,6 +274,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 		config.setSupportedLocales((java.util.List) Arrays.asList(localeTableViewer.getCheckedElements()));
 		config.setUiModelerActive(chkIsUimModelerActive.getSelection());
 		config.setAdditionalPersistentClass(lstAdditionalPersistentClasses.getStrings());
+		config.setDevUsername(txtDevUser.getText());
 		config.store();
 		if(config.synchronizeAutomatically()){
 			addOpaeumBuildCommand();

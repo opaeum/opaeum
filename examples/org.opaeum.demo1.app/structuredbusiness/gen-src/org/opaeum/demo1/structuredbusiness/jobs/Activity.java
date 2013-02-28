@@ -262,6 +262,9 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToJob((Job)owner);
 	}
 	
@@ -353,9 +356,9 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 		if ( this.getJob()!=null ) {
 			this.getJob().z_internalRemoveFromActivity(this);
 		}
+		this.z_internalAddToJob(job);
 		if ( job!=null ) {
 			job.z_internalAddToActivity(this);
-			this.z_internalAddToJob(job);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -414,26 +417,44 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 	}
 	
 	public void z_internalAddToCostToCompany(Double costToCompany) {
+		if ( costToCompany.equals(getCostToCompany()) ) {
+			return;
+		}
 		this.costToCompany=costToCompany;
 	}
 	
 	public void z_internalAddToCostToCustomer(Double costToCustomer) {
+		if ( costToCustomer.equals(getCostToCustomer()) ) {
+			return;
+		}
 		this.costToCustomer=costToCustomer;
 	}
 	
 	public void z_internalAddToDateOfWork(Date dateOfWork) {
+		if ( dateOfWork.equals(getDateOfWork()) ) {
+			return;
+		}
 		this.dateOfWork=dateOfWork;
 	}
 	
 	public void z_internalAddToDurationInHours(Double durationInHours) {
+		if ( durationInHours.equals(getDurationInHours()) ) {
+			return;
+		}
 		this.durationInHours=durationInHours;
 	}
 	
 	public void z_internalAddToJob(Job job) {
+		if ( job.equals(getJob()) ) {
+			return;
+		}
 		this.job=job;
 	}
 	
 	public void z_internalAddToTechnician(Technician technician) {
+		if ( technician.equals(getTechnician()) ) {
+			return;
+		}
 		this.technician=technician;
 	}
 	

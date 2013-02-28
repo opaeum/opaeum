@@ -118,6 +118,9 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 		if(isInterfaceValue.get() || isExternalValue.get()){
 			OJAnnotatedOperation adder = new OJAnnotatedOperation(map.internalAdder());
 			adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
+			OJIfStatement ifSet = new OJIfStatement(map.fieldname() + ".equals("+ map.getter()+"())", "return");
+			adder.getBody().addToStatements(ifSet);
+
 			String init = buildAnyMappingInit(map, isExternalValue.get());
 			adder.getBody().addToStatements(
 					new OJIfStatement(getReferencePrefix(owner, map) + map.fieldname() + "==null", getReferencePrefix(owner, map) + map.fieldname()

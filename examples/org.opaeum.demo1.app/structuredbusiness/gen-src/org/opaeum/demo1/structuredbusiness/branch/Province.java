@@ -112,6 +112,9 @@ public enum Province implements IEnum, Serializable {
 	}
 	
 	public void z_internalAddToCity(City city) {
+		if ( getCity().contains(city) ) {
+			return;
+		}
 		this.city.add(city);
 	}
 	

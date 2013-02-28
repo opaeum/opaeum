@@ -306,22 +306,37 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 	}
 	
 	public void z_internalAddToDayOfMonth(String dayOfMonth) {
+		if ( dayOfMonth.equals(getDayOfMonth()) ) {
+			return;
+		}
 		this.dayOfMonth=dayOfMonth;
 	}
 	
 	public void z_internalAddToDayOfWeek(String dayOfWeek) {
+		if ( dayOfWeek.equals(getDayOfWeek()) ) {
+			return;
+		}
 		this.dayOfWeek=dayOfWeek;
 	}
 	
 	public void z_internalAddToHours(String hours) {
+		if ( hours.equals(getHours()) ) {
+			return;
+		}
 		this.hours=hours;
 	}
 	
 	public void z_internalAddToMinutes(String minutes) {
+		if ( minutes.equals(getMinutes()) ) {
+			return;
+		}
 		this.minutes=minutes;
 	}
 	
 	public void z_internalAddToMonth(String month) {
+		if ( month.equals(getMonth()) ) {
+			return;
+		}
 		this.month=month;
 	}
 	

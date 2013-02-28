@@ -308,9 +308,11 @@ public class ProcessRequest extends AbstractRequest implements IStateMachineExec
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		super.init(owner);
 		this.z_internalAddToProcessObject((IProcessObject)owner);
-		createComponents();
 	}
 	
 	public boolean isStepActive(Class<? extends IExecutionElement> clss) {
@@ -519,10 +521,16 @@ public class ProcessRequest extends AbstractRequest implements IStateMachineExec
 	
 	public void z_internalAddToProcessObject(IProcessObject processObject) {
 		IRequestObject requestObject = processObject;
+		if ( processObject.equals(getProcessObject()) ) {
+			return;
+		}
 		if ( this.processObject==null ) {
 			this.processObject=new UiidBasedInterfaceValue();
 		}
 		this.processObject.setValue(processObject);
+		if ( requestObject.equals(getRequestObject()) ) {
+			return;
+		}
 		if ( this.requestObject==null ) {
 			this.requestObject=new UiidBasedInterfaceValue();
 		}
@@ -531,10 +539,16 @@ public class ProcessRequest extends AbstractRequest implements IStateMachineExec
 	
 	public void z_internalAddToRequestObject(IRequestObject requestObject) {
 		IProcessObject processObject = (IProcessObject)requestObject;
+		if ( requestObject.equals(getRequestObject()) ) {
+			return;
+		}
 		if ( this.requestObject==null ) {
 			this.requestObject=new UiidBasedInterfaceValue();
 		}
 		this.requestObject.setValue(requestObject);
+		if ( processObject.equals(getProcessObject()) ) {
+			return;
+		}
 		if ( this.processObject==null ) {
 			this.processObject=new UiidBasedInterfaceValue();
 		}

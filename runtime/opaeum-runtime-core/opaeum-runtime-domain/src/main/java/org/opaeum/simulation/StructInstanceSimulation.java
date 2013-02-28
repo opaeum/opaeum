@@ -1,20 +1,19 @@
 package org.opaeum.simulation;
 
-import java.text.ParseException;
 import java.util.Collection;
 import java.util.HashSet;
 
-public abstract class StructInstanceSimulation extends AbstractBucket{
-	Collection<Object> instances = new HashSet<Object>();
-	public Object generateInstance() throws Exception{
-		Object result = createNewObject();
+public abstract class StructInstanceSimulation <T> extends AbstractBucket{
+	Collection<T> instances = new HashSet<T>();
+	public T generateInstance() throws Exception{
+		T result = createNewObject();
 		count++;
 		return result;
 	}
 	protected abstract void populateReferences(Object o) throws Exception;
-	public abstract Object createNewObject() throws Exception;
+	public abstract T createNewObject() throws Exception;
 	public void populateReferences() throws Exception{
-		for(Object o:instances){
+		for(T o:instances){
 			populateReferences(o);
 		}
 	}

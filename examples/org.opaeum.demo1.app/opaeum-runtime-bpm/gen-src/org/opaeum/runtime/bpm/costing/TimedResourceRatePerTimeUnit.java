@@ -230,9 +230,10 @@ public class TimedResourceRatePerTimeUnit implements IPersistentObject, Hibernat
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToRatePerTimeUnit((RatePerTimeUnit)owner);
-		createComponents();
-		getRatePerTimeUnit().init(this);
 	}
 	
 	public void markDeleted() {
@@ -333,9 +334,9 @@ public class TimedResourceRatePerTimeUnit implements IPersistentObject, Hibernat
 		if ( this.getTimedResource()!=null ) {
 			this.getTimedResource().z_internalRemoveFromTimedResourceRatePerTimeUnit_ratePerTimeUnit(this);
 		}
+		this.z_internalAddToTimedResource(timedResource);
 		if ( timedResource!=null ) {
 			timedResource.z_internalAddToTimedResourceRatePerTimeUnit_ratePerTimeUnit(this);
-			this.z_internalAddToTimedResource(timedResource);
 		}
 	}
 	
@@ -373,10 +374,16 @@ public class TimedResourceRatePerTimeUnit implements IPersistentObject, Hibernat
 	}
 	
 	public void z_internalAddToRatePerTimeUnit(RatePerTimeUnit ratePerTimeUnit) {
+		if ( ratePerTimeUnit.equals(getRatePerTimeUnit()) ) {
+			return;
+		}
 		this.ratePerTimeUnit=ratePerTimeUnit;
 	}
 	
 	public void z_internalAddToTimedResource(ITimedResource timedResource) {
+		if ( timedResource.equals(getTimedResource()) ) {
+			return;
+		}
 		if ( this.timedResource==null ) {
 			this.timedResource=new UiidBasedInterfaceValue();
 		}

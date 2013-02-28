@@ -1,16 +1,15 @@
 package org.opaeum.simulation;
 
-import java.text.ParseException;
 import java.util.List;
 
 import org.apache.commons.math3.distribution.UniformIntegerDistribution;
 import org.opaeum.runtime.domain.CompositionNode;
 
-public abstract class EntityInstanceSimulation extends AbstractBucket{
-	List<CompositionNode> values;
+public abstract class EntityInstanceSimulation <T extends CompositionNode> extends AbstractBucket{
+	List<T> values;
 	private UniformIntegerDistribution distribution;
-	public CompositionNode generateInstance(CompositionNode parent) throws Exception{
-		CompositionNode result = createNewObject(parent);
+	public T generateInstance(CompositionNode parent) throws Exception{
+		T result = createNewObject(parent);
 		values.add(result);
 		// Remember, multiple instances of this class will be created per property where it is referenced from. it will either be references
 		// from
@@ -19,9 +18,9 @@ public abstract class EntityInstanceSimulation extends AbstractBucket{
 		this.distribution = null;
 		return result;
 	}
-	protected abstract CompositionNode createNewObject(CompositionNode parent) throws Exception;
+	protected abstract T createNewObject(CompositionNode parent) throws Exception;
 	protected abstract void populateReferences(CompositionNode compositionNode) throws Exception;
-	public CompositionNode getNextReference(){
+	public T getNextReference(){
 		count++;
 		if(getValues().size() == 1){
 			return getValues().get(0);
@@ -34,15 +33,15 @@ public abstract class EntityInstanceSimulation extends AbstractBucket{
 			return getValues().get(distribution.sample());
 		}
 	}
-	private List<CompositionNode> getValues(){
+	private List<T> getValues(){
 		return values;
 	}
-	public void setValues(List<CompositionNode> values){
+	public void setValues(List<T> values){
 		this.values = values;
 	}
 	public void populateReferences() throws Exception{
-		List<CompositionNode> list = values;
-		for(CompositionNode compositionNode:list){
+		List<T> list = values;
+		for(T compositionNode:list){
 			populateReferences(compositionNode);
 		}
 	}

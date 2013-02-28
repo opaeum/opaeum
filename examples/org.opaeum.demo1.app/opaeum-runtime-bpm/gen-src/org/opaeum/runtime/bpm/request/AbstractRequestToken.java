@@ -16,7 +16,7 @@ import org.opaeum.hibernate.domain.StateMachineToken;
 import org.opaeum.runtime.domain.IToken;
 
 @NumlMetaInfo(uuid="252060@_6MA8UI2-EeCrtavWRHwoHg")
-@Table(name="abstract_request_token")
+@Table(name="abstract_request_token",schema="bpm")
 @Inheritance(strategy=javax.persistence.InheritanceType.SINGLE_TABLE)
 @Entity(name="AbstractRequestToken")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING)

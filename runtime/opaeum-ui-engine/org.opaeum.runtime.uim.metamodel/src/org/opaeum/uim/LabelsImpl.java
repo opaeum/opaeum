@@ -6,7 +6,6 @@ import org.opaeum.ecore.EAnnotation;
 import org.opaeum.ecore.EAnnotationImpl;
 import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EStringToStringMapEntry;
-import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

@@ -16,7 +16,7 @@ import org.opaeum.hibernate.domain.StateMachineToken;
 import org.opaeum.runtime.domain.IToken;
 
 @NumlMetaInfo(uuid="914890@_cTMn8H2lEeK5F45wEGRv4A")
-@Table(name="business_state_machine1_token")
+@Table(name="business_state_machine1_token",schema="structuredbusiness")
 @Inheritance(strategy=javax.persistence.InheritanceType.SINGLE_TABLE)
 @Entity(name="BusinessStateMachine1Token")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING)

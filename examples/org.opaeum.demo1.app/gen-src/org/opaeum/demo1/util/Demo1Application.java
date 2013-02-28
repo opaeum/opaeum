@@ -31,7 +31,9 @@ public class Demo1Application extends AbstractOpaeumApplication {
 	
 	public Demo1Environment getEnvironment() {
 		Demo1Environment result = Demo1Environment.INSTANCE;
-		
+		if ( result == null ) {
+			result = Demo1Environment.INSTANCE= new Demo1Environment();
+		}
 		return result;
 	}
 	

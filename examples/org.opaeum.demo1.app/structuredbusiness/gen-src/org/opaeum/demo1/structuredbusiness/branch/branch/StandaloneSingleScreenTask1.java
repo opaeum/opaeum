@@ -401,6 +401,9 @@ public class StandaloneSingleScreenTask1 implements IPersistentObject, IEventGen
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToContextObject((Branch)owner);
 		this.setTaskRequest( ((TaskRequest) this.getRequest()) );
 	}
@@ -539,9 +542,9 @@ public class StandaloneSingleScreenTask1 implements IPersistentObject, IEventGen
 		if ( this.getContextObject()!=null ) {
 			this.getContextObject().z_internalRemoveFromStandaloneSingleScreenTask1(this);
 		}
+		this.z_internalAddToContextObject(contextObject);
 		if ( contextObject!=null ) {
 			contextObject.z_internalAddToStandaloneSingleScreenTask1(this);
-			this.z_internalAddToContextObject(contextObject);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -648,14 +651,23 @@ public class StandaloneSingleScreenTask1 implements IPersistentObject, IEventGen
 	}
 	
 	public void z_internalAddToContextObject(Branch contextObject) {
+		if ( contextObject.equals(getContextObject()) ) {
+			return;
+		}
 		this.contextObject=contextObject;
 	}
 	
 	public void z_internalAddToRequest(AbstractRequest request) {
+		if ( request.equals(getRequest()) ) {
+			return;
+		}
 		this.request=request;
 	}
 	
 	public void z_internalAddToTaskRequest(TaskRequest taskRequest) {
+		if ( taskRequest.equals(getTaskRequest()) ) {
+			return;
+		}
 		this.taskRequest=taskRequest;
 	}
 	

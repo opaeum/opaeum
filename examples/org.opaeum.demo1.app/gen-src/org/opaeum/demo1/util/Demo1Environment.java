@@ -6,12 +6,9 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.jpa.AbstractJpaEnvironment;
 
 public class Demo1Environment extends AbstractJpaEnvironment {
-	static final public Demo1Environment INSTANCE = new Demo1Environment();
+	static public Demo1Environment INSTANCE = new Demo1Environment();
+	private Demo1JavaMetaInfoMap metaInfoMap;
 
-	/** Default constructor for Demo1Environment
-	 */
-	private Demo1Environment() {
-	}
 
 	public String getApplicationIdentifier() {
 		String result = "demo1";
@@ -20,8 +17,10 @@ public class Demo1Environment extends AbstractJpaEnvironment {
 	}
 	
 	public Demo1JavaMetaInfoMap getMetaInfoMap() {
-		Demo1JavaMetaInfoMap result = Demo1JavaMetaInfoMap.INSTANCE;
-		
+		Demo1JavaMetaInfoMap result = metaInfoMap;
+		if ( metaInfoMap==null ) {
+			result=metaInfoMap=new Demo1JavaMetaInfoMap();
+		}
 		return result;
 	}
 	
@@ -29,6 +28,16 @@ public class Demo1Environment extends AbstractJpaEnvironment {
 		PersistenceUnitInfo result = new org.opaeum.demo1.util.Demo1PersistenceUnitInfo(this);
 		
 		return result;
+	}
+	
+	public void register() {
+		super.register();
+		INSTANCE=new Demo1Environment();
+	}
+	
+	public void unregister() {
+		super.unregister();
+		INSTANCE=null;
 	}
 
 }

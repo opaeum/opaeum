@@ -208,6 +208,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 					.add(start,
 							new OJSimpleStatement("this." + compositeFeatureMap.internalAdder() + "((" + compositeFeatureMap.javaBaseType() + ")owner)"));
 		}
+		init.getBody().addToStatements(0, new OJIfStatement("getOwningObject()!=null && !getOwningObject().equals(owner)", "System.out.println(\"Reparenting \"+getClass().getSimpleName() +getId())"));
 		ojClass.addToOperations(init);
 	}
 	protected void addGetOwningObject(Classifier c,OJClass ojClass){

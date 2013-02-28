@@ -417,6 +417,9 @@ public class BusinessStateMachine1 implements IStateMachineExecution, IPersisten
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToContextObject((ApplianceDoctor)owner);
 	}
 	
@@ -693,18 +696,33 @@ public class BusinessStateMachine1 implements IStateMachineExecution, IPersisten
 	}
 	
 	public void z_internalAddToContextObject(ApplianceDoctor contextObject) {
+		if ( contextObject.equals(getContextObject()) ) {
+			return;
+		}
 		this.contextObject=contextObject;
 	}
 	
 	public void z_internalAddToProcessRequest(ProcessRequest processRequest) {
 		AbstractRequest request = processRequest;
+		if ( processRequest.equals(getProcessRequest()) ) {
+			return;
+		}
 		this.processRequest=processRequest;
+		if ( request.equals(getRequest()) ) {
+			return;
+		}
 		this.request=request;
 	}
 	
 	public void z_internalAddToRequest(AbstractRequest request) {
 		ProcessRequest processRequest = (ProcessRequest)request;
+		if ( request.equals(getRequest()) ) {
+			return;
+		}
 		this.request=request;
+		if ( processRequest.equals(getProcessRequest()) ) {
+			return;
+		}
 		this.processRequest=processRequest;
 	}
 	

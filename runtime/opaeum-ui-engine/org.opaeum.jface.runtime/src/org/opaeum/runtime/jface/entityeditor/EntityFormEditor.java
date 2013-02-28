@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.value.AbstractObservableValue;
 import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -22,6 +23,7 @@ import org.opaeum.runtime.jface.builder.ComponentTreeBuilder;
 import org.opaeum.runtime.jface.ui.IEditorInput;
 import org.opaeum.runtime.jface.ui.IEditorSite;
 import org.opaeum.runtime.jface.ui.OpaeumEditor;
+import org.opaeum.runtime.jface.ui.OpaeumValidationRealm;
 import org.opaeum.runtime.rwt.IOpaeumApplication;
 import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.editor.EditorPage;
@@ -29,7 +31,13 @@ import org.opaeum.uim.model.ClassUserInteractionModel;
 
 public class EntityFormEditor extends OpaeumEditor implements IDirtyListener{
 	public static final class DummyObservableValue extends AbstractObservableValue{
+		
 		Object status;
+		
+		public DummyObservableValue(Realm realm){
+			super(realm);
+			// TODO Auto-generated constructor stub
+		}
 		public Object getValueType(){
 			return Object.class;
 		}
@@ -44,14 +52,10 @@ public class EntityFormEditor extends OpaeumEditor implements IDirtyListener{
 
 	private static final long serialVersionUID = 11231512131231L;
 	private EntityFormPage[] editorPages;
-	private EntityEditorInputJface editorInput;
 	public void init(final IEditorSite site,final IEditorInput input) {
 		super.init(site, input);
-		for(EntityFormPage ep:this.editorPages){
-			ep.init(editorInput);
-		}
 		setPartName(input.getName());
-		setTitleImage(input.getImageDescriptor().createImage());
+//		setTitleImage(input.getImageDescriptor().createImage());
 		getEditorInput().setDirtyListener(this);
 	}
 	@Override
@@ -71,7 +75,7 @@ public class EntityFormEditor extends OpaeumEditor implements IDirtyListener{
 			}
 			headerConentPane.getParent().layout();
 		}
-		IObservableValue errorObservable = new DummyObservableValue();
+		IObservableValue errorObservable = new DummyObservableValue(new OpaeumValidationRealm());
 		// This one listenes to all changes
 		ComputedValue computedValue = new ComputedValue(bc.getValidationRealm(), Object.class){
 			@Override
@@ -130,10 +134,7 @@ public class EntityFormEditor extends OpaeumEditor implements IDirtyListener{
 		}
 	}
 	public EntityEditorInputJface getEditorInput(){
-		return editorInput;
-	}
-	public void setEditorInput(EntityEditorInputJface editorInput){
-		this.editorInput = editorInput;
+		return super.getEditorInput();
 	}
 
 	public void close(boolean saveChanges){

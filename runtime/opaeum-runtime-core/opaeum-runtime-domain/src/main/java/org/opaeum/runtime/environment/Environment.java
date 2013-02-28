@@ -38,6 +38,9 @@ public abstract class Environment{
 	public static final String DEFAULT_LOCALE = "opaeum.default.locale";
 	public static final String MESSAGE_FILE_PREFIX = "opaeum.message.file.prefix";
 	public static final String DBMS = "opaeum.database.management.system";
+	public static final String DEV_USERNAME = "opaeum.developer.username";
+	public static final String UPDATE_DB_DEF = "opaeum.update.db.definition";
+	public static final String DEV_UI_DIR = "opaeum.development.ui.directory";
 	protected static final Map<String,Environment> instanceMap = Collections.synchronizedMap(new HashMap<String,Environment>());
 	protected static final Map<Class<? extends Environment>,Environment> classInstanceMap = Collections
 			.synchronizedMap(new HashMap<Class<? extends Environment>,Environment>());

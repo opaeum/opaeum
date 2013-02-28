@@ -6,11 +6,11 @@ import java.util.Map;
 
 import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
-import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
 import org.opaeum.uim.IgnoredElement;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.PageOrdering;
+import org.opaeum.uim.UimInstantiator;
 import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.constraint.RootUserInteractionConstraint;
 import org.opaeum.uim.model.ClassUserInteractionModel;

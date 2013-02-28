@@ -146,7 +146,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractBehaviorVisitor
 		OJPathName tokenPathName = ojUtil.tokenPathName(behavior);
 		OJAnnotatedClass tokenClass = new OJAnnotatedClass(tokenPathName.getLast());
 		if(isPersistent(behavior)){
-			JpaUtil.buildTableAnnotation(tokenClass, PersistentNameUtil.getPersistentName(behavior) + "_token", config);
+			JpaUtil.buildTableAnnotation(tokenClass, PersistentNameUtil.getPersistentName(behavior) + "_token", config,behavior);
 			OJAnnotationValue entyt = new OJAnnotationValue(new OJPathName(Entity.class.getName()));
 			tokenClass.addAnnotationIfNew(entyt);
 			entyt.putAttribute("name", NameConverter.toJavaVariableName(behavior.getName()) + "Token");

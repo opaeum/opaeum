@@ -309,8 +309,10 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToBusinessCalendar((BusinessCalendar)owner);
-		createComponents();
 	}
 	
 	public WorkDay makeCopy() {
@@ -379,9 +381,9 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		if ( this.getBusinessCalendar()!=null ) {
 			this.getBusinessCalendar().z_internalRemoveFromWorkDay(this.getKind(),this);
 		}
+		this.z_internalAddToBusinessCalendar(businessCalendar);
 		if ( businessCalendar!=null ) {
 			businessCalendar.z_internalAddToWorkDay(this.getKind(),this);
-			this.z_internalAddToBusinessCalendar(businessCalendar);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -495,18 +497,30 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void z_internalAddToBusinessCalendar(BusinessCalendar businessCalendar) {
+		if ( businessCalendar.equals(getBusinessCalendar()) ) {
+			return;
+		}
 		this.businessCalendar=businessCalendar;
 	}
 	
 	public void z_internalAddToEndTime(TimeOfDay endTime) {
+		if ( endTime.equals(getEndTime()) ) {
+			return;
+		}
 		this.endTime=endTime;
 	}
 	
 	public void z_internalAddToKind(WorkDayKind kind) {
+		if ( kind.equals(getKind()) ) {
+			return;
+		}
 		this.kind=kind;
 	}
 	
 	public void z_internalAddToStartTime(TimeOfDay startTime) {
+		if ( startTime.equals(getStartTime()) ) {
+			return;
+		}
 		this.startTime=startTime;
 	}
 	

@@ -10,7 +10,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -20,10 +19,10 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.PackageImport;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.opaeum.eclipse.javasync.CreateApplicationProjectAction;
 import org.opaeum.eclipse.javasync.GenerateBusinessIntelligenceSchemaAction;
 import org.opaeum.eclipse.javasync.GenerateMetaModelClassesAction;
 import org.opaeum.eclipse.javasync.RecompileElementAction;
+import org.opaeum.eclipse.javasync.RecompileEverythingAction;
 import org.opaeum.eclipse.javasync.RecompileIntegrationCodeAction;
 import org.opaeum.eclipse.javasync.RecompileModelAction;
 import org.opaeum.eclipse.javasync.RecompileModelDirectoryAction;
@@ -37,7 +36,6 @@ import org.opaeum.eclipse.versioning.GenerateMigrationProjectAction;
 import org.opaeum.eclipse.versioning.VersionAction;
 import org.opaeum.emf.extraction.AbstractEmfPhase;
 import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.javageneration.MetaModelJavaTransformationStep;
 
 public class DynamicOpaeumMenu extends CompoundContributionItem implements ICompoundContributionItem{
 	private IStructuredSelection selection;
@@ -80,7 +78,8 @@ public class DynamicOpaeumMenu extends CompoundContributionItem implements IComp
 								}
 								actions.add(new ActionContributionItem(new ConfigureDatabaseAction(selection)));
 								actions.add(new ActionContributionItem(new RecompileModelDirectoryAction(selection)));
-								actions.add(new ActionContributionItem(new CreateApplicationProjectAction(selection)));
+								actions.add(new ActionContributionItem(new RecompileEverythingAction(selection)));
+//								actions.add(new ActionContributionItem(new CreateApplicationProjectAction(selection)));
 								actions.add(new ActionContributionItem(new RecompileIntegrationCodeAction(selection)));
 								actions.add(new ActionContributionItem(new ToggleAutomaticSynchronization(selection)));
 								// actions.add(new ActionContributionItem(new RegenerateUuids(selection)));

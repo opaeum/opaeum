@@ -13,26 +13,20 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
-import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
-import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.jface.actions.NewAction;
 import org.opaeum.runtime.jface.actions.OpenEditorAction;
 import org.opaeum.runtime.jface.ui.IPartListener;
 import org.opaeum.runtime.jface.ui.IWorkbenchPart;
 import org.opaeum.runtime.jface.ui.OpaeumWorkbenchPage;
-import org.opaeum.runtime.organization.IPersonNode;
-import org.opaeum.runtime.rwt.Activator;
 import org.opaeum.runtime.rwt.OpaeumRapSession;
 
 public class OpaeumNavigator implements IWorkbenchPart{
@@ -41,27 +35,11 @@ public class OpaeumNavigator implements IWorkbenchPart{
 	private static final long serialVersionUID = -6446246205102706196L;
 	public OpaeumNavigator(OpaeumWorkbenchPage page){
 		this.page = page;
+		opaeumSession=page.getOpaeumSession();
 	}
 	private Action openEditor;
 	private OpaeumRapSession opaeumSession;
 	private NavigatorContentProvider provider;
-	private class ViewLabelProvider extends LabelProvider{
-		private static final long serialVersionUID = -4725556006185541567L;
-		public String getText(final Object element){
-			if(element instanceof IPersonNode){
-				return ((IPersonNode) element).getName();
-			}else if(element instanceof PersistentObjectTreeItem){
-				IPersistentObject po = ((PersistentObjectTreeItem) element).getEntity();
-				return "<" + IntrospectionUtil.getOriginalClass(po).getSimpleName() + ">" + po.getName();
-			}else if(element instanceof PropertyTreeItem){
-				return NameConverter.capitalize(NameConverter.toPlural(((PropertyTreeItem) element).getTypedElement().getName()));
-			}
-			return "";
-		}
-		public Image getImage(final Object element){
-			return Activator.getDefault().getImage(Activator.IMG_PROJECT);
-		}
-	}
 	private void hookContextMenu(){
 		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
@@ -108,10 +86,10 @@ public class OpaeumNavigator implements IWorkbenchPart{
 	}
 	@Override
 	public void createPartControl(Composite c){
-		viewer = new TreeViewer(c, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		viewer = new TreeViewer(c, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL|SWT.BORDER);
 		this.provider = new NavigatorContentProvider(opaeumSession);
 		viewer.setContentProvider(provider);
-		viewer.setLabelProvider(new ViewLabelProvider());
+		viewer.setLabelProvider(new ConfigurableLabelProvider());
 		viewer.setInput(opaeumSession.getPersonNode());
 		makeActions();
 		hookContextMenu();

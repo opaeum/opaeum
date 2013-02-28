@@ -278,8 +278,10 @@ public class PricePerUnit implements IPersistentObject, IEventGenerator, Hiberna
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToQuantifiedResource((IQuantifiedResource)owner);
-		createComponents();
 	}
 	
 	public PricePerUnit makeCopy() {
@@ -372,8 +374,8 @@ public class PricePerUnit implements IPersistentObject, IEventGenerator, Hiberna
 		if ( this.getQuantifiedResource()!=null ) {
 			this.getQuantifiedResource().z_internalRemoveFromPricePerUnit(this);
 		}
+		this.z_internalAddToQuantifiedResource(quantifiedResource);
 		if ( quantifiedResource!=null ) {
-			this.z_internalAddToQuantifiedResource(quantifiedResource);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -445,16 +447,25 @@ public class PricePerUnit implements IPersistentObject, IEventGenerator, Hiberna
 		if ( additionalCostToCompanyCurrency!=null && !additionalCostToCompanyCurrency.equals(org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency()) ) {
 			throw new CurrencyMismatchException(additionalCostToCompanyCurrency,org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency());
 		}
+		if ( additionalCostToCompany.equals(getAdditionalCostToCompany()) ) {
+			return;
+		}
 		this.additionalCostToCompany=additionalCostToCompany;
 	}
 	
 	public void z_internalAddToEffectiveFrom(Date effectiveFrom) {
+		if ( effectiveFrom.equals(getEffectiveFrom()) ) {
+			return;
+		}
 		this.effectiveFrom=effectiveFrom;
 	}
 	
 	public void z_internalAddToPricePaidByCompany(Double pricePaidByCompany) {
 		if ( pricePaidByCompanyCurrency!=null && !pricePaidByCompanyCurrency.equals(org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency()) ) {
 			throw new CurrencyMismatchException(pricePaidByCompanyCurrency,org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency());
+		}
+		if ( pricePaidByCompany.equals(getPricePaidByCompany()) ) {
+			return;
 		}
 		this.pricePaidByCompany=pricePaidByCompany;
 	}
@@ -463,16 +474,26 @@ public class PricePerUnit implements IPersistentObject, IEventGenerator, Hiberna
 		if ( pricePaidByCustomerCurrency!=null && !pricePaidByCustomerCurrency.equals(org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency()) ) {
 			throw new CurrencyMismatchException(pricePaidByCustomerCurrency,org.opaeum.demo1.util.Demo1Environment.INSTANCE.getDefaultCurrency());
 		}
+		if ( pricePaidByCustomer.equals(getPricePaidByCustomer()) ) {
+			return;
+		}
 		this.pricePaidByCustomer=pricePaidByCustomer;
 	}
 	
 	public void z_internalAddToQuantifiedResource(IQuantifiedResource quantifiedResource) {
-		QuantifiedResourcePricePerUnit newOne = new QuantifiedResourcePricePerUnit(this,quantifiedResource);
+		QuantifiedResourcePricePerUnit newOne;
+		if ( quantifiedResource.equals(getQuantifiedResource()) ) {
+			return;
+		}
+		newOne = new QuantifiedResourcePricePerUnit(this,quantifiedResource);
 		this.z_internalAddToQuantifiedResourcePricePerUnit_quantifiedResource(newOne);
 		newOne.getQuantifiedResource().z_internalAddToQuantifiedResourcePricePerUnit_pricePerUnit(newOne);
 	}
 	
 	public void z_internalAddToQuantifiedResourcePricePerUnit_quantifiedResource(QuantifiedResourcePricePerUnit quantifiedResourcePricePerUnit_quantifiedResource) {
+		if ( quantifiedResourcePricePerUnit_quantifiedResource.equals(getQuantifiedResourcePricePerUnit_quantifiedResource()) ) {
+			return;
+		}
 		this.quantifiedResourcePricePerUnit_quantifiedResource=quantifiedResourcePricePerUnit_quantifiedResource;
 	}
 	

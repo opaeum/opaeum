@@ -223,8 +223,10 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToBusinessCollaboration((IBusinessCollaboration)owner);
-		createComponents();
 	}
 	
 	public void markDeleted() {
@@ -313,9 +315,9 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		if ( this.getBusinessNetwork()!=null ) {
 			this.getBusinessNetwork().z_internalRemoveFromBusinessNetworkFacilatatesCollaboration_businessCollaboration(this);
 		}
+		this.z_internalAddToBusinessNetwork(businessNetwork);
 		if ( businessNetwork!=null ) {
 			businessNetwork.z_internalAddToBusinessNetworkFacilatatesCollaboration_businessCollaboration(this);
-			this.z_internalAddToBusinessNetwork(businessNetwork);
 		}
 	}
 	
@@ -365,6 +367,9 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	}
 	
 	public void z_internalAddToBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
+		if ( businessCollaboration.equals(getBusinessCollaboration()) ) {
+			return;
+		}
 		if ( this.businessCollaboration==null ) {
 			this.businessCollaboration=new UiidBasedCascadingInterfaceValue();
 		}
@@ -372,6 +377,9 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	}
 	
 	public void z_internalAddToBusinessNetwork(BusinessNetwork businessNetwork) {
+		if ( businessNetwork.equals(getBusinessNetwork()) ) {
+			return;
+		}
 		this.businessNetwork=businessNetwork;
 	}
 	

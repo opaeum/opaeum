@@ -230,7 +230,9 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void init(CompositionNode owner) {
-		createComponents();
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 	}
 	
 	public Address makeCopy() {
@@ -344,18 +346,30 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void z_internalAddToComplexName(String complexName) {
+		if ( complexName.equals(getComplexName()) ) {
+			return;
+		}
 		this.complexName=complexName;
 	}
 	
 	public void z_internalAddToStreetName(String streetName) {
+		if ( streetName.equals(getStreetName()) ) {
+			return;
+		}
 		this.streetName=streetName;
 	}
 	
 	public void z_internalAddToStreetNumber(String streetNumber) {
+		if ( streetNumber.equals(getStreetNumber()) ) {
+			return;
+		}
 		this.streetNumber=streetNumber;
 	}
 	
 	public void z_internalAddToUnitNumber(String unitNumber) {
+		if ( unitNumber.equals(getUnitNumber()) ) {
+			return;
+		}
 		this.unitNumber=unitNumber;
 	}
 	

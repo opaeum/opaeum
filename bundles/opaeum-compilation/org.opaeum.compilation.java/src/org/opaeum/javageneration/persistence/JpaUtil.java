@@ -52,9 +52,6 @@ public class JpaUtil{
 		RESERVED_NAMES.add("timestamp");
 		RESERVED_NAMES.add("datetime");
 	}
-	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,OpaeumConfig config){
-		return buildTableAnnotation(owner, tableName, config, null);
-	}
 	public static String getNearestSchema(Namespace ns){
 		while(!(ns == null || isSchema(ns))){
 			ns = EmfElementFinder.getNearestNamespace(ns);

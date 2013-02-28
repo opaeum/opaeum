@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 import org.opaeum.hibernate.domain.AbstractPersistentOpaeumIdEnum;
 
-@Table(name="task_delegation")
+@Table(name="task_delegation", schema="bpm")
 @Entity(name="TaskDelegationEntity")
 public class TaskDelegationEntity extends AbstractPersistentOpaeumIdEnum {
 

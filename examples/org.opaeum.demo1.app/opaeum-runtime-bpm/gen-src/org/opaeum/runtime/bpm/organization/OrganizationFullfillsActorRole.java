@@ -204,8 +204,10 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToOrganization((OrganizationNode)owner);
-		createComponents();
 	}
 	
 	public void markDeleted() {
@@ -306,9 +308,9 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 		if ( this.getOrganization()!=null ) {
 			this.getOrganization().z_internalRemoveFromOrganizationFullfillsActorRole_businessActor(this);
 		}
+		this.z_internalAddToOrganization(organization);
 		if ( organization!=null ) {
 			organization.z_internalAddToOrganizationFullfillsActorRole_businessActor(this);
-			this.z_internalAddToOrganization(organization);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -349,6 +351,9 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 	}
 	
 	public void z_internalAddToBusinessActor(IBusinessActor businessActor) {
+		if ( businessActor.equals(getBusinessActor()) ) {
+			return;
+		}
 		if ( this.businessActor==null ) {
 			this.businessActor=new UiidBasedInterfaceValue();
 		}
@@ -356,6 +361,9 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 	}
 	
 	public void z_internalAddToOrganization(OrganizationNode organization) {
+		if ( organization.equals(getOrganization()) ) {
+			return;
+		}
 		this.organization=organization;
 	}
 	

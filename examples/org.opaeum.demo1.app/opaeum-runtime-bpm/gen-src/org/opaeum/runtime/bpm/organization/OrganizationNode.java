@@ -548,8 +548,10 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToBusinessNetwork((BusinessNetwork)owner);
-		createComponents();
 	}
 	
 	public OrganizationNode makeCopy() {
@@ -771,9 +773,9 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		if ( this.getBusinessNetwork()!=null ) {
 			this.getBusinessNetwork().z_internalRemoveFromOrganization(this.getName(),this);
 		}
+		this.z_internalAddToBusinessNetwork(businessNetwork);
 		if ( businessNetwork!=null ) {
 			businessNetwork.z_internalAddToOrganization(this.getName(),this);
-			this.z_internalAddToBusinessNetwork(businessNetwork);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -877,46 +879,75 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	}
 	
 	public void z_internalAddToBusinessActor(IBusinessActor businessActor) {
-		OrganizationFullfillsActorRole newOne = new OrganizationFullfillsActorRole(this,businessActor);
+		OrganizationFullfillsActorRole newOne;
+		if ( getBusinessActor().contains(businessActor) ) {
+			return;
+		}
+		newOne = new OrganizationFullfillsActorRole(this,businessActor);
 		this.z_internalAddToOrganizationFullfillsActorRole_businessActor(newOne);
 		newOne.getBusinessActor().z_internalAddToOrganizationFullfillsActorRole_organization(newOne);
 	}
 	
 	public void z_internalAddToBusinessCalendar(BusinessCalendar businessCalendar) {
+		if ( businessCalendar.equals(getBusinessCalendar()) ) {
+			return;
+		}
 		this.businessCalendar=businessCalendar;
 	}
 	
 	public void z_internalAddToBusinessComponent(IBusinessComponent businessComponent) {
-		OrganizationAsBusinessComponent newOne = new OrganizationAsBusinessComponent(this,businessComponent);
+		OrganizationAsBusinessComponent newOne;
+		if ( getBusinessComponent().contains(businessComponent) ) {
+			return;
+		}
+		newOne = new OrganizationAsBusinessComponent(this,businessComponent);
 		this.z_internalAddToOrganizationAsBusinessComponent_businessComponent(newOne);
 		newOne.getBusinessComponent().z_internalAddToOrganizationAsBusinessComponent_representedOrganization(newOne);
 	}
 	
 	public void z_internalAddToBusinessNetwork(BusinessNetwork businessNetwork) {
+		if ( businessNetwork.equals(getBusinessNetwork()) ) {
+			return;
+		}
 		this.businessNetwork=businessNetwork;
 	}
 	
 	public void z_internalAddToEMailAddress(OrganizationEMailAddressType type, OrganizationEMailAddress eMailAddress) {
 		String key = type.getUid();
+		if ( getEMailAddress().contains(eMailAddress) ) {
+			return;
+		}
 		eMailAddress.z_internalAddToType(type);
 		this.eMailAddress.put(key.toString(),eMailAddress);
 		eMailAddress.setZ_keyOfEMailAddressOnOrganizationNode(key.toString());
 	}
 	
 	public void z_internalAddToName(String name) {
+		if ( name.equals(getName()) ) {
+			return;
+		}
 		this.name=name;
 	}
 	
 	public void z_internalAddToOrganizationAsBusinessComponent_businessComponent(OrganizationAsBusinessComponent organizationAsBusinessComponent_businessComponent) {
+		if ( getOrganizationAsBusinessComponent_businessComponent().contains(organizationAsBusinessComponent_businessComponent) ) {
+			return;
+		}
 		this.organizationAsBusinessComponent_businessComponent.add(organizationAsBusinessComponent_businessComponent);
 	}
 	
 	public void z_internalAddToOrganizationFullfillsActorRole_businessActor(OrganizationFullfillsActorRole organizationFullfillsActorRole_businessActor) {
+		if ( getOrganizationFullfillsActorRole_businessActor().contains(organizationFullfillsActorRole_businessActor) ) {
+			return;
+		}
 		this.organizationFullfillsActorRole_businessActor.add(organizationFullfillsActorRole_businessActor);
 	}
 	
 	public void z_internalAddToPhoneNumber(OrganizationPhoneNumberType type, OrganizationPhoneNumber phoneNumber) {
 		String key = type.getUid();
+		if ( getPhoneNumber().contains(phoneNumber) ) {
+			return;
+		}
 		phoneNumber.z_internalAddToType(type);
 		this.phoneNumber.put(key.toString(),phoneNumber);
 		phoneNumber.setZ_keyOfPhoneNumberOnOrganizationNode(key.toString());

@@ -213,11 +213,11 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 		if ( xml.getAttribute("delegation").length()>0 ) {
 			setDelegation(TaskDelegation.valueOf(xml.getAttribute("delegation")));
 		}
-		if ( xml.getAttribute("completionDate").length()>0 ) {
-			setCompletionDate(OpaeumLibraryForBPMFormatter.getInstance().parseDateTime(xml.getAttribute("completionDate")));
-		}
 		if ( xml.getAttribute("delayBeforeProgress").length()>0 ) {
 			setDelayBeforeProgress(OpaeumLibraryForBPMFormatter.getInstance().parseDuration(xml.getAttribute("delayBeforeProgress")));
+		}
+		if ( xml.getAttribute("completionDate").length()>0 ) {
+			setCompletionDate(OpaeumLibraryForBPMFormatter.getInstance().parseDateTime(xml.getAttribute("completionDate")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
@@ -461,9 +461,9 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 		boolean result = false;
 		result=super.consumeSuspendOccurrence();
 		for ( IToken token : getTokens() ) {
-			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof InProgress ) {
-				InProgress state = (InProgress)token.getCurrentExecutionElement();
-				if ( result==false &&  state.getInProgressToSuspended().consumeSuspendOccurrence() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Reserved ) {
+				Reserved state = (Reserved)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getReservedToSuspended().consumeSuspendOccurrence() ) {
 					result=true;
 					break;
 				}
@@ -475,9 +475,9 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 					break;
 				}
 			}
-			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Reserved ) {
-				Reserved state = (Reserved)token.getCurrentExecutionElement();
-				if ( result==false &&  state.getReservedToSuspended().consumeSuspendOccurrence() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof InProgress ) {
+				InProgress state = (InProgress)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getInProgressToSuspended().consumeSuspendOccurrence() ) {
 					result=true;
 					break;
 				}
@@ -488,8 +488,8 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 	
 	public void copyShallowState(TaskRequest from, TaskRequest to) {
 		to.setDelegation(from.getDelegation());
-		to.setCompletionDate(from.getCompletionDate());
 		to.setDelayBeforeProgress(from.getDelayBeforeProgress());
+		to.setCompletionDate(from.getCompletionDate());
 	}
 	
 	public void copyState(TaskRequest from, TaskRequest to) {
@@ -500,8 +500,8 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 			to.addToParticipationInTask(child.makeCopy());
 		}
 		to.setDelegation(from.getDelegation());
-		to.setCompletionDate(from.getCompletionDate());
 		to.setDelayBeforeProgress(from.getDelayBeforeProgress());
+		to.setCompletionDate(from.getCompletionDate());
 	}
 	
 	public void createComponents() {
@@ -745,9 +745,11 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		super.init(owner);
 		this.z_internalAddToRequestObject((IRequestObject)owner);
-		createComponents();
 	}
 	
 	public boolean isStepActive(Class<? extends IExecutionElement> clss) {
@@ -775,11 +777,11 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 	
 	public void markDeleted() {
 		super.markDeleted();
-		if ( getParentTask()!=null ) {
-			getParentTask().z_internalRemoveFromSubRequests((TaskRequest)this);
-		}
 		if ( getRequestObject()!=null ) {
 			getRequestObject().z_internalRemoveFromRequest((TaskRequest)this);
+		}
+		if ( getParentTask()!=null ) {
+			getParentTask().z_internalRemoveFromSubRequests((TaskRequest)this);
 		}
 		for ( ParticipationInRequest child : new ArrayList<ParticipationInRequest>(getParticipationInRequest()) ) {
 			child.markDeleted();
@@ -1014,11 +1016,11 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 		if ( getDelegation()!=null ) {
 			sb.append("delegation=\""+ getDelegation().name() + "\" ");
 		}
-		if ( getCompletionDate()!=null ) {
-			sb.append("completionDate=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatDateTime(getCompletionDate())+"\" ");
-		}
 		if ( getDelayBeforeProgress()!=null ) {
 			sb.append("delayBeforeProgress=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatDuration(getDelayBeforeProgress())+"\" ");
+		}
+		if ( getCompletionDate()!=null ) {
+			sb.append("completionDate=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatDateTime(getCompletionDate())+"\" ");
 		}
 		sb.append(">");
 		sb.append("\n<participationInRequest propertyId=\"3022263813028286216\">");
@@ -1043,22 +1045,37 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 	}
 	
 	public void z_internalAddToCompletionDate(Date completionDate) {
+		if ( completionDate.equals(getCompletionDate()) ) {
+			return;
+		}
 		this.completionDate=completionDate;
 	}
 	
 	public void z_internalAddToDelayBeforeProgress(Duration delayBeforeProgress) {
+		if ( delayBeforeProgress.equals(getDelayBeforeProgress()) ) {
+			return;
+		}
 		this.delayBeforeProgress=delayBeforeProgress;
 	}
 	
 	public void z_internalAddToDelegation(TaskDelegation delegation) {
+		if ( delegation.equals(getDelegation()) ) {
+			return;
+		}
 		this.delegation=delegation;
 	}
 	
 	public void z_internalAddToParticipationInTask(ParticipationInTask participationInTask) {
+		if ( getParticipationInTask().contains(participationInTask) ) {
+			return;
+		}
 		this.participationInTask.add(participationInTask);
 	}
 	
 	public void z_internalAddToSubRequests(AbstractRequest subRequests) {
+		if ( getSubRequests().contains(subRequests) ) {
+			return;
+		}
 		this.subRequests.add(subRequests);
 	}
 	

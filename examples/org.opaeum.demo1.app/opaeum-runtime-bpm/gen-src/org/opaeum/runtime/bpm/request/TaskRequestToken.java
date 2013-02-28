@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import org.opaeum.annotation.NumlMetaInfo;
 
 @NumlMetaInfo(uuid="252060@_zFmsEIoVEeCLqpffVZYAlw")
-@Table(name="task_request_token")
+@Table(name="task_request_token",schema="bpm")
 @Inheritance(strategy=javax.persistence.InheritanceType.SINGLE_TABLE)
 @Entity(name="TaskRequestToken")
 @DiscriminatorValue(	"252060@_zFmsEIoVEeCLqpffVZYAlw")

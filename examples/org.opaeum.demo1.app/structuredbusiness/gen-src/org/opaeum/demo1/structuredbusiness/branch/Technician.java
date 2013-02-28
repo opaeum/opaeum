@@ -581,6 +581,9 @@ public class Technician implements IPersistentObject, IEventGenerator, Hibernate
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToBranch((Branch)owner);
 		this.setPreferredEMailAddressType( PersonEMailAddressType.WORK );
 		this.setPreferredPhoneNumberType( PersonPhoneNumberType.CELL );
@@ -731,9 +734,9 @@ public class Technician implements IPersistentObject, IEventGenerator, Hibernate
 		if ( this.getBranch()!=null ) {
 			this.getBranch().z_internalRemoveFromTechnician(this);
 		}
+		this.z_internalAddToBranch(branch);
 		if ( branch!=null ) {
 			branch.z_internalAddToTechnician(this);
-			this.z_internalAddToBranch(branch);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -832,8 +835,9 @@ public class Technician implements IPersistentObject, IEventGenerator, Hibernate
 		if ( this.getRepresentedPerson()!=null ) {
 			this.getRepresentedPerson().z_internalRemoveFromBusinessRole(this);
 		}
+		this.z_internalAddToRepresentedPerson(representedPerson);
 		if ( representedPerson!=null ) {
-			this.z_internalAddToRepresentedPerson(representedPerson);
+		
 		}
 	}
 	
@@ -889,48 +893,81 @@ public class Technician implements IPersistentObject, IEventGenerator, Hibernate
 	}
 	
 	public void z_internalAddToBranch(Branch branch) {
+		if ( branch.equals(getBranch()) ) {
+			return;
+		}
 		this.branch=branch;
 	}
 	
 	public void z_internalAddToParticipation(Participation participation) {
-		ParticipationParticipant newOne = new ParticipationParticipant(this,participation);
+		ParticipationParticipant newOne;
+		if ( getParticipation().contains(participation) ) {
+			return;
+		}
+		newOne = new ParticipationParticipant(this,participation);
 		this.z_internalAddToParticipationParticipant_participation(newOne);
 		newOne.getParticipation().z_internalAddToParticipationParticipant_participant(newOne);
 	}
 	
 	public void z_internalAddToParticipationParticipant_participation(ParticipationParticipant participationParticipant_participation) {
+		if ( getParticipationParticipant_participation().contains(participationParticipant_participation) ) {
+			return;
+		}
 		this.participationParticipant_participation.add(participationParticipant_participation);
 	}
 	
 	public void z_internalAddToPersonInBusinessRole_representedPerson(PersonInBusinessRole personInBusinessRole_representedPerson) {
+		if ( personInBusinessRole_representedPerson.equals(getPersonInBusinessRole_representedPerson()) ) {
+			return;
+		}
 		this.personInBusinessRole_representedPerson=personInBusinessRole_representedPerson;
 	}
 	
 	public void z_internalAddToPreferredEMailAddressType(PersonEMailAddressType preferredEMailAddressType) {
+		if ( preferredEMailAddressType.equals(getPreferredEMailAddressType()) ) {
+			return;
+		}
 		this.preferredEMailAddressType=preferredEMailAddressType;
 	}
 	
 	public void z_internalAddToPreferredNotificationType(NotificationType preferredNotificationType) {
+		if ( preferredNotificationType.equals(getPreferredNotificationType()) ) {
+			return;
+		}
 		this.preferredNotificationType=preferredNotificationType;
 	}
 	
 	public void z_internalAddToPreferredPhoneNumberType(PersonPhoneNumberType preferredPhoneNumberType) {
+		if ( preferredPhoneNumberType.equals(getPreferredPhoneNumberType()) ) {
+			return;
+		}
 		this.preferredPhoneNumberType=preferredPhoneNumberType;
 	}
 	
 	public void z_internalAddToRatePerTimeUnit(RatePerTimeUnit ratePerTimeUnit) {
-		TimedResourceRatePerTimeUnit newOne = new TimedResourceRatePerTimeUnit(this,ratePerTimeUnit);
+		TimedResourceRatePerTimeUnit newOne;
+		if ( getRatePerTimeUnit().contains(ratePerTimeUnit) ) {
+			return;
+		}
+		newOne = new TimedResourceRatePerTimeUnit(this,ratePerTimeUnit);
 		this.z_internalAddToTimedResourceRatePerTimeUnit_ratePerTimeUnit(newOne);
 		newOne.getRatePerTimeUnit().z_internalAddToTimedResourceRatePerTimeUnit_timedResource(newOne);
 	}
 	
 	public void z_internalAddToRepresentedPerson(PersonNode representedPerson) {
-		PersonInBusinessRole newOne = new PersonInBusinessRole(this,representedPerson);
+		PersonInBusinessRole newOne;
+		if ( representedPerson.equals(getRepresentedPerson()) ) {
+			return;
+		}
+		newOne = new PersonInBusinessRole(this,representedPerson);
 		this.z_internalAddToPersonInBusinessRole_representedPerson(newOne);
 		newOne.getRepresentedPerson().z_internalAddToPersonInBusinessRole_businessRole(newOne);
 	}
 	
 	public void z_internalAddToTimedResourceRatePerTimeUnit_ratePerTimeUnit(TimedResourceRatePerTimeUnit timedResourceRatePerTimeUnit_ratePerTimeUnit) {
+		if ( getTimedResourceRatePerTimeUnit_ratePerTimeUnit().contains(timedResourceRatePerTimeUnit_ratePerTimeUnit) ) {
+			return;
+		}
 		this.timedResourceRatePerTimeUnit_ratePerTimeUnit.add(timedResourceRatePerTimeUnit_ratePerTimeUnit);
 	}
 	

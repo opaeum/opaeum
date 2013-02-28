@@ -1,8 +1,5 @@
 package org.opaeum.uimodeler.util;
 
-import java.io.ObjectInputStream.GetField;
-import java.util.ArrayList;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;

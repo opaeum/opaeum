@@ -17,5 +17,9 @@ public class Demo1Activator extends AbstractOpaeumActivator implements BundleAct
 		result=Demo1Application.INSTANCE;
 		return result;
 	}
+	
+	public void destroyApplication() {
+		Demo1Application.INSTANCE=null;
+	}
 
 }

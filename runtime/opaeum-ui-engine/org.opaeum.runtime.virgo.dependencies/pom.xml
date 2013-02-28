@@ -129,22 +129,22 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>3.1.0.GA</version>
+			<version>4.3.1.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-jcl</artifactId>
 			<version>1.5.8</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>postgresql</groupId> -->
-<!-- 			<artifactId>postgresql</artifactId> -->
-<!-- 			<version>9.1-901.jdbc4</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.hsqldb</groupId> -->
-<!-- 			<artifactId>hsqldb</artifactId> -->
-<!-- 			<version>2.2.9</version> -->
-<!-- 		</dependency> -->
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901.jdbc4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.2.9</version>
+		</dependency>
 	</dependencies>
 </project>

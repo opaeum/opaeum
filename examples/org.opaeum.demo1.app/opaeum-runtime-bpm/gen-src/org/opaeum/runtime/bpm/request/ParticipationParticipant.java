@@ -205,8 +205,10 @@ public class ParticipationParticipant implements IPersistentObject, HibernateEnt
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToParticipant((IParticipant)owner);
-		createComponents();
 	}
 	
 	public void markDeleted() {
@@ -277,9 +279,9 @@ public class ParticipationParticipant implements IPersistentObject, HibernateEnt
 		if ( this.getParticipant()!=null ) {
 			this.getParticipant().z_internalRemoveFromParticipationParticipant_participation(this);
 		}
+		this.z_internalAddToParticipant(participant);
 		if ( participant!=null ) {
 			participant.z_internalAddToParticipationParticipant_participation(this);
-			this.z_internalAddToParticipant(participant);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -350,6 +352,9 @@ public class ParticipationParticipant implements IPersistentObject, HibernateEnt
 	}
 	
 	public void z_internalAddToParticipant(IParticipant participant) {
+		if ( participant.equals(getParticipant()) ) {
+			return;
+		}
 		if ( this.participant==null ) {
 			this.participant=new UiidBasedInterfaceValue();
 		}
@@ -357,6 +362,9 @@ public class ParticipationParticipant implements IPersistentObject, HibernateEnt
 	}
 	
 	public void z_internalAddToParticipation(Participation participation) {
+		if ( participation.equals(getParticipation()) ) {
+			return;
+		}
 		this.participation=participation;
 	}
 	

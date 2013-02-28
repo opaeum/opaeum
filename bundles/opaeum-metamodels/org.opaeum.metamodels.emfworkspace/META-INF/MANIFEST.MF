@@ -4,7 +4,7 @@ Bundle-Name: org.opaeum.metamodels.emfworkspace
 Bundle-SymbolicName: org.opaeum.metamodels.emfworkspace;singleton:=true
 Bundle-Version: 1.0.2.qualifier
 Bundle-ClassPath: .,
- lib/opaeum-runtime-domain-1.0.0-SNAPSHOT.jar
+ lib/opaeum-runtime-domain-1.0.3-SNAPSHOT.jar
 Bundle-Vendor: Opaeum
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: 

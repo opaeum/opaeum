@@ -380,6 +380,9 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToBranch((Branch)owner);
 	}
 	
@@ -520,9 +523,9 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		if ( this.getBranch()!=null ) {
 			this.getBranch().z_internalRemoveFromJob(this);
 		}
+		this.z_internalAddToBranch(branch);
 		if ( branch!=null ) {
 			branch.z_internalAddToJob(this);
-			this.z_internalAddToBranch(branch);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -543,9 +546,9 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		if ( this.getCustomerAssistant()!=null ) {
 			this.getCustomerAssistant().z_internalRemoveFromJob(this);
 		}
+		this.z_internalAddToCustomerAssistant(customerAssistant);
 		if ( customerAssistant!=null ) {
 			customerAssistant.z_internalAddToJob(this);
-			this.z_internalAddToCustomerAssistant(customerAssistant);
 		}
 	}
 	
@@ -633,34 +636,58 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 	}
 	
 	public void z_internalAddToActivity(Activity activity) {
+		if ( getActivity().contains(activity) ) {
+			return;
+		}
 		this.activity.add(activity);
 	}
 	
 	public void z_internalAddToApplianceComponentSale(ApplianceComponentSale applianceComponentSale) {
+		if ( getApplianceComponentSale().contains(applianceComponentSale) ) {
+			return;
+		}
 		this.applianceComponentSale.add(applianceComponentSale);
 	}
 	
 	public void z_internalAddToBranch(Branch branch) {
+		if ( branch.equals(getBranch()) ) {
+			return;
+		}
 		this.branch=branch;
 	}
 	
 	public void z_internalAddToCostToCompany(Double costToCompany) {
+		if ( costToCompany.equals(getCostToCompany()) ) {
+			return;
+		}
 		this.costToCompany=costToCompany;
 	}
 	
 	public void z_internalAddToCustomerAssistant(CustomerAssistant customerAssistant) {
+		if ( customerAssistant.equals(getCustomerAssistant()) ) {
+			return;
+		}
 		this.customerAssistant=customerAssistant;
 	}
 	
 	public void z_internalAddToForeman(Technician foreman) {
+		if ( foreman.equals(getForeman()) ) {
+			return;
+		}
 		this.foreman=foreman;
 	}
 	
 	public void z_internalAddToTimeInHours(Double timeInHours) {
+		if ( timeInHours.equals(getTimeInHours()) ) {
+			return;
+		}
 		this.timeInHours=timeInHours;
 	}
 	
 	public void z_internalAddToTotalCost(Double totalCost) {
+		if ( totalCost.equals(getTotalCost()) ) {
+			return;
+		}
 		this.totalCost=totalCost;
 	}
 	

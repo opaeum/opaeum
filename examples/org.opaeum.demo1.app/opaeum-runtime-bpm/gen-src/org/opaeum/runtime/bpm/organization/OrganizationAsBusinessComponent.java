@@ -204,8 +204,10 @@ public class OrganizationAsBusinessComponent implements IPersistentObject, Hiber
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToBusinessComponent((IBusinessComponent)owner);
-		createComponents();
 	}
 	
 	public void markDeleted() {
@@ -306,9 +308,9 @@ public class OrganizationAsBusinessComponent implements IPersistentObject, Hiber
 		if ( this.getRepresentedOrganization()!=null ) {
 			this.getRepresentedOrganization().z_internalRemoveFromOrganizationAsBusinessComponent_businessComponent(this);
 		}
+		this.z_internalAddToRepresentedOrganization(representedOrganization);
 		if ( representedOrganization!=null ) {
 			representedOrganization.z_internalAddToOrganizationAsBusinessComponent_businessComponent(this);
-			this.z_internalAddToRepresentedOrganization(representedOrganization);
 		}
 	}
 	
@@ -346,6 +348,9 @@ public class OrganizationAsBusinessComponent implements IPersistentObject, Hiber
 	}
 	
 	public void z_internalAddToBusinessComponent(IBusinessComponent businessComponent) {
+		if ( businessComponent.equals(getBusinessComponent()) ) {
+			return;
+		}
 		if ( this.businessComponent==null ) {
 			this.businessComponent=new UiidBasedInterfaceValue();
 		}
@@ -353,6 +358,9 @@ public class OrganizationAsBusinessComponent implements IPersistentObject, Hiber
 	}
 	
 	public void z_internalAddToRepresentedOrganization(OrganizationNode representedOrganization) {
+		if ( representedOrganization.equals(getRepresentedOrganization()) ) {
+			return;
+		}
 		this.representedOrganization=representedOrganization;
 	}
 	

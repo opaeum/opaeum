@@ -1,6 +1,7 @@
 package org.opaeum.runtime.rwt;
 
 import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 
@@ -27,6 +28,12 @@ public class OpaeumRapSession{
 		return application;
 	}
 	public IPersonNode getPersonNode(){
+		if(person==null){
+			String user = application.getEnvironment().getProperty(Environment.DEV_USERNAME);
+			if(user!=null){
+				person=application.findOrCreatePersonByEMailAddress(user);
+			}
+		}
 		return person;
 	}
 	public MondrianSession getMondrianSession(){

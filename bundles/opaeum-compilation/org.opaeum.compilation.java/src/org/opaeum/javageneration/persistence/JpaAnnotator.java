@@ -80,7 +80,7 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 			if(ojUtil.getCodeGenerationStrategy(e) == CodeGenerationStrategy.ALL){
 				OJAnnotatedClass clss = new OJAnnotatedClass(e.getName() + "Entity");
 				JpaUtil.addClass(clss);
-				JpaUtil.buildTableAnnotation(clss, PersistentNameUtil.getPersistentName(e).getAsIs(), config);
+				JpaUtil.buildTableAnnotation(clss, PersistentNameUtil.getPersistentName(e).getAsIs(), config, e);
 				if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
 					clss.setSuperclass(new OJPathName("org.opaeum.hibernate.domain.AbstractPersistentOpaeumIdEnum"));
 				}else{

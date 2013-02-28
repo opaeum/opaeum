@@ -9,7 +9,6 @@ import org.eclipse.gmf.runtime.draw2d.ui.mapmode.IMapMode;
 import org.eclipse.swt.widgets.Composite;
 import org.opaeum.uim.swt.DataTableActionBarComposite;
 import org.opaeum.uim.swt.IUimWidget;
-import org.opaeum.uim.swt.UimSwtUtil;
 import org.opaeum.uimodeler.common.UimFigureUtil;
 import org.opaeum.uimodeler.common.figures.ISWTFigure;
 import org.opaeum.uimodeler.common.figures.UimDataTableComposite;

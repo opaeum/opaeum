@@ -11,8 +11,6 @@ import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.wb.os.OSSupport;
 import org.opaeum.uim.swt.IUimWidget;
 import org.opaeum.uimodeler.common.UimFigureUtil;

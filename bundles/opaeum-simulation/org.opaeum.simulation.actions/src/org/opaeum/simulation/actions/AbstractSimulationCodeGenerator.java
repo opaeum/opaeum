@@ -75,7 +75,8 @@ public class AbstractSimulationCodeGenerator extends AbstractJavaProducingVisito
 	protected int getThreadPoolSize(){
 		return 1;
 	}
-	protected final OJPathName dataGeneratorName(Type nc,InstanceSpecification is){
+	protected final OJPathName dataGeneratorName(InstanceSpecification is){
+		Type nc=is.getClassifiers().get(0);
 		OJPathName copy = ojUtil.packagePathname(nc.getNamespace()).getCopy();
 		copy.append(NameConverter.capitalize(NameConverter.toJavaVariableName(is.getName() + is.eResource().getURIFragment(is))));
 		return copy;

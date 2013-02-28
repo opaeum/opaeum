@@ -40,6 +40,9 @@ public class OpaeumApplicationGenerator extends AbstractJavaProducingVisitor{
 		activator.setSuperclass(new OJPathName("org.opaeum.runtime.rwt.AbstractOpaeumActivator"));
 		pk.addToClasses(activator);
 		createTextPath(activator, JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
+		OJAnnotatedOperation destroy = new OJAnnotatedOperation("destroyApplication");
+		activator.addToOperations(destroy);
+		destroy.getBody().addToStatements(app.getName() + ".INSTANCE=null");
 		OJAnnotatedOperation start = new OJAnnotatedOperation("createApplication", new OJPathName("org.opaeum.runtime.rwt.IOpaeumApplication"));
 		start.addParam("bundle", new OJPathName("org.osgi.framework.Bundle"));
 		OJIfStatement ifNull = new OJIfStatement(app.getName() + ".INSTANCE==null", app.getName() + ".INSTANCE=new " + app.getName() + "(bundle)");
@@ -68,6 +71,7 @@ public class OpaeumApplicationGenerator extends AbstractJavaProducingVisitor{
 		OJAnnotatedOperation getEnvironment = new OJAnnotatedOperation("getEnvironment", env);
 		app.addToOperations(getEnvironment);
 		getEnvironment.initializeResultVariable(env.getLast() + ".INSTANCE");
+		getEnvironment.getBody().addToStatements(new OJIfStatement("result == null", "result = " + env.getLast() + ".INSTANCE= new " + env.getLast() + "()"));
 		OJAnnotatedOperation getEntryPoinType = new OJAnnotatedOperation("getEntryPointType", entrypointType);
 		app.addToOperations(getEntryPoinType);
 		getEntryPoinType.initializeResultVariable(entryPoint.getName() + ".class");
@@ -76,7 +80,7 @@ public class OpaeumApplicationGenerator extends AbstractJavaProducingVisitor{
 		newBusinessCollaboration.addParam("bn", new OJPathName("org.opaeum.runtime.organization.IBusinessNetwork"));
 		app.addToOperations(newBusinessCollaboration);
 		BehavioredClassifier businessCollaboration = null;
-		if(workspace.getCrossReferenceAdapter() != null &&getLibrary().getBusinessCollaboration()!=null){
+		if(workspace.getCrossReferenceAdapter() != null && getLibrary().getBusinessCollaboration() != null){
 			Collection<Setting> ir = workspace.getCrossReferenceAdapter().getNonNavigableInverseReferences(getLibrary().getBusinessCollaboration());
 			for(Setting setting:ir){
 				if(setting.getEObject() instanceof InterfaceRealization){
@@ -108,7 +112,7 @@ public class OpaeumApplicationGenerator extends AbstractJavaProducingVisitor{
 			listOfBusinessCollaboration.addToElementTypes(bcPath);
 			OJAnnotatedField found = new OJAnnotatedField("found", listOfBusinessCollaboration);
 			getRootBusinessCollaboration.getBody().addToLocals(found);
-			found.setInitExp("this.applicationPersistence.readAll("+bcPath.getLast()+".class)");
+			found.setInitExp("this.applicationPersistence.readAll(" + bcPath.getLast() + ".class)");
 			OJIfStatement ifFound = new OJIfStatement("found.size()>0", "result=found.get(0)");
 			getRootBusinessCollaboration.getBody().addToStatements(ifFound);
 		}

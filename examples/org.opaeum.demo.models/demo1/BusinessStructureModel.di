@@ -21,37 +21,34 @@
         <emfPageIdentifier href="BusinessStructureModel.notation#_dt_K8H2lEeK5F45wEGRv4A"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="tmp.notation#_0dAKkH6XEeKpcOSs24uZew"/>
+        <emfPageIdentifier href="tmp.notation#_lN1cEIDkEeK_kMd4wGXOgQ"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="tmp.notation#_0dCm1X6XEeKpcOSs24uZew"/>
+        <emfPageIdentifier href="tmp.notation#_lRel8IDkEeK_kMd4wGXOgQ"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="tmp.notation#_0dDN_X6XEeKpcOSs24uZew"/>
+        <emfPageIdentifier href="tmp.notation#_lVQSsIDkEeK_kMd4wGXOgQ"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="tmp.notation#_0dD1EX6XEeKpcOSs24uZew"/>
+        <emfPageIdentifier href="tmp.notation#_lXEQkIDkEeK_kMd4wGXOgQ"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="tmp.notation#_0dEcHn6XEeKpcOSs24uZew"/>
+        <emfPageIdentifier href="tmp.notation#_lYsBMIDkEeK_kMd4wGXOgQ"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="tmp.notation#_0dFDGX6XEeKpcOSs24uZew"/>
+        <emfPageIdentifier href="tmp.notation#_laMdEIDkEeK_kMd4wGXOgQ"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="tmp.notation#_0dO0EH6XEeKpcOSs24uZew"/>
+        <emfPageIdentifier href="tmp.notation#_lbfdkIDkEeK_kMd4wGXOgQ"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="tmp.notation#_0dPbJX6XEeKpcOSs24uZew"/>
+        <emfPageIdentifier href="tmp.notation#_leypMIDkEeK_kMd4wGXOgQ"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="tmp.notation#_0dQCU36XEeKpcOSs24uZew"/>
+        <emfPageIdentifier href="tmp.notation#_lgmAAIDkEeK_kMd4wGXOgQ"/>
       </availablePage>
       <availablePage>
-        <emfPageIdentifier href="tmp.notation#_0dQpYX6XEeKpcOSs24uZew"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="tmp.notation#_0dRQbn6XEeKpcOSs24uZew"/>
+        <emfPageIdentifier href="tmp.notation#_liI4IIDkEeK_kMd4wGXOgQ"/>
       </availablePage>
     </pageList>
     <sashModel currentSelection="/0/@sashModel/@windows.0/@children.0">
@@ -59,6 +56,36 @@
         <children xsi:type="di:TabFolder">
           <children>
             <emfPageIdentifier href="BusinessStructureModel.notation#_QaxUsHkAEeKsL8ZaFiY2TQ"/>
+          </children>
+          <children>
+            <emfPageIdentifier href="tmp.notation#_lN1cEIDkEeK_kMd4wGXOgQ"/>
+          </children>
+          <children>
+            <emfPageIdentifier href="tmp.notation#_lRel8IDkEeK_kMd4wGXOgQ"/>
+          </children>
+          <children>
+            <emfPageIdentifier href="tmp.notation#_lVQSsIDkEeK_kMd4wGXOgQ"/>
+          </children>
+          <children>
+            <emfPageIdentifier href="tmp.notation#_lXEQkIDkEeK_kMd4wGXOgQ"/>
+          </children>
+          <children>
+            <emfPageIdentifier href="tmp.notation#_lYsBMIDkEeK_kMd4wGXOgQ"/>
+          </children>
+          <children>
+            <emfPageIdentifier href="tmp.notation#_laMdEIDkEeK_kMd4wGXOgQ"/>
+          </children>
+          <children>
+            <emfPageIdentifier href="tmp.notation#_lbfdkIDkEeK_kMd4wGXOgQ"/>
+          </children>
+          <children>
+            <emfPageIdentifier href="tmp.notation#_leypMIDkEeK_kMd4wGXOgQ"/>
+          </children>
+          <children>
+            <emfPageIdentifier href="tmp.notation#_lgmAAIDkEeK_kMd4wGXOgQ"/>
+          </children>
+          <children>
+            <emfPageIdentifier href="tmp.notation#_liI4IIDkEeK_kMd4wGXOgQ"/>
           </children>
         </children>
       </windows>

@@ -176,9 +176,11 @@ public class ParticipationInRequest extends Participation implements IPersistent
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		super.init(owner);
 		this.z_internalAddToRequest((AbstractRequest)owner);
-		createComponents();
 	}
 	
 	public ParticipationInRequest makeCopy() {
@@ -261,9 +263,9 @@ public class ParticipationInRequest extends Participation implements IPersistent
 		if ( this.getRequest()!=null ) {
 			this.getRequest().z_internalRemoveFromParticipationInRequest(this);
 		}
+		this.z_internalAddToRequest(request);
 		if ( request!=null ) {
 			request.z_internalAddToParticipationInRequest(this);
-			this.z_internalAddToRequest(request);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -296,10 +298,16 @@ public class ParticipationInRequest extends Participation implements IPersistent
 	}
 	
 	public void z_internalAddToKind(RequestParticipationKind kind) {
+		if ( kind.equals(getKind()) ) {
+			return;
+		}
 		this.kind=kind;
 	}
 	
 	public void z_internalAddToRequest(AbstractRequest request) {
+		if ( request.equals(getRequest()) ) {
+			return;
+		}
 		this.request=request;
 	}
 	

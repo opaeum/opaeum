@@ -231,7 +231,7 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 		@PropertyConstraint(message="Maximum speed",method="isMaximumSpeed"),isComposite=false,opaeumId=3791110638885068466l,uuid="ocltests.uml@_hbIYcOEgEeGhxPe2keryuw")
 	@NumlMetaInfo(uuid="ocltests.uml@_hbIYcOEgEeGhxPe2keryuw")
 	public Integer getMaximumSpeed() {
-		Integer result = (sum6() + this.getSail(SailPosition.FRONT).getSize());
+		Integer result = (sum2() + this.getSail(SailPosition.FRONT).getSize());
 		
 		return result;
 	}
@@ -283,24 +283,27 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.setName( "MyNamessssss" );
 	}
 	
 	public boolean isAllInstancesHaveSails() {
 		boolean result = false;
-		result = forAll4();
+		result = forAll6();
 		return result;
 	}
 	
 	public boolean isHasName() {
 		boolean result = false;
-		result = (collectionLiteral1().size() > 0);
+		result = (collectionLiteral3().size() > 0);
 		return result;
 	}
 	
 	public boolean isHasSailForEachSailPosition() {
 		boolean result = false;
-		result = forAll3();
+		result = forAll5();
 		return result;
 	}
 	
@@ -421,11 +424,17 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	}
 	
 	public void z_internalAddToName(String name) {
+		if ( name.equals(getName()) ) {
+			return;
+		}
 		this.name=name;
 	}
 	
 	public void z_internalAddToSail(SailPosition sailPosition, Sail sail) {
 		String key = sailPosition.getUid();
+		if ( getSail().contains(sail) ) {
+			return;
+		}
 		sail.z_internalAddToSailPosition(sailPosition);
 		this.sail.put(key.toString(),sail);
 		sail.setZ_keyOfSailOnBoat(key.toString());
@@ -445,7 +454,7 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	
 	/** Implements Set {self.sail}->collect(s : Sail | s.size.+(5))
 	 */
-	private Collection<Integer> collect5() {
+	private Collection<Integer> collect1() {
 		Collection<Integer> result = new ArrayList<Integer>();
 		for ( Sail s : this.getSail() ) {
 			Integer bodyExpResult = (s.getSize() + 5);
@@ -456,7 +465,7 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	
 	/** Implements Set {self.name}
 	 */
-	private Set<String> collectionLiteral1() {
+	private Set<String> collectionLiteral3() {
 		Set<String> myList = new HashSet<String>();
 		if ( this.getName() != null ) {
 			myList.add( this.getName() );
@@ -468,7 +477,7 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	 * 
 	 * @param t 
 	 */
-	private Set<Sail> collectionLiteral2(SailPosition t) {
+	private Set<Sail> collectionLiteral4(SailPosition t) {
 		Set<Sail> myList = new HashSet<Sail>();
 		if ( this.getSail(t) != null ) {
 			myList.add( this.getSail(t) );
@@ -478,9 +487,9 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	
 	/** Implements ocltests::SailPosition.allInstances()->forAll(t : SailPosition | Set {self.sail[t]}->size().>(0))
 	 */
-	private boolean forAll3() {
+	private boolean forAll5() {
 		for ( SailPosition t : SailPosition.getValues() ) {
-			if ( !(collectionLiteral2(t).size() > 0) ) {
+			if ( !(collectionLiteral4(t).size() > 0) ) {
 				return false;
 			}
 		}
@@ -489,7 +498,7 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	
 	/** Implements ocltests::Boat.allInstances()->forAll(temp1 : Boat | Set {temp1.sail}->size().>(0))
 	 */
-	private boolean forAll4() {
+	private boolean forAll6() {
 		for ( Boat temp1 : Boat.allInstances(persistence) ) {
 			if ( !(temp1.getSail().size() > 0) ) {
 				return false;
@@ -500,9 +509,9 @@ public class Boat implements IPersistentObject, IEventGenerator, IConstrained, H
 	
 	/** Implements Set {self.sail}->collect(s : Sail | s.size.+(5))->sum() on Set {self.sail}->collect(s : Sail | s.size.+(5))
 	 */
-	private Integer sum6() {
+	private Integer sum2() {
 		Integer result = 0;
-		for ( Integer elem : collect5() ) {
+		for ( Integer elem : collect1() ) {
 			result = result + elem;
 		}
 		return result;

@@ -601,6 +601,9 @@ public class PrepareQuote implements IStateMachineExecution, IPersistentObject, 
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToContextObject((Branch)owner);
 	}
 	
@@ -771,9 +774,9 @@ public class PrepareQuote implements IStateMachineExecution, IPersistentObject, 
 		if ( this.getContextObject()!=null ) {
 			this.getContextObject().z_internalRemoveFromPrepareQuote(this);
 		}
+		this.z_internalAddToContextObject(contextObject);
 		if ( contextObject!=null ) {
 			contextObject.z_internalAddToPrepareQuote(this);
-			this.z_internalAddToContextObject(contextObject);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -950,38 +953,68 @@ public class PrepareQuote implements IStateMachineExecution, IPersistentObject, 
 	}
 	
 	public void z_internalAddToContextObject(Branch contextObject) {
+		if ( contextObject.equals(getContextObject()) ) {
+			return;
+		}
 		this.contextObject=contextObject;
 	}
 	
 	public void z_internalAddToCustomerApproved(Boolean customerApproved) {
+		if ( customerApproved.equals(getCustomerApproved()) ) {
+			return;
+		}
 		this.customerApproved=customerApproved;
 	}
 	
 	public void z_internalAddToLl(TaskParticipationKind ll) {
+		if ( ll.equals(getLl()) ) {
+			return;
+		}
 		this.ll=ll;
 	}
 	
 	public void z_internalAddToLll(Integer lll) {
+		if ( lll.equals(getLll()) ) {
+			return;
+		}
 		this.lll=lll;
 	}
 	
 	public void z_internalAddToParameter1(Integer parameter1) {
+		if ( parameter1.equals(getParameter1()) ) {
+			return;
+		}
 		this.parameter1=parameter1;
 	}
 	
 	public void z_internalAddToProcessRequest(ProcessRequest processRequest) {
 		AbstractRequest request = processRequest;
+		if ( processRequest.equals(getProcessRequest()) ) {
+			return;
+		}
 		this.processRequest=processRequest;
+		if ( request.equals(getRequest()) ) {
+			return;
+		}
 		this.request=request;
 	}
 	
 	public void z_internalAddToProperty1ll(Boolean property1ll) {
+		if ( property1ll.equals(getProperty1ll()) ) {
+			return;
+		}
 		this.property1ll=property1ll;
 	}
 	
 	public void z_internalAddToRequest(AbstractRequest request) {
 		ProcessRequest processRequest = (ProcessRequest)request;
+		if ( request.equals(getRequest()) ) {
+			return;
+		}
 		this.request=request;
+		if ( processRequest.equals(getProcessRequest()) ) {
+			return;
+		}
 		this.processRequest=processRequest;
 	}
 	

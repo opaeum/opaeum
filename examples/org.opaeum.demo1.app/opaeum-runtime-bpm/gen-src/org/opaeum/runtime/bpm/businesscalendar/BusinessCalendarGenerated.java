@@ -462,11 +462,10 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	}
 	
 	public void init(CompositionNode owner) {
-		this.z_internalAddToOrganization((OrganizationNode)owner);
-		createComponents();
-		for ( WorkDay c : getWorkDay() ) {
-			c.init((BusinessCalendar)this);
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
 		}
+		this.z_internalAddToOrganization((OrganizationNode)owner);
 	}
 	
 	public BusinessCalendar makeCopy() {
@@ -724,35 +723,59 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	}
 	
 	public void z_internalAddToBusinessDaysPerMonth(Integer businessDaysPerMonth) {
+		if ( businessDaysPerMonth.equals(getBusinessDaysPerMonth()) ) {
+			return;
+		}
 		this.businessDaysPerMonth=businessDaysPerMonth;
 	}
 	
 	public void z_internalAddToBusinessHoursPerDay(Double businessHoursPerDay) {
+		if ( businessHoursPerDay.equals(getBusinessHoursPerDay()) ) {
+			return;
+		}
 		this.businessHoursPerDay=businessHoursPerDay;
 	}
 	
 	public void z_internalAddToBusinessHoursPerWeek(Double businessHoursPerWeek) {
+		if ( businessHoursPerWeek.equals(getBusinessHoursPerWeek()) ) {
+			return;
+		}
 		this.businessHoursPerWeek=businessHoursPerWeek;
 	}
 	
 	static public void z_internalAddToInstance(BusinessCalendar instance) {
+		if ( instance.equals(getInstance()) ) {
+			return;
+		}
 		BusinessCalendar.instance=instance;
 	}
 	
 	public void z_internalAddToOnceOffHoliday(OnceOffHoliday onceOffHoliday) {
+		if ( getOnceOffHoliday().contains(onceOffHoliday) ) {
+			return;
+		}
 		this.onceOffHoliday.add(onceOffHoliday);
 	}
 	
 	public void z_internalAddToOrganization(OrganizationNode organization) {
+		if ( organization.equals(getOrganization()) ) {
+			return;
+		}
 		this.organization=organization;
 	}
 	
 	public void z_internalAddToRecurringHoliday(RecurringHoliday recurringHoliday) {
+		if ( getRecurringHoliday().contains(recurringHoliday) ) {
+			return;
+		}
 		this.recurringHoliday.add(recurringHoliday);
 	}
 	
 	public void z_internalAddToWorkDay(WorkDayKind kind, WorkDay workDay) {
 		String key = kind.getUid();
+		if ( getWorkDay().contains(workDay) ) {
+			return;
+		}
 		workDay.z_internalAddToKind(kind);
 		this.workDay.put(key.toString(),workDay);
 		workDay.setZ_keyOfWorkDayOnBusinessCalendar(key.toString());

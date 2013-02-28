@@ -35,8 +35,8 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Where;
-import org.hibernate.validator.Email;
-import org.hibernate.validator.Length;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.opaeum.annotation.BusinessComponent;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
@@ -770,6 +770,9 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, IAct
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToApplianceCollaboration((ApplianceCollaboration)owner);
 	}
 	
@@ -1141,8 +1144,9 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, IAct
 		if ( this.getRepresentedOrganization()!=null ) {
 			this.getRepresentedOrganization().z_internalRemoveFromBusinessComponent(this);
 		}
+		this.z_internalAddToRepresentedOrganization(representedOrganization);
 		if ( representedOrganization!=null ) {
-			this.z_internalAddToRepresentedOrganization(representedOrganization);
+		
 		}
 	}
 	
@@ -1242,70 +1246,120 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, IAct
 	}
 	
 	public void z_internalAddToApplianceCollaboration(ApplianceCollaboration applianceCollaboration) {
+		if ( applianceCollaboration.equals(getApplianceCollaboration()) ) {
+			return;
+		}
 		this.applianceCollaboration=applianceCollaboration;
 	}
 	
 	public void z_internalAddToApplianceModel(ApplianceModel applianceModel) {
+		if ( getApplianceModel().contains(applianceModel) ) {
+			return;
+		}
 		this.applianceModel.add(applianceModel);
 	}
 	
 	public void z_internalAddToAttribute1(Date attribute1) {
+		if ( attribute1.equals(getAttribute1()) ) {
+			return;
+		}
 		this.attribute1=attribute1;
 	}
 	
 	public void z_internalAddToBranch(Branch branch) {
+		if ( getBranch().contains(branch) ) {
+			return;
+		}
 		this.branch.add(branch);
 	}
 	
 	public void z_internalAddToBusinessStateMachine1(BusinessStateMachine1 businessStateMachine1) {
+		if ( businessStateMachine1.equals(getBusinessStateMachine1()) ) {
+			return;
+		}
 		this.businessStateMachine1=businessStateMachine1;
 	}
 	
 	public void z_internalAddToInitiationDatell(Date initiationDatell) {
+		if ( initiationDatell.equals(getInitiationDatell()) ) {
+			return;
+		}
 		this.initiationDatell=initiationDatell;
 	}
 	
 	public void z_internalAddToManager(Manager manager) {
+		if ( getManager().contains(manager) ) {
+			return;
+		}
 		this.manager.add(manager);
 	}
 	
 	public void z_internalAddToName(String name) {
+		if ( name.equals(getName()) ) {
+			return;
+		}
 		this.name=name;
 	}
 	
 	public void z_internalAddToOrganizationAsBusinessComponent_representedOrganization(OrganizationAsBusinessComponent organizationAsBusinessComponent_representedOrganization) {
+		if ( organizationAsBusinessComponent_representedOrganization.equals(getOrganizationAsBusinessComponent_representedOrganization()) ) {
+			return;
+		}
 		this.organizationAsBusinessComponent_representedOrganization=organizationAsBusinessComponent_representedOrganization;
 	}
 	
 	public void z_internalAddToParticipation(Participation participation) {
-		ParticipationParticipant newOne = new ParticipationParticipant(this,participation);
+		ParticipationParticipant newOne;
+		if ( getParticipation().contains(participation) ) {
+			return;
+		}
+		newOne = new ParticipationParticipant(this,participation);
 		this.z_internalAddToParticipationParticipant_participation(newOne);
 		newOne.getParticipation().z_internalAddToParticipationParticipant_participant(newOne);
 	}
 	
 	public void z_internalAddToParticipationParticipant_participation(ParticipationParticipant participationParticipant_participation) {
+		if ( getParticipationParticipant_participation().contains(participationParticipant_participation) ) {
+			return;
+		}
 		this.participationParticipant_participation.add(participationParticipant_participation);
 	}
 	
 	public void z_internalAddToProperty1(Date property1) {
+		if ( property1.equals(getProperty1()) ) {
+			return;
+		}
 		this.property1=property1;
 	}
 	
 	public void z_internalAddToRepresentedOrganization(OrganizationNode representedOrganization) {
-		OrganizationAsBusinessComponent newOne = new OrganizationAsBusinessComponent(this,representedOrganization);
+		OrganizationAsBusinessComponent newOne;
+		if ( representedOrganization.equals(getRepresentedOrganization()) ) {
+			return;
+		}
+		newOne = new OrganizationAsBusinessComponent(this,representedOrganization);
 		this.z_internalAddToOrganizationAsBusinessComponent_representedOrganization(newOne);
 		newOne.getRepresentedOrganization().z_internalAddToOrganizationAsBusinessComponent_businessComponent(newOne);
 	}
 	
 	public void z_internalAddToSupportEMailAddress(String supportEMailAddress) {
+		if ( supportEMailAddress.equals(getSupportEMailAddress()) ) {
+			return;
+		}
 		this.supportEMailAddress=supportEMailAddress;
 	}
 	
 	public void z_internalAddToSupportNumber(String supportNumber) {
+		if ( supportNumber.equals(getSupportNumber()) ) {
+			return;
+		}
 		this.supportNumber=supportNumber;
 	}
 	
 	public void z_internalAddToVatNumber(String vatNumber) {
+		if ( vatNumber.equals(getVatNumber()) ) {
+			return;
+		}
 		this.vatNumber=vatNumber;
 	}
 	

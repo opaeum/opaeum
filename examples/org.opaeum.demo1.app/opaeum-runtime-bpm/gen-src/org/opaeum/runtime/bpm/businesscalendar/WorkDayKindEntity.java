@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 import org.opaeum.hibernate.domain.AbstractPersistentOpaeumIdEnum;
 
-@Table(name="work_day_kind")
+@Table(name="work_day_kind",schema="bpm")
 @Entity(name="WorkDayKindEntity")
 public class WorkDayKindEntity extends AbstractPersistentOpaeumIdEnum {
 

@@ -227,8 +227,10 @@ public class BusinessCollaboration_Business implements IPersistentObject, Hibern
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToBusiness((IBusiness)owner);
-		createComponents();
 	}
 	
 	public void markDeleted() {
@@ -317,9 +319,9 @@ public class BusinessCollaboration_Business implements IPersistentObject, Hibern
 		if ( this.getBusinessCollaboration()!=null ) {
 			this.getBusinessCollaboration().z_internalRemoveFromBusinessCollaboration_Business_business(this);
 		}
+		this.z_internalAddToBusinessCollaboration(businessCollaboration);
 		if ( businessCollaboration!=null ) {
 			businessCollaboration.z_internalAddToBusinessCollaboration_Business_business(this);
-			this.z_internalAddToBusinessCollaboration(businessCollaboration);
 		}
 	}
 	
@@ -369,6 +371,9 @@ public class BusinessCollaboration_Business implements IPersistentObject, Hibern
 	}
 	
 	public void z_internalAddToBusiness(IBusiness business) {
+		if ( business.equals(getBusiness()) ) {
+			return;
+		}
 		if ( this.business==null ) {
 			this.business=new UiidBasedCascadingInterfaceValue();
 		}
@@ -376,6 +381,9 @@ public class BusinessCollaboration_Business implements IPersistentObject, Hibern
 	}
 	
 	public void z_internalAddToBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
+		if ( businessCollaboration.equals(getBusinessCollaboration()) ) {
+			return;
+		}
 		if ( this.businessCollaboration==null ) {
 			this.businessCollaboration=new UiidBasedInterfaceValue();
 		}

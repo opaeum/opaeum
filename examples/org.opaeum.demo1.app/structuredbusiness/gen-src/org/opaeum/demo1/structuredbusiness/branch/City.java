@@ -75,13 +75,16 @@ public enum City implements IEnum, Serializable {
 		if ( this.getProvince()!=null ) {
 			this.getProvince().z_internalRemoveFromCity(this);
 		}
+		this.z_internalAddToProvince(province);
 		if ( province!=null ) {
 			province.z_internalAddToCity(this);
-			this.z_internalAddToProvince(province);
 		}
 	}
 	
 	public void z_internalAddToProvince(Province province) {
+		if ( province.equals(getProvince()) ) {
+			return;
+		}
 		this.province=province;
 	}
 	

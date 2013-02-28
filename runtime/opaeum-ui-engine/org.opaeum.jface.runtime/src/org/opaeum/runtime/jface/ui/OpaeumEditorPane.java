@@ -19,6 +19,7 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.opaeum.runtime.domain.IPersistentObject;
@@ -32,8 +33,12 @@ public class OpaeumEditorPane implements CTabFolder2Listener,SelectionListener,F
 	CTabFolder cTabFolder;
 	int activePosition;
 	OpaeumWorkbenchPage page;
+	public OpaeumEditorPane(OpaeumWorkbenchPage page){
+		this.page=page;
+		// TODO Auto-generated constructor stub
+	}
 	public void createPane(Composite parent){
-		cTabFolder = new CTabFolder(cTabFolder, SWT.TOP);
+		cTabFolder = new CTabFolder(parent, SWT.TOP);
 		cTabFolder.addCTabFolder2Listener(this);
 		cTabFolder.addSelectionListener(this);
 	}
@@ -41,7 +46,10 @@ public class OpaeumEditorPane implements CTabFolder2Listener,SelectionListener,F
 		boolean isOpen = false;
 		for(EntityFormEditor entityEditor:entityEditors){
 			if(input.getPersistentObject().equals(entityEditor.getEditorInput().getPersistentObject())){
-				cTabFolder.showItem(tabItems.get(activePosition = entityEditors.indexOf(entityEditor)));
+				cTabFolder.setFocus();
+				int index = entityEditors.indexOf(entityEditor);
+				cTabFolder.showItem(tabItems.get(activePosition = index));
+				cTabFolder.setSelection(tabItems.get(activePosition = index));
 				isOpen = true;
 				break;
 			}
@@ -49,15 +57,20 @@ public class OpaeumEditorPane implements CTabFolder2Listener,SelectionListener,F
 		if(!isOpen){
 			CTabItem newItem = new CTabItem(cTabFolder, SWT.CLOSE);
 			EntityFormEditor ee = new EntityFormEditor();
+			entityEditors.add(ee);
 			ee.init(page, input);
-			ee.createPartControl(cTabFolder);
-			Control[] children = cTabFolder.getChildren();
-			newItem.setControl(children[children.length - 1]);
+			Composite control=new Composite(cTabFolder, SWT.NONE);
+			control.setLayout(new FillLayout());
+			ee.createPartControl(control);
+			control.layout();
+			newItem.setControl(control);
 			newItem.setText(ee.getPartName());
 			newItem.setImage(ee.getTitleImage());
 			tabItems.add(newItem);
 			activePosition = tabItems.size() - 1;
+			cTabFolder.setFocus();
 			cTabFolder.showItem(newItem);
+			cTabFolder.setSelection(newItem);
 		}
 	}
 	@Override
@@ -82,6 +95,9 @@ public class OpaeumEditorPane implements CTabFolder2Listener,SelectionListener,F
 				event.doit = false;
 				break;
 			}
+		}else{
+			entityEditor.close(false);
+			removeItem(item, entityEditor, index);
 		}
 	}
 	protected void removeItem(CTabItem item,EntityFormEditor entityEditor,int index){

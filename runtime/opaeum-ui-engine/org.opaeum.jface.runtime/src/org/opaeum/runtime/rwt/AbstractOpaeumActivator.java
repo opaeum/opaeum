@@ -12,17 +12,19 @@ public abstract class AbstractOpaeumActivator<V> implements BundleActivator{
 	private IOpaeumApplication application;
 	private ServiceRegistration<IOpaeumApplication> registration;
 	protected abstract IOpaeumApplication createApplication(Bundle b);
+	protected abstract void destroyApplication();
 	@Override
 	public void start(BundleContext context) throws Exception{
 		this.application=createApplication(context.getBundle());
-		application.getEnvironment().register();
+		application.init();
 		Dictionary<String,?> asdf=new Hashtable<String,Object>();
 		registration = context.registerService(IOpaeumApplication.class, application, asdf);
 	}
 	@Override
 	public void stop(BundleContext context) throws Exception{
 		registration.unregister();
-		application.getEnvironment().unregister();
+		destroyApplication();
+		application.dispose();
 		application=null;
 	}
 }

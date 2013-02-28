@@ -2,19 +2,26 @@ package org.opaeum.runtime.rwt;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Collections;
 import java.util.Dictionary;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.rap.rwt.application.Application;
 import org.eclipse.rap.rwt.application.ApplicationConfiguration;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.widgets.Display;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
@@ -30,8 +37,8 @@ public class Activator implements BundleActivator,ServiceListener{
 	public static final String IMG_PROJECT = "project.gif";
 	private Map<String,ServiceRegistration<?>> registration = new HashMap<String,ServiceRegistration<?>>();
 	private ServletContext contextFound;
-	Map<String,Image> images = new HashMap<String,Image>();
 	private BundleContext bundleContext;
+	private ImageRegistry imageRegistry;
 	private static Activator plugin;
 	public Activator(){
 	}
@@ -43,31 +50,37 @@ public class Activator implements BundleActivator,ServiceListener{
 		ServiceReference<HttpService> sr = bundleContext.getServiceReference(HttpService.class);
 		HttpService service = bundleContext.getService(sr);
 		System.out.println(service);
-		bundleContext.registerService(ApplicationConfiguration.class, new TestOpaeumConfiguration(), new Hashtable<String,Object>());
 	}
 	public void stop(BundleContext context) throws Exception{
-		plugin = null;
+//		plugin = null;
 	}
 	public static Activator getDefault(){
 		return plugin;
 	}
 	public Image getImage(String string){
-		return images.get(string);
+		if(imageRegistry == null){
+			imageRegistry = new ImageRegistry(Display.getCurrent());
+			Enumeration<URL> entries = bundleContext.getBundle().findEntries("/", "*.gif", true);
+			while(entries.hasMoreElements()){
+				URL url = (URL) entries.nextElement();
+				// chop off the '/' and the extension
+				String id = url.getFile().substring(url.getFile().lastIndexOf("/") + 1);
+				try{
+					// IPath path = new Path(url.getFile().substring(1));
+					// URL url = FileLocator.find(bundleContext.getBundle(), path, null);
+					// if(url != null){
+					ImageDescriptor desc = ImageDescriptor.createFromURL(url);
+					imageRegistry.put(id, desc);
+					// }
+				}catch(final Exception shouldNotHappen){
+					shouldNotHappen.printStackTrace();
+				}
+			}
+		}
+		return imageRegistry.get(string);
 	}
 	public ImageDescriptor getImageDescriptor(String string){
-		try{
-			final InputStream openStream = bundleContext.getBundle().getResource(string).openStream();
-			return new ImageDescriptor(){
-				@Override
-				public ImageData getImageData(){
-					return new ImageData(openStream);
-				}
-			};
-		}catch(IOException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
+		return imageRegistry.getDescriptor(string);
 	}
 	@Override
 	public void serviceChanged(ServiceEvent event){
@@ -84,7 +97,9 @@ public class Activator implements BundleActivator,ServiceListener{
 					}, d));
 		}else if(event.getType() == ServiceEvent.UNREGISTERING){
 			final IOpaeumApplication service = (IOpaeumApplication) bundleContext.getService(event.getServiceReference());
-			registration.get(service.getIdentifier()).unregister();
+			ServiceRegistration<?> sr = registration.get(service.getIdentifier());
+			sr.unregister();
+			service.getEnvironment().unregister();
 			registration.remove(service.getIdentifier());
 		}
 	}

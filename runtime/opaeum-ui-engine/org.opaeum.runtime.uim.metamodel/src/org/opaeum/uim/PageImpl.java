@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
-import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
 import org.opaeum.uim.panel.AbstractPanel;

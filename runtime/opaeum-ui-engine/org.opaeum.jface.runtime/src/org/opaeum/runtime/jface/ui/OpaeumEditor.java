@@ -10,6 +10,7 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -41,54 +42,62 @@ public abstract class OpaeumEditor implements IEditorPart{
 		pages.add(page);
 		CTabItem newItem = new CTabItem(pageFolder, SWT.NONE);
 		Composite pageComposite = new Composite(pageFolder, SWT.NONE);
+		pageComposite.setLayout(new FillLayout());
 		pageComposites.add(pageComposite);
 		newItem.setControl(pageComposite);
 		newItem.setText(page.getPartName());
 		items.add(newItem);
+		page.init(editorInput);
+
 	}
 	@Override
 	public Control getPartControl(){
 		return body;
 	}
-	public void createPartControl(Composite c){
-		this.container = c;
-		header = new Composite(body, SWT.BORDER);
+	public void createPartControl(Composite parent){
+		this.container = new Composite(parent,SWT.NONE);
+		this.container.setLayout(new GridLayout(1, true));
+		header = new Composite(container, SWT.BORDER);
   	GridData headerData = new GridData(SWT.FILL, SWT.TOP, true, false);
 		headerData.heightHint = 200;
 		header.setLayoutData(headerData);
 		header.setLayout(new GridLayout());
-		this.body = new Composite(c, SWT.NONE);
-		body.setLayout(new GridLayout());
-		body.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		titleComposite=new CLabel(header, SWT.NONE);
+		this.body = new Composite(container, SWT.BORDER);
+		body.setLayout(new FillLayout());
+		body.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
+		titleComposite=new CLabel(header, SWT.BORDER);
 		titleComposite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
 		messageTable=new MessageTable(header, SWT.NONE);
+		buttonBar = new Composite(header, SWT.BORDER);
 		createButtonBarContents(this.buttonBar);
-		pageFolder = new CTabFolder(body, SWT.NONE);
+		pageFolder = new CTabFolder(body, SWT.BORDER);
 		pageFolder.addSelectionListener(new SelectionListener(){
 			@Override
 			public void widgetSelected(SelectionEvent e){
 				int index=items.indexOf(e.item);
 				IFormPage p = pages.get(index);
 				if(p.getPartControl()==null){
-					p.createPartControl(pageComposites.get(index));
+					Composite pageComposite = pageComposites.get(index);
+					p.createPartControl(pageComposite);
+					pageComposite.layout();
 				}
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e){
 			}
 		});
-		GridData pageFolderData = new GridData(SWT.FILL, SWT.FILL, true, false);
-		pageFolder.setLayoutData(pageFolderData);
 		addPages();
+		pageFolder.setSelection(0);
+		pageFolder.setFocus();
 	}
 	public void createButtonBarContents(Composite buttonBar2){
 		
 	}
 	public void refresh(){
-		this.body.dispose();
 		// TODO check ifthis creates problems with all the JFace Binding stuff
-		createPartControl(container);
+		Composite parent = container.getParent();
+		container.dispose();
+		createPartControl(parent);
 	}
 	public String getPartName(){
 		return partName;

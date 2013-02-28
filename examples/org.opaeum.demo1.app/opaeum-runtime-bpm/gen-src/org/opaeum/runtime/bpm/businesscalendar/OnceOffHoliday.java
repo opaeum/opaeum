@@ -214,8 +214,10 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToBusinessCalendar((BusinessCalendar)owner);
-		createComponents();
 	}
 	
 	public OnceOffHoliday makeCopy() {
@@ -265,9 +267,9 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 		if ( this.getBusinessCalendar()!=null ) {
 			this.getBusinessCalendar().z_internalRemoveFromOnceOffHoliday(this);
 		}
+		this.z_internalAddToBusinessCalendar(businessCalendar);
 		if ( businessCalendar!=null ) {
 			businessCalendar.z_internalAddToOnceOffHoliday(this);
-			this.z_internalAddToBusinessCalendar(businessCalendar);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -330,14 +332,23 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void z_internalAddToBusinessCalendar(BusinessCalendar businessCalendar) {
+		if ( businessCalendar.equals(getBusinessCalendar()) ) {
+			return;
+		}
 		this.businessCalendar=businessCalendar;
 	}
 	
 	public void z_internalAddToDate(Date date) {
+		if ( date.equals(getDate()) ) {
+			return;
+		}
 		this.date=date;
 	}
 	
 	public void z_internalAddToName(String name) {
+		if ( name.equals(getName()) ) {
+			return;
+		}
 		this.name=name;
 	}
 	

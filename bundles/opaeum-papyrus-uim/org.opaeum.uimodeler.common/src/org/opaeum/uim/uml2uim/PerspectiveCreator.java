@@ -1,5 +1,6 @@
 package org.opaeum.uim.uml2uim;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -297,7 +298,8 @@ public class PerspectiveCreator extends AbstractUimSynchronizer2{
 	}
 	public void visitRecursively(Element modelElement){
 		visitOnly(modelElement);
-		for(Element eObject:EmfElementFinder.getCorrectOwnedElements(modelElement)){
+		Collection<? extends Element> children = modelElement instanceof EmfWorkspace? ((EmfWorkspace)modelElement).getPotentialGeneratingModels(): EmfElementFinder.getCorrectOwnedElements(modelElement);
+		for(Element eObject:children){
 			visitRecursively(eObject);
 		}
 	}

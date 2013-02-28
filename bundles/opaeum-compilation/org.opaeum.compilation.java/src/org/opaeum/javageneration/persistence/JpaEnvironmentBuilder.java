@@ -1,5 +1,6 @@
 package org.opaeum.javageneration.persistence;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -46,6 +47,7 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJConstructor;
+import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
@@ -69,6 +71,7 @@ import org.opaeum.runtime.environment.Environment;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opaeum.textmetamodel.PropertiesSource;
+import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 import org.opaeum.util.SortedProperties;
 
@@ -81,22 +84,30 @@ public class JpaEnvironmentBuilder extends AbstractJavaProducingVisitor implemen
 			OJPathName pathName = ojUtil.utilClass(ew, "Environment");
 			OJClass envClass = new OJAnnotatedClass(pathName.getLast());
 			envClass.setSuperclass(new OJPathName(Environment.class.getName()));
-			envClass.getDefaultConstructor().setVisibility(OJVisibilityKind.PRIVATE);
 			findOrCreatePackage(pathName.getHead()).addToClasses(envClass);
 			super.createTextPath(envClass, JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 			envClass.addToImports(IPersistentObject.class.getName());
 			OJAnnotatedField instance = new OJAnnotatedField("INSTANCE", pathName);
 			instance.setStatic(true);
 			instance.setVisibility(OJVisibilityKind.PUBLIC);
-			instance.setFinal(true);
 			instance.setInitExp("new " + pathName.getLast() + "()");
 			envClass.addToFields(instance);
+			OJAnnotatedOperation register = new OJAnnotatedOperation("register");
+			envClass.addToOperations(register);
+			register.getBody().addToStatements("super.register()");
+			register.getBody().addToStatements("INSTANCE=new " + pathName.getLast() + "()");
+			OJAnnotatedOperation unregister = new OJAnnotatedOperation("unregister");
+			envClass.addToOperations(unregister);
+			unregister.getBody().addToStatements("super.unregister()");
+			unregister.getBody().addToStatements("INSTANCE=null");
 			OJAnnotatedOperation getId = new OJAnnotatedOperation("getApplicationIdentifier", new OJPathName("String"));
 			envClass.addToOperations(getId);
 			getId.initializeResultVariable("\"" + ew.getIdentifier() + "\"");
 			OJPathName mim = ojUtil.utilClass(ew, JavaMetaInfoMapGenerator.JAVA_META_INFO_MAP_SUFFIX);
+			envClass.addToFields(new OJAnnotatedField("metaInfoMap", mim));
 			OJAnnotatedOperation getMetaInfoMap = new OJAnnotatedOperation("getMetaInfoMap", mim);
-			getMetaInfoMap.initializeResultVariable(mim.getLast() + ".INSTANCE");
+			getMetaInfoMap.initializeResultVariable("metaInfoMap");
+			getMetaInfoMap.getBody().addToStatements(new OJIfStatement("metaInfoMap==null", "result=metaInfoMap=new " + mim.getLast() + "()"));
 			envClass.addToOperations(getMetaInfoMap);
 			SortedProperties properties = new SortedProperties();
 			properties.setProperty(Environment.DBMS, config.getDbms());
@@ -104,9 +115,15 @@ public class JpaEnvironmentBuilder extends AbstractJavaProducingVisitor implemen
 			properties.setProperty(Environment.DB_USER, config.getDbUser());
 			properties.setProperty(Environment.DB_PASSWORD, config.getDbPassword());
 			properties.setProperty(Environment.JDBC_DRIVER_CLASS, config.getJdbcDriver());
+			properties.setProperty(Environment.DEV_USERNAME, config.getDevUsername());
+			if(config.getSourceFolderStrategy().isSingleProjectStrategy()){
+				SourceFolder sourceFolder = getSourceFolder(config.getSourceFolderDefinition(JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC));
+				String path = new File(new File(config.getOutputRoot(), sourceFolder.getProject().getName()), "ui").getAbsolutePath();
+				properties.setProperty(Environment.DEV_UI_DIR, path);
+			}
+			properties.setProperty(Environment.UPDATE_DB_DEF, "false");
 			findOrCreateTextFile(properties, TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, Environment.PROPERTIES_FILE_NAME);
-			OJAnnotatedOperation getPersistenceUnitInfo = new OJAnnotatedOperation("getPersistenceUnitInfo", new OJPathName(
-					PersistenceUnitInfo.class.getName()));
+			OJAnnotatedOperation getPersistenceUnitInfo = new OJAnnotatedOperation("getPersistenceUnitInfo", new OJPathName(PersistenceUnitInfo.class.getName()));
 			OJPathName pui = ojUtil.utilClass(workspace, "PersistenceUnitInfo");
 			getPersistenceUnitInfo.initializeResultVariable("new " + pui + "(this)");
 			envClass.addToOperations(getPersistenceUnitInfo);
@@ -133,17 +150,16 @@ public class JpaEnvironmentBuilder extends AbstractJavaProducingVisitor implemen
 			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.hibernate.domain.EventOccurrence\")");
 			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.hibernate.domain.AbstractPersistentEnum\")");
 			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.hibernate.domain.AbstractPersistentOpaeumIdEnum\")");
-			
-//			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.AuditEntry\")");
-//			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.AuditEntryPropertyChange\")");
-//			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.EntityPropertyChange\")");
-//			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.PropertyChange\")");
-//			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.StringPropertyChange\")");
-//			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.BooleanPropertyChange\")");
-//			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.DateTimePropertyChange\")");
-//			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.IntegerPropertyChange\")");
-//			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.FloatingPointPropertyChange\")");
-//			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.NullPropertyChange\")");
+			// getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.AuditEntry\")");
+			// getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.AuditEntryPropertyChange\")");
+			// getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.EntityPropertyChange\")");
+			// getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.PropertyChange\")");
+			// getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.StringPropertyChange\")");
+			// getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.BooleanPropertyChange\")");
+			// getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.DateTimePropertyChange\")");
+			// getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.IntegerPropertyChange\")");
+			// getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.FloatingPointPropertyChange\")");
+			// getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.NullPropertyChange\")");
 			getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.utilPackagePath(ew) + "\")");
 			// CLasses across multiple jars need to be registered explicitly
 			TreeIterator<Notifier> iter = workspace.getResourceSet().getAllContents();
@@ -159,16 +175,13 @@ public class JpaEnvironmentBuilder extends AbstractJavaProducingVisitor implemen
 						}
 					}else if(e instanceof Operation && EmfBehaviorUtil.isLongRunning(((Operation) e)) && isGeneratingElement(e)){
 						getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.classifierPathname((Operation) e) + "\")");
-					}else if(e instanceof Enumeration && isGeneratingElement(e)
-							&& ojUtil.getCodeGenerationStrategy((Classifier) e) == CodeGenerationStrategy.ALL
+					}else if(e instanceof Enumeration && isGeneratingElement(e) && ojUtil.getCodeGenerationStrategy((Classifier) e) == CodeGenerationStrategy.ALL
 							&& !(EmfElementFinder.getRootObject(e) instanceof Profile)){
-						getManagedClassNames.getBody().addToStatements(
-								"result.add(\"" + new OJPathName(ojUtil.classifierPathname((Enumeration) e) + "Entity") + "\")");
+						getManagedClassNames.getBody().addToStatements("result.add(\"" + new OJPathName(ojUtil.classifierPathname((Enumeration) e) + "Entity") + "\")");
 					}else if(e instanceof Action && EmfActionUtil.isEmbeddedTask((ActivityNode) e) && isGeneratingElement(e)){
 						getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.classifierPathname(((Action) e)) + "\")");
 					}else if(e instanceof StructuredActivityNode
-							&& EmfBehaviorUtil.hasExecutionInstance(EmfActivityUtil.getContainingActivity(((StructuredActivityNode) e)))
-							&& isGeneratingElement(e)){
+							&& EmfBehaviorUtil.hasExecutionInstance(EmfActivityUtil.getContainingActivity(((StructuredActivityNode) e))) && isGeneratingElement(e)){
 						getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.classifierPathname((StructuredActivityNode) e) + "\")");
 						getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.tokenPathName((StructuredActivityNode) e) + "\")");
 					}

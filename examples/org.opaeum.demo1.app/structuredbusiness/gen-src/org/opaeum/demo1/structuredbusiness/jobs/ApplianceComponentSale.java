@@ -246,6 +246,9 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToJob((Job)owner);
 	}
 	
@@ -337,9 +340,9 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 		if ( this.getJob()!=null ) {
 			this.getJob().z_internalRemoveFromApplianceComponentSale(this);
 		}
+		this.z_internalAddToJob(job);
 		if ( job!=null ) {
 			job.z_internalAddToApplianceComponentSale(this);
-			this.z_internalAddToJob(job);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -390,22 +393,37 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 	}
 	
 	public void z_internalAddToApplianceComponent(ApplianceComponent applianceComponent) {
+		if ( applianceComponent.equals(getApplianceComponent()) ) {
+			return;
+		}
 		this.applianceComponent=applianceComponent;
 	}
 	
 	public void z_internalAddToCostPriceOfComponent(Double costPriceOfComponent) {
+		if ( costPriceOfComponent.equals(getCostPriceOfComponent()) ) {
+			return;
+		}
 		this.costPriceOfComponent=costPriceOfComponent;
 	}
 	
 	public void z_internalAddToCostToCustomer(Double costToCustomer) {
+		if ( costToCustomer.equals(getCostToCustomer()) ) {
+			return;
+		}
 		this.costToCustomer=costToCustomer;
 	}
 	
 	public void z_internalAddToDateOfSale(Date dateOfSale) {
+		if ( dateOfSale.equals(getDateOfSale()) ) {
+			return;
+		}
 		this.dateOfSale=dateOfSale;
 	}
 	
 	public void z_internalAddToJob(Job job) {
+		if ( job.equals(getJob()) ) {
+			return;
+		}
 		this.job=job;
 	}
 	

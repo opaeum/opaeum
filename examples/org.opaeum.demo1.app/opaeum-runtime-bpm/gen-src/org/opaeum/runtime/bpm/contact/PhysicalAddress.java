@@ -183,9 +183,11 @@ public class PhysicalAddress extends Address implements IPersistentObject, IEven
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		super.init(owner);
 		this.z_internalAddToPerson((PersonNode)owner);
-		createComponents();
 	}
 	
 	public PhysicalAddress makeCopy() {
@@ -301,6 +303,9 @@ public class PhysicalAddress extends Address implements IPersistentObject, IEven
 	}
 	
 	public void z_internalAddToPerson(PersonNode person) {
+		if ( person.equals(getPerson()) ) {
+			return;
+		}
 		this.person=person;
 	}
 	

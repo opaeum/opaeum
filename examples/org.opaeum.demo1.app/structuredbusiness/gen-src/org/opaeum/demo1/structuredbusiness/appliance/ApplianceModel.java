@@ -327,6 +327,9 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToApplianceDoctor((ApplianceDoctor)owner);
 	}
 	
@@ -414,9 +417,9 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 		if ( this.getApplianceDoctor()!=null ) {
 			this.getApplianceDoctor().z_internalRemoveFromApplianceModel(this);
 		}
+		this.z_internalAddToApplianceDoctor(applianceDoctor);
 		if ( applianceDoctor!=null ) {
 			applianceDoctor.z_internalAddToApplianceModel(this);
-			this.z_internalAddToApplianceDoctor(applianceDoctor);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -518,30 +521,51 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void z_internalAddToApplianceDoctor(ApplianceDoctor applianceDoctor) {
+		if ( applianceDoctor.equals(getApplianceDoctor()) ) {
+			return;
+		}
 		this.applianceDoctor=applianceDoctor;
 	}
 	
 	public void z_internalAddToApplianceType(ApplianceType applianceType) {
+		if ( applianceType.equals(getApplianceType()) ) {
+			return;
+		}
 		this.applianceType=applianceType;
 	}
 	
 	public void z_internalAddToComponent(ApplianceComponent component) {
+		if ( getComponent().contains(component) ) {
+			return;
+		}
 		this.component.add(component);
 	}
 	
 	public void z_internalAddToNamaell(Date namaell) {
+		if ( namaell.equals(getNamaell()) ) {
+			return;
+		}
 		this.namaell=namaell;
 	}
 	
 	public void z_internalAddToName(String name) {
+		if ( name.equals(getName()) ) {
+			return;
+		}
 		this.name=name;
 	}
 	
 	public void z_internalAddToPartNumberl(TimeOfDay partNumberl) {
+		if ( partNumberl.equals(getPartNumberl()) ) {
+			return;
+		}
 		this.partNumberl=partNumberl;
 	}
 	
 	public void z_internalAddToVendor(Vendor vendor) {
+		if ( vendor.equals(getVendor()) ) {
+			return;
+		}
 		this.vendor=vendor;
 	}
 	

@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import org.opaeum.annotation.NumlMetaInfo;
 
 @NumlMetaInfo(uuid="252060@_ciiWAI2-EeCrtavWRHwoHg")
-@Table(name="process_request_token")
+@Table(name="process_request_token",schema="bpm")
 @Inheritance(strategy=javax.persistence.InheritanceType.SINGLE_TABLE)
 @Entity(name="ProcessRequestToken")
 @DiscriminatorValue(	"252060@_ciiWAI2-EeCrtavWRHwoHg")

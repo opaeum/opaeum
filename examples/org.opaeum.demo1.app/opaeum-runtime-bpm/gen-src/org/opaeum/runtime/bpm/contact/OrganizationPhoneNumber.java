@@ -32,7 +32,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
-import org.hibernate.validator.Length;
+import org.hibernate.validator.constraints.Length;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.hibernate.domain.InternalHibernatePersistence;
@@ -237,8 +237,10 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToOrganization((OrganizationNode)owner);
-		createComponents();
 	}
 	
 	public OrganizationPhoneNumber makeCopy() {
@@ -309,9 +311,9 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 		if ( this.getOrganization()!=null ) {
 			this.getOrganization().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}
+		this.z_internalAddToOrganization(organization);
 		if ( organization!=null ) {
 			organization.z_internalAddToPhoneNumber(this.getType(),this);
-			this.z_internalAddToOrganization(organization);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -363,14 +365,23 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 	}
 	
 	public void z_internalAddToHponeNumber(String hponeNumber) {
+		if ( hponeNumber.equals(getHponeNumber()) ) {
+			return;
+		}
 		this.hponeNumber=hponeNumber;
 	}
 	
 	public void z_internalAddToOrganization(OrganizationNode organization) {
+		if ( organization.equals(getOrganization()) ) {
+			return;
+		}
 		this.organization=organization;
 	}
 	
 	public void z_internalAddToType(OrganizationPhoneNumberType type) {
+		if ( type.equals(getType()) ) {
+			return;
+		}
 		this.type=type;
 	}
 	

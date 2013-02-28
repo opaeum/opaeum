@@ -1,12 +1,14 @@
 package org.opaeum.runtime.jface.entityeditor;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.jface.ui.IEditorInput;
+import org.opaeum.runtime.jface.ui.OpaeumValidationRealm;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.rwt.OpaeumRapSession;
 
@@ -22,7 +24,7 @@ public class EntityEditorInputJface implements IValueChangeListener, IEditorInpu
 
 	public EntityEditorInputJface(final IPersistentObject entity,
 			final String name, final ImageDescriptor imageDescriptor, OpaeumRapSession opaeumSession) {
-		this.dataBindingContext=new DataBindingContext();
+		this.dataBindingContext=new DataBindingContext(new OpaeumValidationRealm());
 		persistence=opaeumSession.getApplication().getEnvironment().createConversationalPersistence();
 		this.entity = persistence.find(IntrospectionUtil.getOriginalClass(entity), entity.getId());
 		this.name = name;

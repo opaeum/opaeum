@@ -2,24 +2,23 @@ package org.opaeum.runtime.jface.navigator;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaTypedElement;
+import org.opaeum.uim.perspective.PropertyNavigationConstraint;
 
 public class PropertyTreeItem implements IAdaptable{
 	JavaTypedElement descriptor;
 	private IPersistentObject owner;
 	private PersistentObjectTreeItem parent;
-	private Map<IPersistentObject,PersistentObjectTreeItem> objectItemMap;
-	public PropertyTreeItem(PersistentObjectTreeItem persistentObjectTreeItem,JavaTypedElement descriptor,
-			Map<IPersistentObject,PersistentObjectTreeItem> objectItemMap){
+	private PropertyNavigationConstraint propertyConfiguration;
+	public PropertyTreeItem(PersistentObjectTreeItem persistentObjectTreeItem,JavaTypedElement descriptor,PropertyNavigationConstraint pc){
 		super();
 		this.descriptor = descriptor;
 		owner = persistentObjectTreeItem.getEntity();
 		this.parent = persistentObjectTreeItem;
-		this.objectItemMap = objectItemMap;
+		this.propertyConfiguration=pc;
 	}
 	public IPersistentObject getOwner(){
 		return owner;
@@ -31,7 +30,7 @@ public class PropertyTreeItem implements IAdaptable{
 		Collection<?> children = (Collection<?>) descriptor.invokeGetter(owner);
 		Collection<Object> result = new ArrayList<Object>();
 		for(Object object:children){
-			result.add(new PersistentObjectTreeItem(this, (IPersistentObject) object, this.objectItemMap,parent.getEnv()));
+			result.add(new PersistentObjectTreeItem(this, (IPersistentObject) object));
 		}
 		return result.toArray();
 	}
@@ -40,10 +39,12 @@ public class PropertyTreeItem implements IAdaptable{
 	}
 	@Override
 	public Object getAdapter(Class adapter){
-		if(adapter==IPersistentObject.class){
+		if(adapter == IPersistentObject.class){
 			return owner;
 		}
 		return null;
 	}
-
+	public PropertyNavigationConstraint getPropertyConfiguration(){
+		return propertyConfiguration;
+	}
 }

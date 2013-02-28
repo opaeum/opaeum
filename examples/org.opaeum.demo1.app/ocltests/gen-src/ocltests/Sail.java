@@ -233,6 +233,9 @@ public class Sail implements IPersistentObject, IEventGenerator, HibernateEntity
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToBoat((Boat)owner);
 	}
 	
@@ -283,9 +286,9 @@ public class Sail implements IPersistentObject, IEventGenerator, HibernateEntity
 		if ( this.getBoat()!=null ) {
 			this.getBoat().z_internalRemoveFromSail(this.getSailPosition(),this);
 		}
+		this.z_internalAddToBoat(boat);
 		if ( boat!=null ) {
 			boat.z_internalAddToSail(this.getSailPosition(),this);
-			this.z_internalAddToBoat(boat);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -358,14 +361,23 @@ public class Sail implements IPersistentObject, IEventGenerator, HibernateEntity
 	}
 	
 	public void z_internalAddToBoat(Boat boat) {
+		if ( boat.equals(getBoat()) ) {
+			return;
+		}
 		this.boat=boat;
 	}
 	
 	public void z_internalAddToSailPosition(SailPosition sailPosition) {
+		if ( sailPosition.equals(getSailPosition()) ) {
+			return;
+		}
 		this.sailPosition=sailPosition;
 	}
 	
 	public void z_internalAddToSize(Integer size) {
+		if ( size.equals(getSize()) ) {
+			return;
+		}
 		this.size=size;
 	}
 	

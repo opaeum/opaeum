@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
-import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
 import org.opaeum.uim.Labels;
+import org.opaeum.uim.UimInstantiator;
 import org.opaeum.uim.action.AbstractActionButton;
 import org.opaeum.uim.binding.TableBinding;
 import org.opaeum.uim.constraint.UserInteractionConstraint;

@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 import org.opaeum.hibernate.domain.AbstractPersistentOpaeumIdEnum;
 
-@Table(name="vendor")
+@Table(name="vendor",schema="structuredbusiness")
 @Entity(name="VendorEntity")
 public class VendorEntity extends AbstractPersistentOpaeumIdEnum {
 

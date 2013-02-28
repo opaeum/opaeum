@@ -176,9 +176,11 @@ public class ParticipationInTask extends Participation implements IPersistentObj
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		super.init(owner);
 		this.z_internalAddToTaskRequest((TaskRequest)owner);
-		createComponents();
 	}
 	
 	public ParticipationInTask makeCopy() {
@@ -261,9 +263,9 @@ public class ParticipationInTask extends Participation implements IPersistentObj
 		if ( this.getTaskRequest()!=null ) {
 			this.getTaskRequest().z_internalRemoveFromParticipationInTask(this);
 		}
+		this.z_internalAddToTaskRequest(taskRequest);
 		if ( taskRequest!=null ) {
 			taskRequest.z_internalAddToParticipationInTask(this);
-			this.z_internalAddToTaskRequest(taskRequest);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -296,10 +298,16 @@ public class ParticipationInTask extends Participation implements IPersistentObj
 	}
 	
 	public void z_internalAddToKind(TaskParticipationKind kind) {
+		if ( kind.equals(getKind()) ) {
+			return;
+		}
 		this.kind=kind;
 	}
 	
 	public void z_internalAddToTaskRequest(TaskRequest taskRequest) {
+		if ( taskRequest.equals(getTaskRequest()) ) {
+			return;
+		}
 		this.taskRequest=taskRequest;
 	}
 	

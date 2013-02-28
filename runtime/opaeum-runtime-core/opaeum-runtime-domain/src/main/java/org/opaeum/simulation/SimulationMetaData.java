@@ -2,8 +2,10 @@ package org.opaeum.simulation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.math3.distribution.IntegerDistribution;
 import org.apache.commons.math3.distribution.RealDistribution;
@@ -32,7 +34,7 @@ public class SimulationMetaData{
 		@Override
 		public Object getNextValue(){
 			if(id == null){
-				return (int)Math.round(rd.sample());
+				return (int) Math.round(rd.sample());
 			}else{
 				return id.sample();
 			}
@@ -51,16 +53,20 @@ public class SimulationMetaData{
 		return structSimulationProviders.get(simulationName + propertyName);
 	}
 	@SuppressWarnings("unchecked")
-	public void registerEntityInstanceSimulation(String simulationName,String propertyName,EntityInstanceSimulation id,double ratio){
-		id.setValues((List<CompositionNode>) getAllInstances(id.getClass().getName()));// Ensure all instances of a given simulation share the same
-																																					// collection
+	public <T extends CompositionNode>void registerEntityInstanceSimulation(String simulationName,String propertyName,
+			EntityInstanceSimulation<T> id,double ratio){
+		id.setValues((List<T>) getAllInstances(id.getClass().getName()));// Ensure all instances of a given simulation share the same
+																																			// collection NOTE 26 Feb 2013 Superfluous - we only have one
+																																			// instancef of the simulation
 		EntityValueProvider daes = entitySimulationProviders.get(simulationName + propertyName);
 		id.ratio = ratio;
 		if(daes == null){
 			daes = new EntityValueProvider();
 			entitySimulationProviders.put(simulationName + propertyName, daes);
 		}
-		daes.buckets.add(id);
+		if(!daes.buckets.contains(id)){
+			daes.buckets.add(id);
+		}
 	}
 	public void registerStructInstanceSimulation(String simulationName,String propertyName,StructInstanceSimulation id,double ratio){
 		StructValueProvider dass = structSimulationProviders.get(simulationName + propertyName);
@@ -69,7 +75,9 @@ public class SimulationMetaData{
 			dass = new StructValueProvider();
 			structSimulationProviders.put(simulationName + propertyName, dass);
 		}
-		dass.buckets.add(id);
+		if(!dass.buckets.contains(id)){
+			dass.buckets.add(id);
+		}
 	}
 	public void registerPropertySizeGenerator(String simulationName,String propertyName,IntegerDistribution id){
 		propertySizeProviders.put(simulationName + propertyName, new IntegerProvider(id));
@@ -85,12 +93,23 @@ public class SimulationMetaData{
 		}
 		value.buckets.add(range);
 	}
+	@SuppressWarnings("rawtypes")
 	public void populateReferences() throws Exception{
+		// Only do each bucket once
+		Set<EntityInstanceSimulation> buckets= new HashSet<EntityInstanceSimulation>();
 		for(EntityValueProvider evp:this.entitySimulationProviders.values()){
-			evp.populateReferences();
+			buckets.addAll(evp.buckets);
 		}
-		for(StructValueProvider svp:this.structSimulationProviders.values()){
-			svp.populateReferences();
+		for(EntityInstanceSimulation<?> bucket:buckets){
+			bucket.populateReferences();
+
+		}
+		Set<StructInstanceSimulation> structBuckets= new HashSet<StructInstanceSimulation>();
+		for(StructValueProvider svp:new HashSet<StructValueProvider>(this.structSimulationProviders.values())){
+			structBuckets.addAll(svp.buckets);
+		}
+		for(StructInstanceSimulation sis:structBuckets){
+			sis.populateReferences();
 		}
 	}
 	public void registerIntegerValueDistribution(String simulationName,String propertyName,final IntegerDistribution id){

@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.opaeum.annotation.PropertyConstraint;
 import org.opaeum.runtime.environment.JavaTypedElement;
+import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 import org.opaeum.runtime.rwt.Activator;
 import org.opaeum.runtime.strategy.AfterConvertValidator;
 import org.opaeum.runtime.strategy.ValidationResult;
@@ -36,7 +37,10 @@ public class GenericValidator implements IValidator{
 		this.parentClass = parentClass;
 		this.typedElement = typedElement;
 		this.validator = validator;
-		this.afterConvertValidator = typedElement.getStrategyFactory().getStrategy(AfterConvertValidator.class);
+		SimpleTypeRuntimeStrategyFactory strategyFactory = typedElement.getStrategyFactory();
+		if(strategyFactory!=null){
+			this.afterConvertValidator = strategyFactory.getStrategy(AfterConvertValidator.class);
+		}
 	}
 	public IStatus validate(Object value){
 		List<IStatus> statusList = new ArrayList<IStatus>();

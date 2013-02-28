@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
+import org.opaeum.uim.UimInstantiator;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -125,7 +125,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation{
 						if(typeString == null || typeString.trim().length() == 0){
 							typeString = "EAnnotation";
 						}
-						curVal = org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator.INSTANCE.newInstance(typeString);
+						curVal = org.opaeum.uim.UimInstantiator.INSTANCE.newInstance(typeString);
 						this.getEAnnotations().add(curVal);
 						map.put(curVal.getUid(), curVal);
 						curVal.eContainer(this);

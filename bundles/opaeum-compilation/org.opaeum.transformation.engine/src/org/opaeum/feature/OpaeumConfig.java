@@ -60,6 +60,7 @@ public class OpaeumConfig{
 	private static final String JDBC_DRIVER = "opaeum.jdbc.driver";
 	private static final String DB_NAME = "opaeum.database.name";
 	private static final String IS_SIMULATION_CONTEXT = "opaeum.is.simulation.context";
+	private static final String DEV_USERNAME = "opaeum.developer.username";
 	private static Map<String,Class<?>> classRegistry = new HashMap<String,Class<?>>();
 	private Properties props = new SortedProperties();
 	private File outputRoot;
@@ -522,6 +523,12 @@ public class OpaeumConfig{
 	}
 	public String getJdbcDriver(){
 		return this.props.getProperty(JDBC_DRIVER, "org.postgresql.Driver");
+	}
+	public void setDevUsername(String driver){
+		this.props.setProperty(DEV_USERNAME, driver);
+	}
+	public String getDevUsername(){
+		return this.props.getProperty(DEV_USERNAME, "ampieb@gmail.com");
 	}
 	public void setDbName(String driver){
 		this.props.setProperty(DB_NAME, driver);

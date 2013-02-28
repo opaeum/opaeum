@@ -32,7 +32,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
-import org.hibernate.validator.Length;
+import org.hibernate.validator.constraints.Length;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.hibernate.domain.InternalHibernatePersistence;
@@ -239,8 +239,10 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToPerson((PersonNode)owner);
-		createComponents();
 	}
 	
 	public PersonPhoneNumber makeCopy() {
@@ -310,9 +312,9 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 		if ( this.getPerson()!=null ) {
 			this.getPerson().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}
+		this.z_internalAddToPerson(person);
 		if ( person!=null ) {
 			person.z_internalAddToPhoneNumber(this.getType(),this);
-			this.z_internalAddToPerson(person);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -365,14 +367,23 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 	}
 	
 	public void z_internalAddToPerson(PersonNode person) {
+		if ( person.equals(getPerson()) ) {
+			return;
+		}
 		this.person=person;
 	}
 	
 	public void z_internalAddToPhoneNumber(String phoneNumber) {
+		if ( phoneNumber.equals(getPhoneNumber()) ) {
+			return;
+		}
 		this.phoneNumber=phoneNumber;
 	}
 	
 	public void z_internalAddToType(PersonPhoneNumberType type) {
+		if ( type.equals(getType()) ) {
+			return;
+		}
 		this.type=type;
 	}
 	

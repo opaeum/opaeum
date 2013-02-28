@@ -371,7 +371,7 @@ public class EmfPropertyUtil{
 		}
 		for(Association a:c.getAssociations()){
 			for(Property end:a.getMemberEnds()){
-				if(end.getOtherEnd()!=null && end.getOtherEnd().getType()!=null && end.getOtherEnd().getType().equals(c) && end.isNavigable() && end.getOwner() == a){
+				if(end.getOtherEnd()!=null && end.getOtherEnd().getType()!=null && EmfClassifierUtil.conformsTo(c, (Classifier)end.getOtherEnd().getType()) && end.isNavigable() && end.getOwner() == a){
 					maybeAddProperty(c, nameMap, result, end);
 				}
 			}
@@ -380,14 +380,16 @@ public class EmfPropertyUtil{
 	private static void maybeAddProperty(Classifier c,Map<String,Property> nameMap,List<Property> result,Property attribute){
 		Property superAttribute = nameMap.get(attribute.getName());
 		if(superAttribute != null){
-			if(c instanceof Interface){
+			if(c instanceof Interface && !(EmfPropertyUtil.getOwningClassifier(superAttribute) instanceof Interface)){
 				// DoNothing implemented property takes preference
 			}else{
 				result.remove(superAttribute);
 				result.add(attribute);
+				nameMap.put(attribute.getName(), attribute);
 			}
 		}else{
 			result.add(attribute);
+			nameMap.put(attribute.getName(), attribute);
 		}
 	}
 	/**

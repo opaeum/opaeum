@@ -239,6 +239,9 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 	}
 	
 	@NumlMetaInfo(uuid="252060@_nx6xcF9lEeG3X_yvufTVmw")
@@ -353,18 +356,30 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void z_internalAddToDateOfBirth(Date dateOfBirth) {
+		if ( dateOfBirth.equals(getDateOfBirth()) ) {
+			return;
+		}
 		this.dateOfBirth=dateOfBirth;
 	}
 	
 	public void z_internalAddToDocumentType(DocumentType documentType) {
+		if ( documentType.equals(getDocumentType()) ) {
+			return;
+		}
 		this.documentType=documentType;
 	}
 	
 	public void z_internalAddToFullNames(String fullNames) {
+		if ( fullNames.equals(getFullNames()) ) {
+			return;
+		}
 		this.fullNames=fullNames;
 	}
 	
 	public void z_internalAddToIdNumber(String idNumber) {
+		if ( idNumber.equals(getIdNumber()) ) {
+			return;
+		}
 		this.idNumber=idNumber;
 	}
 	

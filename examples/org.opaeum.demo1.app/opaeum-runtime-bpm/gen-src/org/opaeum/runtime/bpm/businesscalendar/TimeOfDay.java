@@ -296,14 +296,23 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 	}
 	
 	public void z_internalAddToHours(Integer hours) {
+		if ( hours.equals(getHours()) ) {
+			return;
+		}
 		this.hours=hours;
 	}
 	
 	public void z_internalAddToMinutes(Integer minutes) {
+		if ( minutes.equals(getMinutes()) ) {
+			return;
+		}
 		this.minutes=minutes;
 	}
 	
 	public void z_internalAddToWorkDay(WorkDay workDay) {
+		if ( workDay.equals(getWorkDay()) ) {
+			return;
+		}
 		this.workDay=workDay;
 	}
 	

@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 import org.opaeum.hibernate.domain.AbstractPersistentOpaeumIdEnum;
 
-@Table(name="document_type")
+@Table(name="document_type",schema="bpm")
 @Entity(name="DocumentTypeEntity")
 public class DocumentTypeEntity extends AbstractPersistentOpaeumIdEnum {
 

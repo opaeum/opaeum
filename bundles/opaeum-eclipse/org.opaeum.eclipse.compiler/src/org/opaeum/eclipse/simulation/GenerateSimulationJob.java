@@ -36,7 +36,7 @@ import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodels.simulation.simulation.SimulationModel;
 import org.opaeum.simulation.actions.AbstractSimulationCodeGenerator;
 import org.opaeum.simulation.actions.Activator;
-import org.opaeum.simulation.actions.SimulationGenerator;
+import org.opaeum.simulation.actions.SimulationCodeGenerator;
 import org.opaeum.simulation.actions.SimulationRunnerGenerator;
 import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.TextProject;
@@ -84,7 +84,7 @@ public final class GenerateSimulationJob extends Job{
 			OJWorkspace ojWorkspace = new OJWorkspace();
 			p1.replaceModel(ojWorkspace);
 			monitor.subTask("Generating Simulation Model");
-			AbstractSimulationCodeGenerator gen = new SimulationGenerator();
+			AbstractSimulationCodeGenerator gen = new SimulationCodeGenerator();
 			gen.initialize(ojWorkspace, cfg, tws1, ws, model, ojUtil);
 			gen.startVisiting(ws);
 			gen = new SimulationRunnerGenerator();

@@ -54,6 +54,7 @@ import org.opaeum.uim.action.InvocationButton;
 import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.component.UimDataTable;
 import org.opaeum.uim.component.UimField;
+import org.opaeum.uim.control.ControlKind;
 import org.opaeum.uim.panel.Outlayable;
 import org.opaeum.uim.swt.UimSwtUtil;
 
@@ -290,7 +291,7 @@ public final class DataTableBuilder{
 		boolean editable = securityUtil.calculateEditability(uimField);
 		final BindingUtil bindingUtil = this.bindingUtil;
 		final EntityEditorInputJface input = this.input;
-		switch(uimField.getControlKind()){
+		switch(uimField.getControlKind()==null?ControlKind.TEXT:uimField.getControlKind()){
 		case TEXT:
 			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(uimField, "", "", bindingUtil));
 			if(editable){

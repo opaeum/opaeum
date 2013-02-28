@@ -49,18 +49,21 @@ import org.opaeum.runtime.jface.binding.SingleObjectSelectionProperty;
 import org.opaeum.runtime.jface.editingsupport.GenericConverter;
 import org.opaeum.runtime.jface.entityeditor.EntityEditorInputJface;
 import org.opaeum.runtime.jface.entityeditor.SecurityUtil;
+import org.opaeum.runtime.jface.ui.OpaeumValidationRealm;
 import org.opaeum.runtime.jface.widgets.CSingleObjectChooser;
 import org.opaeum.runtime.jface.wizards.OperationInvocationWizard;
 import org.opaeum.runtime.rwt.IOpaeumApplication;
 import org.opaeum.runtime.rwt.OpaeumRapSession;
 import org.opaeum.runtime.strategy.FromStringConverter;
 import org.opaeum.runtime.strategy.ToStringConverter;
+import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.BuiltInActionButton;
 import org.opaeum.uim.action.BuiltInLink;
 import org.opaeum.uim.action.InvocationButton;
 import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.component.UimDataTable;
 import org.opaeum.uim.component.UimField;
+import org.opaeum.uim.control.ControlKind;
 import org.opaeum.uim.control.UimLookup;
 import org.opaeum.uim.panel.GridPanel;
 import org.opaeum.uim.panel.Outlayable;
@@ -83,6 +86,7 @@ public class ComponentTreeBuilder{
 	// Constructor for operation invocation wizards where there is no editor input
 	public ComponentTreeBuilder(IPersistentObject selectedObject,Object handler,OpaeumRapSession session){
 		init(selectedObject, handler, session);
+		new OpaeumValidationRealm();
 		this.dataTableBuilder = new DataTableBuilder(selectedObject, handler, session);
 	}
 	private void init(IPersistentObject selectedObject,Object objectBeingUpdated,OpaeumRapSession session){
@@ -122,7 +126,8 @@ public class ComponentTreeBuilder{
 			Button button = new Button(body, SWT.PUSH);
 			button.setText(btn.getName());
 			setLayoutData(button, btn);
-			switch(btn.getKind()){
+			ActionKind kind = btn.getKind()==null?ActionKind.UPDATE:btn.getKind();
+			switch(kind){
 			case UPDATE:
 				button.addSelectionListener(new SelectionListener(){
 					public void widgetSelected(SelectionEvent e){
@@ -192,7 +197,12 @@ public class ComponentTreeBuilder{
 	private void addUimFieldComposite(Composite body,UimComponent comp,DataBindingContext bc){
 		UimFieldComposite uimFieldComposite = new UimFieldComposite(body, SWT.NONE);
 		UimField uimField = (UimField) comp;
-		UimSwtUtil.populateControl(uimFieldComposite, uimField.getControlKind(), uimField.getOrientation());
+		if(uimField.getControlKind()==null){
+			System.out.println(comp.getName());
+			System.out.println();
+		}
+		ControlKind controlKind = uimField.getControlKind()==null?ControlKind.TEXT:uimField.getControlKind();
+		UimSwtUtil.populateControl(uimFieldComposite, controlKind, uimField.getOrientation());
 		setLayoutData(uimFieldComposite, uimField);
 		uimFieldComposite.setMinimumLabelWidth(uimField.getMinimumLabelWidth());
 		uimFieldComposite.getLabel().setText(uimField.getName());
@@ -201,11 +211,11 @@ public class ComponentTreeBuilder{
 		final JavaTypedElement typedElement = bindingUtil.getTypedElement(uimField.getBinding().getLastPropertyUuid());
 		UpdateValueStrategy targetToModel = new UpdateValueStrategy();
 		UpdateValueStrategy modelToTarget = new UpdateValueStrategy();
-		IObservableValue observeValue = BeansObservables.observeValue(objectBeingUpdated, bindingUtil.getExpression(uimField.getBinding()));
+		IObservableValue observeValue = BeansObservables.observeValue( objectBeingUpdated, bindingUtil.getExpression(uimField.getBinding()));
 		targetToModel.setAfterConvertValidator(new GenericValidator(IntrospectionUtil.getOriginalClass(objectBeingUpdated), typedElement,
 				this.validator));
 		IObservableValue observeControl = null;
-		switch(uimField.getControlKind()){
+		switch(controlKind){
 		case TEXT:
 		case TEXT_AREA:
 			observeControl = populateTextStrategies(uimFieldComposite, typedElement, targetToModel, modelToTarget);

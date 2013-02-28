@@ -17,8 +17,6 @@ import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.uml.diagram.common.editpolicies.DuplicatePasteEditPolicy;
-import org.eclipse.swt.widgets.Composite;
-import org.opaeum.uimodeler.common.UimFigureUtil;
 import org.opaeum.uimodeler.page.diagram.edit.policies.GridPanelGridPanelChildrenCompartmentItemSemanticEditPolicy;
 import org.opaeum.uimodeler.page.diagram.part.Messages;
 

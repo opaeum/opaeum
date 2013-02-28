@@ -31,7 +31,7 @@ public class GenerateSimulationModelAction extends AbstractOpaeumAction{
 					monitor.beginTask("Loading All Models", 1000);
 					EmfWorkspace ew = prepareDirectoryForTransformation(folder, monitor);
 					monitor.subTask("Generating simulation model");
-					new SimulationModelGenerator(ew).run();
+					new SimulationModelGenerator(ew,OpaeumEclipseContext.findOrCreateContextFor(folder).getConfig()).run();
 					return new Status(IStatus.OK, OpaeumEclipsePlugin.PLUGIN_ID, "Simulation model generated successfully");
 				}catch(Exception e){
 					return OpaeumEclipsePlugin.logError("Simulation model could not be generated", e);

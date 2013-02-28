@@ -484,8 +484,10 @@ abstract public class AbstractRequestGenerated implements IStateMachineExecution
 	}
 	
 	public void init(CompositionNode owner) {
+		if ( getOwningObject()!=null && !getOwningObject().equals(owner) ) {
+			System.out.println("Reparenting "+getClass().getSimpleName() +getId());
+		}
 		this.z_internalAddToRequestObject((IRequestObject)owner);
-		createComponents();
 	}
 	
 	public boolean isStepActive(Class<? extends IExecutionElement> clss) {
@@ -629,9 +631,9 @@ abstract public class AbstractRequestGenerated implements IStateMachineExecution
 		if ( this.getParentTask()!=null ) {
 			this.getParentTask().z_internalRemoveFromSubRequests((AbstractRequest)this);
 		}
+		this.z_internalAddToParentTask(parentTask);
 		if ( parentTask!=null ) {
 			parentTask.z_internalAddToSubRequests((AbstractRequest)this);
-			this.z_internalAddToParentTask(parentTask);
 		}
 	}
 	
@@ -720,14 +722,23 @@ abstract public class AbstractRequestGenerated implements IStateMachineExecution
 	}
 	
 	public void z_internalAddToParentTask(TaskRequest parentTask) {
+		if ( parentTask.equals(getParentTask()) ) {
+			return;
+		}
 		this.parentTask=parentTask;
 	}
 	
 	public void z_internalAddToParticipationInRequest(ParticipationInRequest participationInRequest) {
+		if ( getParticipationInRequest().contains(participationInRequest) ) {
+			return;
+		}
 		this.participationInRequest.add(participationInRequest);
 	}
 	
 	public void z_internalAddToRequestObject(IRequestObject requestObject) {
+		if ( requestObject.equals(getRequestObject()) ) {
+			return;
+		}
 		if ( this.requestObject==null ) {
 			this.requestObject=new UiidBasedInterfaceValue();
 		}

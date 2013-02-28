@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 import org.opaeum.hibernate.domain.AbstractPersistentOpaeumIdEnum;
 
-@Table(name="organization_e_mail_address_type")
+@Table(name="organization_e_mail_address_type",schema="bpm")
 @Entity(name="OrganizationEMailAddressTypeEntity")
 public class OrganizationEMailAddressTypeEntity extends AbstractPersistentOpaeumIdEnum {
 

@@ -71,15 +71,14 @@ public class JavaTypedElement{
 			this.lookupMethod = annotation.lookupMethod();
 			try{
 				this.strategyFactory = annotation.strategyFactory().newInstance();
-			}catch(InstantiationException e){
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}catch(IllegalAccessException e){
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			}catch(Exception e){
+				this.strategyFactory =new SimpleTypeRuntimeStrategyFactory();
 			}
 			setConstraints(annotation.constraints());
 			this.shortDescription = annotation.shortDescription();
+		}else{
+			this.strategyFactory =new SimpleTypeRuntimeStrategyFactory();
+			
 		}
 		this.type = readMethod.getReturnType();
 		Type genericReturnType = readMethod.getGenericReturnType();

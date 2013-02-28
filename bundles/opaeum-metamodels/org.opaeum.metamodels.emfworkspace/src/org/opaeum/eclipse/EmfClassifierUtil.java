@@ -195,9 +195,6 @@ public class EmfClassifierUtil{
 		return false;
 	}
 	public static boolean isSimpleType(Type type){
-		if(type == null){
-			System.out.println();
-		}
 		return type instanceof PrimitiveType
 				|| (type.eClass().equals(UMLPackage.eINSTANCE.getDataType()) && StereotypesHelper.hasStereotype(type, StereotypeNames.VALUE_TYPE));
 	}

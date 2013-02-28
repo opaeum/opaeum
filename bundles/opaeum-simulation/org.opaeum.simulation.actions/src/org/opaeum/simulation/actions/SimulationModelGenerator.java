@@ -20,10 +20,10 @@ import org.eclipse.papyrus.infra.core.sashwindows.di.DiFactory;
 import org.eclipse.papyrus.infra.core.sashwindows.di.SashWindowsMngr;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.AssociationClass;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
@@ -42,7 +42,6 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.ValueSpecification;
-import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
@@ -72,8 +71,11 @@ public class SimulationModelGenerator{
 	private Map<Classifier,InstanceSimulation> allInstances = new HashMap<Classifier,InstanceSimulation>();
 	private SimulationModel simModel;
 	private Set<Classifier> libClasses;
-	public SimulationModelGenerator(EmfWorkspace emfWorkspace){
+	private InstanceSpecification devUser;
+	private OpaeumConfig config;
+	public SimulationModelGenerator(EmfWorkspace emfWorkspace,OpaeumConfig config){
 		super();
+		this.config = config;
 		this.emfWorkspace = emfWorkspace;
 		EmfClassifierUtil.setClassRegistry(OpaeumConfig.getClassRegistry());
 		emfWorkspace.calculatePrimaryModels();
@@ -97,30 +99,31 @@ public class SimulationModelGenerator{
 		if(emfWorkspace.getOpaeumLibrary().getBusinessNetwork() != null){
 			simModel.getPackagedElements().add(buildActualInstance(emfWorkspace.getOpaeumLibrary().getBusinessNetwork(), 4));
 		}
+		// TODO rethink all of this - need to go through all roots and create actual instance for them
 		Classifier applicationRoot = emfWorkspace.getApplicationRoot();
-		if(EmfClassifierUtil.isCompositionParticipant(applicationRoot)){
-			List<? extends Property> attrs = EmfPropertyUtil.getEffectiveProperties(applicationRoot);
-			Set<Classifier> rootsImplemented = new HashSet<Classifier>();
-			for(Property p:attrs){
-				if(p.isComposite() && !libClasses.contains(p.getType())){
-					for(Classifier c:getConcreteImplementationsOf(p)){
-						if(!rootsImplemented.contains(c)){// Only a predefined number of each
-							rootsImplemented.add(c);
-							if(c instanceof Actor){
-								simModel.getPackagedElements().add(buildActualInstance(c, 3));
-								simModel.getPackagedElements().add(buildActualInstance(c, 3));
-								simModel.getPackagedElements().add(buildActualInstance(c, 3));
-								simModel.getPackagedElements().add(buildActualInstance(c, 3));
-							}else{
-								simModel.getPackagedElements().add(buildActualInstance(c, 3));
-							}
-						}
-					}
-				}
-			}
-			buildAllInstanceSimulations();
-			setReferenceStrategies();
-		}
+		// if(EmfClassifierUtil.isCompositionParticipant(applicationRoot)){
+		// List<? extends Property> attrs = EmfPropertyUtil.getEffectiveProperties(applicationRoot);
+		// Set<Classifier> rootsImplemented = new HashSet<Classifier>();
+		// for(Property p:attrs){
+		// if(p.isComposite() && !libClasses.contains(p.getType())){
+		// for(Classifier c:getConcreteImplementationsOf(p)){
+		// if(!rootsImplemented.contains(c)){// Only a predefined number of each
+		// rootsImplemented.add(c);
+		// if(c instanceof Actor){
+		// simModel.getPackagedElements().add(buildActualInstance(c, 3));
+		// simModel.getPackagedElements().add(buildActualInstance(c, 3));
+		// simModel.getPackagedElements().add(buildActualInstance(c, 3));
+		// simModel.getPackagedElements().add(buildActualInstance(c, 3));
+		// }else{
+		// simModel.getPackagedElements().add(buildActualInstance(c, 3));
+		// }
+		// }
+		// }
+		// }
+		// }
+		// }
+		buildAllInstanceSimulations();
+		setReferenceStrategies();
 		try{
 			rs.save(null);
 		}catch(IOException e){
@@ -138,6 +141,24 @@ public class SimulationModelGenerator{
 		for(InstanceSimulation ais:allInstances.values()){
 			setReferenceStrategies(ais);
 		}
+		Slot businessRoles = findSlot(devUser, "businessRole");
+		businessRoles.getValues().clear();
+		InstanceSpecification theInstance;
+		for(Classifier classifier:getConcreteImplementationsOf((Property) businessRoles.getDefiningFeature())){
+			theInstance = allInstances.get(classifier);
+			if(theInstance == null){
+				List<ActualInstance> list = actualInstances.get(classifier);
+				if(list != null && list.size() > 0){
+					theInstance = list.get(0);
+				}
+			}
+			if(theInstance != null){
+				InstanceValue iv = UMLFactory.eINSTANCE.createInstanceValue();
+				iv.setName("businessRole" + classifier.getName());
+				iv.setInstance(theInstance);
+				businessRoles.getValues().add(iv);
+			}
+		}
 	}
 	private void buildAllInstanceSimulations(){
 		Set<Model> potentialGeneratingModels = emfWorkspace.getPotentialGeneratingModels();
@@ -145,12 +166,12 @@ public class SimulationModelGenerator{
 			TreeIterator<EObject> eAllContents = model.eAllContents();
 			while(eAllContents.hasNext()){
 				Object e = eAllContents.next();
-				boolean isAssociation = e instanceof Association && !EmfAssociationUtil.isClass(((Association) e));
+				boolean isAssociation = e instanceof Association && !(e instanceof AssociationClass);
 				if(e instanceof Classifier){
 					Classifier c = (Classifier) e;
 					if((EmfClassifierUtil.isCompositionParticipant(c) || EmfClassifierUtil.isStructuredDataType(c))
 							&& !(isAssociation || ((Classifier) e).isAbstract() || e instanceof Behavior || e instanceof Interface)){
-						if(!actualInstances.containsKey(e) && !libClasses.contains(e)){
+						if(!actualInstances.containsKey(c) && !libClasses.contains(e)){
 							buildAllInstanceSimulation((Classifier) e);
 						}
 					}
@@ -163,39 +184,48 @@ public class SimulationModelGenerator{
 		for(Slot slot:slots){
 			if(slot.getValues().isEmpty()){
 				Property p = (Property) slot.getDefiningFeature();
-				if(EmfClassifierUtil.isComplexStructure(p.getType()) || (p.getType() instanceof Interface && !EmfClassifierUtil.isHelper(p.getType()))){
-					SimulatingSlot ss = (SimulatingSlot) slot;
-					if(actualInstances.containsKey(p.getType())){
-						List<ActualInstance> list = actualInstances.get(p.getType());
-						for(ActualInstance ais:list){
-							WeightedInstanceValue ris = SimulationFactory.eINSTANCE.createWeightedInstanceValue();
-							ris.setName(p.getType().getName() + "WeightedInstanceValue");
-							ss.getValues().add(ris);
-							ris.setInstance(ais);
-							ris.setWeight(1d / list.size());
-							ss.setSimulationStrategy(SimulationStrategy.WEIGHTED_DISTRIBUTION);
-						}
-					}else{
+				if(!p.isComposite()){
+					Type type = p.getType();
+					if(shouldSimulate(p) && canSimulate(type)){
+						SimulatingSlot ss = (SimulatingSlot) slot;
 						Collection<Classifier> subclasses = getConcreteImplementationsOf(p);
-						NormalDistribution nd = SimulationFactory.eINSTANCE.createNormalDistribution();
-						ss.setSizeDistribution(nd);
-						nd.setName("NormalDistribution");
-						nd.setMean(4d);
-						nd.setStandardDeviation(1.5d);
-						ss.setSimulationStrategy(SimulationStrategy.INSTANCE_SIMULATION);
+						// First try actualInstances
 						for(Classifier c:subclasses){
-							WeightedInstanceValue iv = SimulationFactory.eINSTANCE.createWeightedInstanceValue();
-							InstanceSpecification instance = allInstances.get(c);
-							if(instance == null){
+							if(actualInstances.containsKey(c)){
 								List<ActualInstance> list = actualInstances.get(c);
-								if(list != null){
-									instance = list.get((int) (Math.floor(Math.random() * list.size())));
+								for(ActualInstance ais:list){
+									WeightedInstanceValue ris = SimulationFactory.eINSTANCE.createWeightedInstanceValue();
+									ris.setName(p.getType().getName() + "WeightedInstanceValue");
+									ss.getValues().add(ris);
+									ris.setInstance(ais);
+									ris.setWeight(1d / list.size());
+									ss.setSimulationStrategy(SimulationStrategy.WEIGHTED_DISTRIBUTION);
 								}
 							}
-							if(instance != null){
-								ss.getValues().add(iv);
-								iv.setInstance(instance);
-								iv.setWeight(1d / subclasses.size());
+						}
+						if(slot.getValues().isEmpty()){
+							// Now use the allInstance simulation
+							NormalDistribution nd = SimulationFactory.eINSTANCE.createNormalDistribution();
+							ss.setSizeDistribution(nd);
+							nd.setName("NormalDistribution");
+							nd.setMean(4d);
+							nd.setStandardDeviation(1.5d);
+							ss.setSimulationStrategy(SimulationStrategy.INSTANCE_SIMULATION);
+							for(Classifier c:subclasses){
+								WeightedInstanceValue iv = SimulationFactory.eINSTANCE.createWeightedInstanceValue();
+								InstanceSpecification instance = allInstances.get(c);
+								if(instance == null){
+									System.out.println(c.getQualifiedName() + " NOT IN CONTAINMENT TREE");
+									List<ActualInstance> list = actualInstances.get(c);
+									if(list != null){
+										instance = list.get((int) (Math.floor(Math.random() * list.size())));
+									}
+								}
+								if(instance != null){
+									ss.getValues().add(iv);
+									iv.setInstance(instance);
+									iv.setWeight(1d / subclasses.size());
+								}
 							}
 						}
 					}
@@ -216,30 +246,75 @@ public class SimulationModelGenerator{
 				addSlotForProperty(count, numberOfLevelsOfActualInstances - 1, ais, p);
 			}
 		}
+		if(devUser == null && nc.equals(this.emfWorkspace.getOpaeumLibrary().getPersonNode())){
+			devUser = ais;
+			Slot theSlot = findSlot(ais, "username");
+			theSlot.getValues().clear();
+			LiteralString ls = UMLFactory.eINSTANCE.createLiteralString();
+			ls.setValue(this.config.getDevUsername());
+			theSlot.getValues().add(ls);
+		}
 		return ais;
 	}
-	private void addSlotForProperty(int count,int numberOfLevelsOfActualInstances,ActualInstance ais,Property feature){
-		if(feature != null && !libClasses.contains(feature.getType())){
+	private Slot findSlot(InstanceSpecification devUser2,String name){
+		Slot theSlot = null;
+		for(Slot slot:devUser2.getSlots()){
+			if(slot.getDefiningFeature() != null && slot.getDefiningFeature().getName().equals(name)){
+				theSlot = slot;
+				break;
+			}
+		}
+		return theSlot;
+	}
+	private void addSlotForProperty(int count,int numberOfLevelsOfActualInstances,ActualInstance ais,Property p){
+		Type type = p.getType();
+		if(p != null && !libClasses.contains(type) && p.isNavigable()){
 			SimulatingSlot slot = SimulationFactory.eINSTANCE.createSimulatingSlot();
 			ais.getSlots().add(slot);
-			slot.setDefiningFeature(feature);
+			slot.setDefiningFeature(p);
 			slot.setSimulationStrategy(SimulationStrategy.GIVEN_VALUE);
-			if(EmfClassifierUtil.isSimpleType(feature.getType()) && EmfClassifierUtil.hasStrategy((DataType) feature.getType(), TestModelValueStrategy.class)){
-				addValueType(count, slot, (DataType) feature.getType());
-			}else if(feature.getType() instanceof PrimitiveType){
-				addPrimitiveValue(count, feature, slot);
-			}else if(feature.getType() instanceof Enumeration){
-				addEnumerationValue(feature, slot);
-			}else if(EmfClassifierUtil.isComplexStructure(feature.getType()) || feature.getType() instanceof Interface){
-				if(feature.isComposite() && numberOfLevelsOfActualInstances > 0){
-					if(feature.getQualifiers().size() == 1 && feature.getQualifiers().get(0).getType() instanceof Enumeration){
-						addQualifiedContainedInstance(numberOfLevelsOfActualInstances, feature, slot, feature.getQualifiers().get(0));
+			if(EmfClassifierUtil.isSimpleType(type) && EmfClassifierUtil.hasStrategy((DataType) type, TestModelValueStrategy.class)){
+				addValueType(count, slot, (DataType) type);
+			}else if(type instanceof PrimitiveType){
+				addPrimitiveValue(count, p, slot);
+			}else if(type instanceof Enumeration){
+				addEnumerationValue(p, slot);
+			}else if(canSimulate(type)){
+				if(p.isComposite() || EmfClassifierUtil.isStructuredDataType(type)){
+					if(numberOfLevelsOfActualInstances > 0){
+						if(p.getQualifiers().size() == 1 && p.getQualifiers().get(0).getType() instanceof Enumeration){
+							addQualifiedContainedInstance(numberOfLevelsOfActualInstances, p, slot, p.getQualifiers().get(0));
+						}else{
+							addContainedAtualInstance(numberOfLevelsOfActualInstances, p, slot);
+						}
 					}else{
-						addContainedAtualInstance(numberOfLevelsOfActualInstances, feature, slot);
+						addWeightedInstanceSimulationValues(p, slot);
 					}
 				}
 			}
 		}
+	}
+	private void addWeightedInstanceSimulationValues(Property p,SimulatingSlot slot){
+		Collection<Classifier> subClasses = getConcreteImplementationsOf(p);
+		for(Classifier c:subClasses){
+			InstanceSpecification allInstance = null;
+			// List<ActualInstance> actualInstances = this.actualInstances.get(c);
+			// if(actualInstances != null && actualInstances.size() > 0){
+			// allInstance = actualInstances.get(0);
+			// // TODO distribute across all ACtualInstances
+			// }
+			// if(allInstance == null){
+			allInstance = buildAllInstanceSimulation(c);
+			// }
+			WeightedInstanceValue iv = SimulationFactory.eINSTANCE.createWeightedInstanceValue();
+			iv.setWeight(1.0 / subClasses.size());
+			iv.setInstance(allInstance);
+			slot.getValues().add(iv);
+			slot.setSimulationStrategy(SimulationStrategy.INSTANCE_SIMULATION);
+		}
+	}
+	private boolean canSimulate(Type type){
+		return EmfClassifierUtil.isPersistentComplexStructure(type) || (type instanceof Interface && !EmfClassifierUtil.isHelper(type));
 	}
 	public void addValueType(int count,SimulatingSlot slot,DataType vt){
 		if(EmfClassifierUtil.hasStrategy(vt, TestModelValueStrategy.class)){
@@ -273,7 +348,6 @@ public class SimulationModelGenerator{
 		}
 	}
 	private void addContainedAtualInstance(int numberOfLevelsOfActualInstances,Property p,SimulatingSlot slot){
-		
 		Collection<Classifier> subClasses = getConcreteImplementationsOf(p);
 		if(subClasses.size() > 0){
 			int i = EmfPropertyUtil.isMany(p) && !p.getType().equals(emfWorkspace.getOpaeumLibrary().getBusinessCollaboration()) ? this.numberOfObjectsPerLevel : 1;
@@ -289,8 +363,6 @@ public class SimulationModelGenerator{
 					i--;
 				}
 			}
-		}else{
-			System.out.println();
 		}
 	}
 	private void addEnumerationValue(Property p,SimulatingSlot slot){
@@ -338,39 +410,49 @@ public class SimulationModelGenerator{
 		return list;
 	}
 	private InstanceSimulation buildAllInstanceSimulation(Classifier element){
-		// TODO specify algorithms for inheritance
-		InstanceSimulation ais = SimulationFactory.eINSTANCE.createInstanceSimulation();
-		simModel.getPackagedElements().add(ais);
-		allInstances.put(element, ais);
-		ais.setName(element.getName() + "InstanceSimulation");
-		ais.getClassifiers().add(element);
-		for(Property feature:EmfPropertyUtil.getEffectiveProperties(element)){
-			if(shouldSimulate(feature)){
-				SimulatingSlot slot = SimulationFactory.eINSTANCE.createSimulatingSlot();
-				ais.getSlots().add(slot);
-				slot.setDefiningFeature(feature);
-				if(EmfClassifierUtil.isSimpleType(feature.getType()) && EmfClassifierUtil.hasStrategy((DataType) feature.getType(), TestModelValueStrategy.class)){
-					DataType st = (DataType) feature.getType();
-					addWeightSimpleType(slot, st);
-				}else if(feature.getType() instanceof PrimitiveType){
-					PrimitiveType pt = (PrimitiveType) feature.getType();
-					if(pt.conformsTo(emfWorkspace.getOpaeumLibrary().getBooleanType())){
-						addWeightedBooleanValues(slot);
-					}else if(pt.conformsTo(emfWorkspace.getOpaeumLibrary().getIntegerType()) || pt.conformsTo(emfWorkspace.getOpaeumLibrary().getRealType())){
-						addNumberRangeDistributions(slot);
-					}else if(pt.conformsTo(emfWorkspace.getOpaeumLibrary().getStringType())){
-						addWeightedStringValues(feature, slot);
+		InstanceSimulation ais = allInstances.get(element);
+		if(ais != null){
+			return ais;
+		}else{
+			// TODO specify algorithms for inheritance
+			ais = SimulationFactory.eINSTANCE.createInstanceSimulation();
+			simModel.getPackagedElements().add(ais);
+			allInstances.put(element, ais);
+			ais.setName(element.getName() + "InstanceSimulation");
+			ais.getClassifiers().add(element);
+			for(Property p:EmfPropertyUtil.getEffectiveProperties(element)){
+				if(shouldSimulate(p)){
+					SimulatingSlot slot = SimulationFactory.eINSTANCE.createSimulatingSlot();
+					ais.getSlots().add(slot);
+					slot.setDefiningFeature(p);
+					Type type = p.getType();
+					if(EmfClassifierUtil.isSimpleType(type) && EmfClassifierUtil.hasStrategy((DataType) type, TestModelValueStrategy.class)){
+						DataType st = (DataType) type;
+						addWeightSimpleType(slot, st);
+					}else if(type instanceof PrimitiveType){
+						PrimitiveType pt = (PrimitiveType) type;
+						if(pt.conformsTo(emfWorkspace.getOpaeumLibrary().getBooleanType())){
+							addWeightedBooleanValues(slot);
+						}else if(pt.conformsTo(emfWorkspace.getOpaeumLibrary().getIntegerType()) || pt.conformsTo(emfWorkspace.getOpaeumLibrary().getRealType())){
+							addNumberRangeDistributions(slot);
+						}else if(pt.conformsTo(emfWorkspace.getOpaeumLibrary().getStringType())){
+							addWeightedStringValues(p, slot);
+						}
+					}else if(type instanceof Enumeration){
+						addWeightedEnumLiteralValues(p, slot);
+					}else if(canSimulate(type)){
+						if(p.isComposite() || EmfClassifierUtil.isStructuredDataType(type)){
+							addWeightedInstanceSimulationValues(p, slot);
+						}
 					}
-				}else if(feature.getType() instanceof Enumeration){
-					addWeightedEnumLiteralValues(feature, slot);
 				}
 			}
+			return ais;
 		}
-		return ais;
 	}
 	private boolean shouldSimulate(Property feature){
-		return !(libClasses.contains(feature.getType()) || feature.isReadOnly() || feature.isDerived() || feature.isStatic() || 
-				(feature.getOtherEnd() != null && feature.getOtherEnd().isComposite()));
+		return !(libClasses.contains(feature.getType()) || feature.isReadOnly() || feature.isDerived() || feature.isStatic() || (feature.getOtherEnd() != null && feature
+				.getOtherEnd().isComposite()));
 	}
 	public void addWeightSimpleType(SimulatingSlot slot,DataType st){
 		WeightedSimpleTypeValue wvt1 = SimulationFactory.eINSTANCE.createWeightedSimpleTypeValue();
