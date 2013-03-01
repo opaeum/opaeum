@@ -484,6 +484,12 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
+	public Collection<? extends PersonNode> getReturnSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(this.getBusinessCollaboration().getBusinessNetwork().getPerson());
+		
+		return result;
+	}
+	
 	public String getUid() {
 		if ( this.uid==null || this.uid.trim().length()==0 ) {
 			uid=UUID.randomUUID().toString();
@@ -614,7 +620,11 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 		if ( this.getApplianceCollaboration()!=null ) {
 			this.getApplianceCollaboration().z_internalRemoveFromOnlineCustomer(this);
 		}
-		this.z_internalAddToApplianceCollaboration(applianceCollaboration);
+		if ( applianceCollaboration == null ) {
+			this.z_internalRemoveFromApplianceCollaboration(this.getApplianceCollaboration());
+		} else {
+			this.z_internalAddToApplianceCollaboration(applianceCollaboration);
+		}
 		if ( applianceCollaboration!=null ) {
 			applianceCollaboration.z_internalAddToOnlineCustomer(this);
 			setDeletedOn(Stdlib.FUTURE);
@@ -678,9 +688,13 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 		if ( this.getOrganization()!=null ) {
 			this.getOrganization().z_internalRemoveFromBusinessActor(this);
 		}
-		this.z_internalAddToOrganization(organization);
+		if ( organization == null ) {
+			this.z_internalRemoveFromOrganization(this.getOrganization());
+		} else {
+			this.z_internalAddToOrganization(organization);
+		}
 		if ( organization!=null ) {
-		
+			organization.z_internalAddToBusinessActor(this);
 		}
 	}
 	
@@ -784,9 +798,13 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 		if ( this.getRepresentedPerson()!=null ) {
 			this.getRepresentedPerson().z_internalRemoveFromBusinessActor(this);
 		}
-		this.z_internalAddToRepresentedPerson(representedPerson);
+		if ( representedPerson == null ) {
+			this.z_internalRemoveFromRepresentedPerson(this.getRepresentedPerson());
+		} else {
+			this.z_internalAddToRepresentedPerson(representedPerson);
+		}
 		if ( representedPerson!=null ) {
-		
+			representedPerson.z_internalAddToBusinessActor(this);
 		}
 	}
 	
@@ -853,7 +871,7 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void z_internalAddToOrganization(OrganizationNode organization) {
 		OrganizationFullfillsActorRole newOne;
-		if ( organization.equals(getOrganization()) ) {
+		if ( organization!=null && organization.equals(getOrganization()) ) {
 			return;
 		}
 		newOne = new OrganizationFullfillsActorRole(this,organization);
@@ -915,7 +933,7 @@ public class OnlineCustomer implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void z_internalAddToRepresentedPerson(PersonNode representedPerson) {
 		PersonFullfillsActorRole newOne;
-		if ( representedPerson.equals(getRepresentedPerson()) ) {
+		if ( representedPerson!=null && representedPerson.equals(getRepresentedPerson()) ) {
 			return;
 		}
 		newOne = new PersonFullfillsActorRole(this,representedPerson);

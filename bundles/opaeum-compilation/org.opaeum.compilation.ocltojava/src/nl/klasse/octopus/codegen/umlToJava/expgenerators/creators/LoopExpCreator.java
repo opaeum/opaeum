@@ -673,11 +673,14 @@ public class LoopExpCreator{
 		expStr = myExpMaker.makeExpression((OCLExpression) exp.getBody(), isStatic, loopParams);
 		ClassifierMap map = ojUtil.buildClassifierMap(exp.getBody().getType());
 		if(!(exp.getBody().getType() instanceof CollectionType) && EmfPropertyCallHelper.resultsInMany((OCLExpression) exp.getBody())){
-			expType = "Collection<" + map.javaType() + ">";
+			expType = "Collection<? extends " + map.javaType() + ">";
 		}else if(map.isJavaPrimitive()){
 			expType = map.javaObjectType();
 		}else{
 			expType = map.javaFacadeType();
+			if(exp.getBody().getType() instanceof CollectionType){
+				expType =expType.replace("<", "<? extends ");
+			}
 		}
 		// the name of the loop operation
 		operName = exp.getName() + myClass.getUniqueNumber();

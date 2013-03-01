@@ -23,7 +23,7 @@ public enum ActionKind implements Enumerator{
 	 * @generated
 	 * @ordered
 	 */
-	UPDATE(0,"update","save"),
+	UPDATE(0, "update", "update"),
 	/**
 	 * The '<em><b>Delete</b></em>' literal object.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -127,7 +127,7 @@ public enum ActionKind implements Enumerator{
 	 * @generated
 	 * @ordered
 	 */
-	RESUME(13, "resume", "");
+	RESUME(13, "resume", "resume");
 	/**
 	 * The '<em><b>Update</b></em>' literal value.
 	 * <!-- begin-user-doc -->
@@ -136,7 +136,7 @@ public enum ActionKind implements Enumerator{
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #UPDATE
-	 * @model name="update" literal="save"
+	 * @model name="update"
 	 * @generated
 	 * @ordered
 	 */
@@ -305,7 +305,7 @@ public enum ActionKind implements Enumerator{
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #RESUME
-	 * @model name="resume" literal=""
+	 * @model name="resume"
 	 * @generated
 	 * @ordered
 	 */

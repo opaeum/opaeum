@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NU_QUH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_zGMYgEvREeGmqIr8YsFD4g" name="I business collaboration User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_NU_QUX2yEeKdOuVcMz9Nmw" name="Edit IBusinessCollaboration" umlElementUid="252060@_zGMYgEvREeGmqIr8YsFD4g">
-    <superUserInterfaces href="252060@_NsvpEGG6EeGY4pS7YATNzA.uim#_NU_QU32yEeKdOuVcMz9Nmw"/>
-    <pageOrdering xmi:id="_NU_QW32yEeKdOuVcMz9Nmw" page="_NU_QWn2yEeKdOuVcMz9Nmw"/>
-    <pages xmi:id="_NU_QWn2yEeKdOuVcMz9Nmw" name="Edit I business collaboration" umlElementUid="252060@_zGMYgEvREeGmqIr8YsFD4g">
-      <panel xsi:type="panel:GridPanel" xmi:id="_NU_QXH2yEeKdOuVcMz9Nmw" name="IBusinessCollaboration" numberOfColumns="1">
-        <children xsi:type="comp:UimField" xmi:id="_NU_QXX2yEeKdOuVcMz9Nmw" name="Business" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_NU_QXn2yEeKdOuVcMz9Nmw"/>
-          <binding xmi:id="_Nd9mIH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_Rj0oEFYkEeGJUqEGX7bKSg"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ZbnVsIGpEeK6sqz3aegUOg" umlElementUid="252060@_zGMYgEvREeGmqIr8YsFD4g" name="I business collaboration User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_ZbnVsYGpEeK6sqz3aegUOg" name="Edit IBusinessCollaboration" umlElementUid="252060@_zGMYgEvREeGmqIr8YsFD4g">
+    <superUserInterfaces href="252060@_NsvpEGG6EeGY4pS7YATNzA.uim#_ZbFxQYGpEeK6sqz3aegUOg"/>
+    <pageOrdering xmi:id="_ZbnVs4GpEeK6sqz3aegUOg" page="_ZbnVsoGpEeK6sqz3aegUOg"/>
+    <pages xmi:id="_ZbnVsoGpEeK6sqz3aegUOg" name="Edit I business collaboration" umlElementUid="252060@_zGMYgEvREeGmqIr8YsFD4g">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ZbnVtIGpEeK6sqz3aegUOg" name="IBusinessCollaboration" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_ZbnVtYGpEeK6sqz3aegUOg" name="Business" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_ZbnVtoGpEeK6sqz3aegUOg"/>
+          <binding xmi:id="_ZcT5SoGpEeK6sqz3aegUOg" umlElementUid="252060@_Rj0oEFYkEeGJUqEGX7bKSg"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_NU_QYH2yEeKdOuVcMz9Nmw" name="Business actor" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_NU_QYX2yEeKdOuVcMz9Nmw"/>
-          <binding xmi:id="_Nd9mIX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_pP5QQVYuEeGj5_I7bIwNoA"/>
+        <children xsi:type="comp:UimField" xmi:id="_ZbnVuIGpEeK6sqz3aegUOg" name="Business actor" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_ZbnVuYGpEeK6sqz3aegUOg"/>
+          <binding xmi:id="_ZcT5S4GpEeK6sqz3aegUOg" umlElementUid="252060@_pP5QQVYuEeGj5_I7bIwNoA"/>
         </children>
       </panel>
     </pages>
-    <actionBar xmi:id="_NU_QY32yEeKdOuVcMz9Nmw" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_NU_QZH2yEeKdOuVcMz9Nmw" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_NU_QZX2yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
+    <actionBar xmi:id="_ZbnVu4GpEeK6sqz3aegUOg" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ZbnVvIGpEeK6sqz3aegUOg" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ZbnVvYGpEeK6sqz3aegUOg" name="Delete" kind="delete"/>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_NVCTsn2yEeKdOuVcMz9Nmw" name="Create IBusinessCollaboration" umlElementUid="252060@_zGMYgEvREeGmqIr8YsFD4g">
-    <superUserInterfaces href="252060@_NsvpEGG6EeGY4pS7YATNzA.uim#_NVCTs32yEeKdOuVcMz9Nmw"/>
-    <pageOrdering xmi:id="_NVCTuH2yEeKdOuVcMz9Nmw" page="_NVCTt32yEeKdOuVcMz9Nmw"/>
-    <pages xmi:id="_NVCTt32yEeKdOuVcMz9Nmw" name="CreateI business collaboration" umlElementUid="252060@_zGMYgEvREeGmqIr8YsFD4g">
-      <panel xsi:type="panel:GridPanel" xmi:id="_NVCTuX2yEeKdOuVcMz9Nmw" name="IBusinessCollaboration" numberOfColumns="1">
-        <children xsi:type="comp:UimField" xmi:id="_NVCTun2yEeKdOuVcMz9Nmw" name="Business" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_NVCTu32yEeKdOuVcMz9Nmw"/>
-          <binding xmi:id="_Nd9mIn2yEeKdOuVcMz9Nmw" umlElementUid="252060@_Rj0oEFYkEeGJUqEGX7bKSg"/>
+  <newObjectWizard xmi:id="_Zboj2IGpEeK6sqz3aegUOg" name="Create IBusinessCollaboration" umlElementUid="252060@_zGMYgEvREeGmqIr8YsFD4g">
+    <superUserInterfaces href="252060@_NsvpEGG6EeGY4pS7YATNzA.uim#_ZbFxSIGpEeK6sqz3aegUOg"/>
+    <pageOrdering xmi:id="_Zboj2oGpEeK6sqz3aegUOg" page="_Zboj2YGpEeK6sqz3aegUOg"/>
+    <pages xmi:id="_Zboj2YGpEeK6sqz3aegUOg" name="CreateI business collaboration" umlElementUid="252060@_zGMYgEvREeGmqIr8YsFD4g">
+      <panel xsi:type="panel:GridPanel" xmi:id="_Zboj24GpEeK6sqz3aegUOg" name="IBusinessCollaboration" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_Zboj3IGpEeK6sqz3aegUOg" name="Business" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_Zboj3YGpEeK6sqz3aegUOg"/>
+          <binding xmi:id="_ZcT5TIGpEeK6sqz3aegUOg" umlElementUid="252060@_Rj0oEFYkEeGJUqEGX7bKSg"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_NVCTvX2yEeKdOuVcMz9Nmw" name="Business actor" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_NVCTvn2yEeKdOuVcMz9Nmw"/>
-          <binding xmi:id="_Nd9mI32yEeKdOuVcMz9Nmw" umlElementUid="252060@_pP5QQVYuEeGj5_I7bIwNoA"/>
+        <children xsi:type="comp:UimField" xmi:id="_Zboj34GpEeK6sqz3aegUOg" name="Business actor" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_Zboj4IGpEeK6sqz3aegUOg"/>
+          <binding xmi:id="_ZcT5TYGpEeK6sqz3aegUOg" umlElementUid="252060@_pP5QQVYuEeGj5_I7bIwNoA"/>
         </children>
       </panel>
     </pages>

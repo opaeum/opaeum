@@ -1,5 +1,6 @@
 package org.opaeum.eclipse.emulated;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -17,12 +18,13 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.metamodel.workspace.IPropertyEmulation;
+import org.opaeum.ocl.uml.OclQueryContext;
 
 public class EmulatedPropertyHolder extends AdapterImpl implements IEmulatedPropertyHolder{
 	private EList<AbstractEmulatedProperty> emulatedAttributes = new BasicEList<AbstractEmulatedProperty>();
 	protected Classifier owner;
 	protected IPropertyEmulation propertyEmulation;
-	protected Map<Element,OCLExpression> queries = new HashMap<Element, OCLExpression>();
+	protected Map<Element,OclQueryContext> queries = new HashMap<Element, OclQueryContext>();
 	public EmulatedPropertyHolder(Classifier owner,IPropertyEmulation e,EList<? extends TypedElement>...typedElements){
 		this.owner = owner;
 		this.propertyEmulation = e;
@@ -41,8 +43,12 @@ public class EmulatedPropertyHolder extends AdapterImpl implements IEmulatedProp
 
 	}
 	@Override
-	public void putQuery(Element e, OCLExpression exp){
+	public void putQuery(Element e, OclQueryContext exp){
 		queries.put(e, exp);
+	}
+	@Override
+	public Collection<OclQueryContext> getQueries(){
+		return queries.values();
 	}
 	private void addOperationMessageProperty(Operation operation){
 		OperationMessageType msg = (OperationMessageType) propertyEmulation.getMessageStructure(operation);

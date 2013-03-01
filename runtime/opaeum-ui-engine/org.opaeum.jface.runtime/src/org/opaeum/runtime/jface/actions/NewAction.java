@@ -6,12 +6,14 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.rap.rwt.widgets.DialogCallback;
 import org.eclipse.swt.widgets.Display;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaTypedElement;
 import org.opaeum.runtime.jface.wizards.NewEntityWizard;
+import org.opaeum.runtime.rwt.DialogUtil;
 import org.opaeum.runtime.rwt.OpaeumRapSession;
 
 public class NewAction extends Action{
@@ -29,7 +31,7 @@ public class NewAction extends Action{
 	@Override
 	public void run(){
 		Display display = Display.getCurrent();
-		CompositionNode child;
+		final CompositionNode child;
 		try{
 			child = (CompositionNode) property.getBaseType().newInstance();
 		}catch(Exception e){
@@ -37,9 +39,14 @@ public class NewAction extends Action{
 		}
 		child.init((CompositionNode) owner);
 		Wizard wizard = new NewEntityWizard(child, opaeumSession);
-		WizardDialog dlg = new WizardDialog(display.getActiveShell(), wizard);
-		if(dlg.open() == Window.OK){
-			OpenEditorAction.openEntityEditor(child, true, opaeumSession);
-		}
+		final WizardDialog dlg = new WizardDialog(display.getActiveShell(), wizard);
+		DialogUtil.open(dlg, new DialogCallback(){
+			@Override
+			public void dialogClosed(int returnCode){
+				if(returnCode == Window.OK){
+					OpenEditorAction.openEntityEditor(child, true, opaeumSession);
+				}
+			}
+		});
 	}
 }

@@ -1,12 +1,10 @@
 package org.opaeum.uim.cube;
 
-import java.util.Map;
-
-import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.Labels;
-import org.opaeum.uim.UimInstantiator;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -14,13 +12,11 @@ import org.w3c.dom.NodeList;
 public class LevelPropertyImpl extends EObjectImpl implements LevelProperty {
 	private Labels labelOverride;
 	private String name;
-	private String uid;
 	private String umlElementUid;
 	private boolean underUserControl;
 
 
-	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
-		setUid(xml.getAttribute("xmi:id"));
+	public void buildTreeFromXml(Element xml) {
 		if ( xml.getAttribute("name").length()>0 ) {
 			setName(EcoreDataTypeParser.getInstance().parseEString(xml.getAttribute("name")));
 		}
@@ -42,17 +38,10 @@ public class LevelPropertyImpl extends EObjectImpl implements LevelProperty {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setLabelOverride(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 		}
-	}
-	
-	public EObject eContainer() {
-		EObject result = null;
-		
-		return result;
 	}
 	
 	public Labels getLabelOverride() {
@@ -63,10 +52,6 @@ public class LevelPropertyImpl extends EObjectImpl implements LevelProperty {
 		return this.name;
 	}
 	
-	public String getUid() {
-		return this.uid;
-	}
-	
 	public String getUmlElementUid() {
 		return this.umlElementUid;
 	}
@@ -75,13 +60,13 @@ public class LevelPropertyImpl extends EObjectImpl implements LevelProperty {
 		return this.underUserControl;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
+	public void populateReferencesFromXml(Element xml) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
-				((org.opaeum.uim.Labels)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.Labels)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 		}
 	}
@@ -92,10 +77,6 @@ public class LevelPropertyImpl extends EObjectImpl implements LevelProperty {
 	
 	public void setName(String name) {
 		this.name=name;
-	}
-	
-	public void setUid(String uid) {
-		this.uid=uid;
 	}
 	
 	public void setUmlElementUid(String umlElementUid) {

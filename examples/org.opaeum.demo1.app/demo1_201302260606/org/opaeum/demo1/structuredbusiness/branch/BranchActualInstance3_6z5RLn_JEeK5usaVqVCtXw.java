@@ -1,5 +1,6 @@
 package org.opaeum.demo1.structuredbusiness.branch;
 
+import org.opaeum.demo1.structuredbusiness.jobs.Job;
 import org.opaeum.runtime.bpm.organization.OrganizationNode;
 import org.opaeum.runtime.bpm.request.Participation;
 import org.opaeum.runtime.domain.CompositionNode;

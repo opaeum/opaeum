@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NVPH832yEeKdOuVcMz9Nmw" name="onRevoked" umlElementUid="252060@__imwgK0NEeCK48ywUpk_rg" linkedUmlResource="OpaeumBPM.library.uml">
-  <pageOrdering xmi:id="_NeNdzn2yEeKdOuVcMz9Nmw" page="_NeNdzX2yEeKdOuVcMz9Nmw"/>
-  <pages xmi:id="_NeNdzX2yEeKdOuVcMz9Nmw" umlElementUid="252060@__imwgK0NEeCK48ywUpk_rg" name="Operation: On revoked">
-    <panel xsi:type="panel:GridPanel" xmi:id="_NeNdz32yEeKdOuVcMz9Nmw" name="OnRevoked" numberOfColumns="1">
-      <children xsi:type="comp:UimField" xmi:id="_NeNd0H2yEeKdOuVcMz9Nmw" name="Revoked by" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-        <control xsi:type="ctl:UimDropdown" xmi:id="_NeNd0X2yEeKdOuVcMz9Nmw"/>
-        <binding xmi:id="_NeNd0n2yEeKdOuVcMz9Nmw" umlElementUid="252060@_AhkTIK0OEeCK48ywUpk_rg"/>
+<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_Zbh2MIGpEeK6sqz3aegUOg" name="onRevoked" umlElementUid="252060@__imwgK0NEeCK48ywUpk_rg" linkedUmlResource="OpaeumBPM.library.uml">
+  <pageOrdering xmi:id="_ZcuJAIGpEeK6sqz3aegUOg" page="_ZcuI_4GpEeK6sqz3aegUOg"/>
+  <pages xmi:id="_ZcuI_4GpEeK6sqz3aegUOg" name="Operation: On revoked" umlElementUid="252060@__imwgK0NEeCK48ywUpk_rg">
+    <panel xsi:type="panel:GridPanel" xmi:id="_ZcuJAYGpEeK6sqz3aegUOg" name="OnRevoked" numberOfColumns="1">
+      <children xsi:type="comp:UimField" xmi:id="_ZcuJAoGpEeK6sqz3aegUOg" name="Revoked by" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown" xmi:id="_ZcuJA4GpEeK6sqz3aegUOg"/>
+        <binding xmi:id="_ZcuJBIGpEeK6sqz3aegUOg" umlElementUid="252060@_AhkTIK0OEeCK48ywUpk_rg"/>
       </children>
     </panel>
   </pages>

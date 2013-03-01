@@ -309,7 +309,11 @@ public class OrganizationEMailAddress implements IPersistentObject, IEventGenera
 		if ( this.getOrganization()!=null ) {
 			this.getOrganization().z_internalRemoveFromEMailAddress(this.getType(),this);
 		}
-		this.z_internalAddToOrganization(organization);
+		if ( organization == null ) {
+			this.z_internalRemoveFromOrganization(this.getOrganization());
+		} else {
+			this.z_internalAddToOrganization(organization);
+		}
 		if ( organization!=null ) {
 			organization.z_internalAddToEMailAddress(this.getType(),this);
 			setDeletedOn(Stdlib.FUTURE);

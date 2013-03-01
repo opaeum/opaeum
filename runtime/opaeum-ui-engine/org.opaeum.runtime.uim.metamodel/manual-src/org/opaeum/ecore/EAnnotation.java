@@ -1,8 +1,5 @@
 package org.opaeum.ecore;
 import java.util.List;
-import java.util.Map;
-
-import org.w3c.dom.Element;
 
 public interface EAnnotation extends EObject{
 	List<EObject> getContents();
@@ -19,5 +16,4 @@ public interface EAnnotation extends EObject{
 	void setSource(String src);
 	
 	String getSource();
-	void populateReferencesFromXml(Element currentPropertyValueNode,Map<String,Object> map);
 }

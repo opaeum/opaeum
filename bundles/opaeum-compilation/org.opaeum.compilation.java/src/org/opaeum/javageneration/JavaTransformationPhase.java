@@ -23,9 +23,10 @@ import org.opaeum.java.metamodel.generated.OJElementGEN;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextWorkspace;
+import org.opaeum.validation.LinkagePhase;
 import org.opaeum.visitor.TextFileGeneratingVisitor;
 
-@PhaseDependency(after = {},before = {})
+@PhaseDependency(after = {LinkagePhase.class},before = {})
 public class JavaTransformationPhase extends AbstractEmfPhase implements TransformationPhase<JavaTransformationStep,Element>,IntegrationPhase{
 	private static JavaTransformationPhase INSTANCE = new JavaTransformationPhase();
 	@InputModel

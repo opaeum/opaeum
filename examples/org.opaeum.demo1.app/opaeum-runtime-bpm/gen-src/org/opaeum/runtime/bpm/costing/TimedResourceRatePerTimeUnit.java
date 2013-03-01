@@ -334,7 +334,11 @@ public class TimedResourceRatePerTimeUnit implements IPersistentObject, Hibernat
 		if ( this.getTimedResource()!=null ) {
 			this.getTimedResource().z_internalRemoveFromTimedResourceRatePerTimeUnit_ratePerTimeUnit(this);
 		}
-		this.z_internalAddToTimedResource(timedResource);
+		if ( timedResource == null ) {
+			this.z_internalRemoveFromTimedResource(this.getTimedResource());
+		} else {
+			this.z_internalAddToTimedResource(timedResource);
+		}
 		if ( timedResource!=null ) {
 			timedResource.z_internalAddToTimedResourceRatePerTimeUnit_ratePerTimeUnit(this);
 		}

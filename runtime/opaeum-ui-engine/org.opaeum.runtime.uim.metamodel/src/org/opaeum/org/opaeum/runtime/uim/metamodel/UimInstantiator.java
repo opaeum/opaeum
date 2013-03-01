@@ -1,4 +1,4 @@
-package org.opaeum.uim;
+package org.opaeum.org.opaeum.runtime.uim.metamodel;
 
 import org.opaeum.runtime.domain.AbstractEcoreInstantiator;
 

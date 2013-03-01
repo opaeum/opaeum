@@ -52,7 +52,7 @@ public class Activator implements BundleActivator,ServiceListener{
 		System.out.println(service);
 	}
 	public void stop(BundleContext context) throws Exception{
-//		plugin = null;
+		// plugin = null;
 	}
 	public static Activator getDefault(){
 		return plugin;
@@ -98,9 +98,13 @@ public class Activator implements BundleActivator,ServiceListener{
 		}else if(event.getType() == ServiceEvent.UNREGISTERING){
 			final IOpaeumApplication service = (IOpaeumApplication) bundleContext.getService(event.getServiceReference());
 			ServiceRegistration<?> sr = registration.get(service.getIdentifier());
-			sr.unregister();
-			service.getEnvironment().unregister();
-			registration.remove(service.getIdentifier());
+			if(sr != null){
+				sr.unregister();
+				registration.remove(service.getIdentifier());
+			}
+			if(service != null){
+				service.getEnvironment().unregister();
+			}
 		}
 	}
 }

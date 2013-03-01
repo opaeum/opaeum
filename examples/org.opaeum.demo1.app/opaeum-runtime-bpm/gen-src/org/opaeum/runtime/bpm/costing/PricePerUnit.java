@@ -374,8 +374,13 @@ public class PricePerUnit implements IPersistentObject, IEventGenerator, Hiberna
 		if ( this.getQuantifiedResource()!=null ) {
 			this.getQuantifiedResource().z_internalRemoveFromPricePerUnit(this);
 		}
-		this.z_internalAddToQuantifiedResource(quantifiedResource);
+		if ( quantifiedResource == null ) {
+			this.z_internalRemoveFromQuantifiedResource(this.getQuantifiedResource());
+		} else {
+			this.z_internalAddToQuantifiedResource(quantifiedResource);
+		}
 		if ( quantifiedResource!=null ) {
+			quantifiedResource.z_internalAddToPricePerUnit(this);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -482,7 +487,7 @@ public class PricePerUnit implements IPersistentObject, IEventGenerator, Hiberna
 	
 	public void z_internalAddToQuantifiedResource(IQuantifiedResource quantifiedResource) {
 		QuantifiedResourcePricePerUnit newOne;
-		if ( quantifiedResource.equals(getQuantifiedResource()) ) {
+		if ( quantifiedResource!=null && quantifiedResource.equals(getQuantifiedResource()) ) {
 			return;
 		}
 		newOne = new QuantifiedResourcePricePerUnit(this,quantifiedResource);

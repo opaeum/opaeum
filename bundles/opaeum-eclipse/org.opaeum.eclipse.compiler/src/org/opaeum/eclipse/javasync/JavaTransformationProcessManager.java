@@ -27,6 +27,7 @@ import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opaeum.javageneration.bpm.BpmJavaStep;
 import org.opaeum.javageneration.hibernate.HibernatePackageAnnotator;
+import org.opaeum.linkage.SourcePopulationResolver;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 public class JavaTransformationProcessManager implements IStartup,Runnable{

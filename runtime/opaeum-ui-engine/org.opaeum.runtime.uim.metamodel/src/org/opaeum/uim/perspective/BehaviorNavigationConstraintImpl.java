@@ -2,13 +2,12 @@ package org.opaeum.uim.perspective;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.Labels;
-import org.opaeum.uim.UimInstantiator;
 import org.opaeum.uim.constraint.RequiredRole;
 import org.opaeum.uim.constraint.RequiredState;
 import org.w3c.dom.Element;
@@ -28,13 +27,11 @@ public class BehaviorNavigationConstraintImpl extends EObjectImpl implements Beh
 	private List<RequiredState> requiredStates = new ArrayList<RequiredState>();
 	private boolean requiresGroupOwnership;
 	private boolean requiresOwnership;
-	private String uid;
 	private String umlElementUid;
 	private boolean underUserControl;
 
 
-	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
-		setUid(xml.getAttribute("xmi:id"));
+	public void buildTreeFromXml(Element xml) {
 		if ( xml.getAttribute("requiresGroupOwnership").length()>0 ) {
 			setRequiresGroupOwnership(EcoreDataTypeParser.getInstance().parseEBoolean(xml.getAttribute("requiresGroupOwnership")));
 		}
@@ -71,9 +68,8 @@ public class BehaviorNavigationConstraintImpl extends EObjectImpl implements Beh
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.getRequiredRoles().add(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 				curVal.setConstraint(this);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("requiredStates") ) {
@@ -84,9 +80,8 @@ public class BehaviorNavigationConstraintImpl extends EObjectImpl implements Beh
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.getRequiredStates().add(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 				curVal.setConstraint(this);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
@@ -97,9 +92,8 @@ public class BehaviorNavigationConstraintImpl extends EObjectImpl implements Beh
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setLabelOverride(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("invocationConstraint") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -109,9 +103,8 @@ public class BehaviorNavigationConstraintImpl extends EObjectImpl implements Beh
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setInvocationConstraint(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("parameters") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -121,17 +114,10 @@ public class BehaviorNavigationConstraintImpl extends EObjectImpl implements Beh
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.getParameters().add(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 		}
-	}
-	
-	public EObject eContainer() {
-		EObject result = null;
-		
-		return result;
 	}
 	
 	public NavigationConstraint getInvocationConstraint() {
@@ -166,10 +152,6 @@ public class BehaviorNavigationConstraintImpl extends EObjectImpl implements Beh
 		return this.requiredStates;
 	}
 	
-	public String getUid() {
-		return this.uid;
-	}
-	
 	public String getUmlElementUid() {
 		return this.umlElementUid;
 	}
@@ -194,25 +176,25 @@ public class BehaviorNavigationConstraintImpl extends EObjectImpl implements Beh
 		return this.underUserControl;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
+	public void populateReferencesFromXml(Element xml) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("requiredRoles") ) {
-				((org.opaeum.uim.constraint.RequiredRole)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.constraint.RequiredRole)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("requiredStates") ) {
-				((org.opaeum.uim.constraint.RequiredState)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.constraint.RequiredState)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
-				((org.opaeum.uim.Labels)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.Labels)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("invocationConstraint") ) {
-				((org.opaeum.uim.perspective.NavigationConstraint)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.perspective.NavigationConstraint)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("parameters") ) {
-				((org.opaeum.uim.perspective.ParameterNavigationConstraint)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.perspective.ParameterNavigationConstraint)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 		}
 	}
@@ -263,10 +245,6 @@ public class BehaviorNavigationConstraintImpl extends EObjectImpl implements Beh
 	
 	public void setRequiresOwnership(boolean requiresOwnership) {
 		this.requiresOwnership=requiresOwnership;
-	}
-	
-	public void setUid(String uid) {
-		this.uid=uid;
 	}
 	
 	public void setUmlElementUid(String umlElementUid) {

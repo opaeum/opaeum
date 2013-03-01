@@ -2,12 +2,11 @@ package org.opaeum.uim.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
-import org.opaeum.uim.UimInstantiator;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.cube.CubeQueryEditor;
 import org.opaeum.uim.editor.ObjectEditor;
 import org.opaeum.uim.wizard.NewObjectWizard;
@@ -22,13 +21,11 @@ public class ClassUserInteractionModelImpl extends EObjectImpl implements ClassU
 	private NewObjectWizard newObjectWizard;
 	private ObjectEditor primaryEditor;
 	private List<ObjectEditor> secondaryEditors = new ArrayList<ObjectEditor>();
-	private String uid;
 	private String umlElementUid;
 	private boolean underUserControl;
 
 
-	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
-		setUid(xml.getAttribute("xmi:id"));
+	public void buildTreeFromXml(Element xml) {
 		if ( xml.getAttribute("umlElementUid").length()>0 ) {
 			setUmlElementUid(EcoreDataTypeParser.getInstance().parseEString(xml.getAttribute("umlElementUid")));
 		}
@@ -53,9 +50,8 @@ public class ClassUserInteractionModelImpl extends EObjectImpl implements ClassU
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setPrimaryEditor(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 				curVal.setModel(this);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("secondaryEditors") ) {
@@ -66,9 +62,8 @@ public class ClassUserInteractionModelImpl extends EObjectImpl implements ClassU
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.getSecondaryEditors().add(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("newObjectWizard") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -78,9 +73,8 @@ public class ClassUserInteractionModelImpl extends EObjectImpl implements ClassU
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setNewObjectWizard(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 				curVal.setModel(this);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("cubeQueryEditor") ) {
@@ -91,17 +85,10 @@ public class ClassUserInteractionModelImpl extends EObjectImpl implements ClassU
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setCubeQueryEditor(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 		}
-	}
-	
-	public EObject eContainer() {
-		EObject result = null;
-		
-		return result;
 	}
 	
 	public CubeQueryEditor getCubeQueryEditor() {
@@ -128,10 +115,6 @@ public class ClassUserInteractionModelImpl extends EObjectImpl implements ClassU
 		return this.secondaryEditors;
 	}
 	
-	public String getUid() {
-		return this.uid;
-	}
-	
 	public String getUmlElementUid() {
 		return this.umlElementUid;
 	}
@@ -140,22 +123,22 @@ public class ClassUserInteractionModelImpl extends EObjectImpl implements ClassU
 		return this.underUserControl;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
+	public void populateReferencesFromXml(Element xml) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("primaryEditor") ) {
-				((org.opaeum.uim.editor.ObjectEditor)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.editor.ObjectEditor)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("secondaryEditors") ) {
-				((org.opaeum.uim.editor.ObjectEditor)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.editor.ObjectEditor)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("newObjectWizard") ) {
-				((org.opaeum.uim.wizard.NewObjectWizard)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.wizard.NewObjectWizard)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("cubeQueryEditor") ) {
-				((org.opaeum.uim.cube.CubeQueryEditor)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.cube.CubeQueryEditor)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 		}
 	}
@@ -182,10 +165,6 @@ public class ClassUserInteractionModelImpl extends EObjectImpl implements ClassU
 	
 	public void setSecondaryEditors(List<ObjectEditor> secondaryEditors) {
 		this.secondaryEditors=secondaryEditors;
-	}
-	
-	public void setUid(String uid) {
-		this.uid=uid;
 	}
 	
 	public void setUmlElementUid(String umlElementUid) {

@@ -1,10 +1,9 @@
 package org.opaeum.uim.control;
 
-import java.util.Map;
-
-import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.component.UimField;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -14,11 +13,9 @@ public class UimToggleButtonImpl extends EObjectImpl implements UimToggleButton 
 	private UimField field;
 	private String mimumWidth;
 	private Integer minimumHeight;
-	private String uid;
 
 
-	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
-		setUid(xml.getAttribute("xmi:id"));
+	public void buildTreeFromXml(Element xml) {
 		if ( xml.getAttribute("mimumWidth").length()>0 ) {
 			setMimumWidth(EcoreDataTypeParser.getInstance().parseEString(xml.getAttribute("mimumWidth")));
 		}
@@ -33,12 +30,6 @@ public class UimToggleButtonImpl extends EObjectImpl implements UimToggleButton 
 		}
 	}
 	
-	public EObject eContainer() {
-		EObject result = null;
-		
-		return result;
-	}
-	
 	public UimField getField() {
 		return this.field;
 	}
@@ -51,11 +42,7 @@ public class UimToggleButtonImpl extends EObjectImpl implements UimToggleButton 
 		return this.minimumHeight;
 	}
 	
-	public String getUid() {
-		return this.uid;
-	}
-	
-	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
+	public void populateReferencesFromXml(Element xml) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -74,10 +61,6 @@ public class UimToggleButtonImpl extends EObjectImpl implements UimToggleButton 
 	
 	public void setMinimumHeight(Integer minimumHeight) {
 		this.minimumHeight=minimumHeight;
-	}
-	
-	public void setUid(String uid) {
-		this.uid=uid;
 	}
 
 }

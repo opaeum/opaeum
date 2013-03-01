@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NVF-AH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_8ItU4F13EeGKRdKItFLDfg" name="I organization node User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_NVF-AX2yEeKdOuVcMz9Nmw" name="Edit IOrganizationNode" umlElementUid="252060@_8ItU4F13EeGKRdKItFLDfg">
-    <pageOrdering xmi:id="_NVF-A32yEeKdOuVcMz9Nmw" page="_NVF-An2yEeKdOuVcMz9Nmw"/>
-    <pages xmi:id="_NVF-An2yEeKdOuVcMz9Nmw" umlElementUid="252060@_8ItU4F13EeGKRdKItFLDfg" name="Edit I organization node">
-      <panel xsi:type="panel:GridPanel" xmi:id="_NVF-BH2yEeKdOuVcMz9Nmw" name="IOrganizationNode" numberOfColumns="1"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ZbRXcIGpEeK6sqz3aegUOg" umlElementUid="252060@_8ItU4F13EeGKRdKItFLDfg" name="I organization node User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_ZbRXcYGpEeK6sqz3aegUOg" name="Edit IOrganizationNode" umlElementUid="252060@_8ItU4F13EeGKRdKItFLDfg">
+    <pageOrdering xmi:id="_ZbRXc4GpEeK6sqz3aegUOg" page="_ZbRXcoGpEeK6sqz3aegUOg"/>
+    <pages xmi:id="_ZbRXcoGpEeK6sqz3aegUOg" name="Edit I organization node" umlElementUid="252060@_8ItU4F13EeGKRdKItFLDfg">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ZbRXdIGpEeK6sqz3aegUOg" name="IOrganizationNode" numberOfColumns="1"/>
     </pages>
-    <actionBar xmi:id="_NVF-BX2yEeKdOuVcMz9Nmw" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVF-Bn2yEeKdOuVcMz9Nmw" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVF-B32yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
+    <actionBar xmi:id="_ZbRXdYGpEeK6sqz3aegUOg" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ZbRXdoGpEeK6sqz3aegUOg" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ZbRXd4GpEeK6sqz3aegUOg" name="Delete" kind="delete"/>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_NVF-CH2yEeKdOuVcMz9Nmw" name="Create IOrganizationNode" umlElementUid="252060@_8ItU4F13EeGKRdKItFLDfg">
-    <pageOrdering xmi:id="_NVF-Cn2yEeKdOuVcMz9Nmw" page="_NVF-CX2yEeKdOuVcMz9Nmw"/>
-    <pages xmi:id="_NVF-CX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_8ItU4F13EeGKRdKItFLDfg" name="CreateI organization node">
-      <panel xsi:type="panel:GridPanel" xmi:id="_NVF-C32yEeKdOuVcMz9Nmw" name="IOrganizationNode" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_ZbRXeIGpEeK6sqz3aegUOg" name="Create IOrganizationNode" umlElementUid="252060@_8ItU4F13EeGKRdKItFLDfg">
+    <pageOrdering xmi:id="_ZbR-gIGpEeK6sqz3aegUOg" page="_ZbRXeYGpEeK6sqz3aegUOg"/>
+    <pages xmi:id="_ZbRXeYGpEeK6sqz3aegUOg" name="CreateI organization node" umlElementUid="252060@_8ItU4F13EeGKRdKItFLDfg">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ZbR-gYGpEeK6sqz3aegUOg" name="IOrganizationNode" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </model:ClassUserInteractionModel>

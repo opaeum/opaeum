@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -402,12 +403,18 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return false;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5524780793534395552l,opposite="organization",uuid="252060@_WjvQ0UtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getBusinessActorSourcePopulation",opaeumId=5524780793534395552l,opposite="organization",uuid="252060@_WjvQ0UtyEeGElKTCe2jfDw")
 	public Set<IBusinessActor> getBusinessActor() {
 		Set result = new HashSet<IBusinessActor>();
 		for ( OrganizationFullfillsActorRole cur : this.getOrganizationFullfillsActorRole_businessActor() ) {
 			result.add(cur.getBusinessActor());
 		}
+		return result;
+	}
+	
+	public Collection<? extends IBusinessActor> getBusinessActorSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(collect1());
+		
 		return result;
 	}
 	
@@ -419,12 +426,18 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5399857156390828985l,opposite="representedOrganization",uuid="252060@_vf2LYFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getBusinessComponentSourcePopulation",opaeumId=5399857156390828985l,opposite="representedOrganization",uuid="252060@_vf2LYFYuEeGj5_I7bIwNoA")
 	public Set<IBusinessComponent> getBusinessComponent() {
 		Set result = new HashSet<IBusinessComponent>();
 		for ( OrganizationAsBusinessComponent cur : this.getOrganizationAsBusinessComponent_businessComponent() ) {
 			result.add(cur.getBusinessComponent());
 		}
+		return result;
+	}
+	
+	public Collection<? extends IBusinessComponent> getBusinessComponentSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(Stdlib.collectionAsSet(collect3()));
+		
 		return result;
 	}
 	
@@ -773,7 +786,11 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		if ( this.getBusinessNetwork()!=null ) {
 			this.getBusinessNetwork().z_internalRemoveFromOrganization(this.getName(),this);
 		}
-		this.z_internalAddToBusinessNetwork(businessNetwork);
+		if ( businessNetwork == null ) {
+			this.z_internalRemoveFromBusinessNetwork(this.getBusinessNetwork());
+		} else {
+			this.z_internalAddToBusinessNetwork(businessNetwork);
+		}
 		if ( businessNetwork!=null ) {
 			businessNetwork.z_internalAddToOrganization(this.getName(),this);
 			setDeletedOn(Stdlib.FUTURE);
@@ -1008,6 +1025,39 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	public void z_internalRemoveFromPhoneNumber(OrganizationPhoneNumberType type, OrganizationPhoneNumber phoneNumber) {
 		String key = type.getUid();
 		this.phoneNumber.remove(key.toString());
+	}
+	
+	/** Implements self.businessNetwork.businessCollaboration->collect(c : IBusinessCollaboration | c.businessActor)
+	 */
+	private Collection<IBusinessActor> collect1() {
+		Collection<IBusinessActor> result = new ArrayList<IBusinessActor>();
+		for ( IBusinessCollaboration c : this.getBusinessNetwork().getBusinessCollaboration() ) {
+			Set<? extends IBusinessActor> bodyExpResult = c.getBusinessActor();
+			result.addAll( bodyExpResult );
+		}
+		return result;
+	}
+	
+	/** Implements self.businessNetwork.businessCollaboration->collect(c : IBusinessCollaboration | c.business)
+	 */
+	private Collection<IBusiness> collect2() {
+		Collection<IBusiness> result = new ArrayList<IBusiness>();
+		for ( IBusinessCollaboration c : this.getBusinessNetwork().getBusinessCollaboration() ) {
+			Set<? extends IBusiness> bodyExpResult = c.getBusiness();
+			result.addAll( bodyExpResult );
+		}
+		return result;
+	}
+	
+	/** Implements self.businessNetwork.businessCollaboration->collect(c : IBusinessCollaboration | c.business)->collect(g : IBusiness | g.oclAsType(OpaeumLibraryForBPM::organization::IBusinessComponent))
+	 */
+	private Collection<IBusinessComponent> collect3() {
+		Collection<IBusinessComponent> result = new ArrayList<IBusinessComponent>();
+		for ( IBusiness g : collect2() ) {
+			IBusinessComponent bodyExpResult = ((IBusinessComponent) g);
+			if ( bodyExpResult != null ) result.add( bodyExpResult );
+		}
+		return result;
 	}
 
 }

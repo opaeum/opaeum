@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NdgTIH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_rpwH4PNQEeGhGoYzbfvy4A" name="I standalone screenflow task User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_NdgTIX2yEeKdOuVcMz9Nmw" name="Edit IStandaloneScreenflowTask" umlElementUid="252060@_rpwH4PNQEeGhGoYzbfvy4A">
-    <superUserInterfaces href="252060@_2tdYsI3oEeCfQedkc0TCdA.uim#_NVN50X2yEeKdOuVcMz9Nmw"/>
-    <pageOrdering xmi:id="_Ndg6Pn2yEeKdOuVcMz9Nmw" page="_Ndg6PX2yEeKdOuVcMz9Nmw"/>
-    <pageOrdering xmi:id="_Ndg6Q32yEeKdOuVcMz9Nmw" position="1">
-      <page href="252060@_Wd2QoI53EeCfQedkc0TCdA.uim#_NVHzNX2yEeKdOuVcMz9Nmw"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_Zb6QoIGpEeK6sqz3aegUOg" umlElementUid="252060@_rpwH4PNQEeGhGoYzbfvy4A" name="I standalone screenflow task User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_Zb6QoYGpEeK6sqz3aegUOg" name="Edit IStandaloneScreenflowTask" umlElementUid="252060@_rpwH4PNQEeGhGoYzbfvy4A">
+    <superUserInterfaces href="252060@_2tdYsI3oEeCfQedkc0TCdA.uim#_Zb63sYGpEeK6sqz3aegUOg"/>
+    <pageOrdering xmi:id="_Zb631IGpEeK6sqz3aegUOg" page="_Zb6304GpEeK6sqz3aegUOg"/>
+    <pageOrdering xmi:id="_Zb632YGpEeK6sqz3aegUOg" position="1">
+      <page href="252060@_Wd2QoI53EeCfQedkc0TCdA.uim#_ZbL344GpEeK6sqz3aegUOg"/>
     </pageOrdering>
-    <pages xmi:id="_Ndg6PX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_rpwH4PNQEeGhGoYzbfvy4A" name="Edit I standalone screenflow task">
-      <panel xsi:type="panel:GridPanel" xmi:id="_Ndg6P32yEeKdOuVcMz9Nmw" name="IStandaloneScreenflowTask" numberOfColumns="1">
-        <children xsi:type="comp:UimField" xmi:id="_Ndg6QH2yEeKdOuVcMz9Nmw" name="Task request" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_Ndg6QX2yEeKdOuVcMz9Nmw"/>
-          <binding xmi:id="_Ndg6Qn2yEeKdOuVcMz9Nmw" umlElementUid="252060@_RczxwOtsEeGT0cXodbXPYg"/>
+    <pages xmi:id="_Zb6304GpEeK6sqz3aegUOg" name="Edit I standalone screenflow task" umlElementUid="252060@_rpwH4PNQEeGhGoYzbfvy4A">
+      <panel xsi:type="panel:GridPanel" xmi:id="_Zb631YGpEeK6sqz3aegUOg" name="IStandaloneScreenflowTask" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_Zb631oGpEeK6sqz3aegUOg" name="Task request" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_Zb6314GpEeK6sqz3aegUOg"/>
+          <binding xmi:id="_Zb632IGpEeK6sqz3aegUOg" umlElementUid="252060@_RczxwOtsEeGT0cXodbXPYg"/>
         </children>
       </panel>
     </pages>
-    <actionBar xmi:id="_NdhhQn2yEeKdOuVcMz9Nmw" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_NdhhQ32yEeKdOuVcMz9Nmw" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_NdhhRH2yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
-      <children xsi:type="action:InvocationButton" xmi:id="_NdhhRX2yEeKdOuVcMz9Nmw" name="On resumed" umlElementUid="252060@_8ba9IK0NEeCK48ywUpk_rg">
-        <popup href="252060@_8ba9IK0NEeCK48ywUpk_rg.uim#_NVOg7X2yEeKdOuVcMz9Nmw"/>
+    <actionBar xmi:id="_Zb634IGpEeK6sqz3aegUOg" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_Zb634YGpEeK6sqz3aegUOg" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_Zb634oGpEeK6sqz3aegUOg" name="Delete" kind="delete"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_Zb6344GpEeK6sqz3aegUOg" name="On resumed" umlElementUid="252060@_8ba9IK0NEeCK48ywUpk_rg">
+        <popup href="252060@_8ba9IK0NEeCK48ywUpk_rg.uim#_Zbh2KYGpEeK6sqz3aegUOg"/>
       </children>
-      <children xsi:type="action:InvocationButton" xmi:id="_NdhhRn2yEeKdOuVcMz9Nmw" name="On delegated" umlElementUid="252060@_EE4B0K0OEeCK48ywUpk_rg">
-        <popup href="252060@_EE4B0K0OEeCK48ywUpk_rg.uim#_NVOg732yEeKdOuVcMz9Nmw"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_Zb635IGpEeK6sqz3aegUOg" name="On delegated" umlElementUid="252060@_EE4B0K0OEeCK48ywUpk_rg">
+        <popup href="252060@_EE4B0K0OEeCK48ywUpk_rg.uim#_Zbh2K4GpEeK6sqz3aegUOg"/>
       </children>
-      <children xsi:type="action:InvocationButton" xmi:id="_NdhhR32yEeKdOuVcMz9Nmw" name="On forwarded" umlElementUid="252060@_NdLN8K0OEeCK48ywUpk_rg">
-        <popup href="252060@_NdLN8K0OEeCK48ywUpk_rg.uim#_NVPH8H2yEeKdOuVcMz9Nmw"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_Zb635YGpEeK6sqz3aegUOg" name="On forwarded" umlElementUid="252060@_NdLN8K0OEeCK48ywUpk_rg">
+        <popup href="252060@_NdLN8K0OEeCK48ywUpk_rg.uim#_Zbh2LYGpEeK6sqz3aegUOg"/>
       </children>
-      <children xsi:type="action:InvocationButton" xmi:id="_NdhhSH2yEeKdOuVcMz9Nmw" name="On activated" umlElementUid="252060@_XbPZkK0OEeCK48ywUpk_rg">
-        <popup href="252060@_XbPZkK0OEeCK48ywUpk_rg.uim#_NUjLcH2yEeKdOuVcMz9Nmw"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_Zb635oGpEeK6sqz3aegUOg" name="On activated" umlElementUid="252060@_XbPZkK0OEeCK48ywUpk_rg">
+        <popup href="252060@_XbPZkK0OEeCK48ywUpk_rg.uim#_ZbMe8YGpEeK6sqz3aegUOg"/>
       </children>
-      <children xsi:type="action:InvocationButton" xmi:id="_NdhhSX2yEeKdOuVcMz9Nmw" name="On revoked" umlElementUid="252060@__imwgK0NEeCK48ywUpk_rg">
-        <popup href="252060@__imwgK0NEeCK48ywUpk_rg.uim#_NVPH832yEeKdOuVcMz9Nmw"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_Zb6354GpEeK6sqz3aegUOg" name="On revoked" umlElementUid="252060@__imwgK0NEeCK48ywUpk_rg">
+        <popup href="252060@__imwgK0NEeCK48ywUpk_rg.uim#_Zbh2MIGpEeK6sqz3aegUOg"/>
       </children>
-      <children xsi:type="action:InvocationButton" xmi:id="_NdhhSn2yEeKdOuVcMz9Nmw" name="On completed" umlElementUid="252060@_a_82cK0OEeCK48ywUpk_rg">
-        <popup href="252060@_a_82cK0OEeCK48ywUpk_rg.uim#_NUjLcn2yEeKdOuVcMz9Nmw"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_Zb636IGpEeK6sqz3aegUOg" name="On completed" umlElementUid="252060@_a_82cK0OEeCK48ywUpk_rg">
+        <popup href="252060@_a_82cK0OEeCK48ywUpk_rg.uim#_ZbMe84GpEeK6sqz3aegUOg"/>
       </children>
-      <children xsi:type="action:InvocationButton" xmi:id="_NdhhS32yEeKdOuVcMz9Nmw" name="On skipped" umlElementUid="252060@_fdkRQK0OEeCK48ywUpk_rg">
-        <popup href="252060@_fdkRQK0OEeCK48ywUpk_rg.uim#_NVPH9n2yEeKdOuVcMz9Nmw"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_Zb636YGpEeK6sqz3aegUOg" name="On skipped" umlElementUid="252060@_fdkRQK0OEeCK48ywUpk_rg">
+        <popup href="252060@_fdkRQK0OEeCK48ywUpk_rg.uim#_ZbidMIGpEeK6sqz3aegUOg"/>
       </children>
-      <children xsi:type="action:InvocationButton" xmi:id="_NdhhTH2yEeKdOuVcMz9Nmw" name="On started" umlElementUid="252060@_iBCwEK0NEeCK48ywUpk_rg">
-        <popup href="252060@_iBCwEK0NEeCK48ywUpk_rg.uim#_NUjLdH2yEeKdOuVcMz9Nmw"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_Zb636oGpEeK6sqz3aegUOg" name="On started" umlElementUid="252060@_iBCwEK0NEeCK48ywUpk_rg">
+        <popup href="252060@_iBCwEK0NEeCK48ywUpk_rg.uim#_ZbMe9YGpEeK6sqz3aegUOg"/>
       </children>
-      <children xsi:type="action:InvocationButton" xmi:id="_NdhhTX2yEeKdOuVcMz9Nmw" name="On claimed" umlElementUid="252060@_qTa18K0NEeCK48ywUpk_rg">
-        <popup href="252060@_qTa18K0NEeCK48ywUpk_rg.uim#_NVPH-X2yEeKdOuVcMz9Nmw"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_Zb6364GpEeK6sqz3aegUOg" name="On claimed" umlElementUid="252060@_qTa18K0NEeCK48ywUpk_rg">
+        <popup href="252060@_qTa18K0NEeCK48ywUpk_rg.uim#_ZbidM4GpEeK6sqz3aegUOg"/>
       </children>
-      <children xsi:type="action:InvocationButton" xmi:id="_NdhhTn2yEeKdOuVcMz9Nmw" name="On suspended" umlElementUid="252060@_ug7_QK0NEeCK48ywUpk_rg">
-        <popup href="252060@_ug7_QK0NEeCK48ywUpk_rg.uim#_NVPvAH2yEeKdOuVcMz9Nmw"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_Zb637IGpEeK6sqz3aegUOg" name="On suspended" umlElementUid="252060@_ug7_QK0NEeCK48ywUpk_rg">
+        <popup href="252060@_ug7_QK0NEeCK48ywUpk_rg.uim#_ZbidNYGpEeK6sqz3aegUOg"/>
       </children>
-      <children xsi:type="action:InvocationButton" xmi:id="_NdhhT32yEeKdOuVcMz9Nmw" name="On stopped" umlElementUid="252060@_zwcxEK0NEeCK48ywUpk_rg">
-        <popup href="252060@_zwcxEK0NEeCK48ywUpk_rg.uim#_NVPvAn2yEeKdOuVcMz9Nmw"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_Zb637YGpEeK6sqz3aegUOg" name="On stopped" umlElementUid="252060@_zwcxEK0NEeCK48ywUpk_rg">
+        <popup href="252060@_zwcxEK0NEeCK48ywUpk_rg.uim#_ZbidN4GpEeK6sqz3aegUOg"/>
       </children>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_NdhhUH2yEeKdOuVcMz9Nmw" name="Create IStandaloneScreenflowTask" umlElementUid="252060@_rpwH4PNQEeGhGoYzbfvy4A">
-    <superUserInterfaces href="252060@_2tdYsI3oEeCfQedkc0TCdA.uim#_NVPvA32yEeKdOuVcMz9Nmw"/>
-    <pageOrdering xmi:id="_NdiIU32yEeKdOuVcMz9Nmw" page="_NdiIUn2yEeKdOuVcMz9Nmw"/>
-    <pageOrdering xmi:id="_NdiIWH2yEeKdOuVcMz9Nmw" position="1">
-      <page href="252060@_Wd2QoI53EeCfQedkc0TCdA.uim#_NVHzTn2yEeKdOuVcMz9Nmw"/>
+  <newObjectWizard xmi:id="_Zb637oGpEeK6sqz3aegUOg" name="Create IStandaloneScreenflowTask" umlElementUid="252060@_rpwH4PNQEeGhGoYzbfvy4A">
+    <superUserInterfaces href="252060@_2tdYsI3oEeCfQedkc0TCdA.uim#_Zb6374GpEeK6sqz3aegUOg"/>
+    <pageOrdering xmi:id="_Zb7e0IGpEeK6sqz3aegUOg" page="_Zb7ez4GpEeK6sqz3aegUOg"/>
+    <pageOrdering xmi:id="_Zb7e1YGpEeK6sqz3aegUOg" position="1">
+      <page href="252060@_Wd2QoI53EeCfQedkc0TCdA.uim#_ZbO7WoGpEeK6sqz3aegUOg"/>
     </pageOrdering>
-    <pages xmi:id="_NdiIUn2yEeKdOuVcMz9Nmw" umlElementUid="252060@_rpwH4PNQEeGhGoYzbfvy4A" name="CreateI standalone screenflow task">
-      <panel xsi:type="panel:GridPanel" xmi:id="_NdiIVH2yEeKdOuVcMz9Nmw" name="IStandaloneScreenflowTask" numberOfColumns="1">
-        <children xsi:type="comp:UimField" xmi:id="_NdiIVX2yEeKdOuVcMz9Nmw" name="Task request" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_NdiIVn2yEeKdOuVcMz9Nmw"/>
-          <binding xmi:id="_NdiIV32yEeKdOuVcMz9Nmw" umlElementUid="252060@_RczxwOtsEeGT0cXodbXPYg"/>
+    <pages xmi:id="_Zb7ez4GpEeK6sqz3aegUOg" name="CreateI standalone screenflow task" umlElementUid="252060@_rpwH4PNQEeGhGoYzbfvy4A">
+      <panel xsi:type="panel:GridPanel" xmi:id="_Zb7e0YGpEeK6sqz3aegUOg" name="IStandaloneScreenflowTask" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_Zb7e0oGpEeK6sqz3aegUOg" name="Task request" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_Zb7e04GpEeK6sqz3aegUOg"/>
+          <binding xmi:id="_Zb7e1IGpEeK6sqz3aegUOg" umlElementUid="252060@_RczxwOtsEeGT0cXodbXPYg"/>
         </children>
       </panel>
     </pages>

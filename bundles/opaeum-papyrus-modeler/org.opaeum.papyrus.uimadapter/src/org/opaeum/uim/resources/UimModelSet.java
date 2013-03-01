@@ -276,7 +276,6 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 	}
 	@Override
 	public IContainer getUimDirectory(){
-		// TODO Auto-generated method stub
 		String o = getOpenUmlFile().getConfig().getProjectNameOverride();
 		if(o != null && o.length() > 0){
 			IProject p = (IProject) ResourcesPlugin.getWorkspace().getRoot().findMember(o);

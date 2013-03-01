@@ -2,13 +2,12 @@ package org.opaeum.uim.editor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.Labels;
-import org.opaeum.uim.UimInstantiator;
 import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.component.UimContainer;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
@@ -22,14 +21,12 @@ public class ActionBarImpl extends EObjectImpl implements ActionBar {
 	private AbstractEditor editor;
 	private Labels labelOverride;
 	private String name;
-	private String uid;
 	private String umlElementUid;
 	private boolean underUserControl;
 	private UserInteractionConstraint visibility;
 
 
-	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
-		setUid(xml.getAttribute("xmi:id"));
+	public void buildTreeFromXml(Element xml) {
 		if ( xml.getAttribute("name").length()>0 ) {
 			setName(EcoreDataTypeParser.getInstance().parseEString(xml.getAttribute("name")));
 		}
@@ -51,9 +48,8 @@ public class ActionBarImpl extends EObjectImpl implements ActionBar {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setVisibility(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -63,9 +59,8 @@ public class ActionBarImpl extends EObjectImpl implements ActionBar {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setLabelOverride(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("editability") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -75,9 +70,8 @@ public class ActionBarImpl extends EObjectImpl implements ActionBar {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setEditability(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("children") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -87,17 +81,10 @@ public class ActionBarImpl extends EObjectImpl implements ActionBar {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.getChildren().add(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 		}
-	}
-	
-	public EObject eContainer() {
-		EObject result = null;
-		
-		return result;
 	}
 	
 	public List<UimComponent> getChildren() {
@@ -126,10 +113,6 @@ public class ActionBarImpl extends EObjectImpl implements ActionBar {
 		return result;
 	}
 	
-	public String getUid() {
-		return this.uid;
-	}
-	
 	public String getUmlElementUid() {
 		return this.umlElementUid;
 	}
@@ -142,22 +125,22 @@ public class ActionBarImpl extends EObjectImpl implements ActionBar {
 		return this.underUserControl;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
+	public void populateReferencesFromXml(Element xml) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("visibility") ) {
-				((org.opaeum.uim.constraint.UserInteractionConstraint)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.constraint.UserInteractionConstraint)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
-				((org.opaeum.uim.Labels)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.Labels)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("editability") ) {
-				((org.opaeum.uim.constraint.UserInteractionConstraint)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.constraint.UserInteractionConstraint)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("children") ) {
-				((org.opaeum.uim.component.UimComponent)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.component.UimComponent)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 		}
 	}
@@ -180,10 +163,6 @@ public class ActionBarImpl extends EObjectImpl implements ActionBar {
 	
 	public void setName(String name) {
 		this.name=name;
-	}
-	
-	public void setUid(String uid) {
-		this.uid=uid;
 	}
 	
 	public void setUmlElementUid(String umlElementUid) {

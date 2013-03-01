@@ -267,7 +267,11 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 		if ( this.getBusinessCalendar()!=null ) {
 			this.getBusinessCalendar().z_internalRemoveFromOnceOffHoliday(this);
 		}
-		this.z_internalAddToBusinessCalendar(businessCalendar);
+		if ( businessCalendar == null ) {
+			this.z_internalRemoveFromBusinessCalendar(this.getBusinessCalendar());
+		} else {
+			this.z_internalAddToBusinessCalendar(businessCalendar);
+		}
 		if ( businessCalendar!=null ) {
 			businessCalendar.z_internalAddToOnceOffHoliday(this);
 			setDeletedOn(Stdlib.FUTURE);

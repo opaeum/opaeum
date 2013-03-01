@@ -1,5 +1,7 @@
 package org.opaeum.simulation.actions;
 
+import java.util.List;
+
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Classifier;
@@ -84,7 +86,12 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 			if(applicationRoot != null){
 				OJPathName bcpn = ojUtil.classifierPathname(applicationRoot);
 				OJAnnotatedField rootField = new OJAnnotatedField("businessCollaboration", bcpn);
-				rootField.setInitExp("new " + bcpn.getLast() + "(businessNetwork)");
+				for(InstanceSpecification is:this.getInstances(applicationRoot)){
+					if(is instanceof ActualInstance){
+						rootField.setInitExp(this.dataGeneratorName(is) + "." + NameConverter.toJavaVariableName(is.getName()).toUpperCase());
+						
+					}
+				}
 				intializeBlock.addToLocals(rootField);
 			}
 //				for(Property p:EmfPropertyUtil.getEffectiveProperties(applicationRoot)){

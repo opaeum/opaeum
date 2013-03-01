@@ -35,18 +35,18 @@ import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.Signal;
-import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.emf.workspace.StereotypeAttachable;
 
 public abstract class AbstractOclContext extends AdapterImpl implements StereotypeAttachable{
-	protected String expressionString;
-	protected OCLHelper<Classifier,Operation,Property,Constraint> helper;
+	private String expressionString;
+	private OCLHelper<Classifier,Operation,Property,Constraint> helper;
 	private OCLExpression expression;
-	protected ParserException parseException;
-	protected NamedElement bodyContainer;
-	public AbstractOclContext(NamedElement bodyContainer){
+	private ParserException parseException;
+	private NamedElement bodyContainer;
+	public AbstractOclContext(NamedElement bodyContainer, OCLHelper<Classifier,Operation,Property,Constraint> helper){
 		super();
 		this.bodyContainer = bodyContainer;
+		this.helper=helper;
 	}
 	protected abstract String retrieveBody();
 	public NamedElement getBodyContainer(){

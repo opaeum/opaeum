@@ -65,6 +65,7 @@ public interface UimField extends EditableConstrainedObject, UimComponent, Outla
 
 	/**
 	 * Returns the value of the '<em><b>Control Kind</b></em>' attribute.
+	 * The default value is <code>"null"</code>.
 	 * The literals are from the enumeration {@link org.opaeum.uim.control.ControlKind}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -76,7 +77,7 @@ public interface UimField extends EditableConstrainedObject, UimComponent, Outla
 	 * @see org.opaeum.uim.control.ControlKind
 	 * @see #setControlKind(ControlKind)
 	 * @see org.opaeum.uim.component.ComponentPackage#getUimField_ControlKind()
-	 * @model
+	 * @model default="null"
 	 * @generated
 	 */
 	ControlKind getControlKind();
@@ -149,6 +150,7 @@ public interface UimField extends EditableConstrainedObject, UimComponent, Outla
 
 	/**
 	 * Returns the value of the '<em><b>Orientation</b></em>' attribute.
+	 * The default value is <code>"null"</code>.
 	 * The literals are from the enumeration {@link org.opaeum.uim.panel.Orientation}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -160,7 +162,7 @@ public interface UimField extends EditableConstrainedObject, UimComponent, Outla
 	 * @see org.opaeum.uim.panel.Orientation
 	 * @see #setOrientation(Orientation)
 	 * @see org.opaeum.uim.component.ComponentPackage#getUimField_Orientation()
-	 * @model
+	 * @model default="null"
 	 * @generated
 	 */
 	Orientation getOrientation();

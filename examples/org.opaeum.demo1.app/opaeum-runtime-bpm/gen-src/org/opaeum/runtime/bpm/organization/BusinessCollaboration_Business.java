@@ -319,7 +319,11 @@ public class BusinessCollaboration_Business implements IPersistentObject, Hibern
 		if ( this.getBusinessCollaboration()!=null ) {
 			this.getBusinessCollaboration().z_internalRemoveFromBusinessCollaboration_Business_business(this);
 		}
-		this.z_internalAddToBusinessCollaboration(businessCollaboration);
+		if ( businessCollaboration == null ) {
+			this.z_internalRemoveFromBusinessCollaboration(this.getBusinessCollaboration());
+		} else {
+			this.z_internalAddToBusinessCollaboration(businessCollaboration);
+		}
 		if ( businessCollaboration!=null ) {
 			businessCollaboration.z_internalAddToBusinessCollaboration_Business_business(this);
 		}

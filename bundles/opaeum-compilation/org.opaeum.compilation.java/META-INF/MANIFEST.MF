@@ -10,7 +10,8 @@ Require-Bundle: org.opaeum.metamodels.java,
  org.eclipse.uml2.uml,
  org.eclipse.ocl.uml,
  org.opaeum.metamodels.emfworkspace,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.opaeum.linkage.validation
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
  lib/hibernate-core-4.0.1.Final.jar,

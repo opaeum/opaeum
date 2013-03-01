@@ -5,6 +5,7 @@ import java.util.Date;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.strategy.DateTimeStrategyFactory;
 import org.opaeum.simulation.EntityInstanceSimulation;
+import org.opaeum.simulation.SimulationMetaData;
 
 public class LeaveActualInstance2_6z4DYX_JEeK5usaVqVCtXw extends EntityInstanceSimulation<Leave> {
 	static final public LeaveActualInstance2_6z4DYX_JEeK5usaVqVCtXw INSTANCE = new LeaveActualInstance2_6z4DYX_JEeK5usaVqVCtXw();

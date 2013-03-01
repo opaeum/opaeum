@@ -91,7 +91,8 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 		// props.put("hibernate.max_fetch_depth","1" );
 		// #if($requiresAuditing)
 //		props.put("hibernate.hbm2ddl.auto","update" );
-		props.put("hibernate.show_sql","true" );
+		props.put("hibernate.show_sql",env.getProperty(Environment.SHOW_SQL, "false") );
+
 		if(isJpa2()){
 			props.put("hibernate.ejb.event.post-load", "org.opaeum.audit.AuditListener");
 			props.put("hibernate.ejb.event.post-insert", "org.opaeum.audit.AuditListener");

@@ -308,7 +308,11 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 		if ( this.getOrganization()!=null ) {
 			this.getOrganization().z_internalRemoveFromOrganizationFullfillsActorRole_businessActor(this);
 		}
-		this.z_internalAddToOrganization(organization);
+		if ( organization == null ) {
+			this.z_internalRemoveFromOrganization(this.getOrganization());
+		} else {
+			this.z_internalAddToOrganization(organization);
+		}
 		if ( organization!=null ) {
 			organization.z_internalAddToOrganizationFullfillsActorRole_businessActor(this);
 			setDeletedOn(Stdlib.FUTURE);

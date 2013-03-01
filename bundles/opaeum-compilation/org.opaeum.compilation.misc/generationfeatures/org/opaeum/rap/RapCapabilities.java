@@ -9,11 +9,12 @@ import org.opaeum.javageneration.composition.FactoryMethodCreator;
 import org.opaeum.javageneration.hibernate.EnumResolverImplementor;
 import org.opaeum.javageneration.rap.OpaeumApplicationGenerator;
 import org.opaeum.javageneration.rap.RapAttributeImplementor;
+import org.opaeum.linkage.SourcePopulationResolver;
 import org.opaeum.olap.MondrianCubeGenerator;
 
 @StepDependency(phase = BootstrapGenerationPhase.class,requires = {RapProjectBuilder.class,EnumResolverImplementor.class,
 		ProcessStepResolverImplementor.class,RapAttributeImplementor.class,FactoryMethodCreator.class,
-		MondrianCubeGenerator.class, OpaeumApplicationGenerator.class})
+		MondrianCubeGenerator.class, OpaeumApplicationGenerator.class,SourcePopulationResolver.class})
 public class RapCapabilities extends AbstractBootstrapStep implements ITransformationStep{
 	public RapCapabilities(){
 	}

@@ -52,8 +52,8 @@ public abstract class JavaMetaInfoMap{
 	public <T>T newInstance(String uuid){
 		return (T) IntrospectionUtil.newInstance(getClass(uuid));
 	}
-	public JavaTypedElement getTypedElement(String uuid){
-		return typedElements.get(uuid);
+	public JavaTypedElement getTypedElement(Class<?> parent,String uuid){
+		return typedElements.get(getUuidFor(parent) + uuid);
 	}
 	@SuppressWarnings("unchecked")
 	protected void putMethod(Class<? extends Object> c,String uuid,long nakedUmlId){
@@ -112,9 +112,10 @@ public abstract class JavaMetaInfoMap{
 	}
 	private void putTypedElements(JavaTypedElementContainer jtec){
 		for(Entry<String,JavaTypedElement> entry:jtec.getTypedElements().entrySet()){
-			JavaTypedElement javaTypedElement = typedElements.get(entry.getKey());
-			if(javaTypedElement == null || !javaTypedElement.getDeclaringClass().isInterface()){
-				typedElements.put(entry.getKey(), entry.getValue());
+			String key = jtec.getUuid() + entry.getKey();
+			JavaTypedElement javaTypedElement = typedElements.get(key);
+			if(javaTypedElement == null){
+				typedElements.put(key, entry.getValue());
 			}
 		}
 	}

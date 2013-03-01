@@ -10,6 +10,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.rap.rwt.widgets.DialogCallback;
+import org.eclipse.rap.rwt.widgets.DialogUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabFolder2Listener;
@@ -34,7 +36,7 @@ public class OpaeumEditorPane implements CTabFolder2Listener,SelectionListener,F
 	int activePosition;
 	OpaeumWorkbenchPage page;
 	public OpaeumEditorPane(OpaeumWorkbenchPage page){
-		this.page=page;
+		this.page = page;
 		// TODO Auto-generated constructor stub
 	}
 	public void createPane(Composite parent){
@@ -56,10 +58,10 @@ public class OpaeumEditorPane implements CTabFolder2Listener,SelectionListener,F
 		}
 		if(!isOpen){
 			CTabItem newItem = new CTabItem(cTabFolder, SWT.CLOSE);
-			EntityFormEditor ee = new EntityFormEditor();
+			EntityFormEditor ee = new EntityFormEditor(newItem);
 			entityEditors.add(ee);
 			ee.init(page, input);
-			Composite control=new Composite(cTabFolder, SWT.NONE);
+			Composite control = new Composite(cTabFolder, SWT.NONE);
 			control.setLayout(new FillLayout());
 			ee.createPartControl(control);
 			control.layout();
@@ -75,26 +77,25 @@ public class OpaeumEditorPane implements CTabFolder2Listener,SelectionListener,F
 	}
 	@Override
 	public void close(CTabFolderEvent event){
-		CTabItem item = (CTabItem) event.item;
-		int index = tabItems.indexOf(item);
-		EntityFormEditor entityEditor = this.entityEditors.get(index);
+		final CTabItem item = (CTabItem) event.item;
+		final int index = tabItems.indexOf(item);
+		final EntityFormEditor entityEditor = this.entityEditors.get(index);
 		if(entityEditor.isDirty()){
 			MessageDialog dg = new MessageDialog(cTabFolder.getShell().getShell(), "Would you like to save changes?", null, "My question",
 					MessageDialog.QUESTION_WITH_CANCEL, new String[]{IDialogConstants.get().YES_LABEL,IDialogConstants.get().NO_LABEL,
 							IDialogConstants.get().CANCEL_LABEL}, 0);
-			switch(dg.open()){
-			case 0:
-				entityEditor.close(true);
-				removeItem(item, entityEditor, index);
-				break;
-			case 1:
-				entityEditor.close(false);
-				removeItem(item, entityEditor, index);
-				break;
-			case 2:
-				event.doit = false;
-				break;
-			}
+			org.opaeum.runtime.rwt.DialogUtil.open(dg, new DialogCallback(){
+				@Override
+				public void dialogClosed(int returnCode){
+					if(returnCode == MessageDialog.OK){
+						entityEditor.close(true);
+						removeItem(item, entityEditor, index);
+					}else{
+						entityEditor.close(false);
+						removeItem(item, entityEditor, index);
+					}
+				}
+			});
 		}else{
 			entityEditor.close(false);
 			removeItem(item, entityEditor, index);
@@ -142,7 +143,7 @@ public class OpaeumEditorPane implements CTabFolder2Listener,SelectionListener,F
 			page.fireSelectionChanged(getActiveEditor(), new StructuredSelection(getActiveEditor().getAdapter(IPersistentObject.class)));
 			OpaeumEditor ae = (OpaeumEditor) getActiveEditor();
 			Map<ChangedEntity,IPersistentObject> conflicts = ae.getEditorInput().getPersistence().synchronizeWithDatabaseAndFindConflicts();
-			if(conflicts.size()>0){
+			if(conflicts.size() > 0){
 				if(MessageDialog.openQuestion(cTabFolder.getShell(), "Load Changes?",
 						"The data you are editing has been changed in the database. Would you like to refresh the editor from the database?")){
 					ae.getEditorInput().getPersistence().overwriteConflictsFromDatabase(conflicts);
@@ -151,7 +152,6 @@ public class OpaeumEditorPane implements CTabFolder2Listener,SelectionListener,F
 					ae.getEditorInput().getPersistence().overwriteDatabaseWithConflicts(conflicts);
 				}
 			}
-
 		}
 	}
 	@Override
@@ -169,7 +169,7 @@ public class OpaeumEditorPane implements CTabFolder2Listener,SelectionListener,F
 	@Override
 	public void selectionChanged(IWorkbenchPart part,ISelection selection){
 		if(!(part instanceof IEditorPart)){
-			//Ignore my own selectionEvents
+			// Ignore my own selectionEvents
 			Object firstElement = ((IStructuredSelection) selection).getFirstElement();
 			IPersistentObject persistentObject = null;
 			if(firstElement instanceof IAdaptable){

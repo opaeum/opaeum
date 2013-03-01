@@ -308,7 +308,11 @@ public class PersonFullfillsActorRole implements IPersistentObject, HibernateEnt
 		if ( this.getRepresentedPerson()!=null ) {
 			this.getRepresentedPerson().z_internalRemoveFromPersonFullfillsActorRole_businessActor(this);
 		}
-		this.z_internalAddToRepresentedPerson(representedPerson);
+		if ( representedPerson == null ) {
+			this.z_internalRemoveFromRepresentedPerson(this.getRepresentedPerson());
+		} else {
+			this.z_internalAddToRepresentedPerson(representedPerson);
+		}
 		if ( representedPerson!=null ) {
 			representedPerson.z_internalAddToPersonFullfillsActorRole_businessActor(this);
 			setDeletedOn(Stdlib.FUTURE);

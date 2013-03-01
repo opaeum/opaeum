@@ -601,12 +601,18 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8923586012099856841l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getRepresentedPersonSourcePopulation",opaeumId=8923586012099856841l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA")
 	public PersonNode getRepresentedPerson() {
 		PersonNode result = null;
 		if ( this.personInBusinessRole_representedPerson!=null ) {
 			result = this.personInBusinessRole_representedPerson.getRepresentedPerson();
 		}
+		return result;
+	}
+	
+	public Collection<? extends PersonNode> getRepresentedPersonSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(this.getDishwashersInc().getApplianceCollaboration().getBusinessNetwork().getPerson());
+		
 		return result;
 	}
 	
@@ -813,7 +819,11 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		if ( this.getDishwashersInc()!=null ) {
 			this.getDishwashersInc().z_internalRemoveFromManager(this);
 		}
-		this.z_internalAddToDishwashersInc(dishwashersInc);
+		if ( dishwashersInc == null ) {
+			this.z_internalRemoveFromDishwashersInc(this.getDishwashersInc());
+		} else {
+			this.z_internalAddToDishwashersInc(dishwashersInc);
+		}
 		if ( dishwashersInc!=null ) {
 			dishwashersInc.z_internalAddToManager(this);
 			setDeletedOn(Stdlib.FUTURE);
@@ -916,9 +926,13 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		if ( this.getRepresentedPerson()!=null ) {
 			this.getRepresentedPerson().z_internalRemoveFromBusinessRole(this);
 		}
-		this.z_internalAddToRepresentedPerson(representedPerson);
+		if ( representedPerson == null ) {
+			this.z_internalRemoveFromRepresentedPerson(this.getRepresentedPerson());
+		} else {
+			this.z_internalAddToRepresentedPerson(representedPerson);
+		}
 		if ( representedPerson!=null ) {
-		
+			representedPerson.z_internalAddToBusinessRole(this);
 		}
 	}
 	
@@ -1075,7 +1089,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void z_internalAddToRepresentedPerson(PersonNode representedPerson) {
 		PersonInBusinessRole newOne;
-		if ( representedPerson.equals(getRepresentedPerson()) ) {
+		if ( representedPerson!=null && representedPerson.equals(getRepresentedPerson()) ) {
 			return;
 		}
 		newOne = new PersonInBusinessRole(this,representedPerson);

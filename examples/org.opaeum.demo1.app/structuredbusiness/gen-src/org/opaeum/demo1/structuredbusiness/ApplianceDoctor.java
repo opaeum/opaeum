@@ -623,10 +623,16 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, IAct
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6644597149462340021l,opposite="dishwashersInc",uuid="914890@_0XGTgHHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(constraints={},isComposite=true,lookupMethod="getManagerSourcePopulation",opaeumId=6644597149462340021l,opposite="dishwashersInc",uuid="914890@_0XGTgHHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_0XGTgHHgEeGus4aKic9sIg")
 	public Set<Manager> getManager() {
 		Set result = this.manager;
+		
+		return result;
+	}
+	
+	public Collection<? extends Manager> getManagerSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(this.getManager());
 		
 		return result;
 	}
@@ -725,12 +731,18 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, IAct
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8314504260854280851l,opposite="businessComponent",uuid="252060@_vf4noVYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getRepresentedOrganizationSourcePopulation",opaeumId=8314504260854280851l,opposite="businessComponent",uuid="252060@_vf4noVYuEeGj5_I7bIwNoA")
 	public OrganizationNode getRepresentedOrganization() {
 		OrganizationNode result = null;
 		if ( this.organizationAsBusinessComponent_representedOrganization!=null ) {
 			result = this.organizationAsBusinessComponent_representedOrganization.getRepresentedOrganization();
 		}
+		return result;
+	}
+	
+	public Collection<? extends OrganizationNode> getRepresentedOrganizationSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(this.getApplianceCollaboration().getBusinessNetwork().getOrganization());
+		
 		return result;
 	}
 	
@@ -1144,9 +1156,13 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, IAct
 		if ( this.getRepresentedOrganization()!=null ) {
 			this.getRepresentedOrganization().z_internalRemoveFromBusinessComponent(this);
 		}
-		this.z_internalAddToRepresentedOrganization(representedOrganization);
+		if ( representedOrganization == null ) {
+			this.z_internalRemoveFromRepresentedOrganization(this.getRepresentedOrganization());
+		} else {
+			this.z_internalAddToRepresentedOrganization(representedOrganization);
+		}
 		if ( representedOrganization!=null ) {
-		
+			representedOrganization.z_internalAddToBusinessComponent(this);
 		}
 	}
 	
@@ -1334,7 +1350,7 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, IAct
 	
 	public void z_internalAddToRepresentedOrganization(OrganizationNode representedOrganization) {
 		OrganizationAsBusinessComponent newOne;
-		if ( representedOrganization.equals(getRepresentedOrganization()) ) {
+		if ( representedOrganization!=null && representedOrganization.equals(getRepresentedOrganization()) ) {
 			return;
 		}
 		newOne = new OrganizationAsBusinessComponent(this,representedOrganization);

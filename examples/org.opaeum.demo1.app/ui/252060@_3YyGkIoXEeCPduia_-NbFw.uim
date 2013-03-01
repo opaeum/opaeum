@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NVcjZX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_3YyGkIoXEeCPduia_-NbFw" name="Participation participant User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_NVcjZn2yEeKdOuVcMz9Nmw" name="Edit ParticipationParticipant" umlElementUid="252060@_3YyGkIoXEeCPduia_-NbFw">
-    <pageOrdering xmi:id="_NVcjaH2yEeKdOuVcMz9Nmw" page="_NVcjZ32yEeKdOuVcMz9Nmw"/>
-    <pages xmi:id="_NVcjZ32yEeKdOuVcMz9Nmw" umlElementUid="252060@_3YyGkIoXEeCPduia_-NbFw" name="Edit Participation participant">
-      <panel xsi:type="panel:GridPanel" xmi:id="_NVcjaX2yEeKdOuVcMz9Nmw" name="ParticipationParticipant" numberOfColumns="1"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ZcgtkIGpEeK6sqz3aegUOg" umlElementUid="252060@_3YyGkIoXEeCPduia_-NbFw" name="Participation participant User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_ZcgtkYGpEeK6sqz3aegUOg" name="Edit ParticipationParticipant" umlElementUid="252060@_3YyGkIoXEeCPduia_-NbFw">
+    <pageOrdering xmi:id="_Zcgtk4GpEeK6sqz3aegUOg" page="_ZcgtkoGpEeK6sqz3aegUOg"/>
+    <pages xmi:id="_ZcgtkoGpEeK6sqz3aegUOg" name="Edit Participation participant" umlElementUid="252060@_3YyGkIoXEeCPduia_-NbFw">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ZcgtlIGpEeK6sqz3aegUOg" name="ParticipationParticipant" numberOfColumns="1"/>
     </pages>
-    <actionBar xmi:id="_NVcjan2yEeKdOuVcMz9Nmw" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVcja32yEeKdOuVcMz9Nmw" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVcjbH2yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
+    <actionBar xmi:id="_ZcgtlYGpEeK6sqz3aegUOg" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ZcgtloGpEeK6sqz3aegUOg" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_Zcgtl4GpEeK6sqz3aegUOg" name="Delete" kind="delete"/>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_NVdKYH2yEeKdOuVcMz9Nmw" name="Create ParticipationParticipant" umlElementUid="252060@_3YyGkIoXEeCPduia_-NbFw">
-    <pageOrdering xmi:id="_NVdKYn2yEeKdOuVcMz9Nmw" page="_NVdKYX2yEeKdOuVcMz9Nmw"/>
-    <pages xmi:id="_NVdKYX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_3YyGkIoXEeCPduia_-NbFw" name="CreateParticipation participant">
-      <panel xsi:type="panel:GridPanel" xmi:id="_NVdKY32yEeKdOuVcMz9Nmw" name="ParticipationParticipant" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_ZcgtmIGpEeK6sqz3aegUOg" name="Create ParticipationParticipant" umlElementUid="252060@_3YyGkIoXEeCPduia_-NbFw">
+    <pageOrdering xmi:id="_ZcgtmoGpEeK6sqz3aegUOg" page="_ZcgtmYGpEeK6sqz3aegUOg"/>
+    <pages xmi:id="_ZcgtmYGpEeK6sqz3aegUOg" name="CreateParticipation participant" umlElementUid="252060@_3YyGkIoXEeCPduia_-NbFw">
+      <panel xsi:type="panel:GridPanel" xmi:id="_Zcgtm4GpEeK6sqz3aegUOg" name="ParticipationParticipant" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </model:ClassUserInteractionModel>

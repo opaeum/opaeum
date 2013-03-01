@@ -43,6 +43,7 @@ public class SortablePageableCheckboxTableViewer extends CheckboxTableViewer imp
 		newOnes.add(o);
 		PageableController ctl = pageableTable.getController();
 		ctl.setCurrentPage((int) ctl.getTotalElements() / ctl.getPageSize());
+		pageableTable.refreshPage();
 	}
 	public void delete(Object ... objects){
 		list.getItems().removeAll(Arrays.asList(objects));

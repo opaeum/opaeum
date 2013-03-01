@@ -263,7 +263,11 @@ public class ParticipationInRequest extends Participation implements IPersistent
 		if ( this.getRequest()!=null ) {
 			this.getRequest().z_internalRemoveFromParticipationInRequest(this);
 		}
-		this.z_internalAddToRequest(request);
+		if ( request == null ) {
+			this.z_internalRemoveFromRequest(this.getRequest());
+		} else {
+			this.z_internalAddToRequest(request);
+		}
 		if ( request!=null ) {
 			request.z_internalAddToParticipationInRequest(this);
 			setDeletedOn(Stdlib.FUTURE);

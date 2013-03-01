@@ -2,6 +2,7 @@ package org.opaeum.demo1.structuredbusiness;
 
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.simulation.EntityInstanceSimulation;
+import org.opaeum.simulation.SimulationMetaData;
 
 public class ApplianceCollaborationActualInstance1_6z4qmH_JEeK5usaVqVCtXw extends EntityInstanceSimulation<ApplianceCollaboration> {
 	static final public ApplianceCollaboration APPLIANCECOLLABORATIONACTUALINSTANCE1 = new ApplianceCollaboration();

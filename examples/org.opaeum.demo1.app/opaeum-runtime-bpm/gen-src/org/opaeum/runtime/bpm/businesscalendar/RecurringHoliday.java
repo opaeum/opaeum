@@ -288,7 +288,11 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		if ( this.getBusinessCalendar()!=null ) {
 			this.getBusinessCalendar().z_internalRemoveFromRecurringHoliday(this);
 		}
-		this.z_internalAddToBusinessCalendar(businessCalendar);
+		if ( businessCalendar == null ) {
+			this.z_internalRemoveFromBusinessCalendar(this.getBusinessCalendar());
+		} else {
+			this.z_internalAddToBusinessCalendar(businessCalendar);
+		}
 		if ( businessCalendar!=null ) {
 			businessCalendar.z_internalAddToRecurringHoliday(this);
 			setDeletedOn(Stdlib.FUTURE);

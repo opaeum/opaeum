@@ -40,6 +40,7 @@ import org.opaeum.annotation.BusinessComponent;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
+import org.opaeum.demo1.structuredbusiness.ApplianceCollaboration;
 import org.opaeum.demo1.structuredbusiness.ApplianceDoctor;
 import org.opaeum.demo1.structuredbusiness.appliance.ProductAnnouncement;
 import org.opaeum.demo1.structuredbusiness.appliance.ProductAnnouncementHandler;
@@ -52,6 +53,7 @@ import org.opaeum.demo1.structuredbusiness.util.Stdlib;
 import org.opaeum.demo1.structuredbusiness.util.StructuredbusinessFormatter;
 import org.opaeum.hibernate.domain.InternalHibernatePersistence;
 import org.opaeum.runtime.bpm.organization.IBusiness;
+import org.opaeum.runtime.bpm.organization.IBusinessCollaboration;
 import org.opaeum.runtime.bpm.organization.IBusinessComponent;
 import org.opaeum.runtime.bpm.organization.OrganizationAsBusinessComponent;
 import org.opaeum.runtime.bpm.organization.OrganizationNode;
@@ -752,6 +754,12 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		return getDishwashersInc();
 	}
 	
+	public Collection<? extends IBusiness> getParameter1llSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(collect19());
+		
+		return result;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set result = new HashSet<Participation>();
@@ -801,12 +809,24 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8314504260854280851l,opposite="businessComponent",uuid="252060@_vf4noVYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getRepresentedOrganizationSourcePopulation",opaeumId=8314504260854280851l,opposite="businessComponent",uuid="252060@_vf4noVYuEeGj5_I7bIwNoA")
 	public OrganizationNode getRepresentedOrganization() {
 		OrganizationNode result = null;
 		if ( this.organizationAsBusinessComponent_representedOrganization!=null ) {
 			result = this.organizationAsBusinessComponent_representedOrganization.getRepresentedOrganization();
 		}
+		return result;
+	}
+	
+	public Collection<? extends OrganizationNode> getRepresentedOrganizationSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(this.getDishwashersInc().getApplianceCollaboration().getBusinessNetwork().getOrganization());
+		
+		return result;
+	}
+	
+	public Collection<? extends ApplianceDoctor> getSdfgdkkfsdfsSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(collect18());
+		
 		return result;
 	}
 	
@@ -1117,7 +1137,11 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		if ( this.getDishwashersInc()!=null ) {
 			this.getDishwashersInc().z_internalRemoveFromBranch(this);
 		}
-		this.z_internalAddToDishwashersInc(dishwashersInc);
+		if ( dishwashersInc == null ) {
+			this.z_internalRemoveFromDishwashersInc(this.getDishwashersInc());
+		} else {
+			this.z_internalAddToDishwashersInc(dishwashersInc);
+		}
 		if ( dishwashersInc!=null ) {
 			dishwashersInc.z_internalAddToBranch(this);
 			setDeletedOn(Stdlib.FUTURE);
@@ -1211,9 +1235,13 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		if ( this.getRepresentedOrganization()!=null ) {
 			this.getRepresentedOrganization().z_internalRemoveFromBusinessComponent(this);
 		}
-		this.z_internalAddToRepresentedOrganization(representedOrganization);
+		if ( representedOrganization == null ) {
+			this.z_internalRemoveFromRepresentedOrganization(this.getRepresentedOrganization());
+		} else {
+			this.z_internalAddToRepresentedOrganization(representedOrganization);
+		}
 		if ( representedOrganization!=null ) {
-		
+			representedOrganization.z_internalAddToBusinessComponent(this);
 		}
 	}
 	
@@ -1372,7 +1400,7 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public void z_internalAddToRepresentedOrganization(OrganizationNode representedOrganization) {
 		OrganizationAsBusinessComponent newOne;
-		if ( representedOrganization.equals(getRepresentedOrganization()) ) {
+		if ( representedOrganization!=null && representedOrganization.equals(getRepresentedOrganization()) ) {
 			return;
 		}
 		newOne = new OrganizationAsBusinessComponent(this,representedOrganization);
@@ -1514,6 +1542,39 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		return result;
 	}
 	
+	/** Implements self.dishwashersInc.applianceCollaboration.businessNetwork.businessCollaboration->select(c : IBusinessCollaboration | c.oclIsKindOf(structuredbusiness::ApplianceCollaboration))->collect(c : IBusinessCollaboration | c.oclAsType(structuredbusiness::ApplianceCollaboration))
+	 */
+	private Collection<ApplianceCollaboration> collect17() {
+		Collection<ApplianceCollaboration> result = new ArrayList<ApplianceCollaboration>();
+		for ( IBusinessCollaboration c : select16() ) {
+			ApplianceCollaboration bodyExpResult = ((ApplianceCollaboration) c);
+			if ( bodyExpResult != null ) result.add( bodyExpResult );
+		}
+		return result;
+	}
+	
+	/** Implements self.dishwashersInc.applianceCollaboration.businessNetwork.businessCollaboration->select(c : IBusinessCollaboration | c.oclIsKindOf(structuredbusiness::ApplianceCollaboration))->collect(c : IBusinessCollaboration | c.oclAsType(structuredbusiness::ApplianceCollaboration))->collect(c : ApplianceCollaboration | c.applianceDoctor)
+	 */
+	private Collection<ApplianceDoctor> collect18() {
+		Collection<ApplianceDoctor> result = new ArrayList<ApplianceDoctor>();
+		for ( ApplianceCollaboration c : collect17() ) {
+			ApplianceDoctor bodyExpResult = c.getApplianceDoctor();
+			if ( bodyExpResult != null ) result.add( bodyExpResult );
+		}
+		return result;
+	}
+	
+	/** Implements self.dishwashersInc.applianceCollaboration.businessNetwork.businessCollaboration->collect(c : IBusinessCollaboration | c.business)
+	 */
+	private Collection<IBusiness> collect19() {
+		Collection<IBusiness> result = new ArrayList<IBusiness>();
+		for ( IBusinessCollaboration c : this.getDishwashersInc().getApplianceCollaboration().getBusinessNetwork().getBusinessCollaboration() ) {
+			Set<? extends IBusiness> bodyExpResult = c.getBusiness();
+			result.addAll( bodyExpResult );
+		}
+		return result;
+	}
+	
 	/** Implements self.participationsInRequests->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::stakeholder))->collect(temp2 : ParticipationInRequest | temp2.request)
 	 */
 	private Collection<AbstractRequest> collect2() {
@@ -1600,6 +1661,18 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 		for ( ParticipationInRequest temp1 : this.getParticipationsInRequests() ) {
 			if ( (temp1.getKind().equals( RequestParticipationKind.INITIATOR)) ) {
 				result.add( temp1 );
+			}
+		}
+		return result;
+	}
+	
+	/** Implements self.dishwashersInc.applianceCollaboration.businessNetwork.businessCollaboration->select(c : IBusinessCollaboration | c.oclIsKindOf(structuredbusiness::ApplianceCollaboration))
+	 */
+	private Set<IBusinessCollaboration> select16() {
+		Set<IBusinessCollaboration> result = new HashSet<IBusinessCollaboration>();
+		for ( IBusinessCollaboration c : this.getDishwashersInc().getApplianceCollaboration().getBusinessNetwork().getBusinessCollaboration() ) {
+			if ( (c instanceof ApplianceCollaboration) ) {
+				result.add( c );
 			}
 		}
 		return result;

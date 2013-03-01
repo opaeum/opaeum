@@ -23,6 +23,7 @@ import org.opaeum.eclipse.starter.MemoryUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.validation.LinkagePhase;
 
 public class RecompileModelDirectoryAction extends AbstractDirectoryReadingAction{
 	public RecompileModelDirectoryAction(IStructuredSelection selection2){
@@ -43,7 +44,7 @@ public class RecompileModelDirectoryAction extends AbstractDirectoryReadingActio
 					monitor.beginTask("Loading All Models", 1000);
 					p = prepareDirectoryForTransformation(folder, monitor);
 					monitor.subTask("Generating Java Code");
-					p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 400), false);
+					p.executeFrom(LinkagePhase.class, new ProgressMonitorTransformationLog(monitor, 400), false);
 					if(!(monitor.isCanceled())){
 						p.integrate(new ProgressMonitorTransformationLog(monitor, 100));
 					}

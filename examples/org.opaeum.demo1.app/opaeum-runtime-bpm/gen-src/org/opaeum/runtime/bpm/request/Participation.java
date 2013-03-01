@@ -278,9 +278,13 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 		if ( this.getParticipant()!=null ) {
 			this.getParticipant().z_internalRemoveFromParticipation(this);
 		}
-		this.z_internalAddToParticipant(participant);
+		if ( participant == null ) {
+			this.z_internalRemoveFromParticipant(this.getParticipant());
+		} else {
+			this.z_internalAddToParticipant(participant);
+		}
 		if ( participant!=null ) {
-		
+			participant.z_internalAddToParticipation(this);
 		}
 	}
 	
@@ -342,7 +346,7 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 	
 	public void z_internalAddToParticipant(IParticipant participant) {
 		ParticipationParticipant newOne;
-		if ( participant.equals(getParticipant()) ) {
+		if ( participant!=null && participant.equals(getParticipant()) ) {
 			return;
 		}
 		newOne = new ParticipationParticipant(this,participant);

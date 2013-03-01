@@ -422,10 +422,16 @@ abstract public class AbstractRequestGenerated implements IStateMachineExecution
 		return getRequestObject();
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5501213897228443240l,opposite="subRequests",uuid="252060@_towFgY29EeCrtavWRHwoHg")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getParentTaskSourcePopulation",opaeumId=5501213897228443240l,opposite="subRequests",uuid="252060@_towFgY29EeCrtavWRHwoHg")
 	@NumlMetaInfo(uuid="252060@_towFgY29EeCrtavWRHwoHg")
 	public TaskRequest getParentTask() {
 		TaskRequest result = this.parentTask;
+		
+		return result;
+	}
+	
+	public Collection<? extends TaskRequest> getParentTaskSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(collect10());
 		
 		return result;
 	}
@@ -631,7 +637,11 @@ abstract public class AbstractRequestGenerated implements IStateMachineExecution
 		if ( this.getParentTask()!=null ) {
 			this.getParentTask().z_internalRemoveFromSubRequests((AbstractRequest)this);
 		}
-		this.z_internalAddToParentTask(parentTask);
+		if ( parentTask == null ) {
+			this.z_internalRemoveFromParentTask(this.getParentTask());
+		} else {
+			this.z_internalAddToParentTask(parentTask);
+		}
 		if ( parentTask!=null ) {
 			parentTask.z_internalAddToSubRequests((AbstractRequest)this);
 		}
@@ -786,6 +796,17 @@ abstract public class AbstractRequestGenerated implements IStateMachineExecution
 		return result;
 	}
 	
+	/** Implements Set {self.requestObject.request}->select(c : AbstractRequest | c.oclIsKindOf(OpaeumLibraryForBPM::request::TaskRequest))->collect(c : AbstractRequest | c.oclAsType(OpaeumLibraryForBPM::request::TaskRequest))
+	 */
+	private Collection<TaskRequest> collect10() {
+		Collection<TaskRequest> result = new ArrayList<TaskRequest>();
+		for ( AbstractRequest c : select9() ) {
+			TaskRequest bodyExpResult = ((TaskRequest) c);
+			if ( bodyExpResult != null ) result.add( bodyExpResult );
+		}
+		return result;
+	}
+	
 	/** Implements self.participationInRequest->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::stakeholder))->collect(temp2 : ParticipationInRequest | temp2.participant)
 	 */
 	private Collection<IParticipant> collect2() {
@@ -818,6 +839,16 @@ abstract public class AbstractRequestGenerated implements IStateMachineExecution
 		return myList;
 	}
 	
+	/** Implements Set {self.requestObject.request}
+	 */
+	private Set<AbstractRequest> collectionLiteral8() {
+		Set<AbstractRequest> myList = new HashSet<AbstractRequest>();
+		if ( this.getRequestObject().getRequest() != null ) {
+			myList.add( this.getRequestObject().getRequest() );
+		}
+		return myList;
+	}
+	
 	/** Implements self.participationInRequest->select(temp1 : ParticipationInRequest | temp1.kind.=(OpaeumLibraryForBPM::request::RequestParticipationKind::stakeholder))
 	 */
 	private Set<ParticipationInRequest> select1() {
@@ -840,6 +871,18 @@ abstract public class AbstractRequestGenerated implements IStateMachineExecution
 		for ( ParticipationInRequest p : this.getParticipationInRequest() ) {
 			if ( (p.getParticipant().equals(participant) && (p.getKind().equals( kind))) ) {
 				result.add( p );
+			}
+		}
+		return result;
+	}
+	
+	/** Implements Set {self.requestObject.request}->select(c : AbstractRequest | c.oclIsKindOf(OpaeumLibraryForBPM::request::TaskRequest))
+	 */
+	private Set<AbstractRequest> select9() {
+		Set<AbstractRequest> result = new HashSet<AbstractRequest>();
+		for ( AbstractRequest c : collectionLiteral8() ) {
+			if ( (c instanceof TaskRequest) ) {
+				result.add( c );
 			}
 		}
 		return result;

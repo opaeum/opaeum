@@ -6,11 +6,11 @@ import java.net.URL;
 
 import org.osgi.framework.Bundle;
 
-public class BundleUimResourceWrapper extends AbstractUimResourceWrapper{
+public class BundleUimResource extends AbstractUimResource{
 	private URL entry;
-	public BundleUimResourceWrapper(Bundle bundle,String id){
-		super();
-		this.entry=bundle.getEntry("/" + id + ".uim");
+	public BundleUimResource(Bundle bundle,String fileName){
+		super(fileName);
+		this.entry=bundle.getEntry("/" + fileName);
 	}
 	@Override
 	protected boolean shouldReload(){

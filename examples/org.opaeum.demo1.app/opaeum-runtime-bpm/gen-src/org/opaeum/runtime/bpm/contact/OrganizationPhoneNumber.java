@@ -311,7 +311,11 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 		if ( this.getOrganization()!=null ) {
 			this.getOrganization().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}
-		this.z_internalAddToOrganization(organization);
+		if ( organization == null ) {
+			this.z_internalRemoveFromOrganization(this.getOrganization());
+		} else {
+			this.z_internalAddToOrganization(organization);
+		}
 		if ( organization!=null ) {
 			organization.z_internalAddToPhoneNumber(this.getType(),this);
 			setDeletedOn(Stdlib.FUTURE);

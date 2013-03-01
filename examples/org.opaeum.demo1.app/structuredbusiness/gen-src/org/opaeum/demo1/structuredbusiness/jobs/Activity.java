@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -242,10 +243,16 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 		return getJob();
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8435746886564594669l,opposite="activity",uuid="914890@_ehuEgJLCEeGnpuq6_ber_Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getTechnicianSourcePopulation",opaeumId=8435746886564594669l,opposite="activity",uuid="914890@_ehuEgJLCEeGnpuq6_ber_Q")
 	@NumlMetaInfo(uuid="914890@_ehuEgJLCEeGnpuq6_ber_Q")
 	public Technician getTechnician() {
 		Technician result = this.technician;
+		
+		return result;
+	}
+	
+	public Collection<? extends Technician> getTechnicianSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(this.getJob().getBranch().getTechnician());
 		
 		return result;
 	}
@@ -356,7 +363,11 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 		if ( this.getJob()!=null ) {
 			this.getJob().z_internalRemoveFromActivity(this);
 		}
-		this.z_internalAddToJob(job);
+		if ( job == null ) {
+			this.z_internalRemoveFromJob(this.getJob());
+		} else {
+			this.z_internalAddToJob(job);
+		}
 		if ( job!=null ) {
 			job.z_internalAddToActivity(this);
 			setDeletedOn(Stdlib.FUTURE);

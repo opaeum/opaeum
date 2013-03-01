@@ -1,11 +1,9 @@
 package org.opaeum.uim.control;
 
-import java.util.Map;
-
-import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
-import org.opaeum.uim.UimInstantiator;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.binding.LookupBinding;
 import org.opaeum.uim.component.UimField;
 import org.w3c.dom.Element;
@@ -17,11 +15,9 @@ public class UimTreeViewImpl extends EObjectImpl implements UimTreeView {
 	private LookupBinding lookupSource;
 	private String mimumWidth;
 	private Integer minimumHeight;
-	private String uid;
 
 
-	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
-		setUid(xml.getAttribute("xmi:id"));
+	public void buildTreeFromXml(Element xml) {
 		if ( xml.getAttribute("mimumWidth").length()>0 ) {
 			setMimumWidth(EcoreDataTypeParser.getInstance().parseEString(xml.getAttribute("mimumWidth")));
 		}
@@ -40,18 +36,11 @@ public class UimTreeViewImpl extends EObjectImpl implements UimTreeView {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setLookupSource(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 				curVal.setLookup(this);
 			}
 		}
-	}
-	
-	public EObject eContainer() {
-		EObject result = null;
-		
-		return result;
 	}
 	
 	public UimField getField() {
@@ -70,17 +59,13 @@ public class UimTreeViewImpl extends EObjectImpl implements UimTreeView {
 		return this.minimumHeight;
 	}
 	
-	public String getUid() {
-		return this.uid;
-	}
-	
-	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
+	public void populateReferencesFromXml(Element xml) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("lookupSource") ) {
-				((org.opaeum.uim.binding.LookupBinding)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.binding.LookupBinding)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 		}
 	}
@@ -99,10 +84,6 @@ public class UimTreeViewImpl extends EObjectImpl implements UimTreeView {
 	
 	public void setMinimumHeight(Integer minimumHeight) {
 		this.minimumHeight=minimumHeight;
-	}
-	
-	public void setUid(String uid) {
-		this.uid=uid;
 	}
 
 }

@@ -42,6 +42,7 @@ import org.opaeum.runtime.jface.entityeditor.SecurityUtil;
 import org.opaeum.runtime.jface.widgets.SortablePageableCheckboxTableViewer;
 import org.opaeum.runtime.jface.wizards.OperationInvocationWizard;
 import org.opaeum.runtime.rwt.Activator;
+import org.opaeum.runtime.rwt.DialogUtil;
 import org.opaeum.runtime.rwt.IOpaeumApplication;
 import org.opaeum.runtime.rwt.OpaeumRapSession;
 import org.opaeum.uim.UserInteractionElement;
@@ -98,7 +99,7 @@ public final class DataTableBuilder{
 			final TableViewerColumn firstColumn = new TableViewerColumn(tableViewer, SWT.NONE, 0);
 			final TableColumn column = firstColumn.getColumn();
 			column.setText("");
-			column.setWidth(20);
+			column.setWidth(25);
 			column.setResizable(false);
 			column.setMoveable(false);
 			firstColumn.setLabelProvider(new CellLabelProvider(){
@@ -168,10 +169,11 @@ public final class DataTableBuilder{
 										CompositionNode cn = (CompositionNode) ni;
 										cn.init((CompositionNode) objectBeingUpdated);
 										cn.addToOwningObject();
-										tableViewer.addNew(cn);
 									}else{
 										bindingUtil.invokeAdder(objectBeingUpdated, ni, uimTable.getBinding());
 									}
+									tableViewer.addNew(ni);
+									tableViewer.getTable().getParent().getParent().layout();
 									if(input != null){
 										input.setDirty(true);
 									}
@@ -199,7 +201,7 @@ public final class DataTableBuilder{
 							}
 							OperationInvocationWizard wizard = new OperationInvocationWizard(sel, eventHandler, ob.getPopup(), input);
 							WizardDialog dialog = new WizardDialog(body.getShell(), wizard);
-							dialog.open();
+							DialogUtil.open(dialog, null);
 						}
 						public void widgetDefaultSelected(SelectionEvent e){
 						}
@@ -230,7 +232,7 @@ public final class DataTableBuilder{
 				IEventHandler eventHandler = bindingUtil.getEventHandler(btn.getUmlElementUid());
 				OperationInvocationWizard wizard = new OperationInvocationWizard((IPersistentObject) element, eventHandler, btn.getPopup(), input);
 				WizardDialog dialog = new WizardDialog(body.getShell(), wizard);
-				dialog.open();
+				DialogUtil.open(dialog,null);
 			}
 		});
 	}
@@ -288,7 +290,7 @@ public final class DataTableBuilder{
 		return viewerColumn;
 	}
 	private void addFieldColumn(final CheckboxTableViewer tableViewer,final TableViewerColumn viewerColumn,final UimField uimField){
-		boolean editable = securityUtil.calculateEditability(uimField);
+		boolean editable = securityUtil.calculateEditability(uimField) && 	!bindingUtil.getTypedElement(uimField.getBinding().getLastPropertyUuid()).isReadOnly();
 		final BindingUtil bindingUtil = this.bindingUtil;
 		final EntityEditorInputJface input = this.input;
 		switch(uimField.getControlKind()==null?ControlKind.TEXT:uimField.getControlKind()){

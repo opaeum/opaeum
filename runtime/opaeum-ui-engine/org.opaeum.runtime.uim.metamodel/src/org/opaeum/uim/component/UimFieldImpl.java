@@ -1,12 +1,10 @@
 package org.opaeum.uim.component;
 
-import java.util.Map;
-
-import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.Labels;
-import org.opaeum.uim.UimInstantiator;
 import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
 import org.opaeum.uim.control.ControlKind;
@@ -29,18 +27,13 @@ public class UimFieldImpl extends EObjectImpl implements UimField {
 	private Orientation orientation;
 	private Integer preferredHeight;
 	private Integer preferredWidth;
-	private String uid;
 	private boolean underUserControl;
 	private UserInteractionConstraint visibility;
 
 
-	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
-		setUid(xml.getAttribute("xmi:id"));
+	public void buildTreeFromXml(Element xml) {
 		if ( xml.getAttribute("name").length()>0 ) {
 			setName(EcoreDataTypeParser.getInstance().parseEString(xml.getAttribute("name")));
-		}
-		if(getName().equals("Initiation datell")){
-			System.out.println();
 		}
 		if ( xml.getAttribute("underUserControl").length()>0 ) {
 			setUnderUserControl(EcoreDataTypeParser.getInstance().parseEBoolean(xml.getAttribute("underUserControl")));
@@ -57,13 +50,17 @@ public class UimFieldImpl extends EObjectImpl implements UimField {
 		if ( xml.getAttribute("fillVertically").length()>0 ) {
 			setFillVertically(EcoreDataTypeParser.getInstance().parseEBooleanObject(xml.getAttribute("fillVertically")));
 		}
-		if ( xml.getAttribute("controlKind").length()>0 ) {
+		if ( xml.getAttribute("controlKind").length()==0 ) {
+			setControlKind(ControlKind.values()[0]);
+		} else {
 			setControlKind(ControlKind.getByName(xml.getAttribute("controlKind")));
 		}
 		if ( xml.getAttribute("minimumLabelWidth").length()>0 ) {
 			setMinimumLabelWidth(EcoreDataTypeParser.getInstance().parseEIntegerObject(xml.getAttribute("minimumLabelWidth")));
 		}
-		if ( xml.getAttribute("orientation").length()>0 ) {
+		if ( xml.getAttribute("orientation").length()==0 ) {
+			setOrientation(Orientation.values()[0]);
+		} else {
 			setOrientation(Orientation.getByName(xml.getAttribute("orientation")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
@@ -78,9 +75,8 @@ public class UimFieldImpl extends EObjectImpl implements UimField {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setVisibility(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("editability") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -90,9 +86,8 @@ public class UimFieldImpl extends EObjectImpl implements UimField {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setEditability(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -102,9 +97,8 @@ public class UimFieldImpl extends EObjectImpl implements UimField {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setLabelOverride(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("control") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -114,9 +108,8 @@ public class UimFieldImpl extends EObjectImpl implements UimField {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setControl(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 				curVal.setField(this);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("binding") ) {
@@ -127,18 +120,11 @@ public class UimFieldImpl extends EObjectImpl implements UimField {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setBinding(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 				curVal.setField(this);
 			}
 		}
-	}
-	
-	public EObject eContainer() {
-		EObject result = null;
-		
-		return result;
 	}
 	
 	public FieldBinding getBinding() {
@@ -195,10 +181,6 @@ public class UimFieldImpl extends EObjectImpl implements UimField {
 		return this.preferredWidth;
 	}
 	
-	public String getUid() {
-		return this.uid;
-	}
-	
 	public UserInteractionConstraint getVisibility() {
 		return this.visibility;
 	}
@@ -207,25 +189,25 @@ public class UimFieldImpl extends EObjectImpl implements UimField {
 		return this.underUserControl;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
+	public void populateReferencesFromXml(Element xml) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("visibility") ) {
-				((org.opaeum.uim.constraint.UserInteractionConstraint)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.constraint.UserInteractionConstraint)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("editability") ) {
-				((org.opaeum.uim.constraint.UserInteractionConstraint)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.constraint.UserInteractionConstraint)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
-				((org.opaeum.uim.Labels)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.Labels)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("control") ) {
-				((org.opaeum.uim.control.UimControl)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.control.UimControl)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("binding") ) {
-				((org.opaeum.uim.binding.FieldBinding)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.binding.FieldBinding)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 		}
 	}
@@ -276,10 +258,6 @@ public class UimFieldImpl extends EObjectImpl implements UimField {
 	
 	public void setPreferredWidth(Integer preferredWidth) {
 		this.preferredWidth=preferredWidth;
-	}
-	
-	public void setUid(String uid) {
-		this.uid=uid;
 	}
 	
 	public void setUnderUserControl(boolean underUserControl) {

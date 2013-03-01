@@ -418,6 +418,12 @@ public class CustomerAssistant implements IPersistentObject, IEventGenerator, Hi
 		return this.cancelledEvents;
 	}
 	
+	public Collection<? extends OnlineCustomer> getCustomerSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(this.getBranch().getDishwashersInc().getApplianceCollaboration().getOnlineCustomer());
+		
+		return result;
+	}
+	
 	public Date getDeletedOn() {
 		return this.deletedOn;
 	}
@@ -442,10 +448,16 @@ public class CustomerAssistant implements IPersistentObject, IEventGenerator, Hi
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3791221050524753443l,opposite="customerAssistant",uuid="914890@_YMhu8ZLAEeGnpuq6_ber_Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getJobSourcePopulation",opaeumId=3791221050524753443l,opposite="customerAssistant",uuid="914890@_YMhu8ZLAEeGnpuq6_ber_Q")
 	@NumlMetaInfo(uuid="914890@_YMhu8ZLAEeGnpuq6_ber_Q")
 	public Set<Job> getJob() {
 		Set result = this.job;
+		
+		return result;
+	}
+	
+	public Collection<? extends Job> getJobSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(this.getBranch().getJob());
 		
 		return result;
 	}
@@ -603,12 +615,18 @@ public class CustomerAssistant implements IPersistentObject, IEventGenerator, Hi
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8923586012099856841l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getRepresentedPersonSourcePopulation",opaeumId=8923586012099856841l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA")
 	public PersonNode getRepresentedPerson() {
 		PersonNode result = null;
 		if ( this.personInBusinessRole_representedPerson!=null ) {
 			result = this.personInBusinessRole_representedPerson.getRepresentedPerson();
 		}
+		return result;
+	}
+	
+	public Collection<? extends PersonNode> getRepresentedPersonSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(this.getBranch().getDishwashersInc().getApplianceCollaboration().getBusinessNetwork().getPerson());
+		
 		return result;
 	}
 	
@@ -808,7 +826,11 @@ public class CustomerAssistant implements IPersistentObject, IEventGenerator, Hi
 		if ( this.getBranch()!=null ) {
 			this.getBranch().z_internalRemoveFromCustomerAssistant(this);
 		}
-		this.z_internalAddToBranch(branch);
+		if ( branch == null ) {
+			this.z_internalRemoveFromBranch(this.getBranch());
+		} else {
+			this.z_internalAddToBranch(branch);
+		}
 		if ( branch!=null ) {
 			branch.z_internalAddToCustomerAssistant(this);
 			setDeletedOn(Stdlib.FUTURE);
@@ -915,9 +937,13 @@ public class CustomerAssistant implements IPersistentObject, IEventGenerator, Hi
 		if ( this.getRepresentedPerson()!=null ) {
 			this.getRepresentedPerson().z_internalRemoveFromBusinessRole(this);
 		}
-		this.z_internalAddToRepresentedPerson(representedPerson);
+		if ( representedPerson == null ) {
+			this.z_internalRemoveFromRepresentedPerson(this.getRepresentedPerson());
+		} else {
+			this.z_internalAddToRepresentedPerson(representedPerson);
+		}
 		if ( representedPerson!=null ) {
-		
+			representedPerson.z_internalAddToBusinessRole(this);
 		}
 	}
 	
@@ -1043,7 +1069,7 @@ public class CustomerAssistant implements IPersistentObject, IEventGenerator, Hi
 	
 	public void z_internalAddToRepresentedPerson(PersonNode representedPerson) {
 		PersonInBusinessRole newOne;
-		if ( representedPerson.equals(getRepresentedPerson()) ) {
+		if ( representedPerson!=null && representedPerson.equals(getRepresentedPerson()) ) {
 			return;
 		}
 		newOne = new PersonInBusinessRole(this,representedPerson);

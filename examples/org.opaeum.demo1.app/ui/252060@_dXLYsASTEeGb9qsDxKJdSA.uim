@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:QueryInvoker xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NeE64H2yEeKdOuVcMz9Nmw" name="convertDuration" umlElementUid="252060@_dXLYsASTEeGb9qsDxKJdSA" linkedUmlResource="OpaeumBPM.library.uml">
-  <pageOrdering xmi:id="_NeE64n2yEeKdOuVcMz9Nmw" page="_NeE64X2yEeKdOuVcMz9Nmw"/>
-  <pages xmi:id="_NeE64X2yEeKdOuVcMz9Nmw" umlElementUid="252060@_dXLYsASTEeGb9qsDxKJdSA" name="Query: Convert duration">
-    <panel xsi:type="panel:GridPanel" xmi:id="_NeE6432yEeKdOuVcMz9Nmw" name="ConvertDuration" numberOfColumns="1">
-      <children xsi:type="comp:UimField" xmi:id="_NeE65H2yEeKdOuVcMz9Nmw" name="From" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-        <control xsi:type="ctl:UimText" xmi:id="_NeE65X2yEeKdOuVcMz9Nmw"/>
-        <binding xmi:id="_NeE65n2yEeKdOuVcMz9Nmw" umlElementUid="252060@_e8ABcASTEeGb9qsDxKJdSA"/>
+<model:QueryInvoker xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ZczoiIGpEeK6sqz3aegUOg" name="convertDuration" umlElementUid="252060@_dXLYsASTEeGb9qsDxKJdSA" linkedUmlResource="OpaeumBPM.library.uml">
+  <pageOrdering xmi:id="_ZczoioGpEeK6sqz3aegUOg" page="_ZczoiYGpEeK6sqz3aegUOg"/>
+  <pages xmi:id="_ZczoiYGpEeK6sqz3aegUOg" name="Query: Convert duration" umlElementUid="252060@_dXLYsASTEeGb9qsDxKJdSA">
+    <panel xsi:type="panel:GridPanel" xmi:id="_Zczoi4GpEeK6sqz3aegUOg" name="ConvertDuration" numberOfColumns="1">
+      <children xsi:type="comp:UimField" xmi:id="_ZczojIGpEeK6sqz3aegUOg" name="From" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimText" xmi:id="_ZczojYGpEeK6sqz3aegUOg"/>
+        <binding xmi:id="_ZczojoGpEeK6sqz3aegUOg" umlElementUid="252060@_e8ABcASTEeGb9qsDxKJdSA"/>
       </children>
-      <children xsi:type="comp:UimField" xmi:id="_NeE6532yEeKdOuVcMz9Nmw" name="To time unit" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-        <control xsi:type="ctl:UimDropdown" xmi:id="_NeE66H2yEeKdOuVcMz9Nmw"/>
-        <binding xmi:id="_NeE66X2yEeKdOuVcMz9Nmw" umlElementUid="252060@_ixMxYASTEeGb9qsDxKJdSA"/>
+      <children xsi:type="comp:UimField" xmi:id="_Zczoj4GpEeK6sqz3aegUOg" name="To time unit" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown" xmi:id="_ZczokIGpEeK6sqz3aegUOg"/>
+        <binding xmi:id="_ZczokYGpEeK6sqz3aegUOg" umlElementUid="252060@_ixMxYASTEeGb9qsDxKJdSA"/>
       </children>
-      <children xsi:type="comp:UimField" xmi:id="_NeE66n2yEeKdOuVcMz9Nmw" name="Result" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
-        <control xsi:type="ctl:UimText" xmi:id="_NeE6632yEeKdOuVcMz9Nmw"/>
-        <binding xmi:id="_NeE67H2yEeKdOuVcMz9Nmw" umlElementUid="252060@_oc-ocASTEeGb9qsDxKJdSA"/>
+      <children xsi:type="comp:UimField" xmi:id="_ZczokoGpEeK6sqz3aegUOg" name="Result" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimText" xmi:id="_Zczok4GpEeK6sqz3aegUOg"/>
+        <binding xmi:id="_ZczolIGpEeK6sqz3aegUOg" umlElementUid="252060@_oc-ocASTEeGb9qsDxKJdSA"/>
       </children>
     </panel>
   </pages>
-  <actionBar xmi:id="_NeE67X2yEeKdOuVcMz9Nmw" name="ActionBar">
-    <children xsi:type="action:BuiltInActionButton" xmi:id="_NeE67n2yEeKdOuVcMz9Nmw" name="Execute" kind="execute"/>
+  <actionBar xmi:id="_ZczolYGpEeK6sqz3aegUOg" name="ActionBar">
+    <children xsi:type="action:BuiltInActionButton" xmi:id="_ZczoloGpEeK6sqz3aegUOg" name="Execute" kind="execute"/>
   </actionBar>
 </model:QueryInvoker>

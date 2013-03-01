@@ -43,11 +43,13 @@ import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.TableBinding;
 import org.opaeum.uim.component.ComponentFactory;
+import org.opaeum.uim.component.ComponentPackage;
 import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.component.UimContainer;
 import org.opaeum.uim.component.UimDataTable;
 import org.opaeum.uim.component.UimField;
 import org.opaeum.uim.control.ControlKind;
+import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.model.BehaviorUserInteractionModel;
 import org.opaeum.uim.model.ModelFactory;
 import org.opaeum.uim.model.OperationInvocationWizard;
@@ -366,7 +368,7 @@ public abstract class AbstractUserInterfaceCreator{
 				uf.setName(NameConverter.separateWords(property.getName()));
 				ControlKind controlKind = ControlUtil.getPreferredControlKind(UmlUimLinks.getNearestUserInterfaceRoot(container), property,
 						container instanceof UimDataTable);
-				if(controlKind != uf.getControlKind()){
+				if(controlKind != uf.getControlKind() || !uf.eIsSet(ComponentPackage.eINSTANCE.getUimField_ControlKind())){
 					uf.setControlKind(controlKind);
 					uf.setControl(ControlUtil.instantiate(uf.getControlKind()));
 				}

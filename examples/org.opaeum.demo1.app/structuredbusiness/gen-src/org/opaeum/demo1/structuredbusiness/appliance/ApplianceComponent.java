@@ -270,7 +270,11 @@ public class ApplianceComponent implements IPersistentObject, IEventGenerator, H
 		if ( this.getAppliance()!=null ) {
 			this.getAppliance().z_internalRemoveFromComponent(this);
 		}
-		this.z_internalAddToAppliance(appliance);
+		if ( appliance == null ) {
+			this.z_internalRemoveFromAppliance(this.getAppliance());
+		} else {
+			this.z_internalAddToAppliance(appliance);
+		}
 		if ( appliance!=null ) {
 			appliance.z_internalAddToComponent(this);
 			setDeletedOn(Stdlib.FUTURE);

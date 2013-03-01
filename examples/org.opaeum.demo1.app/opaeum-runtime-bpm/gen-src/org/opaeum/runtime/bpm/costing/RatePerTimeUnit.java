@@ -397,8 +397,13 @@ public class RatePerTimeUnit implements IPersistentObject, IEventGenerator, Hibe
 		if ( this.getTimedResource()!=null ) {
 			this.getTimedResource().z_internalRemoveFromRatePerTimeUnit(this);
 		}
-		this.z_internalAddToTimedResource(timedResource);
+		if ( timedResource == null ) {
+			this.z_internalRemoveFromTimedResource(this.getTimedResource());
+		} else {
+			this.z_internalAddToTimedResource(timedResource);
+		}
 		if ( timedResource!=null ) {
+			timedResource.z_internalAddToRatePerTimeUnit(this);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -515,7 +520,7 @@ public class RatePerTimeUnit implements IPersistentObject, IEventGenerator, Hibe
 	
 	public void z_internalAddToTimedResource(ITimedResource timedResource) {
 		TimedResourceRatePerTimeUnit newOne;
-		if ( timedResource.equals(getTimedResource()) ) {
+		if ( timedResource!=null && timedResource.equals(getTimedResource()) ) {
 			return;
 		}
 		newOne = new TimedResourceRatePerTimeUnit(this,timedResource);

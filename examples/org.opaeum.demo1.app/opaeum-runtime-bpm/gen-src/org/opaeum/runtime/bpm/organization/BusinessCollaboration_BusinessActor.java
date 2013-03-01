@@ -319,7 +319,11 @@ public class BusinessCollaboration_BusinessActor implements IPersistentObject, H
 		if ( this.getBusinessCollaboration()!=null ) {
 			this.getBusinessCollaboration().z_internalRemoveFromBusinessCollaboration_BusinessActor_businessActor(this);
 		}
-		this.z_internalAddToBusinessCollaboration(businessCollaboration);
+		if ( businessCollaboration == null ) {
+			this.z_internalRemoveFromBusinessCollaboration(this.getBusinessCollaboration());
+		} else {
+			this.z_internalAddToBusinessCollaboration(businessCollaboration);
+		}
 		if ( businessCollaboration!=null ) {
 			businessCollaboration.z_internalAddToBusinessCollaboration_BusinessActor_businessActor(this);
 		}

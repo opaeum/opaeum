@@ -334,7 +334,11 @@ public class QuantifiedResourcePricePerUnit implements IPersistentObject, Hibern
 		if ( this.getQuantifiedResource()!=null ) {
 			this.getQuantifiedResource().z_internalRemoveFromQuantifiedResourcePricePerUnit_pricePerUnit(this);
 		}
-		this.z_internalAddToQuantifiedResource(quantifiedResource);
+		if ( quantifiedResource == null ) {
+			this.z_internalRemoveFromQuantifiedResource(this.getQuantifiedResource());
+		} else {
+			this.z_internalAddToQuantifiedResource(quantifiedResource);
+		}
 		if ( quantifiedResource!=null ) {
 			quantifiedResource.z_internalAddToQuantifiedResourcePricePerUnit_pricePerUnit(this);
 		}

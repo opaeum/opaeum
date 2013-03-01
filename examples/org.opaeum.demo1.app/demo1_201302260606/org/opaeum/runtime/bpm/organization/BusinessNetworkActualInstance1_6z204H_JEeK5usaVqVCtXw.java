@@ -3,6 +3,7 @@ package org.opaeum.runtime.bpm.organization;
 import org.opaeum.demo1.structuredbusiness.ApplianceCollaborationActualInstance1_6z4qmH_JEeK5usaVqVCtXw;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.simulation.EntityInstanceSimulation;
+import org.opaeum.simulation.SimulationMetaData;
 
 public class BusinessNetworkActualInstance1_6z204H_JEeK5usaVqVCtXw extends EntityInstanceSimulation<BusinessNetwork> {
 	static final public BusinessNetwork BUSINESSNETWORKACTUALINSTANCE1 = new BusinessNetwork();

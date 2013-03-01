@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ejb.EJBContext;
 import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.JoinColumn;

@@ -59,9 +59,10 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 	static Map<ChangedEntity,ChangedEntity> recentlyChangedEntities = Collections.synchronizedMap(new HashMap<ChangedEntity,ChangedEntity>());
 	static{
 		// HAck!! No event to trap session closure
-		new Thread(EventDispatcher.class.getName() + "::Grim reaper thread"){
+		Thread t = new Thread(EventDispatcher.class.getName() + "::Grim reaper thread"){
 			@Override
 			public void run(){
+
 				while(true){
 					try{
 						sleep(10000);
@@ -95,7 +96,9 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 					}
 				}
 			}
-		}.start();
+		};
+		t.setDaemon(true);
+		t.start();
 	}
 	@Override
 	public void onPostUpdate(PostUpdateEvent event){

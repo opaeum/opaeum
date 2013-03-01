@@ -12,6 +12,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 import org.hibernate.validator.HibernateValidator;
+import org.opaeum.ecore.UimReader;
 import org.opaeum.runtime.domain.IEnum;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.Environment;
@@ -26,10 +27,9 @@ import org.osgi.framework.Bundle;
 
 public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 	Bundle bundle;
-	Map<String,AbstractUimResourceWrapper> deployedUimFiles = Collections.synchronizedMap(new HashMap<String,AbstractUimResourceWrapper>());
 	private Validator validator;
 	protected ConversationalPersistence applicationPersistence;
-	private File developmentUiDirectory;
+	private UimResourceSet uimResourceSet;
 	protected AbstractOpaeumApplication(Bundle bundle){
 		super();
 		this.bundle = bundle;
@@ -44,8 +44,11 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 		if(path != null && path.length() > 0){
 			File file = new File(path);
 			if(file.exists() && file.isDirectory()){
-				developmentUiDirectory = file;
+				uimResourceSet=new UimResourceSet(file);
 			}
+		}
+		if(uimResourceSet==null){
+			uimResourceSet=new UimResourceSet(bundle);
 		}
 	}
 	@Override
@@ -57,7 +60,10 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 	@Override
 	public Validator getValidator(){
 		if(validator == null){
+			ClassLoader ccl=Thread.currentThread().getContextClassLoader();
+			Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
 			validator = Validation.byProvider(HibernateValidator.class).configure().buildValidatorFactory().getValidator();
+			Thread.currentThread().setContextClassLoader(ccl);
 		}
 		return validator;
 	}
@@ -143,20 +149,10 @@ public abstract class AbstractOpaeumApplication implements IOpaeumApplication{
 		if(this.applicationPersistence != null && this.applicationPersistence.isOpen()){
 			this.applicationPersistence.close();
 		}
-		this.deployedUimFiles = null;
-		this.deployedUimFiles = null;
+		this.uimResourceSet = null;
 		this.validator = null;
 	}
-	private AbstractUimResourceWrapper getResourceWrapper(String id){
-		AbstractUimResourceWrapper result = this.deployedUimFiles.get(id);
-		if(result == null){
-			if(developmentUiDirectory == null){
-				result = new BundleUimResourceWrapper(bundle, id);
-			}else{
-				result = new FileUimResourceWrapper(developmentUiDirectory, id);
-			}
-			this.deployedUimFiles.put(id, result);
-		}
-		return result;
+	private AbstractUimResource getResourceWrapper(String id){
+		return uimResourceSet.getResource(id + ".uim");
 	}
 }

@@ -286,7 +286,11 @@ public class Sail implements IPersistentObject, IEventGenerator, HibernateEntity
 		if ( this.getBoat()!=null ) {
 			this.getBoat().z_internalRemoveFromSail(this.getSailPosition(),this);
 		}
-		this.z_internalAddToBoat(boat);
+		if ( boat == null ) {
+			this.z_internalRemoveFromBoat(this.getBoat());
+		} else {
+			this.z_internalAddToBoat(boat);
+		}
 		if ( boat!=null ) {
 			boat.z_internalAddToSail(this.getSailPosition(),this);
 			setDeletedOn(Stdlib.FUTURE);

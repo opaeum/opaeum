@@ -54,15 +54,6 @@ public class EntityEditorInputJface implements IValueChangeListener, IEditorInpu
 		return ""; //$NON-NLS-1$
 	}
 
-	@SuppressWarnings("rawtypes")//$NON-NLS-1$
-	public Object getAdapter(final Class adapter) {
-		Object result = null;
-		if (adapter == IPersistentObject.class) {
-			result = entity;
-		}
-		return result;
-	}
-
 	public OpaeumRapSession getOpaeumSession(){
 		return opaeumSession;
 	}
@@ -85,5 +76,10 @@ public class EntityEditorInputJface implements IValueChangeListener, IEditorInpu
 		dirty=b;
 		dirtyListener.dirtyChanged(dirty);
 	}
+	public Class<? extends Object> calculateTargetClass(){
+		Class<? extends Object> calculateTargetClass = IntrospectionUtil.getOriginalClass(getPersistentObject());
+		return calculateTargetClass;
+	}
+
 
 }

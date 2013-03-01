@@ -438,7 +438,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(builtInActionButtonEClass, BuiltInActionButton.class, "BuiltInActionButton", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getBuiltInActionButton_Kind(), this.getActionKind(), "kind", null, 0, 1, BuiltInActionButton.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBuiltInActionButton_Kind(), this.getActionKind(), "kind", "null", 0, 1, BuiltInActionButton.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBuiltInActionButton_Labels(), theUimPackage.getLabels(), null, "labels", null, 0, 1, BuiltInActionButton.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(abstractActionButtonEClass, AbstractActionButton.class, "AbstractActionButton", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -453,7 +453,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		initEClass(abstractLinkEClass, AbstractLink.class, "AbstractLink", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(builtInLinkEClass, BuiltInLink.class, "BuiltInLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getBuiltInLink_Kind(), this.getBuiltInLinkKind(), "kind", null, 0, 1, BuiltInLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBuiltInLink_Kind(), this.getBuiltInLinkKind(), "kind", "null", 0, 1, BuiltInLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBuiltInLink_Labels(), theUimPackage.getLabels(), null, "labels", null, 0, 1, BuiltInLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals

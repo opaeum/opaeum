@@ -12,7 +12,8 @@ Require-Bundle: org.opaeum.compilation.java,
  org.opaeum.compilation.filegeneration,
  org.opaeum.compilation.ocltojava,
  org.opaeum.metamodels.emfworkspace,
- org.eclipse.uml2.uml
+ org.eclipse.uml2.uml,
+ org.opaeum.linkage.validation
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/velocity-1.5.0.jar,
  .,

@@ -308,7 +308,11 @@ public class PersonInBusinessRole implements IPersistentObject, HibernateEntity,
 		if ( this.getRepresentedPerson()!=null ) {
 			this.getRepresentedPerson().z_internalRemoveFromPersonInBusinessRole_businessRole(this);
 		}
-		this.z_internalAddToRepresentedPerson(representedPerson);
+		if ( representedPerson == null ) {
+			this.z_internalRemoveFromRepresentedPerson(this.getRepresentedPerson());
+		} else {
+			this.z_internalAddToRepresentedPerson(representedPerson);
+		}
 		if ( representedPerson!=null ) {
 			representedPerson.z_internalAddToPersonInBusinessRole_businessRole(this);
 		}

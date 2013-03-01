@@ -27,9 +27,7 @@ import org.opaeum.uim.panel.Outlayable;
 import org.opaeum.uim.panel.PanelPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Uim Field</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Uim Field</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -50,377 +48,317 @@ import org.opaeum.uim.panel.PanelPackage;
  *
  * @generated
  */
-public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimField {
+public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimField{
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
 	protected static final String NAME_EDEFAULT = "";
-
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
-
 	/**
 	 * The default value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * @see #isUnderUserControl()
 	 * @generated
 	 * @ordered
 	 */
 	protected static final boolean UNDER_USER_CONTROL_EDEFAULT = false;
-
 	/**
 	 * The cached value of the '{@link #isUnderUserControl() <em>Under User Control</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * @see #isUnderUserControl()
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean underUserControl = UNDER_USER_CONTROL_EDEFAULT;
-
 	/**
 	 * The cached value of the '{@link #getLabelOverride() <em>Label Override</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * @see #getLabelOverride()
 	 * @generated
 	 * @ordered
 	 */
 	protected Labels labelOverride;
-
 	/**
-	 * The default value of the '{@link #getPreferredWidth() <em>Preferred Width</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getPreferredWidth() <em>Preferred Width</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @see #getPreferredWidth()
 	 * @generated
 	 * @ordered
 	 */
 	protected static final Integer PREFERRED_WIDTH_EDEFAULT = null;
-
 	/**
-	 * The cached value of the '{@link #getPreferredWidth() <em>Preferred Width</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getPreferredWidth() <em>Preferred Width</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @see #getPreferredWidth()
 	 * @generated
 	 * @ordered
 	 */
 	protected Integer preferredWidth = PREFERRED_WIDTH_EDEFAULT;
-
 	/**
-	 * The default value of the '{@link #getPreferredHeight() <em>Preferred Height</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getPreferredHeight() <em>Preferred Height</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @see #getPreferredHeight()
 	 * @generated
 	 * @ordered
 	 */
 	protected static final Integer PREFERRED_HEIGHT_EDEFAULT = null;
-
 	/**
-	 * The cached value of the '{@link #getPreferredHeight() <em>Preferred Height</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getPreferredHeight() <em>Preferred Height</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @see #getPreferredHeight()
 	 * @generated
 	 * @ordered
 	 */
 	protected Integer preferredHeight = PREFERRED_HEIGHT_EDEFAULT;
-
 	/**
 	 * The default value of the '{@link #getFillHorizontally() <em>Fill Horizontally</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * @see #getFillHorizontally()
 	 * @generated
 	 * @ordered
 	 */
 	protected static final Boolean FILL_HORIZONTALLY_EDEFAULT = null;
-
 	/**
 	 * The cached value of the '{@link #getFillHorizontally() <em>Fill Horizontally</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * @see #getFillHorizontally()
 	 * @generated
 	 * @ordered
 	 */
 	protected Boolean fillHorizontally = FILL_HORIZONTALLY_EDEFAULT;
-
 	/**
-	 * The default value of the '{@link #getFillVertically() <em>Fill Vertically</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getFillVertically() <em>Fill Vertically</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @see #getFillVertically()
 	 * @generated
 	 * @ordered
 	 */
 	protected static final Boolean FILL_VERTICALLY_EDEFAULT = null;
-
 	/**
-	 * The cached value of the '{@link #getFillVertically() <em>Fill Vertically</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getFillVertically() <em>Fill Vertically</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @see #getFillVertically()
 	 * @generated
 	 * @ordered
 	 */
 	protected Boolean fillVertically = FILL_VERTICALLY_EDEFAULT;
-
 	/**
 	 * The cached value of the '{@link #getControl() <em>Control</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getControl()
 	 * @generated
 	 * @ordered
 	 */
 	protected UimControl control;
-
 	/**
 	 * The default value of the '{@link #getControlKind() <em>Control Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getControlKind()
 	 * @generated
 	 * @ordered
 	 */
 	protected static final ControlKind CONTROL_KIND_EDEFAULT = ControlKind.DATE_POPUP;
-
 	/**
 	 * The cached value of the '{@link #getControlKind() <em>Control Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getControlKind()
 	 * @generated
 	 * @ordered
 	 */
 	protected ControlKind controlKind = CONTROL_KIND_EDEFAULT;
-
 	/**
 	 * The default value of the '{@link #getMinimumLabelWidth() <em>Minimum Label Width</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * @see #getMinimumLabelWidth()
 	 * @generated
 	 * @ordered
 	 */
 	protected static final Integer MINIMUM_LABEL_WIDTH_EDEFAULT = new Integer(200);
-
 	/**
 	 * The cached value of the '{@link #getMinimumLabelWidth() <em>Minimum Label Width</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * @see #getMinimumLabelWidth()
 	 * @generated
 	 * @ordered
 	 */
 	protected Integer minimumLabelWidth = MINIMUM_LABEL_WIDTH_EDEFAULT;
-
 	/**
 	 * The cached value of the '{@link #getBinding() <em>Binding</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getBinding()
 	 * @generated
 	 * @ordered
 	 */
 	protected FieldBinding binding;
-
 	/**
 	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOrientation()
 	 * @generated
 	 * @ordered
 	 */
 	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.HORIZONTAL;
-
 	/**
 	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOrientation()
 	 * @generated
 	 * @ordered
 	 */
 	protected Orientation orientation = ORIENTATION_EDEFAULT;
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected UimFieldImpl() {
+	protected UimFieldImpl(){
 		super();
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass(){
 		return ComponentPackage.Literals.UIM_FIELD;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
+	public String getName(){
 		return name;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setName(String newName) {
+	public void setName(String newName){
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.UIM_FIELD__NAME, oldName, name));
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isUnderUserControl() {
+	public boolean isUnderUserControl(){
 		return underUserControl;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setUnderUserControl(boolean newUnderUserControl) {
+	public void setUnderUserControl(boolean newUnderUserControl){
 		boolean oldUnderUserControl = underUserControl;
 		underUserControl = newUnderUserControl;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.UIM_FIELD__UNDER_USER_CONTROL, oldUnderUserControl, underUserControl));
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Integer getPreferredWidth() {
+	public Integer getPreferredWidth(){
 		return preferredWidth;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPreferredWidth(Integer newPreferredWidth) {
+	public void setPreferredWidth(Integer newPreferredWidth){
 		Integer oldPreferredWidth = preferredWidth;
 		preferredWidth = newPreferredWidth;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.UIM_FIELD__PREFERRED_WIDTH, oldPreferredWidth, preferredWidth));
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Integer getPreferredHeight() {
+	public Integer getPreferredHeight(){
 		return preferredHeight;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPreferredHeight(Integer newPreferredHeight) {
+	public void setPreferredHeight(Integer newPreferredHeight){
 		Integer oldPreferredHeight = preferredHeight;
 		preferredHeight = newPreferredHeight;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.UIM_FIELD__PREFERRED_HEIGHT, oldPreferredHeight, preferredHeight));
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Boolean getFillHorizontally() {
+	public Boolean getFillHorizontally(){
 		return fillHorizontally;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setFillHorizontally(Boolean newFillHorizontally) {
+	public void setFillHorizontally(Boolean newFillHorizontally){
 		Boolean oldFillHorizontally = fillHorizontally;
 		fillHorizontally = newFillHorizontally;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.UIM_FIELD__FILL_HORIZONTALLY, oldFillHorizontally, fillHorizontally));
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Boolean getFillVertically() {
+	public Boolean getFillVertically(){
 		return fillVertically;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setFillVertically(Boolean newFillVertically) {
+	public void setFillVertically(Boolean newFillVertically){
 		Boolean oldFillVertically = fillVertically;
 		fillVertically = newFillVertically;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.UIM_FIELD__FILL_VERTICALLY, oldFillVertically, fillVertically));
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UimControl getControl() {
+	public UimControl getControl(){
 		return control;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetControl(UimControl newControl, NotificationChain msgs) {
+	public NotificationChain basicSetControl(UimControl newControl,NotificationChain msgs){
 		UimControl oldControl = control;
 		control = newControl;
 		if (eNotificationRequired()) {
@@ -429,13 +367,11 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		}
 		return msgs;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setControl(UimControl newControl) {
+	public void setControl(UimControl newControl){
 		if (newControl != control) {
 			NotificationChain msgs = null;
 			if (control != null)
@@ -448,64 +384,52 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.UIM_FIELD__CONTROL, newControl, newControl));
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ControlKind getControlKind() {
+	public ControlKind getControlKind(){
 		return controlKind;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setControlKind(ControlKind newControlKind) {
+	public void setControlKind(ControlKind newControlKind){
 		ControlKind oldControlKind = controlKind;
 		controlKind = newControlKind == null ? CONTROL_KIND_EDEFAULT : newControlKind;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.UIM_FIELD__CONTROL_KIND, oldControlKind, controlKind));
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Integer getMinimumLabelWidth() {
+	public Integer getMinimumLabelWidth(){
 		return minimumLabelWidth;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setMinimumLabelWidth(Integer newMinimumLabelWidth) {
+	public void setMinimumLabelWidth(Integer newMinimumLabelWidth){
 		Integer oldMinimumLabelWidth = minimumLabelWidth;
 		minimumLabelWidth = newMinimumLabelWidth;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.UIM_FIELD__MINIMUM_LABEL_WIDTH, oldMinimumLabelWidth, minimumLabelWidth));
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public FieldBinding getBinding() {
+	public FieldBinding getBinding(){
 		return binding;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetBinding(FieldBinding newBinding, NotificationChain msgs) {
+	public NotificationChain basicSetBinding(FieldBinding newBinding,NotificationChain msgs){
 		FieldBinding oldBinding = binding;
 		binding = newBinding;
 		if (eNotificationRequired()) {
@@ -514,13 +438,11 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		}
 		return msgs;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBinding(FieldBinding newBinding) {
+	public void setBinding(FieldBinding newBinding){
 		if (newBinding != binding) {
 			NotificationChain msgs = null;
 			if (binding != null)
@@ -533,43 +455,35 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.UIM_FIELD__BINDING, newBinding, newBinding));
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Orientation getOrientation() {
+	public Orientation getOrientation(){
 		return orientation;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setOrientation(Orientation newOrientation) {
+	public void setOrientation(Orientation newOrientation){
 		Orientation oldOrientation = orientation;
 		orientation = newOrientation == null ? ORIENTATION_EDEFAULT : newOrientation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.UIM_FIELD__ORIENTATION, oldOrientation, orientation));
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Labels getLabelOverride() {
+	public Labels getLabelOverride(){
 		return labelOverride;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetLabelOverride(Labels newLabelOverride, NotificationChain msgs) {
+	public NotificationChain basicSetLabelOverride(Labels newLabelOverride,NotificationChain msgs){
 		Labels oldLabelOverride = labelOverride;
 		labelOverride = newLabelOverride;
 		if (eNotificationRequired()) {
@@ -578,13 +492,11 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		}
 		return msgs;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setLabelOverride(Labels newLabelOverride) {
+	public void setLabelOverride(Labels newLabelOverride){
 		if (newLabelOverride != labelOverride) {
 			NotificationChain msgs = null;
 			if (labelOverride != null)
@@ -597,25 +509,21 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.UIM_FIELD__LABEL_OVERRIDE, newLabelOverride, newLabelOverride));
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UimContainer getParent() {
+	public UimContainer getParent(){
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseAdd(InternalEObject otherEnd,int featureID,NotificationChain msgs){
 		switch (featureID) {
 			case ComponentPackage.UIM_FIELD__CONTROL:
 				if (control != null)
@@ -628,14 +536,12 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,int featureID,NotificationChain msgs){
 		switch (featureID) {
 			case ComponentPackage.UIM_FIELD__LABEL_OVERRIDE:
 				return basicSetLabelOverride(null, msgs);
@@ -646,14 +552,12 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	public Object eGet(int featureID,boolean resolve,boolean coreType){
 		switch (featureID) {
 			case ComponentPackage.UIM_FIELD__NAME:
 				return getName();
@@ -682,14 +586,12 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
+	public void eSet(int featureID,Object newValue){
 		switch (featureID) {
 			case ComponentPackage.UIM_FIELD__NAME:
 				setName((String)newValue);
@@ -730,14 +632,12 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		}
 		super.eSet(featureID, newValue);
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
+	public void eUnset(int featureID){
 		switch (featureID) {
 			case ComponentPackage.UIM_FIELD__NAME:
 				setName(NAME_EDEFAULT);
@@ -778,14 +678,12 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		}
 		super.eUnset(featureID);
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSet(int featureID){
 		switch (featureID) {
 			case ComponentPackage.UIM_FIELD__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
@@ -814,14 +712,12 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		}
 		return super.eIsSet(featureID);
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+	public int eBaseStructuralFeatureID(int derivedFeatureID,Class<?> baseClass){
 		if (baseClass == UserInteractionElement.class) {
 			switch (derivedFeatureID) {
 				case ComponentPackage.UIM_FIELD__NAME: return UimPackage.USER_INTERACTION_ELEMENT__NAME;
@@ -851,14 +747,12 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+	public int eDerivedStructuralFeatureID(int baseFeatureID,Class<?> baseClass){
 		if (baseClass == UserInteractionElement.class) {
 			switch (baseFeatureID) {
 				case UimPackage.USER_INTERACTION_ELEMENT__NAME: return ComponentPackage.UIM_FIELD__NAME;
@@ -888,14 +782,12 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public String toString() {
+	public String toString(){
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
@@ -920,5 +812,4 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		result.append(')');
 		return result.toString();
 	}
-
-} //UimFieldImpl
+} // UimFieldImpl

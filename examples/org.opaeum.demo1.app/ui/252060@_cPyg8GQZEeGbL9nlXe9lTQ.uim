@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NVqlw32yEeKdOuVcMz9Nmw" umlElementUid="252060@_cPyg8GQZEeGbL9nlXe9lTQ" name="I business role base User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_NVqlxH2yEeKdOuVcMz9Nmw" name="Edit IBusinessRoleBase" umlElementUid="252060@_cPyg8GQZEeGbL9nlXe9lTQ">
-    <pageOrdering xmi:id="_NVqlxn2yEeKdOuVcMz9Nmw" page="_NVqlxX2yEeKdOuVcMz9Nmw"/>
-    <pages xmi:id="_NVqlxX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_cPyg8GQZEeGbL9nlXe9lTQ" name="Edit I business role base">
-      <panel xsi:type="panel:GridPanel" xmi:id="_NVqlx32yEeKdOuVcMz9Nmw" name="IBusinessRoleBase" numberOfColumns="1"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ZbrnIIGpEeK6sqz3aegUOg" umlElementUid="252060@_cPyg8GQZEeGbL9nlXe9lTQ" name="I business role base User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_ZbrnIYGpEeK6sqz3aegUOg" name="Edit IBusinessRoleBase" umlElementUid="252060@_cPyg8GQZEeGbL9nlXe9lTQ">
+    <pageOrdering xmi:id="_ZbrnI4GpEeK6sqz3aegUOg" page="_ZbrnIoGpEeK6sqz3aegUOg"/>
+    <pages xmi:id="_ZbrnIoGpEeK6sqz3aegUOg" name="Edit I business role base" umlElementUid="252060@_cPyg8GQZEeGbL9nlXe9lTQ">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ZbrnJIGpEeK6sqz3aegUOg" name="IBusinessRoleBase" numberOfColumns="1"/>
     </pages>
-    <actionBar xmi:id="_NVqlyH2yEeKdOuVcMz9Nmw" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVqlyX2yEeKdOuVcMz9Nmw" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_NVqlyn2yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
+    <actionBar xmi:id="_ZbrnJYGpEeK6sqz3aegUOg" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ZbrnJoGpEeK6sqz3aegUOg" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ZbrnJ4GpEeK6sqz3aegUOg" name="Delete" kind="delete"/>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_NVveQ32yEeKdOuVcMz9Nmw" name="Create IBusinessRoleBase" umlElementUid="252060@_cPyg8GQZEeGbL9nlXe9lTQ">
-    <pageOrdering xmi:id="_NVveRX2yEeKdOuVcMz9Nmw" page="_NVveRH2yEeKdOuVcMz9Nmw"/>
-    <pages xmi:id="_NVveRH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_cPyg8GQZEeGbL9nlXe9lTQ" name="CreateI business role base">
-      <panel xsi:type="panel:GridPanel" xmi:id="_NVveRn2yEeKdOuVcMz9Nmw" name="IBusinessRoleBase" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_ZbtcZIGpEeK6sqz3aegUOg" name="Create IBusinessRoleBase" umlElementUid="252060@_cPyg8GQZEeGbL9nlXe9lTQ">
+    <pageOrdering xmi:id="_ZbtcZoGpEeK6sqz3aegUOg" page="_ZbtcZYGpEeK6sqz3aegUOg"/>
+    <pages xmi:id="_ZbtcZYGpEeK6sqz3aegUOg" name="CreateI business role base" umlElementUid="252060@_cPyg8GQZEeGbL9nlXe9lTQ">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ZbtcZ4GpEeK6sqz3aegUOg" name="IBusinessRoleBase" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </model:ClassUserInteractionModel>

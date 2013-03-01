@@ -315,7 +315,11 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		if ( this.getBusinessNetwork()!=null ) {
 			this.getBusinessNetwork().z_internalRemoveFromBusinessNetworkFacilatatesCollaboration_businessCollaboration(this);
 		}
-		this.z_internalAddToBusinessNetwork(businessNetwork);
+		if ( businessNetwork == null ) {
+			this.z_internalRemoveFromBusinessNetwork(this.getBusinessNetwork());
+		} else {
+			this.z_internalAddToBusinessNetwork(businessNetwork);
+		}
 		if ( businessNetwork!=null ) {
 			businessNetwork.z_internalAddToBusinessNetworkFacilatatesCollaboration_businessCollaboration(this);
 		}

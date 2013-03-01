@@ -84,12 +84,12 @@
       <eLiterals name="treeView" value="7"/>
       <eLiterals name="popupSearch" value="8"/>
       <eLiterals name="toggleButton" value="9"/>
-      <eLiterals name="selectionTable" value="10" literal="selectionTable"/>
+      <eLiterals name="selectionTable" value="10"/>
       <eLiterals name="link" value="11"/>
-      <eLiterals name="radioButton" value="12" literal="radioButton"/>
-      <eLiterals name="label" value="13" literal="label"/>
-      <eLiterals name="dateScroller" value="14" literal="dateScroller"/>
-      <eLiterals name="dateTimePopup" value="15" literal="dateTimePopup"/>
+      <eLiterals name="radioButton" value="12"/>
+      <eLiterals name="label" value="13"/>
+      <eLiterals name="dateScroller" value="14"/>
+      <eLiterals name="dateTimePopup" value="15"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UimTreeView" eSuperTypes="#//control/UimLookup"/>
     <eClassifiers xsi:type="ecore:EClass" name="UimLinkControl" eSuperTypes="#//control/UimControl">
@@ -216,7 +216,8 @@
   </eSubpackages>
   <eSubpackages name="action" nsURI="http://opaeum.org/uimetamodel/action/1.0" nsPrefix="action">
     <eClassifiers xsi:type="ecore:EClass" name="BuiltInActionButton" eSuperTypes="#//action/AbstractActionButton">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//action/ActionKind"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//action/ActionKind"
+          defaultValueLiteral="null"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="labels" eType="#//Labels"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AbstractActionButton" abstract="true"
@@ -226,12 +227,12 @@
       </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EEnum" name="ActionKind">
-      <eLiterals name="update" literal="save"/>
+      <eLiterals name="update"/>
       <eLiterals name="delete" value="1"/>
       <eLiterals name="execute" value="3"/>
-      <eLiterals name="delegateTask" value="4" literal="delegateTask"/>
+      <eLiterals name="delegateTask" value="4"/>
       <eLiterals name="completeTask" value="5"/>
-      <eLiterals name="suspend" value="6" literal="suspend"/>
+      <eLiterals name="suspend" value="6"/>
       <eLiterals name="forwardTask" value="8"/>
       <eLiterals name="claimTask" value="9"/>
       <eLiterals name="add" value="2"/>
@@ -239,7 +240,7 @@
       <eLiterals name="revert" value="10"/>
       <eLiterals name="abort" value="11"/>
       <eLiterals name="skip" value="12"/>
-      <eLiterals name="resume" value="13" literal=""/>
+      <eLiterals name="resume" value="13"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="TransitionButton" eSuperTypes="#//action/AbstractActionButton #//LabeledElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -263,15 +264,16 @@
       </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BuiltInLink" eSuperTypes="#//action/AbstractLink">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//action/BuiltInLinkKind"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//action/BuiltInLinkKind"
+          defaultValueLiteral="null"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="labels" eType="#//Labels"
           containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EEnum" name="BuiltInLinkKind">
       <eLiterals name="auditTrail"/>
       <eLiterals name="businessIntelligence" value="1"/>
-      <eLiterals name="edit" value="2" literal="edit"/>
-      <eLiterals name="view" value="3" literal="view"/>
+      <eLiterals name="edit" value="2"/>
+      <eLiterals name="view" value="3"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="panel" nsURI="http://opaeum.org/uimetamodel/panel/1.0" nsPrefix="panel">
@@ -500,12 +502,14 @@
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
           eType="#//control/UimControl" containment="true" eOpposite="#//control/UimControl/field"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlKind" eType="#//control/ControlKind"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlKind" eType="#//control/ControlKind"
+          defaultValueLiteral="null"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="minimumLabelWidth" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"
           defaultValueLiteral="200"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="binding" lowerBound="1"
           eType="#//binding/FieldBinding" containment="true" eOpposite="#//binding/FieldBinding/field"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" eType="#//panel/Orientation"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" eType="#//panel/Orientation"
+          defaultValueLiteral="null"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UimComponent" abstract="true" eSuperTypes="#//UserInteractionElement #//constraint/ConstrainedObject #//LabelContainer">
       <eOperations name="getParent" eType="#//component/UimContainer"/>

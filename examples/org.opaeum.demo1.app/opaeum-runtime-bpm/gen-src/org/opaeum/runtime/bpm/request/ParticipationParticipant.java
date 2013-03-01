@@ -279,7 +279,11 @@ public class ParticipationParticipant implements IPersistentObject, HibernateEnt
 		if ( this.getParticipant()!=null ) {
 			this.getParticipant().z_internalRemoveFromParticipationParticipant_participation(this);
 		}
-		this.z_internalAddToParticipant(participant);
+		if ( participant == null ) {
+			this.z_internalRemoveFromParticipant(this.getParticipant());
+		} else {
+			this.z_internalAddToParticipant(participant);
+		}
 		if ( participant!=null ) {
 			participant.z_internalAddToParticipationParticipant_participation(this);
 			setDeletedOn(Stdlib.FUTURE);

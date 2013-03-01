@@ -3,6 +3,7 @@ package org.opaeum.runtime.bpm.contact;
 import org.opaeum.runtime.contact.PersonPhoneNumberType;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.simulation.EntityInstanceSimulation;
+import org.opaeum.simulation.SimulationMetaData;
 
 public class PersonPhoneNumberActualInstance3_6z4DPX_JEeK5usaVqVCtXw extends EntityInstanceSimulation<PersonPhoneNumber> {
 	static final public PersonPhoneNumberActualInstance3_6z4DPX_JEeK5usaVqVCtXw INSTANCE = new PersonPhoneNumberActualInstance3_6z4DPX_JEeK5usaVqVCtXw();

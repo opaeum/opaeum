@@ -52,6 +52,7 @@ import org.opaeum.runtime.jface.entityeditor.SecurityUtil;
 import org.opaeum.runtime.jface.ui.OpaeumValidationRealm;
 import org.opaeum.runtime.jface.widgets.CSingleObjectChooser;
 import org.opaeum.runtime.jface.wizards.OperationInvocationWizard;
+import org.opaeum.runtime.rwt.DialogUtil;
 import org.opaeum.runtime.rwt.IOpaeumApplication;
 import org.opaeum.runtime.rwt.OpaeumRapSession;
 import org.opaeum.runtime.strategy.FromStringConverter;
@@ -166,7 +167,7 @@ public class ComponentTreeBuilder{
 						OperationInvocationWizard wizard = new OperationInvocationWizard((IPersistentObject) objectBeingUpdated, eventHandler, ob
 								.getPopup(), input);
 						WizardDialog dialog = new WizardDialog(body.getShell(), wizard);
-						dialog.open();
+						DialogUtil.open(dialog, null);
 					}
 				}
 				public void widgetDefaultSelected(SelectionEvent e){

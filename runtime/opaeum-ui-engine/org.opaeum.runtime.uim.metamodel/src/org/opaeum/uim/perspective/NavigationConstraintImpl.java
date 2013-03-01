@@ -2,13 +2,12 @@ package org.opaeum.uim.perspective;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.Labels;
-import org.opaeum.uim.UimInstantiator;
 import org.opaeum.uim.constraint.RequiredRole;
 import org.opaeum.uim.constraint.RequiredState;
 import org.w3c.dom.Element;
@@ -25,13 +24,11 @@ public class NavigationConstraintImpl extends EObjectImpl implements NavigationC
 	private List<RequiredState> requiredStates = new ArrayList<RequiredState>();
 	private boolean requiresGroupOwnership;
 	private boolean requiresOwnership;
-	private String uid;
 	private String umlElementUid;
 	private boolean underUserControl;
 
 
-	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
-		setUid(xml.getAttribute("xmi:id"));
+	public void buildTreeFromXml(Element xml) {
 		if ( xml.getAttribute("requiresGroupOwnership").length()>0 ) {
 			setRequiresGroupOwnership(EcoreDataTypeParser.getInstance().parseEBoolean(xml.getAttribute("requiresGroupOwnership")));
 		}
@@ -68,9 +65,8 @@ public class NavigationConstraintImpl extends EObjectImpl implements NavigationC
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.getRequiredRoles().add(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 				curVal.setConstraint(this);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("requiredStates") ) {
@@ -81,9 +77,8 @@ public class NavigationConstraintImpl extends EObjectImpl implements NavigationC
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.getRequiredStates().add(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 				curVal.setConstraint(this);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
@@ -94,17 +89,10 @@ public class NavigationConstraintImpl extends EObjectImpl implements NavigationC
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setLabelOverride(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 		}
-	}
-	
-	public EObject eContainer() {
-		EObject result = null;
-		
-		return result;
 	}
 	
 	public Labels getLabelOverride() {
@@ -125,10 +113,6 @@ public class NavigationConstraintImpl extends EObjectImpl implements NavigationC
 	
 	public List<RequiredState> getRequiredStates() {
 		return this.requiredStates;
-	}
-	
-	public String getUid() {
-		return this.uid;
 	}
 	
 	public String getUmlElementUid() {
@@ -155,19 +139,19 @@ public class NavigationConstraintImpl extends EObjectImpl implements NavigationC
 		return this.underUserControl;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
+	public void populateReferencesFromXml(Element xml) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("requiredRoles") ) {
-				((org.opaeum.uim.constraint.RequiredRole)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.constraint.RequiredRole)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("requiredStates") ) {
-				((org.opaeum.uim.constraint.RequiredState)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.constraint.RequiredState)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
-				((org.opaeum.uim.Labels)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.Labels)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 		}
 	}
@@ -206,10 +190,6 @@ public class NavigationConstraintImpl extends EObjectImpl implements NavigationC
 	
 	public void setRequiresOwnership(boolean requiresOwnership) {
 		this.requiresOwnership=requiresOwnership;
-	}
-	
-	public void setUid(String uid) {
-		this.uid=uid;
 	}
 	
 	public void setUmlElementUid(String umlElementUid) {

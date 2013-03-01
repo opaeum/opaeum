@@ -11,8 +11,12 @@ import org.opaeum.runtime.contact.PersonEMailAddressType;
 import org.opaeum.runtime.contact.PersonPhoneNumberType;
 import org.opaeum.runtime.domain.BusinessTimeUnit;
 import org.opaeum.runtime.domain.DocumentType;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.event.NotificationType;
 import org.opaeum.runtime.persistence.UmtPersistence;
+import org.opaeum.runtime.strategy.DateStrategyFactory;
+import org.opaeum.runtime.strategy.DateTimeStrategyFactory;
+import org.opaeum.runtime.strategy.MoneyInDefaultCurrencyStrategyFactory;
 import org.opaeum.simulation.NumberRange;
 import org.opaeum.simulation.SimulationMetaData;
 
@@ -28,7 +32,7 @@ public class Demo1DataGenerator {
 		register2();
 		SimulationMetaData.getInstance().registerEntityInstanceSimulation("demo1_201302260606::BusinessNetworkActualInstance1", "NONE",org.opaeum.runtime.bpm.organization.BusinessNetworkActualInstance1_6z204H_JEeK5usaVqVCtXw.INSTANCE,1);
 		BusinessNetwork businessNetwork = (BusinessNetwork)org.opaeum.runtime.bpm.organization.BusinessNetworkActualInstance1_6z204H_JEeK5usaVqVCtXw.INSTANCE.generateInstance(null);
-		ApplianceCollaboration businessCollaboration = new ApplianceCollaboration(businessNetwork);
+		ApplianceCollaboration businessCollaboration = org.opaeum.demo1.structuredbusiness.ApplianceCollaborationActualInstance1_6z4qmH_JEeK5usaVqVCtXw.APPLIANCECOLLABORATIONACTUALINSTANCE1;
 		
 		persistence.beginTransaction();
 		persistence.persist(businessNetwork);

@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -312,10 +313,16 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2334130007322557831l,opposite="job",uuid="914890@_YMgg0JLAEeGnpuq6_ber_Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getCustomerAssistantSourcePopulation",opaeumId=2334130007322557831l,opposite="job",uuid="914890@_YMgg0JLAEeGnpuq6_ber_Q")
 	@NumlMetaInfo(uuid="914890@_YMgg0JLAEeGnpuq6_ber_Q")
 	public CustomerAssistant getCustomerAssistant() {
 		CustomerAssistant result = this.customerAssistant;
+		
+		return result;
+	}
+	
+	public Collection<? extends CustomerAssistant> getCustomerAssistantSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(this.getBranch().getCustomerAssistant());
 		
 		return result;
 	}
@@ -324,10 +331,16 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=8444045662644766029l,opposite="job",uuid="914890@_eQfxoJLCEeGnpuq6_ber_Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getForemanSourcePopulation",opaeumId=8444045662644766029l,opposite="job",uuid="914890@_eQfxoJLCEeGnpuq6_ber_Q")
 	@NumlMetaInfo(uuid="914890@_eQfxoJLCEeGnpuq6_ber_Q")
 	public Technician getForeman() {
 		Technician result = this.foreman;
+		
+		return result;
+	}
+	
+	public Collection<? extends Technician> getForemanSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(this.getBranch().getTechnician());
 		
 		return result;
 	}
@@ -523,7 +536,11 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		if ( this.getBranch()!=null ) {
 			this.getBranch().z_internalRemoveFromJob(this);
 		}
-		this.z_internalAddToBranch(branch);
+		if ( branch == null ) {
+			this.z_internalRemoveFromBranch(this.getBranch());
+		} else {
+			this.z_internalAddToBranch(branch);
+		}
 		if ( branch!=null ) {
 			branch.z_internalAddToJob(this);
 			setDeletedOn(Stdlib.FUTURE);
@@ -546,7 +563,11 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 		if ( this.getCustomerAssistant()!=null ) {
 			this.getCustomerAssistant().z_internalRemoveFromJob(this);
 		}
-		this.z_internalAddToCustomerAssistant(customerAssistant);
+		if ( customerAssistant == null ) {
+			this.z_internalRemoveFromCustomerAssistant(this.getCustomerAssistant());
+		} else {
+			this.z_internalAddToCustomerAssistant(customerAssistant);
+		}
 		if ( customerAssistant!=null ) {
 			customerAssistant.z_internalAddToJob(this);
 		}

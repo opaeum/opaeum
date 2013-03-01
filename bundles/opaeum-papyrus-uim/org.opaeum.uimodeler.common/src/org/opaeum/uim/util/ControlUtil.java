@@ -4,6 +4,7 @@ import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.StructuralFeature;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfClassifierUtil;
@@ -18,11 +19,14 @@ import org.opaeum.uim.wizard.InvocationWizard;
 
 public class ControlUtil{
 	public static ControlKind[] getAllowedControlKinds(UserInterfaceRoot form,TypedElement typedElement,boolean inTable){
-		// TODO factor
+		boolean isReadOnly=typedElement instanceof Property?((Property) typedElement).isReadOnly():false;//TODO support pins and parameters too ( in/out/etc),take form type into account 
 		Type type = typedElement.getType();
 		if(typedElement == null || type == null || type.getName() == null){
 			return new ControlKind[0];
 		}else{
+			if(isReadOnly){
+				return new ControlKind[]{ControlKind.LABEL};
+			}
 			if(EmfClassifierUtil.comformsToLibraryType(type, "Boolean")){
 				return new ControlKind[]{ControlKind.CHECK_BOX,ControlKind.TOGGLE_BUTTON};
 			}else if(EmfClassifierUtil.comformsToLibraryType(type, "Date") || EmfClassifierUtil.comformsToLibraryType(type,"DateTime")){// TODO make this more sophisticated
@@ -41,12 +45,16 @@ public class ControlUtil{
 			}else if(type instanceof org.eclipse.uml2.uml.Class
 					|| type instanceof org.eclipse.uml2.uml.Interface){
 				if(requiresManySelection(form, typedElement)){
+					//TODO introduce REadOnlyList and LinkTable
 					if(inTable){
 						return new ControlKind[]{ControlKind.SELECTION_TABLE};
 					}else{
 						return new ControlKind[]{ControlKind.LIST_BOX,ControlKind.POPUP_SEARCH,ControlKind.TREE_VIEW,ControlKind.SELECTION_TABLE};
 					}
 				}else{
+					if(isReadOnly){
+						return new ControlKind[]{ControlKind.LABEL,ControlKind.LINK};
+					}
 					if(inTable){
 						return new ControlKind[]{ControlKind.DROPDOWN,ControlKind.POPUP_SEARCH,ControlKind.LABEL,ControlKind.LINK};
 					}else{

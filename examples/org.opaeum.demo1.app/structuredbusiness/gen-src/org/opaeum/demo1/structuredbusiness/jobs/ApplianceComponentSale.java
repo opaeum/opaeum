@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,6 +31,7 @@ import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.demo1.structuredbusiness.appliance.ApplianceComponent;
+import org.opaeum.demo1.structuredbusiness.appliance.ApplianceModel;
 import org.opaeum.demo1.structuredbusiness.util.Stdlib;
 import org.opaeum.demo1.structuredbusiness.util.StructuredbusinessFormatter;
 import org.opaeum.hibernate.domain.InternalHibernatePersistence;
@@ -166,10 +168,16 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 		return false;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6098139414879603393l,opposite="applianceComponentSale",uuid="914890@_xHDdYJLBEeGnpuq6_ber_Q")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getApplianceComponentSourcePopulation",opaeumId=6098139414879603393l,opposite="applianceComponentSale",uuid="914890@_xHDdYJLBEeGnpuq6_ber_Q")
 	@NumlMetaInfo(uuid="914890@_xHDdYJLBEeGnpuq6_ber_Q")
 	public ApplianceComponent getApplianceComponent() {
 		ApplianceComponent result = this.applianceComponent;
+		
+		return result;
+	}
+	
+	public Collection<? extends ApplianceComponent> getApplianceComponentSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(collect1());
 		
 		return result;
 	}
@@ -340,7 +348,11 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 		if ( this.getJob()!=null ) {
 			this.getJob().z_internalRemoveFromApplianceComponentSale(this);
 		}
-		this.z_internalAddToJob(job);
+		if ( job == null ) {
+			this.z_internalRemoveFromJob(this.getJob());
+		} else {
+			this.z_internalAddToJob(job);
+		}
 		if ( job!=null ) {
 			job.z_internalAddToApplianceComponentSale(this);
 			setDeletedOn(Stdlib.FUTURE);
@@ -460,6 +472,17 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 			this.job=null;
 			this.job=null;
 		}
+	}
+	
+	/** Implements self.job.branch.dishwashersInc.applianceModel->collect(c : ApplianceModel | c.component)
+	 */
+	private Collection<ApplianceComponent> collect1() {
+		Collection<ApplianceComponent> result = new ArrayList<ApplianceComponent>();
+		for ( ApplianceModel c : this.getJob().getBranch().getDishwashersInc().getApplianceModel() ) {
+			Set<ApplianceComponent> bodyExpResult = c.getComponent();
+			result.addAll( bodyExpResult );
+		}
+		return result;
 	}
 
 }

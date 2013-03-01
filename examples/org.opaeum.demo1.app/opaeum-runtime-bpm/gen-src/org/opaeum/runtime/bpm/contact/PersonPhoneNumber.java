@@ -312,7 +312,11 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 		if ( this.getPerson()!=null ) {
 			this.getPerson().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}
-		this.z_internalAddToPerson(person);
+		if ( person == null ) {
+			this.z_internalRemoveFromPerson(this.getPerson());
+		} else {
+			this.z_internalAddToPerson(person);
+		}
 		if ( person!=null ) {
 			person.z_internalAddToPhoneNumber(this.getType(),this);
 			setDeletedOn(Stdlib.FUTURE);

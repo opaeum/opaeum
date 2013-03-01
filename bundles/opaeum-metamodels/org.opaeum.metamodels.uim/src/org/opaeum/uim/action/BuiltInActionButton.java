@@ -25,6 +25,7 @@ import org.opaeum.uim.Labels;
 public interface BuiltInActionButton extends AbstractActionButton {
 	/**
 	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
+	 * The default value is <code>"null"</code>.
 	 * The literals are from the enumeration {@link org.opaeum.uim.action.ActionKind}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -36,7 +37,7 @@ public interface BuiltInActionButton extends AbstractActionButton {
 	 * @see org.opaeum.uim.action.ActionKind
 	 * @see #setKind(ActionKind)
 	 * @see org.opaeum.uim.action.ActionPackage#getBuiltInActionButton_Kind()
-	 * @model
+	 * @model default="null"
 	 * @generated
 	 */
 	ActionKind getKind();

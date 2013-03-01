@@ -1,12 +1,10 @@
 package org.opaeum.uim.action;
 
-import java.util.Map;
-
-import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.Labels;
-import org.opaeum.uim.UimInstantiator;
 import org.opaeum.uim.component.UimContainer;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
 import org.w3c.dom.Element;
@@ -20,13 +18,11 @@ public class AbstractActionButtonImpl extends EObjectImpl implements AbstractAct
 	private String name;
 	private Integer preferredHeight;
 	private Integer preferredWidth;
-	private String uid;
 	private boolean underUserControl;
 	private UserInteractionConstraint visibility;
 
 
-	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
-		setUid(xml.getAttribute("xmi:id"));
+	public void buildTreeFromXml(Element xml) {
 		if ( xml.getAttribute("name").length()>0 ) {
 			setName(EcoreDataTypeParser.getInstance().parseEString(xml.getAttribute("name")));
 		}
@@ -57,9 +53,8 @@ public class AbstractActionButtonImpl extends EObjectImpl implements AbstractAct
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setVisibility(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -69,17 +64,10 @@ public class AbstractActionButtonImpl extends EObjectImpl implements AbstractAct
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setLabelOverride(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 		}
-	}
-	
-	public EObject eContainer() {
-		EObject result = null;
-		
-		return result;
 	}
 	
 	public Boolean getFillHorizontally() {
@@ -112,10 +100,6 @@ public class AbstractActionButtonImpl extends EObjectImpl implements AbstractAct
 		return this.preferredWidth;
 	}
 	
-	public String getUid() {
-		return this.uid;
-	}
-	
 	public UserInteractionConstraint getVisibility() {
 		return this.visibility;
 	}
@@ -124,16 +108,16 @@ public class AbstractActionButtonImpl extends EObjectImpl implements AbstractAct
 		return this.underUserControl;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
+	public void populateReferencesFromXml(Element xml) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("visibility") ) {
-				((org.opaeum.uim.constraint.UserInteractionConstraint)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.constraint.UserInteractionConstraint)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
-				((org.opaeum.uim.Labels)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.Labels)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 		}
 	}
@@ -160,10 +144,6 @@ public class AbstractActionButtonImpl extends EObjectImpl implements AbstractAct
 	
 	public void setPreferredWidth(Integer preferredWidth) {
 		this.preferredWidth=preferredWidth;
-	}
-	
-	public void setUid(String uid) {
-		this.uid=uid;
 	}
 	
 	public void setUnderUserControl(boolean underUserControl) {

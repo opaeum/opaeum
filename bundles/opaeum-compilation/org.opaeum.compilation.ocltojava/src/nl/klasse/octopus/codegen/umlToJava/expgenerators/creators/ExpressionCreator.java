@@ -119,6 +119,9 @@ public class ExpressionCreator{
 		}else{
 			System.err.println("unspecified option in ExpressionGenerator.makeExpression");
 		}
+		if(thisNode.length()==0){
+			System.out.println();
+		}
 		return StringHelpers.addBrackets(thisNode.toString());
 	}
 	private String makeVariableExp(VariableExp in){

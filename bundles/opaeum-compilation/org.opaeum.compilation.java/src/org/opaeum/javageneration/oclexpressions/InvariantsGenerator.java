@@ -2,10 +2,13 @@ package org.opaeum.javageneration.oclexpressions;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
+import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.uml.CollectionType;
+import org.eclipse.ocl.uml.OCLExpression;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
@@ -15,6 +18,7 @@ import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.compiler.ocltojava.JavaCompilationPlugin;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -25,11 +29,13 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.name.NameConverter;
 import org.opaeum.ocl.uml.AbstractOclContext;
+import org.opaeum.ocl.uml.OclQueryContext;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class,CodeCleanup.class},after = {OperationAnnotator.class},before = CodeCleanup.class)
 public class InvariantsGenerator extends AbstractJavaProducingVisitor{
@@ -54,13 +60,13 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 		}
 	}
 	private void addConstraintsTo(Classifier c,OJAnnotatedClass myClass){
-		ExpressionCreator ec = new ExpressionCreator(ojUtil,myClass);
+		ExpressionCreator ec = new ExpressionCreator(ojUtil, myClass);
 		boolean hasConstraints = false;
 		for(Constraint rule:c.getOwnedRules()){
 			if(rule.getSpecification() instanceof OpaqueExpression){
 				OpaqueExpression oe = (OpaqueExpression) rule.getSpecification();
 				AbstractOclContext oclExpression = getLibrary().getOclExpressionContext(oe);
-				if(!oclExpression.hasErrors() ){
+				if(!oclExpression.hasErrors()){
 					Classifier et = oclExpression.getExpression().getType();
 					Collection<Element> ce = rule.getConstrainedElements();
 					if(et instanceof CollectionType){
@@ -92,8 +98,7 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 						oper.setReturnType(new OJPathName("boolean"));
 						ValueSpecificationUtil.addExtendedKeywords(oper, oclExpression);
 						oper.initializeResultVariable("false");
-						oper.getBody().addToStatements(
-								"result = " + ec.makeExpression(oclExpression, false, new ArrayList<OJParameter>()));
+						oper.getBody().addToStatements("result = " + ec.makeExpression(oclExpression, false, new ArrayList<OJParameter>()));
 						myClass.addToOperations(oper);
 					}
 				}else{
@@ -103,6 +108,24 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 		}
 		if(hasConstraints){
 			addConstraintChecks(myClass, c);
+		}
+		for(OclQueryContext oclExpression:getLibrary().getEmulatedPropertyHolder(c).getQueries()){
+			if(!oclExpression.hasErrors()){
+				PropertyMap map = ojUtil.buildStructuralFeatureMap((TypedElement) oclExpression.getBodyContainer());
+				OJPathName coll = new OJPathName("java.util.Collection");
+				coll.addToElementTypes(map.javaBaseTypePath());
+				coll.markAsExtendingElement(map.javaBaseTypePath());
+				OJAnnotatedOperation sourceGetter = new OJAnnotatedOperation(map.getter() + "SourcePopulation", coll);
+				sourceGetter.initializeResultVariable(ec.makeExpression(oclExpression, false, new ArrayList<OJParameter>()));
+				myClass.addToOperations(sourceGetter);
+				OJAnnotatedOperation getter = (OJAnnotatedOperation) myClass.findOperation(map.getter(), new ArrayList<OJPathName>());
+				if(getter != null){
+					OJAnnotationValue metaInfo = getter.findAnnotation(new OJPathName(PropertyMetaInfo.class.getName()));
+					if(metaInfo != null && metaInfo.findAttribute("lookupMethod") == null){
+						metaInfo.putAttribute("lookupMethod", sourceGetter.getName());
+					}
+				}
+			}
 		}
 	}
 	private String getter(Constraint rule){

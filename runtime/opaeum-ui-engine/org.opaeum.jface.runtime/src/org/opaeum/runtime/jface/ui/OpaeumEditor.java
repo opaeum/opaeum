@@ -33,6 +33,12 @@ public abstract class OpaeumEditor implements IEditorPart{
 	private Composite buttonBar;
 	private CLabel titleComposite;
 	private Composite container;
+	private CTabItem tabeItem;
+	
+	public OpaeumEditor(CTabItem tabeItem){
+		super();
+		this.tabeItem = tabeItem;
+	}
 	public void init(IEditorSite site,IEditorInput input){
 		this.editorInput = (EntityEditorInputJface) input;
 		this.worbenchWindow = site;
@@ -104,6 +110,7 @@ public abstract class OpaeumEditor implements IEditorPart{
 	}
 	public void setPartName(String partName){
 		this.partName = partName;
+		tabeItem.setText(partName);
 	}
 	public Image getTitleImage(){
 		return titleImage;

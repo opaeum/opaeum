@@ -774,7 +774,11 @@ public class PrepareQuote implements IStateMachineExecution, IPersistentObject, 
 		if ( this.getContextObject()!=null ) {
 			this.getContextObject().z_internalRemoveFromPrepareQuote(this);
 		}
-		this.z_internalAddToContextObject(contextObject);
+		if ( contextObject == null ) {
+			this.z_internalRemoveFromContextObject(this.getContextObject());
+		} else {
+			this.z_internalAddToContextObject(contextObject);
+		}
 		if ( contextObject!=null ) {
 			contextObject.z_internalAddToPrepareQuote(this);
 			setDeletedOn(Stdlib.FUTURE);

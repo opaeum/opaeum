@@ -3,6 +3,7 @@ package org.opaeum.runtime.bpm.contact;
 import org.opaeum.runtime.contact.PersonEMailAddressType;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.simulation.EntityInstanceSimulation;
+import org.opaeum.simulation.SimulationMetaData;
 
 public class PersonEMailAddressActualInstance4_6z4DwH_JEeK5usaVqVCtXw extends EntityInstanceSimulation<PersonEMailAddress> {
 	static final public PersonEMailAddressActualInstance4_6z4DwH_JEeK5usaVqVCtXw INSTANCE = new PersonEMailAddressActualInstance4_6z4DwH_JEeK5usaVqVCtXw();

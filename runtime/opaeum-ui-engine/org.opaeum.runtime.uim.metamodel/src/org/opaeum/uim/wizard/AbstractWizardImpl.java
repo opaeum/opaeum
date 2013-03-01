@@ -2,15 +2,14 @@ package org.opaeum.uim.wizard;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.uim.IgnoredElement;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.PageOrdering;
-import org.opaeum.uim.UimInstantiator;
 import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.constraint.RootUserInteractionConstraint;
 import org.w3c.dom.Element;
@@ -25,14 +24,12 @@ public class AbstractWizardImpl extends EObjectImpl implements AbstractWizard {
 	private List<PageOrdering> pageOrdering = new ArrayList<PageOrdering>();
 	private List<WizardPage> pages = new ArrayList<WizardPage>();
 	private List<UserInterfaceRoot> superUserInterfaces = new ArrayList<UserInterfaceRoot>();
-	private String uid;
 	private String umlElementUid;
 	private boolean underUserControl;
 	private RootUserInteractionConstraint visibility;
 
 
-	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
-		setUid(xml.getAttribute("xmi:id"));
+	public void buildTreeFromXml(Element xml) {
 		if ( xml.getAttribute("name").length()>0 ) {
 			setName(EcoreDataTypeParser.getInstance().parseEString(xml.getAttribute("name")));
 		}
@@ -54,9 +51,8 @@ public class AbstractWizardImpl extends EObjectImpl implements AbstractWizard {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setLabelOverride(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("editability") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -66,9 +62,8 @@ public class AbstractWizardImpl extends EObjectImpl implements AbstractWizard {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setEditability(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("visibility") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -78,9 +73,8 @@ public class AbstractWizardImpl extends EObjectImpl implements AbstractWizard {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setVisibility(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("ignoredElements") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -90,9 +84,8 @@ public class AbstractWizardImpl extends EObjectImpl implements AbstractWizard {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.getIgnoredElements().add(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 				curVal.setUserInterfaceRoot(this);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("pageOrdering") ) {
@@ -103,9 +96,8 @@ public class AbstractWizardImpl extends EObjectImpl implements AbstractWizard {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.getPageOrdering().add(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("pages") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -115,18 +107,11 @@ public class AbstractWizardImpl extends EObjectImpl implements AbstractWizard {
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.getPages().add(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 				curVal.setWizard(this);
 			}
 		}
-	}
-	
-	public EObject eContainer() {
-		EObject result = null;
-		
-		return result;
 	}
 	
 	public RootUserInteractionConstraint getEditability() {
@@ -157,10 +142,6 @@ public class AbstractWizardImpl extends EObjectImpl implements AbstractWizard {
 		return this.superUserInterfaces;
 	}
 	
-	public String getUid() {
-		return this.uid;
-	}
-	
 	public String getUmlElementUid() {
 		return this.umlElementUid;
 	}
@@ -173,31 +154,31 @@ public class AbstractWizardImpl extends EObjectImpl implements AbstractWizard {
 		return this.underUserControl;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
+	public void populateReferencesFromXml(Element xml) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("labelOverride") ) {
-				((org.opaeum.uim.Labels)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.Labels)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("editability") ) {
-				((org.opaeum.uim.constraint.RootUserInteractionConstraint)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.constraint.RootUserInteractionConstraint)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("visibility") ) {
-				((org.opaeum.uim.constraint.RootUserInteractionConstraint)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.constraint.RootUserInteractionConstraint)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("ignoredElements") ) {
-				((org.opaeum.uim.IgnoredElement)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.IgnoredElement)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("superUserInterfaces") ) {
-				getSuperUserInterfaces().add((org.opaeum.uim.UserInterfaceRoot)map.get(((Element)currentPropertyNode).getAttribute("xmi:id")));
+				setSuperUserInterfaces((java.util.List)this.eResource().getResourceSet().getReferences((Element)currentPropertyNode));
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("pageOrdering") ) {
-				((org.opaeum.uim.PageOrdering)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.PageOrdering)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("pages") ) {
-				((org.opaeum.uim.wizard.WizardPage)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.wizard.WizardPage)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 		}
 	}
@@ -228,10 +209,6 @@ public class AbstractWizardImpl extends EObjectImpl implements AbstractWizard {
 	
 	public void setSuperUserInterfaces(List<UserInterfaceRoot> superUserInterfaces) {
 		this.superUserInterfaces=superUserInterfaces;
-	}
-	
-	public void setUid(String uid) {
-		this.uid=uid;
 	}
 	
 	public void setUmlElementUid(String umlElementUid) {

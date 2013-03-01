@@ -1,6 +1,7 @@
 package org.opaeum.runtime.environment;
 
 import java.beans.PropertyDescriptor;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -42,7 +43,11 @@ public class JavaTypedElement{
 		this.name = descriptor.getName();
 		buildTypedElementOnGetter(readMethod);
 	}
+	
 	public void buildTypedElementOnGetter(Method readMethod){
+		if(readMethod.getName().equals("getName") && readMethod.getDeclaringClass().getSimpleName().equals("Branch")){
+			System.out.println();
+		}
 		this.readMethod = readMethod;
 		String setterName = readMethod.getName();
 		if(readMethod.getName().startsWith("is")){
@@ -55,6 +60,7 @@ public class JavaTypedElement{
 			this.writeMethod = readMethod.getDeclaringClass().getMethod(setterName, readMethod.getReturnType());
 		}catch(SecurityException e1){
 		}catch(NoSuchMethodException e1){
+			System.out.println();
 		}
 		try{
 			this.addMethod = readMethod.getDeclaringClass().getMethod("addTo" + NameConverter.capitalize(name), readMethod.getReturnType());
@@ -62,7 +68,7 @@ public class JavaTypedElement{
 		}catch(NoSuchMethodException e1){
 		}
 		Class<PropertyMetaInfo> annotationClass = PropertyMetaInfo.class;
-		PropertyMetaInfo annotation = readMethod.getAnnotation(annotationClass);
+		PropertyMetaInfo annotation = findPropertyMetaInfoAnnotation(readMethod, annotationClass);
 		if(annotation != null){
 			this.isComposite = annotation.isComposite();
 			this.opaeumId = annotation.opaeumId();
@@ -72,17 +78,66 @@ public class JavaTypedElement{
 			try{
 				this.strategyFactory = annotation.strategyFactory().newInstance();
 			}catch(Exception e){
-				this.strategyFactory =new SimpleTypeRuntimeStrategyFactory();
+				this.strategyFactory = new SimpleTypeRuntimeStrategyFactory();
 			}
 			setConstraints(annotation.constraints());
 			this.shortDescription = annotation.shortDescription();
 		}else{
-			this.strategyFactory =new SimpleTypeRuntimeStrategyFactory();
-			
+			setConstraints(new PropertyConstraint[0]);
+			this.strategyFactory = new SimpleTypeRuntimeStrategyFactory();
 		}
 		this.type = readMethod.getReturnType();
 		Type genericReturnType = readMethod.getGenericReturnType();
 		calcBaseType(genericReturnType);
+	}
+	private <T extends Annotation>T findPropertyMetaInfoAnnotation(Method readMethod,Class<T> annotationClass){
+		if(readMethod.getDeclaringClass().isInterface()){
+			return findRecursivelyInSuperInterfaces(readMethod, annotationClass, readMethod.getDeclaringClass());
+		}else{
+			return findRecursivelyInSuperClasses(readMethod, annotationClass, readMethod.getDeclaringClass());
+		}
+	}
+	private <T extends Annotation>T findRecursivelyInSuperInterfaces(Method readMethod,Class<T> annotationClass,Class<?> currentClass){
+		T annotation = readMethod.getAnnotation(annotationClass);
+		if(annotation == null){
+			Class<?>[] interfaces = currentClass.getInterfaces();
+			for(Class<?> overriddenClass:interfaces){
+				try{
+					Method overriddenMethod = overriddenClass.getMethod(readMethod.getName());
+					annotation = overriddenMethod.getAnnotation(annotationClass);
+				}catch(Exception e){
+				}
+				if(annotation == null){
+					annotation = findRecursivelyInSuperInterfaces(readMethod, annotationClass, overriddenClass);
+				}
+				if(annotation != null){
+					break;
+				}
+			}
+		}
+		return annotation;
+	}
+	private <T extends Annotation>T findRecursivelyInSuperClasses(Method readMethod,Class<T> annotationClass,Class<?> currentClass){
+		if(currentClass == Object.class){
+			return null;
+		}
+
+		T annotation = readMethod.getAnnotation(annotationClass);
+		if(annotation == null){
+			Class<?> overriddenClass = currentClass.getSuperclass();
+			try{
+				Method overriddenMethod = overriddenClass.getMethod(readMethod.getName());
+				annotation = overriddenMethod.getAnnotation(annotationClass);
+			}catch(Exception e){
+			}
+			if(annotation == null){
+				annotation = findRecursivelyInSuperClasses(readMethod, annotationClass, overriddenClass);
+			}
+			if(annotation == null){
+				annotation = findRecursivelyInSuperInterfaces(readMethod, annotationClass, overriddenClass);
+			}
+		}
+		return annotation;
 	}
 	private void calcBaseType(Type genericReturnType){
 		if(Collection.class.isAssignableFrom(type)){
@@ -181,6 +236,9 @@ public class JavaTypedElement{
 	}
 	public void invokeSetter(Object target,Object value){
 		try{
+			if(writeMethod==null){
+				System.out.println();
+			}
 			writeMethod.invoke(target, value);
 		}catch(IllegalArgumentException e){
 			throw new RuntimeException(e);

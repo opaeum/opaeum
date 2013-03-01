@@ -263,7 +263,11 @@ public class ParticipationInTask extends Participation implements IPersistentObj
 		if ( this.getTaskRequest()!=null ) {
 			this.getTaskRequest().z_internalRemoveFromParticipationInTask(this);
 		}
-		this.z_internalAddToTaskRequest(taskRequest);
+		if ( taskRequest == null ) {
+			this.z_internalRemoveFromTaskRequest(this.getTaskRequest());
+		} else {
+			this.z_internalAddToTaskRequest(taskRequest);
+		}
 		if ( taskRequest!=null ) {
 			taskRequest.z_internalAddToParticipationInTask(this);
 			setDeletedOn(Stdlib.FUTURE);

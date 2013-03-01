@@ -315,7 +315,11 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 		if ( this.getPerson()!=null ) {
 			this.getPerson().z_internalRemoveFromEMailAddress(this.getType(),this);
 		}
-		this.z_internalAddToPerson(person);
+		if ( person == null ) {
+			this.z_internalRemoveFromPerson(this.getPerson());
+		} else {
+			this.z_internalAddToPerson(person);
+		}
 		if ( person!=null ) {
 			person.z_internalAddToEMailAddress(this.getType(),this);
 			setDeletedOn(Stdlib.FUTURE);

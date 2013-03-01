@@ -19,14 +19,14 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements EStringT
 	public void setValue(String value){
 		this.value = value;
 	}
+	
 	@Override
-	public void populateReferencesFromXml(Element currentPropertyValueNode,Map<String,Object> map){
+	public void populateReferencesFromXml(Element currentPropertyValueNode){
+		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void buildTreeFromXml(Element xml,Map<String,Object> map){
-		setUid(xml.getAttribute("xmi:id"));
-
+	public void buildTreeFromXml(Element xml){
 		key=xml.getAttribute("key");
 		value=xml.getAttribute("value");
 	}

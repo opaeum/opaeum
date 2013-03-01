@@ -1,11 +1,9 @@
 package org.opaeum.uim.perspective;
 
-import java.util.Map;
-
-import org.opaeum.ecore.EObject;
 import org.opaeum.ecore.EObjectImpl;
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
-import org.opaeum.uim.UimInstantiator;
+import org.opaeum.runtime.environment.Environment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -17,12 +15,10 @@ public class PerspectiveConfigurationImpl extends EObjectImpl implements Perspec
 	private String name;
 	private OutboxConfiguration outbox;
 	private PropertiesConfiguration properties;
-	private String uid;
 	private boolean underUserControl;
 
 
-	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
-		setUid(xml.getAttribute("xmi:id"));
+	public void buildTreeFromXml(Element xml) {
 		if ( xml.getAttribute("name").length()>0 ) {
 			setName(EcoreDataTypeParser.getInstance().parseEString(xml.getAttribute("name")));
 		}
@@ -41,9 +37,8 @@ public class PerspectiveConfigurationImpl extends EObjectImpl implements Perspec
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setExplorer(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("editor") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -53,9 +48,8 @@ public class PerspectiveConfigurationImpl extends EObjectImpl implements Perspec
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setEditor(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("properties") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -65,9 +59,8 @@ public class PerspectiveConfigurationImpl extends EObjectImpl implements Perspec
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setProperties(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("inbox") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -77,9 +70,8 @@ public class PerspectiveConfigurationImpl extends EObjectImpl implements Perspec
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setInbox(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("outbox") ) {
 				String typeString = ((Element)currentPropertyNode).getAttribute("xsi:type");
@@ -89,17 +81,10 @@ public class PerspectiveConfigurationImpl extends EObjectImpl implements Perspec
 				}
 				curVal=UimInstantiator.INSTANCE.newInstance(typeString);
 				this.setOutbox(curVal);
-				curVal.buildTreeFromXml((Element)currentPropertyNode,map);
-				map.put(curVal.getUid(), curVal);
-				curVal.eContainer(this);
+				curVal.init(this,eResource(),(Element)currentPropertyNode);
+				curVal.buildTreeFromXml((Element)currentPropertyNode);
 			}
 		}
-	}
-	
-	public EObject eContainer() {
-		EObject result = null;
-		
-		return result;
 	}
 	
 	public EditorConfiguration getEditor() {
@@ -126,33 +111,29 @@ public class PerspectiveConfigurationImpl extends EObjectImpl implements Perspec
 		return this.properties;
 	}
 	
-	public String getUid() {
-		return this.uid;
-	}
-	
 	public boolean isUnderUserControl() {
 		return this.underUserControl;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
+	public void populateReferencesFromXml(Element xml) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("explorer") ) {
-				((org.opaeum.uim.perspective.NavigatorConfiguration)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.perspective.NavigatorConfiguration)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("editor") ) {
-				((org.opaeum.uim.perspective.EditorConfiguration)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.perspective.EditorConfiguration)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("properties") ) {
-				((org.opaeum.uim.perspective.PropertiesConfiguration)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.perspective.PropertiesConfiguration)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("inbox") ) {
-				((org.opaeum.uim.perspective.InboxConfiguration)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.perspective.InboxConfiguration)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("outbox") ) {
-				((org.opaeum.uim.perspective.OutboxConfiguration)map.get(((Element)currentPropertyNode).getAttribute("xmi:id"))).populateReferencesFromXml((Element)currentPropertyNode, map);
+				((org.opaeum.uim.perspective.OutboxConfiguration)this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode);
 			}
 		}
 	}
@@ -179,10 +160,6 @@ public class PerspectiveConfigurationImpl extends EObjectImpl implements Perspec
 	
 	public void setProperties(PropertiesConfiguration properties) {
 		this.properties=properties;
-	}
-	
-	public void setUid(String uid) {
-		this.uid=uid;
 	}
 	
 	public void setUnderUserControl(boolean underUserControl) {

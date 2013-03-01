@@ -13,10 +13,9 @@ import org.opaeum.eclipse.EmfValueSpecificationUtil;
 public class OpaqueBehaviorContext extends AbstractOclContext{
 	private OpaqueBehavior opaqueBehavior;
 	public OpaqueBehaviorContext(OpaqueBehavior oe,OCLHelper<Classifier,Operation,Property,Constraint> helper){
-		super(oe);
+		super(oe,helper);
 		this.opaqueBehavior=oe;
 		oe.eAdapters().add(this);
-		this.helper = helper;
 		getExpression();
 	}
 

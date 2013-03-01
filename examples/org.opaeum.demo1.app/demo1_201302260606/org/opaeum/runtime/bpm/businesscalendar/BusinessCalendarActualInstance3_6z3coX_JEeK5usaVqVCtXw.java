@@ -2,6 +2,7 @@ package org.opaeum.runtime.bpm.businesscalendar;
 
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.simulation.EntityInstanceSimulation;
+import org.opaeum.simulation.SimulationMetaData;
 
 public class BusinessCalendarActualInstance3_6z3coX_JEeK5usaVqVCtXw extends EntityInstanceSimulation<BusinessCalendar> {
 	static final public BusinessCalendar BUSINESSCALENDARACTUALINSTANCE3 = new BusinessCalendar();

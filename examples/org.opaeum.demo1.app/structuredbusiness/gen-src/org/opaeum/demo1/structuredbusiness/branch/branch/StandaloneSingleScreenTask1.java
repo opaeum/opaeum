@@ -542,7 +542,11 @@ public class StandaloneSingleScreenTask1 implements IPersistentObject, IEventGen
 		if ( this.getContextObject()!=null ) {
 			this.getContextObject().z_internalRemoveFromStandaloneSingleScreenTask1(this);
 		}
-		this.z_internalAddToContextObject(contextObject);
+		if ( contextObject == null ) {
+			this.z_internalRemoveFromContextObject(this.getContextObject());
+		} else {
+			this.z_internalAddToContextObject(contextObject);
+		}
 		if ( contextObject!=null ) {
 			contextObject.z_internalAddToStandaloneSingleScreenTask1(this);
 			setDeletedOn(Stdlib.FUTURE);

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.uml.OCL;
@@ -15,6 +16,7 @@ import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.MultiplicityElement;
@@ -36,11 +38,13 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.name.NameConverter;
+import org.opaeum.ocl.uml.OclQueryContext;
 import org.opaeum.validation.AbstractValidator;
+import org.opaeum.validation.LinkagePhase;
 import org.opaeum.validation.OpaeumValidationPlugin;
 import org.opaeum.validation.ValidationPhase;
 
-@StepDependency(phase = ValidationPhase.class,after = {},requires = {},before = {})
+@StepDependency(phase = LinkagePhase.class,after = {},requires = {},before = {})
 public class SourcePopulationResolver extends AbstractValidator{
 	@Deprecated
 	private Map<Classifier,Collection<Classifier>> hierarchicalSubClasses = new HashMap<Classifier,Collection<Classifier>>();
@@ -53,24 +57,27 @@ public class SourcePopulationResolver extends AbstractValidator{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitClassAfter(Class e){
-		List<Property> effectiveAttributes = getLibrary().getEffectiveAttributes(e);
+		Set<Property> effectiveAttributes = getLibrary().getDirectlyImplementedAttributes(e);
 		for(Property p:effectiveAttributes){
-			if(p.getOwner() instanceof Interface){
-				buildSourcePopulationConstraint(e, p, "SourcePopulationFor" + NameConverter.capitalize(p.getName()));
-			}
+			// if(EmfPropertyUtil.getOwningClassifier(p) instanceof Interface){
+			buildSourcePopulationConstraint(e, p, "SourcePopulationFor" + NameConverter.capitalize(p.getName()));
+			// }
 		}
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitProperty(Property p){
-		if(p.getOwner() instanceof Class){
-			buildSourcePopulationConstraint((Classifier) p.getOwner(), p, "SourcePopulationFor" + NameConverter.capitalize(p.getName()));
-		}
+		// if(p.getAssociationEnd() == null){
+		// Classifier owner = EmfPropertyUtil.getOwningClassifier(p);
+		// if(EmfClassifierUtil.isPersistent(owner) && !(owner instanceof DataType)){
+		// buildSourcePopulationConstraint((Classifier) p.getOwner(), p, "SourcePopulationFor" + NameConverter.capitalize(p.getName()));
+		// }
+		// }
 	}
 	private void buildSourcePopulationConstraint(Classifier owner,Property p,String name){
 		Constraint constr = null;
 		boolean isComposition = p.isComposite() || (p.getOtherEnd() != null && p.getOtherEnd().isComposite());
 		constr = getSourcePopulationConstraint(p, owner);
-		if(!isComposition && shouldResolve(p, owner) && !EmfPropertyUtil.isDerived( p) && !p.isReadOnly()){
+		if(!isComposition && shouldResolve(p, owner) && !EmfPropertyUtil.isDerived(p) && !p.isReadOnly()){
 			String expression = null;
 			if(constr == null){
 				if(StereotypesHelper.hasStereotype(owner, HIERARCHY)){
@@ -90,12 +97,8 @@ public class SourcePopulationResolver extends AbstractValidator{
 			if(expression != null){
 				expression = ensureSetsAndRemoveUsedOneToOnes(p, expression);
 				OCL ocl = getLibrary().createOcl(owner, Collections.<String,Classifier>emptyMap());
-				try{
-					OCLExpression query = ocl.createOCLHelper().createQuery(expression);
-					getLibrary().getEmulatedPropertyHolder(owner).putQuery(p, query);
-				}catch(ParserException e){
-					e.printStackTrace();
-				}
+				OclQueryContext ctx = new OclQueryContext(p, ocl, expression);
+				getLibrary().getEmulatedPropertyHolder(owner).putQuery(p, ctx);
 			}
 		}
 	}
@@ -171,8 +174,7 @@ public class SourcePopulationResolver extends AbstractValidator{
 	}
 	private boolean shouldResolve(TypedElement p,Classifier owner){
 		Classifier baseType = (Classifier) p.getType();
-		return (EmfClassifierUtil.isCompositionParticipant(baseType) || (baseType instanceof Enumeration))
-				&& EmfClassifierUtil.isCompositionParticipant(owner);
+		return (EmfClassifierUtil.isCompositionParticipant(baseType) || (baseType instanceof Enumeration)) && EmfClassifierUtil.isCompositionParticipant(owner);
 	}
 	private Constraint getSourcePopulationConstraint(MultiplicityElement t,Classifier owner){
 		for(Constraint n:owner.getOwnedRules()){
@@ -182,8 +184,7 @@ public class SourcePopulationResolver extends AbstractValidator{
 		}
 		return null;
 	}
-	private Classifier calculatePathFromOwnerToCommonCompositionsAncestorForAncestor(Classifier ancestor,Classifier owner,Classifier type,
-			StringBuilder expression){
+	private Classifier calculatePathFromOwnerToCommonCompositionsAncestorForAncestor(Classifier ancestor,Classifier owner,Classifier type,StringBuilder expression){
 		if(owner.equals(ancestor)){
 			return owner;
 		}else{
@@ -211,8 +212,7 @@ public class SourcePopulationResolver extends AbstractValidator{
 			}
 		}
 	}
-	private void calculatePathFromCommonCompositionsAncestorToBaseType(Classifier ancestor,Classifier baseType,StringBuilder expression,
-			int depth){
+	private void calculatePathFromCommonCompositionsAncestorToBaseType(Classifier ancestor,Classifier baseType,StringBuilder expression,int depth){
 		Property endToComposite = getLibrary().getEndToComposite(baseType);
 		if(endToComposite == null || depth == 0){
 			return;
@@ -241,7 +241,7 @@ public class SourcePopulationResolver extends AbstractValidator{
 		NamedElement owner = (NamedElement) p.getOwner();
 		if(owner instanceof Operation && EmfClassifierUtil.isCompositionParticipant((Type) owner.getOwner())){
 			Classifier compositionParticipant = (Classifier) owner.getOwner();
-			TypedElementPropertyBridge tepb = new TypedElementPropertyBridge(compositionParticipant, p,getLibrary());
+			TypedElementPropertyBridge tepb = new TypedElementPropertyBridge(compositionParticipant, p, getLibrary());
 			String name = "SourcePopulationFor" + NameConverter.capitalize(owner.getName()) + NameConverter.capitalize(p.getName());
 			buildSourcePopulationConstraint(compositionParticipant, tepb, name);
 		}

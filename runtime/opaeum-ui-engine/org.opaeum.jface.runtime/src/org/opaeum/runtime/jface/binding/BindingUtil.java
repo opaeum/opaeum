@@ -12,6 +12,7 @@ package org.opaeum.runtime.jface.binding;
 import javax.validation.Validator;
 
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.runtime.environment.JavaTypedElement;
 import org.opaeum.runtime.event.IEventHandler;
@@ -29,6 +30,22 @@ public class BindingUtil{
 	public IEventHandler getEventHandler(String umlElementUid){
 		return javaMetaInfo.getEventHandler(umlElementUid);
 	}
+	public JavaTypedElement resolveTypedElement(Class<?> source,UimBinding b){
+		JavaTypedElement te = javaMetaInfo.getTypedElement(IntrospectionUtil.getOriginalClass(source), b.getUmlElementUid());
+		PropertyRef pr = b.getNext();
+		if(pr.getNext() != null){
+			te = resolveTypedElement(pr, te.getBaseType());
+		}
+		return te;
+	}
+	private JavaTypedElement resolveTypedElement(PropertyRef pr,Class<?> targetType){
+		JavaTypedElement type = javaMetaInfo.getTypedElement(targetType, pr.getUmlElementUid());
+		if(pr.getNext() != null){
+			type = resolveTypedElement(pr.getNext(), type.getBaseType());
+		}
+		return type;
+	}
+	//TODO use resolveTypedElement remember the problem was that the datatablebuilder could not support polymorphic properties
 	public JavaTypedElement getTypedElement(String lastPropertyUuid){
 		return javaMetaInfo.getTypedElement(lastPropertyUuid);
 	}
@@ -91,7 +108,7 @@ public class BindingUtil{
 	public Validator getValidator(){
 		return validator;
 	}
-	public void invokeAdder(Object objectBeingUpdated,IPersistentObject ni, UimBinding binding){
+	public void invokeAdder(Object objectBeingUpdated,IPersistentObject ni,UimBinding binding){
 		Object target = resolveTarget(objectBeingUpdated, binding);
 		if(target != null){
 			JavaTypedElement typedElement = getTypedElement(binding.getLastPropertyUuid());

@@ -18,6 +18,7 @@ import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
@@ -67,7 +68,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	}
 	public static void addPropertyMetaInfo(Collection<? extends Constraint> ownedRules,OJAnnotatedOperation element,Property property,
 			IPropertyEmulation opaeumLibrary){
-		OJAnnotationValue ap = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.PropertyMetaInfo"));
+		OJAnnotationValue ap = new OJAnnotationValue(new OJPathName(PropertyMetaInfo.class.getName()));
 		ap.putAttribute("isComposite", property.isComposite());
 		if(property.getType() != null && EmfClassifierUtil.isSimpleType(property.getType())){
 			AbstractStrategyFactory stf = EmfClassifierUtil.getStrategyFactory((DataType) property.getType());
@@ -116,8 +117,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(umlOwner instanceof Association){
 			OJConstructor constr1 = new OJConstructor();
 			Association assocClass = (Association) umlOwner;
-			EmulatedPropertyHolderForAssociation holder = (EmulatedPropertyHolderForAssociation) getLibrary().getEmulatedPropertyHolder(
-					assocClass);
+			EmulatedPropertyHolderForAssociation holder = (EmulatedPropertyHolderForAssociation) getLibrary().getEmulatedPropertyHolder(assocClass);
 			PropertyMap mapToEnd1 = ojUtil.buildStructuralFeatureMap(holder.getEmulatedAttribute(assocClass.getMemberEnds().get(0)));
 			PropertyMap mapToEnd2 = ojUtil.buildStructuralFeatureMap(holder.getEmulatedAttribute(assocClass.getMemberEnds().get(1)));
 			constr1.addParam("end1", mapToEnd1.javaTypePath());
@@ -161,9 +161,8 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				buildField(owner, map).setTransient(true);
 				OJOperation getter = buildGetter(umlOwner, owner, map, false);
 				getter.setBody(new OJBlock());
-				OJIfStatement ifNull = new OJIfStatement(OJAnnotatedOperation.RESULT + "==null", OJAnnotatedOperation.RESULT + "="
-						+ map.fieldname() + "=(" + map.javaBaseType() + ")" + ojUtil.environmentPathname()
-						+ ".INSTANCE.getComponent(" + map.javaTypePath() + ".class)");
+				OJIfStatement ifNull = new OJIfStatement(OJAnnotatedOperation.RESULT + "==null", OJAnnotatedOperation.RESULT + "=" + map.fieldname() + "=("
+						+ map.javaBaseType() + ")" + ojUtil.environmentPathname() + ".INSTANCE.getComponent(" + map.javaTypePath() + ".class)");
 				getter.getBody().addToStatements(ifNull);
 				owner.addToImports(map.javaBaseTypePath());
 			}else if(EmfPropertyUtil.isDerived(p)){
@@ -177,13 +176,13 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	protected OJAnnotatedOperation buildGetter(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map,boolean derived){
 		OJAnnotatedOperation getter = (OJAnnotatedOperation) owner.findOperation(map.getter(), Collections.<OJPathName>emptyList());
 		if(getter == null){
-			//Could exist in the case of DerivedUnion from an Interface with the same name as the implementing property
-			//In this case we need to ovverride it
-			getter = new OJAnnotatedOperation(map.getter(),map.javaTypePath());
+			// Could exist in the case of DerivedUnion from an Interface with the same name as the implementing property
+			// In this case we need to ovverride it
+			getter = new OJAnnotatedOperation(map.getter(), map.javaTypePath());
 			owner.addToOperations(getter);
 		}else{
 			if(map.getProperty().isDerivedUnion()){
-				return getter;//We should not overwrite the implementing property
+				return getter;// We should not overwrite the implementing property
 			}
 		}
 		getter.getOwner().addToImports(map.javaBaseTypePath());
@@ -192,8 +191,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				getter.initializeResultVariable(map.javaDefaultValue());
 			}else if(map.isMany() && isMap(map.getProperty())){
 				String defaultValue = map.javaDefaultValue();
-				getter.initializeResultVariable(defaultValue.substring(0, defaultValue.length() - 1) + getReferencePrefix(owner, map)
-						+ map.fieldname() + ".values())");
+				getter.initializeResultVariable(defaultValue.substring(0, defaultValue.length() - 1) + getReferencePrefix(owner, map) + map.fieldname() + ".values())");
 				OJAnnotatedOperation getterFor = new OJAnnotatedOperation(map.getter(), map.javaBaseTypePath());
 				owner.addToOperations(getterFor);
 				addQualifierParams(getterFor, map.getProperty().getQualifiers());
@@ -203,7 +201,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				getter.initializeResultVariable(getReferencePrefix(owner, map) + map.fieldname());
 			}
 		}
-		if(getter.getReturnType().getElementTypes().size()==1 && map.isMany() && map.getProperty().getSubsettedProperties().size()>0){
+		if(getter.getReturnType().getElementTypes().size() == 1 && map.isMany() && map.getProperty().getSubsettedProperties().size() > 0){
 			getter.getReturnType().markAsExtendingElement(getter.getReturnType().getElementTypes().get(0));
 		}
 		getter.setStatic(map.isStatic());
@@ -246,12 +244,10 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(mapToAssocationClass.isMany()){
 			OJForStatement forEach = new OJForStatement("var", mapToAssocationClass.javaBaseTypePath(), mapToAssocationClass.getter() + "()");
 			getter.getBody().addToStatements(forEach);
-			forEach.getBody().addToStatements(
-					new OJIfStatement("var." + aMap.getAssocationClassToOtherEndMap().getter() + "().equals(match)", "return var"));
+			forEach.getBody().addToStatements(new OJIfStatement("var." + aMap.getAssocationClassToOtherEndMap().getter() + "().equals(match)", "return var"));
 			getter.getBody().addToStatements("return null");
 		}else{
-			OJIfStatement ifEquals = new OJIfStatement(mapToAssocationClass.fieldname() + "." + aMap.getAssocationClassToOtherEndMap().getter()
-					+ "().equals(match)");
+			OJIfStatement ifEquals = new OJIfStatement(mapToAssocationClass.fieldname() + "." + aMap.getAssocationClassToOtherEndMap().getter() + "().equals(match)");
 			getter.getBody().addToStatements(ifEquals);
 			ifEquals.getThenPart().addToStatements("return " + mapToAssocationClass.fieldname());
 			ifEquals.setElsePart(new OJBlock());
@@ -268,20 +264,18 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		OJAnnotatedField newOne = new OJAnnotatedField("newOne", mapToAssClass.javaBaseFacadeTypePath());
 		internalAdder.getBody().addToLocals(newOne);
 		if(map.isOne()){
-			OJIfStatement ifSet = new OJIfStatement(map.fieldname() + ".equals("+ map.getter()+"())", "return");
+			OJIfStatement ifSet = new OJIfStatement(map.fieldname() + "!=null && " + map.fieldname() + ".equals(" + map.getter() + "())", "return");
 			internalAdder.getBody().addToStatements(ifSet);
 		}else{
-			OJIfStatement ifSet = new OJIfStatement(map.getter()+ "().contains(" + map.fieldname() + ")", "return");
+			OJIfStatement ifSet = new OJIfStatement(map.getter() + "().contains(" + map.fieldname() + ")", "return");
 			internalAdder.getBody().addToStatements(ifSet);
 		}
-		
 		internalAdder.getBody().addToStatements("newOne = new " + mapToAssClass.javaBaseType() + "(this," + map.fieldname() + ")");
 		internalAdder.getBody().addToStatements(ref + mapToAssClass.internalAdder() + "(newOne)");
 		if(aMap.getOtherEndToAssocationClassMap() != null){
 			// Could be non-navigable
 			internalAdder.getBody().addToStatements(
-					"newOne." + aMap.getAssocationClassToOtherEndMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder()
-							+ "(newOne)");
+					"newOne." + aMap.getAssocationClassToOtherEndMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder() + "(newOne)");
 		}
 		owner.addToOperations(internalAdder);
 	}
@@ -302,8 +296,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				OJForStatement foreach = new OJForStatement("cur", mapToAssClass.javaBaseTypePath(), newOne + getReferencePrefix(owner, map)
 						+ mapToAssClass.fieldname() + ")");
 				internalRemover.getBody().addToStatements(foreach);
-				OJIfStatement ifMatch = new OJIfStatement("cur." + aMap.getAssocationClassToOtherEndMap().getter() + "().equals(" + map.fieldname()
-						+ ")");
+				OJIfStatement ifMatch = new OJIfStatement("cur." + aMap.getAssocationClassToOtherEndMap().getter() + "().equals(" + map.fieldname() + ")");
 				foreach.getBody().addToStatements(ifMatch);
 				ifMatch.getThenPart().addToStatements("cur.clear()");
 				ifMatch.getThenPart().addToStatements("break");
@@ -327,16 +320,14 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			Property fromAssToOtherEnd = holder.getEmulatedAttribute(map.getProperty());
 			PropertyMap mapFromAssClassToOtherEnd = ojUtil.buildStructuralFeatureMap(fromAssToOtherEnd);
 			if(map.isMany()){
-				OJForStatement foreach = new OJForStatement("cur", mapToAssClass.javaBaseTypePath(), getReferencePrefix(owner, map)
-						+ mapToAssClass.getter() + "()");
+				OJForStatement foreach = new OJForStatement("cur", mapToAssClass.javaBaseTypePath(), getReferencePrefix(owner, map) + mapToAssClass.getter() + "()");
 				getter.getBody().addToStatements(foreach);
 				foreach.getBody().addToStatements("result.add(cur." + mapFromAssClassToOtherEnd.getter() + "())");
 			}else{
 				OJIfStatement ifNotNull = new OJIfStatement(getReferencePrefix(owner, map) + mapToAssClass.fieldname() + "!=null");
 				getter.getBody().addToStatements(ifNotNull);
 				ifNotNull.getThenPart().addToStatements(
-						"result = " + getReferencePrefix(owner, map) + mapToAssClass.fieldname() + "."
-								+ aMap.getAssocationClassToOtherEndMap().getter() + "()");
+						"result = " + getReferencePrefix(owner, map) + mapToAssClass.fieldname() + "." + aMap.getAssocationClassToOtherEndMap().getter() + "()");
 			}
 		}
 		addPropertyMetaInfo(umlOwner, getter, map.getProperty(), getLibrary());
@@ -405,8 +396,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			}
 		}else{
 			String remove = getReferencePrefix(owner, map) + map.fieldname() + "=null";
-			String condition = map.getter() + "()!=null && " + map.fieldname() + "!=null && " + map.fieldname() + ".equals(" + map.getter()
-					+ "())";
+			String condition = map.getter() + "()!=null && " + map.fieldname() + "!=null && " + map.fieldname() + ".equals(" + map.getter() + "())";
 			OJIfStatement ifEquals = new OJIfStatement(condition, remove);
 			remover.getBody().addToStatements(ifEquals);
 			ifEquals.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + "=null");
@@ -421,7 +411,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			adder.setStatic(map.isStatic());
 			if(map.isMany()){
-				OJIfStatement ifSet = new OJIfStatement(map.getter()+ "().contains(" + map.fieldname() + ")", "return");
+				OJIfStatement ifSet = new OJIfStatement(map.getter() + "().contains(" + map.fieldname() + ")", "return");
 				adder.getBody().addToStatements(ifSet);
 				if(isMap(map.getProperty())){
 					List<Property> qualifiers = map.getProperty().getQualifiers();
@@ -431,20 +421,18 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 						PropertyMap qMap = ojUtil.buildStructuralFeatureMap(q);
 						adder.getBody().addToStatements("" + map.fieldname() + "." + qMap.internalAdder() + "(" + qMap.fieldname() + ")");
 					}
-					adder.getBody()
-							.addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".put(key.toString()," + map.fieldname() + ")");
+					adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".put(key.toString()," + map.fieldname() + ")");
 					adder.getBody().addToStatements("" + map.fieldname() + "." + map.qualifierPropertySetter() + "(key.toString())");
 				}else{
 					adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".add(" + map.fieldname() + ")");
 				}
 			}else{
-				OJIfStatement ifSet = new OJIfStatement(map.fieldname() + ".equals("+ map.getter()+"())", "return");
+				OJIfStatement ifSet = new OJIfStatement(map.fieldname() + ".equals(" + map.getter() + "())", "return");
 				adder.getBody().addToStatements(ifSet);
 				adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + "=" + map.fieldname() + "");
 			}
 		}
 		adder.addParam(map.fieldname(), map.javaBaseTypePath());
-
 		return adder;
 	}
 	private void addQualifierParams(OJAnnotatedOperation adder,List<Property> qualifiers){
@@ -490,7 +478,8 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			field.setInitExp(map.javaDefaultValue());
 		}
 		field.setStatic(map.isStatic());
-		field.setVisibility(OJVisibilityKind.PROTECTED);//NB!required for AbstractSuperclasses to have access to the concrete implementation and redefinitions
+		field.setVisibility(OJVisibilityKind.PROTECTED);// NB!required for AbstractSuperclasses to have access to the concrete implementation
+																										// and redefinitions
 		owner.addToFields(field);
 		return field;
 	}
@@ -515,7 +504,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			adder.setStatic(map.isStatic());
-
 			String internalAddStatement = map.internalAdder() + "(" + map.fieldname() + ")";
 			if(isMap(map.getProperty())){
 				StringBuilder sb = addQualifierArguments(map, adder);
@@ -542,8 +530,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 								map.fieldname() + "." + otherMap.internalRemover() + "(" + map.fieldname() + "." + otherMap.getter() + "())");
 					}
 					if(isMap(map.getProperty().getOtherEnd())){
-						ifNotNul2.getThenPart().addToStatements(
-								map.fieldname() + "." + otherMap.internalAdder() + "(" + addQualifierArguments(otherMap, "this") + "this)");
+						ifNotNul2.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(" + addQualifierArguments(otherMap, "this") + "this)");
 					}else if(map.getProperty().getAssociation() == null || !EmfAssociationUtil.isClass(map.getProperty().getAssociation())){
 						ifNotNul2.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(this)");
 					}
@@ -695,22 +682,22 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 						args = "(" + ojUtil.addQualifierArguments(prop.getOtherEnd().getQualifiers(), "this") + "this)";
 					}
 					// remove "this" from existing reference
-					OJIfStatement ifNotNull = new OJIfStatement();
-					ifNotNull.setCondition(getReferencePrefix(owner, map) + map.getter() + "()!=null");
+					OJIfStatement ifCurrentValueNotNull = new OJIfStatement();
+					ifCurrentValueNotNull.setCondition(getReferencePrefix(owner, map) + map.getter() + "()!=null");
 					if(!otherMap.getProperty().isReadOnly()){
-						ifNotNull.getThenPart().addToStatements(
-								getReferencePrefix(owner, map) + map.getter() + "()." + otherMap.internalRemover() + args);
+						ifCurrentValueNotNull.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.getter() + "()." + otherMap.internalRemover() + args);
 					}
-					setter.getBody().addToStatements(ifNotNull);
-					setter.getBody().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
+					setter.getBody().addToStatements(ifCurrentValueNotNull);
+					OJIfStatement ifNewValueNull = new OJIfStatement(map.fieldname() + " == null", getReferencePrefix(owner, map) + map.internalRemover() + "("
+							+ getReferencePrefix(owner, map) + map.getter() + "())");
+					setter.getBody().addToStatements(ifNewValueNull);
+					ifNewValueNull.setElsePart(new OJBlock());
+					ifNewValueNull.getElsePart().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
 					// add "this" to new reference
 					OJIfStatement ifParamNotNull = new OJIfStatement();
 					ifParamNotNull.setName(AttributeImplementor.IF_PARAM_NOT_NULL);
 					ifParamNotNull.setCondition(map.fieldname() + "!=null");
-					if(prop.getAssociation() == null || !EmfAssociationUtil.isClass(prop.getAssociation())){
-						// Association classes cause both ends to be maintained from the one side.
-						ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + args);
-					}
+					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + args);
 					setter.getBody().addToStatements(ifParamNotNull);
 				}else if(map.isMany()){
 					if(!map.getProperty().isReadOnly()){
@@ -740,8 +727,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(oldOther)");
 					ifParamNotNull.getThenPart().addToStatements(
 							new OJIfStatement("oldOther != null", "oldOther" + "." + map.internalRemover() + "(" + map.fieldname() + ")"));
-					ifParamNotNull.getThenPart()
-							.addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "((" + owner.getName() + ")this)");
+					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "((" + owner.getName() + ")this)");
 					ifNotSame.getThenPart().addToStatements(ifParamNotNull);
 					ifNotSame.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
 					ifNull.getThenPart().addToStatements(ifParamNotNull);

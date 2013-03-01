@@ -308,7 +308,11 @@ public class OrganizationAsBusinessComponent implements IPersistentObject, Hiber
 		if ( this.getRepresentedOrganization()!=null ) {
 			this.getRepresentedOrganization().z_internalRemoveFromOrganizationAsBusinessComponent_businessComponent(this);
 		}
-		this.z_internalAddToRepresentedOrganization(representedOrganization);
+		if ( representedOrganization == null ) {
+			this.z_internalRemoveFromRepresentedOrganization(this.getRepresentedOrganization());
+		} else {
+			this.z_internalAddToRepresentedOrganization(representedOrganization);
+		}
 		if ( representedOrganization!=null ) {
 			representedOrganization.z_internalAddToOrganizationAsBusinessComponent_businessComponent(this);
 		}

@@ -425,16 +425,16 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 		boolean result = false;
 		result=super.consumeStartOccurrence();
 		for ( IToken token : getTokens() ) {
-			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Reserved ) {
-				Reserved state = (Reserved)token.getCurrentExecutionElement();
-				if ( result==false &&  state.getReservedToInProgress().consumeStartOccurrence() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Active ) {
+				Active state = (Active)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getActiveToInProgress().consumeStartOccurrence() ) {
 					result=true;
 					break;
 				}
 			}
-			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Active ) {
-				Active state = (Active)token.getCurrentExecutionElement();
-				if ( result==false &&  state.getActiveToInProgress().consumeStartOccurrence() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Reserved ) {
+				Reserved state = (Reserved)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getReservedToInProgress().consumeStartOccurrence() ) {
 					result=true;
 					break;
 				}
@@ -461,6 +461,13 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 		boolean result = false;
 		result=super.consumeSuspendOccurrence();
 		for ( IToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof InProgress ) {
+				InProgress state = (InProgress)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getInProgressToSuspended().consumeSuspendOccurrence() ) {
+					result=true;
+					break;
+				}
+			}
 			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Reserved ) {
 				Reserved state = (Reserved)token.getCurrentExecutionElement();
 				if ( result==false &&  state.getReservedToSuspended().consumeSuspendOccurrence() ) {
@@ -471,13 +478,6 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Ready ) {
 				Ready state = (Ready)token.getCurrentExecutionElement();
 				if ( result==false &&  state.getReadyToSuspended().consumeSuspendOccurrence() ) {
-					result=true;
-					break;
-				}
-			}
-			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof InProgress ) {
-				InProgress state = (InProgress)token.getCurrentExecutionElement();
-				if ( result==false &&  state.getInProgressToSuspended().consumeSuspendOccurrence() ) {
 					result=true;
 					break;
 				}
@@ -724,10 +724,16 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4881745325393372278l,opposite="parentTask",uuid="252060@_tog08I29EeCrtavWRHwoHg")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getSubRequestsSourcePopulation",opaeumId=4881745325393372278l,opposite="parentTask",uuid="252060@_tog08I29EeCrtavWRHwoHg")
 	@NumlMetaInfo(uuid="252060@_tog08I29EeCrtavWRHwoHg")
 	public Set<AbstractRequest> getSubRequests() {
 		Set result = this.subRequests;
+		
+		return result;
+	}
+	
+	public Collection<? extends AbstractRequest> getSubRequestsSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(Stdlib.collectionAsSet(collect9()));
 		
 		return result;
 	}
@@ -1142,6 +1148,38 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 		return result;
 	}
 	
+	/** Implements Set {self.requestObject.request}->select(c : AbstractRequest | c.oclIsKindOf(OpaeumLibraryForBPM::request::TaskRequest))->collect(c : AbstractRequest | c.oclAsType(OpaeumLibraryForBPM::request::TaskRequest))
+	 */
+	private Collection<TaskRequest> collect8() {
+		Collection<TaskRequest> result = new ArrayList<TaskRequest>();
+		for ( AbstractRequest c : select7() ) {
+			TaskRequest bodyExpResult = ((TaskRequest) c);
+			if ( bodyExpResult != null ) result.add( bodyExpResult );
+		}
+		return result;
+	}
+	
+	/** Implements Set {self.requestObject.request}->select(c : AbstractRequest | c.oclIsKindOf(OpaeumLibraryForBPM::request::TaskRequest))->collect(c : AbstractRequest | c.oclAsType(OpaeumLibraryForBPM::request::TaskRequest))->collect(g : TaskRequest | g.oclAsType(OpaeumLibraryForBPM::request::AbstractRequest))
+	 */
+	private Collection<AbstractRequest> collect9() {
+		Collection<AbstractRequest> result = new ArrayList<AbstractRequest>();
+		for ( TaskRequest g : collect8() ) {
+			AbstractRequest bodyExpResult = ((AbstractRequest) g);
+			if ( bodyExpResult != null ) result.add( bodyExpResult );
+		}
+		return result;
+	}
+	
+	/** Implements Set {self.requestObject.request}
+	 */
+	private Set<AbstractRequest> collectionLiteral6() {
+		Set<AbstractRequest> myList = new HashSet<AbstractRequest>();
+		if ( this.getRequestObject().getRequest() != null ) {
+			myList.add( this.getRequestObject().getRequest() );
+		}
+		return myList;
+	}
+	
 	/** Implements self.participationInTask->select(p : ParticipationInTask | p.kind.=(OpaeumLibraryForBPM::request::TaskParticipationKind::potentialOwner))
 	 */
 	private Set<ParticipationInTask> select1() {
@@ -1161,6 +1199,18 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 		for ( ParticipationInTask p : this.getParticipationInTask() ) {
 			if ( (p.getKind().equals( TaskParticipationKind.OWNER)) ) {
 				result.add( p );
+			}
+		}
+		return result;
+	}
+	
+	/** Implements Set {self.requestObject.request}->select(c : AbstractRequest | c.oclIsKindOf(OpaeumLibraryForBPM::request::TaskRequest))
+	 */
+	private Set<AbstractRequest> select7() {
+		Set<AbstractRequest> result = new HashSet<AbstractRequest>();
+		for ( AbstractRequest c : collectionLiteral6() ) {
+			if ( (c instanceof TaskRequest) ) {
+				result.add( c );
 			}
 		}
 		return result;

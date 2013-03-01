@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.opaeum.org.opaeum.runtime.uim.metamodel.UimInstantiator;
 import org.opaeum.runtime.domain.EcoreDataTypeParser;
-import org.opaeum.uim.UimInstantiator;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -36,65 +36,25 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation{
 	public List<EObject> getReferences(){
 		return references;
 	}
-	public void populateReferencesFromXml(Element xml,Map<String,Object> map){
+	public void populateReferencesFromXml(Element xml){
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while(i < propertyNodes.getLength()){
 			Node currentPropertyNode = propertyNodes.item(i++);
 			if(currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("eAnnotations")){
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while(j < propertyValueNodes.getLength()){
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if(currentPropertyValueNode instanceof Element){
-						((org.opaeum.ecore.EAnnotation) map.get(((Element) currentPropertyValueNode).getAttributeNS("http://www.omg.org/XMI", "id")))
-								.populateReferencesFromXml((Element) currentPropertyValueNode, map);
-					}
-				}
+				((org.opaeum.ecore.EAnnotation) this.eResource().getElement((Element) currentPropertyNode))
+						.populateReferencesFromXml((Element) currentPropertyNode);
 			}
 			if(currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("details")){
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while(j < propertyValueNodes.getLength()){
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if(currentPropertyValueNode instanceof Element){
-						((org.opaeum.ecore.EStringToStringMapEntry) map.get(((Element) currentPropertyValueNode).getAttributeNS(
-								"http://www.omg.org/XMI", "id"))).populateReferencesFromXml((Element) currentPropertyValueNode, map);
-					}
-				}
-			}
-			if(currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("eModelElement")){
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while(j < propertyValueNodes.getLength()){
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if(currentPropertyValueNode instanceof Element){
-						setEModelElement((org.opaeum.ecore.EModelElement) map.get(((Element) currentPropertyValueNode).getAttributeNS(
-								"http://www.omg.org/XMI", "id")));
-					}
-				}
+				((org.opaeum.ecore.EStringToStringMapEntry) this.eResource().getElement((Element) currentPropertyNode))
+						.populateReferencesFromXml((Element) currentPropertyNode);
 			}
 			if(currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("contents")){
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while(j < propertyValueNodes.getLength()){
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if(currentPropertyValueNode instanceof Element){
-						((org.opaeum.ecore.EObject) map.get(((Element) currentPropertyValueNode).getAttributeNS("http://www.omg.org/XMI", "id")))
-								.populateReferencesFromXml((Element) currentPropertyValueNode, map);
-					}
-				}
+				((org.opaeum.ecore.EObject) this.eResource().getElement((Element) currentPropertyNode))
+						.populateReferencesFromXml((Element) currentPropertyNode);
 			}
 			if(currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("references")){
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while(j < propertyValueNodes.getLength()){
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if(currentPropertyValueNode instanceof Element){
-						getReferences().add(
-								(org.opaeum.ecore.EObject) map.get(((Element) currentPropertyValueNode).getAttributeNS("http://www.omg.org/XMI", "id")));
-					}
-				}
+				getReferences().add((org.opaeum.ecore.EObject) this.eResource().getResourceSet().getReference((Element) currentPropertyNode));
 			}
 		}
 	}
@@ -105,8 +65,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation{
 		this.eModelElement = eModelElement;
 	}
 	@Override
-	public void buildTreeFromXml(Element xml,Map<String,Object> map){
-		setUid(xml.getAttribute("xmi:id"));
+	public void buildTreeFromXml(Element xml){
 		if(xml.getAttribute("source").length() > 0){
 			setSource(EcoreDataTypeParser.getInstance().parseEString(xml.getAttribute("source")));
 		}
@@ -115,62 +74,42 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation{
 		while(i < propertyNodes.getLength()){
 			Node currentPropertyNode = propertyNodes.item(i++);
 			if(currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("eAnnotations")){
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while(j < propertyValueNodes.getLength()){
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if(currentPropertyValueNode instanceof Element){
-						String typeString = ((Element) currentPropertyValueNode).getAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "type");
-						EAnnotation curVal;
-						if(typeString == null || typeString.trim().length() == 0){
-							typeString = "EAnnotation";
-						}
-						curVal = org.opaeum.uim.UimInstantiator.INSTANCE.newInstance(typeString);
-						this.getEAnnotations().add(curVal);
-						map.put(curVal.getUid(), curVal);
-						curVal.eContainer(this);
-						curVal.buildTreeFromXml((Element) currentPropertyValueNode, map);
-					}
+				String typeString = ((Element) currentPropertyNode).getAttribute("xsi:type");
+				EAnnotation curVal;
+				if(typeString == null || typeString.trim().length() == 0){
+					typeString = "EAnnotation";
 				}
+				curVal = UimInstantiator.INSTANCE.newInstance(typeString);
+				this.getEAnnotations().add(curVal);
+				curVal.init(this, eResource(), (Element) currentPropertyNode);
+				curVal.buildTreeFromXml((Element) currentPropertyNode);
+				curVal.setEModelElement(this);
 			}
 			if(currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("details")){
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while(j < propertyValueNodes.getLength()){
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if(currentPropertyValueNode instanceof Element){
-						String typeString = ((Element) currentPropertyValueNode).getAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "type");
-						EStringToStringMapEntry curVal;
-						if(typeString == null || typeString.trim().length() == 0){
-							typeString = "EStringToStringMapEntry";
-						}
-						curVal = UimInstantiator.INSTANCE.newInstance(typeString);
-						this.getDetails().add(curVal);
-						map.put(curVal.getUid(), curVal);
-						curVal.eContainer(this);
-						curVal.buildTreeFromXml((Element) currentPropertyValueNode, map);
-					}
+				String typeString = ((Element) currentPropertyNode).getAttribute("xsi:type");
+				EStringToStringMapEntry curVal;
+				if(typeString == null || typeString.trim().length() == 0){
+					typeString = "EStringToStringMapEntry";
 				}
+				curVal = UimInstantiator.INSTANCE.newInstance(typeString);
+				this.getDetails().add(curVal);
+				curVal.init(this, eResource(), (Element) currentPropertyNode);
+				curVal.buildTreeFromXml((Element) currentPropertyNode);
 			}
 			if(currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("contents")){
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while(j < propertyValueNodes.getLength()){
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if(currentPropertyValueNode instanceof Element){
-						String typeString = ((Element) currentPropertyValueNode).getAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "type");
-						EObject curVal;
-						if(typeString == null || typeString.trim().length() == 0){
-							typeString = "EObject";
-						}
-						curVal = UimInstantiator.INSTANCE.newInstance(typeString);
-						this.getContents().add(curVal);
-						map.put(curVal.getUid(), curVal);
-						curVal.eContainer(this);
-						curVal.buildTreeFromXml((Element) currentPropertyValueNode, map);
-					}
+				String typeString = ((Element) currentPropertyNode).getAttribute("xsi:type");
+				EObject curVal;
+				if(typeString == null || typeString.trim().length() == 0){
+					typeString = "EObject";
 				}
+				curVal = UimInstantiator.INSTANCE.newInstance(typeString);
+				this.getContents().add(curVal);
+				curVal.init(this, eResource(), (Element) currentPropertyNode);
+				curVal.buildTreeFromXml((Element) currentPropertyNode);
 			}
 		}
+	}
+	public void setReferences(List<EObject> references){
+		this.references = references;
 	}
 }

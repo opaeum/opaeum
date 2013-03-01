@@ -48,6 +48,7 @@ public abstract class Environment{
 			.synchronizedMap(new HashMap<Class<?>,Environment>());
 	public static final String JDBC_DRIVER_CLASS = "opaeum.jdbc.driver.class";
 	private static final String DEFAULT_ENVIRONMENT = "opaeum.default.environment";
+	public static final String SHOW_SQL = "opaeum.hibernate.show.sql";
 	private final EventService EVENT_SERVICE = new EventService(this);
 	private long lastRefresh = System.currentTimeMillis();
 	protected Properties properties;

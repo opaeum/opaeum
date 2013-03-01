@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -598,12 +599,18 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5667532828519993302l,opposite="representedPerson",uuid="252060@_X4_MgEtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getBusinessActorSourcePopulation",opaeumId=5667532828519993302l,opposite="representedPerson",uuid="252060@_X4_MgEtyEeGElKTCe2jfDw")
 	public Set<IBusinessActor> getBusinessActor() {
 		Set result = new HashSet<IBusinessActor>();
 		for ( PersonFullfillsActorRole cur : this.getPersonFullfillsActorRole_businessActor() ) {
 			result.add(cur.getBusinessActor());
 		}
+		return result;
+	}
+	
+	public Collection<? extends IBusinessActor> getBusinessActorSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(collect1());
+		
 		return result;
 	}
 	
@@ -819,6 +826,12 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	@NumlMetaInfo(uuid="252060@_U9amkHaQEeGv4aLPxieKNg")
 	public String getRefreshToken() {
 		String result = this.refreshToken;
+		
+		return result;
+	}
+	
+	public Collection<? extends PersonNode> getReturnSourcePopulation() {
+		Collection result = Stdlib.collectionAsSet(this.getBusinessNetwork().getPerson());
 		
 		return result;
 	}
@@ -1101,7 +1114,11 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		if ( this.getBusinessNetwork()!=null ) {
 			this.getBusinessNetwork().z_internalRemoveFromPerson(this.getUsername(),this);
 		}
-		this.z_internalAddToBusinessNetwork(businessNetwork);
+		if ( businessNetwork == null ) {
+			this.z_internalRemoveFromBusinessNetwork(this.getBusinessNetwork());
+		} else {
+			this.z_internalAddToBusinessNetwork(businessNetwork);
+		}
 		if ( businessNetwork!=null ) {
 			businessNetwork.z_internalAddToPerson(this.getUsername(),this);
 			setDeletedOn(Stdlib.FUTURE);
@@ -1632,6 +1649,17 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 			this.username=null;
 			this.username=null;
 		}
+	}
+	
+	/** Implements self.businessNetwork.businessCollaboration->collect(c : IBusinessCollaboration | c.businessActor)
+	 */
+	private Collection<IBusinessActor> collect1() {
+		Collection<IBusinessActor> result = new ArrayList<IBusinessActor>();
+		for ( IBusinessCollaboration c : this.getBusinessNetwork().getBusinessCollaboration() ) {
+			Set<? extends IBusinessActor> bodyExpResult = c.getBusinessActor();
+			result.addAll( bodyExpResult );
+		}
+		return result;
 	}
 
 }

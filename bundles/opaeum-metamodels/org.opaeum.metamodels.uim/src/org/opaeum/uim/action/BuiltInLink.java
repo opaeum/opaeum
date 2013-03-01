@@ -25,6 +25,7 @@ import org.opaeum.uim.Labels;
 public interface BuiltInLink extends AbstractLink {
 	/**
 	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
+	 * The default value is <code>"null"</code>.
 	 * The literals are from the enumeration {@link org.opaeum.uim.action.BuiltInLinkKind}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -36,7 +37,7 @@ public interface BuiltInLink extends AbstractLink {
 	 * @see org.opaeum.uim.action.BuiltInLinkKind
 	 * @see #setKind(BuiltInLinkKind)
 	 * @see org.opaeum.uim.action.ActionPackage#getBuiltInLink_Kind()
-	 * @model
+	 * @model default="null"
 	 * @generated
 	 */
 	BuiltInLinkKind getKind();

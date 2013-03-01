@@ -32,7 +32,7 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 	private static LinkedBlockingQueue<AuditWorkUnit> queue = new LinkedBlockingQueue<AuditWorkUnit>();
 	static{
 		// HAck!! No event to trap session closure
-		new Thread(AuditListener.class.getName() + "::Audit thread"){
+		Thread t = new Thread(AuditListener.class.getName() + "::Audit thread"){
 			@Override
 			public void run(){
 				while(true){
@@ -52,7 +52,9 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 					}
 				}
 			}
-		}.start();
+		};
+		t.setDaemon(true);
+		t.start();
 	}
 	protected SessionAttachment newSessionAttachment(EventSource session,Environment env){
 		return new AuditSessionAttachment(session, env);

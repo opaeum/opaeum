@@ -11,6 +11,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
@@ -30,6 +31,10 @@ import org.opaeum.uim.editor.EditorPage;
 import org.opaeum.uim.model.ClassUserInteractionModel;
 
 public class EntityFormEditor extends OpaeumEditor implements IDirtyListener{
+	public EntityFormEditor(CTabItem tabeItem){
+		super(tabeItem);
+	}
+
 	public static final class DummyObservableValue extends AbstractObservableValue{
 		
 		Object status;
@@ -131,6 +136,8 @@ public class EntityFormEditor extends OpaeumEditor implements IDirtyListener{
 	public void dirtyChanged(boolean dirty){
 		if(!dirty && ((HibernateEntity) getEditorInput().getPersistentObject()).getDeletedOn().before(new Date(System.currentTimeMillis() + 1))){
 			close(false);
+		}else{
+			setPartName("* " + getEditorInput().getName());
 		}
 	}
 	public EntityEditorInputJface getEditorInput(){

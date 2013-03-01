@@ -5,12 +5,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class FileUimResourceWrapper extends AbstractUimResourceWrapper{
+public class FileUimResource extends AbstractUimResource{
 	private File file;
 	private long lastModified;
-	public FileUimResourceWrapper(File bundle,String id){
-		super();
-		this.file = new File(bundle, id + ".uim");
+	public FileUimResource(File bundle,String fileName){
+		super(fileName);
+		this.file = new File(bundle, fileName);
 		lastModified=file.lastModified();
 	}
 	@Override

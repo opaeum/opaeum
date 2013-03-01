@@ -3,6 +3,7 @@ package org.opaeum.runtime.bpm.businesscalendar;
 import org.opaeum.runtime.bpm.opaeumsimpletypes.Month;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.simulation.EntityInstanceSimulation;
+import org.opaeum.simulation.SimulationMetaData;
 
 public class RecurringHolidayActualInstance1_6z21Jn_JEeK5usaVqVCtXw extends EntityInstanceSimulation<RecurringHoliday> {
 	static final public RecurringHolidayActualInstance1_6z21Jn_JEeK5usaVqVCtXw INSTANCE = new RecurringHolidayActualInstance1_6z21Jn_JEeK5usaVqVCtXw();

@@ -20,72 +20,12 @@
       <availablePage>
         <emfPageIdentifier href="BusinessStructureModel.notation#_dt_K8H2lEeK5F45wEGRv4A"/>
       </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="tmp.notation#_lN1cEIDkEeK_kMd4wGXOgQ"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="tmp.notation#_lRel8IDkEeK_kMd4wGXOgQ"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="tmp.notation#_lVQSsIDkEeK_kMd4wGXOgQ"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="tmp.notation#_lXEQkIDkEeK_kMd4wGXOgQ"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="tmp.notation#_lYsBMIDkEeK_kMd4wGXOgQ"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="tmp.notation#_laMdEIDkEeK_kMd4wGXOgQ"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="tmp.notation#_lbfdkIDkEeK_kMd4wGXOgQ"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="tmp.notation#_leypMIDkEeK_kMd4wGXOgQ"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="tmp.notation#_lgmAAIDkEeK_kMd4wGXOgQ"/>
-      </availablePage>
-      <availablePage>
-        <emfPageIdentifier href="tmp.notation#_liI4IIDkEeK_kMd4wGXOgQ"/>
-      </availablePage>
     </pageList>
     <sashModel currentSelection="/0/@sashModel/@windows.0/@children.0">
       <windows>
         <children xsi:type="di:TabFolder">
           <children>
             <emfPageIdentifier href="BusinessStructureModel.notation#_QaxUsHkAEeKsL8ZaFiY2TQ"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="tmp.notation#_lN1cEIDkEeK_kMd4wGXOgQ"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="tmp.notation#_lRel8IDkEeK_kMd4wGXOgQ"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="tmp.notation#_lVQSsIDkEeK_kMd4wGXOgQ"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="tmp.notation#_lXEQkIDkEeK_kMd4wGXOgQ"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="tmp.notation#_lYsBMIDkEeK_kMd4wGXOgQ"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="tmp.notation#_laMdEIDkEeK_kMd4wGXOgQ"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="tmp.notation#_lbfdkIDkEeK_kMd4wGXOgQ"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="tmp.notation#_leypMIDkEeK_kMd4wGXOgQ"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="tmp.notation#_lgmAAIDkEeK_kMd4wGXOgQ"/>
-          </children>
-          <children>
-            <emfPageIdentifier href="tmp.notation#_liI4IIDkEeK_kMd4wGXOgQ"/>
           </children>
         </children>
       </windows>

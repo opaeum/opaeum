@@ -417,7 +417,11 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 		if ( this.getApplianceDoctor()!=null ) {
 			this.getApplianceDoctor().z_internalRemoveFromApplianceModel(this);
 		}
-		this.z_internalAddToApplianceDoctor(applianceDoctor);
+		if ( applianceDoctor == null ) {
+			this.z_internalRemoveFromApplianceDoctor(this.getApplianceDoctor());
+		} else {
+			this.z_internalAddToApplianceDoctor(applianceDoctor);
+		}
 		if ( applianceDoctor!=null ) {
 			applianceDoctor.z_internalAddToApplianceModel(this);
 			setDeletedOn(Stdlib.FUTURE);

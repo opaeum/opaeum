@@ -648,8 +648,13 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 		if ( this.getBusinessNetwork()!=null ) {
 			this.getBusinessNetwork().z_internalRemoveFromBusinessCollaboration(this);
 		}
-		this.z_internalAddToBusinessNetwork(businessNetwork);
+		if ( businessNetwork == null ) {
+			this.z_internalRemoveFromBusinessNetwork(this.getBusinessNetwork());
+		} else {
+			this.z_internalAddToBusinessNetwork(businessNetwork);
+		}
 		if ( businessNetwork!=null ) {
+			businessNetwork.z_internalAddToBusinessCollaboration(this);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
 			markDeleted();
@@ -787,7 +792,7 @@ public class ApplianceCollaboration implements IPersistentObject, IEventGenerato
 	
 	public void z_internalAddToBusinessNetwork(BusinessNetwork businessNetwork) {
 		BusinessNetworkFacilatatesCollaboration newOne;
-		if ( businessNetwork.equals(getBusinessNetwork()) ) {
+		if ( businessNetwork!=null && businessNetwork.equals(getBusinessNetwork()) ) {
 			return;
 		}
 		newOne = new BusinessNetworkFacilatatesCollaboration(this,businessNetwork);

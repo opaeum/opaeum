@@ -40,7 +40,7 @@ public class TableAndActionBarComposite extends Composite{
 			@Override
 			protected Table createWidget(Composite parent){
 				Table table = createTable(parent);
-				table.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, false));
+				table.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 				this.viewer = checkboxTableViewer = new SortablePageableCheckboxTableViewer(table, this);
 				return table;
 			}

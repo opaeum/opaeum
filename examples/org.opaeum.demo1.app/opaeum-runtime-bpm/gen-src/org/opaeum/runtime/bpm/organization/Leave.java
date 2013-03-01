@@ -295,7 +295,11 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		if ( this.getPerson()!=null ) {
 			this.getPerson().z_internalRemoveFromLeave(this);
 		}
-		this.z_internalAddToPerson(person);
+		if ( person == null ) {
+			this.z_internalRemoveFromPerson(this.getPerson());
+		} else {
+			this.z_internalAddToPerson(person);
+		}
 		if ( person!=null ) {
 			person.z_internalAddToLeave(this);
 			setDeletedOn(Stdlib.FUTURE);

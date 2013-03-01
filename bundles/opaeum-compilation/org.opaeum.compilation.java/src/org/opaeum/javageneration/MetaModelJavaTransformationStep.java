@@ -80,7 +80,7 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 		OJEnum itf = new OJEnum(e.getName());
 		pkg.addToClasses(itf);
 		createTextPath(itf);
-		OJAnnotatedOperation getByName= new OJAnnotatedOperation("getByName",itf.getPathName());
+		OJAnnotatedOperation getByName = new OJAnnotatedOperation("getByName", itf.getPathName());
 		itf.addToOperations(getByName);
 		getByName.addParam("name", "String");
 		getByName.initializeResultVariable("null");
@@ -89,11 +89,10 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 		for(EEnumLiteral el:eLiterals){
 			OJEnumLiteral ojLit = new OJEnumLiteral(NameConverter.toUnderscoreStyle(el.getName()).toUpperCase());
 			itf.addToLiterals(ojLit);
-			OJIfStatement ifName=new OJIfStatement("\"" +el.getName() +"\".equals(name)");
+			OJIfStatement ifName = new OJIfStatement("\"" + el.getName() + "\".equals(name)");
 			getByName.getBody().addToStatements(ifName);
 			ifName.getThenPart().addToStatements("return " + ojLit.getName());
 		}
-		
 	}
 	private String qualifiedName(EPackage e){
 		if(e.getESuperPackage() == null){
@@ -120,10 +119,8 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 			pkg.addToClasses(cls);
 			createTextPath(cls);
 			if(!e.isAbstract()){
-				instantiator.getDefaultConstructor().getBody()
-						.addToStatements("classes.put(\"" + qualifiedName(e) + "\"," + cls.getPathName() + ".class)");
+				instantiator.getDefaultConstructor().getBody().addToStatements("classes.put(\"" + qualifiedName(e) + "\"," + cls.getPathName() + ".class)");
 			}
-			OJUtill.addPersistentProperty(cls, "uid", new OJPathName("String"), true);
 			cls.addToImports(instantiator.getPathName());
 			doXmlDeserialization(e, cls);
 			for(EClass eClass:e.getESuperTypes()){
@@ -135,9 +132,6 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 			if(cls.getSuperclass() == null){
 				cls.setSuperclass(new OJPathName("org.opaeum.ecore.EObjectImpl"));
 			}
-			OJAnnotatedOperation eContainer = new OJAnnotatedOperation("eContainer", eObject);
-			eContainer.initializeResultVariable("null");
-			cls.addToOperations(eContainer);
 			cls.addToImplementedInterfaces(itf.getPathName());
 			for(EStructuralFeature ea1:e.getEAllStructuralFeatures()){
 				if(!ea1.getEContainingClass().getEPackage().getName().equalsIgnoreCase("ecore")){
@@ -173,7 +167,7 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 		EClassifier eType = ea.getEType();
 		OJPathName pathName = pathName(many, eType);
 		OJAnnotatedField fld = OJUtill.addPersistentProperty(itf2, ea.getName(), pathName, !(itf2 instanceof OJAnnotatedInterface));
-		if(fld!=null && ea.isMany()){
+		if(fld != null && ea.isMany()){
 			itf2.addToImports("java.util.ArrayList");
 			fld.setInitExp("new ArrayList<" + ea.getEType().getName() + ">()");
 		}
@@ -259,7 +253,7 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 		this.textWorkspace = textWorkspace;
 		this.javaModel = javaMode;
 		this.projectName = projectName;
-		this.prefix = new OJPathName(prefix );
+		this.prefix = new OJPathName(prefix);
 		this.instantiator = new OJAnnotatedClass(NameConverter.capitalize(workspace.getName() + "Instantiator"));
 		OJPackage rootPkg = javaModel.findOrCreatePackage(new OJPathName(prefix + "." + projectName.toLowerCase()));
 		rootPkg.addToClasses(instantiator);
@@ -293,7 +287,6 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 		addParameters(toString);
 		owner.addToOperations(toString);
 		if(!(owner instanceof OJAnnotatedInterface)){
-			toString.getBody().addToStatements("setUid(xml.getAttribute(\"xmi:id\"))");
 			for(EStructuralFeature f:e.getEAllStructuralFeatures()){
 				if(isXmlAttribute(f)){
 					populateAttribute(owner, toString, (EAttribute) f);
@@ -321,14 +314,14 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 				if(isXmlReference(f)){
 					owner.addToImports(this.pathName(f.getEType()));
 					OJBlock then = iterateThroughPropertyValues(f, whileItems);
-					String modifier = writer(f);
-					then.addToStatements(modifier + "((" + this.pathName(f.getEType())
-							+ ")map.get(((Element)currentPropertyNode).getAttribute(\"xmi:id\")))");
+					String modifier = setter(f);
+					String retriever = f.isMany() ? "getReferences" : "getReference";
+					then.addToStatements(modifier + "((" + this.pathName(f.isMany(), f.getEType()) + ")this.eResource().getResourceSet()." + retriever
+							+ "((Element)currentPropertyNode))");
 				}else if(isXmlSubElement(f)){
 					OJBlock then = iterateThroughPropertyValues(f, whileItems);
-					then.addToStatements("(("
-							+ this.pathName(f.getEType())
-							+ ")map.get(((Element)currentPropertyNode).getAttribute(\"xmi:id\"))).populateReferencesFromXml((Element)currentPropertyNode, map)");
+					then.addToStatements("((" + this.pathName(f.getEType())
+							+ ")this.eResource().getElement((Element)currentPropertyNode)).populateReferencesFromXml((Element)currentPropertyNode)");
 				}
 			}
 		}
@@ -344,10 +337,6 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 	}
 	protected void addParameters(OJOperation toString){
 		toString.addParam("xml", new OJPathName(Element.class.getName()));
-		OJPathName type = new OJPathName(Map.class.getName());
-		type.addToElementTypes(new OJPathName("String"));
-		type.addToElementTypes(new OJPathName("Object"));
-		toString.addParam("map", type);
 	}
 	protected OJWhileStatement iterateThroughProperties(OJOperation toString){
 		OJBlock block = new OJBlock();
@@ -368,14 +357,17 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 	}
 	protected void populateAttribute(OJAnnotatedClass owner,OJOperation toString,EAttribute f){
 		owner.addToImports(pathName(f.getEType()));
-		OJIfStatement ifNotNull = new OJIfStatement("xml.getAttribute(\"" + f.getName() + "\").length()>0");
-		toString.getBody().addToStatements(ifNotNull);
 		if(isPrimitive(f.getEType())){
+			OJIfStatement ifNotNull = new OJIfStatement("xml.getAttribute(\"" + f.getName() + "\").length()>0");
+			toString.getBody().addToStatements(ifNotNull);
 			ifNotNull.getThenPart().addToStatements(
 					setter(f) + "(EcoreDataTypeParser.getInstance().parse" + f.getEType().getName() + "(xml.getAttribute(\"" + f.getName() + "\")))");
 		}else if(f.getEType() instanceof EEnum){
-			ifNotNull.getThenPart().addToStatements(
-					setter(f) + "(" + f.getEType().getName() + ".getByName(" + "xml.getAttribute(\"" + f.getName() + "\")))");
+			OJIfStatement ifNull = new OJIfStatement("xml.getAttribute(\"" + f.getName() + "\").length()==0");
+			toString.getBody().addToStatements(ifNull);
+			ifNull.getThenPart().addToStatements(setter(f) + "(" + f.getEType().getName() + ".values()[0])");// !!!!!NB ECORE STANDARD!!!!
+			ifNull.setElsePart(new OJBlock());
+			ifNull.getElsePart().addToStatements(setter(f) + "(" + f.getEType().getName() + ".getByName(" + "xml.getAttribute(\"" + f.getName() + "\")))");
 		}else{
 			throw new IllegalStateException("Unknown DataType:" + f.getEType().getName());
 		}
@@ -395,33 +387,31 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 		thenPart.addToLocals(curVal);
 		thenPart.addToStatements("curVal=" + instantiator.getName() + ".INSTANCE.newInstance(typeString)");
 		thenPart.addToStatements("this." + writer(f) + "(curVal)");
-		thenPart.addToStatements("curVal.buildTreeFromXml((Element)currentPropertyNode,map)");
-		thenPart.addToStatements("map.put(curVal.getUid(), curVal)");
-		thenPart.addToStatements("curVal.eContainer(this)");
+		thenPart.addToStatements("curVal.init(this,eResource(),(Element)currentPropertyNode)");
+		thenPart.addToStatements("curVal.buildTreeFromXml((Element)currentPropertyNode)");
 		if(f instanceof EReference){
 			EReference eOpposite = ((EReference) f).getEOpposite();
-			if(eOpposite!=null){
+			if(eOpposite != null){
 				thenPart.addToStatements("curVal." + setter(eOpposite) + "(this)");
 			}
 		}
 	}
 	protected OJBlock iterateThroughPropertyValues(EStructuralFeature f,OJWhileStatement w){
-		OJIfStatement ifInstance = new OJIfStatement("currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals(\""
-				+ f.getName() + "\")");
-//		OJAnnotatedField propertyValueNodes = new OJAnnotatedField("propertyValueNodes", new OJPathName(NodeList.class.getName()));
-//		ifInstance.getThenPart().addToLocals(propertyValueNodes);
-//		propertyValueNodes.setInitExp("currentPropertyNode.getChildNodes()");
-//		OJAnnotatedField j = new OJAnnotatedField("j", new OJPathName("int"));
-//		ifInstance.getThenPart().addToLocals(j);
-//		j.setInitExp("0");
-//		OJWhileStatement whileValueItems = new OJWhileStatement();
-//		ifInstance.getThenPart().addToStatements(whileValueItems);
-//		whileValueItems.setCondition("j<propertyValueNodes.getLength()");
-//		OJAnnotatedField currentPropertyNode = new OJAnnotatedField("currentPropertyNode", new OJPathName(Node.class.getName()));
-//		whileValueItems.getBody().addToLocals(currentPropertyNode);
-//		currentPropertyNode.setInitExp("propertyValueNodes.item(j++)");
-//		OJIfStatement ifInstance2 = new OJIfStatement("currentPropertyNode instanceof Element");
-//		whileValueItems.getBody().addToStatements(ifInstance2);
+		OJIfStatement ifInstance = new OJIfStatement("currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals(\"" + f.getName() + "\")");
+		// OJAnnotatedField propertyValueNodes = new OJAnnotatedField("propertyValueNodes", new OJPathName(NodeList.class.getName()));
+		// ifInstance.getThenPart().addToLocals(propertyValueNodes);
+		// propertyValueNodes.setInitExp("currentPropertyNode.getChildNodes()");
+		// OJAnnotatedField j = new OJAnnotatedField("j", new OJPathName("int"));
+		// ifInstance.getThenPart().addToLocals(j);
+		// j.setInitExp("0");
+		// OJWhileStatement whileValueItems = new OJWhileStatement();
+		// ifInstance.getThenPart().addToStatements(whileValueItems);
+		// whileValueItems.setCondition("j<propertyValueNodes.getLength()");
+		// OJAnnotatedField currentPropertyNode = new OJAnnotatedField("currentPropertyNode", new OJPathName(Node.class.getName()));
+		// whileValueItems.getBody().addToLocals(currentPropertyNode);
+		// currentPropertyNode.setInitExp("propertyValueNodes.item(j++)");
+		// OJIfStatement ifInstance2 = new OJIfStatement("currentPropertyNode instanceof Element");
+		// whileValueItems.getBody().addToStatements(ifInstance2);
 		w.getBody().addToStatements(ifInstance);
 		OJBlock thenPart = ifInstance.getThenPart();
 		return thenPart;

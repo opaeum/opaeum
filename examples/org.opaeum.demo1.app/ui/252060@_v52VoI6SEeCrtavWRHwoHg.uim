@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NdcBs32yEeKdOuVcMz9Nmw" name="addTaskRequestParticipant" umlElementUid="252060@_v52VoI6SEeCrtavWRHwoHg" linkedUmlResource="OpaeumBPM.library.uml">
-  <pageOrdering xmi:id="_NeDFun2yEeKdOuVcMz9Nmw" page="_NeDFuX2yEeKdOuVcMz9Nmw"/>
-  <pages xmi:id="_NeDFuX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_v52VoI6SEeCrtavWRHwoHg" name="Operation: Add task request participant">
-    <panel xsi:type="panel:GridPanel" xmi:id="_NeDFu32yEeKdOuVcMz9Nmw" name="AddTaskRequestParticipant" numberOfColumns="1">
-      <children xsi:type="comp:UimField" xmi:id="_NeDFvH2yEeKdOuVcMz9Nmw" name="New participant" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-        <control xsi:type="ctl:UimDropdown" xmi:id="_NeDFvX2yEeKdOuVcMz9Nmw"/>
-        <binding xmi:id="_NeDFvn2yEeKdOuVcMz9Nmw" umlElementUid="252060@_v52VoY6SEeCrtavWRHwoHg"/>
+<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ZcHsCIGpEeK6sqz3aegUOg" name="addTaskRequestParticipant" umlElementUid="252060@_v52VoI6SEeCrtavWRHwoHg" linkedUmlResource="OpaeumBPM.library.uml">
+  <pageOrdering xmi:id="_ZcsT-4GpEeK6sqz3aegUOg" page="_ZcsT-oGpEeK6sqz3aegUOg"/>
+  <pages xmi:id="_ZcsT-oGpEeK6sqz3aegUOg" name="Operation: Add task request participant" umlElementUid="252060@_v52VoI6SEeCrtavWRHwoHg">
+    <panel xsi:type="panel:GridPanel" xmi:id="_ZcsT_IGpEeK6sqz3aegUOg" name="AddTaskRequestParticipant" numberOfColumns="1">
+      <children xsi:type="comp:UimField" xmi:id="_ZcsT_YGpEeK6sqz3aegUOg" name="New participant" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown" xmi:id="_ZcsT_oGpEeK6sqz3aegUOg"/>
+        <binding xmi:id="_ZcsT_4GpEeK6sqz3aegUOg" umlElementUid="252060@_v52VoY6SEeCrtavWRHwoHg"/>
       </children>
-      <children xsi:type="comp:UimField" xmi:id="_NeDFv32yEeKdOuVcMz9Nmw" name="Kind" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-        <control xsi:type="ctl:UimDropdown" xmi:id="_NeDFwH2yEeKdOuVcMz9Nmw"/>
-        <binding xmi:id="_NeDFwX2yEeKdOuVcMz9Nmw" umlElementUid="252060@_v52Voo6SEeCrtavWRHwoHg"/>
+      <children xsi:type="comp:UimField" xmi:id="_ZcsUAIGpEeK6sqz3aegUOg" name="Kind" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown" xmi:id="_ZcsUAYGpEeK6sqz3aegUOg"/>
+        <binding xmi:id="_ZcsUAoGpEeK6sqz3aegUOg" umlElementUid="252060@_v52Voo6SEeCrtavWRHwoHg"/>
       </children>
     </panel>
   </pages>

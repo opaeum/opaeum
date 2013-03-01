@@ -381,7 +381,11 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		if ( this.getBusinessCalendar()!=null ) {
 			this.getBusinessCalendar().z_internalRemoveFromWorkDay(this.getKind(),this);
 		}
-		this.z_internalAddToBusinessCalendar(businessCalendar);
+		if ( businessCalendar == null ) {
+			this.z_internalRemoveFromBusinessCalendar(this.getBusinessCalendar());
+		} else {
+			this.z_internalAddToBusinessCalendar(businessCalendar);
+		}
 		if ( businessCalendar!=null ) {
 			businessCalendar.z_internalAddToWorkDay(this.getKind(),this);
 			setDeletedOn(Stdlib.FUTURE);

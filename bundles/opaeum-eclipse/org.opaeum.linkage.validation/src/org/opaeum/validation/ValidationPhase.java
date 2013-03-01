@@ -43,7 +43,7 @@ public class ValidationPhase extends AbstractEmfPhase implements TransformationP
 	}
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
-		Collection<Element> affectedInvalidElements =new HashSet<Element>(elements);
+		Collection<Element> affectedInvalidElements = new HashSet<Element>(elements);
 		ErrorMap errorMap = emfWorkspace.getErrorMap();
 		for(Element element:elements){
 			String elementId = EmfWorkspace.getId(element);
@@ -111,10 +111,9 @@ public class ValidationPhase extends AbstractEmfPhase implements TransformationP
 	}
 	@SuppressWarnings("unchecked")
 	public static Set<Class<? extends AbstractValidator>> getAllValidationSteps(){
-		return new HashSet<Class<? extends AbstractValidator>>(Arrays.asList(OperationValidation.class, ActionValidation.class,
-				ReservedWordValidator.class, NameUniquenessValidation.class, PropertyValidation.class, GeneralizationValidator.class,
-				PrimitiveValidator.class, BehaviorValidator.class, ActivityValidator.class, OclValidator.class, SourcePopulationResolver.class,
-				MappedTypeLoader.class));
+		return new HashSet<Class<? extends AbstractValidator>>(Arrays.asList(OperationValidation.class, ActionValidation.class, ReservedWordValidator.class,
+				NameUniquenessValidation.class, PropertyValidation.class, GeneralizationValidator.class, PrimitiveValidator.class, BehaviorValidator.class,
+				ActivityValidator.class, OclValidator.class, MappedTypeLoader.class));
 	}
 	@Override
 	public void release(){
@@ -123,7 +122,6 @@ public class ValidationPhase extends AbstractEmfPhase implements TransformationP
 			v.release();
 		}
 	}
-
 	/**
 	 * @deprecated Use {@link AbstractEmfPhase#canBeProcessedIndividually(EObject)} instead
 	 */

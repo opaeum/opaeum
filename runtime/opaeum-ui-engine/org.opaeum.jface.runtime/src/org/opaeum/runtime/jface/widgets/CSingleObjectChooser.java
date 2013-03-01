@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.window.Window;
+import org.eclipse.rap.rwt.widgets.DialogCallback;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -17,6 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TypedListener;
+import org.opaeum.runtime.rwt.DialogUtil;
 
 public class CSingleObjectChooser extends Composite{
 	private Text field;
@@ -109,22 +111,27 @@ public class CSingleObjectChooser extends Composite{
 		advancedLabelProvider = provider;
 	}
 	private void handleChoose(){
-		ChooseDialog dialog = new ChooseDialog(getShell(), objects);
+		final ChooseDialog dialog = new ChooseDialog(getShell(), objects);
 		dialog.setLabelProvider(labelProvider);
 		dialog.setAdvancedLabelProvider(advancedLabelProvider);
 		List<Object> selectedObjects = new ArrayList<Object>();
 		selectedObjects.add(selectedObject);
 		dialog.setInitialElementSelections(selectedObjects);
-		if(dialog.open() == Window.OK){
-			Object[] selection = dialog.getResult();
-			if(selection != null && selection.length > 0){
-				setSelection(selection[0]);
-			}else{
-				setSelection(null);
+		DialogUtil.open(dialog, new DialogCallback(){
+			@Override
+			public void dialogClosed(int returnCode){
+				if(returnCode == Window.OK){
+					Object[] selection = dialog.getResult();
+					if(selection != null && selection.length > 0){
+						setSelection(selection[0]);
+					}else{
+						setSelection(null);
+					}
+					Event e = new Event();
+					notifyListeners(SWT.Selection, e);
+				}
 			}
-			Event e = new Event();
-			notifyListeners(SWT.Selection, e);
-		}
+		});
 	}
 	public void setChangeable(boolean isChangeable){
 		chooseBt.setEnabled(isChangeable);

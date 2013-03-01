@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="ASCII"?>
-<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_NV4oRH2yEeKdOuVcMz9Nmw" umlElementUid="252060@_IRdZYGHsEeGz6amjGW5wRQ" name="I person postal address User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
-  <primaryEditor xmi:id="_NV4oRX2yEeKdOuVcMz9Nmw" name="Edit IPersonPostalAddress" umlElementUid="252060@_IRdZYGHsEeGz6amjGW5wRQ">
-    <pageOrdering xmi:id="_NV4oR32yEeKdOuVcMz9Nmw" page="_NV4oRn2yEeKdOuVcMz9Nmw"/>
-    <pages xmi:id="_NV4oRn2yEeKdOuVcMz9Nmw" umlElementUid="252060@_IRdZYGHsEeGz6amjGW5wRQ" name="Edit I person postal address">
-      <panel xsi:type="panel:GridPanel" xmi:id="_NV4oSH2yEeKdOuVcMz9Nmw" name="IPersonPostalAddress" numberOfColumns="1"/>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ZbCt_4GpEeK6sqz3aegUOg" umlElementUid="252060@_IRdZYGHsEeGz6amjGW5wRQ" name="I person postal address User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_ZbCuAIGpEeK6sqz3aegUOg" name="Edit IPersonPostalAddress" umlElementUid="252060@_IRdZYGHsEeGz6amjGW5wRQ">
+    <pageOrdering xmi:id="_ZbCuAoGpEeK6sqz3aegUOg" page="_ZbCuAYGpEeK6sqz3aegUOg"/>
+    <pages xmi:id="_ZbCuAYGpEeK6sqz3aegUOg" name="Edit I person postal address" umlElementUid="252060@_IRdZYGHsEeGz6amjGW5wRQ">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ZbCuA4GpEeK6sqz3aegUOg" name="IPersonPostalAddress" numberOfColumns="1"/>
     </pages>
-    <actionBar xmi:id="_NV5PQH2yEeKdOuVcMz9Nmw" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_NV5PQX2yEeKdOuVcMz9Nmw" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_NV5PQn2yEeKdOuVcMz9Nmw" name="Delete" kind="delete"/>
+    <actionBar xmi:id="_ZbCuBIGpEeK6sqz3aegUOg" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ZbCuBYGpEeK6sqz3aegUOg" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ZbCuBoGpEeK6sqz3aegUOg" name="Delete" kind="delete"/>
     </actionBar>
   </primaryEditor>
-  <newObjectWizard xmi:id="_NV5PZn2yEeKdOuVcMz9Nmw" name="Create IPersonPostalAddress" umlElementUid="252060@_IRdZYGHsEeGz6amjGW5wRQ">
-    <pageOrdering xmi:id="_NV5PaH2yEeKdOuVcMz9Nmw" page="_NV5PZ32yEeKdOuVcMz9Nmw"/>
-    <pages xmi:id="_NV5PZ32yEeKdOuVcMz9Nmw" umlElementUid="252060@_IRdZYGHsEeGz6amjGW5wRQ" name="CreateI person postal address">
-      <panel xsi:type="panel:GridPanel" xmi:id="_NV5PaX2yEeKdOuVcMz9Nmw" name="IPersonPostalAddress" numberOfColumns="1"/>
+  <newObjectWizard xmi:id="_ZbCuKoGpEeK6sqz3aegUOg" name="Create IPersonPostalAddress" umlElementUid="252060@_IRdZYGHsEeGz6amjGW5wRQ">
+    <pageOrdering xmi:id="_ZbDVAYGpEeK6sqz3aegUOg" page="_ZbDVAIGpEeK6sqz3aegUOg"/>
+    <pages xmi:id="_ZbDVAIGpEeK6sqz3aegUOg" name="CreateI person postal address" umlElementUid="252060@_IRdZYGHsEeGz6amjGW5wRQ">
+      <panel xsi:type="panel:GridPanel" xmi:id="_ZbDVAoGpEeK6sqz3aegUOg" name="IPersonPostalAddress" numberOfColumns="1"/>
     </pages>
   </newObjectWizard>
 </model:ClassUserInteractionModel>

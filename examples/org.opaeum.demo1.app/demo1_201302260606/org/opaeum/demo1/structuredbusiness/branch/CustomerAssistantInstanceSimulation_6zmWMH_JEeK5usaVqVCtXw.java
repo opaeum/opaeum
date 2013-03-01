@@ -1,6 +1,7 @@
 package org.opaeum.demo1.structuredbusiness.branch;
 
 import org.opaeum.demo1.structuredbusiness.jobs.Job;
+import org.opaeum.runtime.bpm.costing.RatePerTimeUnit;
 import org.opaeum.runtime.bpm.organization.PersonNode;
 import org.opaeum.runtime.bpm.request.Participation;
 import org.opaeum.runtime.contact.PersonEMailAddressType;

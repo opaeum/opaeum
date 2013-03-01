@@ -794,9 +794,13 @@ public class BusinessRole1 implements IPersistentObject, IEventGenerator, Hibern
 		if ( this.getRepresentedPerson()!=null ) {
 			this.getRepresentedPerson().z_internalRemoveFromBusinessRole(this);
 		}
-		this.z_internalAddToRepresentedPerson(representedPerson);
+		if ( representedPerson == null ) {
+			this.z_internalRemoveFromRepresentedPerson(this.getRepresentedPerson());
+		} else {
+			this.z_internalAddToRepresentedPerson(representedPerson);
+		}
 		if ( representedPerson!=null ) {
-		
+			representedPerson.z_internalAddToBusinessRole(this);
 		}
 	}
 	
@@ -908,7 +912,7 @@ public class BusinessRole1 implements IPersistentObject, IEventGenerator, Hibern
 	
 	public void z_internalAddToRepresentedPerson(PersonNode representedPerson) {
 		PersonInBusinessRole newOne;
-		if ( representedPerson.equals(getRepresentedPerson()) ) {
+		if ( representedPerson!=null && representedPerson.equals(getRepresentedPerson()) ) {
 			return;
 		}
 		newOne = new PersonInBusinessRole(this,representedPerson);
