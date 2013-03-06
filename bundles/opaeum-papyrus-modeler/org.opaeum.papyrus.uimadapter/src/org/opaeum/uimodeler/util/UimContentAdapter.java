@@ -89,7 +89,7 @@ public class UimContentAdapter extends EContentAdapter{
 					}
 
 				}
-				if(notification.getNewValue() instanceof LabeledElement){
+				if(notification.getEventType()==Notification.ADD && notification.getNewValue() instanceof LabeledElement){
 					LabeledElement le = (LabeledElement) notification.getNewValue();
 					if(le.getLabelOverride()==null){
 						le.setLabelOverride(UimFactory.eINSTANCE.createLabels());

@@ -28,6 +28,7 @@ import org.eclipse.papyrus.uml.diagram.common.figure.node.IMultilineEditableFigu
 import org.eclipse.papyrus.uml.diagram.common.figure.node.IPapyrusNodeNamedElementFigure;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
+import org.opaeum.papyrus.common.ImageUtil;
 
 public class UMLEditPartProvider extends CUMLEditPartProvider{
 	public UMLEditPartProvider(){

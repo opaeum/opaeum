@@ -81,18 +81,26 @@ public class OpaeumEditorPane implements CTabFolder2Listener,SelectionListener,F
 		final int index = tabItems.indexOf(item);
 		final EntityFormEditor entityEditor = this.entityEditors.get(index);
 		if(entityEditor.isDirty()){
+			event.doit = false;
 			MessageDialog dg = new MessageDialog(cTabFolder.getShell().getShell(), "Would you like to save changes?", null, "My question",
 					MessageDialog.QUESTION_WITH_CANCEL, new String[]{IDialogConstants.get().YES_LABEL,IDialogConstants.get().NO_LABEL,
 							IDialogConstants.get().CANCEL_LABEL}, 0);
 			org.opaeum.runtime.rwt.DialogUtil.open(dg, new DialogCallback(){
 				@Override
 				public void dialogClosed(int returnCode){
-					if(returnCode == MessageDialog.OK){
+					switch(returnCode){
+					case MessageDialog.OK:
 						entityEditor.close(true);
+						item.dispose();
 						removeItem(item, entityEditor, index);
-					}else{
+						break;
+					case MessageDialog.CANCEL:
+						break;
+					default:
 						entityEditor.close(false);
+						item.dispose();
 						removeItem(item, entityEditor, index);
+						break;
 					}
 				}
 			});

@@ -9,12 +9,14 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.jface.entityeditor.EntityEditorInputJface;
 
@@ -64,18 +66,22 @@ public abstract class OpaeumEditor implements IEditorPart{
 		this.container = new Composite(parent,SWT.NONE);
 		this.container.setLayout(new GridLayout(1, true));
 		header = new Composite(container, SWT.BORDER);
+		header.setBackground(new Color(Display.getCurrent(), 0,0,255));
   	GridData headerData = new GridData(SWT.FILL, SWT.TOP, true, false);
-		headerData.heightHint = 200;
+		headerData.heightHint = 50;
 		header.setLayoutData(headerData);
-		header.setLayout(new GridLayout());
+		header.setLayout(new GridLayout(3,false));
 		this.body = new Composite(container, SWT.BORDER);
 		body.setLayout(new FillLayout());
 		body.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		titleComposite=new CLabel(header, SWT.BORDER);
 		titleComposite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
 		messageTable=new MessageTable(header, SWT.NONE);
+		messageTable.setLayoutData(new GridData(SWT.CENTER, SWT.FILL, true, true));
 		buttonBar = new Composite(header, SWT.BORDER);
+		buttonBar.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, true));
 		createButtonBarContents(this.buttonBar);
+		this.buttonBar.setLayout(new FillLayout(SWT.HORIZONTAL));
 		pageFolder = new CTabFolder(body, SWT.BORDER);
 		pageFolder.addSelectionListener(new SelectionListener(){
 			@Override
@@ -93,8 +99,10 @@ public abstract class OpaeumEditor implements IEditorPart{
 			}
 		});
 		addPages();
-		pageFolder.setSelection(0);
 		pageFolder.setFocus();
+		if(this.items.size()>0){
+			pageFolder.showItem(this.items.get(0));
+		}
 	}
 	public void createButtonBarContents(Composite buttonBar2){
 		

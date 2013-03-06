@@ -295,7 +295,11 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 	
 	public void setHponeNumber(String hponeNumber) {
 		propertyChangeSupport.firePropertyChange("hponeNumber",getHponeNumber(),hponeNumber);
-		this.z_internalAddToHponeNumber(hponeNumber);
+		if ( hponeNumber == null ) {
+			this.z_internalRemoveFromHponeNumber(getHponeNumber());
+		} else {
+			this.z_internalAddToHponeNumber(hponeNumber);
+		}
 	}
 	
 	public void setId(Long id) {
@@ -333,7 +337,11 @@ public class OrganizationPhoneNumber implements IPersistentObject, IEventGenerat
 		if ( getOrganization()!=null && getType()!=null ) {
 			getOrganization().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}
-		this.z_internalAddToType(type);
+		if ( type == null ) {
+			this.z_internalRemoveFromType(getType());
+		} else {
+			this.z_internalAddToType(type);
+		}
 		if ( getOrganization()!=null && getType()!=null ) {
 			getOrganization().z_internalAddToPhoneNumber(this.getType(),this);
 		}

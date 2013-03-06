@@ -1119,7 +1119,11 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public void setCity(City city) {
 		propertyChangeSupport.firePropertyChange("city",getCity(),city);
-		this.z_internalAddToCity(city);
+		if ( city == null ) {
+			this.z_internalRemoveFromCity(getCity());
+		} else {
+			this.z_internalAddToCity(city);
+		}
 	}
 	
 	public void setCustomerAssistant(Set<CustomerAssistant> customerAssistant) {
@@ -1162,12 +1166,20 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public void setName(String name) {
 		propertyChangeSupport.firePropertyChange("name",getName(),name);
-		this.z_internalAddToName(name);
+		if ( name == null ) {
+			this.z_internalRemoveFromName(getName());
+		} else {
+			this.z_internalAddToName(name);
+		}
 	}
 	
 	public void setNumberOfOpenPositions(Double numberOfOpenPositions) {
 		propertyChangeSupport.firePropertyChange("numberOfOpenPositions",getNumberOfOpenPositions(),numberOfOpenPositions);
-		this.z_internalAddToNumberOfOpenPositions(numberOfOpenPositions);
+		if ( numberOfOpenPositions == null ) {
+			this.z_internalRemoveFromNumberOfOpenPositions(getNumberOfOpenPositions());
+		} else {
+			this.z_internalAddToNumberOfOpenPositions(numberOfOpenPositions);
+		}
 	}
 	
 	public void setObjectVersion(int objectVersion) {
@@ -1522,7 +1534,7 @@ public class Branch implements IPersistentObject, IEventGenerator, HibernateEnti
 	private Collection<Activity> collect13(@ParameterMetaInfo(name="parameter1ll",opaeumId=7842728324345019779l,uuid="914890@_bNhwQBRxEeKYhv9CKiNDbg") IBusiness parameter1ll, Set<FailedConstraint> failedConstraints) {
 		Collection<Activity> result = new ArrayList<Activity>();
 		for ( Job temp1 : this.getJob() ) {
-			Set<Activity> bodyExpResult = temp1.getActivity();
+			Set<? extends Activity> bodyExpResult = temp1.getActivity();
 			result.addAll( bodyExpResult );
 		}
 		return result;

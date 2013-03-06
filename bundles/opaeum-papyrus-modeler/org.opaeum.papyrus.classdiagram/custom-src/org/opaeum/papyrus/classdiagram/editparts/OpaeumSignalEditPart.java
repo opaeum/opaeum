@@ -15,6 +15,7 @@ import org.eclipse.papyrus.uml.diagram.common.figure.node.IPapyrusNodeNamedEleme
 import org.eclipse.papyrus.uml.diagram.common.figure.node.SignalFigure;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.papyrus.common.ImageUtil;
 
 public final class OpaeumSignalEditPart extends SignalEditPart{
 	private final class OpaeumClassifierFIgure extends SignalFigure{

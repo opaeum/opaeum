@@ -213,11 +213,11 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 		if ( xml.getAttribute("delegation").length()>0 ) {
 			setDelegation(TaskDelegation.valueOf(xml.getAttribute("delegation")));
 		}
-		if ( xml.getAttribute("delayBeforeProgress").length()>0 ) {
-			setDelayBeforeProgress(OpaeumLibraryForBPMFormatter.getInstance().parseDuration(xml.getAttribute("delayBeforeProgress")));
-		}
 		if ( xml.getAttribute("completionDate").length()>0 ) {
 			setCompletionDate(OpaeumLibraryForBPMFormatter.getInstance().parseDateTime(xml.getAttribute("completionDate")));
+		}
+		if ( xml.getAttribute("delayBeforeProgress").length()>0 ) {
+			setDelayBeforeProgress(OpaeumLibraryForBPMFormatter.getInstance().parseDuration(xml.getAttribute("delayBeforeProgress")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
@@ -461,6 +461,13 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 		boolean result = false;
 		result=super.consumeSuspendOccurrence();
 		for ( IToken token : getTokens() ) {
+			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Ready ) {
+				Ready state = (Ready)token.getCurrentExecutionElement();
+				if ( result==false &&  state.getReadyToSuspended().consumeSuspendOccurrence() ) {
+					result=true;
+					break;
+				}
+			}
 			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof InProgress ) {
 				InProgress state = (InProgress)token.getCurrentExecutionElement();
 				if ( result==false &&  state.getInProgressToSuspended().consumeSuspendOccurrence() ) {
@@ -475,21 +482,14 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 					break;
 				}
 			}
-			if ( result==false && token.isActive() && token.getCurrentExecutionElement() instanceof Ready ) {
-				Ready state = (Ready)token.getCurrentExecutionElement();
-				if ( result==false &&  state.getReadyToSuspended().consumeSuspendOccurrence() ) {
-					result=true;
-					break;
-				}
-			}
 		}
 		return result;
 	}
 	
 	public void copyShallowState(TaskRequest from, TaskRequest to) {
 		to.setDelegation(from.getDelegation());
-		to.setDelayBeforeProgress(from.getDelayBeforeProgress());
 		to.setCompletionDate(from.getCompletionDate());
+		to.setDelayBeforeProgress(from.getDelayBeforeProgress());
 	}
 	
 	public void copyState(TaskRequest from, TaskRequest to) {
@@ -500,8 +500,8 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 			to.addToParticipationInTask(child.makeCopy());
 		}
 		to.setDelegation(from.getDelegation());
-		to.setDelayBeforeProgress(from.getDelayBeforeProgress());
 		to.setCompletionDate(from.getCompletionDate());
+		to.setDelayBeforeProgress(from.getDelayBeforeProgress());
 	}
 	
 	public void createComponents() {
@@ -945,7 +945,11 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 	
 	public void setCompletionDate(Date completionDate) {
 		propertyChangeSupport.firePropertyChange("completionDate",getCompletionDate(),completionDate);
-		this.z_internalAddToCompletionDate(completionDate);
+		if ( completionDate == null ) {
+			this.z_internalRemoveFromCompletionDate(getCompletionDate());
+		} else {
+			this.z_internalAddToCompletionDate(completionDate);
+		}
 	}
 	
 	public void setCurrentException(Object currentException) {
@@ -954,12 +958,20 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 	
 	public void setDelayBeforeProgress(Duration delayBeforeProgress) {
 		propertyChangeSupport.firePropertyChange("delayBeforeProgress",getDelayBeforeProgress(),delayBeforeProgress);
-		this.z_internalAddToDelayBeforeProgress(delayBeforeProgress);
+		if ( delayBeforeProgress == null ) {
+			this.z_internalRemoveFromDelayBeforeProgress(getDelayBeforeProgress());
+		} else {
+			this.z_internalAddToDelayBeforeProgress(delayBeforeProgress);
+		}
 	}
 	
 	public void setDelegation(TaskDelegation delegation) {
 		propertyChangeSupport.firePropertyChange("delegation",getDelegation(),delegation);
-		this.z_internalAddToDelegation(delegation);
+		if ( delegation == null ) {
+			this.z_internalRemoveFromDelegation(getDelegation());
+		} else {
+			this.z_internalAddToDelegation(delegation);
+		}
 	}
 	
 	public void setDeletedOn(Date deletedOn) {
@@ -1022,11 +1034,11 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 		if ( getDelegation()!=null ) {
 			sb.append("delegation=\""+ getDelegation().name() + "\" ");
 		}
-		if ( getDelayBeforeProgress()!=null ) {
-			sb.append("delayBeforeProgress=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatDuration(getDelayBeforeProgress())+"\" ");
-		}
 		if ( getCompletionDate()!=null ) {
 			sb.append("completionDate=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatDateTime(getCompletionDate())+"\" ");
+		}
+		if ( getDelayBeforeProgress()!=null ) {
+			sb.append("delayBeforeProgress=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatDuration(getDelayBeforeProgress())+"\" ");
 		}
 		sb.append(">");
 		sb.append("\n<participationInRequest propertyId=\"3022263813028286216\">");

@@ -807,7 +807,11 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void setContactNumber(String contactNumber) {
 		propertyChangeSupport.firePropertyChange("contactNumber",getContactNumber(),contactNumber);
-		this.z_internalAddToContactNumber(contactNumber);
+		if ( contactNumber == null ) {
+			this.z_internalRemoveFromContactNumber(getContactNumber());
+		} else {
+			this.z_internalAddToContactNumber(contactNumber);
+		}
 	}
 	
 	public void setDeletedOn(Date deletedOn) {
@@ -834,7 +838,11 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void setHourlyRate(Double hourlyRate) {
 		propertyChangeSupport.firePropertyChange("hourlyRate",getHourlyRate(),hourlyRate);
-		this.z_internalAddToHourlyRate(hourlyRate);
+		if ( hourlyRate == null ) {
+			this.z_internalRemoveFromHourlyRate(getHourlyRate());
+		} else {
+			this.z_internalAddToHourlyRate(hourlyRate);
+		}
 	}
 	
 	public void setId(Long id) {
@@ -843,7 +851,11 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void setName(String name) {
 		propertyChangeSupport.firePropertyChange("name",getName(),name);
-		this.z_internalAddToName(name);
+		if ( name == null ) {
+			this.z_internalRemoveFromName(getName());
+		} else {
+			this.z_internalAddToName(name);
+		}
 	}
 	
 	public void setObjectVersion(int objectVersion) {
@@ -898,17 +910,29 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void setPreferredEMailAddressType(PersonEMailAddressType preferredEMailAddressType) {
 		propertyChangeSupport.firePropertyChange("preferredEMailAddressType",getPreferredEMailAddressType(),preferredEMailAddressType);
-		this.z_internalAddToPreferredEMailAddressType(preferredEMailAddressType);
+		if ( preferredEMailAddressType == null ) {
+			this.z_internalRemoveFromPreferredEMailAddressType(getPreferredEMailAddressType());
+		} else {
+			this.z_internalAddToPreferredEMailAddressType(preferredEMailAddressType);
+		}
 	}
 	
 	public void setPreferredNotificationType(NotificationType preferredNotificationType) {
 		propertyChangeSupport.firePropertyChange("preferredNotificationType",getPreferredNotificationType(),preferredNotificationType);
-		this.z_internalAddToPreferredNotificationType(preferredNotificationType);
+		if ( preferredNotificationType == null ) {
+			this.z_internalRemoveFromPreferredNotificationType(getPreferredNotificationType());
+		} else {
+			this.z_internalAddToPreferredNotificationType(preferredNotificationType);
+		}
 	}
 	
 	public void setPreferredPhoneNumberType(PersonPhoneNumberType preferredPhoneNumberType) {
 		propertyChangeSupport.firePropertyChange("preferredPhoneNumberType",getPreferredPhoneNumberType(),preferredPhoneNumberType);
-		this.z_internalAddToPreferredPhoneNumberType(preferredPhoneNumberType);
+		if ( preferredPhoneNumberType == null ) {
+			this.z_internalRemoveFromPreferredPhoneNumberType(getPreferredPhoneNumberType());
+		} else {
+			this.z_internalAddToPreferredPhoneNumberType(preferredPhoneNumberType);
+		}
 	}
 	
 	public void setRatePerTimeUnit(List<RatePerTimeUnit> ratePerTimeUnit) {
@@ -948,7 +972,11 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void setYearsInPosition(Integer yearsInPosition) {
 		propertyChangeSupport.firePropertyChange("yearsInPosition",getYearsInPosition(),yearsInPosition);
-		this.z_internalAddToYearsInPosition(yearsInPosition);
+		if ( yearsInPosition == null ) {
+			this.z_internalRemoveFromYearsInPosition(getYearsInPosition());
+		} else {
+			this.z_internalAddToYearsInPosition(yearsInPosition);
+		}
 	}
 	
 	public String toXmlReferenceString() {

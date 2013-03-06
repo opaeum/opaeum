@@ -236,12 +236,20 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 	
 	public void setDayOfMonth(String dayOfMonth) {
 		propertyChangeSupport.firePropertyChange("dayOfMonth",getDayOfMonth(),dayOfMonth);
-		this.z_internalAddToDayOfMonth(dayOfMonth);
+		if ( dayOfMonth == null ) {
+			this.z_internalRemoveFromDayOfMonth(getDayOfMonth());
+		} else {
+			this.z_internalAddToDayOfMonth(dayOfMonth);
+		}
 	}
 	
 	public void setDayOfWeek(String dayOfWeek) {
 		propertyChangeSupport.firePropertyChange("dayOfWeek",getDayOfWeek(),dayOfWeek);
-		this.z_internalAddToDayOfWeek(dayOfWeek);
+		if ( dayOfWeek == null ) {
+			this.z_internalRemoveFromDayOfWeek(getDayOfWeek());
+		} else {
+			this.z_internalAddToDayOfWeek(dayOfWeek);
+		}
 	}
 	
 	public void setDeletedOn(Date deletedOn) {
@@ -250,7 +258,11 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 	
 	public void setHours(String hours) {
 		propertyChangeSupport.firePropertyChange("hours",getHours(),hours);
-		this.z_internalAddToHours(hours);
+		if ( hours == null ) {
+			this.z_internalRemoveFromHours(getHours());
+		} else {
+			this.z_internalAddToHours(hours);
+		}
 	}
 	
 	public void setId(Long id) {
@@ -259,12 +271,20 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 	
 	public void setMinutes(String minutes) {
 		propertyChangeSupport.firePropertyChange("minutes",getMinutes(),minutes);
-		this.z_internalAddToMinutes(minutes);
+		if ( minutes == null ) {
+			this.z_internalRemoveFromMinutes(getMinutes());
+		} else {
+			this.z_internalAddToMinutes(minutes);
+		}
 	}
 	
 	public void setMonth(String month) {
 		propertyChangeSupport.firePropertyChange("month",getMonth(),month);
-		this.z_internalAddToMonth(month);
+		if ( month == null ) {
+			this.z_internalRemoveFromMonth(getMonth());
+		} else {
+			this.z_internalAddToMonth(month);
+		}
 	}
 	
 	public void setObjectVersion(int objectVersion) {

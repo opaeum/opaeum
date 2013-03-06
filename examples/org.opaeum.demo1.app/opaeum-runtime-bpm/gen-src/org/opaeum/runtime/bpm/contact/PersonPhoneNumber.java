@@ -327,7 +327,11 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 	
 	public void setPhoneNumber(String phoneNumber) {
 		propertyChangeSupport.firePropertyChange("phoneNumber",getPhoneNumber(),phoneNumber);
-		this.z_internalAddToPhoneNumber(phoneNumber);
+		if ( phoneNumber == null ) {
+			this.z_internalRemoveFromPhoneNumber(getPhoneNumber());
+		} else {
+			this.z_internalAddToPhoneNumber(phoneNumber);
+		}
 	}
 	
 	public void setType(PersonPhoneNumberType type) {
@@ -335,7 +339,11 @@ public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, Hi
 		if ( getPerson()!=null && getType()!=null ) {
 			getPerson().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}
-		this.z_internalAddToType(type);
+		if ( type == null ) {
+			this.z_internalRemoveFromType(getType());
+		} else {
+			this.z_internalAddToType(type);
+		}
 		if ( getPerson()!=null && getType()!=null ) {
 			getPerson().z_internalAddToPhoneNumber(this.getType(),this);
 		}

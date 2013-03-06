@@ -145,6 +145,10 @@ public class EntityFormEditor extends OpaeumEditor implements IDirtyListener{
 	}
 
 	public void close(boolean saveChanges){
+		if(saveChanges){
+			getEditorInput().flushChanges();
+		}
+		getEditorInput().close();
 		
 	}
 

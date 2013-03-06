@@ -305,12 +305,20 @@ public class ApplianceComponent implements IPersistentObject, IEventGenerator, H
 	
 	public void setPartNumber(Integer partNumber) {
 		propertyChangeSupport.firePropertyChange("partNumber",getPartNumber(),partNumber);
-		this.z_internalAddToPartNumber(partNumber);
+		if ( partNumber == null ) {
+			this.z_internalRemoveFromPartNumber(getPartNumber());
+		} else {
+			this.z_internalAddToPartNumber(partNumber);
+		}
 	}
 	
 	public void setPrice(Double price) {
 		propertyChangeSupport.firePropertyChange("price",getPrice(),price);
-		this.z_internalAddToPrice(price);
+		if ( price == null ) {
+			this.z_internalRemoveFromPrice(getPrice());
+		} else {
+			this.z_internalAddToPrice(price);
+		}
 	}
 	
 	public void setUid(String newUid) {

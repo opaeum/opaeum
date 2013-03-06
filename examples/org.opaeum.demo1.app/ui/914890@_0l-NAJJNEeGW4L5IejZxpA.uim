@@ -166,19 +166,19 @@
           <control xsi:type="ctl:UimDropdown" xmi:id="_Zcp314GpEeK6sqz3aegUOg"/>
           <binding xmi:id="_Zcp32IGpEeK6sqz3aegUOg" umlElementUid="252060@_3YyGkYoXEeCPduia_-NbFw"/>
         </children>
-        <children xsi:type="comp:UimField" xmi:id="_Zcp32YGpEeK6sqz3aegUOg" name="Represented organization" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
-          <control xsi:type="ctl:UimDropdown" xmi:id="_Zcp32oGpEeK6sqz3aegUOg"/>
+        <children xsi:type="comp:UimField" xmi:id="_Zcp32YGpEeK6sqz3aegUOg" name="Represented organization" preferredHeight="25" fillHorizontally="true" controlKind="popupSearch" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimPopupSearch" xmi:id="_L2BrcIVnEeK4zuaSD338Rw"/>
           <binding xmi:id="_Zcp324GpEeK6sqz3aegUOg" umlElementUid="252060@_vf4noVYuEeGj5_I7bIwNoA"/>
         </children>
       </panel>
     </pages>
     <actionBar xmi:id="_Zcp33IGpEeK6sqz3aegUOg" name="ActionBar">
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_Zcp33YGpEeK6sqz3aegUOg" name="Update"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_Zcp33oGpEeK6sqz3aegUOg" name="Delete" kind="delete"/>
-      <children xsi:type="action:InvocationButton" xmi:id="_Zcp334GpEeK6sqz3aegUOg" name="Prepare quote" umlElementUid="914890@_HHdlgBYUEeKsDbmQL25eBw">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_Zcp33YGpEeK6sqz3aegUOg" name="Update" preferredWidth="32" preferredHeight="35" fillHorizontally="false" fillVertically="true"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_Zcp33oGpEeK6sqz3aegUOg" name="Delete" preferredWidth="100" fillVertically="true" kind="delete"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_Zcp334GpEeK6sqz3aegUOg" name="Prepare quote" fillVertically="true" umlElementUid="914890@_HHdlgBYUEeKsDbmQL25eBw">
         <popup href="914890@_HHdlgBYUEeKsDbmQL25eBw.uim#_ZcOZuYGpEeK6sqz3aegUOg"/>
       </children>
-      <children xsi:type="action:InvocationButton" xmi:id="_Zcp34IGpEeK6sqz3aegUOg" name="Standalone single screen task1" umlElementUid="914890@_ylMisBYQEeKIFJAOfPz88A">
+      <children xsi:type="action:InvocationButton" xmi:id="_Zcp34IGpEeK6sqz3aegUOg" name="Standalone single screen task1" preferredWidth="168" preferredHeight="15" fillHorizontally="false" fillVertically="true" umlElementUid="914890@_ylMisBYQEeKIFJAOfPz88A">
         <popup href="914890@_ylMisBYQEeKIFJAOfPz88A.uim#_ZbidOIGpEeK6sqz3aegUOg"/>
       </children>
     </actionBar>

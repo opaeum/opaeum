@@ -687,6 +687,12 @@
             </subvertex>
           </region>
         </ownedBehavior>
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_9PcIYIYdEeK-qLl_Laqjng" clientDependency="_9QLIMIYdEeK-qLl_Laqjng" name="BusinessProcess1">
+          <interfaceRealization xmi:id="_9QLIMIYdEeK-qLl_Laqjng" name="isAIBusinessProcess" client="_9PcIYIYdEeK-qLl_Laqjng">
+            <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pD_mkPNQEeGhGoYzbfvy4A"/>
+            <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pD_mkPNQEeGhGoYzbfvy4A"/>
+          </interfaceRealization>
+        </ownedBehavior>
         <ownedOperation xmi:id="_dOodgMzBEeGKe7Qm4dvydQ" name="Operation1" isQuery="true" postcondition="_ozSisBRuEeKYhv9CKiNDbg" precondition="_SebdoBUrEeKJLd0hFS72wA _PkzesBXnEeKQpapxHO1SNA">
           <eAnnotations xmi:id="_q4U5EBNcEeK0HvQCxCC_Ag" source="http://opaum.org/i8n">
             <details xmi:id="_q4U5ERNcEeK0HvQCxCC_Ag" key="en_ZA" value="Operation1"/>
@@ -1570,4 +1576,5 @@
   <OpaeumBPMProfile:BusinessUseCase xmi:id="_pNWFMHj6EeKa0cFYYWwZFg" base_UseCase="_pLr4UHj6EeKa0cFYYWwZFg"/>
   <OpaeumBPMProfile:BusinessCollaboration xmi:id="_J3ZHQHkAEeKsL8ZaFiY2TQ" base_Collaboration="_J3MS8HkAEeKsL8ZaFiY2TQ"/>
   <OpaeumBPMProfile:BusinessStateMachine xmi:id="_cUAgQH2lEeK5F45wEGRv4A" base_StateMachine="_cTMn8H2lEeK5F45wEGRv4A"/>
+  <OpaeumBPMProfile:BusinessProcess xmi:id="_9QBXMIYdEeK-qLl_Laqjng" base_Activity="_9PcIYIYdEeK-qLl_Laqjng"/>
 </xmi:XMI>

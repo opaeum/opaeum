@@ -19,7 +19,7 @@ public class OpaeumBeanObservableValue extends AbstractObservableValue implement
 		this.uimField = field;
 		this.object = object;
 		this.bindingUtil = util;
-		this.propertyDescriptor = util.getTypedElement(uimField.getBinding().getLastPropertyUuid());
+		this.propertyDescriptor = util.resolveLastTypedElement(object, uimField.getBinding());
 	}
 	public void doSetValue(final Object value){
 		bindingUtil.invokeSetter(object, uimField.getBinding(), value);

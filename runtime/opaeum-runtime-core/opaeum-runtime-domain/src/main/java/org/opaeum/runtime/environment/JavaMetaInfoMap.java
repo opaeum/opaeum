@@ -67,7 +67,7 @@ public abstract class JavaMetaInfoMap{
 						String handlerName = c.getName().toLowerCase() + "." + NameConverter.capitalize(method.getName()) + "Handler" + nakedUmlId;
 						Class<? extends IEventHandler> mi = (Class<? extends IEventHandler>) c.getClassLoader().loadClass(handlerName);
 						this.eventHandlersByUuid.put(uuid, mi);
-						JavaTypedElementContainer con = new JavaTypedElementContainer(mi);
+						JavaTypedElementContainer con = new JavaTypedElementContainer(uuid,mi);
 						this.typedElementContainers.put(uuid, con);
 						putTypedElements(con);
 						allClasses.add(mi);
@@ -86,7 +86,7 @@ public abstract class JavaMetaInfoMap{
 	}
 	@SuppressWarnings("unchecked")
 	protected void putClass(Class<? extends Object> c,String uuid){
-		JavaTypedElementContainer jtec = new JavaTypedElementContainer(c);
+		JavaTypedElementContainer jtec = new JavaTypedElementContainer(uuid,c);
 		typedElementContainers.put(uuid, jtec);
 		putTypedElements(jtec);
 		if(ISignal.class.isAssignableFrom(c)){
@@ -152,8 +152,8 @@ public abstract class JavaMetaInfoMap{
 		}catch(IllegalAccessException e){
 		}
 	}
-	public Class<?> getClass(String eventTargetClassId){
-		return uuidClassMap.get(eventTargetClassId);
+	public Class<?> getClass(String classId){
+		return uuidClassMap.get(classId);
 	}
 	public String getUuidFor(Class<? extends Object> c){
 		NumlMetaInfo annotation = c.getAnnotation(NumlMetaInfo.class);

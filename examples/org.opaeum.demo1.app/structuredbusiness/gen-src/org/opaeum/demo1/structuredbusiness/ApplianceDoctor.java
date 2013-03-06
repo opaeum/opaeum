@@ -1025,7 +1025,11 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, IAct
 	
 	public void setAttribute1(Date attribute1) {
 		propertyChangeSupport.firePropertyChange("Attribute1",getAttribute1(),attribute1);
-		this.z_internalAddToAttribute1(attribute1);
+		if ( attribute1 == null ) {
+			this.z_internalRemoveFromAttribute1(getAttribute1());
+		} else {
+			this.z_internalAddToAttribute1(attribute1);
+		}
 	}
 	
 	public void setBranch(Set<Branch> branch) {
@@ -1078,7 +1082,11 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, IAct
 	
 	public void setInitiationDatell(Date initiationDatell) {
 		propertyChangeSupport.firePropertyChange("initiationDatell",getInitiationDatell(),initiationDatell);
-		this.z_internalAddToInitiationDatell(initiationDatell);
+		if ( initiationDatell == null ) {
+			this.z_internalRemoveFromInitiationDatell(getInitiationDatell());
+		} else {
+			this.z_internalAddToInitiationDatell(initiationDatell);
+		}
 	}
 	
 	public void setManager(Set<Manager> manager) {
@@ -1089,7 +1097,11 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, IAct
 	
 	public void setName(String name) {
 		propertyChangeSupport.firePropertyChange("name",getName(),name);
-		this.z_internalAddToName(name);
+		if ( name == null ) {
+			this.z_internalRemoveFromName(getName());
+		} else {
+			this.z_internalAddToName(name);
+		}
 	}
 	
 	public void setObjectVersion(int objectVersion) {
@@ -1144,7 +1156,11 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, IAct
 	
 	public void setProperty1(Date property1) {
 		propertyChangeSupport.firePropertyChange("Property1",getProperty1(),property1);
-		this.z_internalAddToProperty1(property1);
+		if ( property1 == null ) {
+			this.z_internalRemoveFromProperty1(getProperty1());
+		} else {
+			this.z_internalAddToProperty1(property1);
+		}
 	}
 	
 	public void setRepresentedOrganization(IOrganizationNode p) {
@@ -1168,12 +1184,20 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, IAct
 	
 	public void setSupportEMailAddress(String supportEMailAddress) {
 		propertyChangeSupport.firePropertyChange("supportEMailAddress",getSupportEMailAddress(),supportEMailAddress);
-		this.z_internalAddToSupportEMailAddress(supportEMailAddress);
+		if ( supportEMailAddress == null ) {
+			this.z_internalRemoveFromSupportEMailAddress(getSupportEMailAddress());
+		} else {
+			this.z_internalAddToSupportEMailAddress(supportEMailAddress);
+		}
 	}
 	
 	public void setSupportNumber(String supportNumber) {
 		propertyChangeSupport.firePropertyChange("supportNumber",getSupportNumber(),supportNumber);
-		this.z_internalAddToSupportNumber(supportNumber);
+		if ( supportNumber == null ) {
+			this.z_internalRemoveFromSupportNumber(getSupportNumber());
+		} else {
+			this.z_internalAddToSupportNumber(supportNumber);
+		}
 	}
 	
 	public void setUid(String newUid) {
@@ -1182,7 +1206,11 @@ public class ApplianceDoctor implements IPersistentObject, IEventGenerator, IAct
 	
 	public void setVatNumber(String vatNumber) {
 		propertyChangeSupport.firePropertyChange("vatNumber",getVatNumber(),vatNumber);
-		this.z_internalAddToVatNumber(vatNumber);
+		if ( vatNumber == null ) {
+			this.z_internalRemoveFromVatNumber(getVatNumber());
+		} else {
+			this.z_internalAddToVatNumber(vatNumber);
+		}
 	}
 	
 	public void startClassifierBehavior() {

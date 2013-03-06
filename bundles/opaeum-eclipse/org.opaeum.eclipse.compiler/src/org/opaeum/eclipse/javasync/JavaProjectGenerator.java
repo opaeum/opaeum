@@ -142,14 +142,14 @@ public final class JavaProjectGenerator{
 		monitor.worked(20);
 	}
 	public void createEclipseFoldersForSourceFolders(IProgressMonitor monitor,EclipseProjectGenerationStep eclipseGen,List<SourceFolder> sourceFolders)
-			throws CoreException{
+			throws Exception{
 		for(SourceFolder sourceFolder:sourceFolders){
 			eclipseGen.visitSourceFolder(sourceFolder);
 			monitor.worked(20 / sourceFolders.size());
 		}
 	}
 	public void createEclipseProjects(IProgressMonitor monitor,TextWorkspace tws,EclipseProjectGenerationStep eclipseGen,List<SourceFolder> sourceFolders,
-			List<IProject> eclipseProjects){
+			List<IProject> eclipseProjects) throws Exception{
 		// Create Eclipse projects
 		for(TextProject tp:tws.getTextProjects()){
 			eclipseProjects.add(eclipseGen.visitProject(tp));

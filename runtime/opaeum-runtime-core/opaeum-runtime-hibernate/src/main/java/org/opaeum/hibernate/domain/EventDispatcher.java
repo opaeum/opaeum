@@ -62,7 +62,6 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		Thread t = new Thread(EventDispatcher.class.getName() + "::Grim reaper thread"){
 			@Override
 			public void run(){
-
 				while(true){
 					try{
 						sleep(10000);
@@ -162,20 +161,25 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 				ce.versionDidNotIncrement();
 			}else{
 				EntityEntry entry = sa.session.getPersistenceContext().getEntry(entity);
-				if(dirtyEstablished){
-					Number version = (Number) entry.getVersion();
-					int versionInt = version.intValue();
-					ce.objectVersion = versionInt;
+				if(entry==null){
+					//Could happen on an unitialized proxy
+					ce.versionDidNotIncrement();
 				}else{
-					EntityPersister persister = entry.getPersister();
-					int[] dirty = persister.findDirty(persister.getPropertyValues(entity, EntityMode.POJO), entry.getLoadedState(), entity,
-							sa.session);
-					if(dirty == null || dirty.length == 0){
-						ce.versionDidNotIncrement();
-					}else{
+					if(dirtyEstablished){
 						Number version = (Number) entry.getVersion();
 						int versionInt = version.intValue();
 						ce.objectVersion = versionInt;
+					}else{
+						EntityPersister persister = entry.getPersister();
+						int[] dirty = persister.findDirty(persister.getPropertyValues(entity, EntityMode.POJO), entry.getLoadedState(), entity,
+								sa.session);
+						if(dirty == null || dirty.length == 0){
+							ce.versionDidNotIncrement();
+						}else{
+							Number version = (Number) entry.getVersion();
+							int versionInt = version.intValue();
+							ce.objectVersion = versionInt;
+						}
 					}
 				}
 				sa.addChangedEntity(ce);
@@ -206,7 +210,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 					declaredField.setAccessible(true);
 					declaredField.set(event.getEntity(), getPersistence(event.getSession(), event.getEntity()));
 				}
-				cls=cls.getSuperclass();
+				cls = cls.getSuperclass();
 			}
 		}catch(NoSuchFieldException e){
 		}catch(RuntimeException re){
@@ -239,7 +243,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 			NumlMetaInfo annotation = IntrospectionUtil.getOriginalClass(o.getClass()).getAnnotation(NumlMetaInfo.class);
 			if(annotation != null && annotation.applicationIdentifier().length() > 0){
 				try{
-					environment=Environment.getEnvironment(annotation.applicationIdentifier());
+					environment = Environment.getEnvironment(annotation.applicationIdentifier());
 					opaeumEnvironmentMap.put(session.getSessionFactory(), environment);
 				}catch(Exception e){
 					new ExceptionAnalyser(e).throwRootCause();

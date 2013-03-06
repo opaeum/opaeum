@@ -18,6 +18,7 @@ import org.eclipse.papyrus.uml.diagram.activity.edit.policies.ActivityDiagramIte
 import org.eclipse.papyrus.uml.diagram.activity.edit.policies.RemoveOrphanViewPolicy;
 import org.eclipse.papyrus.uml.diagram.activity.part.UMLVisualIDRegistry;
 import org.eclipse.papyrus.uml.diagram.common.editpolicies.DuplicatePasteEditPolicy;
+import org.eclipse.papyrus.uml.diagram.common.editpolicies.PapyrusCreationEditPolicy;
 import org.eclipse.papyrus.uml.diagram.common.providers.ViewInfo;
 import org.eclipse.papyrus.uml.diagram.common.util.MDTUtil;
 
@@ -29,13 +30,10 @@ public class MethodDiagramEditPart extends DiagramEditPart{
 	}
 	protected void createDefaultEditPolicies(){
 		super.createDefaultEditPolicies();
+		installEditPolicy(EditPolicyRoles.CREATION_ROLE, new PapyrusCreationEditPolicy());
 		installEditPolicy(DuplicatePasteEditPolicy.PASTE_ROLE, new DuplicatePasteEditPolicy());
 		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new ActivityDiagramItemSemanticEditPolicy());
-		// in Papyrus diagrams are not strongly synchronised
-		// installEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CANONICAL_ROLE, new
-		// org.eclipse.papyrus.uml.diagram.activity.edit.policies.ActivityDiagramCanonicalEditPolicy());
 		installEditPolicy("RemoveOrphanView", new RemoveOrphanViewPolicy()); //$NON-NLS-1$
-		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.POPUPBAR_ROLE);
 	}
 	static class NodeLabelDragPolicy extends NonResizableEditPolicy{
 		@SuppressWarnings("rawtypes")
@@ -58,21 +56,5 @@ public class MethodDiagramEditPart extends DiagramEditPart{
 			mh.setBorder(null);
 			return Collections.singletonList(mh);
 		}
-	}
-	protected void handleNotificationEvent(Notification event){
-		super.handleNotificationEvent(event);
-		if(event.getNotifier() instanceof EAnnotation){
-			EAnnotation eAnnotation = (EAnnotation) event.getNotifier();
-			if(eAnnotation.getSource() != null && eAnnotation.getSource().equals(MDTUtil.FilterViewAndLabelsSource)){
-				// modification form MOSKitt approach, canonical policies are not called
-				MDTUtil.filterDiagramViews(this.getDiagramView());
-			}
-		}
-	}
-	public Object getAdapter(Class adapter){
-		if(adapter != null && adapter.equals(ViewInfo.class)){
-			return UMLVisualIDRegistry.getDiagramViewInfo();
-		}
-		return super.getAdapter(adapter);
 	}
 }

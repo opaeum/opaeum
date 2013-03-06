@@ -3674,7 +3674,7 @@ self.structuralFeature.oclAsType(Property).opposite.type = self.object.type]]>
 
 
 			</contribution>
-			<editor id="org.eclipse.papyrus.uml.diagram.activity"/>
+			<editor id="org.opaeum.papyrus.methoddiagram"/>
 		</paletteProvider>	
 			
 	</extension>

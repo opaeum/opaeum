@@ -332,17 +332,29 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 	
 	public void setCostToCompany(Double costToCompany) {
 		propertyChangeSupport.firePropertyChange("costToCompany",getCostToCompany(),costToCompany);
-		this.z_internalAddToCostToCompany(costToCompany);
+		if ( costToCompany == null ) {
+			this.z_internalRemoveFromCostToCompany(getCostToCompany());
+		} else {
+			this.z_internalAddToCostToCompany(costToCompany);
+		}
 	}
 	
 	public void setCostToCustomer(Double costToCustomer) {
 		propertyChangeSupport.firePropertyChange("costToCustomer",getCostToCustomer(),costToCustomer);
-		this.z_internalAddToCostToCustomer(costToCustomer);
+		if ( costToCustomer == null ) {
+			this.z_internalRemoveFromCostToCustomer(getCostToCustomer());
+		} else {
+			this.z_internalAddToCostToCustomer(costToCustomer);
+		}
 	}
 	
 	public void setDateOfWork(Date dateOfWork) {
 		propertyChangeSupport.firePropertyChange("dateOfWork",getDateOfWork(),dateOfWork);
-		this.z_internalAddToDateOfWork(dateOfWork);
+		if ( dateOfWork == null ) {
+			this.z_internalRemoveFromDateOfWork(getDateOfWork());
+		} else {
+			this.z_internalAddToDateOfWork(dateOfWork);
+		}
 	}
 	
 	public void setDeletedOn(Date deletedOn) {
@@ -351,7 +363,11 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 	
 	public void setDurationInHours(Double durationInHours) {
 		propertyChangeSupport.firePropertyChange("durationInHours",getDurationInHours(),durationInHours);
-		this.z_internalAddToDurationInHours(durationInHours);
+		if ( durationInHours == null ) {
+			this.z_internalRemoveFromDurationInHours(getDurationInHours());
+		} else {
+			this.z_internalAddToDurationInHours(durationInHours);
+		}
 	}
 	
 	public void setId(Long id) {
@@ -386,7 +402,11 @@ public class Activity implements IPersistentObject, IEventGenerator, HibernateEn
 	
 	public void setTechnician(Technician technician) {
 		propertyChangeSupport.firePropertyChange("technician",getTechnician(),technician);
-		this.z_internalAddToTechnician(technician);
+		if ( technician == null ) {
+			this.z_internalRemoveFromTechnician(getTechnician());
+		} else {
+			this.z_internalAddToTechnician(technician);
+		}
 	}
 	
 	public void setUid(String newUid) {

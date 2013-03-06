@@ -8,7 +8,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opaeum</groupId>
-	<artifactId>org.opaeum.metamodels.java</artifactId>
+	<artifactId>org.opaeum.papyrus.methoddiagram</artifactId>
 	<packaging>eclipse-plugin</packaging>
 	<name>Opaeum Papyrus Method Diagram</name>
 	<build>

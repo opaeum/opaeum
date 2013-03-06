@@ -138,7 +138,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 			monitor.done();
 		}
 	}
-	private void synchronizeClasses(IProgressMonitor monitor){
+	private void synchronizeClasses(IProgressMonitor monitor) throws Exception{
 		try{
 			monitor.beginTask("Generating Java Code", 1000);
 			Set<Element> clss;
@@ -171,7 +171,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 			monitor.done();
 		}
 	}
-	public void writeFilesIndividually(IProgressMonitor monitor,Collection<?> processElements){
+	public void writeFilesIndividually(IProgressMonitor monitor,Collection<?> processElements )throws Exception{
 		for(Object object:processElements){
 			if(object instanceof TextOutputNode){
 				TextOutputNode txt = (TextOutputNode) object;

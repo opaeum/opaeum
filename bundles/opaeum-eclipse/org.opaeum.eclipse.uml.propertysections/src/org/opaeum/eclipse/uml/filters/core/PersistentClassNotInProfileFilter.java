@@ -5,6 +5,7 @@ import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Type;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
@@ -17,7 +18,7 @@ public class PersistentClassNotInProfileFilter extends AbstractFilter{
 		}else{
 			boolean entity = e instanceof org.eclipse.uml2.uml.Class
 					&& !(e instanceof Behavior && !EmfBehaviorUtil.hasExecutionInstance((Behavior) e));
-			return entity || e instanceof Actor || isStructuredDataTyp(e) || isBusinessCollaboration(e);
+			return entity || e instanceof Actor || isStructuredDataTyp(e) || isBusinessCollaboration(e) ;
 		}
 	}
 

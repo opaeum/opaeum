@@ -793,7 +793,11 @@ public class PrepareQuote implements IStateMachineExecution, IPersistentObject, 
 	
 	public void setCustomerApproved(Boolean customerApproved) {
 		propertyChangeSupport.firePropertyChange("customerApproved",getCustomerApproved(),customerApproved);
-		this.z_internalAddToCustomerApproved(customerApproved);
+		if ( customerApproved == null ) {
+			this.z_internalRemoveFromCustomerApproved(getCustomerApproved());
+		} else {
+			this.z_internalAddToCustomerApproved(customerApproved);
+		}
 	}
 	
 	public void setDeletedOn(Date deletedOn) {
@@ -810,12 +814,20 @@ public class PrepareQuote implements IStateMachineExecution, IPersistentObject, 
 	
 	public void setLl(TaskParticipationKind ll) {
 		propertyChangeSupport.firePropertyChange("ll",getLl(),ll);
-		this.z_internalAddToLl(ll);
+		if ( ll == null ) {
+			this.z_internalRemoveFromLl(getLl());
+		} else {
+			this.z_internalAddToLl(ll);
+		}
 	}
 	
 	public void setLll(Integer lll) {
 		propertyChangeSupport.firePropertyChange("lll",getLll(),lll);
-		this.z_internalAddToLll(lll);
+		if ( lll == null ) {
+			this.z_internalRemoveFromLll(getLll());
+		} else {
+			this.z_internalAddToLll(lll);
+		}
 	}
 	
 	public void setObjectVersion(int objectVersion) {
@@ -828,7 +840,11 @@ public class PrepareQuote implements IStateMachineExecution, IPersistentObject, 
 	
 	public void setParameter1(Integer parameter1) {
 		propertyChangeSupport.firePropertyChange("parameter1",getParameter1(),parameter1);
-		this.z_internalAddToParameter1(parameter1);
+		if ( parameter1 == null ) {
+			this.z_internalRemoveFromParameter1(getParameter1());
+		} else {
+			this.z_internalAddToParameter1(parameter1);
+		}
 	}
 	
 	public void setProcessRequest(ProcessRequest processRequest) {
@@ -863,7 +879,11 @@ public class PrepareQuote implements IStateMachineExecution, IPersistentObject, 
 	
 	public void setProperty1ll(Boolean property1ll) {
 		propertyChangeSupport.firePropertyChange("property1ll",getProperty1ll(),property1ll);
-		this.z_internalAddToProperty1ll(property1ll);
+		if ( property1ll == null ) {
+			this.z_internalRemoveFromProperty1ll(getProperty1ll());
+		} else {
+			this.z_internalAddToProperty1ll(property1ll);
+		}
 	}
 	
 	public void setRequest(AbstractRequest request) {

@@ -27,19 +27,19 @@ public abstract class AbstractEditingSupport extends EditingSupport{
 	protected final BindingUtil bindingUtil;
 	protected final UimField uimField;
 	protected JavaTypedElement typedElement;
-	public AbstractEditingSupport(ColumnViewer tableViewer,EntityEditorInputJface input,BindingUtil bindingUtil,UimField uimField){
+	public AbstractEditingSupport(Class<?> rowClass, ColumnViewer tableViewer,EntityEditorInputJface input,BindingUtil bindingUtil,UimField uimField){
 		super(tableViewer);
 		this.tableViewer = tableViewer;
 		this.input = input;
 		this.bindingUtil = bindingUtil;
 		this.uimField = uimField;
-		this.typedElement = bindingUtil.getTypedElement(uimField.getBinding().getLastPropertyUuid());
+		this.typedElement = bindingUtil.resolveLastTypedElement(rowClass,uimField.getBinding());
 	}
 	@Override
 	protected void setValue(Object element,Object value){
 		Object target = bindingUtil.resolveTarget(element, uimField.getBinding());
 		if(target != null){
-			JavaTypedElement typedElement = bindingUtil.getTypedElement(uimField.getBinding().getLastPropertyUuid());
+			JavaTypedElement typedElement = bindingUtil.resolveLastTypedElement(target,uimField.getBinding());
 			typedElement.invokeSetter(target, value);
 			tableViewer.refresh(element);
 			if(input != null){

@@ -286,7 +286,11 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void setDate(Date date) {
 		propertyChangeSupport.firePropertyChange("date",getDate(),date);
-		this.z_internalAddToDate(date);
+		if ( date == null ) {
+			this.z_internalRemoveFromDate(getDate());
+		} else {
+			this.z_internalAddToDate(date);
+		}
 	}
 	
 	public void setDeletedOn(Date deletedOn) {
@@ -299,7 +303,11 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void setName(String name) {
 		propertyChangeSupport.firePropertyChange("name",getName(),name);
-		this.z_internalAddToName(name);
+		if ( name == null ) {
+			this.z_internalRemoveFromName(getName());
+		} else {
+			this.z_internalAddToName(name);
+		}
 	}
 	
 	public void setObjectVersion(int objectVersion) {

@@ -40,7 +40,8 @@ import org.opaeum.runtime.jface.editingsupport.TextEditingSupport;
 import org.opaeum.runtime.jface.entityeditor.EntityEditorInputJface;
 import org.opaeum.runtime.jface.entityeditor.SecurityUtil;
 import org.opaeum.runtime.jface.widgets.SortablePageableCheckboxTableViewer;
-import org.opaeum.runtime.jface.wizards.OperationInvocationWizard;
+import org.opaeum.runtime.jface.widgets.TableAndActionBarComposite;
+import org.opaeum.runtime.jface.wizards.InvocationWizard;
 import org.opaeum.runtime.rwt.Activator;
 import org.opaeum.runtime.rwt.DialogUtil;
 import org.opaeum.runtime.rwt.IOpaeumApplication;
@@ -64,32 +65,35 @@ public final class DataTableBuilder{
 	private OpaeumRapSession session;
 	private IOpaeumApplication application;
 	private Object objectBeingUpdated;
-	private IPersistentObject selectedObject;
 	private BindingUtil bindingUtil;
 	private EntityEditorInputJface input;
 	private SecurityUtil securityUtil;
+	/**
+	 * Constructor to be called from Editors, assumes the selectedObject is the objectBeingUpdated.
+	 * 
+	 * @param input
+	 */
 	public DataTableBuilder(EntityEditorInputJface input){
+		this(input.getPersistentObject(), input.getPersistentObject(), input.getOpaeumSession());
 		this.input = input;
-		this.session = input.getOpaeumSession();
-		this.application = session.getApplication();
-		this.objectBeingUpdated = input.getPersistentObject();
-		this.selectedObject = input.getPersistentObject();
-		this.bindingUtil = new BindingUtil(application.getEnvironment().getMetaInfoMap(), application.getValidator());
-		this.securityUtil = new SecurityUtil(selectedObject, session);
 	}
+	/**
+	 * Constructor to be called from Editors, assumes there is a selectedObject to evaluate security rules agains, which could be different
+	 * from the objectBeingUpdated, which could be an operation handler. Typically called from invocation wizards etc.
+	 * 
+	 */
 	public DataTableBuilder(IPersistentObject selectedObject,Object handler,OpaeumRapSession session){
 		this.session = session;
 		this.application = session.getApplication();
 		this.objectBeingUpdated = handler;
-		this.selectedObject = selectedObject;
 		this.bindingUtil = new BindingUtil(application.getEnvironment().getMetaInfoMap(), application.getValidator());
 		this.securityUtil = new SecurityUtil(selectedObject, session);
 	}
 	void buildDataTable(final Composite body,UimComponent comp){
 		final UimDataTable uimTable = (UimDataTable) comp;
+		Class<?> rowClass = bindingUtil.resolveLastTypedElement(objectBeingUpdated, uimTable.getBinding()).getBaseType();
 		if(securityUtil.calculateVisibility(uimTable)){
-			org.opaeum.runtime.jface.widgets.TableAndActionBarComposite table = new org.opaeum.runtime.jface.widgets.TableAndActionBarComposite(body,
-					SWT.BORDER);
+			TableAndActionBarComposite table = new TableAndActionBarComposite(body, SWT.BORDER);
 			final SortablePageableCheckboxTableViewer tableViewer = table.getViewer();
 			tableViewer.setContentProvider(new ArrayContentProvider());
 			tableViewer.init(bindingUtil.invoke(objectBeingUpdated, uimTable.getBinding()));
@@ -115,7 +119,7 @@ public final class DataTableBuilder{
 					if(securityUtil.calculateVisibility(child)){
 						final TableViewerColumn viewerColumn = prepareColumn(tableViewer, i, outlayable);
 						if(child instanceof UimField){
-							addFieldColumn(tableViewer, viewerColumn, (UimField) child);
+							addFieldColumn(rowClass,tableViewer, viewerColumn, (UimField) child);
 						}else if(child instanceof BuiltInLink){
 							BuiltInLink builtInLink = (BuiltInLink) child;
 							addBuiltInLink(tableViewer, viewerColumn, builtInLink);
@@ -155,7 +159,7 @@ public final class DataTableBuilder{
 					case ADD:
 						button.addSelectionListener(new SelectionListener(){
 							public void widgetSelected(SelectionEvent e){
-								JavaTypedElement typedElement = bindingUtil.getTypedElement(uimTable.getBinding().getLastPropertyUuid());
+								JavaTypedElement typedElement = bindingUtil.resolveLastTypedElement(objectBeingUpdated, uimTable.getBinding());
 								if(!Modifier.isAbstract(typedElement.getBaseType().getModifiers())){
 									IPersistentObject ni;
 									try{
@@ -199,7 +203,7 @@ public final class DataTableBuilder{
 							for(Object object:checkedElements){
 								sel.add((IPersistentObject) object);
 							}
-							OperationInvocationWizard wizard = new OperationInvocationWizard(sel, eventHandler, ob.getPopup(), input);
+							InvocationWizard wizard = new InvocationWizard(sel, eventHandler, ob.getPopup(), input);
 							WizardDialog dialog = new WizardDialog(body.getShell(), wizard);
 							DialogUtil.open(dialog, null);
 						}
@@ -230,9 +234,9 @@ public final class DataTableBuilder{
 			@Override
 			public void onClick(Object element){
 				IEventHandler eventHandler = bindingUtil.getEventHandler(btn.getUmlElementUid());
-				OperationInvocationWizard wizard = new OperationInvocationWizard((IPersistentObject) element, eventHandler, btn.getPopup(), input);
+				InvocationWizard wizard = new InvocationWizard((IPersistentObject) element, eventHandler, btn.getPopup(), input);
 				WizardDialog dialog = new WizardDialog(body.getShell(), wizard);
-				DialogUtil.open(dialog,null);
+				DialogUtil.open(dialog, null);
 			}
 		});
 	}
@@ -289,19 +293,21 @@ public final class DataTableBuilder{
 		column.setMoveable(true);
 		return viewerColumn;
 	}
-	private void addFieldColumn(final CheckboxTableViewer tableViewer,final TableViewerColumn viewerColumn,final UimField uimField){
-		boolean editable = securityUtil.calculateEditability(uimField) && 	!bindingUtil.getTypedElement(uimField.getBinding().getLastPropertyUuid()).isReadOnly();
+	private void addFieldColumn(Class<?> rowClass,final CheckboxTableViewer tableViewer,final TableViewerColumn viewerColumn,
+			final UimField uimField){
+		boolean editable = securityUtil.calculateEditability(uimField)
+				&& !bindingUtil.resolveLastTypedElement(rowClass, uimField.getBinding()).isReadOnly();
 		final BindingUtil bindingUtil = this.bindingUtil;
 		final EntityEditorInputJface input = this.input;
-		switch(uimField.getControlKind()==null?ControlKind.TEXT:uimField.getControlKind()){
+		switch(uimField.getControlKind() == null ? ControlKind.TEXT : uimField.getControlKind()){
 		case TEXT:
-			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(uimField, "", "", bindingUtil));
+			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(rowClass, uimField, "", "", bindingUtil));
 			if(editable){
-				viewerColumn.setEditingSupport(new TextEditingSupport(tableViewer, input, bindingUtil, uimField));
+				viewerColumn.setEditingSupport(new TextEditingSupport(rowClass,tableViewer, input, bindingUtil, uimField));
 			}
 			break;
 		case LINK:
-			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(uimField, "<span style=\"cursor:pointer\">", "</span>", bindingUtil));
+			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(rowClass,uimField, "<span style=\"cursor:pointer\">", "</span>", bindingUtil));
 			viewerColumn.setEditingSupport(new ActivatingEditingSupport(tableViewer){
 				@Override
 				public void onClick(Object element){
@@ -315,21 +321,21 @@ public final class DataTableBuilder{
 		case DATE_POPUP:
 		case DATE_SCROLLER:
 		case DATE_TIME_POPUP:
-			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(uimField, "", "", bindingUtil));
+			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(rowClass,uimField, "", "", bindingUtil));
 			if(editable){
-				viewerColumn.setEditingSupport(new DateTimeEditingSupport(tableViewer, uimField, bindingUtil, input));
+				viewerColumn.setEditingSupport(new DateTimeEditingSupport(rowClass,tableViewer, uimField, bindingUtil, input));
 			}
 			break;
 		case DROPDOWN:
-			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(uimField, "", "", bindingUtil));
+			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(rowClass,uimField, "", "", bindingUtil));
 			if(editable){
-				viewerColumn.setEditingSupport(new DropdownEditingSupport(tableViewer, uimField, bindingUtil, input));
+				viewerColumn.setEditingSupport(new DropdownEditingSupport(rowClass,tableViewer, uimField, bindingUtil, input));
 			}
 			break;
 		case POPUP_SEARCH:
-			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(uimField, "", "", bindingUtil));
+			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(rowClass,uimField, "", "", bindingUtil));
 			if(editable){
-				viewerColumn.setEditingSupport(new PopupSearchEditingSupport(tableViewer, input, bindingUtil, uimField));
+				viewerColumn.setEditingSupport(new PopupSearchEditingSupport(rowClass,tableViewer, input, bindingUtil, uimField));
 			}
 			break;
 		case CHECK_BOX:
@@ -351,8 +357,8 @@ public final class DataTableBuilder{
 			}
 			break;
 		default:
-			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(uimField, "", "", bindingUtil));
+			viewerColumn.setLabelProvider(new DefaultColumnLabelProvider(rowClass, uimField, "", "", bindingUtil));
 		}
-		viewerColumn.getColumn().addSelectionListener(new SortTableColumnSelectionListener(bindingUtil.getExpression(uimField.getBinding())));
+		viewerColumn.getColumn().addSelectionListener(new SortTableColumnSelectionListener(bindingUtil.getExpression(rowClass, uimField.getBinding())));
 	}
 }

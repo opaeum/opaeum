@@ -87,7 +87,10 @@ public class OpaeumObjectChooser extends Viewer{
 		new TextChangeListener(){
 			@Override
 			public void textChanged(Control control){
-				setSelection(contentAssistHelper.getSelectedObject(text.getText()));
+				String oldText = text.getText();
+				setSelection(contentAssistHelper.getSelectedObject(oldText));
+				text.setText(oldText);
+				text.setSelection(oldText.length());
 				fireSelectionChanged(new SelectionChangedEvent(OpaeumObjectChooser.this, getSelection()));
 			}
 		}.startListeningTo(text);

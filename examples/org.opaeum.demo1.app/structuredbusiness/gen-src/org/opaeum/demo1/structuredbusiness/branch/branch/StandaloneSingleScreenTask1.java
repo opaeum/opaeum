@@ -618,7 +618,11 @@ public class StandaloneSingleScreenTask1 implements IPersistentObject, IEventGen
 	
 	public void setTaskRequest(TaskRequest taskRequest) {
 		propertyChangeSupport.firePropertyChange("taskRequest",getTaskRequest(),taskRequest);
-		this.z_internalAddToTaskRequest(taskRequest);
+		if ( taskRequest == null ) {
+			this.z_internalRemoveFromTaskRequest(getTaskRequest());
+		} else {
+			this.z_internalAddToTaskRequest(taskRequest);
+		}
 	}
 	
 	public void setUid(String newUid) {

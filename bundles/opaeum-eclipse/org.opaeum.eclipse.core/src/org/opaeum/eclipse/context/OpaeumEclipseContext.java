@@ -159,7 +159,7 @@ public class OpaeumEclipseContext{
 			// }
 			dew.guessGeneratingModelsAndProfiles(URI.createPlatformResourceURI(umlDirectory.getFullPath().toString(), true));
 			return dew;
-		}catch(CoreException e){
+		}catch(Exception e){
 			throw new RuntimeException(e);
 		}finally{
 			this.isLoading = false;

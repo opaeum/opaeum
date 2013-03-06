@@ -80,6 +80,14 @@ public class EntityEditorInputJface implements IValueChangeListener, IEditorInpu
 		Class<? extends Object> calculateTargetClass = IntrospectionUtil.getOriginalClass(getPersistentObject());
 		return calculateTargetClass;
 	}
+	public void close(){
+		persistence.close();
+		setDirty(false);
+	}
+	public void flushChanges(){
+		persistence.flush();
+		setDirty(false);
+	}
 
 
 }

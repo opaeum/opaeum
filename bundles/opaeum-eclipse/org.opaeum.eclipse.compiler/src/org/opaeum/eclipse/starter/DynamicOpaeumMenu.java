@@ -52,7 +52,6 @@ public class DynamicOpaeumMenu extends CompoundContributionItem implements IComp
 	}
 	@Override
 	public IContributionItem[] getContributionItems(){
-		System.out.println("DynamicOpaeumMenu.getContributionItems()");
 		if(actions == null){
 			actions = new ArrayList<IContributionItem>();
 			Object firstElement = selection.getFirstElement();

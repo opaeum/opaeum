@@ -19,8 +19,8 @@ import org.opaeum.uim.component.UimField;
 @SuppressWarnings("serial")
 public class TextEditingSupport extends AbstractEditingSupport{
 	private TextCellEditor result;
-	public TextEditingSupport(CheckboxTableViewer tableViewer,EntityEditorInputJface input,BindingUtil bindingUtil,UimField uimField){
-		super(tableViewer, input, bindingUtil, uimField);
+	public TextEditingSupport(Class<?> rowClass, CheckboxTableViewer tableViewer,EntityEditorInputJface input,BindingUtil bindingUtil,UimField uimField){
+		super(rowClass,tableViewer, input, bindingUtil, uimField);
 	}
 	@Override
 	protected Object getValue(Object element){

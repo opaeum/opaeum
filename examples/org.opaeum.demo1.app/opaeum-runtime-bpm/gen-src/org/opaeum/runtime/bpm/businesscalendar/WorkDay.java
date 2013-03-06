@@ -441,7 +441,11 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		if ( getBusinessCalendar()!=null && getKind()!=null ) {
 			getBusinessCalendar().z_internalRemoveFromWorkDay(this.getKind(),this);
 		}
-		this.z_internalAddToKind(kind);
+		if ( kind == null ) {
+			this.z_internalRemoveFromKind(getKind());
+		} else {
+			this.z_internalAddToKind(kind);
+		}
 		if ( getBusinessCalendar()!=null && getKind()!=null ) {
 			getBusinessCalendar().z_internalAddToWorkDay(this.getKind(),this);
 		}
@@ -457,7 +461,11 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void setStartTime(TimeOfDay startTime) {
 		propertyChangeSupport.firePropertyChange("startTime",getStartTime(),startTime);
-		this.z_internalAddToStartTime(startTime);
+		if ( startTime == null ) {
+			this.z_internalRemoveFromStartTime(getStartTime());
+		} else {
+			this.z_internalAddToStartTime(startTime);
+		}
 	}
 	
 	public void setUid(String newUid) {

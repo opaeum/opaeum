@@ -90,7 +90,7 @@
     <actionBar xmi:id="_ZcNy1YGpEeK6sqz3aegUOg" name="ActionBar">
       <children xsi:type="action:BuiltInActionButton" xmi:id="_ZcNy1oGpEeK6sqz3aegUOg" name="Abort" kind="abort"/>
       <children xsi:type="action:BuiltInActionButton" xmi:id="_ZcNy14GpEeK6sqz3aegUOg" name="Suspend" kind="suspend"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_ZcNy2IGpEeK6sqz3aegUOg" name="Resume" kind=""/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_ZcNy2IGpEeK6sqz3aegUOg" name="Resume"/>
       <children xsi:type="action:InvocationButton" xmi:id="_ZcNy2YGpEeK6sqz3aegUOg" name="On failure" umlElementUid="252060@_CDJHUEuCEeGElKTCe2jfDw">
         <popup href="252060@_CDJHUEuCEeGElKTCe2jfDw.uim#_ZbOUIIGpEeK6sqz3aegUOg"/>
       </children>

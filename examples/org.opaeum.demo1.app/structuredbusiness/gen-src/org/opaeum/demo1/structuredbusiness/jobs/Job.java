@@ -555,7 +555,11 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 	
 	public void setCostToCompany(Double costToCompany) {
 		propertyChangeSupport.firePropertyChange("costToCompany",getCostToCompany(),costToCompany);
-		this.z_internalAddToCostToCompany(costToCompany);
+		if ( costToCompany == null ) {
+			this.z_internalRemoveFromCostToCompany(getCostToCompany());
+		} else {
+			this.z_internalAddToCostToCompany(costToCompany);
+		}
 	}
 	
 	public void setCustomerAssistant(CustomerAssistant customerAssistant) {
@@ -579,7 +583,11 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 	
 	public void setForeman(Technician foreman) {
 		propertyChangeSupport.firePropertyChange("foreman",getForeman(),foreman);
-		this.z_internalAddToForeman(foreman);
+		if ( foreman == null ) {
+			this.z_internalRemoveFromForeman(getForeman());
+		} else {
+			this.z_internalAddToForeman(foreman);
+		}
 	}
 	
 	public void setId(Long id) {
@@ -596,12 +604,20 @@ public class Job implements IPersistentObject, IEventGenerator, HibernateEntity,
 	
 	public void setTimeInHours(Double timeInHours) {
 		propertyChangeSupport.firePropertyChange("timeInHours",getTimeInHours(),timeInHours);
-		this.z_internalAddToTimeInHours(timeInHours);
+		if ( timeInHours == null ) {
+			this.z_internalRemoveFromTimeInHours(getTimeInHours());
+		} else {
+			this.z_internalAddToTimeInHours(timeInHours);
+		}
 	}
 	
 	public void setTotalCost(Double totalCost) {
 		propertyChangeSupport.firePropertyChange("totalCost",getTotalCost(),totalCost);
-		this.z_internalAddToTotalCost(totalCost);
+		if ( totalCost == null ) {
+			this.z_internalRemoveFromTotalCost(getTotalCost());
+		} else {
+			this.z_internalAddToTotalCost(totalCost);
+		}
 	}
 	
 	public void setUid(String newUid) {

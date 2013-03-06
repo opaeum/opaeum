@@ -432,7 +432,11 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void setApplianceType(ApplianceType applianceType) {
 		propertyChangeSupport.firePropertyChange("applianceType",getApplianceType(),applianceType);
-		this.z_internalAddToApplianceType(applianceType);
+		if ( applianceType == null ) {
+			this.z_internalRemoveFromApplianceType(getApplianceType());
+		} else {
+			this.z_internalAddToApplianceType(applianceType);
+		}
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -455,12 +459,20 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void setNamaell(Date namaell) {
 		propertyChangeSupport.firePropertyChange("namaell",getNamaell(),namaell);
-		this.z_internalAddToNamaell(namaell);
+		if ( namaell == null ) {
+			this.z_internalRemoveFromNamaell(getNamaell());
+		} else {
+			this.z_internalAddToNamaell(namaell);
+		}
 	}
 	
 	public void setName(String name) {
 		propertyChangeSupport.firePropertyChange("name",getName(),name);
-		this.z_internalAddToName(name);
+		if ( name == null ) {
+			this.z_internalRemoveFromName(getName());
+		} else {
+			this.z_internalAddToName(name);
+		}
 	}
 	
 	public void setObjectVersion(int objectVersion) {
@@ -473,7 +485,11 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void setPartNumberl(TimeOfDay partNumberl) {
 		propertyChangeSupport.firePropertyChange("partNumberl",getPartNumberl(),partNumberl);
-		this.z_internalAddToPartNumberl(partNumberl);
+		if ( partNumberl == null ) {
+			this.z_internalRemoveFromPartNumberl(getPartNumberl());
+		} else {
+			this.z_internalAddToPartNumberl(partNumberl);
+		}
 	}
 	
 	public void setUid(String newUid) {
@@ -482,7 +498,11 @@ public class ApplianceModel implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void setVendor(Vendor vendor) {
 		propertyChangeSupport.firePropertyChange("vendor",getVendor(),vendor);
-		this.z_internalAddToVendor(vendor);
+		if ( vendor == null ) {
+			this.z_internalRemoveFromVendor(getVendor());
+		} else {
+			this.z_internalAddToVendor(vendor);
+		}
 	}
 	
 	public String toXmlReferenceString() {

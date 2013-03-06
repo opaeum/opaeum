@@ -324,7 +324,11 @@ public class Sail implements IPersistentObject, IEventGenerator, HibernateEntity
 		if ( getBoat()!=null && getSailPosition()!=null ) {
 			getBoat().z_internalRemoveFromSail(this.getSailPosition(),this);
 		}
-		this.z_internalAddToSailPosition(sailPosition);
+		if ( sailPosition == null ) {
+			this.z_internalRemoveFromSailPosition(getSailPosition());
+		} else {
+			this.z_internalAddToSailPosition(sailPosition);
+		}
 		if ( getBoat()!=null && getSailPosition()!=null ) {
 			getBoat().z_internalAddToSail(this.getSailPosition(),this);
 		}
@@ -332,7 +336,11 @@ public class Sail implements IPersistentObject, IEventGenerator, HibernateEntity
 	
 	public void setSize(Integer size) {
 		propertyChangeSupport.firePropertyChange("size",getSize(),size);
-		this.z_internalAddToSize(size);
+		if ( size == null ) {
+			this.z_internalRemoveFromSize(getSize());
+		} else {
+			this.z_internalAddToSize(size);
+		}
 	}
 	
 	public void setUid(String newUid) {

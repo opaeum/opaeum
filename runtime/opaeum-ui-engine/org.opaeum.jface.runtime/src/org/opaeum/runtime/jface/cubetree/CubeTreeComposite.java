@@ -166,25 +166,25 @@ public class CubeTreeComposite extends Composite{
 	private boolean isOnLevel(IPersistentObject selectedObject2,Level level){
 		return level.getName().equals(IntrospectionUtil.getOriginalClass(selectedObject2).getSimpleName());
 	}
-	private String toLevelName(LevelProperty levelProperty){
-		Class<?> baseType = metaInfo.getTypedElement(levelProperty.getUmlElementUid()).getBaseType();
+	private String toLevelName(Class<?> source,LevelProperty levelProperty){
+		Class<?> baseType = metaInfo.getTypedElement(source,levelProperty.getUmlElementUid()).getBaseType();
 		String simpleName = baseType.getSimpleName();
 		return simpleName;
 	}
-	private String toDimensionName(DimensionBinding dimensionBinding){
-		JavaTypedElement te = metaInfo.getTypedElement(dimensionBinding.getUmlElementUid());
+	private String toDimensionName(Class<?> source,DimensionBinding dimensionBinding){
+		JavaTypedElement te = metaInfo.getTypedElement(source,dimensionBinding.getUmlElementUid());
 		String name = te.getName();
 		if(dimensionBinding.getNext() != null){
-			return name + "." + toDimensionName(dimensionBinding.getNext());
+			return name + "." + toDimensionName(te.getBaseType(), dimensionBinding.getNext());
 		}else{
 			return name + ":" + te.getBaseType().getSimpleName();
 		}
 	}
-	private String toDimensionName(PropertyRef ref){
-		JavaTypedElement typedElement = metaInfo.getTypedElement(ref.getUmlElementUid());
+	private String toDimensionName(Class<?>source,PropertyRef ref){
+		JavaTypedElement typedElement = metaInfo.getTypedElement(source,ref.getUmlElementUid());
 		String name = typedElement.getName();
 		if(ref.getNext() != null){
-			return name + "." + toDimensionName(ref.getNext());
+			return name + "." + toDimensionName(typedElement.getBaseType(), ref.getNext());
 		}else{
 			return name + ":" + typedElement.getBaseType().getSimpleName();
 		}
@@ -192,16 +192,17 @@ public class CubeTreeComposite extends Composite{
 	private TreeCube buildTreeCube(Cube cube,CubeQuery q) throws OlapException{
 		CubeFilter filter = new CubeFilter(getMemberToFilterBy(cube));
 		TreeCube result = new TreeCube(cube);
-		LevelHolder rowLevelHolder = buildRootLevelHolder(cube, q.getRowAxis());
-		List<Member> rowMembers = getMembersOnFirstLevel(cube, q.getRowAxis().get(0));
+		Class<?> cubeClass=this.metaInfo.getClass(q.getUmlElementUid());
+		LevelHolder rowLevelHolder = buildRootLevelHolder(cubeClass, cube, q.getRowAxis());
+		List<Member> rowMembers = getMembersOnFirstLevel(cubeClass,cube, q.getRowAxis().get(0));
 		for(Member member:rowMembers){
 			if(filter.compliesToFilter(member)){
 				result.addRowNode(rowLevelHolder, member, filter);
 			}
 		}
-		LevelHolder columnLevelHolder = buildRootLevelHolder(cube, q.getColumnAxis());
-		List<Member> columnMembers = getMembersOnFirstLevel(cube, q.getColumnAxis().get(0));
-		List<Measure> measures = findIncludedMeasures(cube, q);
+		LevelHolder columnLevelHolder = buildRootLevelHolder(cubeClass,cube, q.getColumnAxis());
+		List<Member> columnMembers = getMembersOnFirstLevel(cubeClass,cube, q.getColumnAxis().get(0));
+		List<Measure> measures = findIncludedMeasures(cubeClass, cube, q);
 		for(Member member:columnMembers){
 			if(filter.compliesToFilter(member)){
 				result.addColumnNode(columnLevelHolder, member, filter, measures);
@@ -215,11 +216,11 @@ public class CubeTreeComposite extends Composite{
 		}
 		return result;
 	}
-	private List<Measure> findIncludedMeasures(Cube cube,CubeQuery q){
+	private List<Measure> findIncludedMeasures(Class<?> cubeClass, Cube cube,CubeQuery q){
 		List<Measure> measures = new ArrayList<Measure>();
 		for(Measure measure:cube.getMeasures()){
 			for(MeasureProperty measureProperty:q.getMeasures()){
-				JavaTypedElement typedElement = metaInfo.getTypedElement(measureProperty.getUmlElementUid());
+				JavaTypedElement typedElement = metaInfo.getTypedElement(cubeClass, measureProperty.getUmlElementUid());
 				String includedMeasureName = NameConverter.separateWords(measureProperty.getAggregationFormula().name()) + "Of"
 						+ NameConverter.capitalize(typedElement.getName());
 				String measureName = measure.getName();
@@ -230,13 +231,13 @@ public class CubeTreeComposite extends Composite{
 		}
 		return measures;
 	}
-	private LevelHolder buildRootLevelHolder(Cube cube,List<? extends AxisEntry> rowAxis){
+	private LevelHolder buildRootLevelHolder(Class<?> source,Cube cube,List<? extends AxisEntry> rowAxis){
 		LevelHolder result = null;
 		LevelHolder rowLevelHolder = null;
 		for(AxisEntry rowAxisEntry:rowAxis){
-			Dimension dimension = cube.getDimensions().get(toDimensionName(rowAxisEntry.getDimensionBinding()));
+			Dimension dimension = cube.getDimensions().get(toDimensionName(source,rowAxisEntry.getDimensionBinding()));
 			for(LevelProperty levelProperty2:rowAxisEntry.getLevelProperty()){
-				Level level = dimension.getHierarchies().get(0).getLevels().get(toLevelName(levelProperty2));
+				Level level = dimension.getHierarchies().get(0).getLevels().get(toLevelName(source,levelProperty2));
 				if(level != null){
 					if(rowLevelHolder == null){
 						result = rowLevelHolder = new LevelHolder(level);
@@ -249,9 +250,9 @@ public class CubeTreeComposite extends Composite{
 		}
 		return result;
 	}
-	private List<Member> getMembersOnFirstLevel(Cube cube,AxisEntry rowAxisEntry) throws OlapException{
-		Dimension dimension = cube.getDimensions().get(toDimensionName(rowAxisEntry.getDimensionBinding()));
-		Level level = dimension.getHierarchies().get(0).getLevels().get(toLevelName(rowAxisEntry.getLevelProperty().get(0)));
+	private List<Member> getMembersOnFirstLevel(Class<?> source,Cube cube,AxisEntry rowAxisEntry) throws OlapException{
+		Dimension dimension = cube.getDimensions().get(toDimensionName(source,rowAxisEntry.getDimensionBinding()));
+		Level level = dimension.getHierarchies().get(0).getLevels().get(toLevelName(source,rowAxisEntry.getLevelProperty().get(0)));
 		List<Member> members = level.getMembers();
 		return members;
 	}

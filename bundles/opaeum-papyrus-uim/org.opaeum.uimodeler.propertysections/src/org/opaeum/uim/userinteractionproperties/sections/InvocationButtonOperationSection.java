@@ -37,7 +37,7 @@ public class InvocationButtonOperationSection extends AbstractChooserPropertySec
 		return UimPackage.eINSTANCE.getUmlReference_UmlElementUid();
 	}
 	protected Object getFeatureValue(){
-		return UmlUimLinks.getCurrentUmlLinks(getOperationAction()).getOperation(getOperationAction());
+		return UmlUimLinks.getCurrentUmlLinks(getOperationAction()).getUmlElement(getOperationAction());
 	}
 	private InvocationButton getOperationAction(){
 		return (InvocationButton) getEObject();

@@ -28,18 +28,20 @@ public class DropdownEditingSupport extends EditingSupport{
 	private final UimField uimField;
 	private BindingUtil bindingUtil;
 	private EntityEditorInputJface input;
-	public DropdownEditingSupport(CheckboxTableViewer tableViewer,UimField uimField, BindingUtil bindingUtil, EntityEditorInputJface input){
+	private Class<?> rowClass;
+	public DropdownEditingSupport(Class<?> rowClass, CheckboxTableViewer tableViewer,UimField uimField, BindingUtil bindingUtil, EntityEditorInputJface input){
 		super(tableViewer);
 		this.tableViewer = tableViewer;
 		this.uimField = uimField;
 		this.bindingUtil=bindingUtil;
 		this.input=input;
+		this.rowClass=rowClass;
 	}
 	@Override
 	protected void setValue(Object element,Object value){
 		Object target = bindingUtil.resolveTarget(element, uimField.getBinding());
 		if(target != null){
-			JavaTypedElement typedElement = bindingUtil.getTypedElement(uimField.getBinding().getLastPropertyUuid());
+			JavaTypedElement typedElement = bindingUtil.resolveLastTypedElement(rowClass, uimField.getBinding());
 			typedElement.invokeSetter(target, value);
 			tableViewer.refresh(element);
 			if(input != null){
@@ -53,7 +55,7 @@ public class DropdownEditingSupport extends EditingSupport{
 	}
 	@Override
 	protected CellEditor getCellEditor(final Object element){
-		JavaTypedElement typedElement = bindingUtil.getTypedElement(uimField.getBinding().getLastPropertyUuid());
+		JavaTypedElement typedElement = bindingUtil.resolveLastTypedElement(rowClass, uimField.getBinding());
 		ComboBoxViewerCellEditor result = new ComboBoxViewerCellEditor(tableViewer.getTable());
 		result.setLabelProvider(new DefaultLabelProvider());
 		result.setContentProvider(new ArrayContentProvider());

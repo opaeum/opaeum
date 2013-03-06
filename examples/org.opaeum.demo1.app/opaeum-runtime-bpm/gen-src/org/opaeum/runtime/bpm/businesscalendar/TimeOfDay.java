@@ -224,7 +224,11 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 	
 	public void setHours(Integer hours) {
 		propertyChangeSupport.firePropertyChange("hours",getHours(),hours);
-		this.z_internalAddToHours(hours);
+		if ( hours == null ) {
+			this.z_internalRemoveFromHours(getHours());
+		} else {
+			this.z_internalAddToHours(hours);
+		}
 	}
 	
 	public void setId(Long id) {
@@ -233,7 +237,11 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 	
 	public void setMinutes(Integer minutes) {
 		propertyChangeSupport.firePropertyChange("minutes",getMinutes(),minutes);
-		this.z_internalAddToMinutes(minutes);
+		if ( minutes == null ) {
+			this.z_internalRemoveFromMinutes(getMinutes());
+		} else {
+			this.z_internalAddToMinutes(minutes);
+		}
 	}
 	
 	public void setObjectVersion(int objectVersion) {

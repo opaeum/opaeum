@@ -72,7 +72,8 @@ public class UmlUimLinks{
 		return null;
 	}
 	public Operation getOperation(InvocationButton eObject){
-		return (Operation) getUmlElement(eObject);
+		Element umlElement = getUmlElement(eObject);
+		return (Operation) umlElement;
 	}
 	public Operation getOperation(LinkToQuery eObject){
 		return (Operation) getUmlElement(eObject);

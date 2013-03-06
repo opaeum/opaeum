@@ -89,8 +89,20 @@ public class TransformationProcess{
 		List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
 		List<TransformationPhase<?,?>> phases = new ArrayList<TransformationPhase<?,?>>();
 		boolean start = false;
+		//TODO this before/after logic will only work for a single level dependency
+		PhaseDependency pd=c.getAnnotation(PhaseDependency.class);
+		Set<Class<?>> before = new HashSet<Class<?>>();
+		if(pd!=null){
+			before.addAll(Arrays.asList(pd.before()));
+		}
 		for(TransformationPhase<? extends ITransformationStep,?> phase:phaseList){
-			if(start || (start = c.isInstance(phase))){
+			PhaseDependency pd2=phase.getClass().getAnnotation(PhaseDependency.class);
+			Set<Class<?>> after = new HashSet<Class<?>>();
+			if(pd2!=null){
+				after.addAll(Arrays.asList(pd2.after()));
+			}
+
+			if(start || (start = c.isInstance(phase) || before.contains(phase.getClass()) || after.contains(c))){
 				phases.add(phase);
 			}
 		}

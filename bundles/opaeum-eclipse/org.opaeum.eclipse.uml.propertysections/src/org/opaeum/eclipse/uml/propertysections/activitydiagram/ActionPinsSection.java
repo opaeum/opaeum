@@ -11,7 +11,7 @@ import org.opaeum.eclipse.uml.propertysections.core.AbstractTableComposite;
 import org.opaeum.eclipse.uml.propertysections.subsections.AbstractDetailsSubsection;
 
 public class ActionPinsSection extends AbstractMasterDetailSection<Pin>{
-	public ActionPinsSection(String detailsLabel){
+	public ActionPinsSection(){
 		super("Input");
 	}
 	private PinTable table;

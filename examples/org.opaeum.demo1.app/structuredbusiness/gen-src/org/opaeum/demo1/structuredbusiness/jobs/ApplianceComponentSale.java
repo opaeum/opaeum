@@ -313,7 +313,11 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 	
 	public void setApplianceComponent(ApplianceComponent applianceComponent) {
 		propertyChangeSupport.firePropertyChange("applianceComponent",getApplianceComponent(),applianceComponent);
-		this.z_internalAddToApplianceComponent(applianceComponent);
+		if ( applianceComponent == null ) {
+			this.z_internalRemoveFromApplianceComponent(getApplianceComponent());
+		} else {
+			this.z_internalAddToApplianceComponent(applianceComponent);
+		}
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -322,17 +326,29 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 	
 	public void setCostPriceOfComponent(Double costPriceOfComponent) {
 		propertyChangeSupport.firePropertyChange("costPriceOfComponent",getCostPriceOfComponent(),costPriceOfComponent);
-		this.z_internalAddToCostPriceOfComponent(costPriceOfComponent);
+		if ( costPriceOfComponent == null ) {
+			this.z_internalRemoveFromCostPriceOfComponent(getCostPriceOfComponent());
+		} else {
+			this.z_internalAddToCostPriceOfComponent(costPriceOfComponent);
+		}
 	}
 	
 	public void setCostToCustomer(Double costToCustomer) {
 		propertyChangeSupport.firePropertyChange("costToCustomer",getCostToCustomer(),costToCustomer);
-		this.z_internalAddToCostToCustomer(costToCustomer);
+		if ( costToCustomer == null ) {
+			this.z_internalRemoveFromCostToCustomer(getCostToCustomer());
+		} else {
+			this.z_internalAddToCostToCustomer(costToCustomer);
+		}
 	}
 	
 	public void setDateOfSale(Date dateOfSale) {
 		propertyChangeSupport.firePropertyChange("dateOfSale",getDateOfSale(),dateOfSale);
-		this.z_internalAddToDateOfSale(dateOfSale);
+		if ( dateOfSale == null ) {
+			this.z_internalRemoveFromDateOfSale(getDateOfSale());
+		} else {
+			this.z_internalAddToDateOfSale(dateOfSale);
+		}
 	}
 	
 	public void setDeletedOn(Date deletedOn) {
@@ -479,7 +495,7 @@ public class ApplianceComponentSale implements IPersistentObject, IEventGenerato
 	private Collection<ApplianceComponent> collect1() {
 		Collection<ApplianceComponent> result = new ArrayList<ApplianceComponent>();
 		for ( ApplianceModel c : this.getJob().getBranch().getDishwashersInc().getApplianceModel() ) {
-			Set<ApplianceComponent> bodyExpResult = c.getComponent();
+			Set<? extends ApplianceComponent> bodyExpResult = c.getComponent();
 			result.addAll( bodyExpResult );
 		}
 		return result;

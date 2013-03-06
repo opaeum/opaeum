@@ -349,7 +349,11 @@ public class RatePerTimeUnit implements IPersistentObject, IEventGenerator, Hibe
 	
 	public void setAdditionalCostToCompany(Double additionalCostToCompany) {
 		propertyChangeSupport.firePropertyChange("additionalCostToCompany",getAdditionalCostToCompany(),additionalCostToCompany);
-		this.z_internalAddToAdditionalCostToCompany(additionalCostToCompany);
+		if ( additionalCostToCompany == null ) {
+			this.z_internalRemoveFromAdditionalCostToCompany(getAdditionalCostToCompany());
+		} else {
+			this.z_internalAddToAdditionalCostToCompany(additionalCostToCompany);
+		}
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -362,7 +366,11 @@ public class RatePerTimeUnit implements IPersistentObject, IEventGenerator, Hibe
 	
 	public void setEffectiveFrom(Date effectiveFrom) {
 		propertyChangeSupport.firePropertyChange("effectiveFrom",getEffectiveFrom(),effectiveFrom);
-		this.z_internalAddToEffectiveFrom(effectiveFrom);
+		if ( effectiveFrom == null ) {
+			this.z_internalRemoveFromEffectiveFrom(getEffectiveFrom());
+		} else {
+			this.z_internalAddToEffectiveFrom(effectiveFrom);
+		}
 	}
 	
 	public void setId(Long id) {
@@ -379,17 +387,29 @@ public class RatePerTimeUnit implements IPersistentObject, IEventGenerator, Hibe
 	
 	public void setRatePaidByCompany(Double ratePaidByCompany) {
 		propertyChangeSupport.firePropertyChange("ratePaidByCompany",getRatePaidByCompany(),ratePaidByCompany);
-		this.z_internalAddToRatePaidByCompany(ratePaidByCompany);
+		if ( ratePaidByCompany == null ) {
+			this.z_internalRemoveFromRatePaidByCompany(getRatePaidByCompany());
+		} else {
+			this.z_internalAddToRatePaidByCompany(ratePaidByCompany);
+		}
 	}
 	
 	public void setRatePaidByCustomer(Double ratePaidByCustomer) {
 		propertyChangeSupport.firePropertyChange("ratePaidByCustomer",getRatePaidByCustomer(),ratePaidByCustomer);
-		this.z_internalAddToRatePaidByCustomer(ratePaidByCustomer);
+		if ( ratePaidByCustomer == null ) {
+			this.z_internalRemoveFromRatePaidByCustomer(getRatePaidByCustomer());
+		} else {
+			this.z_internalAddToRatePaidByCustomer(ratePaidByCustomer);
+		}
 	}
 	
 	public void setTimeUnit(BusinessTimeUnit timeUnit) {
 		propertyChangeSupport.firePropertyChange("timeUnit",getTimeUnit(),timeUnit);
-		this.z_internalAddToTimeUnit(timeUnit);
+		if ( timeUnit == null ) {
+			this.z_internalRemoveFromTimeUnit(getTimeUnit());
+		} else {
+			this.z_internalAddToTimeUnit(timeUnit);
+		}
 	}
 	
 	public void setTimedResource(ITimedResource timedResource) {

@@ -668,8 +668,10 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 					PropertyMap qMap = ojUtil.buildStructuralFeatureMap(p);
 					OJIfStatement ifNotNull = new OJIfStatement(peerMap.getter() + "()!=null && " + map.getter() + "()!=null");
 					setter.getBody().addToStatements(ifNotNull);
-					ifNotNull.getThenPart().addToStatements(
-							peerMap.getter() + "()." + qMap.internalRemover() + "(" + ojUtil.addQualifierArguments(p.getQualifiers(), "this") + "this)");
+					if(!p.isReadOnly()){
+						ifNotNull.getThenPart().addToStatements(
+								peerMap.getter() + "()." + qMap.internalRemover() + "(" + ojUtil.addQualifierArguments(p.getQualifiers(), "this") + "this)");
+					}
 				}
 			}
 			if(StereotypesHelper.hasStereotype(map.getBaseType(), StereotypeNames.HELPER)){
@@ -724,7 +726,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 					ifParamNotNull.setCondition(map.fieldname() + "!=null");
 					ifParamNotNull.getThenPart().addToStatements(
 							owner.getName() + " oldOther = (" + owner.getName() + ")" + map.fieldname() + "." + otherMap.getter() + "()");
-					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(oldOther)");
+					if(!prop.isReadOnly()){
+						ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(oldOther)");
+					}
 					ifParamNotNull.getThenPart().addToStatements(
 							new OJIfStatement("oldOther != null", "oldOther" + "." + map.internalRemover() + "(" + map.fieldname() + ")"));
 					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "((" + owner.getName() + ")this)");
@@ -740,7 +744,15 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 					}
 					setter.getBody().addToStatements(getReferencePrefix(owner, map) + map.allAdder() + "(" + map.fieldname() + ")");
 				}else{
-					setter.getBody().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
+					if(prop.isReadOnly()){
+						setter.getBody().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
+					}else{
+						OJIfStatement ifNull = new OJIfStatement(map.fieldname() + " == null", getReferencePrefix(owner, map) + map.internalRemover() + "(" + map.getter()
+								+ "())");
+						setter.getBody().addToStatements(ifNull);
+						ifNull.setElsePart(new OJBlock());
+						ifNull.getElsePart().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
+					}
 				}
 			}
 			for(Property p:EmfPropertyUtil.getPropertiesQualified(map.getProperty())){

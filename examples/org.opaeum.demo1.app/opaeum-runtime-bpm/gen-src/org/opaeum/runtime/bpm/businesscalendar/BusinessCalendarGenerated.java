@@ -597,17 +597,29 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	
 	public void setBusinessDaysPerMonth(Integer businessDaysPerMonth) {
 		propertyChangeSupport.firePropertyChange("businessDaysPerMonth",getBusinessDaysPerMonth(),businessDaysPerMonth);
-		this.z_internalAddToBusinessDaysPerMonth(businessDaysPerMonth);
+		if ( businessDaysPerMonth == null ) {
+			this.z_internalRemoveFromBusinessDaysPerMonth(getBusinessDaysPerMonth());
+		} else {
+			this.z_internalAddToBusinessDaysPerMonth(businessDaysPerMonth);
+		}
 	}
 	
 	public void setBusinessHoursPerDay(Double businessHoursPerDay) {
 		propertyChangeSupport.firePropertyChange("businessHoursPerDay",getBusinessHoursPerDay(),businessHoursPerDay);
-		this.z_internalAddToBusinessHoursPerDay(businessHoursPerDay);
+		if ( businessHoursPerDay == null ) {
+			this.z_internalRemoveFromBusinessHoursPerDay(getBusinessHoursPerDay());
+		} else {
+			this.z_internalAddToBusinessHoursPerDay(businessHoursPerDay);
+		}
 	}
 	
 	public void setBusinessHoursPerWeek(Double businessHoursPerWeek) {
 		propertyChangeSupport.firePropertyChange("businessHoursPerWeek",getBusinessHoursPerWeek(),businessHoursPerWeek);
-		this.z_internalAddToBusinessHoursPerWeek(businessHoursPerWeek);
+		if ( businessHoursPerWeek == null ) {
+			this.z_internalRemoveFromBusinessHoursPerWeek(getBusinessHoursPerWeek());
+		} else {
+			this.z_internalAddToBusinessHoursPerWeek(businessHoursPerWeek);
+		}
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {

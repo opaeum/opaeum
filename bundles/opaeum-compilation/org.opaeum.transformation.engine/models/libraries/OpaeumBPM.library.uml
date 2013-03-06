@@ -355,6 +355,7 @@
         <generalization xmi:id="_i-H6UI53EeCfQedkc0TCdA" general="_Wd2QoI53EeCfQedkc0TCdA">
           <eAnnotations xmi:id="_JePBsGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         </generalization>
+        <generalization xmi:id="_Z3z1EIVwEeK4zuaSD338Rw" general="_exPwkIVtEeK4zuaSD338Rw"/>
         <ownedAttribute xmi:id="_RczxwOtsEeGT0cXodbXPYg" name="taskRequest" type="_zFmsEIoVEeCLqpffVZYAlw">
           <eAnnotations xmi:id="_UfL9oOtsEeGT0cXodbXPYg" source="http://www.opaeum.org"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_VC_OQOtsEeGT0cXodbXPYg" value="1"/>
@@ -513,6 +514,7 @@
       <packagedElement xmi:type="uml:Interface" xmi:id="_rpwH4PNQEeGhGoYzbfvy4A" name="IStandaloneScreenflowTask">
         <generalization xmi:id="_vnH8YPNQEeGhGoYzbfvy4A" general="_2tdYsI3oEeCfQedkc0TCdA"/>
       </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_exPwkIVtEeK4zuaSD338Rw" name="ITaskObjectBase"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_U_Vd0Et9EeGElKTCe2jfDw" name="organization">
       <eAnnotations xmi:id="_Jd0K8GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -2323,4 +2325,5 @@
   <OpaeumStandardProfile:Attribute xmi:id="_Vsn04Ps1EeGdyvuEPHDz_A" base_Property="_TtjgIPs1EeGdyvuEPHDz_A"/>
   <OpaeumStandardProfile:Attribute xmi:id="_X4UQYPs1EeGdyvuEPHDz_A" base_Property="_WPqQgPs1EeGdyvuEPHDz_A"/>
   <OpaeumStandardProfile:AssociationEnd xmi:id="_gkkLIDIlEeKvs7zUqvWhjQ" base_Property="_4uZ-MEvREeGmqIr8YsFD4g"/>
+  <OpaeumStandardProfile:Interface xmi:id="_9U9KgIVtEeK4zuaSD338Rw" mappedImplementationType="" base_Interface="_exPwkIVtEeK4zuaSD338Rw"/>
 </xmi:XMI>

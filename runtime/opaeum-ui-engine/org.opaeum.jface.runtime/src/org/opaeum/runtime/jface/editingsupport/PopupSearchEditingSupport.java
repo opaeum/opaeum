@@ -28,20 +28,22 @@ public class PopupSearchEditingSupport extends EditingSupport{
 	private final EntityEditorInputJface input;
 	private final BindingUtil bindingUtil;
 	private final UimField uimField;
-	public PopupSearchEditingSupport(CheckboxTableViewer tableViewer,EntityEditorInputJface input,BindingUtil bindingUtil,
+	private Class<?> rowClass;
+	public PopupSearchEditingSupport(Class<?> rowClass, CheckboxTableViewer tableViewer,EntityEditorInputJface input,BindingUtil bindingUtil,
 			UimField uimField){
 		super(tableViewer);
 		this.tableViewer = tableViewer;
 		this.input = input;
 		this.bindingUtil = bindingUtil;
 		this.uimField = uimField;
+		this.rowClass=rowClass;
 	}
 	@Override
 	protected CellEditor getCellEditor(final Object element){
 		return new PopupSearchCellEditor(tableViewer.getTable()){
 			@Override
 			protected Object[] getChoices(){
-				JavaTypedElement typedElement = bindingUtil.getTypedElement(uimField.getBinding().getLastPropertyUuid());
+				JavaTypedElement typedElement = bindingUtil.resolveLastTypedElement(rowClass,uimField.getBinding());
 				if(typedElement.getBaseType().isEnum()){
 					return typedElement.getBaseType().getEnumConstants();
 				}else if(typedElement.getBaseType().isAnnotationPresent(Entity.class)){

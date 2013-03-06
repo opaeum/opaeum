@@ -8,16 +8,25 @@ import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.ui.views.properties.tabbed.ISection;
 import org.eclipse.ui.views.properties.tabbed.ISectionDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ISectionDescriptorProvider;
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.ActivityEdge;
+import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.CallAction;
+import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.DurationObservation;
 import org.eclipse.uml2.uml.ElementImport;
+import org.eclipse.uml2.uml.ExceptionHandler;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.ObjectFlow;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.PackageImport;
@@ -28,10 +37,19 @@ import org.eclipse.uml2.uml.Reception;
 import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.State;
+import org.eclipse.uml2.uml.StructuralFeatureAction;
 import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.TimeObservation;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.TypedElement;
+import org.eclipse.uml2.uml.VariableAction;
+import org.opaeum.eclipse.uml.filters.activity.CallBehaviorActionFilter;
+import org.opaeum.eclipse.uml.filters.activity.NewObjectPinFilter;
+import org.opaeum.eclipse.uml.filters.activity.OclOpaqueActionFilter;
+import org.opaeum.eclipse.uml.filters.activity.OclPinFilter;
+import org.opaeum.eclipse.uml.filters.activity.SendSignalActionFilter;
 import org.opaeum.eclipse.uml.filters.bpm.AcceptDeadlineActionFilter;
+import org.opaeum.eclipse.uml.filters.bpm.AcceptEventActionTriggerSectionFilter;
 import org.opaeum.eclipse.uml.filters.bpm.AcceptTaskEventActionTaskEventFilter;
 import org.opaeum.eclipse.uml.filters.bpm.BusinessDocumentFilter;
 import org.opaeum.eclipse.uml.filters.bpm.BusinessDurationObservationFilter;
@@ -58,6 +76,29 @@ import org.opaeum.eclipse.uml.filters.core.PackageNoProfileFilter;
 import org.opaeum.eclipse.uml.filters.core.PersistentClassNotInProfileFilter;
 import org.opaeum.eclipse.uml.filters.core.PersistentNameFilter;
 import org.opaeum.eclipse.uml.filters.core.PropertyNotInProfileFilter;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.AcceptEventActionTriggerSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.ActionLocalPostconditionsSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.ActionLocalPreconditionsSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.ActionPinsSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.ActivityEdgeGuardSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.ActivityEdgeWeightSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.ActivityParameterNodeParameterSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.BehaviorSpecificationSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.CallActionIsSynchronousSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.CallBehaviorActionBehaviorSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.CallOperationActionOperationSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.DurationObservationFromEventSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.DurationObservationToEventSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.ExceptionHandlerExceptionTypesSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.NewObjectPinValueSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.ObjectFlowSelectionSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.ObjectFlowTransformationSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.OclPinValueSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.OpaqueActionBodySection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.SendSignalActionSignalSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.StructuralFeatureActionFeatureSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.TimeObservationEventSection;
+import org.opaeum.eclipse.uml.propertysections.activitydiagram.VariableActionVariableSection;
 import org.opaeum.eclipse.uml.propertysections.bpmprofile.AcceptDeadlineDeadlineSection;
 import org.opaeum.eclipse.uml.propertysections.bpmprofile.AcceptTaskEventActionTaskEventSection;
 import org.opaeum.eclipse.uml.propertysections.bpmprofile.BusinessDocumentDocumentTypeSection;
@@ -194,7 +235,7 @@ public class OpaeumSectionDescriptorProvider extends AbstractSectionDescriptorPr
 		addParamters(Behavior.class, new BehaviorParametersSection());
 		addPreconditions(Behavior.class, new BehaviorPreconditionsSection());
 		addPostconditions(Behavior.class, new BehaviorPostconditionsSection());
-		add( new ClassifierNotAssociationFilter(), new ClassInvariantsSection()).setTabId("org.opaeum.eclipse.invariantsTab");
+		add(new ClassifierNotAssociationFilter(), new ClassInvariantsSection()).setTabId("org.opaeum.eclipse.invariantsTab");
 		// BPM
 		addDeadlines(new AcceptDeadlineActionFilter(), new AcceptDeadlineDeadlineSection());
 		addBasic(new AcceptTaskEventActionTaskEventFilter(), new AcceptTaskEventActionTaskEventSection());
@@ -230,12 +271,12 @@ public class OpaeumSectionDescriptorProvider extends AbstractSectionDescriptorPr
 		addFirstEnd(Association.class, new FirstEndNavigabilityAndCompositionSection());
 		addFirstEnd(Association.class, new FirstEndBooleanPropertiesSection());
 		addFirstEnd(Association.class, new FirstEndDefaultValueSection());
-		add(Association.class, new FirstEndQualifierSection() ).setTabId("org.opaeum.eclipse.firstEndQualifiersTab");
+		add(Association.class, new FirstEndQualifierSection()).setTabId("org.opaeum.eclipse.firstEndQualifiersTab");
 		add(Association.class, new FirstEndRedefinedPropertySection()).setTabId("org.opaeum.eclipse.firstEndRedefinitionsTab");
 		add(Association.class, new FirstEndSubsettedPropertiesSection()).setTabId("org.opaeum.eclipse.firstEndRedefinitionsTab");
 		addBasic(Property.class, new PropertyBooleanFeaturesSection());
 		addBasic(Property.class, new PropertyDefaultValueSection());
-		add(Association.class, new SecondEndQualifierSection() ).setTabId("org.opaeum.eclipse.secondEndQualifiersTab");
+		add(Association.class, new SecondEndQualifierSection()).setTabId("org.opaeum.eclipse.secondEndQualifiersTab");
 		addRedefinitions(Property.class, new PropertyRedefinedPropertySection());
 		addRedefinitions(Property.class, new PropertySubsettedPropertySection());
 		add(Property.class, new PropertyQualifiersSection()).setTabId("org.opaeum.eclipse.qualifiersTab");
@@ -252,6 +293,8 @@ public class OpaeumSectionDescriptorProvider extends AbstractSectionDescriptorPr
 		addFirstEnd(Association.class, new FirstEndRoleInCubeSection());
 		addExtended(new PersistentClassNotInProfileFilter(), new GenerateAbstractSuperclassSection());
 		addExtended(new PersistentClassNotInProfileFilter(), new MappedImplementationTypeSection());
+		addExtended(Interface.class, new MappedImplementationTypeSection());
+		addExtended(Interface.class, new GenerateAbstractSuperclassSection());
 		addExtended(Model.class, new ModelArtifactIdentifierSection());
 		addExtended(new PackageNoProfileFilter(), new PackageIsSchemaSection());
 		addExtended(new PackageNoProfileFilter(), new PackageMappedImplementationPackageSection());
@@ -259,7 +302,7 @@ public class OpaeumSectionDescriptorProvider extends AbstractSectionDescriptorPr
 		addExtended(new PropertyNotInProfileFilter(), new PropertyRoleInCubeSection());
 		addExtended(Model.class, new ModelModelTypeSection());
 		addSecondEnd(Association.class, new SecondEndRoleInCubeSection());
-		//Composite Structures
+		// Composite Structures
 		addBasic(new DelegationFilter(), new ConnectorSelectionSection());
 		addBasic(new InterfacesFilter(), new PortRequiredInterfaces());
 		addBasic(new InterfacesFilter(), new PortProvidedInterfaces());
@@ -270,6 +313,33 @@ public class OpaeumSectionDescriptorProvider extends AbstractSectionDescriptorPr
 		addBasic(Transition.class, new TransitionRedefinedTransitionSection());
 		addBasic(State.class, new StateRedefinedStateSection());
 		addBasic(Region.class, new RegionExtendedRegionSection());
+		// Activity
+		addBasic(TimeObservation.class, new TimeObservationEventSection());
+		addBasic(DurationObservation.class, new DurationObservationFromEventSection());
+		addBasic(DurationObservation.class, new DurationObservationToEventSection());
+		addBasic(ExceptionHandler.class, new ExceptionHandlerExceptionTypesSection());
+		addBasic(new OclOpaqueActionFilter(), new OpaqueActionBodySection());
+		addBasic(CallOperationAction.class, new CallOperationActionOperationSection());
+		addBasic(Behavior.class, new BehaviorSpecificationSection());
+		addBasic(new AcceptEventActionTriggerSectionFilter(), new AcceptEventActionTriggerSection());
+		addBasic(CallAction.class, new CallActionIsSynchronousSection());
+		addBasic(StructuralFeatureAction.class, new StructuralFeatureActionFeatureSection());
+		addBasic(VariableAction.class, new VariableActionVariableSection());
+		addBasic(new OclPinFilter(), new OclPinValueSection());
+		addBasic(new NewObjectPinFilter(), new NewObjectPinValueSection());
+		addBasic(ActivityEdge.class, new ActivityEdgeGuardSection());
+		addBasic(ObjectFlow.class, new ObjectFlowSelectionSection());
+		addBasic(ObjectFlow.class, new ObjectFlowTransformationSection());
+		addBasic(ActivityEdge.class, new ActivityEdgeWeightSection());
+		addBasic(new SendSignalActionFilter(), new SendSignalActionSignalSection());
+		addBasic(new SendNotificationActionFilter(), new SendNotificationActionNotificationSection());
+		addBasic(new CallBehaviorActionFilter(), new CallBehaviorActionBehaviorSection());
+		addBasic(ActivityParameterNode.class, new ActivityParameterNodeParameterSection());
+		addParamters(Action.class, new ActionPinsSection());
+		addPreconditions(Action.class, new ActionLocalPreconditionsSection());
+		addPostconditions(Action.class, new ActionLocalPostconditionsSection());
+		
+		
 		result.addAll(Arrays.asList(readSectionDescriptors()));
 		return result.toArray(new ISectionDescriptor[result.size()]);
 	}
@@ -309,5 +379,4 @@ public class OpaeumSectionDescriptorProvider extends AbstractSectionDescriptorPr
 	private void addBasic(Class<? extends EObject> class1,ISection namedElementNameSection){
 		add(class1, namedElementNameSection).setTabId("org.opaeum.eclipse.opaeumTab");
 	}
-	
 }

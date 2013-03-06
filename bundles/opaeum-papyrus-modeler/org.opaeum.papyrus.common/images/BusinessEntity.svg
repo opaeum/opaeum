@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744"
+   height="744"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="BusinessEntity.svg"
+   inkscape:export-filename="/home/ampie/Workspaces/opaeum/opaeum-papyrus-modeler/org.opaeum.papyrus.classdiagram/images/BusinessEntity.png"
+   inkscape:export-xdpi="4.0700002"
+   inkscape:export-ydpi="4.0700002">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient5777"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#0000ff;stop-opacity:1;"
+         offset="0"
+         id="stop5779" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.27467443"
+     inkscape:cx="1443.5714"
+     inkscape:cy="-191.42857"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1600"
+     inkscape:window-height="826"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:showpageshadow="true"
+     showborder="true"
+     borderlayer="true" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-308.36218)">
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.40000000000000002;fill:none;stroke:#000000;stroke-width:9.23820272;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path2985"
+       sodipodi:cx="348.57144"
+       sodipodi:cy="296.64789"
+       sodipodi:rx="214.28572"
+       sodipodi:ry="230"
+       d="m 562.85716,296.64789 a 214.28572,230 0 1 1 -428.57144,0 214.28572,230 0 1 1 428.57144,0 z"
+       transform="matrix(1.6173203,0,0,1.455347,-189.28863,244.35314)" />
+    <path
+       style="opacity:0.42000002;fill:none;stroke:#000000;stroke-width:14.17322826;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 34.285714,1023.505 c 677.142856,2.8572 677.142856,0 677.142856,0"
+       id="path3759"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

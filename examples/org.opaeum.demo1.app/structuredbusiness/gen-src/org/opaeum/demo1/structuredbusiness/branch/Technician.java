@@ -817,17 +817,29 @@ public class Technician implements IPersistentObject, IEventGenerator, Hibernate
 	
 	public void setPreferredEMailAddressType(PersonEMailAddressType preferredEMailAddressType) {
 		propertyChangeSupport.firePropertyChange("preferredEMailAddressType",getPreferredEMailAddressType(),preferredEMailAddressType);
-		this.z_internalAddToPreferredEMailAddressType(preferredEMailAddressType);
+		if ( preferredEMailAddressType == null ) {
+			this.z_internalRemoveFromPreferredEMailAddressType(getPreferredEMailAddressType());
+		} else {
+			this.z_internalAddToPreferredEMailAddressType(preferredEMailAddressType);
+		}
 	}
 	
 	public void setPreferredNotificationType(NotificationType preferredNotificationType) {
 		propertyChangeSupport.firePropertyChange("preferredNotificationType",getPreferredNotificationType(),preferredNotificationType);
-		this.z_internalAddToPreferredNotificationType(preferredNotificationType);
+		if ( preferredNotificationType == null ) {
+			this.z_internalRemoveFromPreferredNotificationType(getPreferredNotificationType());
+		} else {
+			this.z_internalAddToPreferredNotificationType(preferredNotificationType);
+		}
 	}
 	
 	public void setPreferredPhoneNumberType(PersonPhoneNumberType preferredPhoneNumberType) {
 		propertyChangeSupport.firePropertyChange("preferredPhoneNumberType",getPreferredPhoneNumberType(),preferredPhoneNumberType);
-		this.z_internalAddToPreferredPhoneNumberType(preferredPhoneNumberType);
+		if ( preferredPhoneNumberType == null ) {
+			this.z_internalRemoveFromPreferredPhoneNumberType(getPreferredPhoneNumberType());
+		} else {
+			this.z_internalAddToPreferredPhoneNumberType(preferredPhoneNumberType);
+		}
 	}
 	
 	public void setRatePerTimeUnit(List<RatePerTimeUnit> ratePerTimeUnit) {

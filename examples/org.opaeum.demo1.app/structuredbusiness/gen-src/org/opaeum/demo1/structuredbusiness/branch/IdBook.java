@@ -290,7 +290,11 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public void setDateOfBirth(Date dateOfBirth) {
 		propertyChangeSupport.firePropertyChange("dateOfBirth",getDateOfBirth(),dateOfBirth);
-		this.z_internalAddToDateOfBirth(dateOfBirth);
+		if ( dateOfBirth == null ) {
+			this.z_internalRemoveFromDateOfBirth(getDateOfBirth());
+		} else {
+			this.z_internalAddToDateOfBirth(dateOfBirth);
+		}
 	}
 	
 	public void setDeletedOn(Date deletedOn) {
@@ -299,12 +303,20 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public void setDocumentType(DocumentType documentType) {
 		propertyChangeSupport.firePropertyChange("documentType",getDocumentType(),documentType);
-		this.z_internalAddToDocumentType(documentType);
+		if ( documentType == null ) {
+			this.z_internalRemoveFromDocumentType(getDocumentType());
+		} else {
+			this.z_internalAddToDocumentType(documentType);
+		}
 	}
 	
 	public void setFullNames(String fullNames) {
 		propertyChangeSupport.firePropertyChange("fullNames",getFullNames(),fullNames);
-		this.z_internalAddToFullNames(fullNames);
+		if ( fullNames == null ) {
+			this.z_internalRemoveFromFullNames(getFullNames());
+		} else {
+			this.z_internalAddToFullNames(fullNames);
+		}
 	}
 	
 	public void setId(Long id) {
@@ -313,7 +325,11 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public void setIdNumber(String idNumber) {
 		propertyChangeSupport.firePropertyChange("idNumber",getIdNumber(),idNumber);
-		this.z_internalAddToIdNumber(idNumber);
+		if ( idNumber == null ) {
+			this.z_internalRemoveFromIdNumber(getIdNumber());
+		} else {
+			this.z_internalAddToIdNumber(idNumber);
+		}
 	}
 	
 	public void setObjectVersion(int objectVersion) {

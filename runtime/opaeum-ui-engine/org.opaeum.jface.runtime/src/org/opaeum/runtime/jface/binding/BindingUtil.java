@@ -30,78 +30,94 @@ public class BindingUtil{
 	public IEventHandler getEventHandler(String umlElementUid){
 		return javaMetaInfo.getEventHandler(umlElementUid);
 	}
-	public JavaTypedElement resolveTypedElement(Class<?> source,UimBinding b){
+	public JavaTypedElement resolveLastTypedElement(Class<?> source,UimBinding b){
 		JavaTypedElement te = javaMetaInfo.getTypedElement(IntrospectionUtil.getOriginalClass(source), b.getUmlElementUid());
 		PropertyRef pr = b.getNext();
-		if(pr.getNext() != null){
-			te = resolveTypedElement(pr, te.getBaseType());
+		if(pr != null){
+			te = resolveTypedElement(te.getBaseType(), pr);
 		}
 		return te;
 	}
-	private JavaTypedElement resolveTypedElement(PropertyRef pr,Class<?> targetType){
+	private JavaTypedElement resolveTypedElement(Class<?> targetType,PropertyRef pr){
 		JavaTypedElement type = javaMetaInfo.getTypedElement(targetType, pr.getUmlElementUid());
 		if(pr.getNext() != null){
-			type = resolveTypedElement(pr.getNext(), type.getBaseType());
+			type = resolveTypedElement(type.getBaseType(), pr.getNext());
 		}
 		return type;
 	}
-	//TODO use resolveTypedElement remember the problem was that the datatablebuilder could not support polymorphic properties
-	public JavaTypedElement getTypedElement(String lastPropertyUuid){
-		return javaMetaInfo.getTypedElement(lastPropertyUuid);
-	}
-	public String getExpression(UimBinding b){
-		JavaTypedElement typedElement = javaMetaInfo.getTypedElement(b.getUmlElementUid());
+
+	public String getExpression(Class<?> class1, UimBinding b){
+		JavaTypedElement typedElement = javaMetaInfo.getTypedElement(class1, b.getUmlElementUid());
 		StringBuilder sb = new StringBuilder(typedElement.getName());
-		appendExpression(sb, b.getNext());
+		appendExpression(sb, typedElement.getBaseType(), b.getNext());
 		return sb.toString();
 	}
 	public Object invoke(Object target,UimBinding b){
-		JavaTypedElement typedElement = javaMetaInfo.getTypedElement(b.getUmlElementUid());
-		Object value = typedElement.invokeGetter(target);
-		if(b.getNext() != null){
-			return invoke(value, b.getNext());
+		// TODO put the consecutive typeElements in a class of its own?
+		if(target == null){
+			return null;
 		}else{
-			return value;
+			JavaTypedElement typedElement = javaMetaInfo.getTypedElement(IntrospectionUtil.getOriginalClass(target), b.getUmlElementUid());
+			Object value = typedElement.invokeGetter(target);
+			if(b.getNext() != null){
+				return invoke(value, b.getNext());
+			}else{
+				return value;
+			}
 		}
 	}
 	public Object resolveTarget(Object target,UimBinding b){
-		if(b.getNext() == null){
-			return target;
+		if(target == null){
+			return null;
 		}else{
-			JavaTypedElement typedElement = javaMetaInfo.getTypedElement(b.getUmlElementUid());
-			Object value = typedElement.invokeGetter(target);
-			return resolveTarget(value, b.getNext());
+			if(b.getNext() == null){
+				return target;
+			}else{
+				JavaTypedElement typedElement = javaMetaInfo.getTypedElement(IntrospectionUtil.getOriginalClass(target), b.getUmlElementUid());
+				Object value = typedElement.invokeGetter(target);
+				return resolveTarget(value, b.getNext());
+			}
 		}
 	}
-	private Object resolveTarget(Object target,PropertyRef next){
-		if(next.getNext() == null){
-			return target;
+	private Object resolveTarget(Object target,PropertyRef current){
+		if(target == null){
+			return null;
 		}else{
-			JavaTypedElement typedElement = javaMetaInfo.getTypedElement(next.getUmlElementUid());
-			Object value = typedElement.invokeGetter(target);
-			return resolveTarget(value, next.getNext());
+			if(current.getNext() == null){
+				return target;
+			}else{
+				JavaTypedElement typedElement = javaMetaInfo
+						.getTypedElement(IntrospectionUtil.getOriginalClass(target), current.getUmlElementUid());
+				Object value = typedElement.invokeGetter(target);
+				return resolveTarget(value, current.getNext());
+			}
 		}
 	}
 	private Object invoke(Object target,PropertyRef next){
-		JavaTypedElement typedElement = javaMetaInfo.getTypedElement(next.getUmlElementUid());
-		Object value = typedElement.invokeGetter(target);
-		if(next.getNext() != null){
-			return invoke(value, next.getNext());
+		if(target == null){
+			return null;
 		}else{
-			return value;
+			JavaTypedElement typedElement = javaMetaInfo.getTypedElement(IntrospectionUtil.getOriginalClass(target), next.getUmlElementUid());
+			Object value = typedElement.invokeGetter(target);
+			if(next.getNext() != null){
+				return invoke(value, next.getNext());
+			}else{
+				return value;
+			}
 		}
 	}
-	private void appendExpression(StringBuilder sb,PropertyRef next){
+	private void appendExpression(StringBuilder sb,Class<?> fromClass, PropertyRef next){
 		if(next != null){
 			sb.append('.');
-			sb.append(javaMetaInfo.getTypedElement(next.getUmlElementUid()).getName());
-			appendExpression(sb, next.getNext());
+			JavaTypedElement te = javaMetaInfo.getTypedElement(fromClass,next.getUmlElementUid());
+			sb.append(te.getName());
+			appendExpression(sb, te.getBaseType(), next.getNext());
 		}
 	}
 	public void invokeSetter(Object element,FieldBinding binding,Object value){
 		Object target = resolveTarget(element, binding);
 		if(target != null){
-			JavaTypedElement typedElement = getTypedElement(binding.getLastPropertyUuid());
+			JavaTypedElement typedElement = javaMetaInfo.getTypedElement(IntrospectionUtil.getOriginalClass(target),binding.getLastPropertyUuid());
 			typedElement.invokeSetter(target, value);
 		}
 	}
@@ -111,8 +127,19 @@ public class BindingUtil{
 	public void invokeAdder(Object objectBeingUpdated,IPersistentObject ni,UimBinding binding){
 		Object target = resolveTarget(objectBeingUpdated, binding);
 		if(target != null){
-			JavaTypedElement typedElement = getTypedElement(binding.getLastPropertyUuid());
+			JavaTypedElement typedElement = javaMetaInfo.getTypedElement(IntrospectionUtil.getOriginalClass(target),binding.getLastPropertyUuid());
 			typedElement.invokeAdder(target, ni);
 		}
+	}
+	public JavaTypedElement resolveLastTypedElement(Object object,UimBinding binding){
+		if(object==null){
+			return null;
+		}else{
+			return resolveLastTypedElement(IntrospectionUtil.getOriginalClass(object), binding);
+		}
+	}
+	public Object newInstance(String umlElementUid){
+		Class<?> class1 = javaMetaInfo.getClass(umlElementUid);
+		return IntrospectionUtil.newInstance(class1);
 	}
 }

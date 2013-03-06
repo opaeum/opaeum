@@ -19,8 +19,8 @@ import org.opaeum.uim.component.UimField;
 
 public class DateTimeEditingSupport extends AbstractEditingSupport{
 	private DateCellEditor cellEditor;
-	public DateTimeEditingSupport(CheckboxTableViewer tableViewer,UimField uimField,BindingUtil bindingUtil,EntityEditorInputJface input){
-		super(tableViewer, input, bindingUtil, uimField);
+	public DateTimeEditingSupport(Class<?>rowClass, CheckboxTableViewer tableViewer,UimField uimField,BindingUtil bindingUtil,EntityEditorInputJface input){
+		super(rowClass, tableViewer, input, bindingUtil, uimField);
 	}
 	@Override
 	protected CellEditor getCellEditor(Object element){

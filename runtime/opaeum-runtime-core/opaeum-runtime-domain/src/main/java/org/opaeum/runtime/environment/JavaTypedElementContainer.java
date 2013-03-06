@@ -7,7 +7,8 @@ import java.util.Map;
 public class JavaTypedElementContainer{
 	private String uuid;
 	private Map<String,JavaTypedElement> typedElements = new HashMap<String,JavaTypedElement>();
-	public JavaTypedElementContainer(Class<?> c){
+	public JavaTypedElementContainer(String uuid, Class<?> c){
+		this.uuid=uuid;
 		try{
 			Method[] methods = c.getMethods();
 			for(Method pd:methods){

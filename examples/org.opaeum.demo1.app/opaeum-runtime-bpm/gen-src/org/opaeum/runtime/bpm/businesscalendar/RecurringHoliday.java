@@ -307,7 +307,11 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 	
 	public void setDay(Integer day) {
 		propertyChangeSupport.firePropertyChange("day",getDay(),day);
-		this.z_internalAddToDay(day);
+		if ( day == null ) {
+			this.z_internalRemoveFromDay(getDay());
+		} else {
+			this.z_internalAddToDay(day);
+		}
 	}
 	
 	public void setDeletedOn(Date deletedOn) {
@@ -320,12 +324,20 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 	
 	public void setMonth(Month month) {
 		propertyChangeSupport.firePropertyChange("month",getMonth(),month);
-		this.z_internalAddToMonth(month);
+		if ( month == null ) {
+			this.z_internalRemoveFromMonth(getMonth());
+		} else {
+			this.z_internalAddToMonth(month);
+		}
 	}
 	
 	public void setName(String name) {
 		propertyChangeSupport.firePropertyChange("name",getName(),name);
-		this.z_internalAddToName(name);
+		if ( name == null ) {
+			this.z_internalRemoveFromName(getName());
+		} else {
+			this.z_internalAddToName(name);
+		}
 	}
 	
 	public void setObjectVersion(int objectVersion) {

@@ -1100,7 +1100,11 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	
 	public void setAuthenticationToken(String authenticationToken) {
 		propertyChangeSupport.firePropertyChange("authenticationToken",getAuthenticationToken(),authenticationToken);
-		this.z_internalAddToAuthenticationToken(authenticationToken);
+		if ( authenticationToken == null ) {
+			this.z_internalRemoveFromAuthenticationToken(getAuthenticationToken());
+		} else {
+			this.z_internalAddToAuthenticationToken(authenticationToken);
+		}
 	}
 	
 	public void setBusinessActor(Set<IBusinessActor> businessActor) {
@@ -1143,7 +1147,11 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	
 	public void setFirstName(String firstName) {
 		propertyChangeSupport.firePropertyChange("firstName",getFirstName(),firstName);
-		this.z_internalAddToFirstName(firstName);
+		if ( firstName == null ) {
+			this.z_internalRemoveFromFirstName(getFirstName());
+		} else {
+			this.z_internalAddToFirstName(firstName);
+		}
 	}
 	
 	public void setId(Long id) {
@@ -1238,37 +1246,65 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	
 	public void setPreferredEMailAddressType(PersonEMailAddressType preferredEMailAddressType) {
 		propertyChangeSupport.firePropertyChange("preferredEMailAddressType",getPreferredEMailAddressType(),preferredEMailAddressType);
-		this.z_internalAddToPreferredEMailAddressType(preferredEMailAddressType);
+		if ( preferredEMailAddressType == null ) {
+			this.z_internalRemoveFromPreferredEMailAddressType(getPreferredEMailAddressType());
+		} else {
+			this.z_internalAddToPreferredEMailAddressType(preferredEMailAddressType);
+		}
 	}
 	
 	public void setPreferredLocale(Locale preferredLocale) {
 		propertyChangeSupport.firePropertyChange("preferredLocale",getPreferredLocale(),preferredLocale);
-		this.z_internalAddToPreferredLocale(preferredLocale);
+		if ( preferredLocale == null ) {
+			this.z_internalRemoveFromPreferredLocale(getPreferredLocale());
+		} else {
+			this.z_internalAddToPreferredLocale(preferredLocale);
+		}
 	}
 	
 	public void setPreferredNotificationType(NotificationType preferredNotificationType) {
 		propertyChangeSupport.firePropertyChange("preferredNotificationType",getPreferredNotificationType(),preferredNotificationType);
-		this.z_internalAddToPreferredNotificationType(preferredNotificationType);
+		if ( preferredNotificationType == null ) {
+			this.z_internalRemoveFromPreferredNotificationType(getPreferredNotificationType());
+		} else {
+			this.z_internalAddToPreferredNotificationType(preferredNotificationType);
+		}
 	}
 	
 	public void setPreferredPhoneNumberType(PersonPhoneNumberType preferredPhoneNumberType) {
 		propertyChangeSupport.firePropertyChange("preferredPhoneNumberType",getPreferredPhoneNumberType(),preferredPhoneNumberType);
-		this.z_internalAddToPreferredPhoneNumberType(preferredPhoneNumberType);
+		if ( preferredPhoneNumberType == null ) {
+			this.z_internalRemoveFromPreferredPhoneNumberType(getPreferredPhoneNumberType());
+		} else {
+			this.z_internalAddToPreferredPhoneNumberType(preferredPhoneNumberType);
+		}
 	}
 	
 	public void setRefreshToken(String refreshToken) {
 		propertyChangeSupport.firePropertyChange("refreshToken",getRefreshToken(),refreshToken);
-		this.z_internalAddToRefreshToken(refreshToken);
+		if ( refreshToken == null ) {
+			this.z_internalRemoveFromRefreshToken(getRefreshToken());
+		} else {
+			this.z_internalAddToRefreshToken(refreshToken);
+		}
 	}
 	
 	public void setSurname(String surname) {
 		propertyChangeSupport.firePropertyChange("surname",getSurname(),surname);
-		this.z_internalAddToSurname(surname);
+		if ( surname == null ) {
+			this.z_internalRemoveFromSurname(getSurname());
+		} else {
+			this.z_internalAddToSurname(surname);
+		}
 	}
 	
 	public void setTokenExpiryDateTime(Date tokenExpiryDateTime) {
 		propertyChangeSupport.firePropertyChange("tokenExpiryDateTime",getTokenExpiryDateTime(),tokenExpiryDateTime);
-		this.z_internalAddToTokenExpiryDateTime(tokenExpiryDateTime);
+		if ( tokenExpiryDateTime == null ) {
+			this.z_internalRemoveFromTokenExpiryDateTime(getTokenExpiryDateTime());
+		} else {
+			this.z_internalAddToTokenExpiryDateTime(tokenExpiryDateTime);
+		}
 	}
 	
 	public void setUid(String newUid) {
@@ -1280,7 +1316,11 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		if ( getBusinessNetwork()!=null && getUsername()!=null ) {
 			getBusinessNetwork().z_internalRemoveFromPerson(this.getUsername(),this);
 		}
-		this.z_internalAddToUsername(username);
+		if ( username == null ) {
+			this.z_internalRemoveFromUsername(getUsername());
+		} else {
+			this.z_internalAddToUsername(username);
+		}
 		if ( getBusinessNetwork()!=null && getUsername()!=null ) {
 			getBusinessNetwork().z_internalAddToPerson(this.getUsername(),this);
 		}

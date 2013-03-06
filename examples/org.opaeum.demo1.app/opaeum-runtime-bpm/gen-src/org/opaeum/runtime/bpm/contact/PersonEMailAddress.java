@@ -295,7 +295,11 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 	
 	public void setEmailAddress(String emailAddress) {
 		propertyChangeSupport.firePropertyChange("emailAddress",getEmailAddress(),emailAddress);
-		this.z_internalAddToEmailAddress(emailAddress);
+		if ( emailAddress == null ) {
+			this.z_internalRemoveFromEmailAddress(getEmailAddress());
+		} else {
+			this.z_internalAddToEmailAddress(emailAddress);
+		}
 	}
 	
 	public void setId(Long id) {
@@ -333,7 +337,11 @@ public class PersonEMailAddress implements IPersistentObject, IEventGenerator, H
 		if ( getPerson()!=null && getType()!=null ) {
 			getPerson().z_internalRemoveFromEMailAddress(this.getType(),this);
 		}
-		this.z_internalAddToType(type);
+		if ( type == null ) {
+			this.z_internalRemoveFromType(getType());
+		} else {
+			this.z_internalAddToType(type);
+		}
 		if ( getPerson()!=null && getType()!=null ) {
 			getPerson().z_internalAddToEMailAddress(this.getType(),this);
 		}

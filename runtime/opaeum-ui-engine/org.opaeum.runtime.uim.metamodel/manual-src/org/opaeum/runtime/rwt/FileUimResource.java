@@ -15,7 +15,8 @@ public class FileUimResource extends AbstractUimResource{
 	}
 	@Override
 	protected boolean shouldReload(){
-		return file.lastModified()>lastModified;
+		boolean result = file.lastModified()>lastModified;
+		return result;
 	}
 	@Override
 	protected InputStream createInputStream(){

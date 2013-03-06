@@ -50,7 +50,7 @@
       <children xsi:type="action:BuiltInActionButton" xmi:id="_Zbh2JIGpEeK6sqz3aegUOg" name="Suspend" kind="suspend"/>
       <children xsi:type="action:BuiltInActionButton" xmi:id="_Zbh2JYGpEeK6sqz3aegUOg" name="Skip" kind="skip"/>
       <children xsi:type="action:BuiltInActionButton" xmi:id="_Zbh2JoGpEeK6sqz3aegUOg" name="Abort" kind="abort"/>
-      <children xsi:type="action:BuiltInActionButton" xmi:id="_Zbh2J4GpEeK6sqz3aegUOg" name="Resume" kind=""/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_Zbh2J4GpEeK6sqz3aegUOg" name="Resume"/>
       <children xsi:type="action:InvocationButton" xmi:id="_Zbh2KIGpEeK6sqz3aegUOg" name="On resumed" umlElementUid="252060@_8ba9IK0NEeCK48ywUpk_rg">
         <popup href="252060@_8ba9IK0NEeCK48ywUpk_rg.uim#_Zbh2KYGpEeK6sqz3aegUOg"/>
       </children>

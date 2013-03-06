@@ -63,7 +63,7 @@ public class PersistentObjectTreeItem extends SecurityWrapper implements IAdapta
 		ClassNavigationConstraint tec = getConfiguration();
 		for(PropertyNavigationConstraint pc:tec.getProperties()){
 			if(!pc.isHidden()){
-				JavaTypedElement jte = getEnv().getMetaInfoMap().getTypedElement(pc.getUmlElementUid());
+				JavaTypedElement jte = getEnv().getMetaInfoMap().getTypedElement(IntrospectionUtil.getOriginalClass(entity), pc.getUmlElementUid());
 				if(jte.isComposite()){
 					if(jte.isMany()){
 						result.add(new PropertyTreeItem(this, jte, pc));

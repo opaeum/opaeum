@@ -413,7 +413,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	}
 	
 	public Collection<? extends IBusinessActor> getBusinessActorSourcePopulation() {
-		Collection result = Stdlib.collectionAsSet(collect1());
+		Collection result = Stdlib.collectionAsSet(collect3());
 		
 		return result;
 	}
@@ -436,7 +436,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	}
 	
 	public Collection<? extends IBusinessComponent> getBusinessComponentSourcePopulation() {
-		Collection result = Stdlib.collectionAsSet(Stdlib.collectionAsSet(collect3()));
+		Collection result = Stdlib.collectionAsSet(Stdlib.collectionAsSet(collect2()));
 		
 		return result;
 	}
@@ -816,7 +816,11 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		if ( getBusinessNetwork()!=null && getName()!=null ) {
 			getBusinessNetwork().z_internalRemoveFromOrganization(this.getName(),this);
 		}
-		this.z_internalAddToName(name);
+		if ( name == null ) {
+			this.z_internalRemoveFromName(getName());
+		} else {
+			this.z_internalAddToName(name);
+		}
 		if ( getBusinessNetwork()!=null && getName()!=null ) {
 			getBusinessNetwork().z_internalAddToOrganization(this.getName(),this);
 		}
@@ -1027,20 +1031,9 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		this.phoneNumber.remove(key.toString());
 	}
 	
-	/** Implements self.businessNetwork.businessCollaboration->collect(c : IBusinessCollaboration | c.businessActor)
-	 */
-	private Collection<IBusinessActor> collect1() {
-		Collection<IBusinessActor> result = new ArrayList<IBusinessActor>();
-		for ( IBusinessCollaboration c : this.getBusinessNetwork().getBusinessCollaboration() ) {
-			Set<? extends IBusinessActor> bodyExpResult = c.getBusinessActor();
-			result.addAll( bodyExpResult );
-		}
-		return result;
-	}
-	
 	/** Implements self.businessNetwork.businessCollaboration->collect(c : IBusinessCollaboration | c.business)
 	 */
-	private Collection<IBusiness> collect2() {
+	private Collection<IBusiness> collect1() {
 		Collection<IBusiness> result = new ArrayList<IBusiness>();
 		for ( IBusinessCollaboration c : this.getBusinessNetwork().getBusinessCollaboration() ) {
 			Set<? extends IBusiness> bodyExpResult = c.getBusiness();
@@ -1051,11 +1044,22 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	
 	/** Implements self.businessNetwork.businessCollaboration->collect(c : IBusinessCollaboration | c.business)->collect(g : IBusiness | g.oclAsType(OpaeumLibraryForBPM::organization::IBusinessComponent))
 	 */
-	private Collection<IBusinessComponent> collect3() {
+	private Collection<IBusinessComponent> collect2() {
 		Collection<IBusinessComponent> result = new ArrayList<IBusinessComponent>();
-		for ( IBusiness g : collect2() ) {
+		for ( IBusiness g : collect1() ) {
 			IBusinessComponent bodyExpResult = ((IBusinessComponent) g);
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
+		}
+		return result;
+	}
+	
+	/** Implements self.businessNetwork.businessCollaboration->collect(c : IBusinessCollaboration | c.businessActor)
+	 */
+	private Collection<IBusinessActor> collect3() {
+		Collection<IBusinessActor> result = new ArrayList<IBusinessActor>();
+		for ( IBusinessCollaboration c : this.getBusinessNetwork().getBusinessCollaboration() ) {
+			Set<? extends IBusinessActor> bodyExpResult = c.getBusinessActor();
+			result.addAll( bodyExpResult );
 		}
 		return result;
 	}

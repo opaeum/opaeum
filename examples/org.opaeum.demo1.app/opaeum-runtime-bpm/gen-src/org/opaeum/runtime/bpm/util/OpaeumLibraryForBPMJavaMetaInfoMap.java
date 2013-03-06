@@ -148,6 +148,7 @@ public class OpaeumLibraryForBPMJavaMetaInfoMap extends JavaMetaInfoMap {
 		putMethod(org.opaeum.runtime.bpm.requestobject.ITaskObject.class,"252060@_EE4B0K0OEeCK48ywUpk_rg",6478136403880983034l);
 		putMethod(org.opaeum.runtime.bpm.requestobject.ITaskObject.class,"252060@_NdLN8K0OEeCK48ywUpk_rg",4515354755132661098l);
 		putMethod(org.opaeum.runtime.bpm.requestobject.ITaskObject.class,"252060@_fdkRQK0OEeCK48ywUpk_rg",5307650706078019150l);
+		putClass(org.opaeum.runtime.bpm.requestobject.ITaskObjectBase.class,"252060@_exPwkIVtEeK4zuaSD338Rw");
 	}
 
 

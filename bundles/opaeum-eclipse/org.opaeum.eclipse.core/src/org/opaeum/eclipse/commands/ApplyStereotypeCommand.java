@@ -38,7 +38,7 @@ import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class ApplyStereotypeCommand extends AbstractCommand{
-	private Element element;
+	protected Element element;
 	protected List<Stereotype> stereotypes;
 	Collection<Stereotype> applied = new HashSet<Stereotype>();
 	Collection<Profile> appliedProfile = new HashSet<Profile>();

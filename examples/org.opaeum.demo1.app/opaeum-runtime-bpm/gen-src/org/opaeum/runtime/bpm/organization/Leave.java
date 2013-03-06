@@ -275,7 +275,11 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 	
 	public void setFromDate(Date fromDate) {
 		propertyChangeSupport.firePropertyChange("fromDate",getFromDate(),fromDate);
-		this.z_internalAddToFromDate(fromDate);
+		if ( fromDate == null ) {
+			this.z_internalRemoveFromFromDate(getFromDate());
+		} else {
+			this.z_internalAddToFromDate(fromDate);
+		}
 	}
 	
 	public void setId(Long id) {
@@ -310,7 +314,11 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 	
 	public void setToDate(Date toDate) {
 		propertyChangeSupport.firePropertyChange("toDate",getToDate(),toDate);
-		this.z_internalAddToToDate(toDate);
+		if ( toDate == null ) {
+			this.z_internalRemoveFromToDate(getToDate());
+		} else {
+			this.z_internalAddToToDate(toDate);
+		}
 	}
 	
 	public void setUid(String newUid) {

@@ -251,7 +251,11 @@ public class ParticipationInRequest extends Participation implements IPersistent
 	
 	public void setKind(RequestParticipationKind kind) {
 		propertyChangeSupport.firePropertyChange("kind",getKind(),kind);
-		this.z_internalAddToKind(kind);
+		if ( kind == null ) {
+			this.z_internalRemoveFromKind(getKind());
+		} else {
+			this.z_internalAddToKind(kind);
+		}
 	}
 	
 	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {

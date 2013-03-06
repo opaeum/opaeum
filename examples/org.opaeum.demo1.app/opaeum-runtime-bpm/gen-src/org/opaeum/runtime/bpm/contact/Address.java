@@ -280,7 +280,11 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void setComplexName(String complexName) {
 		propertyChangeSupport.firePropertyChange("complexName",getComplexName(),complexName);
-		this.z_internalAddToComplexName(complexName);
+		if ( complexName == null ) {
+			this.z_internalRemoveFromComplexName(getComplexName());
+		} else {
+			this.z_internalAddToComplexName(complexName);
+		}
 	}
 	
 	public void setDeletedOn(Date deletedOn) {
@@ -301,12 +305,20 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void setStreetName(String streetName) {
 		propertyChangeSupport.firePropertyChange("streetName",getStreetName(),streetName);
-		this.z_internalAddToStreetName(streetName);
+		if ( streetName == null ) {
+			this.z_internalRemoveFromStreetName(getStreetName());
+		} else {
+			this.z_internalAddToStreetName(streetName);
+		}
 	}
 	
 	public void setStreetNumber(String streetNumber) {
 		propertyChangeSupport.firePropertyChange("streetNumber",getStreetNumber(),streetNumber);
-		this.z_internalAddToStreetNumber(streetNumber);
+		if ( streetNumber == null ) {
+			this.z_internalRemoveFromStreetNumber(getStreetNumber());
+		} else {
+			this.z_internalAddToStreetNumber(streetNumber);
+		}
 	}
 	
 	public void setUid(String newUid) {
@@ -315,7 +327,11 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void setUnitNumber(String unitNumber) {
 		propertyChangeSupport.firePropertyChange("unitNumber",getUnitNumber(),unitNumber);
-		this.z_internalAddToUnitNumber(unitNumber);
+		if ( unitNumber == null ) {
+			this.z_internalRemoveFromUnitNumber(getUnitNumber());
+		} else {
+			this.z_internalAddToUnitNumber(unitNumber);
+		}
 	}
 	
 	public String toXmlReferenceString() {

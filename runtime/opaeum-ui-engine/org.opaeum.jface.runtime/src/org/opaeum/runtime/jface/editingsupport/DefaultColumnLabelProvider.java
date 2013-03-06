@@ -22,12 +22,12 @@ public final class DefaultColumnLabelProvider extends ColumnLabelProvider{
 	String suffix = "";
 	private BindingUtil util;
 	private JavaTypedElement typedElement;
-	public DefaultColumnLabelProvider(UimField uimField,String prefix,String suffix,BindingUtil util){
+	public DefaultColumnLabelProvider(Class<?> rowClass, UimField uimField,String prefix,String suffix,BindingUtil util){
 		this.uimField = uimField;
 		this.prefix = prefix;
 		this.suffix = suffix;
 		this.util = util;
-		typedElement = util.getTypedElement(uimField.getBinding().getLastPropertyUuid());
+		typedElement = util.resolveLastTypedElement(rowClass,uimField.getBinding());
 	}
 	@Override
 	public String getText(Object element){

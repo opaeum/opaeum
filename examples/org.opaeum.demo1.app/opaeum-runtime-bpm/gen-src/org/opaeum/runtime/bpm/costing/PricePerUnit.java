@@ -331,7 +331,11 @@ public class PricePerUnit implements IPersistentObject, IEventGenerator, Hiberna
 	
 	public void setAdditionalCostToCompany(Double additionalCostToCompany) {
 		propertyChangeSupport.firePropertyChange("additionalCostToCompany",getAdditionalCostToCompany(),additionalCostToCompany);
-		this.z_internalAddToAdditionalCostToCompany(additionalCostToCompany);
+		if ( additionalCostToCompany == null ) {
+			this.z_internalRemoveFromAdditionalCostToCompany(getAdditionalCostToCompany());
+		} else {
+			this.z_internalAddToAdditionalCostToCompany(additionalCostToCompany);
+		}
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -344,7 +348,11 @@ public class PricePerUnit implements IPersistentObject, IEventGenerator, Hiberna
 	
 	public void setEffectiveFrom(Date effectiveFrom) {
 		propertyChangeSupport.firePropertyChange("effectiveFrom",getEffectiveFrom(),effectiveFrom);
-		this.z_internalAddToEffectiveFrom(effectiveFrom);
+		if ( effectiveFrom == null ) {
+			this.z_internalRemoveFromEffectiveFrom(getEffectiveFrom());
+		} else {
+			this.z_internalAddToEffectiveFrom(effectiveFrom);
+		}
 	}
 	
 	public void setId(Long id) {
@@ -361,12 +369,20 @@ public class PricePerUnit implements IPersistentObject, IEventGenerator, Hiberna
 	
 	public void setPricePaidByCompany(Double pricePaidByCompany) {
 		propertyChangeSupport.firePropertyChange("pricePaidByCompany",getPricePaidByCompany(),pricePaidByCompany);
-		this.z_internalAddToPricePaidByCompany(pricePaidByCompany);
+		if ( pricePaidByCompany == null ) {
+			this.z_internalRemoveFromPricePaidByCompany(getPricePaidByCompany());
+		} else {
+			this.z_internalAddToPricePaidByCompany(pricePaidByCompany);
+		}
 	}
 	
 	public void setPricePaidByCustomer(Double pricePaidByCustomer) {
 		propertyChangeSupport.firePropertyChange("pricePaidByCustomer",getPricePaidByCustomer(),pricePaidByCustomer);
-		this.z_internalAddToPricePaidByCustomer(pricePaidByCustomer);
+		if ( pricePaidByCustomer == null ) {
+			this.z_internalRemoveFromPricePaidByCustomer(getPricePaidByCustomer());
+		} else {
+			this.z_internalAddToPricePaidByCustomer(pricePaidByCustomer);
+		}
 	}
 	
 	public void setQuantifiedResource(IQuantifiedResource quantifiedResource) {

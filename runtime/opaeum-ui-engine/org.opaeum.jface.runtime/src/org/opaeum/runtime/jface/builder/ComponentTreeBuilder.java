@@ -51,7 +51,7 @@ import org.opaeum.runtime.jface.entityeditor.EntityEditorInputJface;
 import org.opaeum.runtime.jface.entityeditor.SecurityUtil;
 import org.opaeum.runtime.jface.ui.OpaeumValidationRealm;
 import org.opaeum.runtime.jface.widgets.CSingleObjectChooser;
-import org.opaeum.runtime.jface.wizards.OperationInvocationWizard;
+import org.opaeum.runtime.jface.wizards.InvocationWizard;
 import org.opaeum.runtime.rwt.DialogUtil;
 import org.opaeum.runtime.rwt.IOpaeumApplication;
 import org.opaeum.runtime.rwt.OpaeumRapSession;
@@ -163,8 +163,12 @@ public class ComponentTreeBuilder{
 					if(ob.eContainer() instanceof UimDataTable){
 						// TODO handle multiple selection etc.
 					}else{
-						IEventHandler eventHandler = bindingUtil.getEventHandler(ob.getUmlElementUid());
-						OperationInvocationWizard wizard = new OperationInvocationWizard((IPersistentObject) objectBeingUpdated, eventHandler, ob
+						Object handler = bindingUtil.getEventHandler(ob.getUmlElementUid());
+						if(handler==null){
+							handler=bindingUtil.newInstance(ob.getUmlElementUid());
+							((CompositionNode)handler).init((CompositionNode) input.getPersistentObject());
+						}
+						InvocationWizard wizard = new InvocationWizard((IPersistentObject) objectBeingUpdated, handler, ob
 								.getPopup(), input);
 						WizardDialog dialog = new WizardDialog(body.getShell(), wizard);
 						DialogUtil.open(dialog, null);
@@ -198,10 +202,6 @@ public class ComponentTreeBuilder{
 	private void addUimFieldComposite(Composite body,UimComponent comp,DataBindingContext bc){
 		UimFieldComposite uimFieldComposite = new UimFieldComposite(body, SWT.NONE);
 		UimField uimField = (UimField) comp;
-		if(uimField.getControlKind()==null){
-			System.out.println(comp.getName());
-			System.out.println();
-		}
 		ControlKind controlKind = uimField.getControlKind()==null?ControlKind.TEXT:uimField.getControlKind();
 		UimSwtUtil.populateControl(uimFieldComposite, controlKind, uimField.getOrientation());
 		setLayoutData(uimFieldComposite, uimField);
@@ -209,10 +209,10 @@ public class ComponentTreeBuilder{
 		uimFieldComposite.getLabel().setText(uimField.getName());
 		UimSwtUtil.setOrientation(uimField.getOrientation(), uimFieldComposite, uimField.getMinimumLabelWidth());
 		uimFieldComposite.layout();
-		final JavaTypedElement typedElement = bindingUtil.getTypedElement(uimField.getBinding().getLastPropertyUuid());
+		final JavaTypedElement typedElement = bindingUtil.resolveLastTypedElement(objectBeingUpdated, uimField.getBinding());
 		UpdateValueStrategy targetToModel = new UpdateValueStrategy();
 		UpdateValueStrategy modelToTarget = new UpdateValueStrategy();
-		IObservableValue observeValue = BeansObservables.observeValue( objectBeingUpdated, bindingUtil.getExpression(uimField.getBinding()));
+		IObservableValue observeValue = BeansObservables.observeValue( objectBeingUpdated, bindingUtil.getExpression(IntrospectionUtil.getOriginalClass(objectBeingUpdated),uimField.getBinding()));
 		targetToModel.setAfterConvertValidator(new GenericValidator(IntrospectionUtil.getOriginalClass(objectBeingUpdated), typedElement,
 				this.validator));
 		IObservableValue observeControl = null;

@@ -15,6 +15,7 @@ import org.eclipse.papyrus.uml.diagram.common.figure.node.ClassifierFigure;
 import org.eclipse.papyrus.uml.diagram.common.figure.node.IPapyrusNodeNamedElementFigure;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.papyrus.common.ImageUtil;
 
 public final class OpaeumClassEditPart extends ClassEditPart{
 	private final class OpaeumClassifierFIgure extends ClassifierFigure{
@@ -28,7 +29,6 @@ public final class OpaeumClassEditPart extends ClassEditPart{
 		@Override
 		public void paint(Graphics graphics){
 			super.paint(graphics);
-	
 			ImageUtil.paintBackgroundSvgImage(graphics, this, imagePath);
 		}
 		@Override

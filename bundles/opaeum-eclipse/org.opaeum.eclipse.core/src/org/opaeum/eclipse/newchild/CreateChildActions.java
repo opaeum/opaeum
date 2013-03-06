@@ -121,6 +121,8 @@ public class CreateChildActions implements ICreateChildActionProvider{
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getClass_(), StereotypeNames.BUSINESS_ROLE);
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getClass_(), StereotypeNames.BUSINESS_DOCUMENT);
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getClass_(), StereotypeNames.BUSINESS_COMPONENT);
+		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getInterface(), StereotypeNames.BUSINESS_SERVICE);
+		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getInterface());
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getClass_());
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getEnumeration());
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getDataType(), StereotypeNames.STRUCTURED_DATA_TYPE);
