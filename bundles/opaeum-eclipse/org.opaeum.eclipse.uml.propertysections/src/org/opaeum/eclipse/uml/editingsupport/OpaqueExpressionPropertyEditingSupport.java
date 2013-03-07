@@ -85,7 +85,7 @@ public class OpaqueExpressionPropertyEditingSupport extends EditingDomainEditing
 			@Override
 			public void update(ViewerCell cell){
 				NamedElement constraint = (NamedElement) cell.getElement();
-				if(constraint.eGet(getValueSpecificationFeature()) instanceof OpaqueExpression){
+				if(getValueSpecificationFeature().getContainerClass().isInstance(constraint) && constraint.eGet(getValueSpecificationFeature()) instanceof OpaqueExpression){
 					OpaqueExpression expr = (OpaqueExpression) constraint.eGet(getValueSpecificationFeature());
 					cell.setText(EmfValueSpecificationUtil.getOclBody(expr));
 				}

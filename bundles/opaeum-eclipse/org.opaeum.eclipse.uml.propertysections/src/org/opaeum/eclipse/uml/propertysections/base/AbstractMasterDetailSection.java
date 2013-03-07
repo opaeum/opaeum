@@ -73,6 +73,7 @@ public abstract class AbstractMasterDetailSection<T extends EObject> extends Abs
 			elementsTableComposite.setOwner((T) getFeatureOwner(getSelectedObject()));
 			elementDetailsComposite.setEditingDomain(mixedEditDomain);
 			elementDetailsComposite.selectionChanged(null);
+//			super.getSectionComposite().getParent().getParent().layout();
 		}
 	}
 	public void setEnabled(boolean b){

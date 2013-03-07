@@ -30,9 +30,11 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 	private Integer columnSpan;
 	private Integer rowSpan;
 	private boolean enabled;
+	private boolean visible;
 	protected AbstractTabbedPropertySubsection(IMultiPropertySection section){
 		this.section = section;
 		enabled = true;
+		visible=true;
 		section.addSubsection(this);
 	}
 	public EStructuralFeature getFeature(){
@@ -122,6 +124,7 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 			}else{
 				getControl().setEnabled(enabled);
 			}
+			setVisible(visible);
 			getControl().redraw();
 			isRefreshing = false;
 		}
@@ -223,5 +226,17 @@ public abstract class AbstractTabbedPropertySubsection<T extends Control,E> exte
 		if(getComposite() != null){
 			getComposite().dispose();
 		}
+	}
+	public boolean isVisible(){
+		return visible;
+	}
+	public void setVisible(boolean visible){
+		if(getControl()!=null){
+			getControl().setVisible(visible);
+		}
+		if(label!=null){
+			label.setVisible(visible);
+		}
+		this.visible = visible;
 	}
 }

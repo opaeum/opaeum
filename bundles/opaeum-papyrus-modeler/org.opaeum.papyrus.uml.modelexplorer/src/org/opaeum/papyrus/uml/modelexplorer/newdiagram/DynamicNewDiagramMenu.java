@@ -78,7 +78,7 @@ public class DynamicNewDiagramMenu extends CompoundContributionItem implements I
 					desc = Activator.imageDescriptorFromPlugin("org.opaeum.papyrus.businessprocessdiagram", "icons/obj16/Diagram_Activity.gif");
 				}
 				actions.add(new CommandContributionItem(new CommandContributionItemParameter(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), COMMAND_ID,
-						COMMAND_ID, null, desc, null, null, null, null, null, CommandContributionItem.STYLE_PUSH, null, false)));
+						COMMAND_ID, null, desc, null, null, null, null, null, CommandContributionItem.STYLE_PUSH, null, true)));
 			}else if(selectedObject instanceof Component || selectedObject instanceof Collaboration){
 				String cdid = "org.eclipse.papyrus.uml.diagram.composite.CreateCompositeDiagramCommand";
 				ImageDescriptor cdimg = Activator.imageDescriptorFromPlugin("org.eclipse.papyrus.uml.diagram.composite", "icons/obj16/Diagram_CompositeStructure.gif");

@@ -9,15 +9,18 @@ import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Action;
@@ -185,13 +188,21 @@ public class OpaeumElementLinker extends EContentAdapter{
 					if(StereotypesHelper.hasKeyword(vp, StereotypeNames.NEW_OBJECT_INPUT)){
 						vp.setValue(createInstanceValue(vp.getName()));
 					}else{
-						vp.setValue(EmfValueSpecificationUtil.buildOpaqueExpression(vp, "Value",EmfValidationUtil.OCL_EXPRESSION_REQUIRED));
+						vp.setValue(EmfValueSpecificationUtil.buildOpaqueExpression(vp, "Value", EmfValidationUtil.OCL_EXPRESSION_REQUIRED));
 					}
 				}
 				break;
 			case UMLPackage.VALUE_PIN__TYPE:
-				if(StereotypesHelper.hasKeyword(vp, StereotypeNames.NEW_OBJECT_INPUT) && notification.getNewValue() != null){
+				if(vp.getValue() instanceof InstanceValue && notification.getNewValue() != null){
 					InstanceValue value = (InstanceValue) vp.getValue();
+					if(value.getInstance() == null){
+						InstanceSpecification is = UMLFactory.eINSTANCE.createInstanceSpecification();
+						EAnnotation ann = EcoreFactory.eINSTANCE.createEAnnotation();
+						value.getEAnnotations().add(ann);
+						ann.setSource(StereotypeNames.NUML_ANNOTATION);
+						ann.getContents().add(is);
+						value.setInstance(is);
+					}
 					value.getInstance().getClassifiers().clear();
 					value.getInstance().getClassifiers().add((Classifier) notification.getNewValue());
 				}
@@ -364,11 +375,11 @@ public class OpaeumElementLinker extends EContentAdapter{
 						ValuePin vp = (ValuePin) notification.getNewValue();
 						if(vp.getValue() == null){
 							if(StereotypesHelper.hasKeyword(vp, StereotypeNames.OCL_INPUT)){
-								vp.setValue(EmfValueSpecificationUtil.buildOpaqueExpression(vp,"Value", EmfValidationUtil.OCL_EXPRESSION_REQUIRED));
+								vp.setValue(EmfValueSpecificationUtil.buildOpaqueExpression(vp, "Value", EmfValidationUtil.OCL_EXPRESSION_REQUIRED));
 							}else if(StereotypesHelper.hasKeyword(vp, StereotypeNames.NEW_OBJECT_INPUT)){
 								vp.setValue(createInstanceValue(vp.getName()));
 							}else{
-								vp.setValue(EmfValueSpecificationUtil.buildOpaqueExpression(vp,"Value", EmfValidationUtil.OCL_EXPRESSION_REQUIRED));
+								vp.setValue(EmfValueSpecificationUtil.buildOpaqueExpression(vp, "Value", EmfValidationUtil.OCL_EXPRESSION_REQUIRED));
 							}
 						}
 					}
@@ -399,7 +410,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				}
 			}else if(cc instanceof Constraint){
 				if(cc.getSpecification() == null){
-					cc.setSpecification(EmfValueSpecificationUtil.buildOpaqueExpression(cc, "Specification",EmfValidationUtil.OCL_EXPRESSION_REQUIRED));
+					cc.setSpecification(EmfValueSpecificationUtil.buildOpaqueExpression(cc, "Specification", EmfValidationUtil.OCL_EXPRESSION_REQUIRED));
 				}
 			}
 		}
@@ -535,7 +546,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 			if(newValue instanceof Association){
 				Association ass = (Association) newValue;
 				for(Property property:ass.getMemberEnds()){
-					if(property.getOtherEnd()!=null && property.getOtherEnd().isNavigable() && property.getType() instanceof Enumeration){
+					if(property.getOtherEnd() != null && property.getOtherEnd().isNavigable() && property.getType() instanceof Enumeration){
 						for(EnumerationLiteral e:((Enumeration) property.getType()).getOwnedLiterals()){
 							ensureSlotsPresence(e, property.getOtherEnd());
 						}
@@ -554,7 +565,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 			if(newValue instanceof ChangeEvent){
 				ChangeEvent ce = (ChangeEvent) newValue;
 				if(ce.getChangeExpression() == null){
-					ce.setChangeExpression(EmfValueSpecificationUtil.buildOpaqueExpression(ce,"ChangeExpression", EmfValidationUtil.OCL_EXPRESSION_REQUIRED));
+					ce.setChangeExpression(EmfValueSpecificationUtil.buildOpaqueExpression(ce, "ChangeExpression", EmfValidationUtil.OCL_EXPRESSION_REQUIRED));
 				}
 			}
 		}
@@ -799,23 +810,21 @@ public class OpaeumElementLinker extends EContentAdapter{
 			}
 			return null;
 		}
-		
 		@Override
 		public EObject caseRegion(Region object){
 			switch(notification.getFeatureID(Region.class)){
 			case UMLPackage.REGION__TRANSITION:
 				break;
 			}
-			
 			return super.caseRegion(object);
 		}
 		@Override
 		public EObject caseChangeEvent(ChangeEvent object){
 			switch(notification.getFeatureID(ChangeEvent.class)){
 			case UMLPackage.CHANGE_EVENT__CHANGE_EXPRESSION:
-				if(notification.getNewValue()==null){
-					//No cigar
-					object.setChangeExpression(EmfValueSpecificationUtil.buildOpaqueExpression(object,"ChangeExpression",  EmfValidationUtil.OCL_EXPRESSION_REQUIRED));
+				if(notification.getNewValue() == null){
+					// No cigar
+					object.setChangeExpression(EmfValueSpecificationUtil.buildOpaqueExpression(object, "ChangeExpression", EmfValidationUtil.OCL_EXPRESSION_REQUIRED));
 				}
 				break;
 			}
@@ -825,22 +834,20 @@ public class OpaeumElementLinker extends EContentAdapter{
 		public EObject caseTimeEvent(TimeEvent object){
 			switch(notification.getFeatureID(TimeEvent.class)){
 			case UMLPackage.TIME_EVENT__WHEN:
-				if(notification.getNewValue()==null){
-					//No cigar
-					
+				if(notification.getNewValue() == null){
+					// No cigar
 					object.setWhen(EmfValueSpecificationUtil.buildTimeExpression(object, "Expr", EmfValidationUtil.OCL_EXPRESSION_REQUIRED));
 				}
 				break;
 			}
 			return null;
 		}
-		
 		@Override
 		public EObject caseTimeExpression(TimeExpression object){
 			switch(notification.getFeatureID(TimeExpression.class)){
 			case UMLPackage.TIME_EXPRESSION__EXPR:
-				if(notification.getNewValue()==null){
-					//No cigar
+				if(notification.getNewValue() == null){
+					// No cigar
 					object.setExpr(EmfValueSpecificationUtil.buildOpaqueExpression(object, "Expr", EmfValidationUtil.OCL_EXPRESSION_REQUIRED));
 				}
 				break;

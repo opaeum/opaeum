@@ -23,7 +23,6 @@ import org.opaeum.metamodel.core.internal.TagNames;
 public class DeadlineKindEditingSupport extends EditingDomainEditingSupport{
 	public DeadlineKindEditingSupport(ColumnViewer viewer){
 		super(viewer, "Deadline Kind", 100);
-		
 	}
 	@Override
 	protected CellEditor getCellEditor(Object element){
@@ -32,8 +31,8 @@ public class DeadlineKindEditingSupport extends EditingDomainEditingSupport{
 		result.setLabelProvider(new LabelProvider(){
 			@Override
 			public String getText(Object element){
-				EEnumLiteral v=(EEnumLiteral)element;
-				if(v==null){
+				EEnumLiteral v = (EEnumLiteral) element;
+				if(v == null){
 					return "";
 				}else{
 					return v.getName();
@@ -55,7 +54,12 @@ public class DeadlineKindEditingSupport extends EditingDomainEditingSupport{
 		TimeEvent te = (TimeEvent) element;
 		Stereotype st = StereotypesHelper.getStereotype(te, StereotypeNames.DEADLINE);
 		EObject sa = te.getStereotypeApplication(st);
-		return sa.eGet(sa.eClass().getEStructuralFeature(TagNames.DEADLINE_KIND));
+		if(sa == null){
+			// happens during the initial addCommand before the ApplyStereotypeCommand is executed;
+			return null;
+		}else{
+			return sa.eGet(sa.eClass().getEStructuralFeature(TagNames.DEADLINE_KIND));
+		}
 	}
 	@Override
 	protected void setValue(Object element,Object value){
@@ -68,8 +72,13 @@ public class DeadlineKindEditingSupport extends EditingDomainEditingSupport{
 		return new CellLabelProvider(){
 			@Override
 			public void update(ViewerCell cell){
-				EEnumLiteral l= (EEnumLiteral) getValue(cell.getElement());
-				cell.setText(l.getName());
+				EEnumLiteral l = (EEnumLiteral) getValue(cell.getElement());
+				if(l != null){
+					//Happens during initial add
+					cell.setText(l.getName());
+				}else{
+					cell.setText("");
+				}
 			}
 		};
 	}

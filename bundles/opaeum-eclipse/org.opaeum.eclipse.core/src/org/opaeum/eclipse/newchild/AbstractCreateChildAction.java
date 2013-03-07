@@ -50,7 +50,7 @@ public abstract class AbstractCreateChildAction implements ICreateChildAction{
 		EStructuralFeature feature = getEStructuralFeature(owner, featureName);
 		CommandParameter descriptor=null;
 		if(feature == null){
-			OpaeumEclipsePlugin.logError(featureName + " not found on " + owner.eClass().getName(), new IllegalStateException());
+//			OpaeumEclipsePlugin.logError(featureName + " not found on " + owner.eClass().getName(), new IllegalStateException());
 		}else{
 			EObject newChild = classOfChild.getEPackage().getEFactoryInstance().create(classOfChild);
 			descriptor = new CommandParameter(getCorrectOwner(owner, featureName), feature, newChild);

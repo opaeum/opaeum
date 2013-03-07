@@ -32,7 +32,6 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.TagNames;
 
 public class DeadlinesTableComposite extends AbstractStereotypePropertyTableComposite<TimeEvent>{
-	private Button addAbsoluteButton;
 	public DeadlinesTableComposite(Composite parent,int style,TabbedPropertySheetWidgetFactory widgetFactory){
 		super(parent, style, widgetFactory, TagNames.DEADLINES);
 	}

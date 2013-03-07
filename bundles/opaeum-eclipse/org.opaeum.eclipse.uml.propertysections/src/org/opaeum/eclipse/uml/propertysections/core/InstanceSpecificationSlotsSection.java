@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.EnumerationLiteral;
@@ -113,6 +114,9 @@ public class InstanceSpecificationSlotsSection extends AbstractOpaeumPropertySec
 	}
 	protected static Classifier findCommonSuperclass(List<InstanceSpecification> iss){
 		InstanceSpecification first = iss.get(0);
+		if(first.getClassifiers().isEmpty()){
+			return null;
+		}
 		Classifier classifier = getClassifier(first);
 		for(InstanceSpecification is:iss){
 			if(is.getClassifiers().size() != 1 && !(is instanceof EnumerationLiteral)){

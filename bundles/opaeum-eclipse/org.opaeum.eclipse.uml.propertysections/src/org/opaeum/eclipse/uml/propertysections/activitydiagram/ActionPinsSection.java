@@ -28,4 +28,5 @@ public class ActionPinsSection extends AbstractMasterDetailSection<Pin>{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getAction_Input();
 	}
+	
 }

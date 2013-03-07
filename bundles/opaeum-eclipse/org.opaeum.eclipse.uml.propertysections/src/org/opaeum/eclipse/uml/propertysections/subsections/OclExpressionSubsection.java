@@ -16,21 +16,21 @@ import org.opaeum.eclipse.uml.propertysections.ocl.OpaqueExpressionComposite;
 
 /**
  * NB!! this class considers the opaqueExpression to be the value. As text changes, new OpaqueExpression will be created
+ * 
  * @author ampie
- *
+ * 
  */
-public class OpaqueExpressionSubsection extends AbstractTabbedPropertySubsection<OpaqueExpressionComposite,OpaqueExpression> implements TextChangeListener{
-	public OpaqueExpressionSubsection(IMultiPropertySection section){
+public class OclExpressionSubsection extends AbstractTabbedPropertySubsection<OpaqueExpressionComposite,OpaqueExpression> implements TextChangeListener{
+	public OclExpressionSubsection(IMultiPropertySection section){
 		super(section);
 	}
-	
 	private OpaqueExpressionComposite oclComposite;
 	@Override
 	protected OpaqueExpression getNewValue(){
-		NamedElement selectedObject = (NamedElement)section.getSelectedObject();
+		NamedElement selectedObject = (NamedElement) section.getSelectedObject();
 		String name = getFeature().getName();
 		StyledText textControl = getControl().getTextControl();
-		return EmfValueSpecificationUtil.buildOpaqueExpression(selectedObject,name, textControl.getText());
+		return EmfValueSpecificationUtil.buildOpaqueExpression(selectedObject, name, textControl.getText());
 	}
 	@Override
 	protected int getModelSubscriptionLevel(){
@@ -38,8 +38,14 @@ public class OpaqueExpressionSubsection extends AbstractTabbedPropertySubsection
 	}
 	@Override
 	protected void populateControls(){
-		getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		getControl().setOclContext((NamedElement) section.getSelectedObject(), getCurrentValue());
+		if(getCurrentValue() == null || getCurrentValue() instanceof OpaqueExpression){
+			//Don't display other valueSpecifications
+			getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+			getControl().setOclContext((NamedElement) section.getSelectedObject(), getCurrentValue());
+			setVisible(true);
+		}else{
+			setVisible(false);
+		}
 	}
 	@Override
 	public void hookControlListener(){
@@ -58,6 +64,5 @@ public class OpaqueExpressionSubsection extends AbstractTabbedPropertySubsection
 	}
 	@Override
 	public void textSet(TextChangedEvent event){
-		
 	}
 }

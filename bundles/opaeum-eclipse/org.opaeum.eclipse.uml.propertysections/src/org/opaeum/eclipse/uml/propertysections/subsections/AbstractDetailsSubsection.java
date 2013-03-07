@@ -122,14 +122,17 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 				gd.horizontalSpan = ss.getColumnSpan();
 			}
 			ss.getComposite().setLayoutData(gd);
-			maxHeight = Math.max(maxHeight, ss.getComposite().getSize().y);
+			if(ss.getRowSpan() ==null || ss.getRowSpan() <= 1){
+				maxHeight = Math.max(maxHeight, ss.getComposite().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+			}
 		}
+		System.out.println();
 		for(AbstractTabbedPropertySubsection<?,?> ss:subsections){
 			GridData gd = (GridData) ss.getComposite().getLayoutData();
 			if(gd.verticalSpan == 1){
 				gd.minimumHeight = maxHeight;
 				gd.heightHint = maxHeight;
-			}else {
+			}else{
 				gd.minimumHeight = maxHeight * gd.verticalSpan;
 				gd.heightHint = maxHeight * gd.verticalSpan;
 			}
@@ -162,8 +165,8 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 	}
 	@Override
 	public EObject getSelectedObject(){
-		if(selectedObject!=null && selectedObject.eResource()==null){
-			selectedObject=null;
+		if(selectedObject != null && selectedObject.eResource() == null){
+			selectedObject = null;
 		}
 		return selectedObject;
 	}
@@ -198,10 +201,18 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 		result.setChoiceProvider(choiceProvider);
 		return result;
 	}
-	public OpaqueExpressionSubsection createOpaqueExpression(EStructuralFeature feature,String labelText,int labelWidth,int controlWidth){
-		OpaqueExpressionSubsection result = new OpaqueExpressionSubsection(this);
+	public InstanceValueSubsection createInstanceValue(EStructuralFeature feature,String labelText,int labelWidth,int controlWidth){
+		InstanceValueSubsection result = new InstanceValueSubsection(this);
 		AbstractMultiFeaturePropertySection.populateSubsection(result, feature, labelText, labelWidth, controlWidth);
 		result.setRowSpan(3);
+		result.setColumnSpan(2);
+		return result;
+	}
+	public OclExpressionSubsection createOpaqueExpression(EStructuralFeature feature,String labelText,int labelWidth,int controlWidth){
+		OclExpressionSubsection result = new OclExpressionSubsection(this);
+		AbstractMultiFeaturePropertySection.populateSubsection(result, feature, labelText, labelWidth, controlWidth);
+		result.setRowSpan(3);
+		result.setColumnSpan(2);
 		return result;
 	}
 	public ComboSubsection createCombo(EStructuralFeature feature,String labelText,int labelWidth,int controlWidth,IChoiceProvider choiceProvider){

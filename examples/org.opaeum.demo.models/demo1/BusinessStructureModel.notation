@@ -1377,6 +1377,12 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mNdy5YYjEeK7OqQB5E259g"/>
       </children>
       <children xmi:type="notation:DecorationNode" xmi:id="_mNdy5oYjEeK7OqQB5E259g" type="7004">
+        <children xmi:type="notation:Shape" xmi:id="_stRB0IZlEeKl5Yrckb2lnw" type="3007">
+          <children xmi:type="notation:DecorationNode" xmi:id="_stSP8IZlEeKl5Yrckb2lnw" type="5003"/>
+          <styles xmi:type="notation:HintedDiagramLinkStyle" xmi:id="_stRB0YZlEeKl5Yrckb2lnw"/>
+          <element xmi:type="uml:OpaqueAction" href="BusinessStructureModel.uml#_stDmcIZlEeKl5Yrckb2lnw"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_stRB0oZlEeKl5Yrckb2lnw" x="225" y="124" width="231" height="126"/>
+        </children>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mNdy54YjEeK7OqQB5E259g"/>
       </children>
       <element xmi:type="uml:Activity" href="BusinessStructureModel.uml#_9PcIYIYdEeK-qLl_Laqjng"/>

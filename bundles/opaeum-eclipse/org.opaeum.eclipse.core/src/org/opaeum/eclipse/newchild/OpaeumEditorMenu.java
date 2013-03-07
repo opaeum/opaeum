@@ -145,7 +145,7 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 				CreateChildAction createAction = cca.createAction(getActiveWorkbenchWindow().getActivePage().getActivePart(), getSs(),
 						getOpaeumLibrary());
 				if(createAction == null){
-					OpaeumEclipsePlugin.logError("Null CreateChildAction produced by :" + cca.getClass(), new IllegalStateException());
+//					OpaeumEclipsePlugin.logError("Null CreateChildAction produced by :" + cca.getClass(), new IllegalStateException());
 				}else{
 					createChildActions.add(createAction);
 				}

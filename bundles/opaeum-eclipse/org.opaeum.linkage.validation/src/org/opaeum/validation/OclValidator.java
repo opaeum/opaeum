@@ -106,7 +106,9 @@ public class OclValidator extends AbstractValidator{
 	}
 	@VisitBefore
 	public void visitOpaqueAction(OpaqueAction p){
-		putErrors(p, getLibrary().getOclActionContext(p));
+		if(!EmfActionUtil.isEmbeddedTask(p)){
+			putErrors(p, getLibrary().getOclActionContext(p));
+		}
 	}
 	protected void putErrors(Element p,AbstractOclContext oclActionContext){
 		if(oclActionContext.hasErrors()){

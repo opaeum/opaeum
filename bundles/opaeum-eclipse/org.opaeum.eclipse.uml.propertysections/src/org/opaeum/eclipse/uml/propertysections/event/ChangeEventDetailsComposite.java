@@ -9,10 +9,10 @@ import org.opaeum.eclipse.uml.propertysections.base.AbstractMultiFeatureProperty
 import org.opaeum.eclipse.uml.propertysections.base.AbstractOpaeumPropertySection;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractTabbedPropertySubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.AbstractDetailsSubsection;
-import org.opaeum.eclipse.uml.propertysections.subsections.OpaqueExpressionSubsection;
+import org.opaeum.eclipse.uml.propertysections.subsections.InstanceValueSubsection;
 
 public class ChangeEventDetailsComposite extends AbstractDetailsSubsection<ChangeEvent>{
-	private OpaqueExpressionSubsection changeComposite;
+	private InstanceValueSubsection changeComposite;
 	private int labelWidth=AbstractOpaeumPropertySection.STANDARD_LABEL_WIDTH;
 	public ChangeEventDetailsComposite(TabbedPropertySheetWidgetFactory widgetFactory,Composite parent){
 		super(parent, SWT.NONE, widgetFactory);
@@ -28,7 +28,7 @@ public class ChangeEventDetailsComposite extends AbstractDetailsSubsection<Chang
 	}
 	@Override
 	protected void addSubsections(){
-		changeComposite = new OpaqueExpressionSubsection(this);
+		changeComposite = new InstanceValueSubsection(this);
 		AbstractMultiFeaturePropertySection.populateSubsection(changeComposite, UMLPackage.eINSTANCE.getChangeEvent_ChangeExpression(), "Change Expression",
 				labelWidth, AbstractTabbedPropertySubsection.FILL);
 		changeComposite.setRowSpan(3);

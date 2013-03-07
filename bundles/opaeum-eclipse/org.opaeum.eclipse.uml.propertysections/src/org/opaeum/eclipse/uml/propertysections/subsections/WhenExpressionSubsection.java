@@ -6,7 +6,7 @@ import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.uml.propertysections.base.IMultiPropertySection;
 
-public class WhenExpressionSubsection extends OpaqueExpressionSubsection{
+public class WhenExpressionSubsection extends OclExpressionSubsection{
 	public WhenExpressionSubsection(IMultiPropertySection section){
 		super(section);
 	}

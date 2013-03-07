@@ -16,7 +16,8 @@ import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
 import org.opaeum.eclipse.uml.propertysections.subsections.AbstractDetailsSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.ChooserSubsection;
-import org.opaeum.eclipse.uml.propertysections.subsections.OpaqueExpressionSubsection;
+import org.opaeum.eclipse.uml.propertysections.subsections.InstanceValueSubsection;
+import org.opaeum.eclipse.uml.propertysections.subsections.OclExpressionSubsection;
 
 public class OclConstraintDetailsComposite extends AbstractDetailsSubsection<Constraint>{
 	public OclConstraintDetailsComposite(TabbedPropertySheetWidgetFactory factory,Composite parent){
@@ -44,7 +45,7 @@ public class OclConstraintDetailsComposite extends AbstractDetailsSubsection<Con
 			}
 		});
 		chooser.setSingle(false);
-		OpaqueExpressionSubsection ocl = createOpaqueExpression(UMLPackage.eINSTANCE.getConstraint_Specification(),"Expression", 120,300);
+		OclExpressionSubsection ocl = createOpaqueExpression(UMLPackage.eINSTANCE.getConstraint_Specification(),"Expression", 120,300);
 		ocl.setRowSpan(2);
 		ocl.setColumnSpan(2);
 	}

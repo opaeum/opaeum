@@ -14,7 +14,7 @@ import org.opaeum.emf.extraction.StereotypesHelper;
  * @author ampie
  *
  */
-public class OpaqueExpressionOnStereotypeSubsection extends OpaqueExpressionSubsection{
+public class OpaqueExpressionOnStereotypeSubsection extends OclExpressionSubsection{
 	private StereotypeValueInformation info;
 	public OpaqueExpressionOnStereotypeSubsection(IMultiPropertySection section,StereotypeValueInformation info){
 		super(section);

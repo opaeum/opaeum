@@ -14,13 +14,13 @@ import org.opaeum.eclipse.uml.propertysections.base.AbstractTabbedPropertySubsec
 import org.opaeum.eclipse.uml.propertysections.base.IMultiPropertySection;
 import org.opaeum.eclipse.uml.propertysections.subsections.AbstractDetailsSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.ComboOnStereotypeSubsection;
-import org.opaeum.eclipse.uml.propertysections.subsections.OpaqueExpressionSubsection;
+import org.opaeum.eclipse.uml.propertysections.subsections.OclExpressionSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.StringSubsection;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.TagNames;
 
 public class AbsoluteDeadlineDetailsComposite extends AbstractDetailsSubsection<TimeEvent>{
-	public static final class WhenExpressionSubsection extends OpaqueExpressionSubsection{
+	public static final class WhenExpressionSubsection extends OclExpressionSubsection{
 		//Remember OpaeumElementLinker will create all the expressions
 		public WhenExpressionSubsection(IMultiPropertySection section){
 			super(section);
@@ -30,7 +30,7 @@ public class AbsoluteDeadlineDetailsComposite extends AbstractDetailsSubsection<
 			return ((TimeEvent)eObject).getWhen();
 		}
 	}
-	private OpaqueExpressionSubsection expressionComposite;
+	private OclExpressionSubsection expressionComposite;
 	protected StringSubsection nameTxt;
 	protected EditingDomain editingDomain;
 	private int labelWidth=AbstractOpaeumPropertySection.STANDARD_LABEL_WIDTH;

@@ -687,11 +687,75 @@
             </subvertex>
           </region>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_9PcIYIYdEeK-qLl_Laqjng" clientDependency="_9QLIMIYdEeK-qLl_Laqjng" name="BusinessProcess1">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_9PcIYIYdEeK-qLl_Laqjng" clientDependency="_9QLIMIYdEeK-qLl_Laqjng" name="BusinessProcess1" node="_stDmcIZlEeKl5Yrckb2lnw">
           <interfaceRealization xmi:id="_9QLIMIYdEeK-qLl_Laqjng" name="isAIBusinessProcess" client="_9PcIYIYdEeK-qLl_Laqjng">
             <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pD_mkPNQEeGhGoYzbfvy4A"/>
             <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pD_mkPNQEeGhGoYzbfvy4A"/>
           </interfaceRealization>
+          <node xmi:type="uml:OpaqueAction" xmi:id="_stDmcIZlEeKl5Yrckb2lnw" name="EmbeddedSingleScreenTask1">
+            <eAnnotations xmi:id="_TAlWUIZnEeKl5Yrckb2lnw" source="http://www.opaeum.org">
+              <contents xmi:type="uml:OpaqueExpression" xmi:id="_JfxcgIZpEeKl5Yrckb2lnw" name="EmbeddedSingleScreenTask1stakeholders">
+                <language>OCL</language>
+                <body>contextObject.customerAssistant->select(a|a.businessCalendarToUse.businessHoursPerDay>10)</body>
+              </contents>
+              <contents xmi:type="uml:TimeEvent" xmi:id="_RQJpIIbYEeKl5Yrckb2lnw" name="NewDeadline" isRelative="true">
+                <when xmi:id="_RQJpIYbYEeKl5Yrckb2lnw" name="NewDeadlinewhen">
+                  <expr xmi:type="uml:OpaqueExpression" xmi:id="_gTfFcIbYEeKl5Yrckb2lnw" name="NewDeadlineexpr">
+                    <language>OCL</language>
+                    <body>5</body>
+                  </expr>
+                </when>
+              </contents>
+            </eAnnotations>
+            <inputValue xmi:type="uml:ValuePin" xmi:id="_E2NMwIbfEeKaabxC0z_X2w" name="NewOclInput">
+              <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_qJQboNcCEeCJ0dmaHEVVnw"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_E2PB8IbfEeKaabxC0z_X2w" value="*"/>
+              <value xmi:type="uml:OpaqueExpression" xmi:id="_E2NMwYbfEeKaabxC0z_X2w" name="NewOclInputvalue">
+                <language>OCL</language>
+                <body>Ocl expression required</body>
+              </value>
+            </inputValue>
+            <inputValue xmi:type="uml:ValuePin" xmi:id="_Fx2VoIbfEeKaabxC0z_X2w" name="NewOclInput">
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Fx28sIbfEeKaabxC0z_X2w" value="*"/>
+              <value xmi:type="uml:OpaqueExpression" xmi:id="_Fx2VoYbfEeKaabxC0z_X2w" name="NewOclInputvalue">
+                <language>OCL</language>
+                <body>Ocl expression required</body>
+              </value>
+            </inputValue>
+            <inputValue xmi:id="_GYOZIIbfEeKaabxC0z_X2w" name="NewObjectFlowInput">
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_GYPAMIbfEeKaabxC0z_X2w" value="*"/>
+            </inputValue>
+            <inputValue xmi:type="uml:ValuePin" xmi:id="_aTM9AIbjEeKzPol3fMhdGg" name="NewObjectInput" type="_oiVeEGCfEeG6xvYqJACneg">
+              <eAnnotations xmi:id="_aTM9AYbjEeKzPol3fMhdGg" source="http://www.opaeum.org">
+                <contents xmi:type="uml:InstanceSpecification" xmi:id="_aTM9AobjEeKzPol3fMhdGg" name="NewObjectInstanceSpecification"/>
+              </eAnnotations>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_aTOyMIbjEeKzPol3fMhdGg" value="*"/>
+              <value xmi:type="uml:InstanceValue" xmi:id="_aTM9A4bjEeKzPol3fMhdGg" name="NewObjectInstance" instance="_m43nkIbkEeKzPol3fMhdGg">
+                <eAnnotations xmi:id="_m4zWIIbkEeKzPol3fMhdGg" source="http://www.opaeum.org">
+                  <contents xmi:type="uml:InstanceSpecification" xmi:id="_m43nkIbkEeKzPol3fMhdGg" classifier="_oiVeEGCfEeG6xvYqJACneg">
+                    <slot xmi:id="_m49HIIbkEeKzPol3fMhdGg">
+                      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3FqBQF9lEeG3X_yvufTVmw"/>
+                      <value xmi:type="uml:InstanceValue" xmi:id="_AXtkAIbmEeKzPol3fMhdGg">
+                        <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_FHq2YF9ZEeG3X_yvufTVmw"/>
+                      </value>
+                    </slot>
+                    <slot xmi:id="_m49uMIbkEeKzPol3fMhdGg" definingFeature="_SoyjIHpiEeGlh5y8zQdYBA">
+                      <value xmi:type="uml:LiteralString" xmi:id="_m49uMYbkEeKzPol3fMhdGg" value="123412341"/>
+                    </slot>
+                    <slot xmi:id="_m4-VQIbkEeKzPol3fMhdGg" definingFeature="_U5_wwHpiEeGlh5y8zQdYBA">
+                      <value xmi:type="uml:LiteralString" xmi:id="_m4-8UIbkEeKzPol3fMhdGg" value="Ampie Barnard"/>
+                    </slot>
+                    <slot xmi:id="_m4_jYIbkEeKzPol3fMhdGg" definingFeature="_aFhacHpiEeGlh5y8zQdYBA">
+                      <value xmi:type="uml:OpaqueExpression" xmi:id="_m5AKcIbkEeKzPol3fMhdGg">
+                        <language>ocl</language>
+                        <body>now</body>
+                      </value>
+                    </slot>
+                  </contents>
+                </eAnnotations>
+              </value>
+            </inputValue>
+          </node>
         </ownedBehavior>
         <ownedOperation xmi:id="_dOodgMzBEeGKe7Qm4dvydQ" name="Operation1" isQuery="true" postcondition="_ozSisBRuEeKYhv9CKiNDbg" precondition="_SebdoBUrEeKJLd0hFS72wA _PkzesBXnEeKQpapxHO1SNA">
           <eAnnotations xmi:id="_q4U5EBNcEeK0HvQCxCC_Ag" source="http://opaum.org/i8n">
@@ -1577,4 +1641,6 @@
   <OpaeumBPMProfile:BusinessCollaboration xmi:id="_J3ZHQHkAEeKsL8ZaFiY2TQ" base_Collaboration="_J3MS8HkAEeKsL8ZaFiY2TQ"/>
   <OpaeumBPMProfile:BusinessStateMachine xmi:id="_cUAgQH2lEeK5F45wEGRv4A" base_StateMachine="_cTMn8H2lEeK5F45wEGRv4A"/>
   <OpaeumBPMProfile:BusinessProcess xmi:id="_9QBXMIYdEeK-qLl_Laqjng" base_Activity="_9PcIYIYdEeK-qLl_Laqjng"/>
+  <OpaeumBPMProfile:EmbeddedSingleScreenTask xmi:id="_vVJDAIZlEeKl5Yrckb2lnw" deadlines="_RQJpIIbYEeKl5Yrckb2lnw" stakeholders="_JfxcgIZpEeKl5Yrckb2lnw" base_OpaqueAction="_stDmcIZlEeKl5Yrckb2lnw"/>
+  <OpaeumBPMProfile:Deadline xmi:id="_RQfAUIbYEeKl5Yrckb2lnw" base_TimeEvent="_RQJpIIbYEeKl5Yrckb2lnw" kind="COMPLETE" timeUnit="businessDay"/>
 </xmi:XMI>

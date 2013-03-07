@@ -2,9 +2,7 @@ package org.opaeum.eclipse.uml.propertysections.base;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -15,10 +13,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.OpaeumSynchronizationListener;
-import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
 import org.opaeum.eclipse.uml.propertysections.subsections.BooleanSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.ChooserSubsection;
