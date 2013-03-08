@@ -49,7 +49,7 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.TagNames;
 import org.opaeum.validation.OclValidator;
 
-public class PinTable extends AbstractTableComposite<Pin>{
+public class PinTable extends AbstractTableComposite<InputPin>{
 	public PinTable(Composite parent,int style,TabbedPropertySheetWidgetFactory widgetFactory,EStructuralFeature feature){
 		super(parent, style, widgetFactory, feature);
 	}

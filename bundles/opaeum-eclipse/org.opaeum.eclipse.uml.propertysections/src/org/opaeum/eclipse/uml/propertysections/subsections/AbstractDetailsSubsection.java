@@ -122,7 +122,7 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 				gd.horizontalSpan = ss.getColumnSpan();
 			}
 			ss.getComposite().setLayoutData(gd);
-			if(ss.getRowSpan() ==null || ss.getRowSpan() <= 1){
+			if(ss.getRowSpan() == null || ss.getRowSpan() <= 1){
 				maxHeight = Math.max(maxHeight, ss.getComposite().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 			}
 		}

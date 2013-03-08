@@ -15,11 +15,27 @@ public class UMLPaletteFactory extends org.eclipse.papyrus.uml.diagram.activity.
 	@Override
 	public Tool createTool(String toolId){
 		if(toolId.equals("createEmbeddedTask10CreationTool")){
-			return createOpaqueAction1CreationTool();
+			return createEmbeddedTaskCreationTool();
+		}
+		if(toolId.equals("createEmbeddedTask10CreationTool")){
+			return createEmbeddedTaskCreationTool();
+		}
+		if(toolId.equals("createEmbeddedTask10CreationTool")){
+			return createEmbeddedTaskCreationTool();
 		}
 		return super.createTool(toolId);
 	}
-	private Tool createOpaqueAction1CreationTool(){
+	private Tool createEmbeddedTaskCreationTool(){
+		List<IElementType> types = new ArrayList<IElementType>(1);
+		types.add(UMLElementTypes.OpaqueAction_3007);
+		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK);
+	}
+	private Tool createBusinessProcessCallCreationTool(){
+		List<IElementType> types = new ArrayList<IElementType>(1);
+		types.add(UMLElementTypes.CallBehaviorAction_3008);
+		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.BUSInES);
+	}
+	private Tool createEmbeddedTaskCreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(1);
 		types.add(UMLElementTypes.OpaqueAction_3007);
 		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK);

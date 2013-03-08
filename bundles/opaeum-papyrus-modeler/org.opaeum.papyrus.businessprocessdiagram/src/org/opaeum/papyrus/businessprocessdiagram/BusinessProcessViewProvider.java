@@ -111,7 +111,7 @@ import org.eclipse.papyrus.uml.diagram.activity.edit.parts.ValueSpecificationAct
 import org.eclipse.papyrus.uml.diagram.activity.part.UMLVisualIDRegistry;
 import org.eclipse.papyrus.uml.diagram.activity.providers.UMLElementTypes;
 import org.eclipse.papyrus.uml.diagram.activity.providers.UMLViewProvider;
-
+//TODO I don't think this is necessary anymore
 public class BusinessProcessViewProvider extends UMLViewProvider{
 	protected boolean provides(CreateDiagramViewOperation op){
 		return org.eclipse.papyrus.uml.diagram.activity.edit.parts.ActivityDiagramEditPart.MODEL_ID.equals(op.getSemanticHint());

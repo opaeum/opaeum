@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.ui,
  org.opaeum.eclipse.core,
  org.eclipse.gmf.runtime.common.ui,
  org.eclipse.gmf.runtime.diagram.ui,
- org.eclipse.gmf.runtime.draw2d.ui.render
+ org.eclipse.gmf.runtime.draw2d.ui.render,
+ org.opaeum.metamodels.emfworkspace
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.papyrus.common

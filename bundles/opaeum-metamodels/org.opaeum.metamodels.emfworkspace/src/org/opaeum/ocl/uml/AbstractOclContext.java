@@ -73,7 +73,6 @@ public abstract class AbstractOclContext extends AdapterImpl implements Stereoty
 					// }
 				}
 			}catch(ParserException e){
-				e.printStackTrace();
 				this.parseException = e;
 			}
 		}

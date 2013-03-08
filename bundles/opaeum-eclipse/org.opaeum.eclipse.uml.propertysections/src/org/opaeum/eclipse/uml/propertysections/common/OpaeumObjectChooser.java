@@ -3,13 +3,8 @@ package org.opaeum.eclipse.uml.propertysections.common;
 import java.util.Collections;
 import java.util.Iterator;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.impl.AESCipherImpl;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.jface.fieldassist.ControlDecoration;
-import org.eclipse.jface.fieldassist.DecoratedField;
-import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -26,7 +21,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.NamedElement;
@@ -46,6 +40,7 @@ public class OpaeumObjectChooser extends Viewer{
 	private Text text;
 	private ChooserContentAssistHelper contentAssistHelper;
 	private IStructuredSelection ss;
+	private boolean isRefreshing;
 	public OpaeumObjectChooser(Composite parent,TabbedPropertySheetWidgetFactory factory,int style){
 		this.widgetFactory = factory;
 		this.contentPane = new Composite(parent, SWT.NONE);
@@ -87,17 +82,21 @@ public class OpaeumObjectChooser extends Viewer{
 		new TextChangeListener(){
 			@Override
 			public void textChanged(Control control){
-				String oldText = text.getText();
-				setSelection(contentAssistHelper.getSelectedObject(oldText));
-				text.setText(oldText);
-				text.setSelection(oldText.length());
-				fireSelectionChanged(new SelectionChangedEvent(OpaeumObjectChooser.this, getSelection()));
+				if(!isRefreshing){
+					String oldText = text.getText();
+					if(getSelectedObject() == null || !oldText.equals(labelProvider.getText(getSelectedObject()))){
+						setSelection(contentAssistHelper.getSelectedObject(oldText));
+						text.setText(oldText);
+						text.setSelection(oldText.length());
+						fireSelectionChanged(new SelectionChangedEvent(OpaeumObjectChooser.this, getSelection()));
+					}
+				}
 			}
 		}.startListeningTo(text);
 	}
 	public void setEditable(boolean isEditable){
 		if(text != null){
-			text.setEditable(isEditable&& isSingle);
+			text.setEditable(isEditable && isSingle);
 		}
 	}
 	public boolean isEditable(){
@@ -186,6 +185,7 @@ public class OpaeumObjectChooser extends Viewer{
 	}
 	@Override
 	public void setSelection(ISelection selection,boolean reveal){
+		isRefreshing = true;
 		this.ss = (IStructuredSelection) selection;
 		if(isSingle && ss.size() > 1){
 			ss = new StructuredSelection(ss.getFirstElement());
@@ -193,6 +193,7 @@ public class OpaeumObjectChooser extends Viewer{
 		objects = null;
 		StringBuilder buffer = concateText();
 		text.setText(buffer.toString());
+		isRefreshing = false;
 	}
 	protected StringBuilder concateText(){
 		Iterator<?> iterator = ss.iterator();

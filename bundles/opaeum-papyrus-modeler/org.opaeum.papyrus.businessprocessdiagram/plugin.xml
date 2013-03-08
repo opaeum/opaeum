@@ -2881,7 +2881,7 @@ self.structuralFeature.oclAsType(Property).opposite.type = self.object.type]]>
      			<predefinedEntry id="standardGroup/noteStack/noteTool" remove="true"/> 
 				<predefinedEntry id="standardGroup/noteStack/textTool" remove="true"/> 
 				<predefinedEntry id="standardGroup/noteStack/noteattachmentTool" remove="true"/>
-					<!--entry
+					<entry
        defineOnly="true"
        description="Create an Initial node"
        id="createInitialnode1CreationTool"
@@ -2970,7 +2970,7 @@ self.structuralFeature.oclAsType(Property).opposite.type = self.object.type]]>
        large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/OpaqueAction.gif"
        path=""
        small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/OpaqueAction.gif">
- 	</entry-->
+ 	</entry>
 	<entry
        defineOnly="true"
        description="Create an Embedded Task"
@@ -2981,12 +2981,32 @@ self.structuralFeature.oclAsType(Property).opposite.type = self.object.type]]>
        path=""
        small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/OpaqueAction.gif">
  	</entry>
-	<!--entry
+	<entry
+       defineOnly="true"
+       description="Create Call Business Process Action"
+       id="createCallBusinessProcessAction10CreationTool"
+       kind="tool"
+       label="Business Process Call"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/CallBehaviorAction.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/CallBehaviorAction.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create Send Business Notification Action"
+       id="createSendBusinessNotifcation10CreationTool"
+       kind="tool"
+       label="Business Notification"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/CallBehaviorAction.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/CallBehaviorAction.gif">
+ 	</entry>
+	<entry
        defineOnly="true"
        description="Create an Call Method Action"
        id="createCallBehaviorAction11CreationTool"
        kind="tool"
-       label="Call Behavior Action"
+       label="Call Method Action"
        large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/CallBehaviorAction.gif"
        path=""
        small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/CallBehaviorAction.gif">
@@ -3280,7 +3300,7 @@ self.structuralFeature.oclAsType(Property).opposite.type = self.object.type]]>
        large_icon="icons/obj16/Link.gif"
        path=""
        small_icon="icons/obj16/Link.gif">
- 	</entry-->
+ 	</entry>
 
 			</contribution>
 		</paletteProvider>	
@@ -3300,9 +3320,9 @@ self.structuralFeature.oclAsType(Property).opposite.type = self.object.type]]>
      			<predefinedEntry id="standardGroup/noteStack/noteTool" remove="true"/> 
 				<predefinedEntry id="standardGroup/noteStack/textTool" remove="true"/> 
 				<predefinedEntry id="standardGroup/noteStack/noteattachmentTool" remove="true"/>
-	<!--entry
+	<entry
        description=""
-       id="createFlowControl1Group"
+       id="flowControlGroup"
        kind="drawer"
        label="Flow Control"
        large_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif"
@@ -3314,19 +3334,31 @@ self.structuralFeature.oclAsType(Property).opposite.type = self.object.type]]>
  	</entry>
 	<entry
        description=""
-       id="createActions1Group"
+       id="callActionsGroup"
        kind="drawer"
-       label="Actions"
+       label="Call Actions"
        large_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif"
        path="/"
        small_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif">
        <expand
               force="false">
        </expand>
- 	</entry-->
+ 	</entry>
 	<entry
        description=""
-       id="createBusinessActions1Group"
+       id="datagActionsGroup"
+       kind="drawer"
+       label="Data Actions"
+       large_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif"
+       path="/"
+       small_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif">
+       <expand
+              force="false">
+       </expand>
+ 	</entry>
+	<entry
+       description=""
+       id="businessActions"
        kind="drawer"
        label="Business Actions"
        large_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif"
@@ -3336,201 +3368,209 @@ self.structuralFeature.oclAsType(Property).opposite.type = self.object.type]]>
               force="false">
        </expand>
  	</entry>
- 	 
+	<predefinedEntry
+       id="createCallBusinessProcessAction10CreationTool"
+       path="/businessActions">
+ 	</predefinedEntry>
+	<predefinedEntry
+       id="createSendBusinessNotifcation10CreationTool"
+       path="/businessActions">
+ 	</predefinedEntry>
  	<predefinedEntry
           id="createEmbeddedTask10CreationTool"
-          path="/createBusinessActions1Group">
+          path="/businessActions">
     </predefinedEntry>
- 	<!--predefinedEntry
+ 	<predefinedEntry
           id="createInitialnode1CreationTool"
-          path="/createFlowControl1Group">
+          path="/flowControlGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createActivityfinal2CreationTool"
-          path="/createFlowControl1Group">
+          path="/flowControlGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createFlowfinal3CreationTool"
-          path="/createFlowControl1Group" remove="true">
+          path="/flowControlGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createDecisionnode4CreationTool"
-          path="/createFlowControl1Group">
+          path="/flowControlGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createMergenode5CreationTool"
-          path="/createFlowControl1Group">
+          path="/flowControlGroup">
     </predefinedEntry>
- 	<predefinedEntry
+ 	<!--predefinedEntry
           id="createJoinnode6CreationTool"
-          path="/createFlowControl1Group" remove="true">
+          path="/flowControlGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createForknode7CreationTool"
-          path="/createFlowControl1Group" remove="true">
-    </predefinedEntry>
+          path="/flowControlGroup">
+    </predefinedEntry-->
  	<predefinedEntry
           id="createActivityParameterNode8CreationTool"
           path="/createObjects1Group">
     </predefinedEntry>
- 	<predefinedEntry
-          id="createOpaqueAction10CreationTool" 
-          path="/createActions1Group">
-    </predefinedEntry>
- 	<predefinedEntry
-          id="createCallBehaviorAction11CreationTool"
-          path="/createActions1Group">
-    </predefinedEntry>
- 	<predefinedEntry
-          id="createCallOperationAction12CreationTool"
-          path="/createActions1Group">
-    </predefinedEntry>
- 	<predefinedEntry
-          id="createSendSignalAction14CreationTool"
-          path="/createActions1Group">
-    </predefinedEntry>
- 	<predefinedEntry
-          id="createValueSpecificationAction16CreationTool" remove="true"
-          path="/createActions1Group" >
-    </predefinedEntry>
- 	<predefinedEntry
-          id="createActivityPartition17CreationTool" remove="true"
-          path="/createActions1Group">
-    </predefinedEntry>
- 	<predefinedEntry
-          id="createInterruptibleActivityRegion18CreationTool" remove="true"
-          path="/createActions1Group">
-    </predefinedEntry>
- 	<predefinedEntry
-          id="createStructuredActivityNode19CreationTool" remove="true"
-          path="/createActions1Group">
-    </predefinedEntry>
- 	<predefinedEntry
-          id="createReadSelfAction20CreationTool" remove="true"
-          path="/createActions1Group">
-    </predefinedEntry>
- 	<predefinedEntry
-          id="createConditionalNode21CreationTool" remove="true"
-          path="/createActions1Group">
-    </predefinedEntry>
- 	<predefinedEntry
-          id="createExpansionRegion22CreationTool" remove="true"
-          path="/createActions1Group">
-    </predefinedEntry>
- 	<predefinedEntry
-          id="createLoopNode23CreationTool" remove="true"
-          path="/createActions1Group">
-    </predefinedEntry>
- 	<predefinedEntry
-          id="createSequenceNode24CreationTool" remove="true"
-          path="/createActions1Group">
-    </predefinedEntry>
- 	<predefinedEntry
+     	<predefinedEntry
           id="createOutputPin25CreationTool"
-          path="/createActions1Group">
+          path="/createObjects1Group">
     </predefinedEntry>
  	<predefinedEntry
           id="createInputPin26CreationTool"
-          path="/createActions1Group">
+          path="/createObjects1Group">
+    </predefinedEntry>
+    
+ 	<predefinedEntry
+          id="createOpaqueAction10CreationTool" 
+          path="/callActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
-          id="createActionInputPin27CreationTool" remove="true"
-          path="/createActions1Group">
+          id="createCallBehaviorAction11CreationTool"
+          path="/callActionsGroup">
     </predefinedEntry>
+ 	<predefinedEntry
+          id="createCallOperationAction12CreationTool"
+          path="/callActionsGroup">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="createSendSignalAction14CreationTool"
+          path="/callActionsGroup">
+    </predefinedEntry>
+ 	<!--predefinedEntry
+          id="createValueSpecificationAction16CreationTool" remove="true"
+          path="/callActionsGroup" >
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="createActivityPartition17CreationTool" remove="true"
+          path="/callActionsGroup">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="createInterruptibleActivityRegion18CreationTool" remove="true"
+          path="/callActionsGroup">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="createStructuredActivityNode19CreationTool" remove="true"
+          path="/callActionsGroup">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="createReadSelfAction20CreationTool" remove="true"
+          path="/callActionsGroup">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="createConditionalNode21CreationTool" remove="true"
+          path="/callActionsGroup">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="createExpansionRegion22CreationTool" remove="true"
+          path="/callActionsGroup">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="createLoopNode23CreationTool" remove="true"
+          path="/callActionsGroup">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="createSequenceNode24CreationTool" remove="true"
+          path="/callActionsGroup">
+    </predefinedEntry-->
+ 	<!--predefinedEntry
+          id="createActionInputPin27CreationTool" remove="true"
+          path="/callActionsGroup">
+    </predefinedEntry-->
  	<predefinedEntry
           id="createValuePin28CreationTool"
-          path="/createActions1Group">
+          path="/callActionsGroup">
     </predefinedEntry>
- 	<predefinedEntry
+ 	<!--predefinedEntry
           id="createInputExpansionNode29CreationTool" remove="true"
-          path="/createActions1Group">
+          path="/callActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createOutputExpansionNode30CreationTool" remove="true"
           path="/createObjects1Group">
-    </predefinedEntry>
+    </predefinedEntry-->
  	<predefinedEntry
           id="createLocalPreconditionConstraint31CreationTool"
-          path="/createActions1Group">
+          path="/callActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createLocalPreconditionInteractionConstraint32CreationTool"
-          path="/createActions1Group">
+          path="/callActionsGroup">
     </predefinedEntry>
- 	<predefinedEntry
+ 	<!--predefinedEntry
           id="createLocalPreconditionIntervalConstraint33CreationTool"
-          path="/createActions1Group">
+          path="/callActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createLocalPreconditionDurationConstraint34CreationTool"
-          path="/createActions1Group">
+          path="/callActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createLocalPreconditionTimeConstraint35CreationTool"
-          path="/createActions1Group">
+          path="/callActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createLocalPostconditionConstraint36CreationTool"
-          path="/createActions1Group">
+          path="/callActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createLocalPostconditionInteractionConstraint37CreationTool"
-          path="/createActions1Group">
+          path="/callActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createLocalPostconditionIntervalConstraint38CreationTool"
-          path="/createActions1Group">
+          path="/callActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createLocalPostconditionDurationConstraint39CreationTool" remove="true"
-          path="/createActions1Group">
+          path="/callActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createLocalPostconditionTimeConstraint40CreationTool" remove="true"
-          path="/createActions1Group">
+          path="/callActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createComment41CreationTool"
-          path="/createActions1Group">
+          path="/callActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createActivity42CreationTool"
-          path="/createActions1Group">
-    </predefinedEntry>
+          path="/callActionsGroup">
+    </predefinedEntry-->
  	<predefinedEntry
           id="createCreateObjectAction43CreationTool"
-          path="/createActions1Group">
+          path="/dataActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createReadStructuralFeatureAction44CreationTool"
-          path="/createActions1Group">
+          path="/dataActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createAddStructuralFeatureValueAction45CreationTool"
-          path="/createActions1Group">
+          path="/dataActionsGroup">
     </predefinedEntry>
- 	<predefinedEntry
+ 	<!--predefinedEntry
           id="createDestroyObjectAction46CreationTool"
-          path="/createActions1Group">
-    </predefinedEntry>
+          path="/callActionsGroup">
+    </predefinedEntry-->
  	<predefinedEntry
           id="createReadVariableAction47CreationTool"
-          path="/createActions1Group">
+          path="/dataActionsGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createAddVariableValueAction48CreationTool"
-          path="/createActions1Group">
+          path="/dataActionsGroup">
     </predefinedEntry>
- 	<predefinedEntry
-          id="createBroadcastSignalAction49CreationTool" remove="true"
-          path="/createActions1Group">
-    </predefinedEntry>
+ 	<!--predefinedEntry
+          id="createBroadcastSignalAction49CreationTool"
+          path="/callActionsGroup">
+    </predefinedEntry-->
 
 	<entry
        description=""
-       id="createEdges2Group"
+       id="edgesGroup"
        kind="drawer"
-       label="Edges"
+       label="Flows"
        large_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif"
        path="/"
        small_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif">
@@ -3539,34 +3579,21 @@ self.structuralFeature.oclAsType(Property).opposite.type = self.object.type]]>
        </expand>
  	</entry>
 
-	<entry
-       description=""
-       id="createEdges2Group"
-       kind="drawer"
-       label="Edges"
-       large_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif"
-       path="/"
-       small_icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif">
-       <expand
-              force="true">
-       </expand>
- 	</entry>
- 	 
  	 	<predefinedEntry
           id="createControlFlow1CreationTool"
-          path="/createEdges2Group">
+          path="/edgesGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createObjectFlow2CreationTool"
-          path="/createEdges2Group">
+          path="/edgesGroup">
     </predefinedEntry>
- 	<predefinedEntry
+ 	<!--predefinedEntry
           id="createExceptionHandler3CreationTool"
-          path="/createEdges2Group">
+          path="/edgesGroup">
     </predefinedEntry>
  	<predefinedEntry
           id="createLink4CreationTool"
-          path="/createEdges2Group">
+          path="/edgesGroup">
     </predefinedEntry-->
 
 

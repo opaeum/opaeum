@@ -5,7 +5,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
@@ -19,6 +21,7 @@ import org.eclipse.papyrus.commands.wrappers.EMFtoGEFCommandWrapper;
 import org.eclipse.papyrus.uml.diagram.common.service.AspectUnspecifiedTypeCreationTool;
 import org.eclipse.papyrus.uml.diagram.common.service.palette.StereotypePostAction;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.ProfileApplier;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
@@ -26,34 +29,18 @@ import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpenUmlFile;
 
 public class StereotypeApplyingTypeCreationTool extends AspectUnspecifiedTypeCreationTool{
-	OpenUmlFile currentFile;
 	private String profileName;
 	private String stereotypeName;
+	public StereotypeApplyingTypeCreationTool(List<IElementType> elementTypes,final String stereotypeName){
+		super(elementTypes);
+		this.stereotypeName = stereotypeName;
+	}
 	public StereotypeApplyingTypeCreationTool(List<IElementType> elementTypes,final String profileName,final String stereotypeName){
 		super(elementTypes);
 		this.profileName = profileName;
 		this.stereotypeName = stereotypeName;
-		// super.postActions.add(new StereotypePostAction(){
-		// public void run(final EditPart editPart){
-		// final Element c = (Element) editPart.getAdapter(Element.class);
-		// Stereotype st = ProfileApplier.getProfile(c, profileName).getOwnedStereotype(stereotypeName);
-		// ApplyStereotypeCommand command = new ApplyStereotypeCommand(c, st){
-		// @Override
-		// public void execute(){
-		// super.execute();
-		// currentFile.resumeAndCatchUp();
-		// }
-		// };
-		// OpaeumEclipseContext.findOpenUmlFileFor(c).executeAndForget(command);
-		// };
-		// });
 	}
 	protected void executeCurrentCommand(){
-		if(currentFile != null){
-			// We need this whole sequence to be processessed in a single go so that the object is only extracted once the stereotype has been
-			// applied
-			currentFile.suspend();
-		}
 		final Command curCommand = getCurrentCommand();
 		List<?> list = (List<?>) getCreateRequest().getNewObject();
 		if(curCommand != null && curCommand.canExecute()){
@@ -67,19 +54,25 @@ public class StereotypeApplyingTypeCreationTool extends AspectUnspecifiedTypeCre
 				ViewDescriptor viewDescriptor = r.getViewDescriptors().get(0);
 				Node adapter = (Node) viewDescriptor.getAdapter(EObject.class);
 				super.element = (Element) adapter.getElement();
-				Stereotype st = ProfileApplier.getProfile(element, profileName).getOwnedStereotype(stereotypeName);
-				super.stereotypes = Arrays.asList(st);
-				super.execute();
+				if(profileName == null || ProfileApplier.getProfile(element, profileName) == null){
+					EAnnotation ann = EcoreFactory.eINSTANCE.createEAnnotation();
+					ann.setSource(StereotypeNames)
+					element.getEAnnotations().add(ann);
+					// Just a keywordor profile not available;
+				}else{
+					Profile profile = ProfileApplier.getProfile(element, profileName);
+					Stereotype st = profile.getOwnedStereotype(stereotypeName);
+					super.stereotypes = Arrays.asList(st);
+					super.execute();
+				}
 			}
 		};
 		org.eclipse.papyrus.uml.diagram.common.service.AspectUnspecifiedTypeCreationTool.CreateAspectUnspecifiedTypeRequest tr = (org.eclipse.papyrus.uml.diagram.common.service.AspectUnspecifiedTypeCreationTool.CreateAspectUnspecifiedTypeRequest) getTargetRequest();
 		CreateViewAndElementRequest r = (CreateViewAndElementRequest) tr.getRequestForType((IElementType) tr.getElementTypes().get(0));
 		ViewDescriptor viewDescriptor = r.getViewDescriptors().get(0);
 		Node adapter = (Node) viewDescriptor.getAdapter(EObject.class);
-		
-		 currentFile = OpaeumEclipseContext.findOpenUmlFileFor(adapter.getElement());
-
-		currentFile.getEditingDomain().getCommandStack().execute(cmd); 
+		OpenUmlFile currentFile = OpaeumEclipseContext.findOpenUmlFileFor(adapter.getElement());
+		currentFile.getEditingDomain().getCommandStack().execute(cmd);
 		setCurrentCommand(null);
 	}
 }

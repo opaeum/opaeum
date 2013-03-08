@@ -44,7 +44,7 @@ public abstract class TextChangeListener implements Listener{
 		}
 	}
 	private void internalTextChanged(Control control){
-		if(!lastUpdatedText.equals(getText(control))){
+		if(!control.isDisposed() && !lastUpdatedText.equals(getText(control))){
 			lastUpdatedText=getText(control);
 			textChanged(control);
 		}
