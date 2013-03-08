@@ -254,14 +254,14 @@ public class OpaeumSectionDescriptorProvider extends AbstractSectionDescriptorPr
 		// addBasic(new IntervalExpressionBusinessCalendarToUseSection(), new IntervalExpressionBusinessCalendarToUseSection());
 		add(new NotificationFilter(), new NotificationTemplateSection()).setTabId("org.opaeum.eclipse.templateTab");
 		addBasic(new SendNotificationActionFilter(), new SendNotificationActionNotificationSection());
-		addBasic(new SendNotificationActionFilter(), new SendNotificationActionFromSection());
-		addBasic(new SendNotificationActionFilter(), new SendNotificationActionBccSection());
-		addBasic(new SendNotificationActionFilter(), new SendNotificationActionCcSection());
-		addBasic(new StakeholderContainerFilter(), new StakeholdersSection());
-		addBasic(new TaskFilter(), new TaskBusinessAdministratorsSection());
-		addBasic(new TaskFilter(), new TaskPotentialOwnersSection());
+		addExtended(new SendNotificationActionFilter(), new SendNotificationActionFromSection());
+		addExtended(new SendNotificationActionFilter(), new SendNotificationActionBccSection());
+		addExtended(new SendNotificationActionFilter(), new SendNotificationActionCcSection());
+		addExtended(new StakeholderContainerFilter(), new StakeholdersSection());
+		addExtended(new TaskFilter(), new TaskBusinessAdministratorsSection());
+		addExtended(new TaskFilter(), new TaskPotentialOwnersSection());
 		// addBasic(new ??(), new TimeEventTimeUnitSection());
-		addBasic(new DelegationFilter(), new ConnectorSelectionSection());
+		addExtended(new DelegationFilter(), new ConnectorSelectionSection());
 		// Event
 		addBasic(TimeEvent.class, new TimeEventIsRelativeSection());
 		// addBasic(TimeEvent.class, new TimeEventWhenSection());

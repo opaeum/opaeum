@@ -47,7 +47,6 @@ public class ChooserSubsection extends AbstractTabbedPropertySubsection<Composit
 			chooser.setSelection(new StructuredSelection((List<?>) c));
 		}else{
 			chooser.setSelection(new StructuredSelection());
-
 		}
 	}
 	@Override

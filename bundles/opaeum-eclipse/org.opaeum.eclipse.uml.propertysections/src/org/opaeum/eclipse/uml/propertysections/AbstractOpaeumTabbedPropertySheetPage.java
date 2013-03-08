@@ -54,18 +54,18 @@ public class AbstractOpaeumTabbedPropertySheetPage extends TabbedPropertySheetPa
 	public void selectionChanged(IWorkbenchPart part,ISelection selection){
 		if(selection instanceof IStructuredSelection && ((IStructuredSelection) selection).getFirstElement() != null){
 			IStructuredSelection ss = ((IStructuredSelection) selection);
-			List<Object> list = new ArrayList<Object>();
-			Object[] array = ss.toArray();
-			for(int i = 0;i < array.length;i++){
-				Object object = array[i];
-				EObject resolveEObject = EmfElementFinder.adaptObject(object);
-				if(resolveEObject != null && resolveEObject.eResource() != null && !list.contains(resolveEObject)){
-					list.add(resolveEObject);
-				}
-				selection = new StructuredSelection(list);
-			}
-			if(list.size() > 0){
-				EObject eObject = (EObject) list.get(0);
+//			List<Object> list = new ArrayList<Object>();
+//			Object[] array = ss.toArray();
+//			for(int i = 0;i < array.length;i++){
+//				Object object = array[i];
+//				EObject resolveEObject = EmfElementFinder.adaptObject(object);
+//				if(resolveEObject != null && resolveEObject.eResource() != null && !list.contains(resolveEObject)){
+//					list.add(resolveEObject);
+//				}
+//				selection = new StructuredSelection(list);
+//			}
+			if(ss.size() > 0){
+				EObject eObject = (EObject) EmfElementFinder.adaptObject(ss.getFirstElement());
 				geActionProvider().setCurrentSelection(eObject);
 				OpaeumEclipseContext.findOpenUmlFileFor(eObject).geteObjectSelectorUI().pushSelection(eObject);
 			}

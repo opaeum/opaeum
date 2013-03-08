@@ -7,7 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Actor;
@@ -54,11 +56,16 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 	}
 	public ApplyStereotypeCommand(Element owner,String...stereotypeNames){
 		this(owner, findStereotypes(owner, stereotypeNames));
-		this.stereotypeNames=stereotypeNames;
+		this.stereotypeNames = stereotypeNames;
+	}
+	public ApplyStereotypeCommand(Element owner,boolean stereotypeIsKeyWord,String...stereotypeNames){
+		this(owner, findStereotypes(owner, stereotypeNames));
+		this.stereotypeNames = stereotypeNames;
+		this.stereotypeIsKeyword = stereotypeIsKeyWord;
 	}
 	private static Stereotype[] findStereotypes(Element owner,String[] stereotypeNames){
 		List<Stereotype> result = new ArrayList<Stereotype>();
-		if(owner.eResource() != null){
+		if(owner!=null && owner.eResource() != null){
 			for(String string:stereotypeNames){
 				inner:for(Resource resource:owner.eResource().getResourceSet().getResources()){
 					if(resource.getContents().size() > 0 && resource.getContents().get(0) instanceof Profile){
@@ -80,7 +87,7 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 	}
 	public void execute(){
 		if(stereotypes.isEmpty()){
-			stereotypes=Arrays.asList(findStereotypes(element, stereotypeNames));
+			stereotypes = Arrays.asList(findStereotypes(element, stereotypeNames));
 		}
 		for(Stereotype stereotype:stereotypes){
 			if(!element.getAppliedStereotypes().contains(stereotype)){
@@ -95,16 +102,22 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 					element.eResource().getContents().add(sa);
 					if(!(element instanceof Pin) && element instanceof NamedElement && owner instanceof Namespace){
 						NamedElement ne = (NamedElement) element;
-						if(stereotypeIsKeyword
-								&& (ne.getName() == null || (ne.getName().toLowerCase().startsWith(ne.eClass().getName().toLowerCase()) && Character.isDigit(ne.getName().charAt(
-										ne.getName().length() - 1))))){
-							String keyWord = stereotype.getName();
-							setUniqueName(keyWord, ne);
-						}
+						String keyWord = stereotype.getName();
+						maybeSetUniqueName(ne, keyWord);
 					}
 					implementInterfacesIfNecessary(element);
 				}
 			}
+		}
+		if(stereotypeIsKeyword && stereotypes.isEmpty()){
+			addKeyword();
+		}
+	}
+	private void maybeSetUniqueName(NamedElement ne,String keyWord){
+		if(stereotypeIsKeyword
+				&& (ne.getName() == null || (ne.getName().toLowerCase().startsWith(ne.eClass().getName().toLowerCase()) && Character.isDigit(ne.getName().charAt(
+						ne.getName().length() - 1))))){
+			setUniqueName(keyWord, ne);
 		}
 	}
 	private Element getOwner(){
@@ -239,5 +252,14 @@ public class ApplyStereotypeCommand extends AbstractCommand{
 	}
 	public List<Stereotype> getStereotypes(){
 		return stereotypes;
+	}
+	private void addKeyword(){
+		EAnnotation ann = EcoreFactory.eINSTANCE.createEAnnotation();
+		ann.setSource(StereotypeNames.NUML_ANNOTATION);
+		ann.getDetails().put(stereotypeNames[0], "");
+		element.getEAnnotations().add(ann);
+		if(element instanceof NamedElement){
+			maybeSetUniqueName((NamedElement) element, stereotypeNames[0]);
+		}
 	}
 }

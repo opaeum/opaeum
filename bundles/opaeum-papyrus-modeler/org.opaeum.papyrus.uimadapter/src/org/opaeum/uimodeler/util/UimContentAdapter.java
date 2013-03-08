@@ -38,7 +38,7 @@ public class UimContentAdapter extends EContentAdapter{
 		super();
 		this.modelSet = modelSet;
 		URI dirUri = modelSet.getOpenUmlFile().getEmfWorkspace().getDirectoryUri();
-		perspectiveCreator = new PerspectiveCreator(dirUri, modelSet, false,modelSet.getOpenUmlFile().getEmfWorkspace());
+		perspectiveCreator = new PerspectiveCreator(dirUri, modelSet, false, modelSet.getOpenUmlFile().getEmfWorkspace());
 		formSynchronizer = new FormSynchronizer2(dirUri, modelSet, false);
 		umlSwitch = new UmlToUimSwitch(perspectiveCreator, formSynchronizer);
 		modelSet.registerUimResources(perspectiveCreator.getNewResources());
@@ -69,8 +69,8 @@ public class UimContentAdapter extends EContentAdapter{
 					}
 				}
 				if(notification.getNotifier() instanceof UserInteractionConstraint){
-					UserInteractionConstraint uic=(UserInteractionConstraint) notification.getNotifier();
-					if(notification.getFeatureID(UserInteractionConstraint.class)==ConstraintPackage.USER_INTERACTION_CONSTRAINT__INHERIT_FROM_PARENT){
+					UserInteractionConstraint uic = (UserInteractionConstraint) notification.getNotifier();
+					if(notification.getFeatureID(UserInteractionConstraint.class) == ConstraintPackage.USER_INTERACTION_CONSTRAINT__INHERIT_FROM_PARENT){
 						uic.setRequiresOwnership(false);
 						if(notification.getNewBooleanValue()){
 							uic.setRequiresGroupOwnership(false);
@@ -78,7 +78,7 @@ public class UimContentAdapter extends EContentAdapter{
 							uic.setRequiresGroupOwnership(true);
 						}
 					}
-					if(notification.getFeatureID(NavigationConstraint.class)==PerspectivePackage.NAVIGATION_CONSTRAINT__HIDDEN){
+					if(notification.getFeatureID(NavigationConstraint.class) == PerspectivePackage.NAVIGATION_CONSTRAINT__HIDDEN){
 						uic.setInheritFromParent(false);
 						uic.setRequiresOwnership(false);
 						if(notification.getNewBooleanValue()){
@@ -87,11 +87,10 @@ public class UimContentAdapter extends EContentAdapter{
 							uic.setRequiresGroupOwnership(true);
 						}
 					}
-
 				}
-				if(notification.getEventType()==Notification.ADD && notification.getNewValue() instanceof LabeledElement){
+				if(notification.getEventType() == Notification.ADD && notification.getNewValue() instanceof LabeledElement){
 					LabeledElement le = (LabeledElement) notification.getNewValue();
-					if(le.getLabelOverride()==null){
+					if(le.getLabelOverride() == null){
 						le.setLabelOverride(UimFactory.eINSTANCE.createLabels());
 					}
 				}
@@ -107,13 +106,16 @@ public class UimContentAdapter extends EContentAdapter{
 						break;
 					case ComponentPackage.UIM_FIELD__BINDING:
 						if(notification.getNewValue() != null){
-							TypedElement type = linkd.getResultingType((UimBinding) notification.getNewValue());
-							ControlKind[] cks = ControlUtil.getAllowedControlKinds(UmlUimLinks.getNearestUserInterfaceRoot(field), type,
-									field.eContainer() instanceof UimDataTable);
-							UimField uimField = (UimField) field;
-							if(cks.length > 0 && cks[0] != uimField.getControlKind()){
-								uimField.setControlKind(cks[0]);
-								uimField.setControl(ControlUtil.instantiate(cks[0]));
+							TypedElement te = linkd.getResultingType((UimBinding) notification.getNewValue());
+							if(te != null){
+								//TODO find out why this happens
+								ControlKind[] cks = ControlUtil.getAllowedControlKinds(UmlUimLinks.getNearestUserInterfaceRoot(field), te,
+										field.eContainer() instanceof UimDataTable);
+								UimField uimField = (UimField) field;
+								if(cks.length > 0 && cks[0] != uimField.getControlKind()){
+									uimField.setControlKind(cks[0]);
+									uimField.setControl(ControlUtil.instantiate(cks[0]));
+								}
 							}
 						}
 					default:

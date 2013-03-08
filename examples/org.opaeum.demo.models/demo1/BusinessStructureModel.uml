@@ -687,7 +687,7 @@
             </subvertex>
           </region>
         </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_9PcIYIYdEeK-qLl_Laqjng" clientDependency="_9QLIMIYdEeK-qLl_Laqjng" name="BusinessProcess1" node="_stDmcIZlEeKl5Yrckb2lnw">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_9PcIYIYdEeK-qLl_Laqjng" clientDependency="_9QLIMIYdEeK-qLl_Laqjng" name="BusinessProcess1" node="_stDmcIZlEeKl5Yrckb2lnw _LK2WwIf0EeKgtv22DSLqGA">
           <interfaceRealization xmi:id="_9QLIMIYdEeK-qLl_Laqjng" name="isAIBusinessProcess" client="_9PcIYIYdEeK-qLl_Laqjng">
             <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pD_mkPNQEeGhGoYzbfvy4A"/>
             <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pD_mkPNQEeGhGoYzbfvy4A"/>
@@ -707,6 +707,12 @@
                 </when>
               </contents>
             </eAnnotations>
+            <localPrecondition xmi:id="_ewM9AIgFEeKBLqCtU3qXRw" name="Constraint1">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_lQqZUIgFEeKBLqCtU3qXRw" name="Constraint1Specification">
+                <language>OCL</language>
+                <body>self.processRequest->size()&lt;1</body>
+              </specification>
+            </localPrecondition>
             <inputValue xmi:type="uml:ValuePin" xmi:id="_E2NMwIbfEeKaabxC0z_X2w" name="NewOclInput">
               <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_qJQboNcCEeCJ0dmaHEVVnw"/>
               <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_E2PB8IbfEeKaabxC0z_X2w" value="*"/>
@@ -756,6 +762,11 @@
               </value>
             </inputValue>
           </node>
+          <node xmi:type="uml:CallBehaviorAction" xmi:id="_LK2WwIf0EeKgtv22DSLqGA" name="CallBusinessProcessAction1" behavior="_9PcIYIYdEeK-qLl_Laqjng">
+            <eAnnotations xmi:id="_Mh0JsIf0EeKgtv22DSLqGA" source="http://www.opaeum.org">
+              <details xmi:id="_Mh0JsYf0EeKgtv22DSLqGA" key="CallBusinessProcessAction" value=""/>
+            </eAnnotations>
+          </node>
         </ownedBehavior>
         <ownedOperation xmi:id="_dOodgMzBEeGKe7Qm4dvydQ" name="Operation1" isQuery="true" postcondition="_ozSisBRuEeKYhv9CKiNDbg" precondition="_SebdoBUrEeKJLd0hFS72wA _PkzesBXnEeKQpapxHO1SNA">
           <eAnnotations xmi:id="_q4U5EBNcEeK0HvQCxCC_Ag" source="http://opaum.org/i8n">
@@ -765,6 +776,9 @@
           <eAnnotations xmi:id="_xKrSl3gSEeK1z8VIXdOwTw" source="http://www.opaeum.org">
             <details xmi:id="_xKrSmHgSEeK1z8VIXdOwTw" key="opaeumId" value="914890@null"/>
           </eAnnotations>
+          <ownedComment xmi:id="_OpfMkIgPEeKJc_4y8EPZWA" annotatedElement="_dOodgMzBEeGKe7Qm4dvydQ">
+            <body></body>
+          </ownedComment>
           <ownedRule xmi:id="_ozSisBRuEeKYhv9CKiNDbg" name="newConstraint1" constrainedElement="_k_VZsMzBEeGKe7Qm4dvydQ">
             <eAnnotations xmi:id="_xKr5rngSEeK1z8VIXdOwTw" source="http://www.opaeum.org">
               <details xmi:id="_xKr5r3gSEeK1z8VIXdOwTw" key="opaeumId" value="914890@null"/>

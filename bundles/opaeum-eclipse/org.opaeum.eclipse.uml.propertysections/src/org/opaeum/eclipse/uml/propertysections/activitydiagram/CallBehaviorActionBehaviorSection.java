@@ -30,6 +30,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
 import org.opaeum.eclipse.uml.propertysections.core.NavigationDecorator;
 import org.opaeum.emf.extraction.StereotypesHelper;
@@ -40,30 +41,30 @@ public class CallBehaviorActionBehaviorSection extends AbstractChooserPropertySe
 	@Override
 	public void populateControls(){
 		super.populateControls();
-
 		if(isBusinessProcessCall()){
-			super.labelCombo.setText("Select Business Process:");
-			createButton.setText("Create Business Process:");
+			super.labelCombo.setText("Business Process");
 		}else if(isScreenflowCall()){
-			super.labelCombo.setText("Select :");
-			createButton.setText("Create Screen Flow:");
+			super.labelCombo.setText("Screen Flow");
 		}else{
-			super.labelCombo.setText("Select Method:");
-			createButton.setText("Create Method:");
+			super.labelCombo.setText("Method");
 		}
 	}
 	@Override
 	protected void setSectionData(Composite composite){
-		super.setSectionData(composite);
 		FormData data = new FormData();
-		data.left = new FormAttachment(cSingleObjectChooser.getContentPane());
-		data.right= new FormAttachment(100,0);
-		createButton.setLayoutData(data);
+		data.left = new FormAttachment(labelCombo);
+		data.top = new FormAttachment(0, 0);
+		data.right = new FormAttachment(createButton, 0);
+		data.bottom = new FormAttachment(100, 0);
+		cSingleObjectChooser.getContentPane().setLayoutData(data);
+		FormData data2 = new FormData();
+		data2.right = new FormAttachment(100, 0);
+		createButton.setLayoutData(data2);
 	};
 	@Override
 	protected void createWidgets(Composite composite){
 		super.createWidgets(composite);
-		this.createButton = getWidgetFactory().createButton(composite, "Create Behavior", SWT.PUSH);
+		this.createButton = getWidgetFactory().createButton(composite, "Create", SWT.PUSH);
 		this.createButton.addSelectionListener(new SelectionListener(){
 			@Override
 			public void widgetSelected(SelectionEvent e){
@@ -88,7 +89,7 @@ public class CallBehaviorActionBehaviorSection extends AbstractChooserPropertySe
 				}
 				EList<OutputPin> results = getAction().getResults();
 				for(OutputPin inputPin:results){
-					createParam(b, inputPin).setDirection(results.size()==1? ParameterDirectionKind.RETURN_LITERAL: ParameterDirectionKind.OUT_LITERAL);
+					createParam(b, inputPin).setDirection(results.size() == 1 ? ParameterDirectionKind.RETURN_LITERAL : ParameterDirectionKind.OUT_LITERAL);
 				}
 				getEditingDomain().getCommandStack().execute(
 						AddCommand.create(getEditingDomain(), owner, UMLPackage.eINSTANCE.getBehavioredClassifier_OwnedBehavior(), b));
@@ -127,13 +128,13 @@ public class CallBehaviorActionBehaviorSection extends AbstractChooserPropertySe
 		return (isProcess(behavior) && isBusinessProcessCall()) || (isScreenflowCall() && isScreenflow(behavior)) || (isMethodCall() && isMethod(behavior));
 	}
 	private boolean isProcess(Behavior behavior){
-		return StereotypesHelper.hasKeyword(behavior, StereotypeNames.BUSINES_PROCESS) && (behavior instanceof Activity || behavior instanceof StateMachine);
+		return EmfBehaviorUtil.isProcess(behavior);
 	}
 	private boolean isMethod(Behavior behavior){
-		return !StereotypesHelper.hasKeyword(behavior, StereotypeNames.BUSINES_PROCESS) && behavior instanceof Activity;
+		return behavior instanceof Activity && !EmfBehaviorUtil.isProcess(behavior);
 	}
 	private boolean isScreenflow(Behavior behavior){
-		return StereotypesHelper.hasKeyword(behavior, StereotypeNames.SCREEN_FLOW) && behavior instanceof StateMachine;
+		return behavior instanceof StateMachine && false;//EmfBehaviorUtil.isScreenFlow()???;
 	}
 	@Override
 	protected Object getFeatureValue(){

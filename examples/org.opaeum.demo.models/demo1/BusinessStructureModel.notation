@@ -1360,7 +1360,6 @@
         <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_mNdy14YjEeK7OqQB5E259g" key="QualifiedNameDepth" value="1000"/>
       </eAnnotations>
       <children xmi:type="notation:DecorationNode" xmi:id="_mNdy2IYjEeK7OqQB5E259g" type="5001"/>
-      <children xmi:type="notation:DecorationNode" xmi:id="_mNdy2YYjEeK7OqQB5E259g" type="5002"/>
       <children xmi:type="notation:DecorationNode" xmi:id="_mNdy2oYjEeK7OqQB5E259g" type="7001">
         <styles xmi:type="notation:SortingStyle" xmi:id="_mNdy24YjEeK7OqQB5E259g"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_mNdy3IYjEeK7OqQB5E259g"/>
@@ -1381,7 +1380,21 @@
           <children xmi:type="notation:DecorationNode" xmi:id="_stSP8IZlEeKl5Yrckb2lnw" type="5003"/>
           <styles xmi:type="notation:HintedDiagramLinkStyle" xmi:id="_stRB0YZlEeKl5Yrckb2lnw"/>
           <element xmi:type="uml:OpaqueAction" href="BusinessStructureModel.uml#_stDmcIZlEeKl5Yrckb2lnw"/>
-          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_stRB0oZlEeKl5Yrckb2lnw" x="225" y="124" width="231" height="126"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_stRB0oZlEeKl5Yrckb2lnw" x="195" y="129" width="201" height="71"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_LK-5oIf0EeKgtv22DSLqGA" type="3008">
+          <children xmi:type="notation:DecorationNode" xmi:id="_LK_gsYf0EeKgtv22DSLqGA" type="5004"/>
+          <styles xmi:type="notation:HintedDiagramLinkStyle" xmi:id="_LK-5oYf0EeKgtv22DSLqGA"/>
+          <styles xmi:type="notation:StringListValueStyle" xmi:id="_wKU4QIgKEeKL6rniM9znWw" name="cssClass"/>
+          <element xmi:type="uml:CallBehaviorAction" href="BusinessStructureModel.uml#_LK2WwIf0EeKgtv22DSLqGA"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_LK_gsIf0EeKgtv22DSLqGA" x="185" y="324"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_ewjiUIgFEeKBLqCtU3qXRw" type="3011">
+          <children xmi:type="notation:DecorationNode" xmi:id="_ewkJYIgFEeKBLqCtU3qXRw" type="5007"/>
+          <children xmi:type="notation:DecorationNode" xmi:id="_ewkJYYgFEeKBLqCtU3qXRw" type="5136"/>
+          <styles xmi:type="notation:HintedDiagramLinkStyle" xmi:id="_ewjiUYgFEeKBLqCtU3qXRw"/>
+          <element xmi:type="uml:Constraint" href="BusinessStructureModel.uml#_ewM9AIgFEeKBLqCtU3qXRw"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ewjiUogFEeKBLqCtU3qXRw" x="360" y="214"/>
         </children>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mNdy54YjEeK7OqQB5E259g"/>
       </children>
@@ -1390,5 +1403,11 @@
     </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_mNdy6YYjEeK7OqQB5E259g"/>
     <element xmi:type="uml:Activity" href="BusinessStructureModel.uml#_9PcIYIYdEeK-qLl_Laqjng"/>
+    <edges xmi:type="notation:Edge" xmi:id="_exkO8IgFEeKBLqCtU3qXRw" type="4001" source="_stRB0IZlEeKl5Yrckb2lnw" target="_ewjiUIgFEeKBLqCtU3qXRw">
+      <styles xmi:type="notation:RoutingStyle" xmi:id="_exkO8YgFEeKBLqCtU3qXRw"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_exkO8ogFEeKBLqCtU3qXRw"/>
+      <element xmi:type="uml:Constraint" href="BusinessStructureModel.uml#_ewM9AIgFEeKBLqCtU3qXRw"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_exkO84gFEeKBLqCtU3qXRw" points="[-64, -35, 231, 129]$[-295, -164, 0, 0]"/>
+    </edges>
   </notation:Diagram>
 </xmi:XMI>

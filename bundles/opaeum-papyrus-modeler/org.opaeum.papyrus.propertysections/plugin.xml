@@ -36,6 +36,16 @@
             
 			<propertyCategory category="domain">
 			</propertyCategory>
+			<propertyCategory category="basic">
+			</propertyCategory>
+			<propertyCategory category="firstEnd">
+			</propertyCategory>
+			<propertyCategory category="secondEnd">
+			</propertyCategory>
+			<propertyCategory category="extended">
+			</propertyCategory>
+			<propertyCategory category="uiRules">
+			</propertyCategory>
          <propertyCategory category="org.eclipse.papyrus"></propertyCategory>
 			<propertyCategory category="visual">
 			</propertyCategory>
@@ -49,65 +59,71 @@
    </extension>
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
 		<propertyTabs contributorId="TreeOutlinePage">
-			<propertyTab id="org.opaeum.eclipse.opaeumTab" category="domain"
+				<!--Basic-->
+			<propertyTab id="org.opaeum.eclipse.opaeumTab" category="basic"
 				label="Basic" indented="false" />
-			<propertyTab id="org.opaeum.eclipse.invariantsTab"
-				category="domain" indented="true" label="Invariants"
+			<propertyTab id="org.opaeum.eclipse.parametersTab"
+				category="basic" indented="true" label="Parameters"
 				afterTab="org.opaeum.eclipse.opaeumTab" />
-			<propertyTab id="org.opaeum.eclipse.redefinitionsTab"
-				category="domain" label="Redefinitions and Unions" indented="true"
+			<propertyTab id="org.opaeum.eclipse.invariantsTab"
+				category="basic" indented="true" label="Invariants"
+				afterTab="org.opaeum.eclipse.parametersTab" />
+			<propertyTab id="org.opaeum.eclipse.preconditionsTab"
+				category="basic" indented="true" label="Preconditions"
 				afterTab="org.opaeum.eclipse.invariantsTab" />
+			<propertyTab id="org.opaeum.eclipse.postconditionsTab"
+				category="basic" indented="true" label="Postconditions"
+				afterTab="org.opaeum.eclipse.preconditionsTab" />
 			<propertyTab id="org.opaeum.eclipse.qualifiersTab"
-				category="domain" label="Qualifiers" indented="true"
+				category="basic" label="Qualifiers" indented="true"
+				afterTab="org.opaeum.eclipse.postconditionsTab" />
+			<propertyTab id="org.opaeum.eclipse.redefinitionsTab"
+				category="basic" label="Redefinitions and Unions" indented="true"
+				afterTab="org.opaeum.eclipse.qualifiersTab" />
+			<propertyTab id="org.opaeum.eclipse.interfacesTab"
+				category="basic" label="Interfaces" indented="true"
 				afterTab="org.opaeum.eclipse.redefinitionsTab" />
-			<propertyTab id="org.opaeum.eclipse.extendedTab" category="domain" afterTab="org.opaeum.eclipse.qualifiersTab"
-				label="Extended" indented="false" />
-			<propertyTab id="org.opaeum.eclipse.deadlinesTab" category="domain"
-				afterTab="org.opaeum.eclipse.extendedTab" label="Deadlines" indented="true" />
-			<propertyTab id="org.opaeum.eclipse.firstEndTab" category="domain" afterTab="org.opaeum.eclipse.deadlinesTab"
-				label="First End" indented="false" />
-			<propertyTab id="org.opaeum.eclipse.firstEndQualifiersTab" category="domain" afterTab="org.opaeum.eclipse.firstEndTab"
-				label="Qualifiers" indented="true" />
-			<propertyTab id="org.opaeum.eclipse.firstEndRedefinitionsTab" category="domain" afterTab="org.opaeum.eclipse.firstEndQualifiersTab"
-				label="Redefinitions" indented="true" />
 			
-			<propertyTab id="org.opaeum.eclipse.secondEndTab" category="domain" afterTab="org.opaeum.eclipse.firstEndRedefinitionsTab"
-				label="Second End" indented="false" />
-			<propertyTab id="org.opaeum.eclipse.secondEndQualifiersTab" category="domain" afterTab="org.opaeum.eclipse.secondEndTab"
+				
+				<!--First End-->
+			<propertyTab id="org.opaeum.eclipse.firstEndTab" category="firstEnd" afterTab="org.opaeum.eclipse.interfacesTab"
+				label="First End" indented="false" />
+			<propertyTab id="org.opaeum.eclipse.firstEndQualifiersTab" category="firstEnd" afterTab="org.opaeum.eclipse.firstEndTab"
 				label="Qualifiers" indented="true" />
-			<propertyTab id="org.opaeum.eclipse.secondEndRedefinitionsTab" category="domain" afterTab="org.opaeum.eclipse.secondEndQualifiersTab"
+			<propertyTab id="org.opaeum.eclipse.firstEndRedefinitionsTab" category="firstEnd" afterTab="org.opaeum.eclipse.firstEndQualifiersTab"
+				label="Redefinitions" indented="true" />
+				<!--Second End-->
+			
+			<propertyTab id="org.opaeum.eclipse.secondEndTab" category="secondEnd" afterTab="org.opaeum.eclipse.firstEndRedefinitionsTab"
+				label="Second End" indented="false" />
+			<propertyTab id="org.opaeum.eclipse.secondEndQualifiersTab" category="secondEnd" afterTab="org.opaeum.eclipse.secondEndTab"
+				label="Qualifiers" indented="true" />
+			<propertyTab id="org.opaeum.eclipse.secondEndRedefinitionsTab" category="secondEnd" afterTab="org.opaeum.eclipse.secondEndQualifiersTab"
 				label="Redefinitions" indented="true" />
 
 				
-			<propertyTab id="org.opaeum.eclipse.interfacesTab"
-				category="domain" label="Interfaces" indented="true"
-				afterTab="org.opaeum.eclipse.secondEndRedefinitionsTab" />
-			<propertyTab id="org.opaeum.eclipse.parametersTab"
-				category="domain" indented="true" label="Parameters"
-				afterTab="org.opaeum.eclipse.interfacesTab" />
-			<propertyTab id="org.opaeum.eclipse.preconditionsTab"
-				category="domain" indented="true" label="Preconditions"
-				afterTab="org.opaeum.eclipse.parametersTab" />
-			<propertyTab id="org.opaeum.eclipse.postconditionsTab"
-				category="domain" indented="true" label="Postconditions"
-				afterTab="org.opaeum.eclipse.preconditionsTab" />
-			<propertyTab id="org.opaeum.papyrus.profilesTab"
+
+			<propertyTab id="org.opaeum.eclipse.extendedTab" category="extended" afterTab="org.opaeum.eclipse.secondEndRedefinitionsTab"
+				label="Extended" indented="false" />
+			<propertyTab id="org.opaeum.eclipse.deadlinesTab" category="extended"
+				afterTab="org.opaeum.eclipse.extendedTab" label="Deadlines" indented="true" />
+			<propertyTab id="org.opaeum.eclipse.templateTab"
+				category="extended" label="Notification Text" afterTab="org.opaeum.eclipse.deadlinesTab"
+				indented="true" />
+			<!--propertyTab id="org.opaeum.papyrus.profilesTab"
 				category="domain" label="Profiles" afterTab="org.opaeum.eclipse.opaeumTab" />
+			
+			
 			<propertyTab id="org.opaeum.papyrus.stereotypesTab" 
 				category="domain" label="Stereotypes" afterTab="org.opaeum.eclipse.opaeumTab" />
-			<propertyTab id="org.opaeum.eclipse.redefinitionTab"
-				category="domain" label="Redefinition" afterTab="org.opaeum.eclipse.opaeumTab" />
 			<propertyTab id="org.opaeum.eclipse.stereotypeAttributesTab"
 				category="domain" label="Stereotype Attributes" afterTab="org.opaeum.papyrus.stereotypesTab"
 				indented="true" />
-			<propertyTab id="org.opaeum.eclipse.templateTab"
-				category="domain" label="Notification Text" afterTab="org.opaeum.eclipse.opaeumTab"
-				indented="true" />
 			<propertyTab category="domain"
 				id="property.tab.DiagramPropertySection" afterTab="org.opaeum.eclipse.opaeumTab"
-				label="Diagram" />
-   		<propertyTab id="Base" label="General" category="org.eclipse.papyrus" afterTab="org.opaeum.eclipse.temlateTab"/>
-     	<propertyTab id="Comments" label="Comments" category="org.eclipse.papyrus" afterTab="Base"/>
+				label="Diagram" /-->
+   		<!--propertyTab id="Base" label="General" category="org.eclipse.papyrus" afterTab="org.opaeum.eclipse.temlateTab"/-->
+     	<!--propertyTab id="Comments" label="Comments" category="org.eclipse.papyrus" afterTab="Base"/-->
      	<propertyTab id="advanced" label="Advanced" category="org.eclipse.papyrus" afterTab="org.opaeum.eclipse.temlateTab" />
 		</propertyTabs>
 	</extension>

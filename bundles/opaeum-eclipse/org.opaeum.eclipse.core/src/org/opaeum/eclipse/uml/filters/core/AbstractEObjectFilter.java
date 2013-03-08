@@ -16,7 +16,7 @@ import org.opaeum.runtime.domain.IntrospectionUtil;
 public abstract class AbstractEObjectFilter<T extends EObject> implements IFilter{
 	private Class<? extends T> objectClass;
 	public abstract boolean select(T e);
-	private Class<? extends T> getObjectClass(){
+	public Class<? extends T> getObjectClass(){
 		if(this.objectClass == null){
 			this.objectClass = calcType(getClass());
 		}

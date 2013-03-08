@@ -36,7 +36,7 @@ public class UMLPaletteFactory extends org.eclipse.papyrus.uml.diagram.clazz.par
 		types.add(UMLElementTypes.Class_3010);
 		types.add(UMLElementTypes.Class_3014);
 		types.add(UMLElementTypes.Class_2008);
-		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_STANDARD_PROFILE, StereotypeNames.ENTITY);
+		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.ENTITY);
 	}
 	private Tool createBusinessDocumentTool(){
 		List<IElementType> types = new ArrayList<IElementType>(2);
@@ -45,27 +45,27 @@ public class UMLPaletteFactory extends org.eclipse.papyrus.uml.diagram.clazz.par
 		types.add(UMLElementTypes.Class_3010);
 		types.add(UMLElementTypes.Class_3014);
 		types.add(UMLElementTypes.Class_2008);
-		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.BUSINESS_DOCUMENT);
+		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.BUSINESS_DOCUMENT);
 	}
 	private Tool createNotificationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(2);
 		types.add(UMLElementTypes.Signal_2003);
 		types.add(UMLElementTypes.Signal_3022);
-		Tool tool = new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.NOTIFICATION);
+		Tool tool = new StereotypeApplyingTypeCreationTool(types, StereotypeNames.NOTIFICATION);
 		return tool;
 	}
 	private Tool createInterface10CreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(2);
 		types.add(UMLElementTypes.Interface_2004);
 		types.add(UMLElementTypes.Interface_3023);
-		Tool tool = new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.BUSINESS_SERVICE);
+		Tool tool = new StereotypeApplyingTypeCreationTool(types, StereotypeNames.BUSINESS_SERVICE);
 		return tool;
 	}
 	private Tool createBusinessComponentCreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(2);
 		types.add(UMLElementTypes.Component_2002);
 		types.add(UMLElementTypes.Component_3021);
-		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.BUSINESS_COMPONENT);
+		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.BUSINESS_COMPONENT);
 	}
 	private Tool createBusinessRoleCreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(2);
@@ -74,6 +74,6 @@ public class UMLPaletteFactory extends org.eclipse.papyrus.uml.diagram.clazz.par
 		types.add(UMLElementTypes.Class_3010);
 		types.add(UMLElementTypes.Class_3014);
 		types.add(UMLElementTypes.Class_2008);
-		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.BUSINESS_ROLE);
+		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.BUSINESS_ROLE);
 	}
 }

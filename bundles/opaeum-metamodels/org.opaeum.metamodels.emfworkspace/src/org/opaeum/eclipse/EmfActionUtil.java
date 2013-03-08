@@ -293,11 +293,12 @@ public class EmfActionUtil{
 		}
 		return null;
 	}
-	public static Collection<Behavior> findBehaviorsInScope(CallBehaviorAction behavior){
-		BehavioredClassifier context = EmfBehaviorUtil.getContext(behavior);
+	public static Collection<Behavior> findBehaviorsInScope(CallBehaviorAction action){
+		BehavioredClassifier context = EmfBehaviorUtil.getContext(action);
 		Set<Behavior> behaviors = EmfBehaviorUtil.getEffectiveBehaviors(context);
-		EmfBehaviorUtil.addBehaviors(behaviors, EmfActivityUtil.getContainingActivity(behavior));
-		for(ActivityPartition ap:behavior.getInPartitions()){
+		EmfBehaviorUtil.addBehaviors(behaviors, EmfActivityUtil.getContainingActivity(action));
+		behaviors.add(EmfActivityUtil.getContainingActivity(action));
+		for(ActivityPartition ap:action.getInPartitions()){
 			if(ap.getRepresents() instanceof TypedElement){
 				TypedElement te = (TypedElement) ap.getRepresents();
 				if(te.getType() instanceof BehavioredClassifier){

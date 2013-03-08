@@ -1,9 +1,11 @@
 package org.opaeum.papyrus.uml;
 
 import java.text.Collator;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.eclipse.papyrus.views.properties.xwt.XWTTabDescriptor;
 import org.eclipse.papyrus.views.properties.xwt.XWTTabDescriptorProvider;
@@ -11,9 +13,16 @@ import org.eclipse.ui.views.properties.tabbed.ITabDescriptor;
 
 public class OpaeumTabDescriptorProvider extends XWTTabDescriptorProvider{
 	protected void orderTabDescriptors(final List<ITabDescriptor> descriptors){
-		if(true){
-			return;
+		ListIterator<ITabDescriptor> listIterator = descriptors.listIterator();
+		List<ITabDescriptor> append=new ArrayList<ITabDescriptor>();
+		while(listIterator.hasNext()){
+			ITabDescriptor td = (ITabDescriptor) listIterator.next();
+			if(td.getCategory().equals("visual")){
+				append.add(td);
+				listIterator.remove();
+			}
 		}
+		descriptors.addAll(append);
 		Collections.sort(descriptors, new Comparator<ITabDescriptor>(){
 			public int compare(ITabDescriptor tabDescriptor1,ITabDescriptor tabDescriptor2){
 

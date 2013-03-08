@@ -78,12 +78,16 @@ public class AbstractSectionDescriptorProvider extends TabbedPropertyRegistry{
 	protected <T extends EObject> FilterBasedDescriptor add(final Class<T> c,final ISection s){
 		return add(new AbstractEObjectFilter<T>(){
 			@Override
+			public Class<? extends T> getObjectClass(){
+				return c;
+			}
+			@Override
 			public boolean select(T e){
 				return c.isInstance(e);
 			}
 			@Override
 			public boolean select(Object e){
-				return c.isInstance(e);
+				return c.isInstance(e) || super.select(e);
 			}
 		}, s);
 	}

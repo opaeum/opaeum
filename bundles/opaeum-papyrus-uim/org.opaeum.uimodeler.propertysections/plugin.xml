@@ -22,30 +22,29 @@
 				id="org.opaeum.uim.userinteractionproperties.control"
 				afterTab="org.opaeum.eclipse.opaeumTab"
 				label="Control"/>    
-			<propertyTab
-				category="domain"
-				indented="false"
+
+			<propertyTab category="uiRules" indented="false"
 				id="org.opaeum.uim.userinteractionproperties.navigation"
-				afterTab="org.opaeum.eclipse.postconditionsTab"
+				afterTab="org.opaeum.eclipse.templateTab"
 				label="UI Rules for View"/>    
-			<propertyTab id="org.opaeum.eclipse.i8nTab" category="domain" afterTab="org.opaeum.uim.userinteractionproperties.navigation"
+			<propertyTab id="org.opaeum.eclipse.i8nTab" category="uiRules" afterTab="org.opaeum.uim.userinteractionproperties.navigation"
 				label="Languages" indented="true" />
 			
 		
 			<propertyTab
-				category="domain"
+				category="uiRules"
 				indented="true"
 				id="org.opaeum.uim.userinteractionproperties.securityOnAdd"
 				afterTab="org.opaeum.eclipse.i8nTab"
 				label="UI Rules for Add"/>    
 			<propertyTab
-				category="domain"
+				category="uiRules"
 				indented="true"
 				id="org.opaeum.uim.userinteractionproperties.securityOnRemove"
 				afterTab="org.opaeum.uim.userinteractionproperties.securityOnAdd"
-				label="UI Rules Remove"/>    
+				label="UI Rules for Remove"/>    
 			<propertyTab
-				category="domain"
+				category="uiRules"
 				indented="true"
 				id="org.opaeum.uim.userinteractionproperties.securityOnEdit"
 				afterTab="org.opaeum.uim.userinteractionproperties.securityOnRemove"

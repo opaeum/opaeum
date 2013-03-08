@@ -9,35 +9,35 @@ import org.eclipse.papyrus.uml.diagram.activity.providers.UMLElementTypes;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.papyrus.common.StereotypeApplyingTypeCreationTool;
 
-public class UMLPaletteFactory extends org.eclipse.papyrus.uml.diagram.activity.part.UMLPaletteFactory{
-	public UMLPaletteFactory(){
+public class BusinessProcessPaletteFactory extends org.eclipse.papyrus.uml.diagram.activity.part.UMLPaletteFactory{
+	public BusinessProcessPaletteFactory(){
 	}
 	@Override
 	public Tool createTool(String toolId){
 		if(toolId.equals("createEmbeddedTask10CreationTool")){
 			return createEmbeddedTaskCreationTool();
 		}
-		if(toolId.equals("createEmbeddedTask10CreationTool")){
-			return createEmbeddedTaskCreationTool();
+		if(toolId.equals("createCallBusinessProcessAction10CreationTool")){
+			return createBusinessProcessCallCreationTool();
 		}
-		if(toolId.equals("createEmbeddedTask10CreationTool")){
-			return createEmbeddedTaskCreationTool();
+		if(toolId.equals("createSendBusinessNotifcation10CreationTool")){
+			return createSendBusinessNotificationCreationTool();
 		}
 		return super.createTool(toolId);
 	}
 	private Tool createEmbeddedTaskCreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(1);
 		types.add(UMLElementTypes.OpaqueAction_3007);
-		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK);
+		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK);
 	}
 	private Tool createBusinessProcessCallCreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(1);
 		types.add(UMLElementTypes.CallBehaviorAction_3008);
-		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.BUSInES);
+		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.CALL_BUSINES_PROCESS_ACTION);
 	}
-	private Tool createEmbeddedTaskCreationTool(){
+	private Tool createSendBusinessNotificationCreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(1);
-		types.add(UMLElementTypes.OpaqueAction_3007);
-		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.OPAEUM_BPM_PROFILE, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK);
+		types.add(UMLElementTypes.SendSignalAction_3052);
+		return new StereotypeApplyingTypeCreationTool(types, StereotypeNames.SEND_NOTIFICATION_ACTION);
 	}
 }
