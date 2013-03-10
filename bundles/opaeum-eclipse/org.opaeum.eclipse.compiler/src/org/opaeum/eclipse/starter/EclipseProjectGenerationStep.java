@@ -35,7 +35,9 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 	@VisitBefore()
 	public IProject visitProject(TextProject tp){
 		try{
-			IProject project = root.getProject(tp.getName());
+			IProject project =null;
+			if(!(tp.getName().trim().isEmpty())){
+			project = root.getProject(tp.getName());
 			if(!project.exists()){
 				IProjectDescription description = root.getWorkspace().newProjectDescription(project.getName());
 				Path path = new Path(config.getOutputRoot().getAbsolutePath() + "/" + tp.getName());
@@ -44,7 +46,7 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 				project.open(null);
 			}else{
 				project.refreshLocal(3, null);
-			}
+			}}
 			return project;
 		}catch(RuntimeException e){
 			throw e;
@@ -94,13 +96,13 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 	@VisitBefore()
 	public void visitTextFile(TextFile tf) throws CoreException{
 		IProject project = root.getProject(tf.getParent().getSourceFolder().getParent().getName());
-		IFile file ;
+		IFile file;
 		if(tf.getParent() instanceof SourceFolder && tf.getParent().getName().equals("")){
-			file =project.getFile(tf.getName());
+			file = project.getFile(tf.getName());
 		}else{
 			IFolder folder = project.getFolder(tf.getParent().getRelativePath());
 			if(!folder.exists()){
-				folder.create(true,true,null);
+				folder.create(true, true, null);
 			}
 			file = folder.getFile(tf.getName());
 		}

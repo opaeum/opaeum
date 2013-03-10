@@ -74,6 +74,8 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 						if(EmfAssociationUtil.isClass(a)){
 							EmulatedPropertyHolderForAssociation epha = (EmulatedPropertyHolderForAssociation) getLibrary().getEmulatedPropertyHolder(a);
 							visitInterfaceProperty(oi, i, ojUtil.buildStructuralFeatureMap(epha.getEndToAssociation(p)));
+							visitAssociationClassProperty(i, new AssociationClassEndMap(ojUtil, p));
+
 						}
 						visitInterfaceProperty(oi, i, ojUtil.buildStructuralFeatureMap(p));
 					}
@@ -187,6 +189,11 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			}
 		}
 	}
+	/**
+	 * An interim solution to allow the qualified associations in CM to remain collections
+	 * @param property
+	 * @return
+	 */
 	protected final boolean isMap(Property property){
 		return property.getQualifiers().size() > 0
 				&& (property.getName().equals("updateChangeLog") || property.getName().equals("user") || property.getName().equals("userGroup") || !EmfElementFinder.getRootObject(property)

@@ -21,6 +21,7 @@ import org.opaeum.feature.TransformationPhase;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.generated.OJElementGEN;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.javageneration.util.PropertyStrategy;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.validation.LinkagePhase;
@@ -54,6 +55,7 @@ public class JavaTransformationPhase extends AbstractEmfPhase implements Transfo
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
 		Set<Element> realChanges = calculateEffectiveChanges(elements);
+		ojUtil.initialise(modelWorkspace,context.getStrategy(PropertyStrategy.class));
 		ojUtil.clearCache();
 		Collection<TextOutputNode> files = new HashSet<TextOutputNode>();
 		for(Element e:elements){
@@ -83,6 +85,7 @@ public class JavaTransformationPhase extends AbstractEmfPhase implements Transfo
 	@Override
 	public void execute(TransformationContext context){
 		ojUtil.clearCache();
+		ojUtil.initialise(modelWorkspace, context.getStrategy(PropertyStrategy.class));
 		context.getLog().registerInstanceCountMap(OJElementGEN.counts);
 		context.getLog().registerInstanceCountMap(TextOutputNode.counts);
 		context.getLog().startTask("Generating Java Model", features.size());
@@ -109,7 +112,6 @@ public class JavaTransformationPhase extends AbstractEmfPhase implements Transfo
 		this.features = features;
 	}
 	public void initializeSteps(){
-		ojUtil.initialise(modelWorkspace);
 		ojUtil.clearCache();
 		for(JavaTransformationStep f:this.features){
 			f.initialize(javaModel, this.config, textWorkspace, modelWorkspace, ojUtil);

@@ -134,7 +134,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			owner.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.annotations.AccessType"), "field"));
 			List<Classifier> g = complexType.getGenerals();
 			if(!isInSingleTableInheritance(complexType)){
-				OJAnnotatedField deletedOn = OJUtil.addPersistentProperty(owner, "deletedOn", new OJPathName(Date.class.getName()), true);
+				OJAnnotatedField deletedOn = ojUtil.addPersistentProperty(owner, "deletedOn", new OJPathName(Date.class.getName()), true);
 				deletedOn.setComment("Initialise to 1000 from 1970");
 				deletedOn.setInitExp("Stdlib.FUTURE");
 				owner.addToImports(UtilityCreator.getUtilPathName().append("Stdlib"));

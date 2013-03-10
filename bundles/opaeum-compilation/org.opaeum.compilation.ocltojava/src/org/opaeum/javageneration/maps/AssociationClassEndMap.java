@@ -9,6 +9,7 @@ import org.opaeum.javageneration.util.OJUtil;
 public class AssociationClassEndMap{
 	private PropertyMap map;
 	private PropertyMap assocationClassToOtherEndMap;
+	private PropertyMap assocationClassToThisEndMap;
 	private PropertyMap endToAssocationClassMap;
 	private PropertyMap otherEndToAssocationClassMap;
 	public AssociationClassEndMap(OJUtil ojUtil, Property p){
@@ -19,6 +20,7 @@ public class AssociationClassEndMap{
 			endToAssocationClassMap = ojUtil.buildStructuralFeatureMap(ephfa.getEndToAssociation(p));
 		}
 		if(p.getOtherEnd().isNavigable()){
+			assocationClassToThisEndMap = ojUtil.buildStructuralFeatureMap(ephfa.getEmulatedAttribute(p.getOtherEnd()));
 			otherEndToAssocationClassMap = ojUtil.buildStructuralFeatureMap(ephfa.getEndToAssociation(p.getOtherEnd()));
 		}
 	}
@@ -35,5 +37,8 @@ public class AssociationClassEndMap{
 
 	public PropertyMap getAssocationClassToOtherEndMap(){
 		return assocationClassToOtherEndMap;
+	}
+	public PropertyMap getAssociationClassToThisEndMap(){
+		return assocationClassToThisEndMap;
 	}
 }

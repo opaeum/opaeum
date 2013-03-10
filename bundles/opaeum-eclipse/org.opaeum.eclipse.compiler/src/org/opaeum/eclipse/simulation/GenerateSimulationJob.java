@@ -33,6 +33,7 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.javageneration.util.PropertyStrategy;
 import org.opaeum.metamodels.simulation.simulation.SimulationModel;
 import org.opaeum.simulation.actions.AbstractSimulationCodeGenerator;
 import org.opaeum.simulation.actions.Activator;
@@ -75,7 +76,8 @@ public final class GenerateSimulationJob extends Job{
 			p1.initialize(cfg, steps);
 			p1.replaceModel(ws);
 			OJUtil ojUtil = new OJUtil();
-			ojUtil.initialise(ws);
+			//NB!! sequence important -first initialise process
+			ojUtil.initialise(ws,p1.getStrategy(PropertyStrategy.class));
 			p1.replaceModel(ojUtil);
 			TextWorkspace tws1 = new TextWorkspace();
 			p1.replaceModel(tws1);

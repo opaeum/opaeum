@@ -28,6 +28,7 @@ import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfEventUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.TransformationContext;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJOperation;
@@ -37,6 +38,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
+import org.opaeum.javageneration.persistence.JpaAnnotator;
 import org.opaeum.javageneration.util.JavaNameGenerator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.TagNames;
@@ -104,17 +106,17 @@ public class EventUtil{
 	public void addChangeEventEvaluator(OJAnnotatedClass evaluationContext,NamedElement ne,OpaqueExpression when){
 		OJAnnotatedOperation evaluationMethod = new OJAnnotatedOperation(evaluatorName(ne), new OJPathName("boolean"));
 		evaluationContext.addToOperations(evaluationMethod);
-//		for(TypedElement typedElement:parameters){
-//			PropertyMap map = ojUtil.buildStructuralFeatureMap(typedElement);
-//			evaluationMethod.addParam(map.fieldname(), map.javaTypePath());
-//		}
+		// for(TypedElement typedElement:parameters){
+		// PropertyMap map = ojUtil.buildStructuralFeatureMap(typedElement);
+		// evaluationMethod.addParam(map.fieldname(), map.javaTypePath());
+		// }
 		String changeExpr = valueSpecificationUtil.expressOcl(library.getOclExpressionContext(when), evaluationMethod, library.getBooleanType());
 		evaluationMethod.getBody().addToStatements("return " + changeExpr);
 	}
 	public static String evaluatorName(NamedElement event){
 		return "evaluate" + NameConverter.capitalize(event.getName());
 	}
-	public static void addOutgoingEventManagement(OJClass ojClass){
+	public void addOutgoingEventManagement(OJClass ojClass){
 		OJPathName pn = new OJPathName(IEventGenerator.class.getName());
 		if(!ojClass.getImplementedInterfaces().contains(pn)){
 			ojClass.addToImplementedInterfaces(pn);
@@ -124,15 +126,13 @@ public class EventUtil{
 			ojClass.addToImports(CancelledEvent.class.getName());
 			OJPathName eventCancellationPath = new OJPathName(Set.class.getName());
 			eventCancellationPath.addToElementTypes(new OJPathName(CancelledEvent.class.getName()));
-			OJAnnotatedField field1 = OJUtil.addTransientProperty(ojClass, "cancelledEvents", eventCancellationPath, true);
+			OJAnnotatedField field1 = ojUtil.addTransientProperty(ojClass, "cancelledEvents", eventCancellationPath, true);
 			field1.setInitExp("new HashSet<CancelledEvent>()");
 			ojClass.addToImports(HashMap.class.getName());
-			field1.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 			OJPathName eventSetPath = new OJPathName(Set.class.getName());
 			eventSetPath.addToElementTypes(new OJPathName(OutgoingEvent.class.getName()));
-			OJAnnotatedField field2 = OJUtil.addTransientProperty(ojClass, "outgoingEvents", eventSetPath, true);
+			OJAnnotatedField field2 = ojUtil.addTransientProperty(ojClass, "outgoingEvents", eventSetPath, true);
 			field2.setInitExp("new HashSet<OutgoingEvent>()");
-			field2.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 		}
 	}
 	public void implementTimeEventRequest(OJOperation operation,OJBlock block,TimeEvent event,boolean businessTime){

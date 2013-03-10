@@ -85,7 +85,7 @@ public class MigratorGenerator extends AbstractMigrationCodeGenerator{
 		migratorGen.setAbstract(true);
 		createTextPath(migratorGen, JavaSourceFolderIdentifier.MIGRATION_GEN_SRC);
 		migratorGen.addToImplementedInterfaces(new OJPathName(IMigrator.class.getName()));
-		OJUtil.addTransientProperty(migratorGen, "context", new OJPathName("org.opaeum.runtime.environment.MigrationContext"), true);
+		addTransientProperty(migratorGen, "context", new OJPathName("org.opaeum.runtime.environment.MigrationContext"), true);
 		if(toClass instanceof BehavioredClassifier){
 			implementMigatorInterfaces(migratorGen, (BehavioredClassifier) toClass);
 		}

@@ -30,6 +30,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
+import org.opaeum.javageneration.util.JpaPropertyStrategy;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.name.NameWrapper;
@@ -38,6 +39,7 @@ import org.opaeum.name.NameConverter;
 public class JpaUtil{
 	public static final String BACKTICK = "";
 	private static Set<String> RESERVED_NAMES = new HashSet<String>();
+	private static JpaPropertyStrategy propStrategy=new JpaPropertyStrategy();
 	static{
 		RESERVED_NAMES.add("group");
 		RESERVED_NAMES.add("user");
@@ -140,12 +142,12 @@ public class JpaUtil{
 		a.putAttribute(new OJAnnotationAttributeValue("cascade", new OJEnumValue(new OJPathName("javax.persistence.CascadeType"), "ALL")));
 	}
 	public static void addAndAnnotatedIdAndVersion(JpaIdStrategy jpaIdStrategy,OJAnnotatedClass ojClass,Classifier complexType){
-		OJUtil.addPersistentProperty(ojClass, "objectVersion", new OJPathName("int"), true);
+		propStrategy.addPersistentProperty(ojClass, "objectVersion", new OJPathName("int"), true);
 		JpaUtil.annotateVersion(ojClass);
 		if((complexType instanceof Class && EmfClassifierUtil.getPrimaryKeyProperties((Class) complexType).size() > 0)){
 			return;
 		}else{
-			OJUtil.addPersistentProperty(ojClass, "id", new OJPathName(Long.class.getName()), true);
+			propStrategy.addPersistentProperty(ojClass, "id", new OJPathName(Long.class.getName()), true);
 			JpaUtil.annotateId(jpaIdStrategy, complexType, ojClass);
 		}
 	}

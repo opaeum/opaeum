@@ -57,14 +57,16 @@ public final class JavaProjectGenerator{
 				eclipseGen.initialize(workspace, cfg);
 				List<SourceFolder> sourceFolders = new ArrayList<SourceFolder>();
 				List<IProject> eclipseProjects = new ArrayList<IProject>();
-				createEclipseProjects(monitor, tws, eclipseGen, sourceFolders, eclipseProjects);
+				if(hasNewJavaSourceFolders){
+					createEclipseProjects(monitor, tws, eclipseGen, sourceFolders, eclipseProjects);
+				}
 				monitor.subTask("Writing Java sources");
 				createEclipseFoldersForSourceFolders(monitor, eclipseGen, sourceFolders);
 				if(hasNewJavaSourceFolders){
 					if(cfg.generateMavenPoms()){
 						prepareParentPomAndRunMavenEclipseEclipse(monitor);
-//					}else if(cfg.getAdditionalTransformationSteps().contains(RapProjectBuilder.class)){
-//						generatePluginProjectArtifactsAndRefresh(monitor, tws, eclipseGen, eclipseProjects);
+						// }else if(cfg.getAdditionalTransformationSteps().contains(RapProjectBuilder.class)){
+						// generatePluginProjectArtifactsAndRefresh(monitor, tws, eclipseGen, eclipseProjects);
 					}
 				}
 				for(IProject iProject:eclipseProjects){
@@ -87,29 +89,29 @@ public final class JavaProjectGenerator{
 		}
 		return new Status(IStatus.OK, Activator.PLUGIN_ID, "Java projects generated Successfully");
 	}
-//	public void generatePluginProjectArtifactsAndRefresh(IProgressMonitor monitor,TextWorkspace tws,EclipseProjectGenerationStep eclipseGen,
-//			List<IProject> eclipseProjects) throws JavaModelException,CoreException{
-//		addExistingSourceFolders(tws, eclipseProjects);
-//		EmfWorkspace mws = process.findModel(EmfWorkspace.class);
-//		BootstrapGenerationPhase bgp = process.getPhase(BootstrapGenerationPhase.class);
-//		if(bgp != null){
-//			RapProjectBuilder rpb = bgp.getStepFor(RapProjectBuilder.class);
-//			if(rpb != null){
-//				rpb.initialize(cfg, tws, mws, null);
-//				rpb.beforeWorkspace(mws);
-//				Set<TextOutputNode> textFiles = rpb.getTextFiles();
-//				for(TextOutputNode textOutputNode:textFiles){
-//					eclipseGen.visitTextFile((TextFile) textOutputNode);
-//				}
-//			}
-//		}
-//		for(IProject iProject:eclipseProjects){
-//			iProject.refreshLocal(IProject.DEPTH_INFINITE, monitor);
-//		}
-//	}
+	// public void generatePluginProjectArtifactsAndRefresh(IProgressMonitor monitor,TextWorkspace tws,EclipseProjectGenerationStep
+	// eclipseGen,
+	// List<IProject> eclipseProjects) throws JavaModelException,CoreException{
+	// addExistingSourceFolders(tws, eclipseProjects);
+	// EmfWorkspace mws = process.findModel(EmfWorkspace.class);
+	// BootstrapGenerationPhase bgp = process.getPhase(BootstrapGenerationPhase.class);
+	// if(bgp != null){
+	// RapProjectBuilder rpb = bgp.getStepFor(RapProjectBuilder.class);
+	// if(rpb != null){
+	// rpb.initialize(cfg, tws, mws, null);
+	// rpb.beforeWorkspace(mws);
+	// Set<TextOutputNode> textFiles = rpb.getTextFiles();
+	// for(TextOutputNode textOutputNode:textFiles){
+	// eclipseGen.visitTextFile((TextFile) textOutputNode);
+	// }
+	// }
+	// }
+	// for(IProject iProject:eclipseProjects){
+	// iProject.refreshLocal(IProject.DEPTH_INFINITE, monitor);
+	// }
+	// }
 	public static void addExistingSourceFolders(TextWorkspace tws) throws CoreException,JavaModelException{
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		
 		for(IProject iProject:projects){
 			if(!iProject.isOpen()){
 				iProject.open(null);
@@ -187,22 +189,22 @@ public final class JavaProjectGenerator{
 		}
 		return result;
 	}
-//	public static Map<String,String> getCurrentSourceFolders(){
-//		Map<String,String> result = new HashMap<String,String>();
-//		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-//		for(IProject p:root.getProjects()){
-//			try{
-//				if(p.hasNature(JavaCore.NATURE_ID)){
-//					
-//					IPackageFragmentRoot[] allPackageFragmentRoots = jp.getAllPackageFragmentRoots();
-//				}
-//			}catch(CoreException e){
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//		return result;
-//	}
+	// public static Map<String,String> getCurrentSourceFolders(){
+	// Map<String,String> result = new HashMap<String,String>();
+	// IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+	// for(IProject p:root.getProjects()){
+	// try{
+	// if(p.hasNature(JavaCore.NATURE_ID)){
+	//
+	// IPackageFragmentRoot[] allPackageFragmentRoots = jp.getAllPackageFragmentRoots();
+	// }
+	// }catch(CoreException e){
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
+	// return result;
+	// }
 	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,boolean cleanDirectories) throws CoreException{
 		try{
 			monitor.beginTask("Updating resources", 1000);

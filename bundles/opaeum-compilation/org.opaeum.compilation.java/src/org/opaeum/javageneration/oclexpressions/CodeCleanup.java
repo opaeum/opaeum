@@ -77,8 +77,8 @@ public class CodeCleanup extends AbstractJavaProducingVisitor{
 		OJAnnotatedClass failedConstraintsException = new OJAnnotatedClass("FailedConstraintsException");
 		failedConstraintsException.setSuperclass(new OJPathName("RuntimeException"));
 		failedConstraintsException.addToImports("java.util.Collection");
-		OJUtil.addTransientProperty(failedConstraintsException, "pre", new OJPathName("Boolean"), true);
-		OJUtil.addTransientProperty(failedConstraintsException, "failedConstraints", new OJPathName("Collection<String>"), true);
+		addTransientProperty(failedConstraintsException, "pre", new OJPathName("Boolean"), true);
+		addTransientProperty(failedConstraintsException, "failedConstraints", new OJPathName("Collection<String>"), true);
 		OJConstructor c = new OJConstructor();
 		c.addParam("pre", "Boolean");
 		c.addParam("failedConstraints", "Collection<String>");

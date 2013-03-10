@@ -6,6 +6,7 @@ import org.eclipse.ocl.uml.CollectionType;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.TimeEvent;
+import org.opaeum.feature.TransformationContext;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;

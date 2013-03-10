@@ -52,7 +52,6 @@ import org.opaeum.javageneration.basicjava.AttributeImplementor;
 import org.opaeum.javageneration.basicjava.Java6ModelGenerator;
 import org.opaeum.javageneration.maps.SignalMap;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
 import org.opaeum.ocl.uml.OpaqueExpressionContext;
@@ -112,13 +111,13 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 				marshall.getBody().addToStatements("result.add(new PropertyValue(-20l, Value.valueOf(from,env)))");
 				OJPathName setOfReceiver = new OJPathName("java.util.Set");
 				setOfReceiver.addToElementTypes(new OJPathName("org.opaeum.runtime.event.INotificationReceiver"));
-				OJUtil.addTransientProperty(handler, "from", new OJPathName("org.opaeum.runtime.event.INotificationReceiver"), true);
+				addTransientProperty(handler, "from", new OJPathName("org.opaeum.runtime.event.INotificationReceiver"), true);
 				marshall.getBody().addToStatements("result.add(new PropertyValue(-21l, Value.valueOf(cc,env)))");
-				OJUtil.addTransientProperty(handler, "cc", setOfReceiver, true);
+				addTransientProperty(handler, "cc", setOfReceiver, true);
 				marshall.getBody().addToStatements("result.add(new PropertyValue(-22l, Value.valueOf(bcc,env)))");
-				OJUtil.addTransientProperty(handler, "bcc", setOfReceiver, true);
+				addTransientProperty(handler, "bcc", setOfReceiver, true);
 				marshall.getBody().addToStatements("result.add(new PropertyValue(-23l, Value.valueOf(to,env)))");
-				OJUtil.addTransientProperty(handler, "to", setOfReceiver, true);
+				addTransientProperty(handler, "to", setOfReceiver, true);
 			}
 			OJAnnotatedOperation unmarshall = buildUnmarshall(s, "signal", effectiveAttributes, false);
 			if(EmfClassifierUtil.isNotification(s)){
@@ -422,7 +421,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		return scheduleNextOccurrence;
 	}
 	private void addIsEvent(OJAnnotatedClass handler,OJConstructor argConstr,OJAnnotatedOperation marshall,OJAnnotatedOperation unmarshall){
-		OJUtil.addPersistentProperty(handler, "isEvent", new OJPathName("boolean"), true);
+		ojUtil.addPersistentProperty(handler, "isEvent", new OJPathName("boolean"), true);
 		addIsEventMarshal(marshall);
 		addIsEventUnmarshall(unmarshall);
 		argConstr.addParam("isEvent", new OJPathName("boolean"));
@@ -523,12 +522,12 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	public void visitBehavioredClassifier(BehavioredClassifier s){
 		if(ojUtil.hasOJClass(s)){
 			OJAnnotatedClass ojClass = findJavaClass(s);
-			EventUtil.addOutgoingEventManagement(ojClass);
+			eventUtil.addOutgoingEventManagement(ojClass);
 			if(s instanceof Activity){
 				for(ActivityNode n:EmfActivityUtil.getActivityNodesRecursively(((Activity) s))){
 					if(n instanceof StructuredActivityNode){
 						ojClass = findJavaClass(getLibrary().getMessageStructure(((StructuredActivityNode) n)));
-						EventUtil.addOutgoingEventManagement(ojClass);
+						eventUtil.addOutgoingEventManagement(ojClass);
 					}
 				}
 			}

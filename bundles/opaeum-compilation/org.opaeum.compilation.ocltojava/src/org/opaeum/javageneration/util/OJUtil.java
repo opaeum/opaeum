@@ -71,7 +71,13 @@ import org.opaeum.eclipse.emulated.OperationMessageType;
 import org.opaeum.eclipse.emulated.StructuredActivityNodeMessageType;
 import org.opaeum.eclipse.emulated.TypedElementPropertyBridge;
 import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJClassifier;
+import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.maps.ActionMap;
 import org.opaeum.javageneration.maps.ActivityNodeMap;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
@@ -98,6 +104,7 @@ public class OJUtil extends OJUtill{
 	private Map<Package,Map<String,MappedType>> typeMap = new HashMap<Package,Map<String,MappedType>>();
 	private OJPathName environmentPathname;
 	private boolean regenMappedTypes;
+	private PropertyStrategy propertyStrategy;
 	public OJUtil(){
 		super();
 		instanceCount++;
@@ -110,7 +117,8 @@ public class OJUtil extends OJUtill{
 	public OJPathName environmentPathname(){
 		return environmentPathname;
 	}
-	public void initialise(EmfWorkspace workspace){
+	public void initialise(EmfWorkspace workspace,PropertyStrategy s){
+		this.propertyStrategy = s;
 		if(library != workspace.getOpaeumLibrary()){
 			clearCache();
 		}
@@ -294,6 +302,9 @@ public class OJUtil extends OJUtill{
 		}
 		String string = sb.toString();
 		return string;
+	}
+	public String addQualifierArgumentsAndVariableAndBrackets(List<Property> qualifiers,String varName){
+		return "(" + addQualifierArguments(qualifiers, varName) +  varName + ")";
 	}
 	public ClassifierMap buildClassifierMap(Classifier c){
 		String key = c.getQualifiedName();
@@ -489,5 +500,11 @@ public class OJUtil extends OJUtill{
 			codeGenerationStrategy = CodeGenerationStrategy.NO_CODE;
 		}
 		return codeGenerationStrategy;
+	}
+	public OJAnnotatedField addPersistentProperty(OJClassifier ojClass,String name,OJPathName type,boolean withBody){
+		return this.propertyStrategy.addPersistentProperty(ojClass, name, type, withBody);
+	}
+	public OJAnnotatedField addTransientProperty(OJClassifier ojClass,String name,OJPathName type,boolean withBody){
+		return this.propertyStrategy.addTransientProperty(ojClass, name, type, withBody);
 	}
 }

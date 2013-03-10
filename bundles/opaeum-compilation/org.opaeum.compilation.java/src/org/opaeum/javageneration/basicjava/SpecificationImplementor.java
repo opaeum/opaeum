@@ -75,7 +75,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 				complete.getBody().addToStatements("evaluatePostconditions()");
 				OJUtil.addFailedConstraints(complete);
 			}
-			OJAnnotatedField currentException = OJUtil.addTransientProperty(ojOperationClass, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD,
+			OJAnnotatedField currentException = addTransientProperty(ojOperationClass, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD,
 					new OJPathName("Object"), true);
 			currentException.setVisibility(OJVisibilityKind.PROTECTED);
 			if(map.isLongRunning()){

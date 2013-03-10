@@ -217,14 +217,14 @@ public abstract class AbstractJavaProcessVisitor extends AbstractBehaviorVisitor
 		createToken.getBody().addToStatements("result.setBehaviorExecution(this)");
 	}
 	private void addParentAndChildTokens(OJAnnotatedClass tokenClass,OJPathName iTokenPath){
-		OJAnnotatedField parentToken = OJUtil.addPersistentProperty(tokenClass, "parentToken", iTokenPath, true);
+		OJAnnotatedField parentToken = ojUtil.addPersistentProperty(tokenClass, "parentToken", iTokenPath, true);
 		OJAnnotationValue manyToOne = new OJAnnotationValue(new OJPathName(ManyToOne.class.getName()));
 		parentToken.putAnnotation(manyToOne);
 		manyToOne.putAttribute("targetEntity", tokenClass.getPathName());
 		JpaUtil.addJoinColumn(parentToken, "parent_token_id", false);
 		OJPathName setOfITokens = new OJPathName("java.util.Set");
 		setOfITokens.addToElementTypes(iTokenPath);
-		OJAnnotatedField childTokens = OJUtil.addPersistentProperty(tokenClass, "childTokens", setOfITokens, true);
+		OJAnnotatedField childTokens = ojUtil.addPersistentProperty(tokenClass, "childTokens", setOfITokens, true);
 		childTokens.setInitExp("new HashSet<" + iTokenPath.getTypeNameWithTypeArguments() + ">()");
 		tokenClass.addToImports("java.util.HashSet");
 		OJAnnotationValue childTokensOneToMany = new OJAnnotationValue(new OJPathName("javax.persistence.OneToMany"));

@@ -54,7 +54,10 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.Steps;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.feature.TransformationProcess;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.persistence.JpaAnnotator;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.javageneration.util.PropertyStrategy;
 import org.opaeum.linkage.SourcePopulationResolver;
 import org.opaeum.validation.AbstractValidator;
 import org.opaeum.validation.ValidationPhase;
@@ -98,12 +101,13 @@ public class OpenUmlFile extends EContentAdapter{
 		this.setFile(f);
 		this.resourceHelper = new EclipseUriToFileConverter();
 		this.cfg = cfg;
-		this.ojUtil = new OJUtil();
-		emfWorkspace = new EmfWorkspace(model, this.cfg.getVersion(), cfg.getApplicationIdentifier(), cfg.getMavenGroupId());
-		emfWorkspace.setUriToFileConverter(new EclipseUriToFileConverter());
-		emfWorkspace.setName(cfg.getApplicationName());
 		this.transformationProcess = new TransformationProcess();
 		this.transformationProcess.initialize(cfg, getTransformationSteps(cfg));
+		emfWorkspace = new EmfWorkspace(model, this.cfg.getVersion(), cfg.getApplicationIdentifier(), cfg.getMavenGroupId());
+		this.ojUtil = new OJUtil();
+		this.ojUtil.initialise(emfWorkspace,null);//Does not generat code, no property strategy required
+		emfWorkspace.setUriToFileConverter(new EclipseUriToFileConverter());
+		emfWorkspace.setName(cfg.getApplicationName());
 		this.transformationProcess.replaceModel(ojUtil);
 		this.transformationProcess.replaceModel(emfWorkspace);
 		this.transformationProcess.execute(new DefaultTransformationLog());

@@ -40,7 +40,9 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.java.metamodel.annotation.OJEnumLiteral;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.javageneration.util.OJUtill;
+import org.opaeum.javageneration.util.PojoPropertyStrategy;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.textmetamodel.SourceFolder;
@@ -59,6 +61,7 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 	private String projectName;
 	private OJPathName prefix;
 	private OJAnnotatedClass instantiator;
+	private OJUtil ojUtil=new OJUtil();
 	@Override
 	public Collection<? extends EModelElement> getChildren(EModelElement parent){
 		Collection<EModelElement> result = new ArrayList<EModelElement>();
@@ -111,7 +114,7 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 		OJPathName eObject = new OJPathName("org.opaeum.ecore.EObject");
 		itf.addToSuperInterfaces(eObject);
 		pkg.addToClasses(itf);
-		OJUtill.addPersistentProperty(itf, "uid", new OJPathName("String"), false);
+		ojUtil.addPersistentProperty(itf, "uid", new OJPathName("String"), false);
 		createTextPath(itf);
 		doXmlDeserialization(e, itf);
 		if(!e.isInterface()){
@@ -166,7 +169,7 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 		boolean many = ea.isMany();
 		EClassifier eType = ea.getEType();
 		OJPathName pathName = pathName(many, eType);
-		OJAnnotatedField fld = OJUtill.addPersistentProperty(itf2, ea.getName(), pathName, !(itf2 instanceof OJAnnotatedInterface));
+		OJAnnotatedField fld = ojUtil.addPersistentProperty(itf2, ea.getName(), pathName, !(itf2 instanceof OJAnnotatedInterface));
 		if(fld != null && ea.isMany()){
 			itf2.addToImports("java.util.ArrayList");
 			fld.setInitExp("new ArrayList<" + ea.getEType().getName() + ">()");
@@ -249,6 +252,7 @@ public class MetaModelJavaTransformationStep extends VisitorAdapter<EModelElemen
 	}
 	public void initialize(TextWorkspace textWorkspace,EPackage workspace,OJWorkspace javaMode,String projectName,String prefix){
 		this.workspace = workspace;
+		ojUtil.initialise(null, new PojoPropertyStrategy());
 		textFiles = new HashSet<TextOutputNode>();
 		this.textWorkspace = textWorkspace;
 		this.javaModel = javaMode;

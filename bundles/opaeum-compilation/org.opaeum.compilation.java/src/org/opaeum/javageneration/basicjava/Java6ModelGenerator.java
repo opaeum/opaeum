@@ -28,6 +28,7 @@ import org.opaeum.eclipse.emulated.OperationMessageType;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.StepDependency.StrategyRequirement;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJPackage;
@@ -44,7 +45,10 @@ import org.opaeum.javageneration.JavaSourceKind;
 import org.opaeum.javageneration.JavaTextSource;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.maps.SignalMap;
+import org.opaeum.javageneration.util.JpaPropertyStrategy;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.javageneration.util.PojoPropertyStrategy;
+import org.opaeum.javageneration.util.PropertyStrategy;
 import org.opaeum.runtime.domain.IEnum;
 import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.strategies.BlobStrategyFactory;
@@ -56,7 +60,7 @@ import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextFile;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {UmlToJavaMapInitialiser.class},after = {UmlToJavaMapInitialiser.class})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {UmlToJavaMapInitialiser.class},after = {UmlToJavaMapInitialiser.class},strategyRequirement = {@StrategyRequirement(strategyContract=PropertyStrategy.class,requires = PojoPropertyStrategy.class)})
 public class Java6ModelGenerator extends AbstractStructureVisitor{
 	static{
 		// Because of eclipse classloading issues
@@ -71,7 +75,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		return 1;// adds too many entries to shared non-synchronized collections;
 	}
 	@Override
-	protected boolean visitComplexStructure(OJAnnotatedClass oc, Classifier umlOwner){
+	protected boolean visitComplexStructure(OJAnnotatedClass oc,Classifier umlOwner){
 		visitClass(umlOwner);
 		return false;
 	}
@@ -81,14 +85,13 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 	@SuppressWarnings({"unchecked","rawtypes"})
 	@VisitAfter(matchSubclasses = true,match = {Interface.class,Enumeration.class})
 	public void visitClass(final Classifier c){
-
 		// We do not generate simple data types. They can't participate in
 		// two-way associations and should be built-in or pre-implemented
 		if(EmfElementUtil.isMarkedForDeletion(c)){
 			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.classifierPathname(c));
 			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.packagePathname(c));
-		}else if(ojUtil.hasOJClass(c) ){
-			if(ojUtil.requiresJavaRename( c)){
+		}else if(ojUtil.hasOJClass(c)){
+			if(ojUtil.requiresJavaRename(c)){
 				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.getOldClassifierPathname(c));
 				deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.getOldPackagePathname(c));
 			}
@@ -122,7 +125,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 				myClass.addToFields(seri);
 			}
 			OJAnnotationValue ann = myClass.findAnnotation(new OJPathName(NumlMetaInfo.class.getName()));
-			if(ann!=null){
+			if(ann != null){
 				ann.putAttribute("applicationIdentifier", workspace.getIdentifier());
 			}
 			// TODO find another place
@@ -155,10 +158,9 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 				TextFile impl = createTextPath(JavaSourceKind.CONCRETE_IMPLEMENTATION, myClass, JavaSourceFolderIdentifier.DOMAIN_SRC);
 				if(rootObject instanceof Model && EmfPackageUtil.isRegeneratingLibrary(((Model) rootObject))){
 					Model m = (Model) rootObject;
-					String artifactName = impl.getParent().getRelativePath()
-							.substring(impl.getParent().getSourceFolder().getRelativePath().length() + 1)
-							+ "/" + impl.getName();
-					final String implementationCodeFor = getLibrary().getImplementationCodeFor( m,artifactName);
+					String artifactName = impl.getParent().getRelativePath().substring(impl.getParent().getSourceFolder().getRelativePath().length() + 1) + "/"
+							+ impl.getName();
+					final String implementationCodeFor = getLibrary().getImplementationCodeFor(m, artifactName);
 					impl.setDependsOnVersion(true);
 					if(implementationCodeFor != null){
 						impl.setTextSource(new JavaStringTextSource(implementationCodeFor));
@@ -194,7 +196,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitPackage(Package p){
-		if(ojUtil.requiresJavaRename( p)){
+		if(ojUtil.requiresJavaRename(p)){
 			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ojUtil.getOldPackagePathname(p));
 		}
 		OJPackage currentPack = findOrCreatePackage(ojUtil.packagePathname(p));
@@ -210,7 +212,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@Override
-	protected void visitProperty(OJAnnotatedClass c, Classifier owner,PropertyMap buildStructuralFeatureMap){
+	protected void visitProperty(OJAnnotatedClass c,Classifier owner,PropertyMap buildStructuralFeatureMap){
 	}
 	private synchronized TextFile createTextPath(JavaSourceKind kind,OJAnnotatedClass c,ISourceFolderIdentifier id){
 		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(id);

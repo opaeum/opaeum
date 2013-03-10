@@ -106,7 +106,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			}
 			implementIProcess(umlStateMachine, ojStateMachine);
 			implementIBehaviorExecution(behavior, ojStateMachine, HibernateUtil.STATE_MACHINE_TOKEN);
-			OJUtil.addTransientProperty(ojStateMachine, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"), true).setVisibility(
+			addTransientProperty(ojStateMachine, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"), true).setVisibility(
 					OJVisibilityKind.PROTECTED);
 			addImports(ojStateMachine, umlStateMachine);
 		}
@@ -181,7 +181,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 						|| pseudostate.getKind() == PseudostateKind.DEEP_HISTORY_LITERAL){
 					c.getBody().addToStatements("setInitial(true)");
 					String fieldName = vertex.getName();
-					OJUtil.addPersistentProperty(ojStateMachine, fieldName, new OJPathName("String"), true);
+					ojUtil.addPersistentProperty(ojStateMachine, fieldName, new OJPathName("String"), true);
 					String stateGetter = "get" + NameConverter.capitalize(pseudostate.getName());
 					OJAnnotatedOperation getHistoricalState = new OJAnnotatedOperation("getHistoricalStateId", new OJPathName("String"));
 					stateClass.addToOperations(getHistoricalState);
@@ -208,7 +208,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			for(Transition transition:vertex.getOutgoings()){
 				OJPathName cn = ojUtil.classifierPathname(transition).getCopy();
 				cn.addToElementTypes(new OJPathName("SME"));
-				OJUtil.addTransientProperty(stateClass, cn.getLast(), cn, true);
+				addTransientProperty(stateClass, cn.getLast(), cn, true);
 				if(getTriggers(transition).isEmpty()){
 					onCompletion.getBody().addToStatements(
 							new OJIfStatement(cn.getLast() + "." + eventUtil.getEventConsumerName(vertex) + "()", "return true"));

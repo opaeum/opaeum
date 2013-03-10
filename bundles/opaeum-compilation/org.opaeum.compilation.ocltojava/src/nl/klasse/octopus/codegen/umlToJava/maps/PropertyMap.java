@@ -10,6 +10,8 @@ import org.eclipse.uml2.uml.StructuralFeature;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
+import org.opaeum.eclipse.emulated.AssociationClassToEnd;
+import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.name.NameWrapper;
@@ -206,10 +208,14 @@ public final class PropertyMap extends PackageableElementMap{
 		}
 	}
 	public String qualifierProperty(){
-		return "z_keyOf" + NameConverter.capitalize(getJavaCompatibleName()) + "On" + ((Classifier) property.getOwner()).getName();
+		Property property=(Property) (this.property instanceof EndToAssociationClass?((EndToAssociationClass) this.property).getOriginalProperty():this.property);
+		Classifier owner = EmfPropertyUtil.getOwningClassifier(property);
+		return "z_keyOf" + NameConverter.capitalize(NameConverter.toJavaVariableName(property.getName())) + "On" + owner.getName();
 	}
 	public String qualifierPropertySetter(){
-		return "setZ_keyOf" + NameConverter.capitalize(getJavaCompatibleName()) + "On" + ((Classifier) property.getOwner()).getName();
+		Property property=(Property) (this.property instanceof EndToAssociationClass?((EndToAssociationClass) this.property).getOriginalProperty():this.property);
+		Classifier owner = EmfPropertyUtil.getOwningClassifier(property);
+		return "setZ_keyOf" + NameConverter.capitalize(NameConverter.toJavaVariableName(property.getName())) + "On" + (owner).getName();
 	}
 	public NameWrapper getPersistentName(){
 		return PersistentNameUtil.getPersistentName(property);

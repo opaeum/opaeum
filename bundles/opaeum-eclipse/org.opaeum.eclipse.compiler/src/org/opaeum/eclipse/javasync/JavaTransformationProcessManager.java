@@ -27,6 +27,8 @@ import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opaeum.javageneration.bpm.BpmJavaStep;
 import org.opaeum.javageneration.hibernate.HibernatePackageAnnotator;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.javageneration.util.PropertyStrategy;
 import org.opaeum.linkage.SourcePopulationResolver;
 import org.opaeum.textmetamodel.TextWorkspace;
 
@@ -90,6 +92,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		}
 		process.removeModel(OJWorkspace.class);
 		process.removeModel(TextWorkspace.class);
+		process.replaceModel(new OJUtil());
 		process.initialize(cfg, steps);
 	}
 	public static Set<Class<? extends ITransformationStep>> getAllSteps(OpaeumConfig cfg){
@@ -124,7 +127,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 	}
 	@SuppressWarnings("unchecked")
 	public static Set<Class<? extends ITransformationStep>> getBasicIntegrationSteps(){
-		return toSet(HibernatePackageAnnotator.class, JavaMetaInfoMapGenerator.class);
+		return toSet(JavaMetaInfoMapGenerator.class);
 	}
 	public static TransformationProcess getTransformationProcessFor(OpenUmlFile file){
 		if(file == null){

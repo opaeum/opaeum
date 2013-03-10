@@ -43,6 +43,7 @@ import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.StepDependency.StrategyRequirement;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJConstructor;
@@ -59,7 +60,10 @@ import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opaeum.javageneration.hibernate.EnumResolverImplementor;
+import org.opaeum.javageneration.util.JpaPropertyStrategy;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.javageneration.util.PojoPropertyStrategy;
+import org.opaeum.javageneration.util.PropertyStrategy;
 import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.Environment;
@@ -70,7 +74,7 @@ import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 import org.opaeum.util.SortedProperties;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {AttributeImplementor.class,JpaEnvironmentBuilder.class},after = {
-		AttributeImplementor.class,JpaEnvironmentBuilder.class})
+		AttributeImplementor.class,JpaEnvironmentBuilder.class},strategyRequirement={@StrategyRequirement(strategyContract=PropertyStrategy.class, requires=JpaPropertyStrategy.class, replaces=PojoPropertyStrategy.class)})
 public class JpaAnnotator extends AbstractStructureVisitor{
 	public static boolean DEVELOPMENT_MODE = true;
 	@VisitBefore(matchSubclasses = true)
@@ -198,10 +202,10 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 						cls.addToImplementedInterfaces(new OJPathName("java.io.Serializable"));
 						for(Property p:primaryKeyProperties){
 							PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
-							OJUtil.addPersistentProperty(cls, map.umlName(), map.javaTypePath(), true);
+							ojUtil.addPersistentProperty(cls, map.umlName(), map.javaTypePath(), true);
 							mapXToOne(map, cls);
 						}
-						OJUtil.addPersistentProperty(ojClass, "id", cls.getPathName(), true).addAnnotationIfNew(
+						ojUtil.addPersistentProperty(ojClass, "id", cls.getPathName(), true).addAnnotationIfNew(
 								new OJAnnotationValue(new OJPathName("javax.persistence.EmbeddedId")));
 					}
 				}

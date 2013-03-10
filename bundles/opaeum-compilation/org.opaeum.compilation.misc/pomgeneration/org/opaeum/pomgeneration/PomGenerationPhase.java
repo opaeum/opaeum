@@ -42,6 +42,7 @@ import org.opaeum.feature.InputModel;
 import org.opaeum.feature.IntegrationPhase;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.PhaseDependency;
+import org.opaeum.feature.StepDependency.StrategyRequirement;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.feature.TransformationProcess.TransformationProgressLog;
@@ -415,8 +416,9 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		appendVersionSuffix(true);
 		Set<Class<? extends ITransformationStep>> emptySet = Collections.emptySet();
 		initialize(config, (List<PomGenerationStep>) features);
-		execute(new TransformationContext(emptySet, false, log));
-		execute(new TransformationContext(emptySet, true, log));
+		Map<Class<?>,StrategyRequirement> emptyMap = Collections.emptyMap();
+		execute(new TransformationContext(emptySet, false, log,emptyMap));
+		execute(new TransformationContext(emptySet, true, log,emptyMap));
 		appendVersionSuffix(false);
 		this.isGeneratingRelease = false;
 	}

@@ -1,5 +1,6 @@
 package org.opaeum.eclipse.emulated;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
@@ -30,6 +31,10 @@ public class EndToAssociationClass extends AbstractEmulatedProperty{
 
 	public ValueSpecification getLowerValue(){
 		return property.getLowerValue();
+	}
+	@Override
+	public EList<Property> getQualifiers(){
+		return property.getQualifiers();
 	}
 
 	public boolean isMultivalued(){

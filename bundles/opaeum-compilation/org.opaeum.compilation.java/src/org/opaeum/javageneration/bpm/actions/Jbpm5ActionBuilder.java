@@ -27,6 +27,7 @@ import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfTimeUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
+import org.opaeum.feature.TransformationContext;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJIfStatement;

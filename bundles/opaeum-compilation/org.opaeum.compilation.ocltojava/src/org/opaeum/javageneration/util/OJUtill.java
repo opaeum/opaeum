@@ -98,38 +98,6 @@ public class OJUtill{
 		constructor.setOwningClass(ojClass);
 	}
 
-	public static OJAnnotatedField addPersistentProperty(OJClassifier ojClass,String name,OJPathName type,boolean withBody){
-		return addProperty(ojClass, name, type, withBody);
-	}
-
-	public static OJAnnotatedField addTransientProperty(OJClassifier ojClass,String name,OJPathName type,boolean withBody){
-		OJAnnotatedField result = addProperty(ojClass, name, type, withBody);
-		result.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
-		return result;
-	}
-
-	private static OJAnnotatedField addProperty(OJClassifier ojClass,String name,OJPathName type,boolean withBody){
-		ojClass.addToImports(type);
-		String capped = NameConverter.capitalize(name);
-		OJOperation set = new OJAnnotatedOperation("set" + capped);
-		set.addParam(name, type);
-		set.setBody(new OJBlock());
-		ojClass.addToOperations(set);
-		String getPrefix = type.getLast().equals("boolean")?"is": "get";
-		OJOperation get = new OJAnnotatedOperation(getPrefix + capped);
-		get.setReturnType(type);
-		get.setBody(new OJBlock());
-		ojClass.addToOperations(get);
-		if(withBody){
-			set.getBody().addToStatements("this." + name + "=" + name);
-			get.getBody().addToStatements("return this." + name);
-			OJAnnotatedField field = new OJAnnotatedField(name, type);
-			((OJClass) ojClass).addToFields(field);
-			return field;
-		}
-		return null;
-	}
-
 	public static void addFailedConstraints(OJOperation execute){
 		// String failedConstraints = UtilityCreator.getUtilPathName() + ".FailedConstraintsException";
 		execute.getOwner().addToImports("org.opaeum.runtime.domain.FailedConstraintsException");

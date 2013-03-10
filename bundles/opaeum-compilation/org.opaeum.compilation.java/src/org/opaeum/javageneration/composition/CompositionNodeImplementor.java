@@ -12,6 +12,8 @@ import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.eclipse.emulated.AssociationClassToEnd;
+import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJBlock;
@@ -85,16 +87,15 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	}
 	public void addAddToOwningObject(OJAnnotatedClass ojClass,Classifier entity){
 		OJOperation addToOwningObject = new OJAnnotatedOperation("addToOwningObject");
-		addToOwningObject
-				.setComment("Call this method when you want to attach this object to the containment tree. Useful with transitive persistence");
+		addToOwningObject.setComment("Call this method when you want to attach this object to the containment tree. Useful with transitive persistence");
 		if(!isInterfaceOrAssociationClass(entity)){
 			Property endToComposite = getLibrary().getEndToComposite(entity);
 			if(endToComposite != null && !EmfPropertyUtil.isDerived(endToComposite)){
 				if(endToComposite.getAssociation() != null && EmfAssociationUtil.isClass(endToComposite.getAssociation())){
 					AssociationClassEndMap aMap = new AssociationClassEndMap(ojUtil, endToComposite);
 					addToOwningObject.getBody().addToStatements(
-							aMap.getMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder() + "("
-									+ aMap.getEndToAssocationClassMap().getter() + "())");
+							aMap.getMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder() + "(" + aMap.getEndToAssocationClassMap().getter()
+									+ "())");
 				}else{
 					PropertyMap featureMap = ojUtil.buildStructuralFeatureMap(endToComposite);
 					PropertyMap otherFeatureMap = ojUtil.buildStructuralFeatureMap(endToComposite.getOtherEnd());
@@ -103,8 +104,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 						addToOwningObject.getBody().addToStatements(
 								featureMap.getter() + "()." + otherFeatureMap.internalAdder() + "(" + qArgs + "(" + ojClass.getName() + ")this)");
 					}else{
-						addToOwningObject.getBody().addToStatements(
-								featureMap.getter() + "()." + otherFeatureMap.internalAdder() + "((" + ojClass.getName() + ")this)");
+						addToOwningObject.getBody().addToStatements(featureMap.getter() + "()." + otherFeatureMap.internalAdder() + "((" + ojClass.getName() + ")this)");
 					}
 				}
 			}
@@ -135,8 +135,9 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	}
 	protected void markChildrenForDeletion(Classifier sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
 		for(Property np:getLibrary().getEffectiveAttributes(sc)){
-			if(!np.isComposite() && np.getOtherEnd() != null && np.getOtherEnd().isNavigable() && !EmfPropertyUtil.isDerived(np)
-					&& !EmfPropertyUtil.isDerived(np.getOtherEnd()) && (isPersistent(np.getType()) || np.getType() instanceof Interface) && !(np.getType() instanceof DataType)){
+			if(!(np instanceof AssociationClassToEnd) && !np.isComposite() && np.getOtherEnd() != null && np.getOtherEnd().isNavigable()
+					&& !EmfPropertyUtil.isDerived(np) && !EmfPropertyUtil.isDerived(np.getOtherEnd())
+					&& (isPersistent(np.getType()) || np.getType() instanceof Interface) && !(np.getType() instanceof DataType)){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
 				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(np.getOtherEnd());
 				if(map.isManyToMany()){
@@ -153,8 +154,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 				}else if(map.isOneToOne()){
 					// TODO this may have unwanted results such as removing the
 					// owner from "this" too
-					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.internalRemover()
-							+ "(this)");
+					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.internalRemover() + "(this)");
 					markDeleted.getBody().addToStatements(ifNotNull);
 				}
 			}
@@ -203,12 +203,11 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		if(etc != null && !EmfPropertyUtil.isDerived(etc)){
 			PropertyMap compositeFeatureMap = ojUtil.buildStructuralFeatureMap(etc);
 			ojClass.addToImports(compositeFeatureMap.javaBaseTypePath());
-			init.getBody()
-					.getStatements()
-					.add(start,
-							new OJSimpleStatement("this." + compositeFeatureMap.internalAdder() + "((" + compositeFeatureMap.javaBaseType() + ")owner)"));
+			init.getBody().getStatements()
+					.add(start, new OJSimpleStatement("this." + compositeFeatureMap.internalAdder() + "((" + compositeFeatureMap.javaBaseType() + ")owner)"));
 		}
-		init.getBody().addToStatements(0, new OJIfStatement("getOwningObject()!=null && !getOwningObject().equals(owner)", "System.out.println(\"Reparenting \"+getClass().getSimpleName() +getId())"));
+		// init.getBody().addToStatements(0, new OJIfStatement("getOwningObject()!=null && !getOwningObject().equals(owner)",
+		// "System.out.println(\"Reparenting \"+getClass().getSimpleName() +getId())"));
 		ojClass.addToOperations(init);
 	}
 	protected void addGetOwningObject(Classifier c,OJClass ojClass){
@@ -246,7 +245,8 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	public void invokeOperationRecursively(Classifier ew,OJOperation markDeleted,String operationName){
 		for(Property np:getLibrary().getEffectiveAttributes(ew)){
 			PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
-			if(np.isComposite() && (isPersistent(np.getType()) || np.getType() instanceof Interface) && !EmfPropertyUtil.isDerived(np) &&!(np.getType() instanceof DataType)){
+			if(np.isComposite() && (isPersistent(np.getType()) || np.getType() instanceof Interface) && !EmfPropertyUtil.isDerived(np)
+					&& !(np.getType() instanceof DataType)){
 				Classifier type = (Classifier) np.getType();
 				if(map.isMany()){
 					markDeleted.getOwner().addToImports("java.util.ArrayList");

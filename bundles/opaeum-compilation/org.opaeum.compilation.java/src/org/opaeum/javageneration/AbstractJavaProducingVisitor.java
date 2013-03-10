@@ -33,9 +33,12 @@ import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.bpm.EventUtil;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
+import org.opaeum.javageneration.persistence.JpaAnnotator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
@@ -268,4 +271,15 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		super.release();
 		this.javaModel = null;
 	}
+	protected OJAnnotatedField addTransientProperty(OJAnnotatedClass handler,String string,OJPathName ojPathName,boolean b){
+		OJAnnotatedField f = ojUtil.addTransientProperty(handler, string, ojPathName, true);
+		if(transformationContext.isFeatureSelected(JpaAnnotator.class)){
+			f.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
+			
+		}
+		return f;
+		// TODO Auto-generated method stub
+		
+	}
+
 }

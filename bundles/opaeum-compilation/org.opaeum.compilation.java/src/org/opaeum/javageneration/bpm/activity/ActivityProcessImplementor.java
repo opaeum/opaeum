@@ -156,7 +156,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 				}
 			}
 		}
-		OJUtil.addTransientProperty(activityClass, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"), true).setVisibility(
+		addTransientProperty(activityClass, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"), true).setVisibility(
 				OJVisibilityKind.PROTECTED);
 		OJAnnotatedOperation complete = new OJAnnotatedOperation("complete");
 		activityClass.addToOperations(complete);
@@ -190,7 +190,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 				super.addReturnInfo(c);
 				implementVariableDelegation(container, msg, c);
 				StructuredActivityNodeMap map = ojUtil.buildStructuredActivityNodeMap(san);
-				OJUtil.addPersistentProperty(c, "callingNodeInstanceUniqueId", new OJPathName("String"), true);
+				ojUtil.addPersistentProperty(c, "callingNodeInstanceUniqueId", new OJPathName("String"), true);
 				implementContainer(isProcess, stateClass, san, childMsg, EmfBehaviorUtil.hasSuperClass(san));
 				if(isProcess){
 					propagateExceptions(map, c);

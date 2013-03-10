@@ -181,7 +181,7 @@ public class TaskAndResponsibilityImplementor extends AbstractBehaviorVisitor{
 		token.setInitExp("getReturnInfo()");
 		exec.getBody().addToLocals(token);
 		taskUtil.implementAssignmentsAndEventGeneration(exec, exec.getBody(), rd, "this");
-		EventUtil.addOutgoingEventManagement(ojClass);
+		eventUtil.addOutgoingEventManagement(ojClass);
 		ojClass.addToImports(new OJPathName("java.util.Date"));
 		if(!hasSuperClass){
 			completed.getBody().addToStatements("getCallingBehaviorExecution()." + map.callbackOperName() + "(getReturnInfo(), this)");
@@ -196,7 +196,7 @@ public class TaskAndResponsibilityImplementor extends AbstractBehaviorVisitor{
 		OJAnnotatedOperation started = new OJAnnotatedOperation("onStarted");
 		ojClass.addToOperations(started);
 		started.addParam("participant", ojUtil.classifierPathname(getLibrary().getParticipant()));
-		EventUtil.addOutgoingEventManagement(ojClass);
+		eventUtil.addOutgoingEventManagement(ojClass);
 		ojClass.addToImports(new OJPathName("java.util.Date"));
 		for(TimeEvent d:deadlines){
 			// TODO ensure uniqueness of deadline names

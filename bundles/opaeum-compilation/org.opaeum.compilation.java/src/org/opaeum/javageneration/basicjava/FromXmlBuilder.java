@@ -9,6 +9,7 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -53,16 +54,25 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 			// TODO rather leverage AbstracStructureVisitor.visitProperty
 			for(Property f:getLibrary().getEffectiveAttributes(umlClass)){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(f);
-				if(XmlUtil.isXmlReference(map)){
-					owner.addToImports(map.javaBaseTypePath());
-					OJBlock then = iterateThroughPropertyValues(map, whileItems);
-					then.addToStatements((map.isMany() ? map.adder() : map.setter()) + "((" + map.javaBaseType()
-							+ ")map.get(((Element)currentPropertyValueNode).getAttribute(\"uid\")))");
-				}else if(XmlUtil.isXmlSubElement(map)){
-					OJBlock then = iterateThroughPropertyValues(map, whileItems);
-					then.addToStatements("(("
-							+ map.javaBaseType()
-							+ ")map.get(((Element)currentPropertyValueNode).getAttribute(\"uid\"))).populateReferencesFromXml((Element)currentPropertyValueNode, map)");
+				if(!EmfAssociationUtil.isClass(map.getProperty().getAssociation())){
+					if(XmlUtil.isXmlReference(map)){
+						owner.addToImports(map.javaBaseTypePath());
+						OJBlock then = iterateThroughPropertyValues(map, whileItems);
+						OJAnnotatedField var = new OJAnnotatedField(map.fieldname(), map.javaBaseTypePath());
+						then.addToLocals(var);
+						var.setInitExp("(" + map.javaBaseType() + ")map.get(((Element)currentPropertyValueNode).getAttribute(\"uid\"))");
+						//TODO qualifiers
+						OJIfStatement ifNotNull = new OJIfStatement(map.fieldname() + "!=null", map.internalAdder() + "("+map.fieldname()+")");
+						then.addToStatements(ifNotNull);
+						if(map.getProperty().getOtherEnd() != null && map.getProperty().getOtherEnd().isNavigable()){
+							PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(map.getProperty().getOtherEnd());
+							ifNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(this)");
+						}
+					}else if(XmlUtil.isXmlSubElement(map)){
+						OJBlock then = iterateThroughPropertyValues(map, whileItems);
+						then.addToStatements("((" + map.javaBaseType()
+								+ ")map.get(((Element)currentPropertyValueNode).getAttribute(\"uid\"))).populateReferencesFromXml((Element)currentPropertyValueNode, map)");
+					}
 				}
 			}
 		}
@@ -92,7 +102,7 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 			OJWhileStatement whileItems = iterateThroughProperties(toString);
 			for(Property f:getLibrary().getEffectiveAttributes(umlClass)){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(f);
-				if(XmlUtil.isXmlSubElement(map)){
+				if(XmlUtil.isXmlSubElement(map) && !EmfAssociationUtil.isClass(map.getProperty().getAssociation())){
 					owner.addToImports(map.javaBaseTypePath());
 					populatePropertyValues(map, whileItems);
 				}
@@ -124,19 +134,16 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		if(map.isOne()){
 			if(EmfClassifierUtil.isSimpleType(map.getBaseType())){
 				ifNotNull.getThenPart().addToStatements(
-						map.setter() + "(" + rootObjectName + "Formatter.getInstance().parse" + map.getBaseType().getName() + "(xml.getAttribute(\""
-								+ map.fieldname() + "\")))");
+						map.setter() + "(" + rootObjectName + "Formatter.getInstance().parse" + map.getBaseType().getName() + "(xml.getAttribute(\"" + map.fieldname()
+								+ "\")))");
 			}else{
-				ifNotNull.getThenPart().addToStatements(
-						map.setter() + "(" + map.javaType() + ".valueOf(" + "xml.getAttribute(\"" + map.fieldname() + "\")))");
+				ifNotNull.getThenPart().addToStatements(map.setter() + "(" + map.javaType() + ".valueOf(" + "xml.getAttribute(\"" + map.fieldname() + "\")))");
 			}
 		}else{
-			OJForStatement forEach = new OJForStatement("val", new OJPathName("String"), "xml.getAttribute(\"" + map.fieldname()
-					+ "\").split(\";\")");
+			OJForStatement forEach = new OJForStatement("val", new OJPathName("String"), "xml.getAttribute(\"" + map.fieldname() + "\").split(\";\")");
 			ifNotNull.getThenPart().addToStatements(forEach);
 			if(EmfClassifierUtil.isSimpleType(map.getBaseType())){
-				forEach.getBody().addToStatements(
-						map.adder() + "(" + rootObjectName + "Formatter.getInstance().parse" + map.getBaseType().getName() + "(val))");
+				forEach.getBody().addToStatements(map.adder() + "(" + rootObjectName + "Formatter.getInstance().parse" + map.getBaseType().getName() + "(val))");
 			}else{
 				forEach.getBody().addToStatements(map.adder() + "(" + map.javaBaseType() + ".valueOf(val))");
 			}
@@ -148,27 +155,27 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		thenPart.addToLocals(curVal);
 		OJTryStatement tryNewInstance = new OJTryStatement();
 		thenPart.addToStatements(tryNewInstance);
-		tryNewInstance.getTryPart().addToStatements(
-				"curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute(\"className\"))");
+		tryNewInstance.getTryPart().addToStatements("curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute(\"className\"))");
 		tryNewInstance.setCatchParam(new OJParameter("e", new OJPathName("Exception")));
 		tryNewInstance.getCatchPart().addToStatements(
-				"curVal="+ojUtil.utilClass(map.getProperty(), JavaMetaInfoMapGenerator.JAVA_META_INFO_MAP_SUFFIX )+".INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute(\"classUuid\"))");
+				"curVal=" + ojUtil.utilClass(map.getProperty(), JavaMetaInfoMapGenerator.JAVA_META_INFO_MAP_SUFFIX)
+						+ ".INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute(\"classUuid\"))");
 		thenPart.addToStatements("curVal.buildTreeFromXml((Element)currentPropertyValueNode,map)");
+		String qualifierString = "";
 		if(isMap(map.getProperty())){
 			List<Property> qualifiers = map.getProperty().getQualifiers();
-			String varName = "curVal";
-			String string = ojUtil.addQualifierArguments(qualifiers, varName);
-			thenPart.addToStatements("this." + map.adder() + "(" + string + "curVal)");
-		}else{
-			String writer = map.isMany() ? map.adder() : map.setter();
-			thenPart.addToStatements("this." + writer + "(curVal)");
+			qualifierString = ojUtil.addQualifierArguments(qualifiers, "curVal");
+		}
+		thenPart.addToStatements("this." + map.internalAdder() + "(" + qualifierString + "curVal)");
+		if(map.getProperty().getOtherEnd() != null && map.getProperty().getOtherEnd().isNavigable()){
+			PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(map.getProperty().getOtherEnd());
+			thenPart.addToStatements("curVal." + otherMap.internalAdder() + "(this)");
 		}
 		thenPart.addToStatements("map.put(curVal.getUid(), curVal)");
 	}
 	protected OJBlock iterateThroughPropertyValues(PropertyMap map,OJWhileStatement w){
-		OJIfStatement ifInstance = new OJIfStatement("currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals(\""
-				+ map.fieldname() + "\") || ((Element)currentPropertyNode).getAttribute(\"propertyId\").equals(\""
-				+ EmfWorkspace.getOpaeumId(map.getProperty()) + "\"))");
+		OJIfStatement ifInstance = new OJIfStatement("currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals(\"" + map.fieldname()
+				+ "\") || ((Element)currentPropertyNode).getAttribute(\"propertyId\").equals(\"" + EmfWorkspace.getOpaeumId(map.getProperty()) + "\"))");
 		OJAnnotatedField propertyValueNodes = new OJAnnotatedField("propertyValueNodes", new OJPathName(NodeList.class.getName()));
 		ifInstance.getThenPart().addToLocals(propertyValueNodes);
 		propertyValueNodes.setInitExp("currentPropertyNode.getChildNodes()");

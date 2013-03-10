@@ -76,7 +76,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 			execute.getBody().addToStatements("evaluatePreconditions()");
 			OJUtil.addFailedConstraints(execute);
 			// add executedOn property for sorting purposes ONLY - all important dates should be observed manually
-			OJAnnotatedField f = OJUtil.addPersistentProperty(ojClass, "executedOn", new OJPathName(Date.class.getName()), true);
+			OJAnnotatedField f = ojUtil.addPersistentProperty(ojClass, "executedOn", new OJPathName(Date.class.getName()), true);
 			if(isPersistent){
 				OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
 				column.putAttribute(new OJAnnotationAttributeValue("name", "executed_on"));

@@ -48,7 +48,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 	private NamespaceRenameRequests namespaceRenameRequests = new NamespaceRenameRequests();
 	private OpenUmlFile openUmlFile;
 	public JavaSourceSynchronizer(OpenUmlFile ne,TransformationProcess process){
-		this.openUmlFile=ne;
+		this.openUmlFile = ne;
 		this.process = process;
 		this.process.replaceModel(ne.getEmfWorkspace());
 		this.process.replaceModel(ne.getOJUtil());
@@ -60,7 +60,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 	}
 	@Override
 	public void onSave(IProgressMonitor monitor,final OpenUmlFile f){
-		//Ignore -called from OpenUMlFile - this is linked to the OpaeumBuilder
+		// Ignore -called from OpenUMlFile - this is linked to the OpaeumBuilder
 	}
 	public void synchronizeNow(IProgressMonitor monitor){
 		try{
@@ -79,6 +79,12 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 	public static boolean hasNewJavaSourceFolders(IWorkspaceRoot workspace,TextWorkspace tws){
 		try{
 			boolean result = false;
+			for(TextProject textProject:tws.getTextProjects()){
+				if(textProject.getName().contains("/") || textProject.getName().trim().isEmpty()){
+					// typically used to generate deeper into an existing project, see TestSourceFolderStrategy
+					return false;
+				}
+			}
 			for(TextProject textProject:tws.getTextProjects()){
 				IProject project = workspace.getProject(textProject.getName());
 				if(!project.exists() || !project.hasNature(JavaCore.NATURE_ID)){
@@ -149,14 +155,13 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 			if(clss.size() > 0){
 				process.replaceModel(new OJWorkspace());
 				process.replaceModel(new TextWorkspace());
-				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(
-						monitor, 400));
+				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 400));
 				boolean hasNewJavaSourceFolders = hasNewJavaSourceFolders(workspace, process.findModel(TextWorkspace.class));
 				if(hasNewJavaSourceFolders && process.getConfig().generateMavenPoms()){
 					process.executePhase(PomGenerationPhase.class, false, new ProgressMonitorTransformationLog(monitor, 100));
 				}
 				int fileCount = deleteOldFilesAndCountNewFiles(monitor, processElements);
-				if(fileCount < 10 && !hasNewJavaSourceFolders){
+				if(fileCount < 10 && hasNewJavaSourceFolders){
 					writeFilesIndividually(monitor, processElements);
 				}else{
 					try{
@@ -171,7 +176,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 			monitor.done();
 		}
 	}
-	public void writeFilesIndividually(IProgressMonitor monitor,Collection<?> processElements )throws Exception{
+	public void writeFilesIndividually(IProgressMonitor monitor,Collection<?> processElements) throws Exception{
 		for(Object object:processElements){
 			if(object instanceof TextOutputNode){
 				TextOutputNode txt = (TextOutputNode) object;
