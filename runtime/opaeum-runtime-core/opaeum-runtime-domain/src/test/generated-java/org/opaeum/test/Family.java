@@ -1,4 +1,4 @@
-package model;
+package org.opaeum.test;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import model.util.ModelFormatter;
-
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -18,6 +16,7 @@ import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.test.util.ModelFormatter;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -26,6 +25,7 @@ import org.w3c.dom.NodeList;
 public class Family implements IEventGenerator, CompositionNode, Serializable {
 	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	protected Map<String, Child> child = new HashMap<String,Child>();
+	protected Map<String, FamilyStepChild> familyStepChild_stepChild = new HashMap<String,FamilyStepChild>();
 	protected Father father;
 	protected Mother mother;
 	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
@@ -43,17 +43,36 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 		}
 	}
 	
+	public void addAllToStepChild(Set<StepChild> stepChild) {
+		for ( StepChild o : stepChild ) {
+			addToStepChild(o.getName(),o);
+		}
+	}
+	
 	public void addToChild(String name, Child child) {
 		if ( child!=null ) {
-			child.z_internalRemoveFromFamily(child.getFamily());
+			if ( child.getFamily()!=null ) {
+				child.getFamily().removeFromChild(child.getName(),child);
+			}
 			child.z_internalAddToFamily(this);
-			z_internalAddToChild(child.getName(),child);
 		}
+		z_internalAddToChild(name,child);
 	}
 	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
+	}
+	
+	public void addToStepChild(String name, StepChild stepChild) {
+		if ( stepChild!=null && !this.getStepChild().contains(stepChild) ) {
+			FamilyStepChild newLink = new FamilyStepChild((Family)this,(StepChild)stepChild);
+			if ( stepChild.getFamily()!=null ) {
+				stepChild.getFamily().removeFromStepChild(stepChild.getName(),stepChild);
+			}
+			this.z_internalAddToFamilyStepChild_stepChild(name,newLink);
+			stepChild.z_internalAddToFamilyStepChild_family(newLink);
+		}
 	}
 	
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
@@ -72,7 +91,7 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=model.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=org.opaeum.test.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.z_internalAddToMother(curVal);
@@ -91,7 +110,7 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=model.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=org.opaeum.test.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.z_internalAddToChild(curVal.getName(),curVal);
@@ -110,7 +129,7 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=model.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=org.opaeum.test.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.z_internalAddToFather(curVal);
@@ -126,6 +145,13 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 		Set<Child> tmp = new HashSet<Child>(getChild());
 		for ( Child o : tmp ) {
 			removeFromChild(o.getName(),o);
+		}
+	}
+	
+	public void clearStepChild() {
+		Set<StepChild> tmp = new HashSet<StepChild>(getStepChild());
+		for ( StepChild o : tmp ) {
+			removeFromStepChild(o.getName(),o);
 		}
 	}
 	
@@ -204,6 +230,30 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 		return result;
 	}
 	
+	public FamilyStepChild getFamilyStepChild_stepChild(String name) {
+		FamilyStepChild result = null;
+		String key = ModelFormatter.getInstance().formatStringQualifier(name);
+		result=this.familyStepChild_stepChild.get(key.toString());
+		return result;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5583823813129990661l,opposite="family",uuid="Structures.uml@_0vhRgIlZEeKhILqZBrW9Hg")
+	@NumlMetaInfo(uuid="Structures.uml@_TL7NoIhqEeK4s7QGypAJBA@Structures.uml@_0vhRgIlZEeKhILqZBrW9Hg")
+	public Set<FamilyStepChild> getFamilyStepChild_stepChild() {
+		Set result = new HashSet<FamilyStepChild>(this.familyStepChild_stepChild.values());
+		
+		return result;
+	}
+	
+	public FamilyStepChild getFamilyStepChild_stepChildFor(StepChild match) {
+		for ( FamilyStepChild var : getFamilyStepChild_stepChild() ) {
+			if ( var.getStepChild().equals(match) ) {
+				return var;
+			}
+		}
+		return null;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=2295318488590672432l,opposite="family",uuid="Structures.uml@_u4dQMIiYEeKb2pFQKBBPKw")
 	@NumlMetaInfo(uuid="Structures.uml@_u4dQMIiYEeKb2pFQKBBPKw")
 	public Father getFather() {
@@ -226,6 +276,15 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 	
 	public CompositionNode getOwningObject() {
 		return null;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=7090279815210814161l,opposite="family",uuid="Structures.uml@_0vgqcIlZEeKhILqZBrW9Hg")
+	public Set<StepChild> getStepChild() {
+		Set result = new HashSet<StepChild>();
+		for ( FamilyStepChild cur : this.getFamilyStepChild_stepChild() ) {
+			result.add(cur.getStepChild());
+		}
+		return result;
 	}
 	
 	public String getUid() {
@@ -264,6 +323,9 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 		if ( getFather()!=null ) {
 			getFather().markDeleted();
 		}
+		for ( StepChild child : new ArrayList<StepChild>(getStepChild()) ) {
+			child.markDeleted();
+		}
 	}
 	
 	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
@@ -301,6 +363,20 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("familyStepChild_stepChild") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5583823813129990661")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						FamilyStepChild familyStepChild_stepChild = (FamilyStepChild)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
+						if ( familyStepChild_stepChild!=null ) {
+							z_internalAddToFamilyStepChild_stepChild(familyStepChild_stepChild.getStepChild().getName(),familyStepChild_stepChild);
+							familyStepChild_stepChild.z_internalAddToFamily(this);
+						}
+					}
+				}
+			}
 		}
 	}
 	
@@ -308,6 +384,13 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 		Set<Child> tmp = new HashSet<Child>(child);
 		for ( Child o : tmp ) {
 			removeFromChild(o.getName(),o);
+		}
+	}
+	
+	public void removeAllFromStepChild(Set<StepChild> stepChild) {
+		Set<StepChild> tmp = new HashSet<StepChild>(stepChild);
+		for ( StepChild o : tmp ) {
+			removeFromStepChild(o.getName(),o);
 		}
 	}
 	
@@ -320,6 +403,17 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 	
 	public void removeFromOwningObject() {
 		this.markDeleted();
+	}
+	
+	public void removeFromStepChild(String name, StepChild stepChild) {
+		if ( stepChild!=null ) {
+			FamilyStepChild oldLink = getFamilyStepChild_stepChildFor(stepChild);
+			if ( oldLink!=null ) {
+				stepChild.z_internalRemoveFromFamilyStepChild_family(oldLink);
+				oldLink.clear();
+				z_internalRemoveFromFamilyStepChild_stepChild(stepChild.getName(),oldLink);
+			}
+		}
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -393,6 +487,11 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 		this.outgoingEvents=outgoingEvents;
 	}
 	
+	public void setStepChild(Set<StepChild> stepChild) {
+		this.clearStepChild();
+		this.addAllToStepChild(stepChild);
+	}
+	
 	public void setUid(String newUid) {
 		this.uid=newUid;
 	}
@@ -405,7 +504,7 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<Family ");
 		sb.append("classUuid=\"Structures.uml@_TL7NoIhqEeK4s7QGypAJBA\" ");
-		sb.append("className=\"model.Family\" ");
+		sb.append("className=\"org.opaeum.test.Family\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		sb.append(">");
 		if ( getMother()==null ) {
@@ -427,6 +526,11 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 			sb.append("\n" + getFather().toXmlString());
 			sb.append("\n</father>");
 		}
+		sb.append("\n<familyStepChild_stepChild propertyId=\"5583823813129990661\">");
+		for ( FamilyStepChild familyStepChild_stepChild : getFamilyStepChild_stepChild() ) {
+			sb.append("\n" + familyStepChild_stepChild.toXmlReferenceString());
+		}
+		sb.append("\n</familyStepChild_stepChild>");
 		sb.append("\n</Family>");
 		return sb.toString();
 	}
@@ -439,6 +543,16 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 		child.z_internalAddToName(name);
 		this.child.put(key.toString(),child);
 		child.setZ_keyOfChildOnFamily(key.toString());
+	}
+	
+	public void z_internalAddToFamilyStepChild_stepChild(String name, FamilyStepChild familyStepChild_stepChild) {
+		String key = ModelFormatter.getInstance().formatStringQualifier(name);
+		if ( getFamilyStepChild_stepChild().contains(familyStepChild_stepChild) ) {
+			return;
+		}
+		familyStepChild_stepChild.getStepChild().z_internalAddToName(name);
+		this.familyStepChild_stepChild.put(key.toString(),familyStepChild_stepChild);
+		familyStepChild_stepChild.setZ_keyOfStepChildOnFamily(key.toString());
 	}
 	
 	public void z_internalAddToFather(Father father) {
@@ -458,6 +572,11 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 	public void z_internalRemoveFromChild(String name, Child child) {
 		String key = ModelFormatter.getInstance().formatStringQualifier(name);
 		this.child.remove(key.toString());
+	}
+	
+	public void z_internalRemoveFromFamilyStepChild_stepChild(String name, FamilyStepChild familyStepChild_stepChild) {
+		String key = ModelFormatter.getInstance().formatStringQualifier(name);
+		this.familyStepChild_stepChild.remove(key.toString());
 	}
 	
 	public void z_internalRemoveFromFather(Father father) {

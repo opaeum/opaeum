@@ -13,7 +13,6 @@ import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.emulated.AssociationClassToEnd;
-import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJBlock;
@@ -26,6 +25,7 @@ import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
@@ -35,7 +35,6 @@ import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.hibernate.HibernateAnnotator;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.oclexpressions.AttributeExpressionGenerator;
-import org.opaeum.javageneration.persistence.JpaAnnotator;
 import org.opaeum.runtime.domain.CompositionNode;
 
 /**
@@ -90,22 +89,23 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		addToOwningObject.setComment("Call this method when you want to attach this object to the containment tree. Useful with transitive persistence");
 		if(!isInterfaceOrAssociationClass(entity)){
 			Property endToComposite = getLibrary().getEndToComposite(entity);
-			if(endToComposite != null && !EmfPropertyUtil.isDerived(endToComposite)){
-				if(endToComposite.getAssociation() != null && EmfAssociationUtil.isClass(endToComposite.getAssociation())){
+			if(isModifiable(endToComposite)){
+				if(EmfAssociationUtil.isClass(endToComposite.getAssociation())){
 					AssociationClassEndMap aMap = new AssociationClassEndMap(ojUtil, endToComposite);
+					String targetExpression = aMap.getEndToAssocationClassMap().getter() + "()";
+					if(isMap(endToComposite.getOtherEnd())){
+						targetExpression = ojUtil.addQualifierArguments(endToComposite.getOtherEnd().getQualifiers(), "this") + targetExpression;
+					}
 					addToOwningObject.getBody().addToStatements(
-							aMap.getMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder() + "(" + aMap.getEndToAssocationClassMap().getter()
-									+ "())");
+							aMap.getMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder() + "(" + targetExpression + ")");
 				}else{
 					PropertyMap featureMap = ojUtil.buildStructuralFeatureMap(endToComposite);
 					PropertyMap otherFeatureMap = ojUtil.buildStructuralFeatureMap(endToComposite.getOtherEnd());
+					String args = "(" + ojClass.getName() + ")this";
 					if(isMap(otherFeatureMap.getProperty())){
-						String qArgs = ojUtil.addQualifierArguments(otherFeatureMap.getProperty().getQualifiers(), "this");
-						addToOwningObject.getBody().addToStatements(
-								featureMap.getter() + "()." + otherFeatureMap.internalAdder() + "(" + qArgs + "(" + ojClass.getName() + ")this)");
-					}else{
-						addToOwningObject.getBody().addToStatements(featureMap.getter() + "()." + otherFeatureMap.internalAdder() + "((" + ojClass.getName() + ")this)");
+						args = ojUtil.addQualifierArguments(otherFeatureMap.getProperty().getQualifiers(), "this") + "(" + ojClass.getName() + ")this";
 					}
+					addToOwningObject.getBody().addToStatements(featureMap.getter() + "()." + otherFeatureMap.internalAdder() + "(" + args + ")");
 				}
 			}
 		}
@@ -135,20 +135,34 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	}
 	protected void markChildrenForDeletion(Classifier sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
 		for(Property np:getLibrary().getEffectiveAttributes(sc)){
-			if(!(np instanceof AssociationClassToEnd) && !np.isComposite() && np.getOtherEnd() != null && np.getOtherEnd().isNavigable()
-					&& !EmfPropertyUtil.isDerived(np) && !EmfPropertyUtil.isDerived(np.getOtherEnd())
-					&& (isPersistent(np.getType()) || np.getType() instanceof Interface) && !(np.getType() instanceof DataType)){
+			if(!(np instanceof AssociationClassToEnd) && !np.isComposite() && isOtherEndModifiable(np) && isModifiable(np)
+					&& (isPersistentClassOrInterface(np.getType()) && !(np.getType() instanceof DataType))){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
 				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(np.getOtherEnd());
 				if(map.isManyToMany()){
 					markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
 				}else if(map.isManyToOne()){
-					OJIfStatement ifNotNull;
-					if(isMap(np.getOtherEnd())){
-						ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.internalRemover() + "("
-								+ ojUtil.addQualifierArguments(np.getOtherEnd().getQualifiers(), "this") + "this)");
+					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null");
+					if(EmfAssociationUtil.isClass(np.getAssociation())){
+						AssociationClassEndMap aMap = ojUtil.buildAssociationClassEndMap(np);
+						OJAnnotatedField link = new OJAnnotatedField("link", aMap.getEndToAssocationClassMap().javaBaseDefaultTypePath());
+						ifNotNull.getThenPart().addToLocals(link);
+						link.setInitExp(aMap.getEndToAssocationClassMap().getter() + "()");
+						String args = "link";
+						if(isMap(np.getOtherEnd())){
+							args = ojUtil.addQualifierArguments(np.getOtherEnd().getQualifiers(), "this") + "link";
+						}
+						ifNotNull.getThenPart()
+								.addToStatements(
+										"link." + aMap.getAssocationClassToOtherEndMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalRemover() + "(" + args
+												+ ")");
+						ifNotNull.getThenPart().addToStatements("link.markDeleted()");
 					}else{
-						ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.internalRemover() + "(this)");
+						String args = "this";
+						if(isMap(np.getOtherEnd())){
+							args = ojUtil.addQualifierArguments(np.getOtherEnd().getQualifiers(), "this") + "this";
+						}
+						ifNotNull.getThenPart().addToStatements(map.getter() + "()." + otherMap.internalRemover() + "(" + args + ")");
 					}
 					markDeleted.getBody().addToStatements(ifNotNull);
 				}else if(map.isOneToOne()){
@@ -201,10 +215,14 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		}
 		Property etc = getLibrary().getEndToComposite(c);
 		if(etc != null && !EmfPropertyUtil.isDerived(etc)){
-			PropertyMap compositeFeatureMap = ojUtil.buildStructuralFeatureMap(etc);
-			ojClass.addToImports(compositeFeatureMap.javaBaseTypePath());
-			init.getBody().getStatements()
-					.add(start, new OJSimpleStatement("this." + compositeFeatureMap.internalAdder() + "((" + compositeFeatureMap.javaBaseType() + ")owner)"));
+			PropertyMap mapToComposite = ojUtil.buildStructuralFeatureMap(etc);
+			ojClass.addToImports(mapToComposite.javaBaseTypePath());
+			String add = "this." + mapToComposite.internalAdder() + "((" + mapToComposite.javaBaseType() + ")owner)";
+			if(!mapToComposite.isAssociationClassToEnd() &&  isInvolvedInAnAssociationClass(mapToComposite)){
+				AssociationClassEndMap aMap = mapToComposite.getAssocationClassMap();
+				add = "this." + aMap.getEndToAssocationClassMap().internalAdder() + "(new "+aMap.getEndToAssocationClassMap().javaBaseType()+ "(("+aMap.getAssociationClassToThisEndMap().javaType()+")this,(" + mapToComposite.javaBaseType() + ")owner))";
+			}
+			init.getBody().getStatements().add(start, new OJSimpleStatement(add));
 		}
 		// init.getBody().addToStatements(0, new OJIfStatement("getOwningObject()!=null && !getOwningObject().equals(owner)",
 		// "System.out.println(\"Reparenting \"+getClass().getSimpleName() +getId())"));

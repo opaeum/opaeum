@@ -1,14 +1,13 @@
-package model;
+package org.opaeum.test;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
-import model.util.ModelFormatter;
-
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.domain.CompositionNode;
+import org.opaeum.test.util.ModelFormatter;
 import org.w3c.dom.Element;
 
 @NumlMetaInfo(applicationIdentifier="structuretests",uuid="Structures.uml@_wqZp8IjPEeKq68owPnlvHg")

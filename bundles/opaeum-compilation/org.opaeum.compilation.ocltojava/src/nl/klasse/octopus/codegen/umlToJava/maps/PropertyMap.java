@@ -13,6 +13,7 @@ import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.eclipse.emulated.AssociationClassToEnd;
 import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.name.NameConverter;
@@ -208,12 +209,14 @@ public final class PropertyMap extends PackageableElementMap{
 		}
 	}
 	public String qualifierProperty(){
-		Property property=(Property) (this.property instanceof EndToAssociationClass?((EndToAssociationClass) this.property).getOriginalProperty():this.property);
+		Property property = (Property) (this.property instanceof EndToAssociationClass ? ((EndToAssociationClass) this.property).getOriginalProperty()
+				: this.property);
 		Classifier owner = EmfPropertyUtil.getOwningClassifier(property);
 		return "z_keyOf" + NameConverter.capitalize(NameConverter.toJavaVariableName(property.getName())) + "On" + owner.getName();
 	}
 	public String qualifierPropertySetter(){
-		Property property=(Property) (this.property instanceof EndToAssociationClass?((EndToAssociationClass) this.property).getOriginalProperty():this.property);
+		Property property = (Property) (this.property instanceof EndToAssociationClass ? ((EndToAssociationClass) this.property).getOriginalProperty()
+				: this.property);
 		Classifier owner = EmfPropertyUtil.getOwningClassifier(property);
 		return "setZ_keyOf" + NameConverter.capitalize(NameConverter.toJavaVariableName(property.getName())) + "On" + (owner).getName();
 	}
@@ -281,5 +284,19 @@ public final class PropertyMap extends PackageableElementMap{
 			}
 		}
 		return result;
+	}
+	public boolean isEndToAssociationClass(){
+		return property instanceof EndToAssociationClass;
+	}
+	public AssociationClassEndMap getAssocationClassMap(){
+		if(isEndToAssociationClass()){
+			return ojUtil.buildAssociationClassEndMap(((EndToAssociationClass) property).getOriginalProperty());
+		}else if(isAssociationClassToEnd()){
+			return ojUtil.buildAssociationClassEndMap(((AssociationClassToEnd) property).getOriginalProperty());
+		}
+		return ojUtil.buildAssociationClassEndMap(property);
+	}
+	public boolean isAssociationClassToEnd(){
+		return property instanceof AssociationClassToEnd;
 	}
 }

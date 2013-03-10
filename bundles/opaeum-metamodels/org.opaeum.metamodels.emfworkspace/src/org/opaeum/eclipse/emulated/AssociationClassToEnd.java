@@ -60,5 +60,8 @@ public class AssociationClassToEnd extends AbstractEmulatedProperty{
 	public EndToAssociationClass getOtherEnd(){
 		return otherEnd;
 	}
+	public Property getOriginalProperty(){
+		return property;
+	}
 
 }

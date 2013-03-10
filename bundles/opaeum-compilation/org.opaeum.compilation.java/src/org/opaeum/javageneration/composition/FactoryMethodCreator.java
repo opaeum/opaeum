@@ -9,6 +9,7 @@ import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
@@ -79,7 +80,7 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 	protected void visitProperty(OJAnnotatedClass myOwner,Classifier owner,PropertyMap map){
 		Property aw = map.getProperty();
 		if(!EmfPropertyUtil.isDerived(aw) && isPersistent(map.getBaseType()) && aw.isComposite()
-				&& !((Classifier) map.getBaseType()).isAbstract()){
+				&& !((Classifier) map.getBaseType()).isAbstract() && !(map.getProperty() instanceof EndToAssociationClass)){
 			createFactoryMethod(aw, myOwner);
 		}
 	}

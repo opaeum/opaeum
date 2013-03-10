@@ -61,6 +61,7 @@ public class OpaeumConfig{
 	private static final String DB_NAME = "opaeum.database.name";
 	private static final String IS_SIMULATION_CONTEXT = "opaeum.is.simulation.context";
 	private static final String DEV_USERNAME = "opaeum.developer.username";
+	private static final String IMPLEMENT_MAPS = "opaeum.implement.maps";
 	private static Map<String,Class<?>> classRegistry = new HashMap<String,Class<?>>();
 	private Properties props = new SortedProperties();
 	private File outputRoot;
@@ -70,6 +71,9 @@ public class OpaeumConfig{
 	private VersionNumber version;
 	public OpaeumConfig(File file){
 		this.file = file;
+		reload();
+	}
+	public void reload(){
 		if(file.exists()){
 			FileInputStream stream;
 			try{
@@ -550,5 +554,8 @@ public class OpaeumConfig{
 	}
 	public void setSimulationContext(boolean t){
 		props.setProperty(IS_SIMULATION_CONTEXT, ""+t);
+	}
+	public boolean implementMaps(){
+		return this.props.getProperty(IMPLEMENT_MAPS, "true").equals("true");
 	}
 }

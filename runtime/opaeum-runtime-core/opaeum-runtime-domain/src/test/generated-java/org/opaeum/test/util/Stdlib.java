@@ -1,4 +1,4 @@
-package model.util;
+package org.opaeum.test.util;
 
 import java.util.ArrayList;
 import java.util.Collection;

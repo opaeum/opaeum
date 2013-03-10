@@ -1,15 +1,14 @@
-package model;
+package org.opaeum.test;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
-import model.util.ModelFormatter;
-
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.domain.CompositionNode;
+import org.opaeum.test.util.ModelFormatter;
 import org.w3c.dom.Element;
 
 @NumlMetaInfo(applicationIdentifier="structuretests",uuid="Structures.uml@_Zi2eAIhrEeK4s7QGypAJBA")
@@ -23,10 +22,6 @@ public interface SurnameProvider extends CompositionNode, Serializable {
 	public void clearSurnameCarryingDaughter();
 	
 	public void clearSurnameCarryingSon();
-	
-	public SurnameProviderHasDaughter createSurnameProviderHasDaughter_surnameCarryingDaughter();
-	
-	public SurnameProviderHasSon createSurnameProviderHasSon_surnameCarryingSon();
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4841945505933354426l,opposite="surnameProvider",uuid="Structures.uml@_0-KlMYjPEeKq68owPnlvHg")
 	@NumlMetaInfo(uuid="Structures.uml@_0-KlMYjPEeKq68owPnlvHg")

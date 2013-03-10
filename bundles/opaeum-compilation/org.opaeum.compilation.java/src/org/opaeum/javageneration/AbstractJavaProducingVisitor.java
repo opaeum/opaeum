@@ -15,6 +15,7 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Package;
@@ -228,6 +229,10 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 			pkg.setParent(null);
 		}
 	}
+	public static boolean isPersistentClassOrInterface(Type type){
+		return EmfClassifierUtil.isPersistentClassOrInterface(type);
+	}
+
 	public static boolean isPersistent(Type type){
 		return EmfClassifierUtil.isPersistent(type);
 	}

@@ -1,4 +1,4 @@
-package model;
+package org.opaeum.test;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import model.util.ModelFormatter;
-
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -20,37 +18,69 @@ import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.strategy.DateStrategyFactory;
+import org.opaeum.test.util.ModelFormatter;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-@NumlMetaInfo(applicationIdentifier="structuretests",uuid="Structures.uml@_htfZoIhqEeK4s7QGypAJBA")
-public class Cousin implements IEventGenerator, CompositionNode, Relation, Serializable {
+@NumlMetaInfo(applicationIdentifier="structuretests",uuid="Structures.uml@_edqnoIhqEeK4s7QGypAJBA")
+public class Aunt implements Relation, IEventGenerator, CompositionNode, Serializable {
 	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
-	protected Child child;
+	protected Map<String, ChildHasRelation> childHasRelation_child = new HashMap<String,ChildHasRelation>();
 	protected Date dateOfBirth;
 	protected Set<FamilyMemberHasRelation> familyMemberHasRelation_familyMember = new HashSet<FamilyMemberHasRelation>();
 	protected String firstName;
-	protected String name;
 	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
-	static final private long serialVersionUID = 2663085624618796279l;
+	static final private long serialVersionUID = 5674612196249131985l;
 	protected String surname;
 	private String uid;
 
-	/** Default constructor for Cousin
+	/** Default constructor for Aunt
 	 */
-	public Cousin() {
+	public Aunt() {
 	}
 
+	public void addAllToChild(Set<Child> child) {
+		for ( Child o : child ) {
+			addToChild(o.getName(),o.getDateOfBirth(),o);
+		}
+	}
+	
 	public void addAllToFamilyMember(Set<FamilyMember> familyMember) {
 		for ( FamilyMember o : familyMember ) {
 			addToFamilyMember(o);
 		}
 	}
 	
+	public void addToChild(String name, Date dateOfBirth, Child child) {
+		if ( child!=null && !this.getChild().contains(child) ) {
+			ChildHasRelation newLink = new ChildHasRelation((Relation)this,(Child)child);
+			if ( getFirstName()==null ) {
+				throw new IllegalStateException("The qualifying property 'firstName' must be set before adding a value to 'child'");
+			}
+			if ( getSurname()==null ) {
+				throw new IllegalStateException("The qualifying property 'surname' must be set before adding a value to 'child'");
+			}
+			if ( getDateOfBirth()==null ) {
+				throw new IllegalStateException("The qualifying property 'dateOfBirth' must be set before adding a value to 'child'");
+			}
+			this.z_internalAddToChildHasRelation_child(name,dateOfBirth,newLink);
+			child.z_internalAddToChildHasRelation_godParent(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),newLink);
+		}
+	}
+	
 	public void addToFamilyMember(FamilyMember familyMember) {
 		if ( familyMember!=null && !this.getFamilyMember().contains(familyMember) ) {
 			FamilyMemberHasRelation newLink = new FamilyMemberHasRelation((Relation)this,(FamilyMember)familyMember);
+			if ( getFirstName()==null ) {
+				throw new IllegalStateException("The qualifying property 'firstName' must be set before adding a value to 'familyMember'");
+			}
+			if ( getSurname()==null ) {
+				throw new IllegalStateException("The qualifying property 'surname' must be set before adding a value to 'familyMember'");
+			}
+			if ( getDateOfBirth()==null ) {
+				throw new IllegalStateException("The qualifying property 'dateOfBirth' must be set before adding a value to 'familyMember'");
+			}
 			this.z_internalAddToFamilyMemberHasRelation_familyMember(newLink);
 			familyMember.z_internalAddToFamilyMemberHasRelation_relation(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),newLink);
 		}
@@ -72,13 +102,29 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 		if ( xml.getAttribute("dateOfBirth").length()>0 ) {
 			setDateOfBirth(ModelFormatter.getInstance().parseDate(xml.getAttribute("dateOfBirth")));
 		}
-		if ( xml.getAttribute("name").length()>0 ) {
-			setName(ModelFormatter.getInstance().parseString(xml.getAttribute("name")));
-		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("childHasRelation_child") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1488854094798314249")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						ChildHasRelation curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=org.opaeum.test.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.z_internalAddToChildHasRelation_child(curVal.getChild().getName(),curVal.getChild().getDateOfBirth(),curVal);
+						curVal.z_internalAddToGodParent(this);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("familyMemberHasRelation_familyMember") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3903606770219243395")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -89,7 +135,7 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=model.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=org.opaeum.test.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.z_internalAddToFamilyMemberHasRelation_familyMember(curVal);
@@ -101,6 +147,13 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 		}
 	}
 	
+	public void clearChild() {
+		Set<Child> tmp = new HashSet<Child>(getChild());
+		for ( Child o : tmp ) {
+			removeFromChild(o.getName(),o.getDateOfBirth(),o);
+		}
+	}
+	
 	public void clearFamilyMember() {
 		Set<FamilyMember> tmp = new HashSet<FamilyMember>(getFamilyMember());
 		for ( FamilyMember o : tmp ) {
@@ -108,32 +161,24 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 		}
 	}
 	
-	public void copyShallowState(Cousin from, Cousin to) {
+	public void copyShallowState(Aunt from, Aunt to) {
 		to.setFirstName(from.getFirstName());
 		to.setSurname(from.getSurname());
 		to.setDateOfBirth(from.getDateOfBirth());
-		to.setName(from.getName());
 	}
 	
-	public void copyState(Cousin from, Cousin to) {
+	public void copyState(Aunt from, Aunt to) {
 		to.setFirstName(from.getFirstName());
 		to.setSurname(from.getSurname());
 		to.setDateOfBirth(from.getDateOfBirth());
-		to.setName(from.getName());
 	}
 	
 	public void createComponents() {
 	}
 	
-	public FamilyMemberHasRelation createFamilyMemberHasRelation_familyMember() {
-		FamilyMemberHasRelation newInstance= new FamilyMemberHasRelation();
-		newInstance.init(this);
-		return newInstance;
-	}
-	
 	public boolean equals(Object other) {
-		if ( other instanceof Cousin ) {
-			return other==this || ((Cousin)other).getUid().equals(this.getUid());
+		if ( other instanceof Aunt ) {
+			return other==this || ((Aunt)other).getUid().equals(this.getUid());
 		}
 		return false;
 	}
@@ -143,11 +188,36 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=984124978325014811l,opposite="godParent",uuid="Structures.uml@_I7GooYhrEeK4s7QGypAJBA")
-	@NumlMetaInfo(uuid="Structures.uml@_I7GooYhrEeK4s7QGypAJBA")
-	public Child getChild() {
-		Child result = this.child;
+	public Set<Child> getChild() {
+		Set result = new HashSet<Child>();
+		for ( ChildHasRelation cur : this.getChildHasRelation_child() ) {
+			result.add(cur.getChild());
+		}
+		return result;
+	}
+	
+	public ChildHasRelation getChildHasRelation_child(String name, Date dateOfBirth) {
+		ChildHasRelation result = null;
+		String key = ModelFormatter.getInstance().formatStringQualifier(name)+ModelFormatter.getInstance().formatDateQualifier(dateOfBirth);
+		result=this.childHasRelation_child.get(key.toString());
+		return result;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=1488854094798314249l,opposite="godParent",uuid="Structures.uml@_I7GooIhrEeK4s7QGypAJBA")
+	@NumlMetaInfo(uuid="Structures.uml@_bVPeIIhqEeK4s7QGypAJBA@Structures.uml@_I7GooIhrEeK4s7QGypAJBA")
+	public Set<ChildHasRelation> getChildHasRelation_child() {
+		Set result = new HashSet<ChildHasRelation>(this.childHasRelation_child.values());
 		
 		return result;
+	}
+	
+	public ChildHasRelation getChildHasRelation_childFor(Child match) {
+		for ( ChildHasRelation var : getChildHasRelation_child() ) {
+			if ( var.getChild().equals(match) ) {
+				return var;
+			}
+		}
+		return null;
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4576801132852053498l,strategyFactory=DateStrategyFactory.class,uuid="Structures.uml@_wFrE4IjSEeKq68owPnlvHg")
@@ -192,14 +262,6 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5295029831018107038l,uuid="Structures.uml@_jHAA4IiDEeKe_ZlMOEGy8Q")
-	@NumlMetaInfo(uuid="Structures.uml@_jHAA4IiDEeKe_ZlMOEGy8Q")
-	public String getName() {
-		String result = this.name;
-		
-		return result;
-	}
-	
 	public Set<OutgoingEvent> getOutgoingEvents() {
 		return this.outgoingEvents;
 	}
@@ -230,23 +292,24 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 	public void init(CompositionNode owner) {
 	}
 	
-	public Cousin makeCopy() {
-		Cousin result = new Cousin();
-		copyState((Cousin)this,result);
+	public Aunt makeCopy() {
+		Aunt result = new Aunt();
+		copyState((Aunt)this,result);
 		return result;
 	}
 	
-	public Cousin makeShallowCopy() {
-		Cousin result = new Cousin();
-		copyShallowState((Cousin)this,result);
+	public Aunt makeShallowCopy() {
+		Aunt result = new Aunt();
+		copyShallowState((Aunt)this,result);
 		return result;
 	}
 	
 	public void markDeleted() {
-		if ( getChild()!=null ) {
-			getChild().z_internalRemoveFromGodParent(this);
-		}
+		removeAllFromChild(getChild());
 		removeAllFromFamilyMember(getFamilyMember());
+		for ( ChildHasRelation child : new ArrayList<ChildHasRelation>(getChildHasRelation_child()) ) {
+			child.markDeleted();
+		}
 		for ( FamilyMemberHasRelation child : new ArrayList<FamilyMemberHasRelation>(getFamilyMemberHasRelation_familyMember()) ) {
 			child.markDeleted();
 		}
@@ -257,17 +320,13 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("child") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("984124978325014811")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("childHasRelation_child") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1488854094798314249")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						Child child = (Child)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
-						if ( child!=null ) {
-							z_internalAddToChild(child);
-							child.z_internalAddToGodParent(this);
-						}
+						((ChildHasRelation)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
 					}
 				}
 			}
@@ -284,10 +343,28 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 		}
 	}
 	
+	public void removeAllFromChild(Set<Child> child) {
+		Set<Child> tmp = new HashSet<Child>(child);
+		for ( Child o : tmp ) {
+			removeFromChild(o.getName(),o.getDateOfBirth(),o);
+		}
+	}
+	
 	public void removeAllFromFamilyMember(Set<FamilyMember> familyMember) {
 		Set<FamilyMember> tmp = new HashSet<FamilyMember>(familyMember);
 		for ( FamilyMember o : tmp ) {
 			removeFromFamilyMember(o);
+		}
+	}
+	
+	public void removeFromChild(String name, Date dateOfBirth, Child child) {
+		if ( child!=null ) {
+			ChildHasRelation oldLink = getChildHasRelation_childFor(child);
+			if ( oldLink!=null ) {
+				child.z_internalRemoveFromChildHasRelation_godParent(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),oldLink);
+				oldLink.clear();
+				z_internalRemoveFromChildHasRelation_child(child.getName(),child.getDateOfBirth(),oldLink);
+			}
 		}
 	}
 	
@@ -310,36 +387,15 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 		this.cancelledEvents=cancelledEvents;
 	}
 	
-	public void setChild(Child child) {
-		Child oldValue = this.getChild();
-		if ( oldValue==null ) {
-			if ( child!=null ) {
-				Cousin oldOther = (Cousin)child.getGodParent();
-				child.z_internalRemoveFromGodParent(oldOther);
-				if ( oldOther != null ) {
-					oldOther.z_internalRemoveFromChild(child);
-				}
-				child.z_internalAddToGodParent((Cousin)this);
-			}
-			this.z_internalAddToChild(child);
-		} else {
-			if ( !oldValue.equals(child) ) {
-				oldValue.z_internalRemoveFromGodParent(this);
-				z_internalRemoveFromChild(oldValue);
-				if ( child!=null ) {
-					Cousin oldOther = (Cousin)child.getGodParent();
-					child.z_internalRemoveFromGodParent(oldOther);
-					if ( oldOther != null ) {
-						oldOther.z_internalRemoveFromChild(child);
-					}
-					child.z_internalAddToGodParent((Cousin)this);
-				}
-				this.z_internalAddToChild(child);
-			}
-		}
+	public void setChild(Set<Child> child) {
+		this.clearChild();
+		this.addAllToChild(child);
 	}
 	
 	public void setDateOfBirth(Date dateOfBirth) {
+		for ( ChildHasRelation curVal : getChildHasRelation_child() ) {
+			curVal.getChild().z_internalRemoveFromChildHasRelation_godParent(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),curVal);
+		}
 		for ( FamilyMemberHasRelation curVal : getFamilyMemberHasRelation_familyMember() ) {
 			curVal.getFamilyMember().z_internalRemoveFromFamilyMemberHasRelation_relation(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),curVal);
 		}
@@ -347,6 +403,9 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 			this.z_internalRemoveFromDateOfBirth(getDateOfBirth());
 		} else {
 			this.z_internalAddToDateOfBirth(dateOfBirth);
+		}
+		for ( ChildHasRelation curVal : getChildHasRelation_child() ) {
+			curVal.getChild().z_internalAddToChildHasRelation_godParent(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),curVal);
 		}
 		for ( FamilyMemberHasRelation curVal : getFamilyMemberHasRelation_familyMember() ) {
 			curVal.getFamilyMember().z_internalAddToFamilyMemberHasRelation_relation(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),curVal);
@@ -359,6 +418,9 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 	}
 	
 	public void setFirstName(String firstName) {
+		for ( ChildHasRelation curVal : getChildHasRelation_child() ) {
+			curVal.getChild().z_internalRemoveFromChildHasRelation_godParent(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),curVal);
+		}
 		for ( FamilyMemberHasRelation curVal : getFamilyMemberHasRelation_familyMember() ) {
 			curVal.getFamilyMember().z_internalRemoveFromFamilyMemberHasRelation_relation(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),curVal);
 		}
@@ -367,16 +429,11 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 		} else {
 			this.z_internalAddToFirstName(firstName);
 		}
+		for ( ChildHasRelation curVal : getChildHasRelation_child() ) {
+			curVal.getChild().z_internalAddToChildHasRelation_godParent(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),curVal);
+		}
 		for ( FamilyMemberHasRelation curVal : getFamilyMemberHasRelation_familyMember() ) {
 			curVal.getFamilyMember().z_internalAddToFamilyMemberHasRelation_relation(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),curVal);
-		}
-	}
-	
-	public void setName(String name) {
-		if ( name == null ) {
-			this.z_internalRemoveFromName(getName());
-		} else {
-			this.z_internalAddToName(name);
 		}
 	}
 	
@@ -385,6 +442,9 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 	}
 	
 	public void setSurname(String surname) {
+		for ( ChildHasRelation curVal : getChildHasRelation_child() ) {
+			curVal.getChild().z_internalRemoveFromChildHasRelation_godParent(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),curVal);
+		}
 		for ( FamilyMemberHasRelation curVal : getFamilyMemberHasRelation_familyMember() ) {
 			curVal.getFamilyMember().z_internalRemoveFromFamilyMemberHasRelation_relation(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),curVal);
 		}
@@ -392,6 +452,9 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 			this.z_internalRemoveFromSurname(getSurname());
 		} else {
 			this.z_internalAddToSurname(surname);
+		}
+		for ( ChildHasRelation curVal : getChildHasRelation_child() ) {
+			curVal.getChild().z_internalAddToChildHasRelation_godParent(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),curVal);
 		}
 		for ( FamilyMemberHasRelation curVal : getFamilyMemberHasRelation_familyMember() ) {
 			curVal.getFamilyMember().z_internalAddToFamilyMemberHasRelation_relation(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),curVal);
@@ -403,14 +466,14 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 	}
 	
 	public String toXmlReferenceString() {
-		return "<Cousin uid=\""+getUid() + "\"/>";
+		return "<Aunt uid=\""+getUid() + "\"/>";
 	}
 	
 	public String toXmlString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<Cousin ");
-		sb.append("classUuid=\"Structures.uml@_htfZoIhqEeK4s7QGypAJBA\" ");
-		sb.append("className=\"model.Cousin\" ");
+		sb.append("<Aunt ");
+		sb.append("classUuid=\"Structures.uml@_edqnoIhqEeK4s7QGypAJBA\" ");
+		sb.append("className=\"org.opaeum.test.Aunt\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		if ( getFirstName()!=null ) {
 			sb.append("firstName=\""+ ModelFormatter.getInstance().formatString(getFirstName())+"\" ");
@@ -421,31 +484,30 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 		if ( getDateOfBirth()!=null ) {
 			sb.append("dateOfBirth=\""+ ModelFormatter.getInstance().formatDate(getDateOfBirth())+"\" ");
 		}
-		if ( getName()!=null ) {
-			sb.append("name=\""+ ModelFormatter.getInstance().formatString(getName())+"\" ");
-		}
 		sb.append(">");
-		if ( getChild()==null ) {
-			sb.append("\n<child/>");
-		} else {
-			sb.append("\n<child propertyId=\"984124978325014811\">");
-			sb.append("\n" + getChild().toXmlReferenceString());
-			sb.append("\n</child>");
+		sb.append("\n<childHasRelation_child propertyId=\"1488854094798314249\">");
+		for ( ChildHasRelation childHasRelation_child : getChildHasRelation_child() ) {
+			sb.append("\n" + childHasRelation_child.toXmlString());
 		}
+		sb.append("\n</childHasRelation_child>");
 		sb.append("\n<familyMemberHasRelation_familyMember propertyId=\"3903606770219243395\">");
 		for ( FamilyMemberHasRelation familyMemberHasRelation_familyMember : getFamilyMemberHasRelation_familyMember() ) {
 			sb.append("\n" + familyMemberHasRelation_familyMember.toXmlString());
 		}
 		sb.append("\n</familyMemberHasRelation_familyMember>");
-		sb.append("\n</Cousin>");
+		sb.append("\n</Aunt>");
 		return sb.toString();
 	}
 	
-	public void z_internalAddToChild(Child child) {
-		if ( child.equals(getChild()) ) {
+	public void z_internalAddToChildHasRelation_child(String name, Date dateOfBirth, ChildHasRelation childHasRelation_child) {
+		String key = ModelFormatter.getInstance().formatStringQualifier(name)+ModelFormatter.getInstance().formatDateQualifier(dateOfBirth);
+		if ( getChildHasRelation_child().contains(childHasRelation_child) ) {
 			return;
 		}
-		this.child=child;
+		childHasRelation_child.getChild().z_internalAddToName(name);
+		childHasRelation_child.getChild().z_internalAddToDateOfBirth(dateOfBirth);
+		this.childHasRelation_child.put(key.toString(),childHasRelation_child);
+		childHasRelation_child.setZ_keyOfChildOnRelation(key.toString());
 	}
 	
 	public void z_internalAddToDateOfBirth(Date dateOfBirth) {
@@ -469,13 +531,6 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 		this.firstName=firstName;
 	}
 	
-	public void z_internalAddToName(String name) {
-		if ( name.equals(getName()) ) {
-			return;
-		}
-		this.name=name;
-	}
-	
 	public void z_internalAddToSurname(String surname) {
 		if ( surname.equals(getSurname()) ) {
 			return;
@@ -483,11 +538,9 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 		this.surname=surname;
 	}
 	
-	public void z_internalRemoveFromChild(Child child) {
-		if ( getChild()!=null && child!=null && child.equals(getChild()) ) {
-			this.child=null;
-			this.child=null;
-		}
+	public void z_internalRemoveFromChildHasRelation_child(String name, Date dateOfBirth, ChildHasRelation childHasRelation_child) {
+		String key = ModelFormatter.getInstance().formatStringQualifier(name)+ModelFormatter.getInstance().formatDateQualifier(dateOfBirth);
+		this.childHasRelation_child.remove(key.toString());
 	}
 	
 	public void z_internalRemoveFromDateOfBirth(Date dateOfBirth) {
@@ -505,13 +558,6 @@ public class Cousin implements IEventGenerator, CompositionNode, Relation, Seria
 		if ( getFirstName()!=null && firstName!=null && firstName.equals(getFirstName()) ) {
 			this.firstName=null;
 			this.firstName=null;
-		}
-	}
-	
-	public void z_internalRemoveFromName(String name) {
-		if ( getName()!=null && name!=null && name.equals(getName()) ) {
-			this.name=null;
-			this.name=null;
 		}
 	}
 	

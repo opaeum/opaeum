@@ -12,6 +12,7 @@ import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -28,6 +29,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
@@ -61,12 +63,25 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 						OJAnnotatedField var = new OJAnnotatedField(map.fieldname(), map.javaBaseTypePath());
 						then.addToLocals(var);
 						var.setInitExp("(" + map.javaBaseType() + ")map.get(((Element)currentPropertyValueNode).getAttribute(\"uid\"))");
-						//TODO qualifiers
-						OJIfStatement ifNotNull = new OJIfStatement(map.fieldname() + "!=null", map.internalAdder() + "("+map.fieldname()+")");
+						OJIfStatement ifNotNull = new OJIfStatement(map.fieldname() + "!=null");
 						then.addToStatements(ifNotNull);
+						String args = map.fieldname();
+						if(map.isMany() && isMap(map.getProperty())){
+							String targetExpression = map.fieldname();
+							if(map.getProperty() instanceof EndToAssociationClass){
+								AssociationClassEndMap aMap = ojUtil.buildAssociationClassEndMap(((EndToAssociationClass) map.getProperty()).getOriginalProperty());
+								targetExpression = map.fieldname() + "." + aMap.getAssocationClassToOtherEndMap().getter() + "()";
+							}
+							args = ojUtil.addQualifierArguments(map.getProperty().getQualifiers(), targetExpression) + map.fieldname();
+						}
+						ifNotNull.getThenPart().addToStatements(map.internalAdder() + "(" + args + ")");
 						if(map.getProperty().getOtherEnd() != null && map.getProperty().getOtherEnd().isNavigable()){
 							PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(map.getProperty().getOtherEnd());
-							ifNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(this)");
+							String otherArgs = "this";
+							if(otherMap.isMany() && isMap(otherMap.getProperty())){
+								otherArgs = ojUtil.addQualifierArguments(otherMap.getProperty().getQualifiers(), "this") + "this";
+							}
+							ifNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(" + otherArgs + ")");
 						}
 					}else if(XmlUtil.isXmlSubElement(map)){
 						OJBlock then = iterateThroughPropertyValues(map, whileItems);
@@ -164,7 +179,12 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		String qualifierString = "";
 		if(isMap(map.getProperty())){
 			List<Property> qualifiers = map.getProperty().getQualifiers();
-			qualifierString = ojUtil.addQualifierArguments(qualifiers, "curVal");
+			if(map.getProperty() instanceof EndToAssociationClass){
+				AssociationClassEndMap aMap=ojUtil.buildAssociationClassEndMap(((EndToAssociationClass)map.getProperty()).getOriginalProperty());
+				qualifierString = ojUtil.addQualifierArguments(qualifiers, "curVal." + aMap.getAssocationClassToOtherEndMap().getter() +"()");
+			}else{
+				qualifierString = ojUtil.addQualifierArguments(qualifiers, "curVal");
+			}
 		}
 		thenPart.addToStatements("this." + map.internalAdder() + "(" + qualifierString + "curVal)");
 		if(map.getProperty().getOtherEnd() != null && map.getProperty().getOtherEnd().isNavigable()){

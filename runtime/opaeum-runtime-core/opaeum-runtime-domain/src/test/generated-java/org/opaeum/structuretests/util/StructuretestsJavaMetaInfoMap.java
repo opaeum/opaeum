@@ -9,7 +9,7 @@ public class StructuretestsJavaMetaInfoMap extends JavaMetaInfoMap {
 	/** Constructor for StructuretestsJavaMetaInfoMap
 	 */
 	public StructuretestsJavaMetaInfoMap() {
-		this.importMetaInfo(model.util.ModelJavaMetaInfoMap.INSTANCE);
+		this.importMetaInfo(org.opaeum.test.util.ModelJavaMetaInfoMap.INSTANCE);
 	}
 
 

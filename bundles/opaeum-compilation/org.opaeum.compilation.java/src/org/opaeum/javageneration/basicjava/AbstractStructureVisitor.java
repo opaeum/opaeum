@@ -37,6 +37,7 @@ import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfOperationUtil;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.emulated.AbstractEmulatedProperty;
 import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForAssociation;
 import org.opaeum.feature.visit.VisitBefore;
@@ -195,8 +196,28 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	 * @return
 	 */
 	protected final boolean isMap(Property property){
+		
 		return property.getQualifiers().size() > 0
 				&& (property.getName().equals("updateChangeLog") || property.getName().equals("user") || property.getName().equals("userGroup") || !EmfElementFinder.getRootObject(property)
-						.getName().equals("com"));
+						.getName().equals("com")) && config.implementMaps();
 	}
+	protected final boolean isOtherEndModifiable(PropertyMap map){
+		return isOtherEndModifiable(map.getProperty());
+	}
+	protected final boolean isModifiable(PropertyMap map){
+		return isModifiable(map.getProperty());
+	}
+	protected final boolean isOtherEndModifiable(Property property){
+		Property otherEnd = property.getOtherEnd();
+		return isModifiable(otherEnd);
+	}
+	protected final boolean isModifiable(Property otherEnd){
+		return !(otherEnd == null || EmfPropertyUtil.isDerived(otherEnd)) && otherEnd.isNavigable() && !otherEnd.isReadOnly();
+	}
+	protected final boolean isInvolvedInAnAssociationClass(PropertyMap map){
+		boolean isInvolvedInAnAssociationClass = EmfAssociationUtil.isClass(map.getProperty().getAssociation()) || map.getBaseType() instanceof Association
+				|| (map.getProperty().getOtherEnd() != null && map.getProperty().getOtherEnd().getType() instanceof Association);
+		return isInvolvedInAnAssociationClass;
+	}
+
 }

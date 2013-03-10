@@ -1,17 +1,16 @@
-package model;
+package org.opaeum.test;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
-import model.util.ModelFormatter;
-
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.test.util.ModelFormatter;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -121,34 +120,7 @@ public class SurnameProviderHasDaughter implements CompositionNode, Serializable
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("surnameCarryingDaughter") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("7054433913514256040")) ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						Sister surnameCarryingDaughter = (Sister)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
-						if ( surnameCarryingDaughter!=null ) {
-							z_internalAddToSurnameCarryingDaughter(surnameCarryingDaughter);
-							surnameCarryingDaughter.z_internalAddToSurnameProviderHasDaughter_surnameProvider(this);
-						}
-					}
-				}
-			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("surnameProvider") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("8484398849814184104")) ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						SurnameProvider surnameProvider = (SurnameProvider)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
-						if ( surnameProvider!=null ) {
-							z_internalAddToSurnameProvider(surnameProvider);
-							surnameProvider.z_internalAddToSurnameProviderHasDaughter_surnameCarryingDaughter(this);
-						}
-					}
-				}
-			}
+		
 		}
 	}
 	
@@ -168,23 +140,9 @@ public class SurnameProviderHasDaughter implements CompositionNode, Serializable
 		StringBuilder sb = new StringBuilder();
 		sb.append("<SurnameProviderHasDaughter ");
 		sb.append("classUuid=\"Structures.uml@_gtNy8IhrEeK4s7QGypAJBA\" ");
-		sb.append("className=\"model.SurnameProviderHasDaughter\" ");
+		sb.append("className=\"org.opaeum.test.SurnameProviderHasDaughter\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		sb.append(">");
-		if ( getSurnameCarryingDaughter()==null ) {
-			sb.append("\n<surnameCarryingDaughter/>");
-		} else {
-			sb.append("\n<surnameCarryingDaughter propertyId=\"7054433913514256040\">");
-			sb.append("\n" + getSurnameCarryingDaughter().toXmlReferenceString());
-			sb.append("\n</surnameCarryingDaughter>");
-		}
-		if ( getSurnameProvider()==null ) {
-			sb.append("\n<surnameProvider/>");
-		} else {
-			sb.append("\n<surnameProvider propertyId=\"8484398849814184104\">");
-			sb.append("\n" + getSurnameProvider().toXmlReferenceString());
-			sb.append("\n</surnameProvider>");
-		}
 		sb.append("\n</SurnameProviderHasDaughter>");
 		return sb.toString();
 	}

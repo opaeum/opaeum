@@ -1,4 +1,4 @@
-package model;
+package org.opaeum.test;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,27 +6,33 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-import model.util.ModelFormatter;
-
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.strategy.DateStrategyFactory;
+import org.opaeum.test.util.ModelFormatter;
 import org.w3c.dom.Element;
 
 @NumlMetaInfo(applicationIdentifier="structuretests",uuid="Structures.uml@_bVPeIIhqEeK4s7QGypAJBA")
 public interface Relation extends CompositionNode, Serializable {
+	public void addToChild(String name, Date dateOfBirth, Child child);
+	
 	public void addToFamilyMember(FamilyMember familyMember);
 	
 	public void buildTreeFromXml(Element xml, Map<String, Object> map);
 	
+	public void clearChild();
+	
 	public void clearFamilyMember();
 	
-	public FamilyMemberHasRelation createFamilyMemberHasRelation_familyMember();
-	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=984124978325014811l,opposite="godParent",uuid="Structures.uml@_I7GooYhrEeK4s7QGypAJBA")
-	@NumlMetaInfo(uuid="Structures.uml@_I7GooYhrEeK4s7QGypAJBA")
-	public Child getChild();
+	public Set<Child> getChild();
+	
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=1488854094798314249l,opposite="godParent",uuid="Structures.uml@_I7GooIhrEeK4s7QGypAJBA")
+	@NumlMetaInfo(uuid="Structures.uml@_bVPeIIhqEeK4s7QGypAJBA@Structures.uml@_I7GooIhrEeK4s7QGypAJBA")
+	public Set<ChildHasRelation> getChildHasRelation_child();
+	
+	public ChildHasRelation getChildHasRelation_childFor(Child match);
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4576801132852053498l,strategyFactory=DateStrategyFactory.class,uuid="Structures.uml@_wFrE4IjSEeKq68owPnlvHg")
 	@NumlMetaInfo(uuid="Structures.uml@_wFrE4IjSEeKq68owPnlvHg")
@@ -53,9 +59,11 @@ public interface Relation extends CompositionNode, Serializable {
 	
 	public void populateReferencesFromXml(Element xml, Map<String, Object> map);
 	
+	public void removeFromChild(String name, Date dateOfBirth, Child child);
+	
 	public void removeFromFamilyMember(FamilyMember familyMember);
 	
-	public void setChild(Child child);
+	public void setChild(Set<Child> child);
 	
 	public void setDateOfBirth(Date dateOfBirth);
 	
@@ -69,7 +77,7 @@ public interface Relation extends CompositionNode, Serializable {
 	
 	public String toXmlString();
 	
-	public void z_internalAddToChild(Child child);
+	public void z_internalAddToChildHasRelation_child(String name, Date dateOfBirth, ChildHasRelation childHasRelation_child);
 	
 	public void z_internalAddToDateOfBirth(Date dateOfBirth);
 	
@@ -79,7 +87,7 @@ public interface Relation extends CompositionNode, Serializable {
 	
 	public void z_internalAddToSurname(String surname);
 	
-	public void z_internalRemoveFromChild(Child child);
+	public void z_internalRemoveFromChildHasRelation_child(String name, Date dateOfBirth, ChildHasRelation childHasRelation_child);
 	
 	public void z_internalRemoveFromDateOfBirth(Date dateOfBirth);
 	

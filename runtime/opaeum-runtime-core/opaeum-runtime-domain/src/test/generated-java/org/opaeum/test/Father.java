@@ -1,4 +1,4 @@
-package model;
+package org.opaeum.test;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import model.util.ModelFormatter;
-
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -18,12 +16,13 @@ import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.test.util.ModelFormatter;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 @NumlMetaInfo(applicationIdentifier="structuretests",uuid="Structures.uml@_tLdi4IiYEeKb2pFQKBBPKw")
-public class Father implements IEventGenerator, CompositionNode, SurnameProvider, Serializable {
+public class Father implements SurnameProvider, IEventGenerator, CompositionNode, Serializable {
 	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	protected Family family;
 	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
@@ -68,9 +67,8 @@ public class Father implements IEventGenerator, CompositionNode, SurnameProvider
 	public void addToSurnameCarryingDaughter(Sister surnameCarryingDaughter) {
 		if ( surnameCarryingDaughter!=null && !this.getSurnameCarryingDaughter().contains(surnameCarryingDaughter) ) {
 			SurnameProviderHasDaughter newLink = new SurnameProviderHasDaughter((SurnameProvider)this,(Sister)surnameCarryingDaughter);
-			SurnameProviderHasDaughter oldLink = surnameCarryingDaughter.getSurnameProviderHasDaughter_surnameProvider();
-			if ( oldLink!=null ) {
-				oldLink.getSurnameCarryingDaughter().z_internalRemoveFromSurnameProviderHasDaughter_surnameProvider(oldLink);
+			if ( surnameCarryingDaughter.getSurnameProvider()!=null ) {
+				surnameCarryingDaughter.getSurnameProvider().removeFromSurnameCarryingDaughter(surnameCarryingDaughter);
 			}
 			this.z_internalAddToSurnameProviderHasDaughter_surnameCarryingDaughter(newLink);
 			surnameCarryingDaughter.z_internalAddToSurnameProviderHasDaughter_surnameProvider(newLink);
@@ -80,9 +78,8 @@ public class Father implements IEventGenerator, CompositionNode, SurnameProvider
 	public void addToSurnameCarryingSon(Brother surnameCarryingSon) {
 		if ( surnameCarryingSon!=null && !this.getSurnameCarryingSon().contains(surnameCarryingSon) ) {
 			SurnameProviderHasSon newLink = new SurnameProviderHasSon((SurnameProvider)this,(Brother)surnameCarryingSon);
-			SurnameProviderHasSon oldLink = surnameCarryingSon.getSurnameProviderHasSon_surnameProvider();
-			if ( oldLink!=null ) {
-				oldLink.getSurnameCarryingSon().z_internalRemoveFromSurnameProviderHasSon_surnameProvider(oldLink);
+			if ( surnameCarryingSon.getSurnameProvider()!=null ) {
+				surnameCarryingSon.getSurnameProvider().removeFromSurnameCarryingSon(surnameCarryingSon);
 			}
 			this.z_internalAddToSurnameProviderHasSon_surnameCarryingSon(newLink);
 			surnameCarryingSon.z_internalAddToSurnameProviderHasSon_surnameProvider(newLink);
@@ -105,7 +102,7 @@ public class Father implements IEventGenerator, CompositionNode, SurnameProvider
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=model.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=org.opaeum.test.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.z_internalAddToSurnameProviderHasSon_surnameCarryingSon(curVal);
@@ -124,7 +121,7 @@ public class Father implements IEventGenerator, CompositionNode, SurnameProvider
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=model.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=org.opaeum.test.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.z_internalAddToSurnameProviderHasDaughter_surnameCarryingDaughter(curVal);
@@ -157,18 +154,6 @@ public class Father implements IEventGenerator, CompositionNode, SurnameProvider
 	}
 	
 	public void createComponents() {
-	}
-	
-	public SurnameProviderHasDaughter createSurnameProviderHasDaughter_surnameCarryingDaughter() {
-		SurnameProviderHasDaughter newInstance= new SurnameProviderHasDaughter();
-		newInstance.init(this);
-		return newInstance;
-	}
-	
-	public SurnameProviderHasSon createSurnameProviderHasSon_surnameCarryingSon() {
-		SurnameProviderHasSon newInstance= new SurnameProviderHasSon();
-		newInstance.init(this);
-		return newInstance;
 	}
 	
 	public boolean equals(Object other) {
@@ -456,7 +441,7 @@ public class Father implements IEventGenerator, CompositionNode, SurnameProvider
 		StringBuilder sb = new StringBuilder();
 		sb.append("<Father ");
 		sb.append("classUuid=\"Structures.uml@_tLdi4IiYEeKb2pFQKBBPKw\" ");
-		sb.append("className=\"model.Father\" ");
+		sb.append("className=\"org.opaeum.test.Father\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		sb.append(">");
 		sb.append("\n<surnameProviderHasSon_surnameCarryingSon propertyId=\"9051680456867763967\">");

@@ -290,6 +290,17 @@ public class OJUtil extends OJUtill{
 		}
 		return result;
 	}
+	public String delegateQualifierArguments(List<Property> qualifiers){
+		StringBuilder sb = new StringBuilder();
+		// Assume qualifiers are back by attributes as we are doing composition here
+		for(Property q:qualifiers){
+			PropertyMap qMap = buildStructuralFeatureMap(q);
+			sb.append(qMap.fieldname());
+			sb.append(",");
+		}
+		String string = sb.toString();
+		return string;
+	}
 	public String addQualifierArguments(List<Property> qualifiers,String varName){
 		StringBuilder sb = new StringBuilder();
 		// Assume qualifiers are back by attributes as we are doing composition here
@@ -304,7 +315,7 @@ public class OJUtil extends OJUtill{
 		return string;
 	}
 	public String addQualifierArgumentsAndVariableAndBrackets(List<Property> qualifiers,String varName){
-		return "(" + addQualifierArguments(qualifiers, varName) +  varName + ")";
+		return "(" + addQualifierArguments(qualifiers, varName) + varName + ")";
 	}
 	public ClassifierMap buildClassifierMap(Classifier c){
 		String key = c.getQualifiedName();

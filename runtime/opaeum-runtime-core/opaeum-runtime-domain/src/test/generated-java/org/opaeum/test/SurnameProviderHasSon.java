@@ -1,17 +1,16 @@
-package model;
+package org.opaeum.test;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
-import model.util.ModelFormatter;
-
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.test.util.ModelFormatter;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -121,34 +120,7 @@ public class SurnameProviderHasSon implements CompositionNode, Serializable {
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("surnameCarryingSon") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("984688315664840852")) ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						Brother surnameCarryingSon = (Brother)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
-						if ( surnameCarryingSon!=null ) {
-							z_internalAddToSurnameCarryingSon(surnameCarryingSon);
-							surnameCarryingSon.z_internalAddToSurnameProviderHasSon_surnameProvider(this);
-						}
-					}
-				}
-			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("surnameProvider") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("4434103865371600604")) ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						SurnameProvider surnameProvider = (SurnameProvider)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
-						if ( surnameProvider!=null ) {
-							z_internalAddToSurnameProvider(surnameProvider);
-							surnameProvider.z_internalAddToSurnameProviderHasSon_surnameCarryingSon(this);
-						}
-					}
-				}
-			}
+		
 		}
 	}
 	
@@ -168,23 +140,9 @@ public class SurnameProviderHasSon implements CompositionNode, Serializable {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<SurnameProviderHasSon ");
 		sb.append("classUuid=\"Structures.uml@_g-YbcIhrEeK4s7QGypAJBA\" ");
-		sb.append("className=\"model.SurnameProviderHasSon\" ");
+		sb.append("className=\"org.opaeum.test.SurnameProviderHasSon\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		sb.append(">");
-		if ( getSurnameCarryingSon()==null ) {
-			sb.append("\n<surnameCarryingSon/>");
-		} else {
-			sb.append("\n<surnameCarryingSon propertyId=\"984688315664840852\">");
-			sb.append("\n" + getSurnameCarryingSon().toXmlReferenceString());
-			sb.append("\n</surnameCarryingSon>");
-		}
-		if ( getSurnameProvider()==null ) {
-			sb.append("\n<surnameProvider/>");
-		} else {
-			sb.append("\n<surnameProvider propertyId=\"4434103865371600604\">");
-			sb.append("\n" + getSurnameProvider().toXmlReferenceString());
-			sb.append("\n</surnameProvider>");
-		}
 		sb.append("\n</SurnameProviderHasSon>");
 		return sb.toString();
 	}

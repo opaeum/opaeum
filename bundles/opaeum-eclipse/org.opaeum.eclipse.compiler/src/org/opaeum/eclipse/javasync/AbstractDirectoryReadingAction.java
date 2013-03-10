@@ -38,6 +38,7 @@ public abstract class AbstractDirectoryReadingAction extends AbstractOpaeumActio
 		TextWorkspace tws = new TextWorkspace();
 		p.replaceModel(tws);
 		OpaeumConfig config = ctx.getConfig();
+		config.reload();
 		config.getSourceFolderStrategy().defineSourceFolders(config);
 		JavaProjectGenerator.addExistingSourceFolders(tws);
 		return p;

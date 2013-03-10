@@ -38,8 +38,10 @@ public class XmlUtil{
 	public static boolean isXmlReference(PropertyMap map){
 		if(isXmlElement(map)){
 			Property f = map.getProperty();
-			if(f instanceof EndToAssociationClass){
-				return ((EndToAssociationClass) f).getIndexInAssocation() == 1;
+			if(f instanceof AssociationClassToEnd){
+				return false;//These are done from the individual Ends toAssociationClass
+			}else if(f instanceof EndToAssociationClass){
+				return ((EndToAssociationClass) f).getIndexInAssocation() == 1;//Only do it from the one side
 			}else{
 				return !(f.isComposite() || EmfPropertyUtil.isInverse(f));
 			}

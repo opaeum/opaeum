@@ -23,14 +23,33 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_u4dQMYiYEeKb2pFQKBBPKw" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_u4dQMoiYEeKb2pFQKBBPKw" value="1"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_0vgqcIlZEeKhILqZBrW9Hg" name="stepChild" type="_o7BvwIlZEeKhILqZBrW9Hg" aggregation="composite" association="_0vhRgIlZEeKhILqZBrW9Hg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_0vgqcYlZEeKhILqZBrW9Hg" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0vgqcolZEeKhILqZBrW9Hg" value="1"/>
+        <qualifier xmi:id="_5ImxoIlZEeKhILqZBrW9Hg" name="name">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </qualifier>
+      </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_V2hysIhqEeK4s7QGypAJBA" clientDependency="_ve2QsIhqEeK4s7QGypAJBA" name="Child">
       <ownedAttribute xmi:id="_I7BwIIhrEeK4s7QGypAJBA" name="godParent" type="_bVPeIIhqEeK4s7QGypAJBA" association="_I7GooIhrEeK4s7QGypAJBA">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_I7BwIYhrEeK4s7QGypAJBA" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_I7BwIohrEeK4s7QGypAJBA" value="1"/>
+        <qualifier xmi:id="__k61IIlWEeK8Z-Y1T93HUw" name="firstName">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </qualifier>
+        <qualifier xmi:id="_22i6UIlXEeKhILqZBrW9Hg" name="surname">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </qualifier>
+        <qualifier xmi:id="_BFIDoIlXEeK8Z-Y1T93HUw" name="dateOfBirth">
+          <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_qJQboNcCEeCJ0dmaHEVVnw"/>
+        </qualifier>
       </ownedAttribute>
       <ownedAttribute xmi:id="_3GSEsIiBEeKSGOXl2qggew" name="name">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_9QxBMIlWEeK8Z-Y1T93HUw" name="dateOfBirth">
+        <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_qJQboNcCEeCJ0dmaHEVVnw"/>
       </ownedAttribute>
       <interfaceRealization xmi:id="_ve2QsIhqEeK4s7QGypAJBA" name="InterfaceRealization1" client="_V2hysIhqEeK4s7QGypAJBA" supplier="_uAFMoIhqEeK4s7QGypAJBA" contract="_uAFMoIhqEeK4s7QGypAJBA"/>
     </packagedElement>
@@ -107,6 +126,12 @@
       <ownedEnd xmi:id="_I7GooYhrEeK4s7QGypAJBA" name="child" type="_V2hysIhqEeK4s7QGypAJBA" association="_I7GooIhrEeK4s7QGypAJBA">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_I7GooohrEeK4s7QGypAJBA" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_I7Goo4hrEeK4s7QGypAJBA" value="1"/>
+        <qualifier xmi:id="_48PbgIlXEeKhILqZBrW9Hg" name="name">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </qualifier>
+        <qualifier xmi:id="_5yjYcIlXEeKhILqZBrW9Hg" name="dateOfBirth">
+          <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_qJQboNcCEeCJ0dmaHEVVnw"/>
+        </qualifier>
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Interface" xmi:id="_Zi2eAIhrEeK4s7QGypAJBA" name="SurnameProvider"/>
@@ -115,6 +140,13 @@
       <ownedAttribute xmi:id="_g-UxEIhrEeK4s7QGypAJBA" name="surnameProvider" type="_Zi2eAIhrEeK4s7QGypAJBA" association="_g-YbcIhrEeK4s7QGypAJBA">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_g-UxEYhrEeK4s7QGypAJBA" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_g-UxEohrEeK4s7QGypAJBA" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_Ftpt8IlXEeK8Z-Y1T93HUw" name="sister" type="_dS3zAIhrEeK4s7QGypAJBA" association="_FtqVAIlXEeK8Z-Y1T93HUw">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Ftpt8YlXEeK8Z-Y1T93HUw" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Ftpt8olXEeK8Z-Y1T93HUw" value="1"/>
+        <qualifier xmi:id="_IdAQIIlXEeK8Z-Y1T93HUw" name="name">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </qualifier>
       </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_dS3zAIhrEeK4s7QGypAJBA" name="Sister">
@@ -156,6 +188,32 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0-KlNojPEeKq68owPnlvHg" value="1"/>
       </ownedEnd>
     </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_FtqVAIlXEeK8Z-Y1T93HUw" name="brother_sister_1" memberEnd="_FtqVAYlXEeK8Z-Y1T93HUw _Ftpt8IlXEeK8Z-Y1T93HUw" navigableOwnedEnd="_FtqVAYlXEeK8Z-Y1T93HUw">
+      <ownedEnd xmi:id="_FtqVAYlXEeK8Z-Y1T93HUw" name="brother" type="_bzlKgIhrEeK4s7QGypAJBA" association="_FtqVAIlXEeK8Z-Y1T93HUw">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_FtqVAolXEeK8Z-Y1T93HUw" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ICDSIIlaEeKhILqZBrW9Hg" value="1"/>
+        <qualifier xmi:id="_HA10IIlXEeK8Z-Y1T93HUw" name="name">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </qualifier>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_o7BvwIlZEeKhILqZBrW9Hg" name="StepChild">
+      <ownedAttribute xmi:id="_vm81MIlZEeKhILqZBrW9Hg" name="name">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_qIwuMIlZEeKhILqZBrW9Hg" clientDependency="_uf7iwIlZEeKhILqZBrW9Hg" name="StepBrother">
+      <interfaceRealization xmi:id="_uf7iwIlZEeKhILqZBrW9Hg" name="InterfaceRealization1" client="_qIwuMIlZEeKhILqZBrW9Hg" supplier="_o7BvwIlZEeKhILqZBrW9Hg" contract="_o7BvwIlZEeKhILqZBrW9Hg"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_r-BmsIlZEeKhILqZBrW9Hg" clientDependency="_t4fvUIlZEeKhILqZBrW9Hg" name="StepSister">
+      <interfaceRealization xmi:id="_t4fvUIlZEeKhILqZBrW9Hg" name="InterfaceRealization1" client="_r-BmsIlZEeKhILqZBrW9Hg" supplier="_o7BvwIlZEeKhILqZBrW9Hg" contract="_o7BvwIlZEeKhILqZBrW9Hg"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_0vhRgIlZEeKhILqZBrW9Hg" name="FamilyStepChild" memberEnd="_0vhRgYlZEeKhILqZBrW9Hg _0vgqcIlZEeKhILqZBrW9Hg" navigableOwnedEnd="_0vhRgYlZEeKhILqZBrW9Hg">
+      <ownedEnd xmi:id="_0vhRgYlZEeKhILqZBrW9Hg" name="family" type="_TL7NoIhqEeK4s7QGypAJBA" association="_0vhRgIlZEeKhILqZBrW9Hg">
+        <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3diW8IlZEeKhILqZBrW9Hg" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0vhRg4lZEeKhILqZBrW9Hg" value="1"/>
+      </ownedEnd>
+    </packagedElement>
     <profileApplication xmi:id="_epw0AIiYEeKb2pFQKBBPKw">
       <eAnnotations xmi:id="_ep9BQIiYEeKb2pFQKBBPKw" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
@@ -166,4 +224,6 @@
   <OpaeumStandardProfile:AssociationEnd xmi:id="_ep-2cIiYEeKb2pFQKBBPKw" base_Property="_gtKIkIhrEeK4s7QGypAJBA"/>
   <OpaeumStandardProfile:AssociationEnd xmi:id="_DYgngIjTEeKq68owPnlvHg" base_Property="_wPOkxIhqEeK4s7QGypAJBA"/>
   <OpaeumStandardProfile:AssociationEnd xmi:id="_DYsNsIjTEeKq68owPnlvHg" base_Property="_wPOkwYhqEeK4s7QGypAJBA"/>
+  <OpaeumStandardProfile:Model xmi:id="_21OhIIlWEeK8Z-Y1T93HUw" mappedImplementationPackage="org.opaeum.test" artifactIdentifier="family" base_Model="_IME04IhqEeK4s7QGypAJBA"/>
+  <OpaeumStandardProfile:AssociationEnd xmi:id="_3yHxwIlXEeKhILqZBrW9Hg" base_Property="_I7BwIIhrEeK4s7QGypAJBA"/>
 </xmi:XMI>

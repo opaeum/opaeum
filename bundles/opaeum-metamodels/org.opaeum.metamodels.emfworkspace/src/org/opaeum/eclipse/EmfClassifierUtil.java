@@ -284,6 +284,10 @@ public class EmfClassifierUtil{
 		}
 		return false;
 	}
+	public static boolean isPersistentClassOrInterface(Type type){
+		return EmfClassifierUtil.isPersistent(type) ||(type instanceof Interface && !EmfClassifierUtil.isHelper(type));
+	}
+
 	public static boolean isPersistent(Type type){
 		if(!isComplexStructure(type) || type instanceof Stereotype){
 			return false;

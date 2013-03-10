@@ -190,12 +190,11 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 				OJIfStatement ifSet = new OJIfStatement(map.getter() + "().contains(" + map.fieldname() + ")", "return");
 				adder.getBody().addToStatements(ifSet);
 				if(isMap(map.getProperty())){
-					String targetExpression=map.fieldname();
+					String targetExpression = map.fieldname();
 					if(map.getProperty() instanceof EndToAssociationClass){
-						//TODO think of an alternative solution, this code belongs in AssociationClassAttributeImplementor
-						AssociationClassEndMap aMap = ojUtil.buildAssociationClassEndMap(((EndToAssociationClass)map.getProperty()).getOriginalProperty());
-						targetExpression=targetExpression+"." + aMap.getAssocationClassToOtherEndMap().getter() + "()";
-						
+						// TODO think of an alternative solution, this code belongs in AssociationClassAttributeImplementor
+						AssociationClassEndMap aMap = ojUtil.buildAssociationClassEndMap(((EndToAssociationClass) map.getProperty()).getOriginalProperty());
+						targetExpression = targetExpression + "." + aMap.getAssocationClassToOtherEndMap().getter() + "()";
 					}
 					for(Property q:map.getProperty().getQualifiers()){
 						// if we get here, all qualifiers are backed by properties on the baseType
@@ -347,14 +346,14 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 	}
 	protected void removeFromPropertiesQualifiedByThisProperty(PropertyMap map,OJAnnotatedOperation setter){
 		for(Property p:EmfPropertyUtil.getPropertiesQualified(map.getProperty())){
-			if(isMap(p) && !p.isReadOnly()){
+			if(isMap(p) && isModifiable(p)){
 				modifyPropertiesQualifiedByThisProperty(map, setter, p, true);
 			}
 		}
 	}
 	protected void addToPropertiesQualifiedByThisProperty(PropertyMap map,OJAnnotatedOperation setter){
 		for(Property p:EmfPropertyUtil.getPropertiesQualified(map.getProperty())){
-			if(isMap(p) && !p.isReadOnly()){
+			if(isMap(p) && isModifiable(p)){
 				modifyPropertiesQualifiedByThisProperty(map, setter, p, false);
 			}
 		}
@@ -365,9 +364,16 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 		if(peerMap.isOne()){
 			OJIfStatement ifNotNull = new OJIfStatement(peerMap.getter() + "()!=null && " + map.getter() + "()!=null");
 			setter.getBody().addToStatements(ifNotNull);
-			ifNotNull.getThenPart().addToStatements(
-					peerMap.getter() + "()." + (remove ? qMap.internalRemover() : qMap.internalAdder()) + "("
-							+ ojUtil.addQualifierArguments(qualifiedProperty.getQualifiers(), "this") + "this)");
+			if(EmfAssociationUtil.isClass(peerMap.getProperty().getAssociation())){
+				AssociationClassEndMap aMap = peerMap.getAssocationClassMap();
+				String args = ojUtil.addQualifierArguments(qualifiedProperty.getQualifiers(), "this") + aMap.getEndToAssocationClassMap().getter() + "()";
+				String modifier = remove ? aMap.getOtherEndToAssocationClassMap().internalRemover() : aMap.getOtherEndToAssocationClassMap().internalAdder();
+				ifNotNull.getThenPart().addToStatements(peerMap.getter() + "()." + modifier + "(" + args + ")");
+			}else{
+				ifNotNull.getThenPart().addToStatements(
+						peerMap.getter() + "()." + (remove ? qMap.internalRemover() : qMap.internalAdder()) + "("
+								+ ojUtil.addQualifierArguments(qualifiedProperty.getQualifiers(), "this") + "this)");
+			}
 		}else{
 			if(EmfAssociationUtil.isClass(peerMap.getProperty().getAssociation())){
 				AssociationClassEndMap aMap = ojUtil.buildAssociationClassEndMap(peerMap.getProperty());
@@ -387,97 +393,6 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 			}
 		}
 	}
-	protected OJAnnotatedOperation buildSetter(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map){
-		OJAnnotatedOperation setter = new OJAnnotatedOperation(map.setter());
-		setter.addParam(map.fieldname(), map.javaTypePath());
-		Property prop = map.getProperty();
-		owner.addToOperations(setter);
-		if(!(owner instanceof OJAnnotatedInterface)){
-			setter.setStatic(map.isStatic());
-			setter.setVisibility(prop.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
-			removeFromPropertiesQualifiedByThisProperty(map, setter);
-			if(StereotypesHelper.hasStereotype(map.getBaseType(), StereotypeNames.HELPER)){
-				setter.getBody().addToStatements("this." + map.fieldname() + "=" + map.fieldname());
-			}else if(prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable()){
-				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(prop.getOtherEnd());
-				if(map.isManyToOne()){
-					String args = buildQualifiedArgumentStringForOtherEnd(prop);
-					// remove "this" from existing reference
-					OJIfStatement ifCurrentValueNotNull = new OJIfStatement();
-					ifCurrentValueNotNull.setCondition(getReferencePrefix(owner, map) + map.getter() + "()!=null");
-					if(!otherMap.getProperty().isReadOnly()){
-						ifCurrentValueNotNull.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.getter() + "()." + otherMap.internalRemover() + args);
-					}
-					setter.getBody().addToStatements(ifCurrentValueNotNull);
-					OJIfStatement ifNewValueNull = new OJIfStatement(map.fieldname() + " == null", getReferencePrefix(owner, map) + map.internalRemover() + "("
-							+ getReferencePrefix(owner, map) + map.getter() + "())");
-					setter.getBody().addToStatements(ifNewValueNull);
-					ifNewValueNull.setElsePart(new OJBlock());
-					ifNewValueNull.getElsePart().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
-					// add "this" to new reference
-					OJIfStatement ifParamNotNull = new OJIfStatement();
-					ifParamNotNull.setName(AttributeImplementor.IF_PARAM_NOT_NULL);
-					ifParamNotNull.setCondition(map.fieldname() + "!=null");
-					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + args);
-					setter.getBody().addToStatements(ifParamNotNull);
-				}else if(map.isMany()){
-					if(!map.getProperty().isReadOnly()){
-						setter.getBody().addToStatements(getReferencePrefix(owner, map) + map.clearer() + "()");
-					}
-					setter.getBody().addToStatements(getReferencePrefix(owner, map) + map.allAdder() + "(" + map.fieldname() + ")");
-				}else if(map.isOneToOne()){
-					OJAnnotatedField oldValue = new OJAnnotatedField("oldValue", map.javaTypePath());
-					oldValue.setInitExp(getReferencePrefix(owner, map) + map.getter() + "()");
-					setter.getBody().addToLocals(oldValue);
-					// If oldValue==null then set the new Value unconditionally
-					OJIfStatement ifNull = new OJIfStatement();
-					ifNull.setName(AttributeImplementor.IF_OLD_VALUE_NULL);
-					ifNull.setCondition("oldValue==null");// && );
-					setter.getBody().addToStatements(ifNull);
-					OJIfStatement ifNotSame = new OJIfStatement();
-					ifNotSame.setCondition("!oldValue.equals(" + map.fieldname() + ")");
-					ifNull.addToElsePart(ifNotSame);
-					// remove "this" from existing reference
-					ifNotSame.getThenPart().addToStatements("oldValue." + otherMap.internalRemover() + "(this)");
-					ifNotSame.getThenPart().addToStatements(map.internalRemover() + "(oldValue)");
-					// add "this" to new reference\
-					OJIfStatement ifParamNotNull = new OJIfStatement();
-					ifParamNotNull.setCondition(map.fieldname() + "!=null");
-					ifParamNotNull.getThenPart().addToStatements(
-							owner.getName() + " oldOther = (" + owner.getName() + ")" + map.fieldname() + "." + otherMap.getter() + "()");
-					if(!prop.isReadOnly()){
-						ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(oldOther)");
-					}
-					ifParamNotNull.getThenPart().addToStatements(
-							new OJIfStatement("oldOther != null", "oldOther" + "." + map.internalRemover() + "(" + map.fieldname() + ")"));
-					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "((" + owner.getName() + ")this)");
-					ifNotSame.getThenPart().addToStatements(ifParamNotNull);
-					ifNotSame.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
-					ifNull.getThenPart().addToStatements(ifParamNotNull);
-					ifNull.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
-				}
-			}else{
-				if(map.isMany()){
-					if(!map.getProperty().isReadOnly()){
-						setter.getBody().addToStatements(getReferencePrefix(owner, map) + map.clearer() + "()");
-					}
-					setter.getBody().addToStatements(getReferencePrefix(owner, map) + map.allAdder() + "(" + map.fieldname() + ")");
-				}else{
-					if(prop.isReadOnly()){
-						setter.getBody().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
-					}else{
-						OJIfStatement ifNull = new OJIfStatement(map.fieldname() + " == null", getReferencePrefix(owner, map) + map.internalRemover() + "(" + map.getter()
-								+ "())");
-						setter.getBody().addToStatements(ifNull);
-						ifNull.setElsePart(new OJBlock());
-						ifNull.getElsePart().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
-					}
-				}
-			}
-			addToPropertiesQualifiedByThisProperty(map, setter);
-		}
-		return setter;
-	}
 	protected String getReferencePrefix(OJAnnotatedClass o,PropertyMap map){
 		return map.isStatic() ? o.getName() + "." : "this.";
 	}
@@ -487,5 +402,12 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 			args = "(" + ojUtil.addQualifierArguments(prop.getOtherEnd().getQualifiers(), "this") + "this)";
 		}
 		return args;
+	}
+	protected void addCheckForNullQualifiers(PropertyMap map,PropertyMap otherMap,OJBlock block){
+		for(Property property:otherMap.getProperty().getQualifiers()){
+			PropertyMap qMap = ojUtil.buildStructuralFeatureMap(property);
+			block.addToStatements(new OJIfStatement(qMap.getter() + "()==null", "throw new IllegalStateException(\"The qualifying property '" + qMap.fieldname()
+					+ "' must be set before adding a value to '" + map.fieldname() + "'\")"));
+		}
 	}
 }
