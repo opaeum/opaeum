@@ -245,7 +245,7 @@ public final class PropertyMap extends PackageableElementMap{
 	protected boolean otherEndIsOne(){
 		if(property.getOtherEnd() != null){
 			Property otherEnd = property.getOtherEnd();
-			return otherEnd.isNavigable() && otherEnd.getUpper() == 1 && otherEnd.getQualifiers().size() == 0;
+			return otherEnd.getUpper() == 1 && otherEnd.getQualifiers().size() == 0;
 		}else{
 			return false;
 		}

@@ -31,6 +31,9 @@ public class AssociationClassToEnd extends AbstractEmulatedProperty{
 	}
 	@Override
 	public String getName(){
+		if(property.getAssociation().getMemberEnds().indexOf(property)==1 && property.getName().equals(property.getOtherEnd().getName())){
+			return property.getName()+"1";
+		}
 		return property.getName();
 	}
 	@Override

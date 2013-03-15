@@ -124,38 +124,46 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 					PropertyMap map2 = ojUtil.buildStructuralFeatureMap(ass.getMemberEnds().get(1));
 					OJAnnotationAttributeValue uniqueConstraints = new OJAnnotationAttributeValue("uniqueConstraints");
 					table.putAttribute(uniqueConstraints);
+					final PropertyMap mapToEnd2 = map1.getAssocationClassMap().getAssociationClassToThisEndMap();
+					final PropertyMap mapToEnd1 = map2.getAssocationClassMap().getAssociationClassToThisEndMap();
 					if(map1.isOne()){
 						if(map2.isOne()){
 							OJAnnotationValue uniquenessConstraint1 = new OJAnnotationValue(new OJPathName("javax.persistence.UniqueConstraint"));
-							OJAnnotationAttributeValue columns1 = new OJAnnotationAttributeValue("columnNames", map1.getPersistentName().getAsIs());
+							OJAnnotationAttributeValue columns1 = new OJAnnotationAttributeValue("columnNames", mapToEnd1.getPersistentName().getAsIs());
 							uniquenessConstraint1.putAttribute(columns1);
 							uniqueConstraints.addAnnotationValue(uniquenessConstraint1);
 							OJAnnotationValue uniquenessConstraint2 = new OJAnnotationValue(new OJPathName("javax.persistence.UniqueConstraint"));
-							OJAnnotationAttributeValue columns2 = new OJAnnotationAttributeValue("columnNames", map2.getPersistentName().getAsIs());
+							OJAnnotationAttributeValue columns2 = new OJAnnotationAttributeValue("columnNames", mapToEnd2.getPersistentName().getAsIs());
 							uniquenessConstraint2.putAttribute(columns2);
 							uniqueConstraints.addAnnotationValue(uniquenessConstraint2);
 						}else{
 							OJAnnotationValue uniquenessConstraint1 = new OJAnnotationValue(new OJPathName("javax.persistence.UniqueConstraint"));
-							OJAnnotationAttributeValue columns1 = new OJAnnotationAttributeValue("columnNames", map2.getPersistentName().getAsIs());
+							OJAnnotationAttributeValue columns1 = new OJAnnotationAttributeValue("columnNames", mapToEnd2.getPersistentName().getAsIs());
 							uniquenessConstraint1.putAttribute(columns1);
 							if(map2.getBaseType() instanceof Interface){
-								columns1.addStringValue(map2.getPersistentName().getAsIs() + "_type");
+								columns1.addStringValue(mapToEnd2.getPersistentName().getWithoutId() + "_type");
 							}
 							uniqueConstraints.addAnnotationValue(uniquenessConstraint1);
 						}
 					}else{
 						if(map2.isOne()){
 							OJAnnotationValue uniquenessConstraint2 = new OJAnnotationValue(new OJPathName("javax.persistence.UniqueConstraint"));
-							OJAnnotationAttributeValue columns2 = new OJAnnotationAttributeValue("columnNames", map1.getPersistentName().getAsIs());
+							OJAnnotationAttributeValue columns2 = new OJAnnotationAttributeValue("columnNames", mapToEnd1.getPersistentName().getAsIs());
 							uniquenessConstraint2.putAttribute(columns2);
 							if(map1.getBaseType() instanceof Interface){
-								columns2.addStringValue(map1.getPersistentName().getAsIs() + "_type");
+								columns2.addStringValue(mapToEnd1.getPersistentName().getWithoutId() + "_type");
 							}
 							uniqueConstraints.addAnnotationValue(uniquenessConstraint2);
 						}else{
 							OJAnnotationValue uniquenessConstraint1 = new OJAnnotationValue(new OJPathName("javax.persistence.UniqueConstraint"));
-							OJAnnotationAttributeValue columns1 = new OJAnnotationAttributeValue("columnNames", map1.getPersistentName().getAsIs());
-							columns1.addStringValue(map2.getPersistentName().getAsIs());
+							OJAnnotationAttributeValue columns1 = new OJAnnotationAttributeValue("columnNames", mapToEnd1.getPersistentName().getAsIs());
+							if(map1.getBaseType() instanceof Interface){
+								columns1.addStringValue(mapToEnd1.getPersistentName().getWithoutId() + "_type");
+							}
+							columns1.addStringValue(mapToEnd2.getPersistentName().getAsIs());
+							if(map2.getBaseType() instanceof Interface){
+								columns1.addStringValue(mapToEnd2.getPersistentName().getWithoutId() + "_type");
+							}
 							uniquenessConstraint1.putAttribute(columns1);
 							uniqueConstraints.addAnnotationValue(uniquenessConstraint1);
 						}

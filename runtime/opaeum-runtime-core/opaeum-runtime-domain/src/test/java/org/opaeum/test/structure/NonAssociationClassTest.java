@@ -4,9 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.opaeum.test.Brother;
 import org.opaeum.test.Family;
-import org.opaeum.test.FamilyStepChild;
+import org.opaeum.test.Father;
+import org.opaeum.test.Mother;
 import org.opaeum.test.Sister;
-import org.opaeum.test.StepBrother;
 
 public class NonAssociationClassTest {
 	@Test
@@ -88,5 +88,26 @@ public class NonAssociationClassTest {
 		Assert.assertSame(family, sb.getFamily());
 		Assert.assertEquals(1, family.getChild().size());
 		Assert.assertTrue(family.getChild().contains(sb));
+		family.removeFromChild(sb.getName(), sb);
+		Assert.assertNull(sb.getFamily());
+		Assert.assertEquals(0, family.getChild().size());
 	}
+	@Test
+	public void testOneToOne(){
+		Mother mother =new Mother();
+		Father father = new Father();
+		mother.setHusband(father);
+		assertOneToOneConditions(mother, father);
+		Father father2 = new Father();
+		mother.setHusband(father2);
+		Assert.assertNull(father.getWife());
+		assertOneToOneConditions(mother, father2);
+		
+	}
+	private void assertOneToOneConditions(Mother mother, Father father) {
+		Assert.assertEquals(mother, father.getWife());
+		Assert.assertEquals(father, mother.getHusband());
+	}
+	
+	
 }

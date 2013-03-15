@@ -1106,7 +1106,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 		return result;
 	};
 	@SuppressWarnings("unchecked")
-	static Collection<Object> getChildrenToDisplay(Collection<?> a,Element e){
+	public static Collection<Object> getChildrenToDisplay(Collection<?> a,Element e){
 		Collection<Object> children = new HashSet<Object>(a);
 		EAnnotation ann = StereotypesHelper.getNumlAnnotation(e);
 		if(ann != null && ann.getContents().size() > 0){

@@ -7,21 +7,37 @@ import javax.persistence.Embedded;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Property;
 import org.hibernate.annotations.CascadeType;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.SqlDialect;
 import org.opaeum.hibernate.domain.ReturnInfo;
 import org.opaeum.hibernate.domain.StateMachineToken;
+import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJVisibilityKind;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
+import org.opaeum.javageneration.basicjava.AbstractAttributeImplementer;
 import org.opaeum.javageneration.persistence.JpaUtil;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.name.NameWrapper;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class HibernateUtil{
 	public static final OJPathName RETURN_INFO = new OJPathName(ReturnInfo.class.getName());
@@ -87,5 +103,95 @@ public class HibernateUtil{
 		classIdentifier.putAttribute("column", classIdentifierColumn);
 		classIdentifierColumn.putAttribute("name", persistentName.getAsIs() + "_type");
 		overrides.addAnnotationValue(classIdentifier);
+	}
+	public static OJAnnotatedField putField(OJAnnotatedClass owner,PropertyMap map,Boolean isExternal){
+		OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), HibernateUtil.calculateAnyMappingType(map, isExternal));
+		field.setVisibility(OJVisibilityKind.PROTECTED);
+		owner.addToFields(field);
+		return field;
+	}
+	public static  OJAnnotatedOperation addToInterfaceValue(OJAnnotatedClass owner,PropertyMap map,Boolean isExternalValue2){
+		OJAnnotatedOperation adder = new OJAnnotatedOperation(map.internalAdder());
+		adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
+		OJIfStatement ifSet = new OJIfStatement(map.fieldname() + ".equals("+ map.getter()+"())", "return");
+		adder.getBody().addToStatements(ifSet);
+	
+		String init = HibernateUtil.buildAnyMappingInit(map, isExternalValue2);
+		adder.getBody().addToStatements(
+				new OJIfStatement(AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + "==null", AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname()
+						+ "=" + init));
+		adder.getBody().addToStatements(AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + ".setValue(" + map.fieldname() + ")");
+		adder.addParam(map.fieldname(), map.javaBaseTypePath());
+		owner.addToOperations(adder);
+		return adder;
+	}
+	public static OJAnnotatedOperation removeFromInterfaceValue(OJAnnotatedClass owner,PropertyMap map){
+		OJAnnotatedOperation remover = new OJAnnotatedOperation(map.internalRemover());
+		String condition = map.getter() + "()!=null && " + map.fieldname() + "!=null && " + map.fieldname() + ".equals(" + map.getter()
+				+ "())";
+		OJIfStatement ifEquals = new OJIfStatement(condition);
+		remover.getBody().addToStatements(ifEquals);
+		ifEquals.getThenPart().addToStatements(AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + ".setValue(null)");
+		remover.addParam(map.fieldname(), map.javaBaseTypePath());
+		owner.addToOperations(remover);
+		return remover;
+	}
+	public static boolean isExternalValue(OJAnnotatedClass c,PropertyMap map){
+		Resource myResource = map.getProperty().eResource();
+		Resource externalResource = map.getBaseType().eResource();
+		if(myResource == null || externalResource == null){
+			System.out.println("Resources null:" +map.getProperty().getQualifiedName());
+		}else if(myResource != externalResource && EmfClassifierUtil.isPersistent(map.getBaseType())){
+			if(!(c instanceof OJAnnotatedInterface) && !EmfPropertyUtil.isDerived(map.getProperty()) && map.isOne()){
+				if(!myResource.getURI().trimFragment().lastSegment().equals(externalResource.getURI().trimFragment().lastSegment())){
+					// different dir
+					if(map.getBaseType().getModel() != null && !EmfClassifierUtil.isHelper(map.getBaseType())
+							&& !EmfPackageUtil.isRegeneratingLibrary(map.getBaseType().getModel())){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	public static String buildAnyMappingInit(PropertyMap map,boolean isExternalValue){
+		if(isExternalValue){
+			return "new ExternalValue()";
+		}else if(map.getProperty().isComposite()){
+			return "new UiidBasedCascadingInterfaceValue()";
+		}else{
+			return "new UiidBasedInterfaceValue()";
+		}
+	}
+	public static boolean isInterfaceValue(OJAnnotatedClass c,PropertyMap map){
+		return !(c instanceof OJAnnotatedInterface) && !EmfPropertyUtil.isDerived(map.getProperty()) && map.isOne()
+				&& map.getBaseType() instanceof Interface && !StereotypesHelper.hasStereotype(map.getBaseType(), StereotypeNames.HELPER);
+	}
+	public static OJAnnotatedOperation getFromInterfaceValue(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map,Boolean isExternalValue2,OpaeumLibrary library){
+		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
+		getter.setReturnType(map.javaTypePath());
+		owner.addToOperations(getter);
+		getter.initializeResultVariable("null");
+		String string = buildAnyMappingInit(map, isExternalValue2);
+		String init = string;
+		getter.getBody().addToStatements(
+				new OJIfStatement(AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + "==null", AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname()
+						+ "=" + init));
+		getter.getBody().addToStatements(
+				"result=(" + map.javaType() + ")" + AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + ".getValue("
+						+ (EmfClassifierUtil.isPersistent(umlOwner) ? "persistence" : "null") + ")");
+		Element property = map.getProperty();
+		AbstractAttributeImplementer.addPropertyMetaInfo(umlOwner, getter, map.getProperty(), library);
+		OJUtil.addMetaInfo(getter, property);
+		return getter;
+	}
+	public static OJPathName calculateAnyMappingType(PropertyMap map,boolean isExternal){
+		if(isExternal){
+			return new OJPathName("org.opaeum.hibernate.domain.ExternalValue");
+		}else if(map.getProperty().isComposite()){
+			return new OJPathName("org.opaeum.hibernate.domain.UiidBasedCascadingInterfaceValue");
+		}else{
+			return new OJPathName("org.opaeum.hibernate.domain.UiidBasedInterfaceValue");
+		}
 	}
 }

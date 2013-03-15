@@ -9,7 +9,7 @@ public class Opaeum_hibernate_testsJavaMetaInfoMap extends JavaMetaInfoMap {
 	/** Constructor for Opaeum_hibernate_testsJavaMetaInfoMap
 	 */
 	public Opaeum_hibernate_testsJavaMetaInfoMap() {
-		this.importMetaInfo(model.util.ModelJavaMetaInfoMap.INSTANCE);
+		this.importMetaInfo(org.opaeum.test.hibernate.util.ModelJavaMetaInfoMap.INSTANCE);
 	}
 
 

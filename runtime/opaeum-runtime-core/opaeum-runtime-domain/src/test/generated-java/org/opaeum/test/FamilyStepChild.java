@@ -105,7 +105,7 @@ public class FamilyStepChild implements CompositionNode, Serializable {
 	}
 	
 	public CompositionNode getOwningObject() {
-		return getStepChild();
+		return getFamily();
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=3026107929571144029l,opposite="familyStepChild_family",uuid="Structures.uml@_0vgqcIlZEeKhILqZBrW9Hg")
@@ -132,13 +132,10 @@ public class FamilyStepChild implements CompositionNode, Serializable {
 	}
 	
 	public void init(CompositionNode owner) {
-		this.z_internalAddToStepChild((StepChild)owner);
+		this.z_internalAddToFamily((Family)owner);
 	}
 	
 	public void markDeleted() {
-		if ( getStepChild()!=null ) {
-			getStepChild().markDeleted();
-		}
 	}
 	
 	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {

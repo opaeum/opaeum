@@ -12,29 +12,23 @@ public class AssociationClassEndMap{
 	private PropertyMap assocationClassToThisEndMap;
 	private PropertyMap endToAssocationClassMap;
 	private PropertyMap otherEndToAssocationClassMap;
-	public AssociationClassEndMap(OJUtil ojUtil, Property p){
+	public AssociationClassEndMap(OJUtil ojUtil,Property p){
 		map = ojUtil.buildStructuralFeatureMap(p);
-		EmulatedPropertyHolderForAssociation ephfa=  (EmulatedPropertyHolderForAssociation) ojUtil.getLibrary().getEmulatedPropertyHolder(p.getAssociation());
+		EmulatedPropertyHolderForAssociation ephfa = (EmulatedPropertyHolderForAssociation) ojUtil.getLibrary().getEmulatedPropertyHolder(p.getAssociation());
 		assocationClassToOtherEndMap = ojUtil.buildStructuralFeatureMap(ephfa.getEmulatedAttribute(p));
-		if(p.isNavigable()){
-			endToAssocationClassMap = ojUtil.buildStructuralFeatureMap(ephfa.getEndToAssociation(p));
-		}
-		if(p.getOtherEnd().isNavigable()){
-			assocationClassToThisEndMap = ojUtil.buildStructuralFeatureMap(ephfa.getEmulatedAttribute(p.getOtherEnd()));
-			otherEndToAssocationClassMap = ojUtil.buildStructuralFeatureMap(ephfa.getEndToAssociation(p.getOtherEnd()));
-		}
+		endToAssocationClassMap = ojUtil.buildStructuralFeatureMap(ephfa.getEndToAssociation(p));
+		assocationClassToThisEndMap = ojUtil.buildStructuralFeatureMap(ephfa.getEmulatedAttribute(p.getOtherEnd()));
+		otherEndToAssocationClassMap = ojUtil.buildStructuralFeatureMap(ephfa.getEndToAssociation(p.getOtherEnd()));
 	}
 	public PropertyMap getMap(){
 		return map;
 	}
-
 	public PropertyMap getEndToAssocationClassMap(){
 		return endToAssocationClassMap;
 	}
 	public PropertyMap getOtherEndToAssocationClassMap(){
 		return otherEndToAssocationClassMap;
 	}
-
 	public PropertyMap getAssocationClassToOtherEndMap(){
 		return assocationClassToOtherEndMap;
 	}

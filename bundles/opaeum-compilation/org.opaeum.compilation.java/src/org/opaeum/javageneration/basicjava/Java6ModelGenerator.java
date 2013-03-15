@@ -85,6 +85,9 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 	@SuppressWarnings({"unchecked","rawtypes"})
 	@VisitAfter(matchSubclasses = true,match = {Interface.class,Enumeration.class})
 	public void visitClass(final Classifier c){
+		if(c.getName().equals("AssociationClass1")){
+			System.out.println();
+		}
 		// We do not generate simple data types. They can't participate in
 		// two-way associations and should be built-in or pre-implemented
 		if(EmfElementUtil.isMarkedForDeletion(c)){

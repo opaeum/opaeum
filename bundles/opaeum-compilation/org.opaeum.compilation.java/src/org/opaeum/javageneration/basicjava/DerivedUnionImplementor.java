@@ -38,7 +38,7 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 	}
 	@Override
 	public void visitProperty(OJAnnotatedClass c,Classifier owner,PropertyMap derivedUnionMap){
-		if(derivedUnionMap.getProperty().isNavigable() && derivedUnionMap.getProperty().isDerivedUnion()){
+		if(derivedUnionMap.getProperty().isNavigable() && derivedUnionMap.getProperty().isDerivedUnion()  && !derivedUnionMap.isEndToAssociationClass()){
 			Collection<Property> directlyImplementedProperties = getLibrary().getDirectlyImplementedAttributes(owner);
 			OJAnnotatedOperation getter = (OJAnnotatedOperation) c.findOperation(derivedUnionMap.getter(), new ArrayList<OJPathName>());
 			Collection<Property> subsettingProperties = EmfPropertyUtil.getSubsettingProperties(derivedUnionMap.getProperty());

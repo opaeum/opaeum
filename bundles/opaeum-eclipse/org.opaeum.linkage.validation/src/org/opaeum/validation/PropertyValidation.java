@@ -6,7 +6,7 @@ import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
-import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.metamodel.validation.IValidationRule;
@@ -31,7 +31,8 @@ public class PropertyValidation extends AbstractValidator{
 				REDEFINED_PROPERTY_NOT_IN_CONTEXT("Redefined properties must be in the redefinition context of the subseting property",
 						"{0} redefines {1} which is not accessible from {2}",pkg.getProperty_RedefinedProperty()),
 		TYPED_ELEMENT_NO_TYPE("Typed elements must be typed",
-				"{0}'s type is not specified",pkg.getTypedElement_Type());
+				"{0}'s type is not specified",pkg.getTypedElement_Type()), QUALIFIER_WITHOUT_BACKING_ATTRIBUTE_NOT_SUPPORTED("Qualifiers need properties on the owning classifier with the same name and type",
+						"Qualifier {0} on {1} does not have a backing property on the owning classifier {2}",pkg.getProperty_Qualifier());
 		private String description;
 		private String messagePattern;
 		private EStructuralFeature feature[];
@@ -62,7 +63,7 @@ public class PropertyValidation extends AbstractValidator{
 	public void visitProperty(Property p){
 		// TODO property cannot be derivedUnion AND have defaultVAlue
 		if(p.getAssociationEnd() == null){
-			Classifier owner = (Classifier) EmfElementFinder.getContainer(p);
+			Classifier owner = (Classifier) EmfPropertyUtil.getOwningClassifier(p);
 			if(p.isStatic() && owner instanceof Interface){
 				getErrorMap().putError(p, PropertyValidationRule.INTERFACE_PROPERTIES_CANNOT_BE_STATIC);
 			}
@@ -95,6 +96,10 @@ public class PropertyValidation extends AbstractValidator{
 						}
 					}
 				}
+			}
+		}else{
+			if(EmfPropertyUtil.getBackingPropertyForQualifier(p)==null){
+				getErrorMap().putError(p, PropertyValidationRule.QUALIFIER_WITHOUT_BACKING_ATTRIBUTE_NOT_SUPPORTED, p.getAssociationEnd(), EmfPropertyUtil.getOwningClassifier(p.getAssociationEnd().getOtherEnd()));
 			}
 		}
 	}

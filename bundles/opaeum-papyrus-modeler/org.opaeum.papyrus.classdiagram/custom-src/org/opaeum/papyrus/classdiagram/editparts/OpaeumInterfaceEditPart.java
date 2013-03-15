@@ -6,14 +6,17 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gmf.runtime.diagram.ui.requests.EditCommandRequestWrapper;
-import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
+import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
+import org.eclipse.gmf.runtime.emf.type.core.requests.CreateRelationshipRequest;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.papyrus.uml.diagram.clazz.custom.policies.itemsemantic.CustomInterfaceItemSemanticEditPolicy;
 import org.eclipse.papyrus.uml.diagram.clazz.edit.parts.InterfaceEditPart;
+import org.eclipse.papyrus.uml.diagram.clazz.providers.UMLElementTypes;
 import org.eclipse.papyrus.uml.diagram.common.figure.node.IPapyrusNodeNamedElementFigure;
 import org.eclipse.papyrus.uml.diagram.common.figure.node.InterfaceFigure;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.papyrus.classdiagram.custom.command.CAssociationClassCreateCommand;
 import org.opaeum.papyrus.common.ImageUtil;
 
 public final class OpaeumInterfaceEditPart extends InterfaceEditPart{
@@ -36,6 +39,20 @@ public final class OpaeumInterfaceEditPart extends InterfaceEditPart{
 	private OpaeumInterfaceFigure imageFigure;
 	OpaeumInterfaceEditPart(View view){
 		super(view);
+	}
+	@Override
+	protected void createDefaultEditPolicies(){
+		super.createDefaultEditPolicies();
+		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new CustomInterfaceItemSemanticEditPolicy(){
+			protected Command getCompleteCreateRelationshipCommand(CreateRelationshipRequest req) {
+				if(UMLElementTypes.AssociationClass_4017 == req.getElementType()) {
+					return getGEFWrapper(new CAssociationClassCreateCommand(req, req.getSource(), req.getTarget()));
+				}
+				return super.getCompleteCreateRelationshipCommand(req);
+			}
+
+		});
+
 	}
 	protected IFigure createNodeShape(){
 		this.imageFigure = new OpaeumInterfaceFigure();

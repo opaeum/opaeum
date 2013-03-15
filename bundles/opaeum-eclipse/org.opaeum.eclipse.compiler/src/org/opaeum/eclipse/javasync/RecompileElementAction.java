@@ -40,7 +40,7 @@ import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
 
-public class RecompileElementAction extends AbstractOpaeumAction {
+public class RecompileElementAction extends AbstractOpaeumAction{
 	public RecompileElementAction(){
 		super(null, "Recompile Element");
 	}
@@ -85,15 +85,14 @@ public class RecompileElementAction extends AbstractOpaeumAction {
 								p.replaceModel(new TextWorkspace());
 								OpaeumConfig cfg = ouf.getConfig();
 								TreeIterator<EObject> eAllContents = element.eAllContents();
-								Collection<EObject> allDescendants=new HashSet<EObject>();
+								Collection<EObject> allDescendants = new HashSet<EObject>();
 								while(eAllContents.hasNext()){
 									EObject eObject = eAllContents.next();
 									allDescendants.add(eObject);
-									
 								}
 								allDescendants.add(element);
-								Collection<?> processElements = p.processElements(allDescendants, JavaTransformationPhase.class,
-										new ProgressMonitorTransformationLog(monitor, 60));
+								Collection<?> processElements = p.processElements(allDescendants, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor,
+										60));
 								TextFileGenerator tfg = new TextFileGenerator();
 								tfg.initialize(cfg);
 								TextFileDeleter tfd = new TextFileDeleter();
@@ -110,9 +109,11 @@ public class RecompileElementAction extends AbstractOpaeumAction {
 									}
 								}
 								for(TextProject textProject:p.findModel(TextWorkspace.class).getTextProjects()){
-									IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(textProject.getName());
-									if(project.exists()){
-										project.refreshLocal(IResource.DEPTH_INFINITE, null);
+									if(textProject.getName().trim().length() > 0){
+										IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(textProject.getName());
+										if(project.exists()){
+											project.refreshLocal(IResource.DEPTH_INFINITE, null);
+										}
 									}
 								}
 								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
@@ -122,7 +123,7 @@ public class RecompileElementAction extends AbstractOpaeumAction {
 							OpaeumEclipsePlugin.logError("Recompilation Failed", e);
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-							return new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Elements not compiled",e);
+							return new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Elements not compiled", e);
 						}finally{
 							monitor.done();
 						}

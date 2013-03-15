@@ -24,13 +24,15 @@ import org.w3c.dom.NodeList;
 @NumlMetaInfo(applicationIdentifier="structuretests",uuid="Structures.uml@_tLdi4IiYEeKb2pFQKBBPKw")
 public class Father implements SurnameProvider, IEventGenerator, CompositionNode, Serializable {
 	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	protected Map<String, Child> child = new HashMap<String,Child>();
 	protected Family family;
+	protected Marriage marriage_spouse;
 	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	static final private long serialVersionUID = 3913937104705735364l;
-	protected Spouse spouse;
-	protected Set<SurnameProviderHasDaughter> surnameProviderHasDaughter_surnameCarryingDaughter = new HashSet<SurnameProviderHasDaughter>();
+	protected Map<String, SurnameProviderHasDaughter> surnameProviderHasDaughter_surnameCarryingDaughter = new HashMap<String,SurnameProviderHasDaughter>();
 	protected Set<SurnameProviderHasSon> surnameProviderHasSon_surnameCarryingSon = new HashSet<SurnameProviderHasSon>();
 	private String uid;
+	protected Mother wife;
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
@@ -46,9 +48,15 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 	public Father() {
 	}
 
+	public void addAllToChild(Set<Child> child) {
+		for ( Child o : child ) {
+			addToChild(o.getName(),o);
+		}
+	}
+	
 	public void addAllToSurnameCarryingDaughter(Set<Sister> surnameCarryingDaughter) {
 		for ( Sister o : surnameCarryingDaughter ) {
-			addToSurnameCarryingDaughter(o);
+			addToSurnameCarryingDaughter(o.getName(),o);
 		}
 	}
 	
@@ -58,19 +66,29 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 		}
 	}
 	
+	public void addToChild(String name, Child child) {
+		if ( child!=null ) {
+			if ( child.getFather()!=null ) {
+				child.getFather().removeFromChild(child.getName(),child);
+			}
+			child.z_internalAddToFather(this);
+		}
+		z_internalAddToChild(name,child);
+	}
+	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
 		getFamily().z_internalAddToFather((Father)this);
 	}
 	
-	public void addToSurnameCarryingDaughter(Sister surnameCarryingDaughter) {
+	public void addToSurnameCarryingDaughter(String name, Sister surnameCarryingDaughter) {
 		if ( surnameCarryingDaughter!=null && !this.getSurnameCarryingDaughter().contains(surnameCarryingDaughter) ) {
 			SurnameProviderHasDaughter newLink = new SurnameProviderHasDaughter((SurnameProvider)this,(Sister)surnameCarryingDaughter);
 			if ( surnameCarryingDaughter.getSurnameProvider()!=null ) {
-				surnameCarryingDaughter.getSurnameProvider().removeFromSurnameCarryingDaughter(surnameCarryingDaughter);
+				surnameCarryingDaughter.getSurnameProvider().removeFromSurnameCarryingDaughter(surnameCarryingDaughter.getName(),surnameCarryingDaughter);
 			}
-			this.z_internalAddToSurnameProviderHasDaughter_surnameCarryingDaughter(newLink);
+			this.z_internalAddToSurnameProviderHasDaughter_surnameCarryingDaughter(name,newLink);
 			surnameCarryingDaughter.z_internalAddToSurnameProviderHasDaughter_surnameProvider(newLink);
 		}
 	}
@@ -124,7 +142,7 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 							curVal=org.opaeum.test.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						this.z_internalAddToSurnameProviderHasDaughter_surnameCarryingDaughter(curVal);
+						this.z_internalAddToSurnameProviderHasDaughter_surnameCarryingDaughter(curVal.getSurnameCarryingDaughter().getName(),curVal);
 						curVal.z_internalAddToSurnameProvider(this);
 						map.put(curVal.getUid(), curVal);
 					}
@@ -133,10 +151,17 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 		}
 	}
 	
+	public void clearChild() {
+		Set<Child> tmp = new HashSet<Child>(getChild());
+		for ( Child o : tmp ) {
+			removeFromChild(o.getName(),o);
+		}
+	}
+	
 	public void clearSurnameCarryingDaughter() {
 		Set<Sister> tmp = new HashSet<Sister>(getSurnameCarryingDaughter());
 		for ( Sister o : tmp ) {
-			removeFromSurnameCarryingDaughter(o);
+			removeFromSurnameCarryingDaughter(o.getName(),o);
 		}
 	}
 	
@@ -148,9 +173,21 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 	}
 	
 	public void copyShallowState(Father from, Father to) {
+		if ( from.getWife()!=null ) {
+			to.z_internalAddToWife(from.getWife().makeShallowCopy());
+		}
+		if ( from.getMarriage_spouse()!=null ) {
+			to.z_internalAddToMarriage_spouse(from.getMarriage_spouse().makeShallowCopy());
+		}
 	}
 	
 	public void copyState(Father from, Father to) {
+		if ( from.getWife()!=null ) {
+			to.z_internalAddToWife(from.getWife().makeCopy());
+		}
+		if ( from.getMarriage_spouse()!=null ) {
+			to.z_internalAddToMarriage_spouse(from.getMarriage_spouse().makeCopy());
+		}
 	}
 	
 	public void createComponents() {
@@ -167,12 +204,43 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 		return this.cancelledEvents;
 	}
 	
+	public Child getChild(String name) {
+		Child result = null;
+		String key = ModelFormatter.getInstance().formatStringQualifier(name);
+		result=this.child.get(key.toString());
+		return result;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3140556702662193093l,opposite="father",uuid="Structures.uml@_KNfFoIsgEeKWvpYIRX9T4g")
+	@NumlMetaInfo(uuid="Structures.uml@_KNfFoIsgEeKWvpYIRX9T4g")
+	public Set<Child> getChild() {
+		Set result = new HashSet<Child>(this.child.values());
+		
+		return result;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7807032952468544404l,opposite="father",uuid="Structures.uml@_u4d3QYiYEeKb2pFQKBBPKw")
 	@NumlMetaInfo(uuid="Structures.uml@_u4d3QYiYEeKb2pFQKBBPKw")
 	public Family getFamily() {
 		Family result = this.family;
 		
 		return result;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=599591342263275344l,opposite="surnameProvider",uuid="Structures.uml@_fz0rsIn-EeKv0PcdrJJtzg")
+	@NumlMetaInfo(uuid="Structures.uml@_Zi2eAIhrEeK4s7QGypAJBA@Structures.uml@_fz0rsIn-EeKv0PcdrJJtzg")
+	public Marriage getMarriage_spouse() {
+		Marriage result = this.marriage_spouse;
+		
+		return result;
+	}
+	
+	public Marriage getMarriage_spouseFor(Spouse match) {
+		if ( marriage_spouse.getSpouse().equals(match) ) {
+			return marriage_spouse;
+		} else {
+			return null;
+		}
 	}
 	
 	public Set<OutgoingEvent> getOutgoingEvents() {
@@ -183,11 +251,20 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 		return getFamily();
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4841945505933354426l,opposite="surnameProvider",uuid="Structures.uml@_0-KlMYjPEeKq68owPnlvHg")
-	@NumlMetaInfo(uuid="Structures.uml@_0-KlMYjPEeKq68owPnlvHg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=112985228842363744l,opposite="surnameProvider",uuid="Structures.uml@_fz0rsYn-EeKv0PcdrJJtzg")
 	public Spouse getSpouse() {
-		Spouse result = this.spouse;
-		
+		Spouse result = null;
+		if ( this.marriage_spouse!=null ) {
+			result = this.marriage_spouse.getSpouse();
+		}
+		return result;
+	}
+	
+	public Sister getSurnameCarryingDaughter(String name) {
+		Sister result = null;
+		String key = ModelFormatter.getInstance().formatStringQualifier(name);
+		SurnameProviderHasDaughter link = this.surnameProviderHasDaughter_surnameCarryingDaughter.get(key.toString());
+		result= link==null || link.getSurnameCarryingDaughter()==null?null:link.getSurnameCarryingDaughter();
 		return result;
 	}
 	
@@ -209,10 +286,17 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 		return result;
 	}
 	
+	public SurnameProviderHasDaughter getSurnameProviderHasDaughter_surnameCarryingDaughter(String name) {
+		SurnameProviderHasDaughter result = null;
+		String key = ModelFormatter.getInstance().formatStringQualifier(name);
+		result=this.surnameProviderHasDaughter_surnameCarryingDaughter.get(key.toString());
+		return result;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=3102093816030840167l,opposite="surnameProvider",uuid="Structures.uml@_gtNy8IhrEeK4s7QGypAJBA")
 	@NumlMetaInfo(uuid="Structures.uml@_Zi2eAIhrEeK4s7QGypAJBA@Structures.uml@_gtNy8IhrEeK4s7QGypAJBA")
 	public Set<SurnameProviderHasDaughter> getSurnameProviderHasDaughter_surnameCarryingDaughter() {
-		Set result = this.surnameProviderHasDaughter_surnameCarryingDaughter;
+		Set result = new HashSet<SurnameProviderHasDaughter>(this.surnameProviderHasDaughter_surnameCarryingDaughter.values());
 		
 		return result;
 	}
@@ -250,6 +334,14 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 		return this.uid;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2763641334812734820l,opposite="husband",uuid="Structures.uml@_7cAGwIr9EeKfXcW1LrVoAA")
+	@NumlMetaInfo(uuid="Structures.uml@_7cAGwIr9EeKfXcW1LrVoAA")
+	public Mother getWife() {
+		Mother result = this.wife;
+		
+		return result;
+	}
+	
 	public int hashCode() {
 		return getUid().hashCode();
 	}
@@ -271,11 +363,24 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 	}
 	
 	public void markDeleted() {
+		if ( getWife()!=null ) {
+			getWife().z_internalRemoveFromHusband(this);
+		}
+		removeAllFromChild(getChild());
+		for ( SurnameProviderHasSon link : new HashSet<SurnameProviderHasSon>(getSurnameProviderHasSon_surnameCarryingSon()) ) {
+			link.getSurnameCarryingSon().z_internalRemoveFromSurnameProviderHasSon_surnameProvider(link);
+		}
+		for ( SurnameProviderHasDaughter link : new HashSet<SurnameProviderHasDaughter>(getSurnameProviderHasDaughter_surnameCarryingDaughter()) ) {
+			link.getSurnameCarryingDaughter().z_internalRemoveFromSurnameProviderHasDaughter_surnameProvider(link);
+		}
 		if ( getSpouse()!=null ) {
-			getSpouse().z_internalRemoveFromSurnameProvider(this);
+			getSpouse().z_internalRemoveFromMarriage_surnameProvider(getMarriage_spouse());
 		}
 		if ( getFamily()!=null ) {
 			getFamily().z_internalRemoveFromFather(this);
+		}
+		if ( getMarriage_spouse()!=null ) {
+			getMarriage_spouse().z_internalRemoveFromSurnameProvider(this);
 		}
 		for ( SurnameProviderHasSon child : new ArrayList<SurnameProviderHasSon>(getSurnameProviderHasSon_surnameCarryingSon()) ) {
 			child.markDeleted();
@@ -310,13 +415,34 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("marriage_spouse") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("599591342263275344")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						Marriage marriage_spouse = (Marriage)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
+						if ( marriage_spouse!=null ) {
+							z_internalAddToMarriage_spouse(marriage_spouse);
+							marriage_spouse.z_internalAddToSurnameProvider(this);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public void removeAllFromChild(Set<Child> child) {
+		Set<Child> tmp = new HashSet<Child>(child);
+		for ( Child o : tmp ) {
+			removeFromChild(o.getName(),o);
 		}
 	}
 	
 	public void removeAllFromSurnameCarryingDaughter(Set<Sister> surnameCarryingDaughter) {
 		Set<Sister> tmp = new HashSet<Sister>(surnameCarryingDaughter);
 		for ( Sister o : tmp ) {
-			removeFromSurnameCarryingDaughter(o);
+			removeFromSurnameCarryingDaughter(o.getName(),o);
 		}
 	}
 	
@@ -327,17 +453,24 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 		}
 	}
 	
+	public void removeFromChild(String name, Child child) {
+		if ( child!=null ) {
+			child.z_internalRemoveFromFather(this);
+			z_internalRemoveFromChild(child.getName(),child);
+		}
+	}
+	
 	public void removeFromOwningObject() {
 		this.markDeleted();
 	}
 	
-	public void removeFromSurnameCarryingDaughter(Sister surnameCarryingDaughter) {
+	public void removeFromSurnameCarryingDaughter(String name, Sister surnameCarryingDaughter) {
 		if ( surnameCarryingDaughter!=null ) {
 			SurnameProviderHasDaughter oldLink = getSurnameProviderHasDaughter_surnameCarryingDaughterFor(surnameCarryingDaughter);
 			if ( oldLink!=null ) {
 				surnameCarryingDaughter.z_internalRemoveFromSurnameProviderHasDaughter_surnameProvider(oldLink);
 				oldLink.clear();
-				z_internalRemoveFromSurnameProviderHasDaughter_surnameCarryingDaughter(oldLink);
+				z_internalRemoveFromSurnameProviderHasDaughter_surnameCarryingDaughter(surnameCarryingDaughter.getName(),oldLink);
 			}
 		}
 	}
@@ -355,6 +488,11 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
+	}
+	
+	public void setChild(Set<Child> child) {
+		this.clearChild();
+		this.addAllToChild(child);
 	}
 	
 	public void setFamily(Family family) {
@@ -392,30 +530,18 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 	
 	public void setSpouse(Spouse spouse) {
 		Spouse oldValue = this.getSpouse();
-		if ( oldValue==null ) {
-			if ( spouse!=null ) {
-				Father oldOther = (Father)spouse.getSurnameProvider();
-				spouse.z_internalRemoveFromSurnameProvider(oldOther);
-				if ( oldOther != null ) {
-					oldOther.z_internalRemoveFromSpouse(spouse);
-				}
-				spouse.z_internalAddToSurnameProvider((Father)this);
+		if ( oldValue !=null && !oldValue.equals(spouse) ) {
+			getSpouse().z_internalRemoveFromMarriage_surnameProvider(getMarriage_spouse());
+			z_internalRemoveFromMarriage_spouse(getMarriage_spouse());
+		}
+		if ( spouse !=null && !spouse.equals(oldValue) ) {
+			z_internalAddToMarriage_spouse(new Marriage((SurnameProvider)this,(Spouse)spouse));
+			if ( spouse.getSurnameProvider()!=null ) {
+				spouse.getMarriage_surnameProvider().clear();
+				spouse.getSurnameProvider().z_internalRemoveFromMarriage_spouse(spouse.getMarriage_surnameProvider());
+				spouse.z_internalRemoveFromMarriage_surnameProvider(spouse.getMarriage_surnameProvider());
 			}
-			this.z_internalAddToSpouse(spouse);
-		} else {
-			if ( !oldValue.equals(spouse) ) {
-				oldValue.z_internalRemoveFromSurnameProvider(this);
-				z_internalRemoveFromSpouse(oldValue);
-				if ( spouse!=null ) {
-					Father oldOther = (Father)spouse.getSurnameProvider();
-					spouse.z_internalRemoveFromSurnameProvider(oldOther);
-					if ( oldOther != null ) {
-						oldOther.z_internalRemoveFromSpouse(spouse);
-					}
-					spouse.z_internalAddToSurnameProvider((Father)this);
-				}
-				this.z_internalAddToSpouse(spouse);
-			}
+			spouse.z_internalAddToMarriage_surnameProvider(getMarriage_spouse());
 		}
 	}
 	
@@ -431,6 +557,35 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 	
 	public void setUid(String newUid) {
 		this.uid=newUid;
+	}
+	
+	public void setWife(Mother wife) {
+		Mother oldValue = this.getWife();
+		if ( oldValue==null ) {
+			if ( wife!=null ) {
+				Father oldOther = (Father)wife.getHusband();
+				wife.z_internalRemoveFromHusband(oldOther);
+				if ( oldOther != null ) {
+					oldOther.z_internalRemoveFromWife(wife);
+				}
+				wife.z_internalAddToHusband((Father)this);
+			}
+			this.z_internalAddToWife(wife);
+		} else {
+			if ( !oldValue.equals(wife) ) {
+				oldValue.z_internalRemoveFromHusband(this);
+				z_internalRemoveFromWife(oldValue);
+				if ( wife!=null ) {
+					Father oldOther = (Father)wife.getHusband();
+					wife.z_internalRemoveFromHusband(oldOther);
+					if ( oldOther != null ) {
+						oldOther.z_internalRemoveFromWife(wife);
+					}
+					wife.z_internalAddToHusband((Father)this);
+				}
+				this.z_internalAddToWife(wife);
+			}
+		}
 	}
 	
 	public String toXmlReferenceString() {
@@ -454,8 +609,25 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 			sb.append("\n" + surnameProviderHasDaughter_surnameCarryingDaughter.toXmlString());
 		}
 		sb.append("\n</surnameProviderHasDaughter_surnameCarryingDaughter>");
+		if ( getMarriage_spouse()==null ) {
+			sb.append("\n<marriage_spouse/>");
+		} else {
+			sb.append("\n<marriage_spouse propertyId=\"599591342263275344\">");
+			sb.append("\n" + getMarriage_spouse().toXmlReferenceString());
+			sb.append("\n</marriage_spouse>");
+		}
 		sb.append("\n</Father>");
 		return sb.toString();
+	}
+	
+	public void z_internalAddToChild(String name, Child child) {
+		String key = ModelFormatter.getInstance().formatStringQualifier(name);
+		if ( getChild().contains(child) ) {
+			return;
+		}
+		child.z_internalAddToName(name);
+		this.child.put(key.toString(),child);
+		child.setZ_keyOfChildOnFather(key.toString());
 	}
 	
 	public void z_internalAddToFamily(Family family) {
@@ -465,18 +637,21 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 		this.family=family;
 	}
 	
-	public void z_internalAddToSpouse(Spouse spouse) {
-		if ( spouse.equals(getSpouse()) ) {
+	public void z_internalAddToMarriage_spouse(Marriage marriage_spouse) {
+		if ( marriage_spouse.equals(getMarriage_spouse()) ) {
 			return;
 		}
-		this.spouse=spouse;
+		this.marriage_spouse=marriage_spouse;
 	}
 	
-	public void z_internalAddToSurnameProviderHasDaughter_surnameCarryingDaughter(SurnameProviderHasDaughter surnameProviderHasDaughter_surnameCarryingDaughter) {
+	public void z_internalAddToSurnameProviderHasDaughter_surnameCarryingDaughter(String name, SurnameProviderHasDaughter surnameProviderHasDaughter_surnameCarryingDaughter) {
+		String key = ModelFormatter.getInstance().formatStringQualifier(name);
 		if ( getSurnameProviderHasDaughter_surnameCarryingDaughter().contains(surnameProviderHasDaughter_surnameCarryingDaughter) ) {
 			return;
 		}
-		this.surnameProviderHasDaughter_surnameCarryingDaughter.add(surnameProviderHasDaughter_surnameCarryingDaughter);
+		surnameProviderHasDaughter_surnameCarryingDaughter.getSurnameCarryingDaughter().z_internalAddToName(name);
+		this.surnameProviderHasDaughter_surnameCarryingDaughter.put(key.toString(),surnameProviderHasDaughter_surnameCarryingDaughter);
+		surnameProviderHasDaughter_surnameCarryingDaughter.setZ_keyOfSurnameCarryingDaughterOnSurnameProvider(key.toString());
 	}
 	
 	public void z_internalAddToSurnameProviderHasSon_surnameCarryingSon(SurnameProviderHasSon surnameProviderHasSon_surnameCarryingSon) {
@@ -486,6 +661,18 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 		this.surnameProviderHasSon_surnameCarryingSon.add(surnameProviderHasSon_surnameCarryingSon);
 	}
 	
+	public void z_internalAddToWife(Mother wife) {
+		if ( wife.equals(getWife()) ) {
+			return;
+		}
+		this.wife=wife;
+	}
+	
+	public void z_internalRemoveFromChild(String name, Child child) {
+		String key = ModelFormatter.getInstance().formatStringQualifier(name);
+		this.child.remove(key.toString());
+	}
+	
 	public void z_internalRemoveFromFamily(Family family) {
 		if ( getFamily()!=null && family!=null && family.equals(getFamily()) ) {
 			this.family=null;
@@ -493,19 +680,27 @@ public class Father implements SurnameProvider, IEventGenerator, CompositionNode
 		}
 	}
 	
-	public void z_internalRemoveFromSpouse(Spouse spouse) {
-		if ( getSpouse()!=null && spouse!=null && spouse.equals(getSpouse()) ) {
-			this.spouse=null;
-			this.spouse=null;
+	public void z_internalRemoveFromMarriage_spouse(Marriage marriage_spouse) {
+		if ( getMarriage_spouse()!=null && marriage_spouse!=null && marriage_spouse.equals(getMarriage_spouse()) ) {
+			this.marriage_spouse=null;
+			this.marriage_spouse=null;
 		}
 	}
 	
-	public void z_internalRemoveFromSurnameProviderHasDaughter_surnameCarryingDaughter(SurnameProviderHasDaughter surnameProviderHasDaughter_surnameCarryingDaughter) {
-		this.surnameProviderHasDaughter_surnameCarryingDaughter.remove(surnameProviderHasDaughter_surnameCarryingDaughter);
+	public void z_internalRemoveFromSurnameProviderHasDaughter_surnameCarryingDaughter(String name, SurnameProviderHasDaughter surnameProviderHasDaughter_surnameCarryingDaughter) {
+		String key = ModelFormatter.getInstance().formatStringQualifier(name);
+		this.surnameProviderHasDaughter_surnameCarryingDaughter.remove(key.toString());
 	}
 	
 	public void z_internalRemoveFromSurnameProviderHasSon_surnameCarryingSon(SurnameProviderHasSon surnameProviderHasSon_surnameCarryingSon) {
 		this.surnameProviderHasSon_surnameCarryingSon.remove(surnameProviderHasSon_surnameCarryingSon);
+	}
+	
+	public void z_internalRemoveFromWife(Mother wife) {
+		if ( getWife()!=null && wife!=null && wife.equals(getWife()) ) {
+			this.wife=null;
+			this.wife=null;
+		}
 	}
 
 }

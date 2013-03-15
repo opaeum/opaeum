@@ -65,6 +65,9 @@ public class Sister extends Child implements IEventGenerator, CompositionNode, S
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
+		if ( getName()==null ) {
+			throw new IllegalStateException("The qualifying property 'name' must be set before adding a value to 'family'");
+		}
 		getFamily().z_internalAddToChild(this.getName(),(Sister)this);
 	}
 	
@@ -191,15 +194,32 @@ public class Sister extends Child implements IEventGenerator, CompositionNode, S
 	
 	public void markDeleted() {
 		super.markDeleted();
-		removeAllFromGodParent(getGodParent());
+		for ( ChildHasRelation link : new HashSet<ChildHasRelation>(getChildHasRelation_godParent()) ) {
+			link.getGodParent().z_internalRemoveFromChildHasRelation_child(this.getName(),this.getDateOfBirth(),link);
+		}
+		if ( getMother()!=null ) {
+			getMother().z_internalRemoveFromChild(this.getName(),this);
+		}
+		removeAllFromYounberSiblings(getYounberSiblings());
+		for ( SiblingStepSibling link : new HashSet<SiblingStepSibling>(getSiblingStepSibling_stepSibling()) ) {
+			link.getStepSibling1().z_internalRemoveFromSiblingStepSibling_stepSibling(link);
+		}
 		if ( getSurnameProvider()!=null ) {
 			SurnameProviderHasDaughter link = getSurnameProviderHasDaughter_surnameProvider();
-			link.getSurnameProvider().z_internalRemoveFromSurnameProviderHasDaughter_surnameCarryingDaughter(link);
+			link.getSurnameProvider().z_internalRemoveFromSurnameProviderHasDaughter_surnameCarryingDaughter(this.getName(),link);
 			link.markDeleted();
 		}
-		removeAllFromRelation(getRelation());
+		for ( FamilyMemberHasRelation link : new HashSet<FamilyMemberHasRelation>(getFamilyMemberHasRelation_relation()) ) {
+			link.getRelation().z_internalRemoveFromFamilyMemberHasRelation_familyMember(this.getFamily(),this.getName(),link);
+		}
 		if ( getFamily()!=null ) {
 			getFamily().z_internalRemoveFromChild(this.getName(),this);
+		}
+		if ( getFirstBornSibling()!=null ) {
+			getFirstBornSibling().z_internalRemoveFromYounberSiblings(this);
+		}
+		if ( getFather()!=null ) {
+			getFather().z_internalRemoveFromChild(this.getName(),this);
 		}
 		removeAllFromBrother(getBrother());
 		if ( getSurnameProviderHasDaughter_surnameProvider()!=null ) {
@@ -212,6 +232,48 @@ public class Sister extends Child implements IEventGenerator, CompositionNode, S
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("mother") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3843307682732995451")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						Mother mother = (Mother)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
+						if ( mother!=null ) {
+							z_internalAddToMother(mother);
+							mother.z_internalAddToChild(this.getName(),this);
+						}
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("firstBornSibling") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2122232498866777869")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						Child firstBornSibling = (Child)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
+						if ( firstBornSibling!=null ) {
+							z_internalAddToFirstBornSibling(firstBornSibling);
+							firstBornSibling.z_internalAddToYounberSiblings(this);
+						}
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("father") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("7915129683656142253")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						Father father = (Father)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
+						if ( father!=null ) {
+							z_internalAddToFather(father);
+							father.z_internalAddToChild(this.getName(),this);
+						}
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("brother") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3115366053943004335")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -250,6 +312,20 @@ public class Sister extends Child implements IEventGenerator, CompositionNode, S
 						if ( childHasRelation_godParent!=null ) {
 							z_internalAddToChildHasRelation_godParent(childHasRelation_godParent.getGodParent().getFirstName(),childHasRelation_godParent.getGodParent().getSurname(),childHasRelation_godParent.getGodParent().getDateOfBirth(),childHasRelation_godParent);
 							childHasRelation_godParent.z_internalAddToChild(this);
+						}
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("siblingStepSibling_stepSibling") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2983107073586996627")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						SiblingStepSibling siblingStepSibling_stepSibling = (SiblingStepSibling)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
+						if ( siblingStepSibling_stepSibling!=null ) {
+							z_internalAddToSiblingStepSibling_stepSibling(siblingStepSibling_stepSibling);
+							siblingStepSibling_stepSibling.z_internalAddToStepSibling(this);
 						}
 					}
 				}
@@ -304,14 +380,17 @@ public class Sister extends Child implements IEventGenerator, CompositionNode, S
 	
 	public void setSurnameProvider(SurnameProvider surnameProvider) {
 		if ( this.getSurnameProvider()!=null ) {
-			this.getSurnameProvider().z_internalRemoveFromSurnameProviderHasDaughter_surnameCarryingDaughter(getSurnameProviderHasDaughter_surnameProvider());
+			this.getSurnameProvider().z_internalRemoveFromSurnameProviderHasDaughter_surnameCarryingDaughter(this.getName(),getSurnameProviderHasDaughter_surnameProvider());
 		}
 		if ( surnameProvider == null ) {
 			this.z_internalRemoveFromSurnameProviderHasDaughter_surnameProvider(this.getSurnameProviderHasDaughter_surnameProvider());
 		} else {
 			SurnameProviderHasDaughter surnameProviderHasDaughter_surnameProvider = new SurnameProviderHasDaughter((Sister)this,(SurnameProvider)surnameProvider);
+			if ( getName()==null ) {
+				throw new IllegalStateException("The qualifying property 'name' must be set before adding a value to 'surnameProvider'");
+			}
 			this.z_internalAddToSurnameProviderHasDaughter_surnameProvider(surnameProviderHasDaughter_surnameProvider);
-			surnameProvider.z_internalAddToSurnameProviderHasDaughter_surnameCarryingDaughter(surnameProviderHasDaughter_surnameProvider);
+			surnameProvider.z_internalAddToSurnameProviderHasDaughter_surnameCarryingDaughter(this.getName(),surnameProviderHasDaughter_surnameProvider);
 		}
 	}
 	
@@ -336,6 +415,27 @@ public class Sister extends Child implements IEventGenerator, CompositionNode, S
 			sb.append("dateOfBirth=\""+ ModelFormatter.getInstance().formatDate(getDateOfBirth())+"\" ");
 		}
 		sb.append(">");
+		if ( getMother()==null ) {
+			sb.append("\n<mother/>");
+		} else {
+			sb.append("\n<mother propertyId=\"3843307682732995451\">");
+			sb.append("\n" + getMother().toXmlReferenceString());
+			sb.append("\n</mother>");
+		}
+		if ( getFirstBornSibling()==null ) {
+			sb.append("\n<firstBornSibling/>");
+		} else {
+			sb.append("\n<firstBornSibling propertyId=\"2122232498866777869\">");
+			sb.append("\n" + getFirstBornSibling().toXmlReferenceString());
+			sb.append("\n</firstBornSibling>");
+		}
+		if ( getFather()==null ) {
+			sb.append("\n<father/>");
+		} else {
+			sb.append("\n<father propertyId=\"7915129683656142253\">");
+			sb.append("\n" + getFather().toXmlReferenceString());
+			sb.append("\n</father>");
+		}
 		sb.append("\n<brother propertyId=\"3115366053943004335\">");
 		for ( Brother brother : getBrother() ) {
 			sb.append("\n" + brother.toXmlReferenceString());
@@ -353,6 +453,11 @@ public class Sister extends Child implements IEventGenerator, CompositionNode, S
 			sb.append("\n" + childHasRelation_godParent.toXmlReferenceString());
 		}
 		sb.append("\n</childHasRelation_godParent>");
+		sb.append("\n<siblingStepSibling_stepSibling propertyId=\"2983107073586996627\">");
+		for ( SiblingStepSibling siblingStepSibling_stepSibling : getSiblingStepSibling_stepSibling() ) {
+			sb.append("\n" + siblingStepSibling_stepSibling.toXmlReferenceString());
+		}
+		sb.append("\n</siblingStepSibling_stepSibling>");
 		sb.append("\n<familyMemberHasRelation_relation propertyId=\"5718737559910777343\">");
 		for ( FamilyMemberHasRelation familyMemberHasRelation_relation : getFamilyMemberHasRelation_relation() ) {
 			sb.append("\n" + familyMemberHasRelation_relation.toXmlReferenceString());

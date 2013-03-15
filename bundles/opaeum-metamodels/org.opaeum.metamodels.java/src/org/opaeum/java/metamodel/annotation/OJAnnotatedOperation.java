@@ -22,6 +22,9 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 	}
 	public OJAnnotatedOperation(String string){
 		super(string);
+		if(string.equals("getFamilyHasFamilyMember_familyMember")){
+			System.out.println();
+		}
 	}
 	public OJAnnotatedOperation getCopy(){
 		OJAnnotatedOperation oper = new OJAnnotatedOperation(getName());

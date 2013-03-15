@@ -41,6 +41,8 @@ import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.emulated.AbstractEmulatedProperty;
 import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForAssociation;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.javageneration.StereotypeAnnotator;
@@ -71,7 +73,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			}
 			for(Association a:i.getAssociations()){
 				for(Property p:a.getMemberEnds()){
-					if(p.getOtherEnd().getType() == i){
+					if(p.getOtherEnd().getType() == i && p.isNavigable()){
 						if(EmfAssociationUtil.isClass(a)){
 							EmulatedPropertyHolderForAssociation epha = (EmulatedPropertyHolderForAssociation) getLibrary().getEmulatedPropertyHolder(a);
 							visitInterfaceProperty(oi, i, ojUtil.buildStructuralFeatureMap(epha.getEndToAssociation(p)));
@@ -215,9 +217,20 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 		return !(otherEnd == null || EmfPropertyUtil.isDerived(otherEnd)) && otherEnd.isNavigable() && !otherEnd.isReadOnly();
 	}
 	protected final boolean isInvolvedInAnAssociationClass(PropertyMap map){
-		boolean isInvolvedInAnAssociationClass = EmfAssociationUtil.isClass(map.getProperty().getAssociation()) || map.getBaseType() instanceof Association
-				|| (map.getProperty().getOtherEnd() != null && map.getProperty().getOtherEnd().getType() instanceof Association);
-		return isInvolvedInAnAssociationClass;
+		return EmfAssociationUtil.isClass(map.getProperty().getAssociation()) || map.isAssociationClassToEnd() || map.isEndToAssociationClass();
+	}
+	protected void addCheckForNullQualifiers(PropertyMap map,PropertyMap otherMap,OJBlock block){
+		
+		
+		Property otherEnd = otherMap.getProperty();
+		addCheckForNullQualifiers(map, otherEnd, block);
+	}
+	protected void addCheckForNullQualifiers(PropertyMap map,Property otherEnd,OJBlock block){
+		for(Property property:otherEnd.getQualifiers()){
+			PropertyMap qMap = ojUtil.buildStructuralFeatureMap(property);
+			block.addToStatements(new OJIfStatement(qMap.getter() + "()==null", "throw new IllegalStateException(\"The qualifying property '" + qMap.fieldname()
+					+ "' must be set before adding a value to '" + map.fieldname() + "'\")"));
+		}
 	}
 
 }

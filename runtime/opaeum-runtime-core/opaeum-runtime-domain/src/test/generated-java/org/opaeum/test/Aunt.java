@@ -28,7 +28,7 @@ public class Aunt implements Relation, IEventGenerator, CompositionNode, Seriali
 	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	protected Map<String, ChildHasRelation> childHasRelation_child = new HashMap<String,ChildHasRelation>();
 	protected Date dateOfBirth;
-	protected Set<FamilyMemberHasRelation> familyMemberHasRelation_familyMember = new HashSet<FamilyMemberHasRelation>();
+	protected Map<String, FamilyMemberHasRelation> familyMemberHasRelation_familyMember = new HashMap<String,FamilyMemberHasRelation>();
 	protected String firstName;
 	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	static final private long serialVersionUID = 5674612196249131985l;
@@ -48,7 +48,7 @@ public class Aunt implements Relation, IEventGenerator, CompositionNode, Seriali
 	
 	public void addAllToFamilyMember(Set<FamilyMember> familyMember) {
 		for ( FamilyMember o : familyMember ) {
-			addToFamilyMember(o);
+			addToFamilyMember(o.getFamily(),o.getName(),o);
 		}
 	}
 	
@@ -69,7 +69,7 @@ public class Aunt implements Relation, IEventGenerator, CompositionNode, Seriali
 		}
 	}
 	
-	public void addToFamilyMember(FamilyMember familyMember) {
+	public void addToFamilyMember(Family family, String name, FamilyMember familyMember) {
 		if ( familyMember!=null && !this.getFamilyMember().contains(familyMember) ) {
 			FamilyMemberHasRelation newLink = new FamilyMemberHasRelation((Relation)this,(FamilyMember)familyMember);
 			if ( getFirstName()==null ) {
@@ -81,7 +81,7 @@ public class Aunt implements Relation, IEventGenerator, CompositionNode, Seriali
 			if ( getDateOfBirth()==null ) {
 				throw new IllegalStateException("The qualifying property 'dateOfBirth' must be set before adding a value to 'familyMember'");
 			}
-			this.z_internalAddToFamilyMemberHasRelation_familyMember(newLink);
+			this.z_internalAddToFamilyMemberHasRelation_familyMember(family,name,newLink);
 			familyMember.z_internalAddToFamilyMemberHasRelation_relation(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),newLink);
 		}
 	}
@@ -138,7 +138,7 @@ public class Aunt implements Relation, IEventGenerator, CompositionNode, Seriali
 							curVal=org.opaeum.test.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						this.z_internalAddToFamilyMemberHasRelation_familyMember(curVal);
+						this.z_internalAddToFamilyMemberHasRelation_familyMember(curVal.getFamilyMember().getFamily(),curVal.getFamilyMember().getName(),curVal);
 						curVal.z_internalAddToRelation(this);
 						map.put(curVal.getUid(), curVal);
 					}
@@ -157,7 +157,7 @@ public class Aunt implements Relation, IEventGenerator, CompositionNode, Seriali
 	public void clearFamilyMember() {
 		Set<FamilyMember> tmp = new HashSet<FamilyMember>(getFamilyMember());
 		for ( FamilyMember o : tmp ) {
-			removeFromFamilyMember(o);
+			removeFromFamilyMember(o.getFamily(),o.getName(),o);
 		}
 	}
 	
@@ -185,6 +185,14 @@ public class Aunt implements Relation, IEventGenerator, CompositionNode, Seriali
 	
 	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
+	}
+	
+	public Child getChild(String name, Date dateOfBirth) {
+		Child result = null;
+		String key = ModelFormatter.getInstance().formatStringQualifier(name)+ModelFormatter.getInstance().formatDateQualifier(dateOfBirth);
+		ChildHasRelation link = this.childHasRelation_child.get(key.toString());
+		result= link==null || link.getChild()==null?null:link.getChild();
+		return result;
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=984124978325014811l,opposite="godParent",uuid="Structures.uml@_I7GooYhrEeK4s7QGypAJBA")
@@ -228,6 +236,14 @@ public class Aunt implements Relation, IEventGenerator, CompositionNode, Seriali
 		return result;
 	}
 	
+	public FamilyMember getFamilyMember(Family family, String name) {
+		FamilyMember result = null;
+		String key = family.getUid()+ModelFormatter.getInstance().formatStringQualifier(name);
+		FamilyMemberHasRelation link = this.familyMemberHasRelation_familyMember.get(key.toString());
+		result= link==null || link.getFamilyMember()==null?null:link.getFamilyMember();
+		return result;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1729227443467658447l,opposite="relation",uuid="Structures.uml@_wPOkxIhqEeK4s7QGypAJBA")
 	public Set<FamilyMember> getFamilyMember() {
 		Set result = new HashSet<FamilyMember>();
@@ -237,10 +253,17 @@ public class Aunt implements Relation, IEventGenerator, CompositionNode, Seriali
 		return result;
 	}
 	
+	public FamilyMemberHasRelation getFamilyMemberHasRelation_familyMember(Family family, String name) {
+		FamilyMemberHasRelation result = null;
+		String key = family.getUid()+ModelFormatter.getInstance().formatStringQualifier(name);
+		result=this.familyMemberHasRelation_familyMember.get(key.toString());
+		return result;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=3903606770219243395l,opposite="relation",uuid="Structures.uml@_wPOkwIhqEeK4s7QGypAJBA")
 	@NumlMetaInfo(uuid="Structures.uml@_bVPeIIhqEeK4s7QGypAJBA@Structures.uml@_wPOkwIhqEeK4s7QGypAJBA")
 	public Set<FamilyMemberHasRelation> getFamilyMemberHasRelation_familyMember() {
-		Set result = this.familyMemberHasRelation_familyMember;
+		Set result = new HashSet<FamilyMemberHasRelation>(this.familyMemberHasRelation_familyMember.values());
 		
 		return result;
 	}
@@ -305,8 +328,12 @@ public class Aunt implements Relation, IEventGenerator, CompositionNode, Seriali
 	}
 	
 	public void markDeleted() {
-		removeAllFromChild(getChild());
-		removeAllFromFamilyMember(getFamilyMember());
+		for ( ChildHasRelation link : new HashSet<ChildHasRelation>(getChildHasRelation_child()) ) {
+			link.getChild().z_internalRemoveFromChildHasRelation_godParent(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),link);
+		}
+		for ( FamilyMemberHasRelation link : new HashSet<FamilyMemberHasRelation>(getFamilyMemberHasRelation_familyMember()) ) {
+			link.getFamilyMember().z_internalRemoveFromFamilyMemberHasRelation_relation(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),link);
+		}
 		for ( ChildHasRelation child : new ArrayList<ChildHasRelation>(getChildHasRelation_child()) ) {
 			child.markDeleted();
 		}
@@ -353,7 +380,7 @@ public class Aunt implements Relation, IEventGenerator, CompositionNode, Seriali
 	public void removeAllFromFamilyMember(Set<FamilyMember> familyMember) {
 		Set<FamilyMember> tmp = new HashSet<FamilyMember>(familyMember);
 		for ( FamilyMember o : tmp ) {
-			removeFromFamilyMember(o);
+			removeFromFamilyMember(o.getFamily(),o.getName(),o);
 		}
 	}
 	
@@ -368,13 +395,13 @@ public class Aunt implements Relation, IEventGenerator, CompositionNode, Seriali
 		}
 	}
 	
-	public void removeFromFamilyMember(FamilyMember familyMember) {
+	public void removeFromFamilyMember(Family family, String name, FamilyMember familyMember) {
 		if ( familyMember!=null ) {
 			FamilyMemberHasRelation oldLink = getFamilyMemberHasRelation_familyMemberFor(familyMember);
 			if ( oldLink!=null ) {
 				familyMember.z_internalRemoveFromFamilyMemberHasRelation_relation(this.getFirstName(),this.getSurname(),this.getDateOfBirth(),oldLink);
 				oldLink.clear();
-				z_internalRemoveFromFamilyMemberHasRelation_familyMember(oldLink);
+				z_internalRemoveFromFamilyMemberHasRelation_familyMember(familyMember.getFamily(),familyMember.getName(),oldLink);
 			}
 		}
 	}
@@ -517,11 +544,19 @@ public class Aunt implements Relation, IEventGenerator, CompositionNode, Seriali
 		this.dateOfBirth=dateOfBirth;
 	}
 	
-	public void z_internalAddToFamilyMemberHasRelation_familyMember(FamilyMemberHasRelation familyMemberHasRelation_familyMember) {
+	public void z_internalAddToFamilyMemberHasRelation_familyMember(Family family, String name, FamilyMemberHasRelation familyMemberHasRelation_familyMember) {
+		String key = family.getUid()+ModelFormatter.getInstance().formatStringQualifier(name);
 		if ( getFamilyMemberHasRelation_familyMember().contains(familyMemberHasRelation_familyMember) ) {
 			return;
 		}
-		this.familyMemberHasRelation_familyMember.add(familyMemberHasRelation_familyMember);
+		if ( familyMemberHasRelation_familyMember.getFamilyMember().getFamily()==null ) {
+			throw new IllegalStateException("The qualifying property 'family' must be set before adding a value to 'familyMemberHasRelation_familyMember'");
+		}
+		if ( familyMemberHasRelation_familyMember.getFamilyMember().getName()==null ) {
+			throw new IllegalStateException("The qualifying property 'name' must be set before adding a value to 'familyMemberHasRelation_familyMember'");
+		}
+		this.familyMemberHasRelation_familyMember.put(key.toString(),familyMemberHasRelation_familyMember);
+		familyMemberHasRelation_familyMember.setZ_keyOfFamilyMemberOnRelation(key.toString());
 	}
 	
 	public void z_internalAddToFirstName(String firstName) {
@@ -550,8 +585,9 @@ public class Aunt implements Relation, IEventGenerator, CompositionNode, Seriali
 		}
 	}
 	
-	public void z_internalRemoveFromFamilyMemberHasRelation_familyMember(FamilyMemberHasRelation familyMemberHasRelation_familyMember) {
-		this.familyMemberHasRelation_familyMember.remove(familyMemberHasRelation_familyMember);
+	public void z_internalRemoveFromFamilyMemberHasRelation_familyMember(Family family, String name, FamilyMemberHasRelation familyMemberHasRelation_familyMember) {
+		String key = family.getUid()+ModelFormatter.getInstance().formatStringQualifier(name);
+		this.familyMemberHasRelation_familyMember.remove(key.toString());
 	}
 	
 	public void z_internalRemoveFromFirstName(String firstName) {

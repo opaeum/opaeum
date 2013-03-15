@@ -60,10 +60,6 @@ public class EObjectErrorSection extends AbstractOpaeumPropertySection{
 	public void setInput(IWorkbenchPart part,org.eclipse.jface.viewers.ISelection selection){
 		super.setInput(part, selection);
 	};
-	@Override
-	public void populateControls(){
-		super.populateControls();
-	}
 	protected void updateMessages(){
 		super.updateMessages();
 		if(!group.isDisposed()){

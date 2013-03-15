@@ -30,11 +30,18 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 	protected Date dateOfBirth;
 	protected Family family;
 	protected Map<String, FamilyMemberHasRelation> familyMemberHasRelation_relation = new HashMap<String,FamilyMemberHasRelation>();
+	protected Father father;
+	protected Child firstBornSibling;
+	protected Mother mother;
 	protected String name;
 	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	static final private long serialVersionUID = 1446520852367386199l;
+	protected Set<SiblingStepSibling> siblingStepSibling_stepSibling = new HashSet<SiblingStepSibling>();
 	private String uid;
+	protected Set<Child> younberSiblings = new HashSet<Child>();
 	private String z_keyOfChildOnFamily;
+	private String z_keyOfChildOnFather;
+	private String z_keyOfChildOnMother;
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
@@ -64,6 +71,18 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 		}
 	}
 	
+	public void addAllToStepSibling(Set<StepChild> stepSibling) {
+		for ( StepChild o : stepSibling ) {
+			addToStepSibling(o);
+		}
+	}
+	
+	public void addAllToYounberSiblings(Set<Child> younberSiblings) {
+		for ( Child o : younberSiblings ) {
+			addToYounberSiblings(o);
+		}
+	}
+	
 	public void addToGodParent(String firstName, String surname, Date dateOfBirth, Relation godParent) {
 		if ( godParent!=null && !this.getGodParent().contains(godParent) ) {
 			ChildHasRelation newLink = new ChildHasRelation((Child)this,(Relation)godParent);
@@ -81,15 +100,42 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
+		if ( getName()==null ) {
+			throw new IllegalStateException("The qualifying property 'name' must be set before adding a value to 'family'");
+		}
 		getFamily().z_internalAddToChild(this.getName(),(Child)this);
 	}
 	
 	public void addToRelation(String firstName, String surname, Date dateOfBirth, Relation relation) {
 		if ( relation!=null && !this.getRelation().contains(relation) ) {
 			FamilyMemberHasRelation newLink = new FamilyMemberHasRelation((FamilyMember)this,(Relation)relation);
+			if ( getFamily()==null ) {
+				throw new IllegalStateException("The qualifying property 'family' must be set before adding a value to 'relation'");
+			}
+			if ( getName()==null ) {
+				throw new IllegalStateException("The qualifying property 'name' must be set before adding a value to 'relation'");
+			}
 			this.z_internalAddToFamilyMemberHasRelation_relation(firstName,surname,dateOfBirth,newLink);
-			relation.z_internalAddToFamilyMemberHasRelation_familyMember(newLink);
+			relation.z_internalAddToFamilyMemberHasRelation_familyMember(this.getFamily(),this.getName(),newLink);
 		}
+	}
+	
+	public void addToStepSibling(StepChild stepSibling) {
+		if ( stepSibling!=null && !this.getStepSibling().contains(stepSibling) ) {
+			SiblingStepSibling newLink = new SiblingStepSibling((Child)this,(StepChild)stepSibling);
+			this.z_internalAddToSiblingStepSibling_stepSibling(newLink);
+			stepSibling.z_internalAddToSiblingStepSibling_stepSibling(newLink);
+		}
+	}
+	
+	public void addToYounberSiblings(Child younberSiblings) {
+		if ( younberSiblings!=null ) {
+			if ( younberSiblings.getFirstBornSibling()!=null ) {
+				younberSiblings.getFirstBornSibling().removeFromYounberSiblings(younberSiblings);
+			}
+			younberSiblings.z_internalAddToFirstBornSibling(this);
+		}
+		z_internalAddToYounberSiblings(younberSiblings);
 	}
 	
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
@@ -119,6 +165,20 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 		Set<Relation> tmp = new HashSet<Relation>(getRelation());
 		for ( Relation o : tmp ) {
 			removeFromRelation(o.getFirstName(),o.getSurname(),o.getDateOfBirth(),o);
+		}
+	}
+	
+	public void clearStepSibling() {
+		Set<StepChild> tmp = new HashSet<StepChild>(getStepSibling());
+		for ( StepChild o : tmp ) {
+			removeFromStepSibling(o);
+		}
+	}
+	
+	public void clearYounberSiblings() {
+		Set<Child> tmp = new HashSet<Child>(getYounberSiblings());
+		for ( Child o : tmp ) {
+			removeFromYounberSiblings(o);
 		}
 	}
 	
@@ -210,12 +270,44 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 		return null;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7915129683656142253l,opposite="child",uuid="Structures.uml@_KNfssYsgEeKWvpYIRX9T4g")
+	@NumlMetaInfo(uuid="Structures.uml@_KNfssYsgEeKWvpYIRX9T4g")
+	public Father getFather() {
+		Father result = this.father;
+		
+		return result;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2122232498866777869l,opposite="younberSiblings",uuid="Structures.uml@_lSLoYY1MEeKkdfSznNDwqg")
+	@NumlMetaInfo(uuid="Structures.uml@_lSLoYY1MEeKkdfSznNDwqg")
+	public Child getFirstBornSibling() {
+		Child result = this.firstBornSibling;
+		
+		return result;
+	}
+	
+	public Relation getGodParent(String firstName, String surname, Date dateOfBirth) {
+		Relation result = null;
+		String key = ModelFormatter.getInstance().formatStringQualifier(firstName)+ModelFormatter.getInstance().formatStringQualifier(surname)+ModelFormatter.getInstance().formatDateQualifier(dateOfBirth);
+		ChildHasRelation link = this.childHasRelation_godParent.get(key.toString());
+		result= link==null || link.getGodParent()==null?null:link.getGodParent();
+		return result;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=1858371569261639701l,opposite="child",uuid="Structures.uml@_I7BwIIhrEeK4s7QGypAJBA")
 	public Set<Relation> getGodParent() {
 		Set result = new HashSet<Relation>();
 		for ( ChildHasRelation cur : this.getChildHasRelation_godParent() ) {
 			result.add(cur.getGodParent());
 		}
+		return result;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3843307682732995451l,opposite="child",uuid="Structures.uml@_EI7iMIsgEeKWvpYIRX9T4g")
+	@NumlMetaInfo(uuid="Structures.uml@_EI7iMIsgEeKWvpYIRX9T4g")
+	public Mother getMother() {
+		Mother result = this.mother;
+		
 		return result;
 	}
 	
@@ -235,11 +327,45 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 		return getFamily();
 	}
 	
+	public Relation getRelation(String firstName, String surname, Date dateOfBirth) {
+		Relation result = null;
+		String key = ModelFormatter.getInstance().formatStringQualifier(firstName)+ModelFormatter.getInstance().formatStringQualifier(surname)+ModelFormatter.getInstance().formatDateQualifier(dateOfBirth);
+		FamilyMemberHasRelation link = this.familyMemberHasRelation_relation.get(key.toString());
+		result= link==null || link.getRelation()==null?null:link.getRelation();
+		return result;
+	}
+	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4408335886692542833l,opposite="familyMember",uuid="Structures.uml@_wPOkwYhqEeK4s7QGypAJBA")
 	public Set<Relation> getRelation() {
 		Set result = new HashSet<Relation>();
 		for ( FamilyMemberHasRelation cur : this.getFamilyMemberHasRelation_relation() ) {
 			result.add(cur.getRelation());
+		}
+		return result;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2983107073586996627l,opposite="stepSibling",uuid="Structures.uml@_1X1ycI1OEeKgGLBcRSZFfw")
+	@NumlMetaInfo(uuid="Structures.uml@_V2hysIhqEeK4s7QGypAJBA@Structures.uml@_1X1ycI1OEeKgGLBcRSZFfw")
+	public Set<SiblingStepSibling> getSiblingStepSibling_stepSibling() {
+		Set result = this.siblingStepSibling_stepSibling;
+		
+		return result;
+	}
+	
+	public SiblingStepSibling getSiblingStepSibling_stepSiblingFor(StepChild match) {
+		for ( SiblingStepSibling var : getSiblingStepSibling_stepSibling() ) {
+			if ( var.getStepSibling1().equals(match) ) {
+				return var;
+			}
+		}
+		return null;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5737868333270681143l,opposite="stepSibling",uuid="Structures.uml@_1X0kUI1OEeKgGLBcRSZFfw")
+	public Set<StepChild> getStepSibling() {
+		Set result = new HashSet<StepChild>();
+		for ( SiblingStepSibling cur : this.getSiblingStepSibling_stepSibling() ) {
+			result.add(cur.getStepSibling1());
 		}
 		return result;
 	}
@@ -251,8 +377,24 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 		return this.uid;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3598322603986863641l,opposite="firstBornSibling",uuid="Structures.uml@_lSHW8I1MEeKkdfSznNDwqg")
+	@NumlMetaInfo(uuid="Structures.uml@_lSHW8I1MEeKkdfSznNDwqg")
+	public Set<Child> getYounberSiblings() {
+		Set result = this.younberSiblings;
+		
+		return result;
+	}
+	
 	public String getZ_keyOfChildOnFamily() {
 		return this.z_keyOfChildOnFamily;
+	}
+	
+	public String getZ_keyOfChildOnFather() {
+		return this.z_keyOfChildOnFather;
+	}
+	
+	public String getZ_keyOfChildOnMother() {
+		return this.z_keyOfChildOnMother;
 	}
 	
 	public int hashCode() {
@@ -276,10 +418,27 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 	}
 	
 	public void markDeleted() {
-		removeAllFromGodParent(getGodParent());
-		removeAllFromRelation(getRelation());
+		for ( ChildHasRelation link : new HashSet<ChildHasRelation>(getChildHasRelation_godParent()) ) {
+			link.getGodParent().z_internalRemoveFromChildHasRelation_child(this.getName(),this.getDateOfBirth(),link);
+		}
+		if ( getMother()!=null ) {
+			getMother().z_internalRemoveFromChild(this.getName(),this);
+		}
+		removeAllFromYounberSiblings(getYounberSiblings());
+		for ( SiblingStepSibling link : new HashSet<SiblingStepSibling>(getSiblingStepSibling_stepSibling()) ) {
+			link.getStepSibling1().z_internalRemoveFromSiblingStepSibling_stepSibling(link);
+		}
+		for ( FamilyMemberHasRelation link : new HashSet<FamilyMemberHasRelation>(getFamilyMemberHasRelation_relation()) ) {
+			link.getRelation().z_internalRemoveFromFamilyMemberHasRelation_familyMember(this.getFamily(),this.getName(),link);
+		}
 		if ( getFamily()!=null ) {
 			getFamily().z_internalRemoveFromChild(this.getName(),this);
+		}
+		if ( getFirstBornSibling()!=null ) {
+			getFirstBornSibling().z_internalRemoveFromYounberSiblings(this);
+		}
+		if ( getFather()!=null ) {
+			getFather().z_internalRemoveFromChild(this.getName(),this);
 		}
 	}
 	
@@ -288,6 +447,48 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("mother") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3843307682732995451")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						Mother mother = (Mother)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
+						if ( mother!=null ) {
+							z_internalAddToMother(mother);
+							mother.z_internalAddToChild(this.getName(),this);
+						}
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("firstBornSibling") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2122232498866777869")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						Child firstBornSibling = (Child)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
+						if ( firstBornSibling!=null ) {
+							z_internalAddToFirstBornSibling(firstBornSibling);
+							firstBornSibling.z_internalAddToYounberSiblings(this);
+						}
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("father") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("7915129683656142253")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						Father father = (Father)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
+						if ( father!=null ) {
+							z_internalAddToFather(father);
+							father.z_internalAddToChild(this.getName(),this);
+						}
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("childHasRelation_godParent") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("8434948450232903107")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -298,6 +499,20 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 						if ( childHasRelation_godParent!=null ) {
 							z_internalAddToChildHasRelation_godParent(childHasRelation_godParent.getGodParent().getFirstName(),childHasRelation_godParent.getGodParent().getSurname(),childHasRelation_godParent.getGodParent().getDateOfBirth(),childHasRelation_godParent);
 							childHasRelation_godParent.z_internalAddToChild(this);
+						}
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("siblingStepSibling_stepSibling") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2983107073586996627")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						SiblingStepSibling siblingStepSibling_stepSibling = (SiblingStepSibling)map.get(((Element)currentPropertyValueNode).getAttribute("uid"));
+						if ( siblingStepSibling_stepSibling!=null ) {
+							z_internalAddToSiblingStepSibling_stepSibling(siblingStepSibling_stepSibling);
+							siblingStepSibling_stepSibling.z_internalAddToStepSibling(this);
 						}
 					}
 				}
@@ -333,6 +548,20 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 		}
 	}
 	
+	public void removeAllFromStepSibling(Set<StepChild> stepSibling) {
+		Set<StepChild> tmp = new HashSet<StepChild>(stepSibling);
+		for ( StepChild o : tmp ) {
+			removeFromStepSibling(o);
+		}
+	}
+	
+	public void removeAllFromYounberSiblings(Set<Child> younberSiblings) {
+		Set<Child> tmp = new HashSet<Child>(younberSiblings);
+		for ( Child o : tmp ) {
+			removeFromYounberSiblings(o);
+		}
+	}
+	
 	public void removeFromGodParent(String firstName, String surname, Date dateOfBirth, Relation godParent) {
 		if ( godParent!=null ) {
 			ChildHasRelation oldLink = getChildHasRelation_godParentFor(godParent);
@@ -352,10 +581,28 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 		if ( relation!=null ) {
 			FamilyMemberHasRelation oldLink = getFamilyMemberHasRelation_relationFor(relation);
 			if ( oldLink!=null ) {
-				relation.z_internalRemoveFromFamilyMemberHasRelation_familyMember(oldLink);
+				relation.z_internalRemoveFromFamilyMemberHasRelation_familyMember(this.getFamily(),this.getName(),oldLink);
 				oldLink.clear();
 				z_internalRemoveFromFamilyMemberHasRelation_relation(relation.getFirstName(),relation.getSurname(),relation.getDateOfBirth(),oldLink);
 			}
+		}
+	}
+	
+	public void removeFromStepSibling(StepChild stepSibling) {
+		if ( stepSibling!=null ) {
+			SiblingStepSibling oldLink = getSiblingStepSibling_stepSiblingFor(stepSibling);
+			if ( oldLink!=null ) {
+				stepSibling.z_internalRemoveFromSiblingStepSibling_stepSibling(oldLink);
+				oldLink.clear();
+				z_internalRemoveFromSiblingStepSibling_stepSibling(oldLink);
+			}
+		}
+	}
+	
+	public void removeFromYounberSiblings(Child younberSiblings) {
+		if ( younberSiblings!=null ) {
+			younberSiblings.z_internalRemoveFromFirstBornSibling(this);
+			z_internalRemoveFromYounberSiblings(younberSiblings);
 		}
 	}
 	
@@ -378,6 +625,9 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 	}
 	
 	public void setFamily(Family family) {
+		for ( FamilyMemberHasRelation curVal : getFamilyMemberHasRelation_relation() ) {
+			curVal.getRelation().z_internalRemoveFromFamilyMemberHasRelation_familyMember(this.getFamily(),this.getName(),curVal);
+		}
 		if ( this.getFamily()!=null ) {
 			this.getFamily().z_internalRemoveFromChild(this.getName(),this);
 		}
@@ -392,6 +642,40 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 		if ( family!=null ) {
 			family.z_internalAddToChild(this.getName(),this);
 		}
+		for ( FamilyMemberHasRelation curVal : getFamilyMemberHasRelation_relation() ) {
+			curVal.getRelation().z_internalAddToFamilyMemberHasRelation_familyMember(this.getFamily(),this.getName(),curVal);
+		}
+	}
+	
+	public void setFather(Father father) {
+		if ( this.getFather()!=null ) {
+			this.getFather().z_internalRemoveFromChild(this.getName(),this);
+		}
+		if ( father == null ) {
+			this.z_internalRemoveFromFather(this.getFather());
+		} else {
+			if ( getName()==null ) {
+				throw new IllegalStateException("The qualifying property 'name' must be set before adding a value to 'father'");
+			}
+			this.z_internalAddToFather(father);
+		}
+		if ( father!=null ) {
+			father.z_internalAddToChild(this.getName(),this);
+		}
+	}
+	
+	public void setFirstBornSibling(Child firstBornSibling) {
+		if ( this.getFirstBornSibling()!=null ) {
+			this.getFirstBornSibling().z_internalRemoveFromYounberSiblings(this);
+		}
+		if ( firstBornSibling == null ) {
+			this.z_internalRemoveFromFirstBornSibling(this.getFirstBornSibling());
+		} else {
+			this.z_internalAddToFirstBornSibling(firstBornSibling);
+		}
+		if ( firstBornSibling!=null ) {
+			firstBornSibling.z_internalAddToYounberSiblings(this);
+		}
 	}
 	
 	public void setGodParent(Set<Relation> godParent) {
@@ -399,23 +683,58 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 		this.addAllToGodParent(godParent);
 	}
 	
+	public void setMother(Mother mother) {
+		if ( this.getMother()!=null ) {
+			this.getMother().z_internalRemoveFromChild(this.getName(),this);
+		}
+		if ( mother == null ) {
+			this.z_internalRemoveFromMother(this.getMother());
+		} else {
+			if ( getName()==null ) {
+				throw new IllegalStateException("The qualifying property 'name' must be set before adding a value to 'mother'");
+			}
+			this.z_internalAddToMother(mother);
+		}
+		if ( mother!=null ) {
+			mother.z_internalAddToChild(this.getName(),this);
+		}
+	}
+	
 	public void setName(String name) {
+		if ( getMother()!=null && getName()!=null ) {
+			getMother().z_internalRemoveFromChild(this.getName(),this);
+		}
 		for ( ChildHasRelation curVal : getChildHasRelation_godParent() ) {
 			curVal.getGodParent().z_internalRemoveFromChildHasRelation_child(this.getName(),this.getDateOfBirth(),curVal);
 		}
+		if ( getFather()!=null && getName()!=null ) {
+			getFather().z_internalRemoveFromChild(this.getName(),this);
+		}
 		if ( getFamily()!=null && getName()!=null ) {
 			getFamily().z_internalRemoveFromChild(this.getName(),this);
+		}
+		for ( FamilyMemberHasRelation curVal : getFamilyMemberHasRelation_relation() ) {
+			curVal.getRelation().z_internalRemoveFromFamilyMemberHasRelation_familyMember(this.getFamily(),this.getName(),curVal);
 		}
 		if ( name == null ) {
 			this.z_internalRemoveFromName(getName());
 		} else {
 			this.z_internalAddToName(name);
 		}
+		if ( getMother()!=null && getName()!=null ) {
+			getMother().z_internalAddToChild(this.getName(),this);
+		}
 		for ( ChildHasRelation curVal : getChildHasRelation_godParent() ) {
 			curVal.getGodParent().z_internalAddToChildHasRelation_child(this.getName(),this.getDateOfBirth(),curVal);
 		}
+		if ( getFather()!=null && getName()!=null ) {
+			getFather().z_internalAddToChild(this.getName(),this);
+		}
 		if ( getFamily()!=null && getName()!=null ) {
 			getFamily().z_internalAddToChild(this.getName(),this);
+		}
+		for ( FamilyMemberHasRelation curVal : getFamilyMemberHasRelation_relation() ) {
+			curVal.getRelation().z_internalAddToFamilyMemberHasRelation_familyMember(this.getFamily(),this.getName(),curVal);
 		}
 	}
 	
@@ -428,12 +747,30 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 		this.addAllToRelation(relation);
 	}
 	
+	public void setStepSibling(Set<StepChild> stepSibling) {
+		this.clearStepSibling();
+		this.addAllToStepSibling(stepSibling);
+	}
+	
 	public void setUid(String newUid) {
 		this.uid=newUid;
 	}
 	
+	public void setYounberSiblings(Set<Child> younberSiblings) {
+		this.clearYounberSiblings();
+		this.addAllToYounberSiblings(younberSiblings);
+	}
+	
 	public void setZ_keyOfChildOnFamily(String z_keyOfChildOnFamily) {
 		this.z_keyOfChildOnFamily=z_keyOfChildOnFamily;
+	}
+	
+	public void setZ_keyOfChildOnFather(String z_keyOfChildOnFather) {
+		this.z_keyOfChildOnFather=z_keyOfChildOnFather;
+	}
+	
+	public void setZ_keyOfChildOnMother(String z_keyOfChildOnMother) {
+		this.z_keyOfChildOnMother=z_keyOfChildOnMother;
 	}
 	
 	public String toXmlReferenceString() {
@@ -453,11 +790,37 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 			sb.append("dateOfBirth=\""+ ModelFormatter.getInstance().formatDate(getDateOfBirth())+"\" ");
 		}
 		sb.append(">");
+		if ( getMother()==null ) {
+			sb.append("\n<mother/>");
+		} else {
+			sb.append("\n<mother propertyId=\"3843307682732995451\">");
+			sb.append("\n" + getMother().toXmlReferenceString());
+			sb.append("\n</mother>");
+		}
+		if ( getFirstBornSibling()==null ) {
+			sb.append("\n<firstBornSibling/>");
+		} else {
+			sb.append("\n<firstBornSibling propertyId=\"2122232498866777869\">");
+			sb.append("\n" + getFirstBornSibling().toXmlReferenceString());
+			sb.append("\n</firstBornSibling>");
+		}
+		if ( getFather()==null ) {
+			sb.append("\n<father/>");
+		} else {
+			sb.append("\n<father propertyId=\"7915129683656142253\">");
+			sb.append("\n" + getFather().toXmlReferenceString());
+			sb.append("\n</father>");
+		}
 		sb.append("\n<childHasRelation_godParent propertyId=\"8434948450232903107\">");
 		for ( ChildHasRelation childHasRelation_godParent : getChildHasRelation_godParent() ) {
 			sb.append("\n" + childHasRelation_godParent.toXmlReferenceString());
 		}
 		sb.append("\n</childHasRelation_godParent>");
+		sb.append("\n<siblingStepSibling_stepSibling propertyId=\"2983107073586996627\">");
+		for ( SiblingStepSibling siblingStepSibling_stepSibling : getSiblingStepSibling_stepSibling() ) {
+			sb.append("\n" + siblingStepSibling_stepSibling.toXmlReferenceString());
+		}
+		sb.append("\n</siblingStepSibling_stepSibling>");
 		sb.append("\n<familyMemberHasRelation_relation propertyId=\"5718737559910777343\">");
 		for ( FamilyMemberHasRelation familyMemberHasRelation_relation : getFamilyMemberHasRelation_relation() ) {
 			sb.append("\n" + familyMemberHasRelation_relation.toXmlReferenceString());
@@ -505,11 +868,46 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 		familyMemberHasRelation_relation.setZ_keyOfRelationOnFamilyMember(key.toString());
 	}
 	
+	public void z_internalAddToFather(Father father) {
+		if ( father.equals(getFather()) ) {
+			return;
+		}
+		this.father=father;
+	}
+	
+	public void z_internalAddToFirstBornSibling(Child firstBornSibling) {
+		if ( firstBornSibling.equals(getFirstBornSibling()) ) {
+			return;
+		}
+		this.firstBornSibling=firstBornSibling;
+	}
+	
+	public void z_internalAddToMother(Mother mother) {
+		if ( mother.equals(getMother()) ) {
+			return;
+		}
+		this.mother=mother;
+	}
+	
 	public void z_internalAddToName(String name) {
 		if ( name.equals(getName()) ) {
 			return;
 		}
 		this.name=name;
+	}
+	
+	public void z_internalAddToSiblingStepSibling_stepSibling(SiblingStepSibling siblingStepSibling_stepSibling) {
+		if ( getSiblingStepSibling_stepSibling().contains(siblingStepSibling_stepSibling) ) {
+			return;
+		}
+		this.siblingStepSibling_stepSibling.add(siblingStepSibling_stepSibling);
+	}
+	
+	public void z_internalAddToYounberSiblings(Child younberSiblings) {
+		if ( getYounberSiblings().contains(younberSiblings) ) {
+			return;
+		}
+		this.younberSiblings.add(younberSiblings);
 	}
 	
 	public void z_internalRemoveFromChildHasRelation_godParent(String firstName, String surname, Date dateOfBirth, ChildHasRelation childHasRelation_godParent) {
@@ -536,11 +934,40 @@ public class Child implements FamilyMember, IEventGenerator, CompositionNode, Se
 		this.familyMemberHasRelation_relation.remove(key.toString());
 	}
 	
+	public void z_internalRemoveFromFather(Father father) {
+		if ( getFather()!=null && father!=null && father.equals(getFather()) ) {
+			this.father=null;
+			this.father=null;
+		}
+	}
+	
+	public void z_internalRemoveFromFirstBornSibling(Child firstBornSibling) {
+		if ( getFirstBornSibling()!=null && firstBornSibling!=null && firstBornSibling.equals(getFirstBornSibling()) ) {
+			this.firstBornSibling=null;
+			this.firstBornSibling=null;
+		}
+	}
+	
+	public void z_internalRemoveFromMother(Mother mother) {
+		if ( getMother()!=null && mother!=null && mother.equals(getMother()) ) {
+			this.mother=null;
+			this.mother=null;
+		}
+	}
+	
 	public void z_internalRemoveFromName(String name) {
 		if ( getName()!=null && name!=null && name.equals(getName()) ) {
 			this.name=null;
 			this.name=null;
 		}
+	}
+	
+	public void z_internalRemoveFromSiblingStepSibling_stepSibling(SiblingStepSibling siblingStepSibling_stepSibling) {
+		this.siblingStepSibling_stepSibling.remove(siblingStepSibling_stepSibling);
+	}
+	
+	public void z_internalRemoveFromYounberSiblings(Child younberSiblings) {
+		this.younberSiblings.remove(younberSiblings);
 	}
 
 }

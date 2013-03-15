@@ -20,11 +20,7 @@ public class XmlUtil{
 	}
 	public static boolean isXmlSubElement(PropertyMap map){
 		if(isXmlElement(map)){
-			if(map.getProperty() instanceof EndToAssociationClass){
-				return ((EndToAssociationClass) map.getProperty()).getIndexInAssocation() == 0;
-			}else{
-				return map.getProperty().isComposite();
-			}
+			return map.getProperty().isComposite();
 		}else{
 			return false;
 		}
@@ -39,9 +35,9 @@ public class XmlUtil{
 		if(isXmlElement(map)){
 			Property f = map.getProperty();
 			if(f instanceof AssociationClassToEnd){
-				return false;//These are done from the individual Ends toAssociationClass
+				return false;// These are done from the individual Ends toAssociationClass
 			}else if(f instanceof EndToAssociationClass){
-				return ((EndToAssociationClass) f).getIndexInAssocation() == 1;//Only do it from the one side
+				return ((EndToAssociationClass) f).getIndexInAssocation() == 1;// Only do it from the one side
 			}else{
 				return !(f.isComposite() || EmfPropertyUtil.isInverse(f));
 			}
@@ -52,8 +48,7 @@ public class XmlUtil{
 	private static boolean isXmlElement(PropertyMap map){
 		Property f = map.getProperty();
 		boolean realizedThroughAssocationClass = EmfAssociationUtil.isClass(f.getAssociation());
-		boolean classIsElement = isPersistent(map.getBaseType())
-				|| (map.getBaseType() instanceof Interface && !(EmfClassifierUtil.isHelper(map.getBaseType())));
-		return classIsElement && !(EmfPropertyUtil.isDerived( f) || isContainmentFeature(f) || realizedThroughAssocationClass);
+		boolean classIsElement = isPersistent(map.getBaseType()) || (map.getBaseType() instanceof Interface && !(EmfClassifierUtil.isHelper(map.getBaseType())));
+		return classIsElement && !(EmfPropertyUtil.isDerived(f) || isContainmentFeature(f) || realizedThroughAssocationClass);
 	}
 }

@@ -12,7 +12,9 @@ import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
@@ -32,11 +34,19 @@ public abstract class AbstractEnumerationOnStereotypeSection extends AbstractEnu
 	}
 	@Override
 	protected String getFeatureAsText(EObject e){
-		Object oldFeatureValue = e.eGet(getFeature(e));
-		if(oldFeatureValue instanceof EEnumLiteral){
-			return ((EEnumLiteral) oldFeatureValue).getName();
+		if(e != null){
+			Object oldFeatureValue = e.eGet(getFeature(e));
+			if(oldFeatureValue instanceof EEnumLiteral){
+				return ((EEnumLiteral) oldFeatureValue).getName();
+			}
 		}
 		return "";
+	}
+	@Override
+	public void setInput(IWorkbenchPart part,ISelection selection){
+		super.setInput(part, selection);
+		literals=null;
+		eLiterals=null;
 	}
 	@Override
 	protected Object getFeatureValue(String name){
@@ -44,9 +54,9 @@ public abstract class AbstractEnumerationOnStereotypeSection extends AbstractEnu
 	}
 	@Override
 	protected String[] getEnumerationFeatureValues(){
-		if(literals == null && getFeatureOwner(getSelectedObject())!=null){
+		if(literals == null && getElement(getSelectedObject()) != null){
 			literals = new ArrayList<String>();
-			eLiterals=new HashMap<String,EEnumLiteral>();
+			eLiterals = new HashMap<String,EEnumLiteral>();
 			Profile p = ProfileApplier.getProfile(getElement(getSelectedObject()), getProfileName());
 			if(p != null){
 				Stereotype s = p.getOwnedStereotype(getStereotypeName(getElement(getSelectedObject())));
@@ -57,7 +67,7 @@ public abstract class AbstractEnumerationOnStereotypeSection extends AbstractEnu
 						EList<EEnumLiteral> tmp = ((EEnum) feature.getEType()).getELiterals();
 						for(EEnumLiteral eEnumLiteral:tmp){
 							literals.add(eEnumLiteral.getName());
-							eLiterals.put(eEnumLiteral.getName(),eEnumLiteral);
+							eLiterals.put(eEnumLiteral.getName(), eEnumLiteral);
 						}
 					}
 				}
@@ -76,8 +86,9 @@ public abstract class AbstractEnumerationOnStereotypeSection extends AbstractEnu
 	protected abstract String getProfileName();
 	protected abstract String getStereotypeName(Element e);
 	protected Element getElement(EObject o){
-		return (Element)o;
-	}	@Override
+		return (Element) o;
+	}
+	@Override
 	protected EStructuralFeature getFeature(EObject e){
 		return e.eClass().getEStructuralFeature(getAttributeName());
 	}
@@ -90,8 +101,9 @@ public abstract class AbstractEnumerationOnStereotypeSection extends AbstractEnu
 			return null;
 		}
 	}
-	protected void maybeAppendCommand(EditingDomain editingDomain,CompoundCommand compoundCommand,Object selectedObject,EObject featureOwner,EStructuralFeature f,
-			Object oldValue, Object newValue){
+	protected void maybeAppendCommand(EditingDomain editingDomain,CompoundCommand compoundCommand,Object selectedObject,EObject featureOwner,
+			EStructuralFeature f,Object oldValue,Object newValue){
 		Element element = getElement((EObject) selectedObject);
 		compoundCommand.append(new LazySetTagValueCommand(element, getProfileName(), getStereotypeName(element), getAttributeName(), newValue));
-	}}
+	}
+}

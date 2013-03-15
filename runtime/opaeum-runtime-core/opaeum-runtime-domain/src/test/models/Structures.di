@@ -4,12 +4,27 @@
     <availablePage>
       <emfPageIdentifier href="Structures.notation#_SobfAIhqEeK4s7QGypAJBA"/>
     </availablePage>
+    <availablePage>
+      <emfPageIdentifier href="Structures.notation#_B6ZFII0wEeKHBNiW4NWnIg"/>
+    </availablePage>
+    <availablePage>
+      <emfPageIdentifier href="Structures.notation#_Jw3nQI0yEeKHBNiW4NWnIg"/>
+    </availablePage>
+    <availablePage>
+      <emfPageIdentifier href="Structures.notation#_QbU3oI0zEeKHBNiW4NWnIg"/>
+    </availablePage>
   </pageList>
   <sashModel currentSelection="//@sashModel/@windows.0/@children.0">
     <windows>
       <children xsi:type="di:TabFolder">
         <children>
-          <emfPageIdentifier href="Structures.notation#_SobfAIhqEeK4s7QGypAJBA"/>
+          <emfPageIdentifier href="Structures.notation#_B6ZFII0wEeKHBNiW4NWnIg"/>
+        </children>
+        <children>
+          <emfPageIdentifier href="Structures.notation#_Jw3nQI0yEeKHBNiW4NWnIg"/>
+        </children>
+        <children>
+          <emfPageIdentifier href="Structures.notation#_QbU3oI0zEeKHBNiW4NWnIg"/>
         </children>
       </children>
     </windows>

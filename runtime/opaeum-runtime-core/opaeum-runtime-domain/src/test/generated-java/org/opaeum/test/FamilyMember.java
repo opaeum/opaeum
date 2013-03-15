@@ -20,11 +20,18 @@ public interface FamilyMember extends CompositionNode, Serializable {
 	
 	public void clearRelation();
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6736659446556850677l,opposite="familyMember",uuid="Structures.uml@_N7WfIY08EeKHBNiW4NWnIg")
+	public Family getFamily();
+	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5718737559910777343l,opposite="familyMember",uuid="Structures.uml@_wPOkwIhqEeK4s7QGypAJBA")
 	@NumlMetaInfo(uuid="Structures.uml@_uAFMoIhqEeK4s7QGypAJBA@Structures.uml@_wPOkwIhqEeK4s7QGypAJBA")
 	public Set<FamilyMemberHasRelation> getFamilyMemberHasRelation_relation();
 	
 	public FamilyMemberHasRelation getFamilyMemberHasRelation_relationFor(Relation match);
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2192193425227496123l,uuid="Structures.uml@_mEtEwI08EeKHBNiW4NWnIg")
+	@NumlMetaInfo(uuid="Structures.uml@_mEtEwI08EeKHBNiW4NWnIg")
+	public String getName();
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4408335886692542833l,opposite="familyMember",uuid="Structures.uml@_wPOkwYhqEeK4s7QGypAJBA")
 	public Set<Relation> getRelation();

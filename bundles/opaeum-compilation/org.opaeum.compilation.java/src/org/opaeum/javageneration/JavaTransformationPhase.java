@@ -113,6 +113,7 @@ public class JavaTransformationPhase extends AbstractEmfPhase implements Transfo
 	}
 	public void initializeSteps(){
 		ojUtil.clearCache();
+		ojUtil.initialise(modelWorkspace, null);
 		for(JavaTransformationStep f:this.features){
 			f.initialize(javaModel, this.config, textWorkspace, modelWorkspace, ojUtil);
 		}

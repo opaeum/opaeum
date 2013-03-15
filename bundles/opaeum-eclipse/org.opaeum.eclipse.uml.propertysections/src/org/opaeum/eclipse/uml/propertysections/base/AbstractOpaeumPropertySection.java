@@ -59,7 +59,7 @@ import org.opaeum.metamodel.validation.BrokenRule;
 
 public abstract class AbstractOpaeumPropertySection extends AbstractPropertySection implements OpaeumSynchronizationListener{
 	public static final String COMMAND_NAME = "Udate";
-	protected boolean isRefreshing = false;
+	protected boolean isRefreshingControls = false;
 	private IStatusLineManager statusLineManager;
 	private Composite sectionComposite;
 	private EObject eObject;
@@ -76,6 +76,7 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 			handleModelChanged(msg);
 		}
 	};
+	protected boolean isUpdatingModel;
 	public EObject getSelectedObject(){
 		return eObject;
 	}
@@ -195,10 +196,10 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 		Object notifier = msg.getNotifier();
 		EObject featureOwner = getFeatureOwner(getSelectedObject());
 		if(notifier.equals(featureOwner) && getFeature(featureOwner) != null){
-			if(msg.getFeatureID(featureOwner.getClass()) == getFeature(featureOwner).getFeatureID()){
-				isRefreshing = true;
+			if(msg.getFeatureID(featureOwner.getClass()) == getFeature(featureOwner).getFeatureID() && !isUpdatingModel){
+				isRefreshingControls = true;
 				populateControls();
-				isRefreshing = false;
+				isRefreshingControls = false;
 			}
 		}
 	}
@@ -262,7 +263,8 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 		addListener();
 	}
 	protected void updateModel(Object newValue){
-		if(!isRefreshing){
+		if(!isRefreshingControls){
+			isUpdatingModel=true;
 			EditingDomain editingDomain = getEditingDomain();
 			CompoundCommand compoundCommand = new CompoundCommand("Update");
 			// apply the property change to all selected elements
@@ -281,6 +283,7 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 				maybeAppendCommand(editingDomain, compoundCommand, nextObject, owner, f, oldValue, newValue);
 			}
 			editingDomain.getCommandStack().execute(compoundCommand);
+			isUpdatingModel=false;
 		}
 	}
 	protected void maybeAppendCommand(EditingDomain editingDomain,CompoundCommand compoundCommand,Object selectedObject,EObject featureOwner,
@@ -308,7 +311,7 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 	public final void refresh(){
 		if(!(sectionComposite.isDisposed() || getSelectedObject().eResource() == null)){
 			// Hack - eclipse calls refresh even if the object was deleted
-			isRefreshing = true;
+			isRefreshingControls = true;
 			super.refresh();
 			populateControls();
 			boolean isEnabled = true;
@@ -326,7 +329,7 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 			}
 			setEnabled(isEnabled && calculateEnabled());
 			updateMessages();
-			isRefreshing = false;
+			isRefreshingControls = false;
 		}
 	}
 	protected void updateMessages(){
@@ -431,7 +434,7 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 		// Implement this method
 	}
 	protected boolean isRefreshing(){
-		return isRefreshing;
+		return isRefreshingControls;
 	}
 	public static List<? extends AdapterFactory> getPrincipalAdapterFactories(){
 		List<AdapterFactory> factories = new ArrayList<AdapterFactory>();

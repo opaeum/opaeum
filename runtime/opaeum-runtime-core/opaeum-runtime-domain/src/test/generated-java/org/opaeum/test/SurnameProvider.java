@@ -13,7 +13,7 @@ import org.w3c.dom.Element;
 
 @NumlMetaInfo(applicationIdentifier="structuretests",uuid="Structures.uml@_Zi2eAIhrEeK4s7QGypAJBA")
 public interface SurnameProvider extends CompositionNode, Serializable {
-	public void addToSurnameCarryingDaughter(Sister surnameCarryingDaughter);
+	public void addToSurnameCarryingDaughter(String name, Sister surnameCarryingDaughter);
 	
 	public void addToSurnameCarryingSon(Brother surnameCarryingSon);
 	
@@ -23,8 +23,13 @@ public interface SurnameProvider extends CompositionNode, Serializable {
 	
 	public void clearSurnameCarryingSon();
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4841945505933354426l,opposite="surnameProvider",uuid="Structures.uml@_0-KlMYjPEeKq68owPnlvHg")
-	@NumlMetaInfo(uuid="Structures.uml@_0-KlMYjPEeKq68owPnlvHg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=599591342263275344l,opposite="surnameProvider",uuid="Structures.uml@_fz0rsIn-EeKv0PcdrJJtzg")
+	@NumlMetaInfo(uuid="Structures.uml@_Zi2eAIhrEeK4s7QGypAJBA@Structures.uml@_fz0rsIn-EeKv0PcdrJJtzg")
+	public Marriage getMarriage_spouse();
+	
+	public Marriage getMarriage_spouseFor(Spouse match);
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=112985228842363744l,opposite="surnameProvider",uuid="Structures.uml@_fz0rsYn-EeKv0PcdrJJtzg")
 	public Spouse getSpouse();
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=3588699929451751767l,opposite="surnameProvider",uuid="Structures.uml@_gtNy8YhrEeK4s7QGypAJBA")
@@ -49,7 +54,7 @@ public interface SurnameProvider extends CompositionNode, Serializable {
 	
 	public void populateReferencesFromXml(Element xml, Map<String, Object> map);
 	
-	public void removeFromSurnameCarryingDaughter(Sister surnameCarryingDaughter);
+	public void removeFromSurnameCarryingDaughter(String name, Sister surnameCarryingDaughter);
 	
 	public void removeFromSurnameCarryingSon(Brother surnameCarryingSon);
 	
@@ -63,15 +68,15 @@ public interface SurnameProvider extends CompositionNode, Serializable {
 	
 	public String toXmlString();
 	
-	public void z_internalAddToSpouse(Spouse spouse);
+	public void z_internalAddToMarriage_spouse(Marriage marriage_spouse);
 	
-	public void z_internalAddToSurnameProviderHasDaughter_surnameCarryingDaughter(SurnameProviderHasDaughter surnameProviderHasDaughter_surnameCarryingDaughter);
+	public void z_internalAddToSurnameProviderHasDaughter_surnameCarryingDaughter(String name, SurnameProviderHasDaughter surnameProviderHasDaughter_surnameCarryingDaughter);
 	
 	public void z_internalAddToSurnameProviderHasSon_surnameCarryingSon(SurnameProviderHasSon surnameProviderHasSon_surnameCarryingSon);
 	
-	public void z_internalRemoveFromSpouse(Spouse spouse);
+	public void z_internalRemoveFromMarriage_spouse(Marriage marriage_spouse);
 	
-	public void z_internalRemoveFromSurnameProviderHasDaughter_surnameCarryingDaughter(SurnameProviderHasDaughter surnameProviderHasDaughter_surnameCarryingDaughter);
+	public void z_internalRemoveFromSurnameProviderHasDaughter_surnameCarryingDaughter(String name, SurnameProviderHasDaughter surnameProviderHasDaughter_surnameCarryingDaughter);
 	
 	public void z_internalRemoveFromSurnameProviderHasSon_surnameCarryingSon(SurnameProviderHasSon surnameProviderHasSon_surnameCarryingSon);
 

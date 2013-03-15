@@ -14,8 +14,13 @@ import org.w3c.dom.Element;
 public interface Spouse extends CompositionNode, Serializable {
 	public void buildTreeFromXml(Element xml, Map<String, Object> map);
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7521053949158238812l,opposite="spouse",uuid="Structures.uml@_0-KlNIjPEeKq68owPnlvHg")
-	@NumlMetaInfo(uuid="Structures.uml@_0-KlNIjPEeKq68owPnlvHg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=6783615175887897848l,opposite="spouse",uuid="Structures.uml@_fz0rsIn-EeKv0PcdrJJtzg")
+	@NumlMetaInfo(uuid="Structures.uml@_wqZp8IjPEeKq68owPnlvHg@Structures.uml@_fz0rsIn-EeKv0PcdrJJtzg")
+	public Marriage getMarriage_surnameProvider();
+	
+	public Marriage getMarriage_surnameProviderFor(SurnameProvider match);
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2792093672067248130l,opposite="spouse",uuid="Structures.uml@_fz0rtIn-EeKv0PcdrJJtzg")
 	public SurnameProvider getSurnameProvider();
 	
 	public String getUid();
@@ -28,8 +33,8 @@ public interface Spouse extends CompositionNode, Serializable {
 	
 	public String toXmlString();
 	
-	public void z_internalAddToSurnameProvider(SurnameProvider surnameProvider);
+	public void z_internalAddToMarriage_surnameProvider(Marriage marriage_surnameProvider);
 	
-	public void z_internalRemoveFromSurnameProvider(SurnameProvider surnameProvider);
+	public void z_internalRemoveFromMarriage_surnameProvider(Marriage marriage_surnameProvider);
 
 }

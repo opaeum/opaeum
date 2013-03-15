@@ -38,9 +38,9 @@ public abstract class AbstractUserInteractionConstraintBooleanFeaturesSection ex
 		super.handleModelChanged(msg);
 		if(msg.getFeatureID(UserInteractionConstraint.class) == ConstraintPackage.USER_INTERACTION_CONSTRAINT__INHERIT_FROM_PARENT
 				&& msg.getNotifier().equals(getFeatureOwner(getSelectedObject()))){
-			isRefreshing = true;
+			isRefreshingControls = true;
 			populateControls();
-			isRefreshing = false;
+			isRefreshingControls = false;
 		}
 	}
 	public void populateControls(){

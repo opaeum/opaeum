@@ -21,6 +21,7 @@ public class FamilyMemberHasRelation implements CompositionNode, Serializable {
 	protected Relation relation;
 	static final private long serialVersionUID = 6261560761254585007l;
 	private String uid;
+	private String z_keyOfFamilyMemberOnRelation;
 	private String z_keyOfRelationOnFamilyMember;
 
 	/** Constructor for FamilyMemberHasRelation
@@ -105,6 +106,10 @@ public class FamilyMemberHasRelation implements CompositionNode, Serializable {
 		return this.uid;
 	}
 	
+	public String getZ_keyOfFamilyMemberOnRelation() {
+		return this.z_keyOfFamilyMemberOnRelation;
+	}
+	
 	public String getZ_keyOfRelationOnFamilyMember() {
 		return this.z_keyOfRelationOnFamilyMember;
 	}
@@ -135,6 +140,10 @@ public class FamilyMemberHasRelation implements CompositionNode, Serializable {
 	
 	public void setUid(String newUid) {
 		this.uid=newUid;
+	}
+	
+	public void setZ_keyOfFamilyMemberOnRelation(String z_keyOfFamilyMemberOnRelation) {
+		this.z_keyOfFamilyMemberOnRelation=z_keyOfFamilyMemberOnRelation;
 	}
 	
 	public void setZ_keyOfRelationOnFamilyMember(String z_keyOfRelationOnFamilyMember) {

@@ -25,12 +25,12 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {Java6ModelGenerator.class,AssociationClassAttributeImplementor.class},after = {Java6ModelGenerator.class})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {Java6ModelGenerator.class,AssociationClassAttributeImplementor.class},after = {Java6ModelGenerator.class,AssociationClassAttributeImplementor.class})
 public class AttributeImplementor extends AbstractAttributeImplementer{
 	@Override
 	protected void visitProperty(OJAnnotatedClass owner,Classifier umlOwner,PropertyMap map){
 		Property p = map.getProperty();
-		if(!OJUtil.isBuiltIn(p)){
+		if(!OJUtil.isBuiltIn(p) && !isInvolvedInAnAssociationClass(map)){
 			if(StereotypesHelper.hasStereotype(map.getBaseType(), StereotypeNames.HELPER)){
 				buildSetter(umlOwner, owner, map);
 				buildField(owner, map).setTransient(true);
@@ -49,7 +49,6 @@ public class AttributeImplementor extends AbstractAttributeImplementer{
 		}
 	}
 	protected void implementAttributeFully(Classifier umlOwner,PropertyMap map){
-		if(!isInvolvedInAnAssociationClass(map)){
 			AttributeInJava a = new AttributeInJava();
 			Property p = map.getProperty();
 			OJAnnotatedClass owner = findJavaClass(umlOwner);
@@ -96,7 +95,6 @@ public class AttributeImplementor extends AbstractAttributeImplementer{
 					s.applyTo(ojUtil, owner, a, map);
 				}
 			}
-		}
 	}
 	protected OJOperation buildAdder(OJAnnotatedClass owner,PropertyMap map){
 		OJOperation adder = new OJAnnotatedOperation(map.adder());

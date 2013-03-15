@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Action;
@@ -94,6 +93,7 @@ import org.eclipse.uml2.uml.TimeConstraint;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.Trigger;
+import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -1039,6 +1039,25 @@ public class OpaeumElementLinker extends EContentAdapter{
 		}
 		public EObject caseProperty(Property p){
 			switch(notification.getFeatureID(Property.class)){
+			case UMLPackage.PROPERTY__TYPE:
+				if(p.getAssociationEnd()==null){
+					for(Property qp: EmfPropertyUtil.getReferringQualifiers(p)){
+						qp.setType((Type) notification.getNewValue());
+					}
+				}
+				break;
+			case UMLPackage.PROPERTY__NAME:
+				if(p.getAssociationEnd()==null){
+					for(Property qp: EmfPropertyUtil.getReferringQualifiersByGivenName(p, notification.getOldStringValue())){
+						qp.setName(notification.getNewStringValue());
+					}
+				}else{
+					Property bp = EmfPropertyUtil.getBackingPropertyForQualifier(p);
+					if(bp!=null){
+						p.setType(bp.getType());
+					}
+				}
+				break;
 			case UMLPackage.PROPERTY__IS_COMPOSITE:
 			case UMLPackage.PROPERTY__AGGREGATION:
 				if(p.isComposite()){

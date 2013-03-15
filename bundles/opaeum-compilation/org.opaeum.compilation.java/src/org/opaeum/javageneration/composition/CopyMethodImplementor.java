@@ -101,6 +101,7 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		// give some more thought
 		// maybe consider an input parameter specifying the number of levels to
 		// include in a deep copy
+		//TODO this class needs to be refactored in line with AssociationClasses
 		for(Property np:properties){
 			PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
 			if(!(EmfPropertyUtil.isDerived( np) || (np.getOtherEnd() != null && np.getOtherEnd().isComposite()))){
@@ -133,10 +134,14 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 							}
 							body.addToStatements(ws);
 						}else{
-							OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "()!=null", "to." + map.setter() + "(from."
+							OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "()!=null", "to." + map.internalAdder() + "(from."
 									+ map.getter() + "()." + copyMethodName + "())");
 							body.addToStatements(ifNotNull);
 						}
+					}else if(map.isOneToOne()){
+						OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "()!=null", "to." + map.internalAdder() + "(from." + map.getter()
+								+ "()." + copyMethodName + "())");
+						body.addToStatements(ifNotNull);
 					}else if(map.isOne() && EmfPropertyUtil.isInverse(np)){
 						OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "()!=null", "to." + map.setter() + "(from." + map.getter()
 								+ "()." + copyMethodName + "())");

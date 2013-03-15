@@ -90,10 +90,12 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		if(!isInterfaceOrAssociationClass(entity)){
 			Property endToComposite = getLibrary().getEndToComposite(entity);
 			if(isModifiable(endToComposite)){
+				PropertyMap map = ojUtil.buildStructuralFeatureMap(endToComposite);
 				if(EmfAssociationUtil.isClass(endToComposite.getAssociation())){
 					AssociationClassEndMap aMap = new AssociationClassEndMap(ojUtil, endToComposite);
 					String targetExpression = aMap.getEndToAssocationClassMap().getter() + "()";
 					if(isMap(endToComposite.getOtherEnd())){
+						super.addCheckForNullQualifiers(map, endToComposite.getOtherEnd(), addToOwningObject.getBody());
 						targetExpression = ojUtil.addQualifierArguments(endToComposite.getOtherEnd().getQualifiers(), "this") + targetExpression;
 					}
 					addToOwningObject.getBody().addToStatements(
@@ -103,6 +105,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 					PropertyMap otherFeatureMap = ojUtil.buildStructuralFeatureMap(endToComposite.getOtherEnd());
 					String args = "(" + ojClass.getName() + ")this";
 					if(isMap(otherFeatureMap.getProperty())){
+						super.addCheckForNullQualifiers(map, endToComposite.getOtherEnd(), addToOwningObject.getBody());
 						args = ojUtil.addQualifierArguments(otherFeatureMap.getProperty().getQualifiers(), "this") + "(" + ojClass.getName() + ")this";
 					}
 					addToOwningObject.getBody().addToStatements(featureMap.getter() + "()." + otherFeatureMap.internalAdder() + "(" + args + ")");
@@ -130,17 +133,30 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 				// is deletion relevant?
 			}
 		}
-		markChildrenForDeletion(sc, ojClass, markDeleted);
+		removeFromReferences(sc, ojClass, markDeleted);
 		invokeOperationRecursively(sc, markDeleted, "markDeleted()");
 	}
-	protected void markChildrenForDeletion(Classifier sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
+	protected void removeFromReferences(Classifier sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
 		for(Property np:getLibrary().getEffectiveAttributes(sc)){
 			if(!(np instanceof AssociationClassToEnd) && !np.isComposite() && isOtherEndModifiable(np) && isModifiable(np)
 					&& (isPersistentClassOrInterface(np.getType()) && !(np.getType() instanceof DataType))){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
 				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(np.getOtherEnd());
-				if(map.isManyToMany()){
-					markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
+				if(map.isMany()){
+					if(EmfAssociationUtil.isClass(np.getAssociation())){
+						AssociationClassEndMap aMap = map.getAssocationClassMap();
+						PropertyMap mapToAssociation = aMap.getEndToAssocationClassMap();
+						OJForStatement forEachLink = new OJForStatement("link",mapToAssociation.javaBaseTypePath(), "new HashSet<" +mapToAssociation.javaBaseType() +">("+mapToAssociation.getter() +"())");
+						String args="link";
+						if(isMap(otherMap.getProperty())){
+							args=ojUtil.addQualifierArguments(otherMap.getProperty().getQualifiers(), "this")+ "link";
+						}
+						forEachLink.getBody().addToStatements("link." +aMap.getAssocationClassToOtherEndMap().getter() +"()."+ aMap.getOtherEndToAssocationClassMap().internalRemover() +"("+args+")");
+						markDeleted.getBody().addToStatements(forEachLink);
+					}else if(!map.isEndToAssociationClass()){
+						// Nothing we can do - data about this relationship will be lost
+						markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
+					}
 				}else if(map.isManyToOne()){
 					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null");
 					if(EmfAssociationUtil.isClass(np.getAssociation())){
@@ -166,9 +182,14 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 					}
 					markDeleted.getBody().addToStatements(ifNotNull);
 				}else if(map.isOneToOne()){
-					// TODO this may have unwanted results such as removing the
-					// owner from "this" too
-					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.internalRemover() + "(this)");
+					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null");
+					if(EmfAssociationUtil.isClass(map.getProperty().getAssociation())){
+						AssociationClassEndMap aMap = map.getAssocationClassMap();
+						ifNotNull.getThenPart().addToStatements(
+								map.getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalRemover() + "(" + aMap.getEndToAssocationClassMap().getter() + "())");
+					}else{
+						ifNotNull.getThenPart().addToStatements(map.getter() + "()." + otherMap.internalRemover() + "(this)");
+					}
 					markDeleted.getBody().addToStatements(ifNotNull);
 				}
 			}
@@ -218,9 +239,10 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 			PropertyMap mapToComposite = ojUtil.buildStructuralFeatureMap(etc);
 			ojClass.addToImports(mapToComposite.javaBaseTypePath());
 			String add = "this." + mapToComposite.internalAdder() + "((" + mapToComposite.javaBaseType() + ")owner)";
-			if(!mapToComposite.isAssociationClassToEnd() &&  isInvolvedInAnAssociationClass(mapToComposite)){
+			if(!mapToComposite.isAssociationClassToEnd() && isInvolvedInAnAssociationClass(mapToComposite)){
 				AssociationClassEndMap aMap = mapToComposite.getAssocationClassMap();
-				add = "this." + aMap.getEndToAssocationClassMap().internalAdder() + "(new "+aMap.getEndToAssocationClassMap().javaBaseType()+ "(("+aMap.getAssociationClassToThisEndMap().javaType()+")this,(" + mapToComposite.javaBaseType() + ")owner))";
+				add = "this." + aMap.getEndToAssocationClassMap().internalAdder() + "(new " + aMap.getEndToAssocationClassMap().javaBaseType() + "(("
+						+ aMap.getAssociationClassToThisEndMap().javaType() + ")this,(" + mapToComposite.javaBaseType() + ")owner))";
 			}
 			init.getBody().getStatements().add(start, new OJSimpleStatement(add));
 		}
@@ -264,7 +286,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		for(Property np:getLibrary().getEffectiveAttributes(ew)){
 			PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
 			if(np.isComposite() && (isPersistent(np.getType()) || np.getType() instanceof Interface) && !EmfPropertyUtil.isDerived(np)
-					&& !(np.getType() instanceof DataType)){
+					&& !(np.getType() instanceof DataType) && !map.isAssociationClassToEnd()){
 				Classifier type = (Classifier) np.getType();
 				if(map.isMany()){
 					markDeleted.getOwner().addToImports("java.util.ArrayList");

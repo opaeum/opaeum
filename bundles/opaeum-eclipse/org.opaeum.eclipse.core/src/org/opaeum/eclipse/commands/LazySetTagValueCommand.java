@@ -1,5 +1,6 @@
 package org.opaeum.eclipse.commands;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
@@ -38,7 +39,8 @@ public class LazySetTagValueCommand extends ApplyStereotypeCommand{
 		if(stereotype!=null && !element.isStereotypeApplied(stereotype)){
 			super.execute();
 		}
-		element.setValue(stereotype, tagName, newValue);
+		EObject sa = element.getStereotypeApplication(stereotype);
+		sa.eSet(sa.eClass().getEStructuralFeature(tagName), newValue);
 	}
 	@Override
 	public boolean canUndo(){

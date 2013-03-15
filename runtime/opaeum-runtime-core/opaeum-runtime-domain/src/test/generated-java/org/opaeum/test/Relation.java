@@ -17,7 +17,7 @@ import org.w3c.dom.Element;
 public interface Relation extends CompositionNode, Serializable {
 	public void addToChild(String name, Date dateOfBirth, Child child);
 	
-	public void addToFamilyMember(FamilyMember familyMember);
+	public void addToFamilyMember(Family family, String name, FamilyMember familyMember);
 	
 	public void buildTreeFromXml(Element xml, Map<String, Object> map);
 	
@@ -61,7 +61,7 @@ public interface Relation extends CompositionNode, Serializable {
 	
 	public void removeFromChild(String name, Date dateOfBirth, Child child);
 	
-	public void removeFromFamilyMember(FamilyMember familyMember);
+	public void removeFromFamilyMember(Family family, String name, FamilyMember familyMember);
 	
 	public void setChild(Set<Child> child);
 	
@@ -81,7 +81,7 @@ public interface Relation extends CompositionNode, Serializable {
 	
 	public void z_internalAddToDateOfBirth(Date dateOfBirth);
 	
-	public void z_internalAddToFamilyMemberHasRelation_familyMember(FamilyMemberHasRelation familyMemberHasRelation_familyMember);
+	public void z_internalAddToFamilyMemberHasRelation_familyMember(Family family, String name, FamilyMemberHasRelation familyMemberHasRelation_familyMember);
 	
 	public void z_internalAddToFirstName(String firstName);
 	
@@ -91,7 +91,7 @@ public interface Relation extends CompositionNode, Serializable {
 	
 	public void z_internalRemoveFromDateOfBirth(Date dateOfBirth);
 	
-	public void z_internalRemoveFromFamilyMemberHasRelation_familyMember(FamilyMemberHasRelation familyMemberHasRelation_familyMember);
+	public void z_internalRemoveFromFamilyMemberHasRelation_familyMember(Family family, String name, FamilyMemberHasRelation familyMemberHasRelation_familyMember);
 	
 	public void z_internalRemoveFromFirstName(String firstName);
 	

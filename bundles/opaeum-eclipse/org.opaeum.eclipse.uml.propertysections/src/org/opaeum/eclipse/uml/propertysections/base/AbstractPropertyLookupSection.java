@@ -25,11 +25,8 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferencePro
 	public Object[] getChoices(){
 		Property p=(Property) getFeatureOwner(getSelectedObject());
 		List<EObject> choiceOfValues = new ArrayList<EObject>();
-		if(p.eContainer() instanceof Classifier && p.eContainer() != p.getAssociation()){
-			choiceOfValues.addAll(EmfPropertyUtil.getEffectiveProperties((Classifier) p.eContainer()));
-		}else if(p.getAssociation() != null){
-			choiceOfValues.addAll(EmfPropertyUtil.getEffectiveProperties((Classifier) p.getOtherEnd().getType()));
-		}
+		Classifier context=EmfPropertyUtil.getOwningClassifier(p);
+		choiceOfValues.addAll(EmfPropertyUtil.getAllAccessibleProperties(context));
 		if(p.getType() != null){
 			Iterator<EObject> iter = choiceOfValues.iterator();
 			while(iter.hasNext()){

@@ -6,12 +6,9 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.jpa.AbstractJpaEnvironment;
 
 public class Opaeum_hibernate_testsEnvironment extends AbstractJpaEnvironment {
-	static final public Opaeum_hibernate_testsEnvironment INSTANCE = new Opaeum_hibernate_testsEnvironment();
+	static public Opaeum_hibernate_testsEnvironment INSTANCE = new Opaeum_hibernate_testsEnvironment();
+	private Opaeum_hibernate_testsJavaMetaInfoMap metaInfoMap;
 
-	/** Default constructor for Opaeum_hibernate_testsEnvironment
-	 */
-	private Opaeum_hibernate_testsEnvironment() {
-	}
 
 	public String getApplicationIdentifier() {
 		String result = "opaeum_hibernate_tests";
@@ -20,8 +17,10 @@ public class Opaeum_hibernate_testsEnvironment extends AbstractJpaEnvironment {
 	}
 	
 	public Opaeum_hibernate_testsJavaMetaInfoMap getMetaInfoMap() {
-		Opaeum_hibernate_testsJavaMetaInfoMap result = Opaeum_hibernate_testsJavaMetaInfoMap.INSTANCE;
-		
+		Opaeum_hibernate_testsJavaMetaInfoMap result = metaInfoMap;
+		if ( metaInfoMap==null ) {
+			result=metaInfoMap=new Opaeum_hibernate_testsJavaMetaInfoMap();
+		}
 		return result;
 	}
 	
@@ -29,6 +28,16 @@ public class Opaeum_hibernate_testsEnvironment extends AbstractJpaEnvironment {
 		PersistenceUnitInfo result = new org.opaeum.opaeum_hibernate_tests.util.Opaeum_hibernate_testsPersistenceUnitInfo(this);
 		
 		return result;
+	}
+	
+	public void register() {
+		super.register();
+		INSTANCE=new Opaeum_hibernate_testsEnvironment();
+	}
+	
+	public void unregister() {
+		super.unregister();
+		INSTANCE=null;
 	}
 
 }

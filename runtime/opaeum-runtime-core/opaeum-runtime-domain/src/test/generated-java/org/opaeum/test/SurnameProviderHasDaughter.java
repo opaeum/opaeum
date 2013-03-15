@@ -21,6 +21,7 @@ public class SurnameProviderHasDaughter implements CompositionNode, Serializable
 	protected Sister surnameCarryingDaughter;
 	protected SurnameProvider surnameProvider;
 	private String uid;
+	private String z_keyOfSurnameCarryingDaughterOnSurnameProvider;
 
 	/** Constructor for SurnameProviderHasDaughter
 	 * 
@@ -104,6 +105,10 @@ public class SurnameProviderHasDaughter implements CompositionNode, Serializable
 		return this.uid;
 	}
 	
+	public String getZ_keyOfSurnameCarryingDaughterOnSurnameProvider() {
+		return this.z_keyOfSurnameCarryingDaughterOnSurnameProvider;
+	}
+	
 	public int hashCode() {
 		return getUid().hashCode();
 	}
@@ -130,6 +135,10 @@ public class SurnameProviderHasDaughter implements CompositionNode, Serializable
 	
 	public void setUid(String newUid) {
 		this.uid=newUid;
+	}
+	
+	public void setZ_keyOfSurnameCarryingDaughterOnSurnameProvider(String z_keyOfSurnameCarryingDaughterOnSurnameProvider) {
+		this.z_keyOfSurnameCarryingDaughterOnSurnameProvider=z_keyOfSurnameCarryingDaughterOnSurnameProvider;
 	}
 	
 	public String toXmlReferenceString() {

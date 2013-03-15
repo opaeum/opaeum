@@ -138,6 +138,25 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("familyStepChild_stepChild") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5583823813129990661")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						FamilyStepChild curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=org.opaeum.test.util.ModelJavaMetaInfoMap.INSTANCE.newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.z_internalAddToFamilyStepChild_stepChild(curVal.getStepChild().getName(),curVal);
+						curVal.z_internalAddToFamily(this);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 		}
 	}
 	
@@ -157,22 +176,22 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 	
 	public void copyShallowState(Family from, Family to) {
 		if ( from.getMother()!=null ) {
-			to.setMother(from.getMother().makeShallowCopy());
+			to.z_internalAddToMother(from.getMother().makeShallowCopy());
 		}
 		if ( from.getFather()!=null ) {
-			to.setFather(from.getFather().makeShallowCopy());
+			to.z_internalAddToFather(from.getFather().makeShallowCopy());
 		}
 	}
 	
 	public void copyState(Family from, Family to) {
 		if ( from.getMother()!=null ) {
-			to.setMother(from.getMother().makeCopy());
+			to.z_internalAddToMother(from.getMother().makeCopy());
 		}
 		for ( Child child : from.getChild() ) {
 			to.addToChild(child.getName(),child.makeCopy());
 		}
 		if ( from.getFather()!=null ) {
-			to.setFather(from.getFather().makeCopy());
+			to.z_internalAddToFather(from.getFather().makeCopy());
 		}
 	}
 	
@@ -224,9 +243,28 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 	
 	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=1669943078079397905l,opposite="family",uuid="Structures.uml@_lw1TQIhqEeK4s7QGypAJBA")
 	@NumlMetaInfo(uuid="Structures.uml@_lw1TQIhqEeK4s7QGypAJBA")
-	public Set<Child> getChild() {
+	public Set<? extends Child> getChild() {
 		Set result = new HashSet<Child>(this.child.values());
 		
+		return result;
+	}
+	
+	public FamilyMember getFamilyMember(String name) {
+		FamilyMember result = null;
+		String key = ModelFormatter.getInstance().formatStringQualifier(name);
+		for ( FamilyMember elem : getFamilyMember() ) {
+			if ( elem.getName()!=null && elem.getName().equals(name)  ) {
+				result=elem;
+				break;
+			}
+		}
+		return result;
+	}
+	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6185468265608250139l,opposite="family",uuid="Structures.uml@_N7V4EI08EeKHBNiW4NWnIg")
+	public Set<? extends FamilyMember> getFamilyMember() {
+		Set result = new HashSet<FamilyMember>();
+		result.addAll(this.getChild());
 		return result;
 	}
 	
@@ -237,7 +275,7 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 		return result;
 	}
 	
-	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5583823813129990661l,opposite="family",uuid="Structures.uml@_0vhRgIlZEeKhILqZBrW9Hg")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=5583823813129990661l,opposite="family",uuid="Structures.uml@_0vhRgIlZEeKhILqZBrW9Hg")
 	@NumlMetaInfo(uuid="Structures.uml@_TL7NoIhqEeK4s7QGypAJBA@Structures.uml@_0vhRgIlZEeKhILqZBrW9Hg")
 	public Set<FamilyStepChild> getFamilyStepChild_stepChild() {
 		Set result = new HashSet<FamilyStepChild>(this.familyStepChild_stepChild.values());
@@ -276,6 +314,14 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 	
 	public CompositionNode getOwningObject() {
 		return null;
+	}
+	
+	public StepChild getStepChild(String name) {
+		StepChild result = null;
+		String key = ModelFormatter.getInstance().formatStringQualifier(name);
+		FamilyStepChild link = this.familyStepChild_stepChild.get(key.toString());
+		result= link==null || link.getStepChild()==null?null:link.getStepChild();
+		return result;
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=7090279815210814161l,opposite="family",uuid="Structures.uml@_0vgqcIlZEeKhILqZBrW9Hg")
@@ -324,6 +370,9 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 			getFather().markDeleted();
 		}
 		for ( StepChild child : new ArrayList<StepChild>(getStepChild()) ) {
+			child.markDeleted();
+		}
+		for ( FamilyStepChild child : new ArrayList<FamilyStepChild>(getFamilyStepChild_stepChild()) ) {
 			child.markDeleted();
 		}
 	}
@@ -528,7 +577,7 @@ public class Family implements IEventGenerator, CompositionNode, Serializable {
 		}
 		sb.append("\n<familyStepChild_stepChild propertyId=\"5583823813129990661\">");
 		for ( FamilyStepChild familyStepChild_stepChild : getFamilyStepChild_stepChild() ) {
-			sb.append("\n" + familyStepChild_stepChild.toXmlReferenceString());
+			sb.append("\n" + familyStepChild_stepChild.toXmlString());
 		}
 		sb.append("\n</familyStepChild_stepChild>");
 		sb.append("\n</Family>");

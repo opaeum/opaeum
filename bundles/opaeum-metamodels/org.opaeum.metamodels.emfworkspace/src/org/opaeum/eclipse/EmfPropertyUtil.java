@@ -47,13 +47,11 @@ public class EmfPropertyUtil{
 		return p.isDerived() || p.isDerivedUnion();
 	}
 	public static Set<Property> getUniquenessConstraints(Classifier c){
-		if(c.getName().equals("GlobalDashboard")){
-			System.out.println();
-		}
 		Set<Property> result = new TreeSet<Property>(new ElementComparator());
 		for(Property property:getDirectlyImplementedAttributes(c)){
 			if(!property.isDerived() && !property.isDerivedUnion() && property.getOtherEnd() != null
-					&& (property.getOtherEnd().getQualifiers().size() > 0 || (property.getUpper() == 1 && !EmfPropertyUtil.isInverse(property))) && property.getOtherEnd().getUpper() == 1){
+					&& (property.getOtherEnd().getQualifiers().size() > 0 || (property.getUpper() == 1 && !EmfPropertyUtil.isInverse(property)))
+					&& property.getOtherEnd().getUpper() == 1 && !EmfPropertyUtil.isMany(property.getOtherEnd())){
 				result.add(property);
 			}
 		}
@@ -236,7 +234,6 @@ public class EmfPropertyUtil{
 		return false;
 	}
 	public static boolean isInverse(Property f){
-
 		if(f.getOtherEnd() == null || !f.getOtherEnd().isNavigable()){
 			return false;
 		}else{
@@ -266,6 +263,8 @@ public class EmfPropertyUtil{
 	public static Classifier getOwningClassifier(Property p){
 		if(p instanceof AbstractEmulatedProperty){
 			return (Classifier) p.getOwner();
+		}else if(p.getAssociationEnd()!=null){
+			return (Classifier) EmfElementFinder.getContainer(p.getAssociationEnd());
 		}
 		return (Classifier) EmfElementFinder.getContainer(p);
 	}
@@ -299,6 +298,25 @@ public class EmfPropertyUtil{
 		}
 		return result;
 	}
+	public static Collection<Property> getReferringQualifiers(Property property){
+		String name = property.getName();
+		return getReferringQualifiersByGivenName(property, name);
+	}
+	public static Collection<Property> getReferringQualifiersByGivenName(Property property,String name){
+		Collection<Property> result = new TreeSet<Property>(new ElementComparator());
+		List<Property> effectiveProperties = EmfPropertyUtil.getEffectiveProperties(EmfPropertyUtil.getOwningClassifier(property));
+		for(Property potentialQualifiedOtherEnd:effectiveProperties){
+			if(potentialQualifiedOtherEnd.getOtherEnd() != null){
+				EList<Property> qualifiers = potentialQualifiedOtherEnd.getOtherEnd().getQualifiers();
+				for(Property qualifier:qualifiers){
+					if(name.equals(qualifier.getName())){
+						result.add(qualifier);
+					}
+				}
+			}
+		}
+		return result;
+	}
 	public static Property getNameProperty(Classifier toClass){
 		NamedElement member = toClass.getMember("name");
 		if(member instanceof Property){
@@ -321,14 +339,18 @@ public class EmfPropertyUtil{
 	}
 	public static Property getBackingPropertyForQualifier(Property q){
 		Classifier type = (Classifier) q.getAssociationEnd().getType();
-		return (Property) type.getMember(q.getName());
+		for(Property property:getEffectiveProperties(type)){
+			if(property.getName().equals(q.getName())){
+				return property;
+			}
+		}
+		return null;
 	}
 	public static Collection<Property> getSubsettingProperties(Property p){
 		Collection<Setting> ref = ECrossReferenceAdapter.getCrossReferenceAdapter(p).getNonNavigableInverseReferences(p);
 		Collection<Property> result = new TreeSet<Property>(new DefaultOpaeumComparator());
 		for(Setting setting:ref){
-			if(setting.getEObject() instanceof Property
-					&& setting.getEStructuralFeature().equals(UMLPackage.eINSTANCE.getProperty_SubsettedProperty())){
+			if(setting.getEObject() instanceof Property && setting.getEStructuralFeature().equals(UMLPackage.eINSTANCE.getProperty_SubsettedProperty())){
 				result.add((Property) setting.getEObject());
 			}
 		}
@@ -344,6 +366,45 @@ public class EmfPropertyUtil{
 		addAttributesTo(c, nameMap, result);
 		addAssociationEndsTo(c, nameMap, result);
 		return result;
+	}
+	public static List<Property> getAllAccessibleProperties(Classifier c){
+		List<Property> result = new ArrayList<Property>();
+		addAttributesTo(c, result);
+		addAssociationEndsTo(c, result);
+		return result;
+	}
+	private static void addAssociationEndsTo(Classifier c,List<Property> result){
+		for(Classifier ir:c.getGenerals()){
+			addAssociationEndsTo(ir, result);
+		}
+		if(c instanceof BehavioredClassifier){
+			BehavioredClassifier cls = (BehavioredClassifier) c;
+			for(Interface ir:cls.getImplementedInterfaces()){
+				addAssociationEndsTo(ir, result);
+			}
+		}
+		for(Association a:c.getAssociations()){
+			for(Property end:a.getMemberEnds()){
+				if(end.getOtherEnd() != null && end.getOtherEnd().getType() != null && EmfClassifierUtil.conformsTo(c, (Classifier) end.getOtherEnd().getType())
+						&& end.isNavigable() && end.getOwner() == a){
+					result.add(end);
+				}
+			}
+		}
+	}
+	private static void addAttributesTo(Classifier c,List<Property> result){
+		for(Classifier ir:c.getGenerals()){
+			addAttributesTo(ir, result);
+		}
+		if(c instanceof BehavioredClassifier){
+			BehavioredClassifier cls = (BehavioredClassifier) c;
+			for(Interface ir:cls.getImplementedInterfaces()){
+				addAttributesTo(ir, result);
+			}
+		}
+		for(Property attribute:c.getAttributes()){
+			result.add(attribute);
+		}
 	}
 	private static void addAttributesTo(Classifier c,Map<String,Property> nameMap,List<Property> result){
 		for(Classifier ir:c.getGenerals()){
@@ -371,7 +432,8 @@ public class EmfPropertyUtil{
 		}
 		for(Association a:c.getAssociations()){
 			for(Property end:a.getMemberEnds()){
-				if(end.getOtherEnd()!=null && end.getOtherEnd().getType()!=null && EmfClassifierUtil.conformsTo(c, (Classifier)end.getOtherEnd().getType()) && end.isNavigable() && end.getOwner() == a){
+				if(end.getOtherEnd() != null && end.getOtherEnd().getType() != null && EmfClassifierUtil.conformsTo(c, (Classifier) end.getOtherEnd().getType())
+						&& end.isNavigable() && end.getOwner() == a){
 					maybeAddProperty(c, nameMap, result, end);
 				}
 			}
@@ -379,21 +441,27 @@ public class EmfPropertyUtil{
 	}
 	private static void maybeAddProperty(Classifier c,Map<String,Property> nameMap,List<Property> result,Property attribute){
 		Property superAttribute = nameMap.get(attribute.getName());
-		if(superAttribute != null){
-			if(c instanceof Interface && !(EmfPropertyUtil.getOwningClassifier(superAttribute) instanceof Interface)){
-				// DoNothing implemented property takes preference
+		boolean isDuplicateAttributeDueToUmlEmfOrPapyrusBug = c == attribute.getAssociation();
+		if(!isDuplicateAttributeDueToUmlEmfOrPapyrusBug){
+			if(superAttribute != null){
+				if(c instanceof Interface && !(EmfPropertyUtil.getOwningClassifier(superAttribute) instanceof Interface)){
+					// DoNothing implemented property takes preference
+				}else if(EmfPropertyUtil.getOwningClassifier(superAttribute)==EmfPropertyUtil.getOwningClassifier(attribute) && attribute.isDerivedUnion()){
+					// DoNothing the concrete property takes preference
+				}else{
+					result.remove(superAttribute);
+					result.add(attribute);
+					nameMap.put(attribute.getName(), attribute);
+				}
 			}else{
-				result.remove(superAttribute);
 				result.add(attribute);
 				nameMap.put(attribute.getName(), attribute);
 			}
-		}else{
-			result.add(attribute);
-			nameMap.put(attribute.getName(), attribute);
 		}
 	}
 	/**
 	 * Returns true if this property should have a field in the eventual java class
+	 * 
 	 * @param owner
 	 * @param prop
 	 * @return

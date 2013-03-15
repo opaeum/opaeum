@@ -42,9 +42,9 @@ System.out.println();
 		super.handleModelChanged(msg);
 		if(msg.getFeatureID(NavigationConstraint.class) == PerspectivePackage.NAVIGATION_CONSTRAINT__HIDDEN
 				&& msg.getNotifier().equals(getFeatureOwner(getSelectedObject()))){
-			isRefreshing = true;
+			isRefreshingControls = true;
 			populateControls();
-			isRefreshing = false;
+			isRefreshingControls = false;
 		}
 	}
 }

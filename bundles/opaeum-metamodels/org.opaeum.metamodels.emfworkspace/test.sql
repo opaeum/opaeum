@@ -1,0 +1,1 @@
+select * from cp.bsc  as a where a.

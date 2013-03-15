@@ -8,8 +8,8 @@ import java.util.List;
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.ocl.uml.CollectionType;
-import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.DataType;
@@ -24,9 +24,9 @@ import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.emulated.EndToAssociationClass;
 import org.opaeum.eclipse.emulated.IEmulatedElement;
-import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClassifier;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
@@ -40,7 +40,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.metamodel.workspace.IPropertyEmulation;
 import org.opaeum.name.NameConverter;
@@ -56,6 +55,33 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 	@Override
 	protected int getThreadPoolSize(){
 		return 12;
+	}
+	protected void addGetterForOnDerivedProperty(PropertyMap map,OJClassifier owner){
+		OJAnnotatedOperation getterFor = new OJAnnotatedOperation(map.getter(), map.javaBaseTypePath());
+		owner.addToOperations(getterFor);
+		addQualifierParamsAndBuildKeyVariable(getterFor, map.getProperty().getQualifiers());
+		getterFor.initializeResultVariable("null");
+		OJForStatement forAll = new OJForStatement("elem", map.javaBaseTypePath(), map.getter()+ "()");
+		StringBuilder condition = new StringBuilder();
+		EList<Property> qualifiers = map.getProperty().getQualifiers();
+		for(Property property:qualifiers){
+			Property bp = EmfPropertyUtil.getBackingPropertyForQualifier(property);
+			if(bp!=null){
+				condition.append("elem.");
+				condition.append(ojUtil.buildStructuralFeatureMap(bp).getter());
+				condition.append("()!=null && elem.");
+				condition.append(ojUtil.buildStructuralFeatureMap(bp).getter());
+				condition.append("().equals(");
+				condition.append(ojUtil.buildStructuralFeatureMap(bp).fieldname());
+				condition.append(") && ");
+			}else{
+				//TODO implement exactly how???
+			}
+		}
+		OJIfStatement ifMatch = new OJIfStatement(condition.substring(0, condition.length()-3), "result=elem");
+		forAll.getBody().addToStatements(ifMatch);
+		ifMatch.getThenPart().addToStatements("break");
+		getterFor.getBody().addToStatements(forAll);
 	}
 	@Override
 	protected boolean visitComplexStructure(OJAnnotatedClass ojOwner,Classifier umlOwner){
@@ -129,13 +155,16 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 		getter.getOwner().addToImports(map.javaBaseTypePath());
 		if(!(owner instanceof OJAnnotatedInterface)){
 			if(derived){
+				if(isMap(map.getProperty()) && !map.isEndToAssociationClass()){
+					addGetterForOnDerivedProperty(map,owner);
+				}
 				getter.initializeResultVariable(map.javaDefaultValue());
 			}else if(map.isMany() && isMap(map.getProperty())){
 				String defaultValue = map.javaDefaultValue();
 				getter.initializeResultVariable(defaultValue.substring(0, defaultValue.length() - 1) + getReferencePrefix(owner, map) + map.fieldname() + ".values())");
 				OJAnnotatedOperation getterFor = new OJAnnotatedOperation(map.getter(), map.javaBaseTypePath());
 				owner.addToOperations(getterFor);
-				addQualifierParams(getterFor, map.getProperty().getQualifiers());
+				addQualifierParamsAndBuildKeyVariable(getterFor, map.getProperty().getQualifiers());
 				getterFor.initializeResultVariable("null");
 				getterFor.getBody().addToStatements("result=" + getReferencePrefix(owner, map) + map.fieldname() + ".get(key.toString())");
 			}else{
@@ -157,7 +186,7 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 		owner.addToOperations(remover);
 		remover.setStatic(map.isStatic());
 		if(isMap(map.getProperty())){
-			addQualifierParams(remover, map.getProperty().getQualifiers());
+			addQualifierParamsAndBuildKeyVariable(remover, map.getProperty().getQualifiers());
 		}
 		if(!(owner instanceof OJAnnotatedInterface)){
 			if(map.isMany()){
@@ -182,7 +211,7 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 		owner.addToOperations(adder);
 		adder.setVisibility(OJVisibilityKind.PUBLIC);
 		if(isMap(map.getProperty())){
-			addQualifierParams(adder, map.getProperty().getQualifiers());
+			addQualifierParamsAndBuildKeyVariable(adder, map.getProperty().getQualifiers());
 		}
 		if(!(owner instanceof OJAnnotatedInterface)){
 			adder.setStatic(map.isStatic());
@@ -198,8 +227,20 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 					}
 					for(Property q:map.getProperty().getQualifiers()){
 						// if we get here, all qualifiers are backed by properties on the baseType
-						PropertyMap qMap = ojUtil.buildStructuralFeatureMap(q);
-						adder.getBody().addToStatements("" + targetExpression + "." + qMap.internalAdder() + "(" + qMap.fieldname() + ")");
+						if(EmfPropertyUtil.getBackingPropertyForQualifier(q) != null){
+							PropertyMap qMap = ojUtil.buildStructuralFeatureMap(EmfPropertyUtil.getBackingPropertyForQualifier(q));
+							if(isModifiable(qMap)){
+								adder.getBody().addToStatements("" + targetExpression + "." + qMap.internalAdder() + "(" + qMap.fieldname() + ")");
+							}else{
+								adder.getBody().addToStatements(
+										new OJIfStatement("" + targetExpression + "." + qMap.getter() + "()==null", "throw new IllegalStateException(\"The qualifying property '"
+												+ qMap.fieldname() + "' must be set before adding a value to '" + map.fieldname() + "'\")"));
+							}
+						}else{
+							// TODO Currently we validate against this, but this association should become an association class and the property should be
+							// set on it;
+							// TODO when implementing above, remember to move this method out to the two seperate subclasses.
+						}
 					}
 					adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".put(key.toString()," + map.fieldname() + ")");
 					adder.getBody().addToStatements("" + map.fieldname() + "." + map.qualifierPropertySetter() + "(key.toString())");
@@ -215,7 +256,7 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 		adder.addParam(map.fieldname(), map.javaBaseTypePath());
 		return adder;
 	}
-	private void addQualifierParams(OJAnnotatedOperation adder,List<Property> qualifiers){
+	protected void addQualifierParamsAndBuildKeyVariable(OJAnnotatedOperation adder,List<Property> qualifiers){
 		OJPathName formatter = ojUtil.utilClass(getCurrentRootObject(), "Formatter");
 		adder.getOwner().addToImports(formatter);
 		OJAnnotatedField key = new OJAnnotatedField("key", new OJPathName("String"));
@@ -393,7 +434,7 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 			}
 		}
 	}
-	protected String getReferencePrefix(OJAnnotatedClass o,PropertyMap map){
+	public static String getReferencePrefix(OJAnnotatedClass o,PropertyMap map){
 		return map.isStatic() ? o.getName() + "." : "this.";
 	}
 	protected String buildQualifiedArgumentStringForOtherEnd(Property prop){
@@ -402,12 +443,5 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 			args = "(" + ojUtil.addQualifierArguments(prop.getOtherEnd().getQualifiers(), "this") + "this)";
 		}
 		return args;
-	}
-	protected void addCheckForNullQualifiers(PropertyMap map,PropertyMap otherMap,OJBlock block){
-		for(Property property:otherMap.getProperty().getQualifiers()){
-			PropertyMap qMap = ojUtil.buildStructuralFeatureMap(property);
-			block.addToStatements(new OJIfStatement(qMap.getter() + "()==null", "throw new IllegalStateException(\"The qualifying property '" + qMap.fieldname()
-					+ "' must be set before adding a value to '" + map.fieldname() + "'\")"));
-		}
 	}
 }

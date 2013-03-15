@@ -16,6 +16,14 @@ public class EndToAssociationClass extends AbstractEmulatedProperty{
 		super((Classifier) property.getOtherEnd().getType(), (Classifier) property.getAssociation());
 		this.property = property;
 	}
+	@Override
+	public boolean isDerived(){
+		return property.isDerived();
+	}
+	@Override
+	public boolean isDerivedUnion(){
+		return property.isDerivedUnion();
+	}
 
 	public int getUpper(){
 		return property.getUpper();
@@ -47,7 +55,11 @@ public class EndToAssociationClass extends AbstractEmulatedProperty{
 	}
 	@Override
 	public boolean isComposite(){
-		return property==property.getAssociation().getMemberEnds().get(0);
+		if(property.isComposite()){
+			return true;
+		}else{
+			return property==property.getAssociation().getMemberEnds().get(0);
+		}
 	}
 	public String getName(){
 		return NameConverter.decapitalize(property.getAssociation().getName()) + "_" + property.getName();

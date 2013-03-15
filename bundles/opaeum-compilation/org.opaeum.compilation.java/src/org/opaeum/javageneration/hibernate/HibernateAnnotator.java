@@ -57,7 +57,7 @@ import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {PersistentObjectImplementor.class,JpaAnnotator.class,UtilCreator.class},after = {
+@StepDependency(phase = JavaTransformationPhase.class,requires = {PersistentObjectImplementor.class,JpaAnnotator.class,UtilCreator.class,HibernateAttributeImplementor.class},after = {
 		JpaAnnotator.class,UtilCreator.class,CompositionNodeImplementor.class,PersistentObjectImplementor.class/*
 																																																						 * Dependendent on the
 																																																						 * markDelete method being
@@ -332,7 +332,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	}
 	private void setDeletedOn(PropertyMap map,OJAnnotatedClass ojOwner){
 		Property p = (Property) map.getProperty();
-		if(!EmfPropertyUtil.isDerived(p) && p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
+		if(!EmfPropertyUtil.isDerived(p) && p.getOtherEnd() != null && p.getOtherEnd().isComposite() && !map.isAssociationClassToEnd()){
 			OJOperation setter = ojOwner.findOperation(map.setter(), Arrays.asList(map.javaTypePath()));
 			OJIfStatement st = (OJIfStatement) setter.getBody().findStatementRecursive(AttributeImplementor.IF_PARAM_NOT_NULL);
 			if(st == null){

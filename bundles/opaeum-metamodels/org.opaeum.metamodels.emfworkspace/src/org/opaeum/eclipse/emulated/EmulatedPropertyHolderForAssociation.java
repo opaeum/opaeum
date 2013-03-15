@@ -3,8 +3,10 @@ package org.opaeum.eclipse.emulated;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.metamodel.workspace.IPropertyEmulation;
 
 public class EmulatedPropertyHolderForAssociation extends EmulatedPropertyHolder{
@@ -12,7 +14,7 @@ public class EmulatedPropertyHolderForAssociation extends EmulatedPropertyHolder
 	private List<EndToAssociationClass> endsToAssociationClass = new ArrayList<EndToAssociationClass>();
 	@SuppressWarnings("unchecked")
 	public EmulatedPropertyHolderForAssociation(Association owner,IPropertyEmulation e){
-		super(owner, e, owner.getAttributes());
+		super(owner, e, new BasicEList<TypedElement>());
 		this.owner = owner;
 		for(Property p:owner.getMemberEnds()){
 			AssociationClassToEnd otherEnd = new AssociationClassToEnd(p);
@@ -21,7 +23,11 @@ public class EmulatedPropertyHolderForAssociation extends EmulatedPropertyHolder
 		for(Property p:owner.getMemberEnds()){
 			EndToAssociationClass thisEnd = new EndToAssociationClass(p);
 			endsToAssociationClass.add(thisEnd);
-			AssociationClassToEnd associationToEnd = (AssociationClassToEnd) getEmulatedAttribute(p.getOtherEnd());
+			Property emulatedAttribute = getEmulatedAttribute(p.getOtherEnd());
+			if(!(emulatedAttribute instanceof AssociationClassToEnd)){
+				System.out.println();
+			}
+			AssociationClassToEnd associationToEnd = (AssociationClassToEnd) emulatedAttribute;
 			thisEnd.setOtherEnd(associationToEnd);
 			associationToEnd.setOtherEnd(thisEnd);
 		}
