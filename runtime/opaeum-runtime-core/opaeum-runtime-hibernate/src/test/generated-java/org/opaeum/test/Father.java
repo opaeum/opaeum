@@ -475,9 +475,6 @@ public class Father implements SurnameProvider, IPersistentObject, IEventGenerat
 		if ( getFamily()!=null ) {
 			getFamily().z_internalRemoveFromFather(this);
 		}
-		if ( getMarriage_spouse()!=null ) {
-			getMarriage_spouse().z_internalRemoveFromSurnameProvider(this);
-		}
 		for ( SurnameProviderHasSon child : new ArrayList<SurnameProviderHasSon>(getSurnameProviderHasSon_surnameCarryingSon()) ) {
 			child.markDeleted();
 		}
@@ -645,6 +642,7 @@ public class Father implements SurnameProvider, IPersistentObject, IEventGenerat
 		Spouse oldValue = this.getSpouse();
 		if ( oldValue !=null && !oldValue.equals(spouse) ) {
 			getSpouse().z_internalRemoveFromMarriage_surnameProvider(getMarriage_spouse());
+			getMarriage_spouse().clear();
 			z_internalRemoveFromMarriage_spouse(getMarriage_spouse());
 		}
 		if ( spouse !=null && !spouse.equals(oldValue) ) {

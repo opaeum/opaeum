@@ -358,7 +358,7 @@ public class OrganizationAsBusinessComponent implements IPersistentObject, Hiber
 		if ( this.businessComponent==null ) {
 			this.businessComponent=new UiidBasedInterfaceValue();
 		}
-		this.businessComponent.setValue(businessComponent);
+		this.businessComponent.setValueInternal(businessComponent);
 	}
 	
 	public void z_internalAddToRepresentedOrganization(OrganizationNode representedOrganization) {
@@ -370,7 +370,7 @@ public class OrganizationAsBusinessComponent implements IPersistentObject, Hiber
 	
 	public void z_internalRemoveFromBusinessComponent(IBusinessComponent businessComponent) {
 		if ( getBusinessComponent()!=null && businessComponent!=null && businessComponent.equals(getBusinessComponent()) ) {
-			this.businessComponent.setValue(null);
+			this.businessComponent.setValueInternal(null);
 		}
 	}
 	

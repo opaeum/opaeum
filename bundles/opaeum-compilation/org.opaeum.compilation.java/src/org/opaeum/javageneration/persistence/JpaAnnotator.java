@@ -131,10 +131,16 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 							OJAnnotationValue uniquenessConstraint1 = new OJAnnotationValue(new OJPathName("javax.persistence.UniqueConstraint"));
 							OJAnnotationAttributeValue columns1 = new OJAnnotationAttributeValue("columnNames", mapToEnd1.getPersistentName().getAsIs());
 							uniquenessConstraint1.putAttribute(columns1);
+							if(map1.getBaseType() instanceof Interface){
+								columns1.addStringValue(mapToEnd1.getPersistentName().getWithoutId() + "_type");
+							}
 							uniqueConstraints.addAnnotationValue(uniquenessConstraint1);
 							OJAnnotationValue uniquenessConstraint2 = new OJAnnotationValue(new OJPathName("javax.persistence.UniqueConstraint"));
 							OJAnnotationAttributeValue columns2 = new OJAnnotationAttributeValue("columnNames", mapToEnd2.getPersistentName().getAsIs());
 							uniquenessConstraint2.putAttribute(columns2);
+							if(map2.getBaseType() instanceof Interface){
+								columns2.addStringValue(mapToEnd2.getPersistentName().getWithoutId() + "_type");
+							}
 							uniqueConstraints.addAnnotationValue(uniquenessConstraint2);
 						}else{
 							OJAnnotationValue uniquenessConstraint1 = new OJAnnotationValue(new OJPathName("javax.persistence.UniqueConstraint"));
@@ -238,6 +244,9 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 		for(Property p:EmfPropertyUtil.getUniquenessConstraints(entity)){
 			OJAnnotationValue uniquenessConstraint = new OJAnnotationValue(new OJPathName("javax.persistence.UniqueConstraint"));
 			OJAnnotationAttributeValue columns = new OJAnnotationAttributeValue("columnNames", PersistentNameUtil.getPersistentName(p).getAsIs());
+			if(p.getType() instanceof Interface){
+				columns.addStringValue(PersistentNameUtil.getPersistentName(p).getWithoutId() + "_type");
+			}
 			for(Property q:p.getOtherEnd().getQualifiers()){
 				columns.addStringValue(PersistentNameUtil.getPersistentName(q).getAsIs());
 			}
@@ -424,7 +433,7 @@ public class JpaAnnotator extends AbstractStructureVisitor{
 		Property f = map.getProperty();
 		OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.fieldname());
 		if(field != null){
-			// Field might have been replaced by a name-value type map
+			// Field might have been replaced by a name-value type map or who knows what else
 			if(map.getBaseType() instanceof Enumeration){
 				mapXToOneEnumeration(f, owner, field);
 			}else if(EmfClassifierUtil.isSimpleType(map.getBaseType())){

@@ -920,7 +920,7 @@ public class PrepareQuote implements IStateMachineExecution, IPersistentObject, 
 		if ( this.returnInfo==null ) {
 			this.returnInfo=new ReturnInfo();
 		}
-		this.returnInfo.setValue(token);
+		this.returnInfo.setValueInternal(token);
 	}
 	
 	public void setUid(String newUid) {

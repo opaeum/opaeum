@@ -361,7 +361,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 		if ( this.businessActor==null ) {
 			this.businessActor=new UiidBasedInterfaceValue();
 		}
-		this.businessActor.setValue(businessActor);
+		this.businessActor.setValueInternal(businessActor);
 	}
 	
 	public void z_internalAddToOrganization(OrganizationNode organization) {
@@ -373,7 +373,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 	
 	public void z_internalRemoveFromBusinessActor(IBusinessActor businessActor) {
 		if ( getBusinessActor()!=null && businessActor!=null && businessActor.equals(getBusinessActor()) ) {
-			this.businessActor.setValue(null);
+			this.businessActor.setValueInternal(null);
 		}
 	}
 	

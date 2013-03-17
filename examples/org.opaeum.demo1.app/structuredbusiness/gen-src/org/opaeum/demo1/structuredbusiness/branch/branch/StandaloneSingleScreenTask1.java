@@ -613,7 +613,7 @@ public class StandaloneSingleScreenTask1 implements IPersistentObject, IEventGen
 		if ( this.returnInfo==null ) {
 			this.returnInfo=new ReturnInfo();
 		}
-		this.returnInfo.setValue(token);
+		this.returnInfo.setValueInternal(token);
 	}
 	
 	public void setTaskRequest(TaskRequest taskRequest) {

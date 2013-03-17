@@ -9,44 +9,50 @@ import org.opaeum.runtime.environment.JavaMetaInfoMap;
 
 @AccessType("field")
 @Embeddable()
-public class UiidBasedCascadingInterfaceValue extends AbstractAnyValue{
-	// HACK!! duplicated the state as Hibernate does not seem to handle inheritance in embedabbles
+public class UiidBasedCascadingInterfaceValue extends AbstractAnyValue {
+	// HACK!! duplicated the state as Hibernate does not seem to handle
+	// inheritance in embedabbles
 	private Long identifier;
 	private String classIdentifier;
 	@Transient
 	private IPersistentObject value;
+
 	@Override
-	protected boolean shouldCascade(){
+	protected boolean shouldCascade() {
 		return true;
 	}
-	public Long getIdentifier(){
+
+	public Long getIdentifier() {
 		return identifier;
 	}
-	public void setIdentifier(Long identifier){
+
+	public void setIdentifier(Long identifier) {
 		this.identifier = identifier;
 	}
-	public String getClassIdentifier(){
+
+	public String getClassIdentifier() {
 		return classIdentifier;
 	}
-	public void setClassIdentifier(String classIdentifier){
+
+	public void setClassIdentifier(String classIdentifier) {
 		this.classIdentifier = classIdentifier;
 	}
-	public IPersistentObject getValue(){
+
+	public IPersistentObject getValue() {
 		return value;
 	}
-	public void setValue(IPersistentObject value){
+
+	public void setValueInternal(IPersistentObject value) {
 		this.value = value;
 	}
+
 	@Override
-	protected Class<?> getClass(String classUuid,JavaMetaInfoMap p){
-		try{
-			return Class.forName(getClassIdentifier());
-		}catch(ClassNotFoundException e){
-			throw new RuntimeException(e);
-		}
+	protected Class<?> getClass(String classUuid, JavaMetaInfoMap p) {
+		return p.getClass(getClassIdentifier());
 	}
+
 	@Override
-	protected String getClassIdentifier(Class<?> c,JavaMetaInfoMap p){
+	protected String getClassIdentifier(Class<?> c, JavaMetaInfoMap p) {
 		return p.getUuidFor(c);
 	}
 }

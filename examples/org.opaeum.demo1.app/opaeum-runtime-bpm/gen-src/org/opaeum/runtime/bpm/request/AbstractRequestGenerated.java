@@ -687,7 +687,7 @@ abstract public class AbstractRequestGenerated implements IStateMachineExecution
 		if ( this.returnInfo==null ) {
 			this.returnInfo=new ReturnInfo();
 		}
-		this.returnInfo.setValue(token);
+		this.returnInfo.setValueInternal(token);
 	}
 	
 	public void setUid(String newUid) {
@@ -752,7 +752,7 @@ abstract public class AbstractRequestGenerated implements IStateMachineExecution
 		if ( this.requestObject==null ) {
 			this.requestObject=new UiidBasedInterfaceValue();
 		}
-		this.requestObject.setValue(requestObject);
+		this.requestObject.setValueInternal(requestObject);
 	}
 	
 	public void z_internalRemoveFromParentTask(TaskRequest parentTask) {
@@ -768,7 +768,7 @@ abstract public class AbstractRequestGenerated implements IStateMachineExecution
 	
 	public void z_internalRemoveFromRequestObject(IRequestObject requestObject) {
 		if ( getRequestObject()!=null && requestObject!=null && requestObject.equals(getRequestObject()) ) {
-			this.requestObject.setValue(null);
+			this.requestObject.setValueInternal(null);
 		}
 	}
 	

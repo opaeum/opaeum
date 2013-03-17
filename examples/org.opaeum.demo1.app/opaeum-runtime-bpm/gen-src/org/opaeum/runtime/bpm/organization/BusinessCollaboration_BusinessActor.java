@@ -381,7 +381,7 @@ public class BusinessCollaboration_BusinessActor implements IPersistentObject, H
 		if ( this.businessActor==null ) {
 			this.businessActor=new UiidBasedCascadingInterfaceValue();
 		}
-		this.businessActor.setValue(businessActor);
+		this.businessActor.setValueInternal(businessActor);
 	}
 	
 	public void z_internalAddToBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
@@ -391,18 +391,18 @@ public class BusinessCollaboration_BusinessActor implements IPersistentObject, H
 		if ( this.businessCollaboration==null ) {
 			this.businessCollaboration=new UiidBasedInterfaceValue();
 		}
-		this.businessCollaboration.setValue(businessCollaboration);
+		this.businessCollaboration.setValueInternal(businessCollaboration);
 	}
 	
 	public void z_internalRemoveFromBusinessActor(IBusinessActor businessActor) {
 		if ( getBusinessActor()!=null && businessActor!=null && businessActor.equals(getBusinessActor()) ) {
-			this.businessActor.setValue(null);
+			this.businessActor.setValueInternal(null);
 		}
 	}
 	
 	public void z_internalRemoveFromBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
 		if ( getBusinessCollaboration()!=null && businessCollaboration!=null && businessCollaboration.equals(getBusinessCollaboration()) ) {
-			this.businessCollaboration.setValue(null);
+			this.businessCollaboration.setValueInternal(null);
 		}
 	}
 

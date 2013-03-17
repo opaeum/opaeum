@@ -50,7 +50,7 @@ public class EmfPropertyUtil{
 		Set<Property> result = new TreeSet<Property>(new ElementComparator());
 		for(Property property:getDirectlyImplementedAttributes(c)){
 			if(!property.isDerived() && !property.isDerivedUnion() && property.getOtherEnd() != null
-					&& (property.getOtherEnd().getQualifiers().size() > 0 || (property.getUpper() == 1 && !EmfPropertyUtil.isInverse(property)))
+					&& (property.getOtherEnd().getQualifiers().size() > 0 || (property.getUpper() == 1 && !EmfPropertyUtil.isInverse(property) &&!EmfAssociationUtil.isClass(property.getAssociation())))
 					&& property.getOtherEnd().getUpper() == 1 && !EmfPropertyUtil.isMany(property.getOtherEnd())){
 				result.add(property);
 			}

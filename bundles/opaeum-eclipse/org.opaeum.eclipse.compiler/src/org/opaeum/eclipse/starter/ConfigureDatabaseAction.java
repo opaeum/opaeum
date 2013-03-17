@@ -55,7 +55,7 @@ public class ConfigureDatabaseAction extends AbstractOpaeumAction{
 							e.printStackTrace();
 						}
 					}
-					//TODO try to populate the profilePage
+					// TODO try to populate the profilePage
 					propsIn.setProperty("org.eclipse.datatools.connectivity.db.driverClass", ne.getConfig().getJdbcDriver());
 					propsIn.setProperty("org.eclipse.datatools.connectivity.db.username", ne.getConfig().getDbUserName());
 					propsIn.setProperty("org.eclipse.datatools.connectivity.db.databaseName", ne.getConfig().getDbName());
@@ -90,6 +90,10 @@ public class ConfigureDatabaseAction extends AbstractOpaeumAction{
 				String vendor = props.getProperty("org.eclipse.datatools.connectivity.db.vendor");
 				ne.getConfig().setDbVendor(vendor);
 				String url = props.getProperty("org.eclipse.datatools.connectivity.db.URL");
+				String connectionProps = props.getProperty("org.eclipse.datatools.connectivity.db.connectionProperties");
+				if(connectionProps != null && connectionProps.trim().length() > 0){
+					url = url + ";" + connectionProps.replaceAll("\\," ,";");
+				}
 				ne.getConfig().setJdbcConnectionUrl(url);
 				ne.getConfig().store();
 				reinitialiseConfig(ne);

@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.OneToMany;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
@@ -34,7 +33,6 @@ import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
-import org.opaeum.java.metamodel.OJStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
@@ -42,6 +40,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
+import org.opaeum.java.metamodel.annotation.OJStaticField;
 import org.opaeum.java.metamodel.generated.OJVisibilityKindGEN;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
@@ -51,7 +50,7 @@ import org.opaeum.javageneration.oclexpressions.UtilCreator;
 import org.opaeum.javageneration.persistence.JpaAnnotator;
 import org.opaeum.javageneration.persistence.JpaUtil;
 import org.opaeum.javageneration.persistence.PersistentObjectImplementor;
-import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.javageneration.util.OJUtill;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.runtime.domain.HibernateEntity;
@@ -241,6 +240,20 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}else if(map.getBaseType() instanceof Interface && !EmfClassifierUtil.isHelper(map.getBaseType())){
 				NameWrapper persistentName = PersistentNameUtil.getPersistentName(map.getProperty());
 				HibernateUtil.overrideInterfaceValueAtributes(field, persistentName);
+				OJStaticField interfaceFields =(OJStaticField) ojOwner.findField("INTERFACE_FIELDS");
+				if(interfaceFields==null){
+					ojOwner.addToImplementedInterfaces(new OJPathName("org.opaeum.runtime.domain.InterfaceValueOwner"));
+					interfaceFields=new OJStaticField("INTERFACE_FIELDS", OJUtill.mapOf(new OJPathName("String"), new OJPathName("Class")));
+					ojOwner.addToFields(interfaceFields);
+					interfaceFields.setInitExp(OJUtill.newHashMap(interfaceFields.getType()));
+					ojOwner.addToImports("java.util.HashMap");
+					final OJAnnotatedOperation get = new OJAnnotatedOperation("getFieldType", new OJPathName("Class"));
+					ojOwner.addToOperations(get);
+					get.addParam("fieldName", "String");
+					get.initializeResultVariable("INTERFACE_FIELDS.get(fieldName)");
+				}
+				interfaceFields.getInitialization().addToStatements("INTERFACE_FIELDS.put(\"" +field.getName()+"\","+ map.javaBaseType()+ ".class)");
+
 				if(f.isComposite()){
 					HibernateUtil.addCascade(field, CascadeType.ALL);
 					field.removeAnnotation(new OJPathName("javax.persistence.Transient"));

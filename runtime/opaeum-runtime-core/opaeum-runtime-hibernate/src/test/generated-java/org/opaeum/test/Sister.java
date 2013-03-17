@@ -278,9 +278,6 @@ public class Sister extends Child implements IPersistentObject, IEventGenerator,
 			getFather().z_internalRemoveFromChild(this.getName(),this);
 		}
 		removeAllFromBrother(getBrother());
-		if ( getSurnameProviderHasDaughter_surnameProvider()!=null ) {
-			getSurnameProviderHasDaughter_surnameProvider().z_internalRemoveFromSurnameCarryingDaughter(this);
-		}
 		setDeletedOn(new Date());
 	}
 	

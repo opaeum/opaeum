@@ -28,7 +28,7 @@ public abstract class AbstractExternalValue extends AbstractAnyValue{
 			JavaMetaInfoMap mim = p.getMetaInfoMap(getApplicationIdentifier());
 			if(mim!=null){
 				Class<?> implementationClass = getImplementationClass(mim);
-				setValue((IPersistentObject) p.getReference(getApplicationIdentifier(), implementationClass, getIdentifier()));
+				setValueInternal((IPersistentObject) p.getReference(getApplicationIdentifier(), implementationClass, getIdentifier()));
 			}else{
 				//TODO think this through,maybe return a proxy that has a method: isProxy()
 			}

@@ -489,7 +489,7 @@ public class ProcessRequest extends AbstractRequest implements IStateMachineExec
 		if ( this.returnInfo==null ) {
 			this.returnInfo=new ReturnInfo();
 		}
-		this.returnInfo.setValue(token);
+		this.returnInfo.setValueInternal(token);
 	}
 	
 	public String toXmlReferenceString() {
@@ -527,14 +527,14 @@ public class ProcessRequest extends AbstractRequest implements IStateMachineExec
 		if ( this.processObject==null ) {
 			this.processObject=new UiidBasedInterfaceValue();
 		}
-		this.processObject.setValue(processObject);
+		this.processObject.setValueInternal(processObject);
 		if ( requestObject.equals(getRequestObject()) ) {
 			return;
 		}
 		if ( this.requestObject==null ) {
 			this.requestObject=new UiidBasedInterfaceValue();
 		}
-		this.requestObject.setValue(requestObject);
+		this.requestObject.setValueInternal(requestObject);
 	}
 	
 	public void z_internalAddToRequestObject(IRequestObject requestObject) {
@@ -545,33 +545,33 @@ public class ProcessRequest extends AbstractRequest implements IStateMachineExec
 		if ( this.requestObject==null ) {
 			this.requestObject=new UiidBasedInterfaceValue();
 		}
-		this.requestObject.setValue(requestObject);
+		this.requestObject.setValueInternal(requestObject);
 		if ( processObject.equals(getProcessObject()) ) {
 			return;
 		}
 		if ( this.processObject==null ) {
 			this.processObject=new UiidBasedInterfaceValue();
 		}
-		this.processObject.setValue(processObject);
+		this.processObject.setValueInternal(processObject);
 	}
 	
 	public void z_internalRemoveFromProcessObject(IProcessObject processObject) {
 		IRequestObject requestObject = processObject;
 		if ( getProcessObject()!=null && processObject!=null && processObject.equals(getProcessObject()) ) {
-			this.processObject.setValue(null);
+			this.processObject.setValueInternal(null);
 		}
 		if ( getRequestObject()!=null && requestObject!=null && requestObject.equals(getRequestObject()) ) {
-			this.requestObject.setValue(null);
+			this.requestObject.setValueInternal(null);
 		}
 	}
 	
 	public void z_internalRemoveFromRequestObject(IRequestObject requestObject) {
 		IProcessObject processObject = (IProcessObject)requestObject;
 		if ( getRequestObject()!=null && requestObject!=null && requestObject.equals(getRequestObject()) ) {
-			this.requestObject.setValue(null);
+			this.requestObject.setValueInternal(null);
 		}
 		if ( getProcessObject()!=null && processObject!=null && processObject.equals(getProcessObject()) ) {
-			this.processObject.setValue(null);
+			this.processObject.setValueInternal(null);
 		}
 	}
 

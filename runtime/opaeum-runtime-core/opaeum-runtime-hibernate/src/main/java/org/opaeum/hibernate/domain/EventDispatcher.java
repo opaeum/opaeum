@@ -41,6 +41,7 @@ import org.opaeum.runtime.domain.ExceptionAnalyser;
 import org.opaeum.runtime.domain.IAnyValue;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.InterfaceValueOwner;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
@@ -356,19 +357,22 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		if(event.getEntity() instanceof IPersistentObject){
 			EventSource session = event.getSession();
 			Object[] propertyValues = event.getPropertyValues();
-			updateAnyValuesBeforeFlush(session, event.getEntity(), propertyValues);
+			updateAnyValuesBeforeFlush(session, event.getEntity(), propertyValues,event.getEntityEntry().getPersister().getPropertyNames());
 		}
 	}
-	private void updateAnyValuesBeforeFlush(EventSource session,Object entity,Object[] propertyValues){
+	private void updateAnyValuesBeforeFlush(EventSource session,Object entity,Object[] propertyValues, String[] propertyNames){
 		InternalHibernatePersistence pers = getPersistence(session, entity);
-		for(Object object2:propertyValues){
-			if(object2 instanceof IAnyValue){
-				IAnyValue iv = (IAnyValue) object2;
+		for(int i=0; i < propertyValues.length;i++){
+			if(propertyValues[i] instanceof IAnyValue && entity instanceof InterfaceValueOwner){
+				IAnyValue iv = (IAnyValue) propertyValues[i];
 				if(iv.getValue() != null){
-					iv.updateBeforeFlush(pers);
+					iv.updateBeforeFlush( pers, ((InterfaceValueOwner) entity).getFieldType(propertyNames[i]));
 				}
 			}
 		}
+	}
+	static class J<T>{
+		
 	}
 	@Override
 	public void onPersist(PersistEvent event) throws HibernateException{
@@ -376,7 +380,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		String entityName = event.getEntityName();
 		EntityPersister p = session.getEntityPersister(entityName, event.getObject());
 		Object[] propertyValues = p.getPropertyValues(event.getObject(), EntityMode.POJO);
-		updateAnyValuesBeforeFlush(session, event.getObject(), propertyValues);
+		updateAnyValuesBeforeFlush(session, event.getObject(), propertyValues,p.getPropertyNames());
 	}
 	@Override
 	public boolean onPreUpdate(PreUpdateEvent event){

@@ -362,7 +362,7 @@ public class ParticipationParticipant implements IPersistentObject, HibernateEnt
 		if ( this.participant==null ) {
 			this.participant=new UiidBasedInterfaceValue();
 		}
-		this.participant.setValue(participant);
+		this.participant.setValueInternal(participant);
 	}
 	
 	public void z_internalAddToParticipation(Participation participation) {
@@ -374,7 +374,7 @@ public class ParticipationParticipant implements IPersistentObject, HibernateEnt
 	
 	public void z_internalRemoveFromParticipant(IParticipant participant) {
 		if ( getParticipant()!=null && participant!=null && participant.equals(getParticipant()) ) {
-			this.participant.setValue(null);
+			this.participant.setValueInternal(null);
 		}
 	}
 	

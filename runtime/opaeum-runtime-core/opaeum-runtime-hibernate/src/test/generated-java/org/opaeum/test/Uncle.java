@@ -39,6 +39,7 @@ import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.InterfaceValueOwner;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
@@ -56,7 +57,12 @@ import org.w3c.dom.NodeList;
 @AccessType(	"field")
 @Table(name="uncle")
 @Entity(name="Uncle")
-public class Uncle implements Relation, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
+public class Uncle implements Relation, InterfaceValueOwner, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
+	static private Map<String, Class> INTERFACE_FIELDS = new HashMap<String,Class>();
+	static{
+	INTERFACE_FIELDS.put("spouse",Spouse.class);
+	}
+	
 	@Transient
 	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Where(clause="god_parent_type='Structures.uml@_dH6VoIhqEeK4s7QGypAJBA'")
@@ -368,6 +374,12 @@ public class Uncle implements Relation, IPersistentObject, IEventGenerator, Hibe
 			}
 		}
 		return null;
+	}
+	
+	public Class getFieldType(String fieldName) {
+		Class result = INTERFACE_FIELDS.get(fieldName);
+		
+		return result;
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4472055897408457748l,uuid="Structures.uml@_ojWi8IjSEeKq68owPnlvHg")

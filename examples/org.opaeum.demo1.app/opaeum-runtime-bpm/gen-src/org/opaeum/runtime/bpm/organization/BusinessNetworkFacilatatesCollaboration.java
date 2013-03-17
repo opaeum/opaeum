@@ -377,7 +377,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		if ( this.businessCollaboration==null ) {
 			this.businessCollaboration=new UiidBasedCascadingInterfaceValue();
 		}
-		this.businessCollaboration.setValue(businessCollaboration);
+		this.businessCollaboration.setValueInternal(businessCollaboration);
 	}
 	
 	public void z_internalAddToBusinessNetwork(BusinessNetwork businessNetwork) {
@@ -389,7 +389,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	
 	public void z_internalRemoveFromBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
 		if ( getBusinessCollaboration()!=null && businessCollaboration!=null && businessCollaboration.equals(getBusinessCollaboration()) ) {
-			this.businessCollaboration.setValue(null);
+			this.businessCollaboration.setValueInternal(null);
 		}
 	}
 	

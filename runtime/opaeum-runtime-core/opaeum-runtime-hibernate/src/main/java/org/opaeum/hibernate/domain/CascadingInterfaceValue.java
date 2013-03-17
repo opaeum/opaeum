@@ -24,7 +24,7 @@ public class CascadingInterfaceValue extends AbstractAnyValue {
 	public IPersistentObject getValue(){
 		return value;
 	}
-	public void setValue(IPersistentObject value){
+	public void setValueInternal(IPersistentObject value){
 		this.value = value;
 	}
 	public void setIdentifier(Long identifier){

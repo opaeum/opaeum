@@ -1002,7 +1002,7 @@ public class TaskRequestGenerated extends AbstractRequest implements IStateMachi
 		if ( this.returnInfo==null ) {
 			this.returnInfo=new ReturnInfo();
 		}
-		this.returnInfo.setValue(token);
+		this.returnInfo.setValueInternal(token);
 	}
 	
 	public void setSubRequests(Set<AbstractRequest> subRequests) {

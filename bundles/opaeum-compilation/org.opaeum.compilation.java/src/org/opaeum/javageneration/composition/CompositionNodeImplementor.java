@@ -141,56 +141,60 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 			if(!(np instanceof AssociationClassToEnd) && !np.isComposite() && isOtherEndModifiable(np) && isModifiable(np)
 					&& (isPersistentClassOrInterface(np.getType()) && !(np.getType() instanceof DataType))){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(np);
-				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(np.getOtherEnd());
-				if(map.isMany()){
-					if(EmfAssociationUtil.isClass(np.getAssociation())){
-						AssociationClassEndMap aMap = map.getAssocationClassMap();
-						PropertyMap mapToAssociation = aMap.getEndToAssocationClassMap();
-						OJForStatement forEachLink = new OJForStatement("link",mapToAssociation.javaBaseTypePath(), "new HashSet<" +mapToAssociation.javaBaseType() +">("+mapToAssociation.getter() +"())");
-						String args="link";
-						if(isMap(otherMap.getProperty())){
-							args=ojUtil.addQualifierArguments(otherMap.getProperty().getQualifiers(), "this")+ "link";
+				if(!map.isEndToAssociationClass()){
+					PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(np.getOtherEnd());
+					if(map.isMany()){
+						if(EmfAssociationUtil.isClass(np.getAssociation())){
+							AssociationClassEndMap aMap = map.getAssocationClassMap();
+							PropertyMap mapToAssociation = aMap.getEndToAssocationClassMap();
+							OJForStatement forEachLink = new OJForStatement("link", mapToAssociation.javaBaseTypePath(), "new HashSet<" + mapToAssociation.javaBaseType()
+									+ ">(" + mapToAssociation.getter() + "())");
+							String args = "link";
+							if(isMap(otherMap.getProperty())){
+								args = ojUtil.addQualifierArguments(otherMap.getProperty().getQualifiers(), "this") + "link";
+							}
+							forEachLink.getBody().addToStatements(
+									"link." + aMap.getAssocationClassToOtherEndMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalRemover() + "(" + args
+											+ ")");
+							markDeleted.getBody().addToStatements(forEachLink);
+						}else if(!map.isEndToAssociationClass()){
+							// Nothing we can do - data about this relationship will be lost
+							markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
 						}
-						forEachLink.getBody().addToStatements("link." +aMap.getAssocationClassToOtherEndMap().getter() +"()."+ aMap.getOtherEndToAssocationClassMap().internalRemover() +"("+args+")");
-						markDeleted.getBody().addToStatements(forEachLink);
-					}else if(!map.isEndToAssociationClass()){
-						// Nothing we can do - data about this relationship will be lost
-						markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
-					}
-				}else if(map.isManyToOne()){
-					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null");
-					if(EmfAssociationUtil.isClass(np.getAssociation())){
-						AssociationClassEndMap aMap = ojUtil.buildAssociationClassEndMap(np);
-						OJAnnotatedField link = new OJAnnotatedField("link", aMap.getEndToAssocationClassMap().javaBaseDefaultTypePath());
-						ifNotNull.getThenPart().addToLocals(link);
-						link.setInitExp(aMap.getEndToAssocationClassMap().getter() + "()");
-						String args = "link";
-						if(isMap(np.getOtherEnd())){
-							args = ojUtil.addQualifierArguments(np.getOtherEnd().getQualifiers(), "this") + "link";
+					}else if(map.isManyToOne()){
+						OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null");
+						if(EmfAssociationUtil.isClass(np.getAssociation())){
+							AssociationClassEndMap aMap = ojUtil.buildAssociationClassEndMap(np);
+							OJAnnotatedField link = new OJAnnotatedField("link", aMap.getEndToAssocationClassMap().javaBaseDefaultTypePath());
+							ifNotNull.getThenPart().addToLocals(link);
+							link.setInitExp(aMap.getEndToAssocationClassMap().getter() + "()");
+							String args = "link";
+							if(isMap(np.getOtherEnd())){
+								args = ojUtil.addQualifierArguments(np.getOtherEnd().getQualifiers(), "this") + "link";
+							}
+							ifNotNull.getThenPart().addToStatements(
+									"link." + aMap.getAssocationClassToOtherEndMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalRemover() + "(" + args
+											+ ")");
+							ifNotNull.getThenPart().addToStatements("link.markDeleted()");
+						}else{
+							String args = "this";
+							if(isMap(np.getOtherEnd())){
+								args = ojUtil.addQualifierArguments(np.getOtherEnd().getQualifiers(), "this") + "this";
+							}
+							ifNotNull.getThenPart().addToStatements(map.getter() + "()." + otherMap.internalRemover() + "(" + args + ")");
 						}
-						ifNotNull.getThenPart()
-								.addToStatements(
-										"link." + aMap.getAssocationClassToOtherEndMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalRemover() + "(" + args
-												+ ")");
-						ifNotNull.getThenPart().addToStatements("link.markDeleted()");
-					}else{
-						String args = "this";
-						if(isMap(np.getOtherEnd())){
-							args = ojUtil.addQualifierArguments(np.getOtherEnd().getQualifiers(), "this") + "this";
+						markDeleted.getBody().addToStatements(ifNotNull);
+					}else if(map.isOneToOne()){
+						OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null");
+						if(EmfAssociationUtil.isClass(map.getProperty().getAssociation())){
+							AssociationClassEndMap aMap = map.getAssocationClassMap();
+							ifNotNull.getThenPart().addToStatements(
+									map.getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalRemover() + "(" + aMap.getEndToAssocationClassMap().getter() + "())");
+						}else{
+							ifNotNull.getThenPart().addToStatements(map.getter() + "()." + otherMap.internalRemover() + "(this)");
 						}
-						ifNotNull.getThenPart().addToStatements(map.getter() + "()." + otherMap.internalRemover() + "(" + args + ")");
+						markDeleted.getBody().addToStatements(ifNotNull);
 					}
-					markDeleted.getBody().addToStatements(ifNotNull);
-				}else if(map.isOneToOne()){
-					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null");
-					if(EmfAssociationUtil.isClass(map.getProperty().getAssociation())){
-						AssociationClassEndMap aMap = map.getAssocationClassMap();
-						ifNotNull.getThenPart().addToStatements(
-								map.getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalRemover() + "(" + aMap.getEndToAssocationClassMap().getter() + "())");
-					}else{
-						ifNotNull.getThenPart().addToStatements(map.getter() + "()." + otherMap.internalRemover() + "(this)");
-					}
-					markDeleted.getBody().addToStatements(ifNotNull);
 				}
 			}
 		}

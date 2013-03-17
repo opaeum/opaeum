@@ -3,6 +3,7 @@ package org.opaeum.test;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -31,6 +32,7 @@ import org.opaeum.hibernate.domain.UiidBasedInterfaceValue;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.InterfaceValueOwner;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
@@ -47,7 +49,13 @@ import org.w3c.dom.NodeList;
 @Table(name="family_member_has_relation",uniqueConstraints=
 	@UniqueConstraint(columnNames={"family_member","family_member_type","relation","relation_type","deleted_on"}))
 @Entity(name="FamilyMemberHasRelation")
-public class FamilyMemberHasRelation implements IPersistentObject, HibernateEntity, CompositionNode, Serializable {
+public class FamilyMemberHasRelation implements InterfaceValueOwner, IPersistentObject, HibernateEntity, CompositionNode, Serializable {
+	static private Map<String, Class> INTERFACE_FIELDS = new HashMap<String,Class>();
+	static{
+	INTERFACE_FIELDS.put("relation",Relation.class);
+	INTERFACE_FIELDS.put("familyMember",FamilyMember.class);
+	}
+	
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -157,6 +165,12 @@ public class FamilyMemberHasRelation implements IPersistentObject, HibernateEnti
 			this.familyMember=new UiidBasedInterfaceValue();
 		}
 		result=(FamilyMember)this.familyMember.getValue(persistence);
+		return result;
+	}
+	
+	public Class getFieldType(String fieldName) {
+		Class result = INTERFACE_FIELDS.get(fieldName);
+		
 		return result;
 	}
 	

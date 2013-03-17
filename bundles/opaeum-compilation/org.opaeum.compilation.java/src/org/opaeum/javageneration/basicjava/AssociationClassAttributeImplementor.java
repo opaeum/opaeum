@@ -310,6 +310,7 @@ public class AssociationClassAttributeImplementor extends AbstractAttributeImple
 							aMap.getMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalRemover() + "(" + aMap.getEndToAssocationClassMap().getter()
 									+ "())");
 				}
+				ifOldValueNeedsRemoval.getThenPart().addToStatements(aMap.getEndToAssocationClassMap().getter() + "().clear()");
 				ifOldValueNeedsRemoval.getThenPart().addToStatements(
 						aMap.getEndToAssocationClassMap().internalRemover() + "(" + aMap.getEndToAssocationClassMap().getter() + "())");
 				OJIfStatement ifNewValueNeedsAdding = new OJIfStatement(map.fieldname() + " !=null && !" + map.fieldname() + ".equals(oldValue)");

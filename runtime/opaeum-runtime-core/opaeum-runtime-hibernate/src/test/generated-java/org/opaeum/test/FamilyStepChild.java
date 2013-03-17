@@ -3,6 +3,7 @@ package org.opaeum.test;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -35,6 +36,7 @@ import org.opaeum.hibernate.domain.UiidBasedCascadingInterfaceValue;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.InterfaceValueOwner;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
@@ -51,7 +53,12 @@ import org.w3c.dom.NodeList;
 @Table(name="family_step_child",uniqueConstraints=
 	@UniqueConstraint(columnNames={"step_child","step_child_type","deleted_on"}))
 @Entity(name="FamilyStepChild")
-public class FamilyStepChild implements IPersistentObject, HibernateEntity, CompositionNode, Serializable {
+public class FamilyStepChild implements InterfaceValueOwner, IPersistentObject, HibernateEntity, CompositionNode, Serializable {
+	static private Map<String, Class> INTERFACE_FIELDS = new HashMap<String,Class>();
+	static{
+	INTERFACE_FIELDS.put("stepChild",StepChild.class);
+	}
+	
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -172,6 +179,12 @@ public class FamilyStepChild implements IPersistentObject, HibernateEntity, Comp
 	@NumlMetaInfo(uuid="Structures.uml@_0vhRgIlZEeKhILqZBrW9Hg@Structures.uml@_0vhRgYlZEeKhILqZBrW9Hg")
 	public Family getFamily() {
 		Family result = this.family;
+		
+		return result;
+	}
+	
+	public Class getFieldType(String fieldName) {
+		Class result = INTERFACE_FIELDS.get(fieldName);
 		
 		return result;
 	}

@@ -391,7 +391,7 @@ public class QuantifiedResourcePricePerUnit implements IPersistentObject, Hibern
 		if ( this.quantifiedResource==null ) {
 			this.quantifiedResource=new UiidBasedInterfaceValue();
 		}
-		this.quantifiedResource.setValue(quantifiedResource);
+		this.quantifiedResource.setValueInternal(quantifiedResource);
 	}
 	
 	public void z_internalRemoveFromPricePerUnit(PricePerUnit pricePerUnit) {
@@ -403,7 +403,7 @@ public class QuantifiedResourcePricePerUnit implements IPersistentObject, Hibern
 	
 	public void z_internalRemoveFromQuantifiedResource(IQuantifiedResource quantifiedResource) {
 		if ( getQuantifiedResource()!=null && quantifiedResource!=null && quantifiedResource.equals(getQuantifiedResource()) ) {
-			this.quantifiedResource.setValue(null);
+			this.quantifiedResource.setValueInternal(null);
 		}
 	}
 

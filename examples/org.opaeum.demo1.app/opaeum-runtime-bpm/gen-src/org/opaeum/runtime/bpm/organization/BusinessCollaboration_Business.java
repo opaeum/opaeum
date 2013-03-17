@@ -381,7 +381,7 @@ public class BusinessCollaboration_Business implements IPersistentObject, Hibern
 		if ( this.business==null ) {
 			this.business=new UiidBasedCascadingInterfaceValue();
 		}
-		this.business.setValue(business);
+		this.business.setValueInternal(business);
 	}
 	
 	public void z_internalAddToBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
@@ -391,18 +391,18 @@ public class BusinessCollaboration_Business implements IPersistentObject, Hibern
 		if ( this.businessCollaboration==null ) {
 			this.businessCollaboration=new UiidBasedInterfaceValue();
 		}
-		this.businessCollaboration.setValue(businessCollaboration);
+		this.businessCollaboration.setValueInternal(businessCollaboration);
 	}
 	
 	public void z_internalRemoveFromBusiness(IBusiness business) {
 		if ( getBusiness()!=null && business!=null && business.equals(getBusiness()) ) {
-			this.business.setValue(null);
+			this.business.setValueInternal(null);
 		}
 	}
 	
 	public void z_internalRemoveFromBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
 		if ( getBusinessCollaboration()!=null && businessCollaboration!=null && businessCollaboration.equals(getBusinessCollaboration()) ) {
-			this.businessCollaboration.setValue(null);
+			this.businessCollaboration.setValueInternal(null);
 		}
 	}
 

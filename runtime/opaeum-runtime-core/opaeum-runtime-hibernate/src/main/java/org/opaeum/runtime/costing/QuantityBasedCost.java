@@ -63,7 +63,7 @@ public class QuantityBasedCost extends AbstractAnyValue implements IAnyValue{
 		if(rate == null){
 			// INVALID measurement -abort;
 		}else{
-			setValue(resource);
+			setValueInternal(resource);
 			this.costToCompany += (rate.getPricePaidByCompany() * duration) + (rate.getAdditionalCostToCompany() * duration);
 			this.costToCustomer += (rate.getPricePaidByCustomer() * duration);
 			this.date = date;
@@ -101,7 +101,7 @@ public class QuantityBasedCost extends AbstractAnyValue implements IAnyValue{
 		return p.getClass(classUuid);
 	}
 	@Override
-	public void setValue(IPersistentObject v){
+	public void setValueInternal(IPersistentObject v){
 		this.resource=v;
 		
 	}

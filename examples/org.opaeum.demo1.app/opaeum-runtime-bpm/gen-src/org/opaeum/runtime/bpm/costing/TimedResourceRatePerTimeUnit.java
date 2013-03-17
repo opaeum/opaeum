@@ -391,7 +391,7 @@ public class TimedResourceRatePerTimeUnit implements IPersistentObject, Hibernat
 		if ( this.timedResource==null ) {
 			this.timedResource=new UiidBasedInterfaceValue();
 		}
-		this.timedResource.setValue(timedResource);
+		this.timedResource.setValueInternal(timedResource);
 	}
 	
 	public void z_internalRemoveFromRatePerTimeUnit(RatePerTimeUnit ratePerTimeUnit) {
@@ -403,7 +403,7 @@ public class TimedResourceRatePerTimeUnit implements IPersistentObject, Hibernat
 	
 	public void z_internalRemoveFromTimedResource(ITimedResource timedResource) {
 		if ( getTimedResource()!=null && timedResource!=null && timedResource.equals(getTimedResource()) ) {
-			this.timedResource.setValue(null);
+			this.timedResource.setValueInternal(null);
 		}
 	}
 

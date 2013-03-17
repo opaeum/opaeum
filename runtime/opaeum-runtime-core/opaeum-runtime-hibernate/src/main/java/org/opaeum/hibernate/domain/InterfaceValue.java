@@ -18,7 +18,7 @@ public class InterfaceValue extends AbstractAnyValue implements IAnyValue{
 	public InterfaceValue(){
 	}
 	public InterfaceValue(IPersistentObject resource){
-		setValue(resource);
+		setValueInternal(resource);
 	}
 	public void setIdentifier(Long identifier){
 		this.identifier = identifier;
@@ -38,6 +38,7 @@ public class InterfaceValue extends AbstractAnyValue implements IAnyValue{
 	
 	@Override
 	protected String getClassIdentifier(Class<?> c,JavaMetaInfoMap p){
+		
 		return c.getName();
 	}
 	@Override
@@ -49,7 +50,7 @@ public class InterfaceValue extends AbstractAnyValue implements IAnyValue{
 		}
 	}
 	@Override
-	public void setValue(IPersistentObject v){
+	public void setValueInternal(IPersistentObject v){
 		this.value=v;
 	}
 }

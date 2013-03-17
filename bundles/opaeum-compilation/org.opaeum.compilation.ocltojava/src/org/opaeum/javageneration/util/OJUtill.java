@@ -66,7 +66,15 @@ public class OJUtill{
 	public static boolean isBuiltIn(TypedElement f){
 		return BUILT_IN_ATTRIBUTES.contains(f.getName());
 	}
-
+	public static OJPathName mapOf(OJPathName keyType, OJPathName valueType){
+		OJPathName pn = new OJPathName("java.util.Map");
+		pn.addToElementTypes(keyType);
+		pn.addToElementTypes(valueType);
+		return pn;
+	}
+	public static String newHashMap(OJPathName type){
+		return "new HashMap<" + type.getElementTypes().get(0).getLast() + ","+ type.getElementTypes().get(1).getLast()+">()";
+	}
 	public static OJAnnotatedOperation buildMain(OJAnnotatedClass ojClass){
 		OJAnnotatedOperation main = new OJAnnotatedOperation("main");
 		main.setStatic(true);

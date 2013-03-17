@@ -34,6 +34,7 @@ import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.InterfaceValueOwner;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
@@ -50,10 +51,16 @@ import org.w3c.dom.NodeList;
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
 @Table(name="marriage",uniqueConstraints={
-	@UniqueConstraint(columnNames={"surname_provider","deleted_on"}),
-	@UniqueConstraint(columnNames={"spouse","deleted_on"})})
+	@UniqueConstraint(columnNames={"surname_provider","surname_provider_type","deleted_on"}),
+	@UniqueConstraint(columnNames={"spouse","spouse_type","deleted_on"})})
 @Entity(name="Marriage")
-public class Marriage implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
+public class Marriage implements InterfaceValueOwner, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
+	static private Map<String, Class> INTERFACE_FIELDS = new HashMap<String,Class>();
+	static{
+	INTERFACE_FIELDS.put("spouse",Spouse.class);
+	INTERFACE_FIELDS.put("surnameProvider",SurnameProvider.class);
+	}
+	
 	@Transient
 	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
@@ -173,6 +180,12 @@ public class Marriage implements IPersistentObject, IEventGenerator, HibernateEn
 	
 	public Date getDeletedOn() {
 		return this.deletedOn;
+	}
+	
+	public Class getFieldType(String fieldName) {
+		Class result = INTERFACE_FIELDS.get(fieldName);
+		
+		return result;
 	}
 	
 	public Long getId() {

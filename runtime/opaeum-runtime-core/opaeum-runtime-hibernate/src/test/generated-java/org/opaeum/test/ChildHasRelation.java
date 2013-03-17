@@ -3,6 +3,7 @@ package org.opaeum.test;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -34,6 +35,7 @@ import org.opaeum.hibernate.domain.UiidBasedInterfaceValue;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.InterfaceValueOwner;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
@@ -50,7 +52,12 @@ import org.w3c.dom.NodeList;
 @Table(name="child_has_relation",uniqueConstraints=
 	@UniqueConstraint(columnNames={"child_id","god_parent","god_parent_type","deleted_on"}))
 @Entity(name="ChildHasRelation")
-public class ChildHasRelation implements IPersistentObject, HibernateEntity, CompositionNode, Serializable {
+public class ChildHasRelation implements InterfaceValueOwner, IPersistentObject, HibernateEntity, CompositionNode, Serializable {
+	static private Map<String, Class> INTERFACE_FIELDS = new HashMap<String,Class>();
+	static{
+	INTERFACE_FIELDS.put("godParent",Relation.class);
+	}
+	
 	@Index(columnNames="child_id",name="idx_child_has_relation_child_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="child_id",nullable=true)
@@ -155,6 +162,12 @@ public class ChildHasRelation implements IPersistentObject, HibernateEntity, Com
 	
 	public Date getDeletedOn() {
 		return this.deletedOn;
+	}
+	
+	public Class getFieldType(String fieldName) {
+		Class result = INTERFACE_FIELDS.get(fieldName);
+		
+		return result;
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=7442837881736799797l,opposite="childHasRelation_child",uuid="Structures.uml@_I7BwIIhrEeK4s7QGypAJBA")

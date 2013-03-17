@@ -55,7 +55,6 @@ import org.w3c.dom.NodeList;
 @AccessType(	"field")
 @Table(name="mother",uniqueConstraints={
 	@UniqueConstraint(columnNames={"husband_id","deleted_on"}),
-	@UniqueConstraint(columnNames={"surname_provider","deleted_on"}),
 	@UniqueConstraint(columnNames={"family_id","deleted_on"})})
 @Entity(name="Mother")
 public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
@@ -707,9 +706,6 @@ public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersisten
 		if ( getHusband()!=null ) {
 			getHusband().z_internalRemoveFromWife(this);
 		}
-		if ( getMarriage_spouse()!=null ) {
-			getMarriage_spouse().z_internalRemoveFromSurnameProvider(this);
-		}
 		for ( SurnameProviderHasSon child : new ArrayList<SurnameProviderHasSon>(getSurnameProviderHasSon_surnameCarryingSon()) ) {
 			child.markDeleted();
 		}
@@ -1016,6 +1012,7 @@ public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersisten
 		Spouse oldValue = this.getSpouse();
 		if ( oldValue !=null && !oldValue.equals(spouse) ) {
 			getSpouse().z_internalRemoveFromMarriage_surnameProvider(getMarriage_spouse());
+			getMarriage_spouse().clear();
 			z_internalRemoveFromMarriage_spouse(getMarriage_spouse());
 		}
 		if ( spouse !=null && !spouse.equals(oldValue) ) {
@@ -1056,6 +1053,7 @@ public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersisten
 		SurnameProvider oldValue = this.getSurnameProvider();
 		if ( oldValue !=null && !oldValue.equals(surnameProvider) ) {
 			getSurnameProvider().z_internalRemoveFromMarriage_spouse(getMarriage_surnameProvider());
+			getMarriage_surnameProvider().clear();
 			z_internalRemoveFromMarriage_surnameProvider(getMarriage_surnameProvider());
 		}
 		if ( surnameProvider !=null && !surnameProvider.equals(oldValue) ) {

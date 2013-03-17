@@ -3,6 +3,7 @@ package org.opaeum.test;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -34,6 +35,7 @@ import org.opaeum.hibernate.domain.UiidBasedInterfaceValue;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.InterfaceValueOwner;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
@@ -50,7 +52,12 @@ import org.w3c.dom.NodeList;
 @Table(name="surname_provider_has_daughter",uniqueConstraints=
 	@UniqueConstraint(columnNames={"surname_carrying_daughter_id","deleted_on"}))
 @Entity(name="SurnameProviderHasDaughter")
-public class SurnameProviderHasDaughter implements IPersistentObject, HibernateEntity, CompositionNode, Serializable {
+public class SurnameProviderHasDaughter implements InterfaceValueOwner, IPersistentObject, HibernateEntity, CompositionNode, Serializable {
+	static private Map<String, Class> INTERFACE_FIELDS = new HashMap<String,Class>();
+	static{
+	INTERFACE_FIELDS.put("surnameProvider",SurnameProvider.class);
+	}
+	
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -146,6 +153,12 @@ public class SurnameProviderHasDaughter implements IPersistentObject, HibernateE
 	
 	public Date getDeletedOn() {
 		return this.deletedOn;
+	}
+	
+	public Class getFieldType(String fieldName) {
+		Class result = INTERFACE_FIELDS.get(fieldName);
+		
+		return result;
 	}
 	
 	public Long getId() {

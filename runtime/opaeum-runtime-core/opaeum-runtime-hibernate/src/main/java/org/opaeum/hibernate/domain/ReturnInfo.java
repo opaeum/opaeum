@@ -22,7 +22,7 @@ public class ReturnInfo extends AbstractAnyValue implements IAnyValue{
 	public ReturnInfo(){
 	}
 	public ReturnInfo(IToken t){
-		setValue(t);
+		setValueInternal(t);
 	}
 	public void setIdentifier(Long identifier){
 		this.identifier = identifier;
@@ -52,7 +52,7 @@ public class ReturnInfo extends AbstractAnyValue implements IAnyValue{
 	public IPersistentObject getValue(){
 		return value;
 	}
-	public void setValue(IPersistentObject value){
+	public void setValueInternal(IPersistentObject value){
 		this.value = value;
 	}
 }

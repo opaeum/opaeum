@@ -358,7 +358,7 @@ public class PersonInBusinessRole implements IPersistentObject, HibernateEntity,
 		if ( this.businessRole==null ) {
 			this.businessRole=new UiidBasedInterfaceValue();
 		}
-		this.businessRole.setValue(businessRole);
+		this.businessRole.setValueInternal(businessRole);
 	}
 	
 	public void z_internalAddToRepresentedPerson(PersonNode representedPerson) {
@@ -370,7 +370,7 @@ public class PersonInBusinessRole implements IPersistentObject, HibernateEntity,
 	
 	public void z_internalRemoveFromBusinessRole(IBusinessRole businessRole) {
 		if ( getBusinessRole()!=null && businessRole!=null && businessRole.equals(getBusinessRole()) ) {
-			this.businessRole.setValue(null);
+			this.businessRole.setValueInternal(null);
 		}
 	}
 	

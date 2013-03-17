@@ -291,9 +291,6 @@ public class Brother extends Child implements IPersistentObject, IEventGenerator
 		if ( getFather()!=null ) {
 			getFather().z_internalRemoveFromChild(this.getName(),this);
 		}
-		if ( getSurnameProviderHasSon_surnameProvider()!=null ) {
-			getSurnameProviderHasSon_surnameProvider().z_internalRemoveFromSurnameCarryingSon(this);
-		}
 		setDeletedOn(new Date());
 	}
 	

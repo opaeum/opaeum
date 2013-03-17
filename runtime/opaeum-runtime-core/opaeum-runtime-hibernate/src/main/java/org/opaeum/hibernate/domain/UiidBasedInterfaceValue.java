@@ -39,7 +39,7 @@ public class UiidBasedInterfaceValue extends AbstractAnyValue implements IAnyVal
 	public IPersistentObject getValue(){
 		return value;
 	}
-	public void setValue(IPersistentObject value){
+	public void setValueInternal(IPersistentObject value){
 		this.value = value;
 	}
 

@@ -3,6 +3,7 @@ package org.opaeum.test;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -34,6 +35,7 @@ import org.opaeum.hibernate.domain.UiidBasedInterfaceValue;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.InterfaceValueOwner;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
@@ -50,7 +52,12 @@ import org.w3c.dom.NodeList;
 @Table(name="sibling_step_sibling",uniqueConstraints=
 	@UniqueConstraint(columnNames={"step_sibling_id","step_sibling1","step_sibling1_type","deleted_on"}))
 @Entity(name="SiblingStepSibling")
-public class SiblingStepSibling implements IPersistentObject, HibernateEntity, CompositionNode, Serializable {
+public class SiblingStepSibling implements InterfaceValueOwner, IPersistentObject, HibernateEntity, CompositionNode, Serializable {
+	static private Map<String, Class> INTERFACE_FIELDS = new HashMap<String,Class>();
+	static{
+	INTERFACE_FIELDS.put("stepSibling1",StepChild.class);
+	}
+	
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -145,6 +152,12 @@ public class SiblingStepSibling implements IPersistentObject, HibernateEntity, C
 	
 	public Date getDeletedOn() {
 		return this.deletedOn;
+	}
+	
+	public Class getFieldType(String fieldName) {
+		Class result = INTERFACE_FIELDS.get(fieldName);
+		
+		return result;
 	}
 	
 	public Long getId() {

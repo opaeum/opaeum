@@ -9,54 +9,102 @@ import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
 @Embeddable()
-public abstract class AbstractAnyValue implements IAnyValue{
-	public AbstractAnyValue(){
+public abstract class AbstractAnyValue implements IAnyValue {
+	public AbstractAnyValue() {
 	}
-	public AbstractAnyValue(IPersistentObject pi){
-		setValue(pi);
+
+	public AbstractAnyValue(IPersistentObject pi) {
+		setValueInternal(pi);
 	}
-	protected abstract String getClassIdentifier(Class<?> c,JavaMetaInfoMap p);
-	protected abstract Class<?> getClass(String classUuid,JavaMetaInfoMap p);
+
+	protected abstract String getClassIdentifier(Class<?> valueClass,
+			JavaMetaInfoMap p);
+
+	protected abstract Class<?> getClass(String classUuid, JavaMetaInfoMap p);
+
 	public abstract void setIdentifier(Long identifier);
+
 	public abstract Long getIdentifier();
+
 	public abstract IPersistentObject getValue();
-	public abstract void setValue(IPersistentObject v);
+
+	public abstract void setValueInternal(IPersistentObject v);
+
 	public abstract String getClassIdentifier();
+
 	public abstract void setClassIdentifier(String classIdentifier);
-	public void updateBeforeFlush(AbstractPersistence hp){
-		if(shouldCascade() && getValue().getId()==null){
-			((InternalHibernatePersistence)hp).persistBeforeFlush(getValue());
+
+	public void setValue(IPersistentObject v) {
+		setIdentifier(null);
+		setClassIdentifier(null);
+		setValueInternal(v);
+	}
+
+	public void updateBeforeFlush(AbstractPersistence hp,
+			Class<?> interfaceClass) {
+		if (shouldCascade() && getValue().getId() == null) {
+			((InternalHibernatePersistence) hp).persistBeforeFlush(getValue());
 		}
-		setClassIdentifier(getClassIdentifier(IntrospectionUtil.getOriginalClass(getValue()),hp.getMetaInfoMap()));
+		Class<?> directlyImplementingClass = getDirectlyImplementingClass(
+				interfaceClass, getValue().getClass());
+		setClassIdentifier(getClassIdentifier(directlyImplementingClass,
+				hp.getMetaInfoMap()));
 		setIdentifier(getValue().getId());
 	}
 
-	public IPersistentObject getValue(AbstractPersistence p){
-		if(hasValue() && (getValue() == null)){
+	private Class<?> getDirectlyImplementingClass(Class<?> interfaceClass,
+			Class<?> implementation) {
+		if (!isDirectImplementationOf(implementation, interfaceClass)
+				&& implementation.getSuperclass() != Object.class) {
+			return getDirectlyImplementingClass(interfaceClass,
+					implementation.getSuperclass());
+		} else {
+			return implementation;
+		}
+	}
+
+	private boolean isDirectImplementationOf(Class<?> implementation,
+			Class<?> interfaceClass) {
+		boolean isDirectImplementation = false;
+		for (Class<?> class1 : implementation.getInterfaces()) {
+			if (class1 == interfaceClass) {
+				isDirectImplementation = true;
+				break;
+			}
+		}
+		return isDirectImplementation;
+	}
+
+	public IPersistentObject getValue(AbstractPersistence p) {
+		if (hasValue() && (getValue() == null)) {
 			IPersistentObject reference = retrieveValue(p);
-			setValue(reference);
+			setValueInternal(reference);
 		}
 		return getValue();
 	}
+
 	@Override
-	public IPersistentObject retrieveValue(AbstractPersistence p){
-		Class<?> implementationClass = getImplementationClass(p.getMetaInfoMap());
-		IPersistentObject reference = (IPersistentObject) p.getReference(implementationClass, getIdentifier());
+	public IPersistentObject retrieveValue(AbstractPersistence p) {
+		Class<?> implementationClass = getImplementationClass(p
+				.getMetaInfoMap());
+		IPersistentObject reference = (IPersistentObject) p.getReference(
+				implementationClass, getIdentifier());
 		return reference;
 	}
-	public boolean hasValue(){
+
+	public boolean hasValue() {
 		return getIdentifier() != null || getValue() != null;
 	}
-	protected Class<?> getImplementationClass(JavaMetaInfoMap en){
-		if(getClassIdentifier() == null){
+
+	protected Class<?> getImplementationClass(JavaMetaInfoMap en) {
+		if (getClassIdentifier() == null) {
 			return null;
-		}else{
+		} else {
 			return getClass(getClassIdentifier(), en);
 		}
 	}
 
-
-	protected boolean shouldCascade(){
+	protected boolean shouldCascade() {
 		return false;
 	}
 }
