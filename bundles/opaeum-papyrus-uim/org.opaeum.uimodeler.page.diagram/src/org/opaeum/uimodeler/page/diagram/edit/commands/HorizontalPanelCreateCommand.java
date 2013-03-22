@@ -19,7 +19,8 @@ import org.opaeum.uim.panel.PanelFactory;
 /**
  * @generated
  */
-public class HorizontalPanelCreateCommand extends EditElementCommand{
+public class HorizontalPanelCreateCommand extends EditElementCommand {
+
 	/**
 	 * @generated
 	 */
@@ -28,72 +29,98 @@ public class HorizontalPanelCreateCommand extends EditElementCommand{
 	 * @generated
 	 */
 	private EObject eObject = null;
+
 	/**
 	 * @generated
 	 */
-	public HorizontalPanelCreateCommand(CreateElementRequest req,EObject eObject){
+	public HorizontalPanelCreateCommand(CreateElementRequest req,
+			EObject eObject) {
 		super(req.getLabel(), null, req);
 		this.eObject = eObject;
 		this.eClass = eObject != null ? eObject.eClass() : null;
 	}
+
 	/**
 	 * @generated
 	 */
-	public static HorizontalPanelCreateCommand create(CreateElementRequest req,EObject eObject){
+	public static HorizontalPanelCreateCommand create(CreateElementRequest req,
+			EObject eObject) {
 		return new HorizontalPanelCreateCommand(req, eObject);
 	}
+
 	/**
 	 * @generated
 	 */
-	public HorizontalPanelCreateCommand(CreateElementRequest req){
+	public HorizontalPanelCreateCommand(CreateElementRequest req) {
 		super(req.getLabel(), null, req);
 	}
+
 	/**
 	 * FIXME: replace with setElementToEdit()
 	 * @generated
 	 */
-	protected EObject getElementToEdit(){
-		EObject container = ((CreateElementRequest) getRequest()).getContainer();
-		if(container instanceof View){
+	protected EObject getElementToEdit() {
+
+		EObject container = ((CreateElementRequest) getRequest())
+				.getContainer();
+		if (container instanceof View) {
 			container = ((View) container).getElement();
 		}
-		if(container != null){
+		if (container != null) {
 			return container;
 		}
 		return eObject;
 	}
+
 	/**
 	 * @generated
 	 */
-	public boolean canExecute(){
+	public boolean canExecute() {
 		Page container = (Page) getElementToEdit();
-		if(container.getPanel() != null){
+		if (container.getPanel() != null) {
 			return false;
 		}
+
 		return true;
+
 	}
+
 	/**
 	 * @generated
 	 */
-	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,IAdaptable info) throws ExecutionException{
-		HorizontalPanel newElement = PanelFactory.eINSTANCE.createHorizontalPanel();
+	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
+			IAdaptable info) throws ExecutionException {
+
+		HorizontalPanel newElement = PanelFactory.eINSTANCE
+				.createHorizontalPanel();
+
 		Page owner = (Page) getElementToEdit();
 		owner.setPanel(newElement);
+
 		doConfigure(newElement, monitor, info);
+
 		((CreateElementRequest) getRequest()).setNewElement(newElement);
 		return CommandResult.newOKCommandResult(newElement);
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void doConfigure(HorizontalPanel newElement,IProgressMonitor monitor,IAdaptable info) throws ExecutionException{
-		IElementType elementType = ((CreateElementRequest) getRequest()).getElementType();
-		ConfigureRequest configureRequest = new ConfigureRequest(getEditingDomain(), newElement, elementType);
-		configureRequest.setClientContext(((CreateElementRequest) getRequest()).getClientContext());
+	protected void doConfigure(HorizontalPanel newElement,
+			IProgressMonitor monitor, IAdaptable info)
+			throws ExecutionException {
+		IElementType elementType = ((CreateElementRequest) getRequest())
+				.getElementType();
+		ConfigureRequest configureRequest = new ConfigureRequest(
+				getEditingDomain(), newElement, elementType);
+		configureRequest.setClientContext(((CreateElementRequest) getRequest())
+				.getClientContext());
 		configureRequest.addParameters(getRequest().getParameters());
-		ICommand configureCommand = elementType.getEditCommand(configureRequest);
-		if(configureCommand != null && configureCommand.canExecute()){
+		ICommand configureCommand = elementType
+				.getEditCommand(configureRequest);
+		if (configureCommand != null && configureCommand.canExecute()) {
 			configureCommand.execute(monitor, info);
 		}
 	}
+
 }

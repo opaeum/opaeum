@@ -9,7 +9,7 @@ import org.eclipse.uml2.uml.UMLPackage;
 public class CreateBusinessProcessDiagramCommand extends CreateBehavioredClassifierDiagramCommand{
 	@Override
 	protected String getDiagramNotationID(){
-		return org.eclipse.papyrus.uml.diagram.activity.edit.parts.ActivityDiagramEditPart.MODEL_ID;
+		return BusinessProcessDiagramEditPart.MODEL_ID;
 	}
 	@Override
 	protected PreferencesHint getPreferenceHint(){

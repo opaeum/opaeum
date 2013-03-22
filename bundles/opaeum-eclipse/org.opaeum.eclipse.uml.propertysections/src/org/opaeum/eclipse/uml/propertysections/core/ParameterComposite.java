@@ -43,6 +43,7 @@ public class ParameterComposite extends AbstractDetailsSubsection<Parameter> imp
 				return TypedElementTypeSection.getValidTypes(getSelectedObject());
 			}
 		});
+		type.setSingle(true);
 		type.setColumnSpan(2);
 		direction=createCombo(UMLPackage.eINSTANCE.getParameter_Direction(), "Direction", 120, 280, new IChoiceProvider(){
 			@Override

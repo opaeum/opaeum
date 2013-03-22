@@ -3,15 +3,13 @@ package org.opaeum.runtime.hibernate.test;
 import java.util.Collection;
 import java.util.Map;
 
-import model.Hand;
+import junit.framework.TestCase;
 
 import org.opaeum.opaeum_hibernate_tests.util.Opaeum_hibernate_testsEnvironment;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
-import org.opaeum.runtime.persistence.UmtPersistence;
 import org.opaeum.runtime.persistence.event.ChangedEntity;
-
-import junit.framework.TestCase;
+import org.opaeum.test.hibernate.Hand;
 
 public class SessionSyncTest extends TestCase{
 	public void testOverwriteDb(){

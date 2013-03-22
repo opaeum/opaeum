@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_UPbcspCnEeKgxI_HkCdpZw" umlElementUid="252060@_9gswQF-gEeGSPaWW9iQb9Q" name="I person e mail address User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_UPbcs5CnEeKgxI_HkCdpZw" name="Edit IPersonEMailAddress" umlElementUid="252060@_9gswQF-gEeGSPaWW9iQb9Q">
+    <pageOrdering xmi:id="_UPbctZCnEeKgxI_HkCdpZw" page="_UPbctJCnEeKgxI_HkCdpZw"/>
+    <pages xmi:id="_UPbctJCnEeKgxI_HkCdpZw" name="Edit I person e mail address" umlElementUid="252060@_9gswQF-gEeGSPaWW9iQb9Q">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UPbctpCnEeKgxI_HkCdpZw" name="IPersonEMailAddress" numberOfColumns="1"/>
+    </pages>
+    <actionBar xmi:id="_UPbct5CnEeKgxI_HkCdpZw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UPbcuJCnEeKgxI_HkCdpZw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UPbcuZCnEeKgxI_HkCdpZw" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_UPbcx5CnEeKgxI_HkCdpZw" name="Create IPersonEMailAddress" umlElementUid="252060@_9gswQF-gEeGSPaWW9iQb9Q">
+    <pageOrdering xmi:id="_UPbcyZCnEeKgxI_HkCdpZw" page="_UPbcyJCnEeKgxI_HkCdpZw"/>
+    <pages xmi:id="_UPbcyJCnEeKgxI_HkCdpZw" name="CreateI person e mail address" umlElementUid="252060@_9gswQF-gEeGSPaWW9iQb9Q">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UPbcypCnEeKgxI_HkCdpZw" name="IPersonEMailAddress" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

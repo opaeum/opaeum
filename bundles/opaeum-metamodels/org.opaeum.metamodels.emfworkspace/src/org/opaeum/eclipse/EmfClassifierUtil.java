@@ -157,9 +157,6 @@ public class EmfClassifierUtil{
 		return result;
 	}
 	public static boolean conformsTo(Classifier from,Classifier to){
-		if(from.getName() == null){
-			System.out.println();
-		}
 		if(from.getName().equals("OclVoid")){
 			return true;
 		}

@@ -1,7 +1,7 @@
 package org.opaeum.metamodels.uim.actionbar.diagram;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.papyrus.infra.core.extension.commands.ModelCreationCommandBase;
+import org.eclipse.papyrus.uml.diagram.common.commands.ModelCreationCommandBase;
 import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.editor.InstanceEditor;
 

@@ -16,7 +16,7 @@ import org.opaeum.uim.editor.EditorPage;
 import org.opaeum.uim.wizard.AbstractWizard;
 import org.opaeum.uim.wizard.WizardFactory;
 import org.opaeum.uim.wizard.WizardPage;
-import org.opaeum.uimodeler.page.diagram.edit.parts.UserInterfaceEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.PageEditPart;
 import org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorPlugin;
 
 public class CreatePageDiagramCommand extends AbstractPapyrusGmfCreateDiagramCommandHandler{
@@ -33,7 +33,7 @@ public class CreatePageDiagramCommand extends AbstractPapyrusGmfCreateDiagramCom
 	}
 	@Override
 	protected String getDiagramNotationID(){
-		return UserInterfaceEditPart.MODEL_ID;
+		return PageEditPart.MODEL_ID;
 	}
 	@Override
 	protected PreferencesHint getPreferenceHint(){

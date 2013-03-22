@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_UOZh9JCnEeKgxI_HkCdpZw" name="onRevoked" umlElementUid="252060@__imwgK0NEeCK48ywUpk_rg" linkedUmlResource="OpaeumBPM.library.uml">
+  <pageOrdering xmi:id="_URQBp5CnEeKgxI_HkCdpZw" page="_URQBppCnEeKgxI_HkCdpZw"/>
+  <pages xmi:id="_URQBppCnEeKgxI_HkCdpZw" name="Operation: On revoked" umlElementUid="252060@__imwgK0NEeCK48ywUpk_rg">
+    <panel xsi:type="panel:GridPanel" xmi:id="_URQBqJCnEeKgxI_HkCdpZw" name="OnRevoked" numberOfColumns="1">
+      <children xsi:type="comp:UimField" xmi:id="_URQBqZCnEeKgxI_HkCdpZw" name="Revoked by" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown" xmi:id="_URQBqpCnEeKgxI_HkCdpZw"/>
+        <binding xmi:id="_URQBq5CnEeKgxI_HkCdpZw" umlElementUid="252060@_AhkTIK0OEeCK48ywUpk_rg"/>
+      </children>
+    </panel>
+  </pages>
+</model:OperationInvocationWizard>

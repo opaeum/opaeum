@@ -280,9 +280,6 @@ public class JpaUtil{
 		StringTokenizer st = new StringTokenizer(withoutId, "_");
 		// Name gets way too long.
 		// TODO specify and use max columnNameSize
-		if(st.countTokens()==0){
-			System.out.println();
-		}
 		int maxLength = (i / st.countTokens()) - 1;// one for the u nderscore
 		maxLength=Math.max(maxLength, 1);
 		while(st.hasMoreTokens()){

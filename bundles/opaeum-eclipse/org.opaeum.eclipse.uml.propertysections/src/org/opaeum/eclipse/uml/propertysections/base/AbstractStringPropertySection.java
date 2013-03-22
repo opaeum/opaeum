@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.uml.propertysections.common.TextChangeHelper;
 
 public abstract class AbstractStringPropertySection extends AbstractOpaeumPropertySection{
@@ -43,7 +44,7 @@ public abstract class AbstractStringPropertySection extends AbstractOpaeumProper
 			listener = new TextChangeHelper(){
 				@Override
 				public void textChanged(Control control){
-					handleTextModified();
+					handleTextModified((Text) control);
 				}
 			};
 			listener.startListeningTo(text);
@@ -88,8 +89,14 @@ public abstract class AbstractStringPropertySection extends AbstractOpaeumProper
 			text.setEnabled(enabled);
 		}
 	}
-	protected void handleTextModified(){
-		updateModel(getNewFeatureValue(text.getText()));
+	protected void handleTextModified(Text text){
+		if(text != this.text){
+			OpaeumEclipsePlugin.logWarning("String PropertySection " + getClass().getSimpleName() + " received a textChange event from an unknown text field");
+		}else if(text.isDisposed()){
+			OpaeumEclipsePlugin.logWarning("String PropertySection " + getClass().getSimpleName() + " received a textChange event from a disposed text field");
+		}else{
+			updateModel(getNewFeatureValue(text.getText()));
+		}
 	}
 	protected String getFeatureAsString(EObject owner){
 		if(owner != null){

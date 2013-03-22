@@ -15,7 +15,6 @@ Require-Bundle: org.opaeum.eclipse.core,
  org.opaeum.compilation.java,
  org.opaeum.compilation.misc,
  org.opaeum.compilation.ocltojava,
- org.opaeum.compilation.tinker,
  org.opaeum.metamodels.emfworkspace,
  org.opaeum.metamodels.java,
  org.opaeum.metamodels.maven,
@@ -66,22 +65,13 @@ Require-Bundle: org.opaeum.eclipse.core,
  org.eclipse.datatools.enablement.hsqldb.ui,
  org.eclipse.datatools.enablement.ibm.db2.iseries,
  org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition,
- 
- 
  org.eclipse.datatools.enablement.ibm.db2.iseries.ui,
- 
  org.eclipse.datatools.enablement.ibm.db2.luw,
  org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition,
- 
- 
  org.eclipse.datatools.enablement.ibm.db2.luw.ui,
- 
  org.eclipse.datatools.enablement.ibm.db2.zseries,
  org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition,
- 
- 
  org.eclipse.datatools.enablement.ibm.db2.zseries.ui,
- 
  org.eclipse.datatools.enablement.ibm.informix,
  org.eclipse.datatools.enablement.ibm.informix.dbdefinition,
  org.eclipse.datatools.enablement.ibm.informix.ui,

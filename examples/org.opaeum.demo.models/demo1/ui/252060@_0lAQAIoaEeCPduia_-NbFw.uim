@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_UOUCYpCnEeKgxI_HkCdpZw" name="delegate" umlElementUid="252060@_0lAQAIoaEeCPduia_-NbFw" linkedUmlResource="OpaeumBPM.library.uml">
+  <pageOrdering xmi:id="_URXWdpCnEeKgxI_HkCdpZw" page="_URXWdZCnEeKgxI_HkCdpZw"/>
+  <pages xmi:id="_URXWdZCnEeKgxI_HkCdpZw" name="Operation: Delegate" umlElementUid="252060@_0lAQAIoaEeCPduia_-NbFw">
+    <panel xsi:type="panel:GridPanel" xmi:id="_URXWd5CnEeKgxI_HkCdpZw" name="Delegate" numberOfColumns="1">
+      <children xsi:type="comp:UimField" xmi:id="_URXWeJCnEeKgxI_HkCdpZw" name="Delegate" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown" xmi:id="_URX9cJCnEeKgxI_HkCdpZw"/>
+        <binding xmi:id="_URX9cZCnEeKgxI_HkCdpZw" umlElementUid="252060@_TsfTcJTyEeChgI0v02SJHQ"/>
+      </children>
+    </panel>
+  </pages>
+</model:OperationInvocationWizard>

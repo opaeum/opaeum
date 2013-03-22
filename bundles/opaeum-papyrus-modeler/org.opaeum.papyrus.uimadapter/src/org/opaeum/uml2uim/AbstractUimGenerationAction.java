@@ -19,7 +19,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.papyrus.commands.wrappers.GMFtoEMFCommandWrapper;
 import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
-import org.eclipse.papyrus.infra.core.utils.OpenDiagramCommand;
+import org.eclipse.papyrus.commands.OpenDiagramCommand;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.PlatformUI;

@@ -15,9 +15,6 @@ public class ProgressMonitorTransformationLog extends DefaultTransformationLog{
 	}
 	@Override
 	public void startTask(String name,int size){
-		if(size==0){
-			System.out.println();
-		}
 		super.startTask(name, size);
 		monitors.firstElement().setTaskName(name);
 		SubProgressMonitor item = new SubProgressMonitor(monitors.peek(), sizes.peek());

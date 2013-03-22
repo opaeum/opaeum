@@ -29,9 +29,6 @@ public class NavigableElementConstraintBooleanFeaturesSection extends AbstractUs
 		super.populateControls();
 		if(getFeatureOwner(getSelectedObject()) != null){
 			NavigationConstraint nc = (NavigationConstraint) getFeatureOwner(getSelectedObject());
-			if(nc.isHidden()){
-System.out.println();				
-			}
 			inheritFromParent.setEnabled(!nc.isHidden());
 			requiresGroupOwnership.setEnabled(!(nc.isInheritFromParent() || nc.isHidden()));
 			requiresOwnership.setEnabled(!(nc.isInheritFromParent() || nc.isHidden()));

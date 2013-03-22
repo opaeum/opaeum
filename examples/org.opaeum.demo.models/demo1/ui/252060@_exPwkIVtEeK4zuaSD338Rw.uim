@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_UO3cCJCnEeKgxI_HkCdpZw" umlElementUid="252060@_exPwkIVtEeK4zuaSD338Rw" name="I task object base User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_UO3cCZCnEeKgxI_HkCdpZw" name="Edit ITaskObjectBase" umlElementUid="252060@_exPwkIVtEeK4zuaSD338Rw">
+    <pageOrdering xmi:id="_UO3cC5CnEeKgxI_HkCdpZw" page="_UO3cCpCnEeKgxI_HkCdpZw"/>
+    <pages xmi:id="_UO3cCpCnEeKgxI_HkCdpZw" name="Edit I task object base" umlElementUid="252060@_exPwkIVtEeK4zuaSD338Rw">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UO3cDJCnEeKgxI_HkCdpZw" name="ITaskObjectBase" numberOfColumns="1"/>
+    </pages>
+    <actionBar xmi:id="_UO3cDZCnEeKgxI_HkCdpZw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UO3cDpCnEeKgxI_HkCdpZw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UO3cD5CnEeKgxI_HkCdpZw" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_UO5RMpCnEeKgxI_HkCdpZw" name="Create ITaskObjectBase" umlElementUid="252060@_exPwkIVtEeK4zuaSD338Rw">
+    <pageOrdering xmi:id="_UO5RNJCnEeKgxI_HkCdpZw" page="_UO5RM5CnEeKgxI_HkCdpZw"/>
+    <pages xmi:id="_UO5RM5CnEeKgxI_HkCdpZw" name="CreateI task object base" umlElementUid="252060@_exPwkIVtEeK4zuaSD338Rw">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UO5RNZCnEeKgxI_HkCdpZw" name="ITaskObjectBase" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

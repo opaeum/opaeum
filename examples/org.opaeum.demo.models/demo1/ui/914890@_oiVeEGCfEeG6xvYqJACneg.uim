@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_UQvEQJCnEeKgxI_HkCdpZw" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg" name="Id book User Interface Model" linkedUmlResource="BusinessStructureModel.uml">
+  <primaryEditor xmi:id="_UQvEQZCnEeKgxI_HkCdpZw" name="Edit IdBook" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
+    <superUserInterfaces href="252060@_cOzTkF9lEeG3X_yvufTVmw.uim#_UO1m0ZCnEeKgxI_HkCdpZw"/>
+    <pageOrdering xmi:id="_UQvERJCnEeKgxI_HkCdpZw" page="_UQvEQ5CnEeKgxI_HkCdpZw"/>
+    <pageOrdering xmi:id="_UQvEUJCnEeKgxI_HkCdpZw" page="_UQvET5CnEeKgxI_HkCdpZw" position="1"/>
+    <pages xmi:id="_UQvEQ5CnEeKgxI_HkCdpZw" name="Edit Id book" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UQvERZCnEeKgxI_HkCdpZw" name="IdBook" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_UQvERpCnEeKgxI_HkCdpZw" name="Id number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_UQvER5CnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UQvESJCnEeKgxI_HkCdpZw" umlElementUid="914890@_SoyjIHpiEeGlh5y8zQdYBA"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UQvESZCnEeKgxI_HkCdpZw" name="Full names" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_UQvESpCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UQvES5CnEeKgxI_HkCdpZw" umlElementUid="914890@_U5_wwHpiEeGlh5y8zQdYBA"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UQvETJCnEeKgxI_HkCdpZw" name="Date of birth" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDatePopup" xmi:id="_UQvETZCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UQvETpCnEeKgxI_HkCdpZw" umlElementUid="914890@_aFhacHpiEeGlh5y8zQdYBA"/>
+        </children>
+      </panel>
+    </pages>
+    <pages xmi:id="_UQvET5CnEeKgxI_HkCdpZw" name="Is ai business document" umlElementUid="914890@_oo71UGCfEeG6xvYqJACneg">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UQvEUZCnEeKgxI_HkCdpZw" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_UQvEUpCnEeKgxI_HkCdpZw" name="Document type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_UQvEU5CnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UQvEVJCnEeKgxI_HkCdpZw" umlElementUid="252060@_3FqBQF9lEeG3X_yvufTVmw"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar xmi:id="_UQvEVZCnEeKgxI_HkCdpZw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UQvEVpCnEeKgxI_HkCdpZw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UQvEV5CnEeKgxI_HkCdpZw" name="Delete" kind="delete"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_UQvEWJCnEeKgxI_HkCdpZw" name="Make copy" umlElementUid="252060@_nx6xcF9lEeG3X_yvufTVmw">
+        <popup href="252060@_nx6xcF9lEeG3X_yvufTVmw.uim#_UO1m3JCnEeKgxI_HkCdpZw"/>
+      </children>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_UQvrUJCnEeKgxI_HkCdpZw" name="Create IdBook" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
+    <superUserInterfaces href="252060@_cOzTkF9lEeG3X_yvufTVmw.uim#_UO1m3ZCnEeKgxI_HkCdpZw"/>
+    <pageOrdering xmi:id="_UQvrU5CnEeKgxI_HkCdpZw" page="_UQvrUpCnEeKgxI_HkCdpZw"/>
+    <pageOrdering xmi:id="_UQvrX5CnEeKgxI_HkCdpZw" page="_UQvrXpCnEeKgxI_HkCdpZw" position="1"/>
+    <pages xmi:id="_UQvrUpCnEeKgxI_HkCdpZw" name="CreateId book" umlElementUid="914890@_oiVeEGCfEeG6xvYqJACneg">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UQvrVJCnEeKgxI_HkCdpZw" name="IdBook" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_UQvrVZCnEeKgxI_HkCdpZw" name="Id number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_UQvrVpCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UQvrV5CnEeKgxI_HkCdpZw" umlElementUid="914890@_SoyjIHpiEeGlh5y8zQdYBA"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UQvrWJCnEeKgxI_HkCdpZw" name="Full names" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimText" xmi:id="_UQvrWZCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UQvrWpCnEeKgxI_HkCdpZw" umlElementUid="914890@_U5_wwHpiEeGlh5y8zQdYBA"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UQvrW5CnEeKgxI_HkCdpZw" name="Date of birth" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDatePopup" xmi:id="_UQvrXJCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UQvrXZCnEeKgxI_HkCdpZw" umlElementUid="914890@_aFhacHpiEeGlh5y8zQdYBA"/>
+        </children>
+      </panel>
+    </pages>
+    <pages xmi:id="_UQvrXpCnEeKgxI_HkCdpZw" name="Is ai business document" umlElementUid="914890@_oo71UGCfEeG6xvYqJACneg">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UQvrYJCnEeKgxI_HkCdpZw" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_UQvrYZCnEeKgxI_HkCdpZw" name="Document type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_UQvrYpCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UQvrY5CnEeKgxI_HkCdpZw" umlElementUid="252060@_3FqBQF9lEeG3X_yvufTVmw"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

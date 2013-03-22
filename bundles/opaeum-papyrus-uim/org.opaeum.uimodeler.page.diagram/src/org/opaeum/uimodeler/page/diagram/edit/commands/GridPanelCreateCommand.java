@@ -19,7 +19,8 @@ import org.opaeum.uim.panel.PanelFactory;
 /**
  * @generated
  */
-public class GridPanelCreateCommand extends EditElementCommand{
+public class GridPanelCreateCommand extends EditElementCommand {
+
 	/**
 	 * @generated
 	 */
@@ -28,72 +29,95 @@ public class GridPanelCreateCommand extends EditElementCommand{
 	 * @generated
 	 */
 	private EObject eObject = null;
+
 	/**
 	 * @generated
 	 */
-	public GridPanelCreateCommand(CreateElementRequest req,EObject eObject){
+	public GridPanelCreateCommand(CreateElementRequest req, EObject eObject) {
 		super(req.getLabel(), null, req);
 		this.eObject = eObject;
 		this.eClass = eObject != null ? eObject.eClass() : null;
 	}
+
 	/**
 	 * @generated
 	 */
-	public static GridPanelCreateCommand create(CreateElementRequest req,EObject eObject){
+	public static GridPanelCreateCommand create(CreateElementRequest req,
+			EObject eObject) {
 		return new GridPanelCreateCommand(req, eObject);
 	}
+
 	/**
 	 * @generated
 	 */
-	public GridPanelCreateCommand(CreateElementRequest req){
+	public GridPanelCreateCommand(CreateElementRequest req) {
 		super(req.getLabel(), null, req);
 	}
+
 	/**
 	 * FIXME: replace with setElementToEdit()
 	 * @generated
 	 */
-	protected EObject getElementToEdit(){
-		EObject container = ((CreateElementRequest) getRequest()).getContainer();
-		if(container instanceof View){
+	protected EObject getElementToEdit() {
+
+		EObject container = ((CreateElementRequest) getRequest())
+				.getContainer();
+		if (container instanceof View) {
 			container = ((View) container).getElement();
 		}
-		if(container != null){
+		if (container != null) {
 			return container;
 		}
 		return eObject;
 	}
+
 	/**
 	 * @generated
 	 */
-	public boolean canExecute(){
+	public boolean canExecute() {
 		Page container = (Page) getElementToEdit();
-		if(container.getPanel() != null){
+		if (container.getPanel() != null) {
 			return false;
 		}
+
 		return true;
+
 	}
+
 	/**
 	 * @generated
 	 */
-	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,IAdaptable info) throws ExecutionException{
+	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
+			IAdaptable info) throws ExecutionException {
+
 		GridPanel newElement = PanelFactory.eINSTANCE.createGridPanel();
+
 		Page owner = (Page) getElementToEdit();
 		owner.setPanel(newElement);
+
 		doConfigure(newElement, monitor, info);
+
 		((CreateElementRequest) getRequest()).setNewElement(newElement);
 		return CommandResult.newOKCommandResult(newElement);
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void doConfigure(GridPanel newElement,IProgressMonitor monitor,IAdaptable info) throws ExecutionException{
-		IElementType elementType = ((CreateElementRequest) getRequest()).getElementType();
-		ConfigureRequest configureRequest = new ConfigureRequest(getEditingDomain(), newElement, elementType);
-		configureRequest.setClientContext(((CreateElementRequest) getRequest()).getClientContext());
+	protected void doConfigure(GridPanel newElement, IProgressMonitor monitor,
+			IAdaptable info) throws ExecutionException {
+		IElementType elementType = ((CreateElementRequest) getRequest())
+				.getElementType();
+		ConfigureRequest configureRequest = new ConfigureRequest(
+				getEditingDomain(), newElement, elementType);
+		configureRequest.setClientContext(((CreateElementRequest) getRequest())
+				.getClientContext());
 		configureRequest.addParameters(getRequest().getParameters());
-		ICommand configureCommand = elementType.getEditCommand(configureRequest);
-		if(configureCommand != null && configureCommand.canExecute()){
+		ICommand configureCommand = elementType
+				.getEditCommand(configureRequest);
+		if (configureCommand != null && configureCommand.canExecute()) {
 			configureCommand.execute(monitor, info);
 		}
 	}
+
 }

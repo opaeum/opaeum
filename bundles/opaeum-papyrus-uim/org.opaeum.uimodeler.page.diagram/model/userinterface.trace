@@ -1,41 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<trace:TraceModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:trace="http://www.eclipse.org/gmf/2006/Trace">
-  <nodeTraces visualID="2001" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/panel/1.0' and _eClass_.name = 'GridPanel') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'Page') and _containmentMF_.name = 'panel')">
-    <nodeLabelTraces visualID="5011" queryText="true"/>
-    <compartmentTraces visualID="7001" queryText="true"/>
+<trace:TraceModel
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:trace="http://www.eclipse.org/gmf/2006/Trace">
+  <nodeTraces
+      visualID="2001"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/panel/1.0' and _eClass_.name = 'GridPanel') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'Page') and _containmentMF_.name = 'panel')">
+    <nodeLabelTraces
+        visualID="5011"
+        queryText="true"/>
+    <compartmentTraces
+        visualID="7001"
+        queryText="true"/>
   </nodeTraces>
-  <nodeTraces visualID="2002" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/panel/1.0' and _eClass_.name = 'HorizontalPanel') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'Page') and _containmentMF_.name = 'panel')"/>
-  <nodeTraces visualID="2003" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/panel/1.0' and _eClass_.name = 'VerticalPanel') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'Page') and _containmentMF_.name = 'panel')"/>
-  <childNodeTraces visualID="3001" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimField') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
-  <childNodeTraces visualID="3003" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/panel/1.0' and _eClass_.name = 'HorizontalPanel') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
-  <childNodeTraces visualID="3004" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/panel/1.0' and _eClass_.name = 'VerticalPanel') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
-  <childNodeTraces visualID="3009" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimDataTable') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')">
-    <compartmentTraces visualID="7002" queryText="true"/>
-    <compartmentTraces visualID="7003" queryText="true"/>
+  <nodeTraces
+      visualID="2002"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/panel/1.0' and _eClass_.name = 'HorizontalPanel') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'Page') and _containmentMF_.name = 'panel')"/>
+  <nodeTraces
+      visualID="2003"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/panel/1.0' and _eClass_.name = 'VerticalPanel') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'Page') and _containmentMF_.name = 'panel')"/>
+  <childNodeTraces
+      visualID="3028"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimField') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
+  <childNodeTraces
+      visualID="3029"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'BuiltInActionButton') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
+  <childNodeTraces
+      visualID="3030"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/panel/1.0' and _eClass_.name = 'HorizontalPanel') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
+  <childNodeTraces
+      visualID="3031"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/panel/1.0' and _eClass_.name = 'VerticalPanel') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
+  <childNodeTraces
+      visualID="3032"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'TransitionButton') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')">
+    <nodeLabelTraces
+        visualID="5020"
+        queryText="true"/>
   </childNodeTraces>
-  <childNodeTraces visualID="3010" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimField') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
-  <childNodeTraces visualID="3017" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/panel/1.0' and _eClass_.name = 'GridPanel') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')">
-    <nodeLabelTraces visualID="5014" queryText="true"/>
-    <compartmentTraces visualID="7005" queryText="true"/>
+  <childNodeTraces
+      visualID="3033"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'InvocationButton') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')">
+    <nodeLabelTraces
+        visualID="5021"
+        queryText="true"/>
   </childNodeTraces>
-  <childNodeTraces visualID="3018" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'BuiltInActionButton') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
-  <childNodeTraces visualID="3019" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'TransitionButton') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')">
-    <nodeLabelTraces visualID="5015" queryText="true"/>
+  <childNodeTraces
+      visualID="3034"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'LinkToQuery') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')">
+    <nodeLabelTraces
+        visualID="5022"
+        queryText="true"/>
   </childNodeTraces>
-  <childNodeTraces visualID="3020" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'InvocationButton') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')">
-    <nodeLabelTraces visualID="5016" queryText="true"/>
+  <childNodeTraces
+      visualID="3035"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'BuiltInLink') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')">
+    <nodeLabelTraces
+        visualID="5023"
+        queryText="true"/>
   </childNodeTraces>
-  <childNodeTraces visualID="3021" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'LinkToQuery') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')">
-    <nodeLabelTraces visualID="5017" queryText="true"/>
+  <childNodeTraces
+      visualID="3036"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimDataTable') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')">
+    <compartmentTraces
+        visualID="7006"
+        queryText="true"/>
+    <compartmentTraces
+        visualID="7007"
+        queryText="true"/>
   </childNodeTraces>
-  <childNodeTraces visualID="3022" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'BuiltInLink') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')">
-    <nodeLabelTraces visualID="5018" queryText="true"/>
+  <childNodeTraces
+      visualID="3037"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimField') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
+  <childNodeTraces
+      visualID="3038"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'BuiltInActionButton') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
+  <childNodeTraces
+      visualID="3039"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'InvocationButton') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
+  <childNodeTraces
+      visualID="3040"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'BuiltInActionButton') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimDataTable') and _containmentMF_.name = 'actionsOnMultipleSelection')"/>
+  <childNodeTraces
+      visualID="3041"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'InvocationButton') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimDataTable') and _containmentMF_.name = 'actionsOnMultipleSelection')">
+    <nodeLabelTraces
+        visualID="5024"
+        queryText="true"/>
   </childNodeTraces>
-  <childNodeTraces visualID="3023" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'BuiltInActionButton') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
-  <childNodeTraces visualID="3024" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'InvocationButton') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
-  <childNodeTraces visualID="3025" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'BuiltInActionButton') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimDataTable') and _containmentMF_.name = 'actionsOnMultipleSelection')"/>
-  <childNodeTraces visualID="3026" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'InvocationButton') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimDataTable') and _containmentMF_.name = 'actionsOnMultipleSelection')">
-    <nodeLabelTraces visualID="5019" queryText="true"/>
+  <childNodeTraces
+      visualID="3042"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'BuiltInLink') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
+  <childNodeTraces
+      visualID="3043"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/panel/1.0' and _eClass_.name = 'GridPanel') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/component/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')">
+    <nodeLabelTraces
+        visualID="5025"
+        queryText="true"/>
+    <compartmentTraces
+        visualID="7008"
+        queryText="true"/>
   </childNodeTraces>
-  <childNodeTraces visualID="3027" queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/action/1.0' and _eClass_.name = 'BuiltInLink') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://opaeum.org/uimetamodel/1.0' and _eClass_.name = 'UimContainer') and _containmentMF_.name = 'children')"/>
 </trace:TraceModel>

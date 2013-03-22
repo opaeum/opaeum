@@ -6,11 +6,13 @@ import org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorPlugin;
 /**
  * @generated
  */
-public class DiagramConnectionsPreferencePage extends ConnectionsPreferencePage{
+public class DiagramConnectionsPreferencePage extends ConnectionsPreferencePage {
 	/**
 	 * @generated
 	 */
-	public DiagramConnectionsPreferencePage(){
-		setPreferenceStore(UimDiagramEditorPlugin.getInstance().getPreferenceStore());
+	public DiagramConnectionsPreferencePage() {
+		setPreferenceStore(UimDiagramEditorPlugin.getInstance()
+				.getPreferenceStore());
+
 	}
 }

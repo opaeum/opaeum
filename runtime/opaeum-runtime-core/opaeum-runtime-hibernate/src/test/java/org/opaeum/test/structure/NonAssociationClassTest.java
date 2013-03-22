@@ -21,7 +21,9 @@ public class NonAssociationClassTest {
 		}
 		sister.setName("Clotilda");
 		sister.addToBrother("Johnny", brother);
-		assertManyToManyConditions(sister, brother);
+		assertBrotherAddedToSister(sister, brother);
+		sister.clearBrother();
+		assertBrotherRemovedFromSister(sister, brother);
 	}
 	@Test
 	public void testManyToManySideTwo() {
@@ -35,19 +37,22 @@ public class NonAssociationClassTest {
 		}
 		brother.setName("John-Boy");
 		brother.addToSister("Jean", aunt);
-		assertManyToManyConditions(aunt, brother);
+		assertBrotherAddedToSister(aunt, brother);
+		aunt.clearBrother();
+		assertBrotherRemovedFromSister(aunt, brother);
 	}
 
-	private void assertManyToManyConditions(Sister sister, Brother brother) {
-		Assert.assertEquals(1, sister.getBrother().size());
-		Assert.assertEquals(1, brother.getSister().size());
-		Assert.assertTrue(sister.getBrother().contains(brother));
-		Assert.assertTrue(brother.getSister().contains(sister));
-		sister.clearBrother();
+	protected void assertBrotherRemovedFromSister(Sister sister, Brother brother) {
 		Assert.assertEquals(0, sister.getBrother().size());
 		Assert.assertEquals(0, brother.getSister().size());
 		Assert.assertFalse(sister.getBrother().contains(brother));
 		Assert.assertFalse(brother.getSister().contains(sister));
+	}
+	protected void assertBrotherAddedToSister(Sister sister, Brother brother) {
+		Assert.assertEquals(1, sister.getBrother().size());
+		Assert.assertEquals(1, brother.getSister().size());
+		Assert.assertTrue(sister.getBrother().contains(brother));
+		Assert.assertTrue(brother.getSister().contains(sister));
 	}
 
 	@Test
@@ -62,12 +67,16 @@ public class NonAssociationClassTest {
 		}
 		sb.setName("Peter Peter pumpkin eater");
 		sb.setFamily(family);
-		assertOneToManyConditions(family, sb);
+		assertBrotherAddedToFamily(family, sb);
+		family.removeFromChild(sb.getName(), sb);
+		assertBrotherRemovedFromFamily(family, sb);
 		Family family2=new Family();
 		sb.setFamily(family2);
 		Assert.assertNotSame(sb.getFamily(), family);
 		Assert.assertEquals(0, family.getChild().size());
-		assertOneToManyConditions(family2, sb);
+		assertBrotherAddedToFamily(family2, sb);
+		family2.removeFromChild(sb.getName(), sb);
+		assertBrotherRemovedFromFamily(family2, sb);
 	}
 	@Test
 	public void testCompositeOneToMany() {
@@ -75,22 +84,27 @@ public class NonAssociationClassTest {
 		Brother sb = new Brother(); 
 		family.addToChild("Peter Peter pumpkin eater", sb);
 		sb.setFamily(family);
-		assertOneToManyConditions(family, sb);
+		assertBrotherAddedToFamily(family, sb);
+		family.removeFromChild(sb.getName(), sb);
+		assertBrotherRemovedFromFamily(family, sb);
 		Family family2=new Family();
 		family2.addToChild(sb.getName(), sb);
 		Assert.assertNotSame(sb.getFamily(), family);
 		Assert.assertEquals(0, family.getChild().size());
-		assertOneToManyConditions(family2, sb);
+		assertBrotherAddedToFamily(family2, sb);
+		family2.removeFromChild(sb.getName(), sb);
+		assertBrotherRemovedFromFamily(family2, sb);
 	}
-	private void assertOneToManyConditions(Family family, Brother sb) {
+	protected void assertBrotherRemovedFromFamily(Family family, Brother sb) {
+		Assert.assertNull(sb.getFamily());
+		Assert.assertEquals(0, family.getChild().size());
+	}
+	protected void assertBrotherAddedToFamily(Family family, Brother sb) {
 		Assert.assertNotNull(sb.getFamily());
 		Assert.assertSame(family, sb.getFamily());
 		Assert.assertSame(family, sb.getFamily());
 		Assert.assertEquals(1, family.getChild().size());
 		Assert.assertTrue(family.getChild().contains(sb));
-		family.removeFromChild(sb.getName(), sb);
-		Assert.assertNull(sb.getFamily());
-		Assert.assertEquals(0, family.getChild().size());
 	}
 	@Test
 	public void testOneToOne(){

@@ -34,7 +34,14 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.edit;visibility:=reexport,
  org.eclipse.gef,
  org.eclipse.papyrus.infra.gmfdiag.preferences,
- org.eclipse.papyrus.extensionpoints.editors
+ org.eclipse.papyrus.extensionpoints.editors,
+ org.eclipse.papyrus.infra.core,
+ org.eclipse.papyrus.infra.gmfdiag.commands,
+ org.eclipse.papyrus.infra.gmfdiag.navigation,
+ org.eclipse.papyrus.infra.services.navigation,
+ org.eclipse.papyrus.uml.diagram.navigation,
+ org.eclipse.papyrus.infra.extendedtypes,
+ org.eclipse.papyrus.infra.services.edit
 Bundle-ClassPath: .
 Bundle-Activator: org.opaeum.uimodeler.perspective.diagram.part.PerspectiveConfigurationDiagramEditorPlugin
 Bundle-Vendor: Opaeum

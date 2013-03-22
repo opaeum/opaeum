@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_UO2N4JCnEeKgxI_HkCdpZw" umlElementUid="252060@_gDOkoPl6EeGYn9aDKdPmKA" name="Quantified resource price per unit User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_UO2N4ZCnEeKgxI_HkCdpZw" name="Edit QuantifiedResourcePricePerUnit" umlElementUid="252060@_gDOkoPl6EeGYn9aDKdPmKA">
+    <pageOrdering xmi:id="_UO2N45CnEeKgxI_HkCdpZw" page="_UO2N4pCnEeKgxI_HkCdpZw"/>
+    <pages xmi:id="_UO2N4pCnEeKgxI_HkCdpZw" name="Edit Quantified resource price per unit" umlElementUid="252060@_gDOkoPl6EeGYn9aDKdPmKA">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UO2N5JCnEeKgxI_HkCdpZw" name="QuantifiedResourcePricePerUnit" numberOfColumns="1"/>
+    </pages>
+    <actionBar xmi:id="_UO2N5ZCnEeKgxI_HkCdpZw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UO2N5pCnEeKgxI_HkCdpZw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UO2N55CnEeKgxI_HkCdpZw" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_UO2N6JCnEeKgxI_HkCdpZw" name="Create QuantifiedResourcePricePerUnit" umlElementUid="252060@_gDOkoPl6EeGYn9aDKdPmKA">
+    <pageOrdering xmi:id="_UO2N6pCnEeKgxI_HkCdpZw" page="_UO2N6ZCnEeKgxI_HkCdpZw"/>
+    <pages xmi:id="_UO2N6ZCnEeKgxI_HkCdpZw" name="CreateQuantified resource price per unit" umlElementUid="252060@_gDOkoPl6EeGYn9aDKdPmKA">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UO2N65CnEeKgxI_HkCdpZw" name="QuantifiedResourcePricePerUnit" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

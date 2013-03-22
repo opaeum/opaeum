@@ -79,13 +79,13 @@ public final class OpaeumClassEditPart extends ClassEditPart{
 			Element element = (Element) getAdapter(Element.class);
 			if(isBusinessRole(element)){
 				imageFigure.setImagePath("images/BusinessRole.svg");
-				l.getTaggedLabel().setText("<<Business Role>>");
+				l.getTaggedLabel().setText("<Business Role>");
 			}else if(StereotypesHelper.hasStereotype(element, "BusinessDocument")){
 				imageFigure.setImagePath("images/BusinessDocument.svg");
-				l.getTaggedLabel().setText("<<Business Document>>");
+				l.getTaggedLabel().setText("<Business Document>");
 			}else{
 				imageFigure.setImagePath("images/BusinessEntity.svg");
-				l.getTaggedLabel().setText("<<Business Entity>>");
+				l.getTaggedLabel().setText("<Business Entity>");
 			}
 		}
 		// ((PapyrusNodeFigure) getPrimaryShape()).setIsUsingGradient(true);

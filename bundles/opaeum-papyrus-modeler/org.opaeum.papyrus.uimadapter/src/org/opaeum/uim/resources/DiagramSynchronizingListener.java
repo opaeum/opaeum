@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
+import org.eclipse.papyrus.infra.core.sashwindows.di.PageRef;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.opaeum.uim.Page;
@@ -49,8 +50,9 @@ public final class DiagramSynchronizingListener extends EContentAdapter{
 					if(activeEditor != null && activeEditor instanceof PapyrusMultiDiagramEditor){
 						PapyrusMultiDiagramEditor mm = (PapyrusMultiDiagramEditor) activeEditor;
 						Diagram diagram = getDiagram(notifier);
-						if(diagram != null && mm.getDiagram() != diagram){
-							
+						PageRef        rawModel = (PageRef) mm.getISashWindowsContainer().getActiveSashWindowsPage().getRawModel();
+						if(diagram != null && rawModel.getEmfPageIdentifier() != diagram){
+							System.out.println("##### Synchronizing diagram because it is not the current diagram");
 							diagram.getPersistedChildren().clear();
 //							UserInteractionElement r = UserInterfaceUtil.getNearestPage(notifier);
 //							if(r instanceof Page){
@@ -90,9 +92,7 @@ public final class DiagramSynchronizingListener extends EContentAdapter{
 	@SuppressWarnings("rawtypes")
 	protected void removeReferences(UimComponent uic){
 		Diagram diagram = getDiagram(uic);
-		if(diagram == null){
-			System.out.println();
-		}else if(uic.eContainer() == null){
+		if(uic.eContainer() == null){
 			TreeIterator<EObject> eAllContents = diagram.eAllContents();
 			Set<View> remove = new HashSet<View>();
 			while(eAllContents.hasNext()){

@@ -6,11 +6,13 @@ import org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorPlugin;
 /**
  * @generated
  */
-public class DiagramRulersAndGridPreferencePage extends RulerGridPreferencePage{
+public class DiagramRulersAndGridPreferencePage extends RulerGridPreferencePage {
 	/**
 	 * @generated
 	 */
-	public DiagramRulersAndGridPreferencePage(){
-		setPreferenceStore(UimDiagramEditorPlugin.getInstance().getPreferenceStore());
+	public DiagramRulersAndGridPreferencePage() {
+		setPreferenceStore(UimDiagramEditorPlugin.getInstance()
+				.getPreferenceStore());
+
 	}
 }

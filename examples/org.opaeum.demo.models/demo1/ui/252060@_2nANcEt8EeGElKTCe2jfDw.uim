@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_UOoygJCnEeKgxI_HkCdpZw" umlElementUid="252060@_2nANcEt8EeGElKTCe2jfDw" name="I responsibility object User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_UOoygZCnEeKgxI_HkCdpZw" name="Edit IResponsibilityObject" umlElementUid="252060@_2nANcEt8EeGElKTCe2jfDw">
+    <superUserInterfaces href="252060@_Wd2QoI53EeCfQedkc0TCdA.uim#_UOpZkZCnEeKgxI_HkCdpZw"/>
+    <pageOrdering xmi:id="_UOpZq5CnEeKgxI_HkCdpZw" page="_UOpZqpCnEeKgxI_HkCdpZw"/>
+    <pageOrdering xmi:id="_UOpZrZCnEeKgxI_HkCdpZw" position="1">
+      <page href="252060@_Wd2QoI53EeCfQedkc0TCdA.uim#_UOpZlZCnEeKgxI_HkCdpZw"/>
+    </pageOrdering>
+    <pages xmi:id="_UOpZqpCnEeKgxI_HkCdpZw" name="Edit I responsibility object" umlElementUid="252060@_2nANcEt8EeGElKTCe2jfDw">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UOpZrJCnEeKgxI_HkCdpZw" name="IResponsibilityObject" numberOfColumns="1"/>
+    </pages>
+    <actionBar xmi:id="_UOqAopCnEeKgxI_HkCdpZw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UOqAo5CnEeKgxI_HkCdpZw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UOqApJCnEeKgxI_HkCdpZw" name="Delete" kind="delete"/>
+      <children xsi:type="action:InvocationButton" xmi:id="_UOqnsJCnEeKgxI_HkCdpZw" name="On activated" umlElementUid="252060@_XbPZkK0OEeCK48ywUpk_rg">
+        <popup href="252060@_XbPZkK0OEeCK48ywUpk_rg.uim#_UOZh8pCnEeKgxI_HkCdpZw"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_UOqnsZCnEeKgxI_HkCdpZw" name="On completed" umlElementUid="252060@_a_82cK0OEeCK48ywUpk_rg">
+        <popup href="252060@_a_82cK0OEeCK48ywUpk_rg.uim#_UOZh9pCnEeKgxI_HkCdpZw"/>
+      </children>
+      <children xsi:type="action:InvocationButton" xmi:id="_UOqnspCnEeKgxI_HkCdpZw" name="On started" umlElementUid="252060@_iBCwEK0NEeCK48ywUpk_rg">
+        <popup href="252060@_iBCwEK0NEeCK48ywUpk_rg.uim#_UOaJApCnEeKgxI_HkCdpZw"/>
+      </children>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_UOqns5CnEeKgxI_HkCdpZw" name="Create IResponsibilityObject" umlElementUid="252060@_2nANcEt8EeGElKTCe2jfDw">
+    <superUserInterfaces href="252060@_Wd2QoI53EeCfQedkc0TCdA.uim#_UOqntJCnEeKgxI_HkCdpZw"/>
+    <pageOrdering xmi:id="_UOqnyJCnEeKgxI_HkCdpZw" page="_UOqnx5CnEeKgxI_HkCdpZw"/>
+    <pageOrdering xmi:id="_UOqnypCnEeKgxI_HkCdpZw" position="1">
+      <page href="252060@_Wd2QoI53EeCfQedkc0TCdA.uim#_UOqnuJCnEeKgxI_HkCdpZw"/>
+    </pageOrdering>
+    <pages xmi:id="_UOqnx5CnEeKgxI_HkCdpZw" name="CreateI responsibility object" umlElementUid="252060@_2nANcEt8EeGElKTCe2jfDw">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UOqnyZCnEeKgxI_HkCdpZw" name="IResponsibilityObject" numberOfColumns="1"/>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

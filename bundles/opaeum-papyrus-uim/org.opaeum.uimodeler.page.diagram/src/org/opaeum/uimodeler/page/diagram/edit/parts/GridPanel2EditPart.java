@@ -40,11 +40,11 @@ import org.opaeum.uimodeler.page.diagram.part.UimVisualIDRegistry;
 /**
  * @generated
  */
-public class GridPanel2EditPart extends ShapeNodeEditPart{
+public class GridPanel2EditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public static final int VISUAL_ID = 3017;
+	public static final int VISUAL_ID = 3043;
 	/**
 	 * @generated
 	 */
@@ -53,111 +53,138 @@ public class GridPanel2EditPart extends ShapeNodeEditPart{
 	 * @generated
 	 */
 	protected IFigure primaryShape;
+
 	/**
 	 * @generated
 	 */
-	public GridPanel2EditPart(View view){
+	public GridPanel2EditPart(View view) {
 		super(view);
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void createDefaultEditPolicies(){
+	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
-		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new GridPanel2ItemSemanticEditPolicy());
+		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
+				new GridPanel2ItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
 		// XXX need an SCR to runtime to have another abstract superclass that would let children add reasonable editpolicies
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
 	}
+
 	/**
 	 * @generated
 	 */
-	protected LayoutEditPolicy createLayoutEditPolicy(){
-		org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy lep = new org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy(){
-			protected EditPolicy createChildEditPolicy(EditPart child){
-				EditPolicy result = child.getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
-				if(result == null){
+	protected LayoutEditPolicy createLayoutEditPolicy() {
+		org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy lep = new org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy() {
+
+			protected EditPolicy createChildEditPolicy(EditPart child) {
+				EditPolicy result = child
+						.getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
+				if (result == null) {
 					result = new NonResizableEditPolicy();
 				}
 				return result;
 			}
-			protected Command getMoveChildrenCommand(Request request){
+
+			protected Command getMoveChildrenCommand(Request request) {
 				return null;
 			}
-			protected Command getCreateCommand(CreateRequest request){
+
+			protected Command getCreateCommand(CreateRequest request) {
 				return null;
 			}
 		};
 		return lep;
 	}
+
 	/**
 	 * @generated NOT
 	 */
-	protected IFigure createNodeShape(){
-		return primaryShape = new CustomGridPanelFigure(UimFigureUtil.getNearestComposite(getParent()), new Dimension(0, 0));
+	protected IFigure createNodeShape() {
+		return primaryShape = new CustomGridPanelFigure(
+				UimFigureUtil.getNearestComposite(getParent()), new Dimension(
+						0, 0));
 	}
+
 	/**
 	 * @generated NOT
 	 */
-	public CustomGridPanelFigure getPrimaryShape(){
+	public CustomGridPanelFigure getPrimaryShape() {
 		return (CustomGridPanelFigure) primaryShape;
 	}
+
 	/**
 	 * @generated
 	 */
-	protected boolean addFixedChild(EditPart childEditPart){
-		if(childEditPart instanceof GridPanelName2EditPart){
-			((GridPanelName2EditPart) childEditPart).setLabel(getPrimaryShape().getFigureGridPanelNameFigure());
+	protected boolean addFixedChild(EditPart childEditPart) {
+		if (childEditPart instanceof GridPanelName2EditPart) {
+			((GridPanelName2EditPart) childEditPart).setLabel(getPrimaryShape()
+					.getFigureGridPanelNameFigure());
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @generated
+	 */
+	protected boolean removeFixedChild(EditPart childEditPart) {
+		if (childEditPart instanceof GridPanelName2EditPart) {
 			return true;
 		}
 		return false;
 	}
+
 	/**
 	 * @generated
 	 */
-	protected boolean removeFixedChild(EditPart childEditPart){
-		if(childEditPart instanceof GridPanelName2EditPart){
-			return true;
-		}
-		return false;
-	}
-	/**
-	 * @generated
-	 */
-	protected void addChildVisual(EditPart childEditPart,int index){
-		if(addFixedChild(childEditPart)){
+	protected void addChildVisual(EditPart childEditPart, int index) {
+		if (addFixedChild(childEditPart)) {
 			return;
 		}
 		super.addChildVisual(childEditPart, -1);
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void removeChildVisual(EditPart childEditPart){
-		if(removeFixedChild(childEditPart)){
+	protected void removeChildVisual(EditPart childEditPart) {
+		if (removeFixedChild(childEditPart)) {
 			return;
 		}
 		super.removeChildVisual(childEditPart);
 	}
+
 	/**
 	 * @generated
 	 */
-	protected IFigure getContentPaneFor(IGraphicalEditPart editPart){
+	protected IFigure getContentPaneFor(IGraphicalEditPart editPart) {
 		return getContentPane();
 	}
+
 	/**
 	 * @generated
 	 */
-	protected NodeFigure createNodePlate(){
+	protected NodeFigure createNodePlate() {
 		String prefElementId = "GridPanel";
-		IPreferenceStore store = UimDiagramEditorPlugin.getInstance().getPreferenceStore();
-		String preferenceConstantWitdh = PreferenceInitializerForElementHelper.getpreferenceKey(getNotationView(), prefElementId,
-				PreferenceConstantHelper.WIDTH);
-		String preferenceConstantHeight = PreferenceInitializerForElementHelper.getpreferenceKey(getNotationView(), prefElementId,
-				PreferenceConstantHelper.HEIGHT);
-		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(store.getInt(preferenceConstantWitdh), store.getInt(preferenceConstantHeight));
+		IPreferenceStore store = UimDiagramEditorPlugin.getInstance()
+				.getPreferenceStore();
+		String preferenceConstantWitdh = PreferenceInitializerForElementHelper
+				.getpreferenceKey(getNotationView(), prefElementId,
+						PreferenceConstantHelper.WIDTH);
+		String preferenceConstantHeight = PreferenceInitializerForElementHelper
+				.getpreferenceKey(getNotationView(), prefElementId,
+						PreferenceConstantHelper.HEIGHT);
+		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(
+				store.getInt(preferenceConstantWitdh),
+				store.getInt(preferenceConstantHeight));
+
 		return result;
 	}
+
 	/**
 	 * Creates figure for this edit part.
 	 * 
@@ -166,7 +193,7 @@ public class GridPanel2EditPart extends ShapeNodeEditPart{
 	 * 
 	 * @generated NOT
 	 */
-	protected NodeFigure createNodeFigure(){
+	protected NodeFigure createNodeFigure() {
 		IFigure shape = createNodeShape();
 		NodeFigure figure = new HackedDefaultSizeNodeFigure(getPrimaryShape());
 		figure.setLayoutManager(new StackLayout());
@@ -175,120 +202,155 @@ public class GridPanel2EditPart extends ShapeNodeEditPart{
 		new PanelEventAdapter(this, getPrimaryShape());
 		return figure;
 	}
+
 	/**
 	 * Default implementation treats passed figure as content pane.
 	 * Respects layout one may have set for generated figure.
 	 * @param nodeShape instance of generated figure class
 	 * @generated
 	 */
-	protected IFigure setupContentPane(IFigure nodeShape){
-		if(nodeShape.getLayoutManager() == null){
+	protected IFigure setupContentPane(IFigure nodeShape) {
+		if (nodeShape.getLayoutManager() == null) {
 			ConstrainedToolbarLayout layout = new ConstrainedToolbarLayout();
 			layout.setSpacing(5);
 			nodeShape.setLayoutManager(layout);
 		}
 		return nodeShape; // use nodeShape itself as contentPane
 	}
+
 	/**
 	 * @generated
 	 */
-	public IFigure getContentPane(){
-		if(contentPane != null){
+	public IFigure getContentPane() {
+		if (contentPane != null) {
 			return contentPane;
 		}
 		return super.getContentPane();
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void setForegroundColor(Color color){
-		if(primaryShape != null){
+	protected void setForegroundColor(Color color) {
+		if (primaryShape != null) {
 			primaryShape.setForegroundColor(color);
 		}
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void setLineWidth(int width){
-		if(primaryShape instanceof Shape){
+	protected void setLineWidth(int width) {
+		if (primaryShape instanceof Shape) {
 			((Shape) primaryShape).setLineWidth(width);
 		}
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void setLineType(int style){
-		if(primaryShape instanceof Shape){
+	protected void setLineType(int style) {
+		if (primaryShape instanceof Shape) {
 			((Shape) primaryShape).setLineStyle(style);
 		}
 	}
+
 	/**
 	 * @generated
 	 */
-	public EditPart getPrimaryChildEditPart(){
-		return getChildBySemanticHint(UimVisualIDRegistry.getType(GridPanelName2EditPart.VISUAL_ID));
+	public EditPart getPrimaryChildEditPart() {
+		return getChildBySemanticHint(UimVisualIDRegistry
+				.getType(GridPanelName2EditPart.VISUAL_ID));
 	}
+
 	/**
 	 * @generated
 	 */
-	public class GridPanelFigure extends RoundedRectangle{
+	public class GridPanelFigure extends RoundedRectangle {
 		/**
 		 * @generated
 		 */
 		private WrappingLabel fFigureGridPanelNameFigure;
+
 		/**
 		 * @generated
 		 */
-		public GridPanelFigure(){
-			this.setCornerDimensions(new Dimension(getMapMode().DPtoLP(16), getMapMode().DPtoLP(16)));
+		public GridPanelFigure() {
+			this.setCornerDimensions(new Dimension(getMapMode().DPtoLP(16),
+					getMapMode().DPtoLP(16)));
 			this.setFill(false);
 			this.setLineWidth(3);
 			createContents();
 		}
+
 		/**
 		 * @generated
 		 */
-		private void createContents(){
+		private void createContents() {
+
 			fFigureGridPanelNameFigure = new WrappingLabel();
+
 			fFigureGridPanelNameFigure.setText("");
+
 			this.add(fFigureGridPanelNameFigure);
+
 		}
+
 		/**
 		 * @generated
 		 */
-		public WrappingLabel getFigureGridPanelNameFigure(){
+		public WrappingLabel getFigureGridPanelNameFigure() {
 			return fFigureGridPanelNameFigure;
 		}
 	}
+
 	/**
 	 * @generated
 	 */
 	@Override
-	public Object getPreferredValue(EStructuralFeature feature){
-		IPreferenceStore preferenceStore = (IPreferenceStore) getDiagramPreferencesHint().getPreferenceStore();
+	public Object getPreferredValue(EStructuralFeature feature) {
+		IPreferenceStore preferenceStore = (IPreferenceStore) getDiagramPreferencesHint()
+				.getPreferenceStore();
 		Object result = null;
-		if(feature == NotationPackage.eINSTANCE.getLineStyle_LineColor() || feature == NotationPackage.eINSTANCE.getFontStyle_FontColor()
-				|| feature == NotationPackage.eINSTANCE.getFillStyle_FillColor()){
+
+		if (feature == NotationPackage.eINSTANCE.getLineStyle_LineColor()
+				|| feature == NotationPackage.eINSTANCE
+						.getFontStyle_FontColor()
+				|| feature == NotationPackage.eINSTANCE
+						.getFillStyle_FillColor()) {
 			String prefColor = null;
-			if(feature == NotationPackage.eINSTANCE.getLineStyle_LineColor()){
-				prefColor = PreferenceConstantHelper.getElementConstant("GridPanel", PreferenceConstantHelper.COLOR_LINE);
-			}else if(feature == NotationPackage.eINSTANCE.getFontStyle_FontColor()){
-				prefColor = PreferenceConstantHelper.getElementConstant("GridPanel", PreferenceConstantHelper.COLOR_FONT);
-			}else if(feature == NotationPackage.eINSTANCE.getFillStyle_FillColor()){
-				prefColor = PreferenceConstantHelper.getElementConstant("GridPanel", PreferenceConstantHelper.COLOR_FILL);
+			if (feature == NotationPackage.eINSTANCE.getLineStyle_LineColor()) {
+				prefColor = PreferenceConstantHelper.getElementConstant(
+						"GridPanel", PreferenceConstantHelper.COLOR_LINE);
+			} else if (feature == NotationPackage.eINSTANCE
+					.getFontStyle_FontColor()) {
+				prefColor = PreferenceConstantHelper.getElementConstant(
+						"GridPanel", PreferenceConstantHelper.COLOR_FONT);
+			} else if (feature == NotationPackage.eINSTANCE
+					.getFillStyle_FillColor()) {
+				prefColor = PreferenceConstantHelper.getElementConstant(
+						"GridPanel", PreferenceConstantHelper.COLOR_FILL);
 			}
-			result = FigureUtilities.RGBToInteger(PreferenceConverter.getColor((IPreferenceStore) preferenceStore, prefColor));
-		}else if(feature == NotationPackage.eINSTANCE.getFillStyle_Transparency()
-				|| feature == NotationPackage.eINSTANCE.getFillStyle_Gradient()){
-			String prefGradient = PreferenceConstantHelper.getElementConstant("GridPanel", PreferenceConstantHelper.COLOR_GRADIENT);
-			GradientPreferenceConverter gradientPreferenceConverter = new GradientPreferenceConverter(preferenceStore.getString(prefGradient));
-			if(feature == NotationPackage.eINSTANCE.getFillStyle_Transparency()){
-				result = new Integer(gradientPreferenceConverter.getTransparency());
-			}else if(feature == NotationPackage.eINSTANCE.getFillStyle_Gradient()){
+			result = FigureUtilities.RGBToInteger(PreferenceConverter.getColor(
+					(IPreferenceStore) preferenceStore, prefColor));
+		} else if (feature == NotationPackage.eINSTANCE
+				.getFillStyle_Transparency()
+				|| feature == NotationPackage.eINSTANCE.getFillStyle_Gradient()) {
+			String prefGradient = PreferenceConstantHelper.getElementConstant(
+					"GridPanel", PreferenceConstantHelper.COLOR_GRADIENT);
+			GradientPreferenceConverter gradientPreferenceConverter = new GradientPreferenceConverter(
+					preferenceStore.getString(prefGradient));
+			if (feature == NotationPackage.eINSTANCE
+					.getFillStyle_Transparency()) {
+				result = new Integer(
+						gradientPreferenceConverter.getTransparency());
+			} else if (feature == NotationPackage.eINSTANCE
+					.getFillStyle_Gradient()) {
 				result = gradientPreferenceConverter.getGradientData();
 			}
 		}
-		if(result == null){
+
+		if (result == null) {
 			result = getStructuralFeatureValue(feature);
 		}
 		return result;

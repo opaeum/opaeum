@@ -37,7 +37,15 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.papyrus.extensionpoints.editors,
  org.eclipse.papyrus.infra.emf,
  org.eclipse.papyrus.infra.emf.appearance,
- org.opaeum.uimodeler.common
+ org.opaeum.uimodeler.common,
+ org.eclipse.papyrus.infra.core,
+ org.eclipse.papyrus.infra.gmfdiag.commands,
+ org.eclipse.papyrus.infra.gmfdiag.navigation,
+ org.eclipse.papyrus.infra.services.navigation,
+ org.eclipse.papyrus.uml.diagram.navigation,
+ org.eclipse.papyrus.infra.services.edit,
+ org.eclipse.papyrus.infra.extendedtypes
+ 
 Bundle-ClassPath: .
 Bundle-Activator: org.opaeum.uimodeler.actionbar.diagram.part.UimDiagramEditorPlugin
 Bundle-Vendor: Opaeum

@@ -126,7 +126,6 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 				maxHeight = Math.max(maxHeight, ss.getComposite().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 			}
 		}
-		System.out.println();
 		for(AbstractTabbedPropertySubsection<?,?> ss:subsections){
 			GridData gd = (GridData) ss.getComposite().getLayoutData();
 			if(gd.verticalSpan == 1){

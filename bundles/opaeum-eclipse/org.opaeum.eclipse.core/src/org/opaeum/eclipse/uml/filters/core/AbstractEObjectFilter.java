@@ -74,12 +74,4 @@ public abstract class AbstractEObjectFilter<T extends EObject> implements IFilte
 			return false;
 		}
 	}
-	public static void main(String[] args){
-		System.out.println(new AbstractEObjectFilter<Element>(){
-			@Override
-			public boolean select(Element e){
-				return true;
-			}
-		}.select((Object) UMLFactory.eINSTANCE.createClass()));
-	}
 }

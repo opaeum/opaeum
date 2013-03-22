@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_UO0_wJCnEeKgxI_HkCdpZw" umlElementUid="252060@_lrcFQPp1EeGJLNuVcmxRow" name="I quantified resource base User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_UO0_wZCnEeKgxI_HkCdpZw" name="Edit IQuantifiedResourceBase" umlElementUid="252060@_lrcFQPp1EeGJLNuVcmxRow">
+    <pageOrdering xmi:id="_UO0_w5CnEeKgxI_HkCdpZw" page="_UO0_wpCnEeKgxI_HkCdpZw"/>
+    <pages xmi:id="_UO0_wpCnEeKgxI_HkCdpZw" name="Edit I quantified resource base" umlElementUid="252060@_lrcFQPp1EeGJLNuVcmxRow">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UO0_xJCnEeKgxI_HkCdpZw" name="IQuantifiedResourceBase" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_UO0_xZCnEeKgxI_HkCdpZw" name="Price per unit" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox" xmi:id="_UO0_xpCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UPCbIpCnEeKgxI_HkCdpZw" umlElementUid="252060@_NlM5EPr5EeGnRe9t6rw1GA"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar xmi:id="_UO0_yJCnEeKgxI_HkCdpZw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UO0_yZCnEeKgxI_HkCdpZw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UO0_ypCnEeKgxI_HkCdpZw" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_UO0_y5CnEeKgxI_HkCdpZw" name="Create IQuantifiedResourceBase" umlElementUid="252060@_lrcFQPp1EeGJLNuVcmxRow">
+    <pageOrdering xmi:id="_UO0_zZCnEeKgxI_HkCdpZw" page="_UO0_zJCnEeKgxI_HkCdpZw"/>
+    <pages xmi:id="_UO0_zJCnEeKgxI_HkCdpZw" name="CreateI quantified resource base" umlElementUid="252060@_lrcFQPp1EeGJLNuVcmxRow">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UO0_zpCnEeKgxI_HkCdpZw" name="IQuantifiedResourceBase" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_UO0_z5CnEeKgxI_HkCdpZw" name="Price per unit" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+          <control xsi:type="ctl:UimListBox" xmi:id="_UO0_0JCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UPDCOJCnEeKgxI_HkCdpZw" umlElementUid="252060@_NlM5EPr5EeGnRe9t6rw1GA"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

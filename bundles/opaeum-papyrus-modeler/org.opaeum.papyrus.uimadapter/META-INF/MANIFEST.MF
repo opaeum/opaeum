@@ -39,11 +39,14 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.facet.infra.browser.uicore,
  org.eclipse.ui.navigator,
  org.eclipse.papyrus.infra.gmfdiag.css.model,
- org.eclipse.gmf.runtime.diagram.ui;bundle-version="1.6.0",
+ org.eclipse.gmf.runtime.diagram.ui,
  org.opaeum.papyrus.uml.modelexplorer,
  org.eclipse.papyrus.infra.gmfdiag.dnd,
  org.eclipse.ocl,
- org.eclipse.ocl.uml
+ org.eclipse.ocl.uml,
+ org.eclipse.papyrus.infra.widgets,
+ org.eclipse.papyrus.infra.gmfdiag.commands,
+ org.eclipse.papyrus.uml.tools
 Bundle-ActivationPolicy: lazy
 Export-Package: org.opaeum.papyrus.uimadapter.actions,
  org.opaeum.uim.queries,

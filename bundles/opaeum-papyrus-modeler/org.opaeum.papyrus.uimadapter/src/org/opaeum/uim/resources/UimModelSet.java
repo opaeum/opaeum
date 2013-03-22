@@ -30,8 +30,8 @@ import org.eclipse.papyrus.infra.core.resource.ModelIdentifiers;
 import org.eclipse.papyrus.infra.core.resource.ModelMultiException;
 import org.eclipse.papyrus.infra.core.resource.sasheditor.DiModel;
 import org.eclipse.papyrus.infra.core.resource.sasheditor.SashModel;
-import org.eclipse.papyrus.infra.core.resource.uml.UmlModel;
-import org.eclipse.papyrus.infra.core.resource.uml.UmlUtils;
+import org.eclipse.papyrus.uml.tools.model.UmlModel;
+import org.eclipse.papyrus.uml.tools.model.UmlUtils;
 import org.eclipse.papyrus.infra.core.sashwindows.di.PageRef;
 import org.eclipse.papyrus.infra.core.sashwindows.di.SashWindowsMngr;
 import org.eclipse.papyrus.infra.services.resourceloading.OnDemandLoadingModelSet;
@@ -65,6 +65,7 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 	private Map<Element,Resource> uiResourceMap = new HashMap<Element,Resource>();
 	private OpenUmlFile openUmlFile;
 	private DiagramSynchronizingListener diagramSynchronizer;
+	private URI tmpNotiationUri;
 	public OpenUmlFile getOpenUmlFile(){
 		return openUmlFile;
 	}
@@ -117,14 +118,15 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 		}
 		return diagramSynchronizer;
 	}
+	
 	@Override
 	public void createsModels(ModelIdentifiers modelIdentifiers){
 		super.createsModels(modelIdentifiers);
 		doOpaeumInitialization();
 	}
 	@Override
-	public void createsModels(IFile newFile){
-		super.createsModels(newFile);
+	public void createModels(URI newURI) {
+		super.createModels(newURI);
 		doOpaeumInitialization();
 	}
 	private void doOpaeumInitialization(){
@@ -167,8 +169,8 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 		}, 3000);
 	}
 	@Override
-	public void loadModels(IFile file) throws ModelMultiException{
-		super.loadModels(file);
+	public void loadModels(URI uri) throws ModelMultiException {
+		super.loadModels(uri);
 		removeDanglingDiagrams();
 		createInMemoryModel();
 		doOpaeumInitialization();
@@ -215,17 +217,24 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 	}
 	private void createInMemoryModel(){
 		UmlModel umlModel = UmlUtils.getUmlModel(this);
-		URI uri = umlModel.getResource().getURI().trimSegments(1).appendSegment("tmp.notation");
-		Resource tmp = super.getResource(uri, false);
+		tmpNotiationUri = umlModel.getResource().getURI().trimSegments(1).appendSegment("tmp.notation");
+		Resource tmp = super.getResource(tmpNotiationUri, false);
 		if(tmp == null){
-			tmp = super.createResource(uri);
+			tmp = super.createResource(tmpNotiationUri);
 		}
 		tmp.unload();
 		getResources().remove(tmp);
-		inMemoryNotationModel = new InMemoryNotationResource(this, uri);
-		super.uriResourceMap.put(uri, inMemoryNotationModel);
+		inMemoryNotationModel = new InMemoryNotationResource(this, tmpNotiationUri);
+		if(super.uriResourceMap==null){
+			super.setURIResourceMap(new HashMap<URI,Resource>());
+		}
+		super.uriResourceMap.put(tmpNotiationUri, inMemoryNotationModel);
 		getResources().add(inMemoryNotationModel);
 		inMemoryNotationModel.eAdapters().add(InMemoryNotationCommandQueue.getInstance(getFilenameWithoutExtension()));
+	}
+	@Override
+	public void setURIResourceMap(Map<URI, Resource> uriResourceMap) {
+		super.setURIResourceMap(uriResourceMap);
 	}
 	public InMemoryNotationResource getInMemoryNotationResource(){
 		return inMemoryNotationModel;

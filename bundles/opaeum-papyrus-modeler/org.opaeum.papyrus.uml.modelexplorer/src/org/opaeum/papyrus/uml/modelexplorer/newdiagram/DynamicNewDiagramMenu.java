@@ -47,7 +47,6 @@ public class DynamicNewDiagramMenu extends CompoundContributionItem implements I
 	}
 	@Override
 	public IContributionItem[] getContributionItems(){
-		System.out.println("DynamicNewDiagramMenu.getContributionItems()");
 		if(actions == null){
 			actions = new ArrayList<IContributionItem>();
 			Object firstElement = selection.getFirstElement();
@@ -65,7 +64,7 @@ public class DynamicNewDiagramMenu extends CompoundContributionItem implements I
 				String ucdid = "org.eclipse.papyrus.uml.diagram.usecase.CreateUseCaseDiagramCommand";
 				ImageDescriptor ucdimg = Activator.imageDescriptorFromPlugin("org.opaeum.papyrus.usecasediagram", "icons/obj16/Diagram_UseCase.gif");
 				actions.add(new CommandContributionItem(new CommandContributionItemParameter(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), ucdid,
-						cdid, null, ucdimg, null, null, null, null, null, CommandContributionItem.STYLE_PUSH, null, false)));
+						ucdid, null, ucdimg, null, null, null, null, null, CommandContributionItem.STYLE_PUSH, null, false)));
 			}else if(selectedObject instanceof Activity){
 				Activity a = (Activity) selectedObject;
 				String COMMAND_ID=null;
@@ -80,13 +79,13 @@ public class DynamicNewDiagramMenu extends CompoundContributionItem implements I
 				actions.add(new CommandContributionItem(new CommandContributionItemParameter(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), COMMAND_ID,
 						COMMAND_ID, null, desc, null, null, null, null, null, CommandContributionItem.STYLE_PUSH, null, true)));
 			}else if(selectedObject instanceof Component || selectedObject instanceof Collaboration){
-				String cdid = "org.eclipse.papyrus.uml.diagram.composite.CreateCompositeDiagramCommand";
+				String cdid = "org.eclipse.papyrus.uml.diagram.composite.createCompositeDiagram";
 				ImageDescriptor cdimg = Activator.imageDescriptorFromPlugin("org.eclipse.papyrus.uml.diagram.composite", "icons/obj16/Diagram_CompositeStructure.gif");
 				actions.add(new CommandContributionItem(new CommandContributionItemParameter(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), cdid,
 						cdid, null, cdimg, null, null, null, null, null, CommandContributionItem.STYLE_PUSH, null, false)));
 
 			}else if(selectedObject instanceof StateMachine){
-				String cdid = "org.eclipse.papyrus.uml.diagram.clazz.CreateClassDiagramCommand";
+				String cdid = "org.eclipse.papyrus.uml.diagram.statemachine.CreationCommand";
 				ImageDescriptor cdimg = Activator.imageDescriptorFromPlugin("org.eclipse.papyrus.uml.diagram.statemachine", "icons/obj16/Diagram_StateMachine.gif");
 				actions.add(new CommandContributionItem(new CommandContributionItemParameter(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), cdid,
 						cdid, null, cdimg, null, null, null, null, null, CommandContributionItem.STYLE_PUSH, null, false)));

@@ -257,9 +257,6 @@ public class AssociationClassAttributeImplementor extends AbstractAttributeImple
 		Property prop = map.getProperty();
 		owner.addToOperations(setter);
 		if(!(owner instanceof OJAnnotatedInterface)){
-			if(umlOwner instanceof AssociationClass && map.umlName().equals("spouse")){
-				System.out.println();
-			}
 			setter.setStatic(map.isStatic());
 			setter.setVisibility(prop.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			removeFromPropertiesQualifiedByThisProperty(map, setter);

@@ -1,7 +1,7 @@
 package org.opaeum.uimodeler.util;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.papyrus.infra.core.extension.commands.ModelCreationCommandBase;
+import org.eclipse.papyrus.uml.diagram.common.commands.ModelCreationCommandBase;
 import org.opaeum.uim.model.ModelFactory;
 
 @Deprecated

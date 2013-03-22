@@ -6,11 +6,13 @@ import org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorPlugin;
 /**
  * @generated
  */
-public class DiagramPrintingPreferencePage extends PrintingPreferencePage{
+public class DiagramPrintingPreferencePage extends PrintingPreferencePage {
 	/**
 	 * @generated
 	 */
-	public DiagramPrintingPreferencePage(){
-		setPreferenceStore(UimDiagramEditorPlugin.getInstance().getPreferenceStore());
+	public DiagramPrintingPreferencePage() {
+		setPreferenceStore(UimDiagramEditorPlugin.getInstance()
+				.getPreferenceStore());
+
 	}
 }

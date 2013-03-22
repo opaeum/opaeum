@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:QueryInvoker xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_URRPwJCnEeKgxI_HkCdpZw" name="getRateEffectiveOn" umlElementUid="252060@_V3n1EPjyEeGEN6Fz86uBYA" linkedUmlResource="OpaeumBPM.library.uml">
+  <pageOrdering xmi:id="_URRPwpCnEeKgxI_HkCdpZw" page="_URRPwZCnEeKgxI_HkCdpZw"/>
+  <pages xmi:id="_URRPwZCnEeKgxI_HkCdpZw" name="Query: Get rate effective on" umlElementUid="252060@_V3n1EPjyEeGEN6Fz86uBYA">
+    <panel xsi:type="panel:GridPanel" xmi:id="_URRPw5CnEeKgxI_HkCdpZw" name="GetRateEffectiveOn" numberOfColumns="1">
+      <children xsi:type="comp:UimField" xmi:id="_URRPxJCnEeKgxI_HkCdpZw" name="Return" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown" xmi:id="_URRPxZCnEeKgxI_HkCdpZw"/>
+        <binding xmi:id="_URRPxpCnEeKgxI_HkCdpZw" umlElementUid="252060@_YTvSMPjyEeGEN6Fz86uBYA"/>
+      </children>
+      <children xsi:type="comp:UimField" xmi:id="_URRPx5CnEeKgxI_HkCdpZw" name="Date" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDatePopup" xmi:id="_URRPyJCnEeKgxI_HkCdpZw"/>
+        <binding xmi:id="_URRPyZCnEeKgxI_HkCdpZw" umlElementUid="252060@_nQHK4PjyEeGEN6Fz86uBYA"/>
+      </children>
+    </panel>
+  </pages>
+  <actionBar xmi:id="_URRPypCnEeKgxI_HkCdpZw" name="ActionBar">
+    <children xsi:type="action:BuiltInActionButton" xmi:id="_URRPy5CnEeKgxI_HkCdpZw" name="Execute" kind="execute"/>
+  </actionBar>
+</model:QueryInvoker>

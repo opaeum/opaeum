@@ -11,6 +11,6 @@ import org.eclipse.papyrus.views.modelexplorer.queries.AbstractGetEditorIconQuer
 @Deprecated
 public class GetUimDiagramIcon extends AbstractGetEditorIconQuery implements IJavaModelQuery<Diagram,String>{
 	public String evaluate(final Diagram context,final ParameterValueList parameterValues) throws ModelQueryExecutionException{
-		return "/" + ((IPageIconsRegistryExtended) getEditorRegistry()).getEditorURLIcon(context); //$NON-NLS-1$
+		return "/" + ((IPageIconsRegistryExtended) getEditorRegistry(context)).getEditorURLIcon(context); //$NON-NLS-1$
 	}
 }

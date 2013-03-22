@@ -58,13 +58,13 @@ import org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButton2EditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButton3EditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButtonEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.LinkToQueryEditPart;
+import org.opaeum.uimodeler.page.diagram.edit.parts.PageEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.TransitionButtonEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableTableTableActionBarCompartmentEditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.UimField2EditPart;
 import org.opaeum.uimodeler.page.diagram.edit.parts.UimFieldEditPart;
-import org.opaeum.uimodeler.page.diagram.edit.parts.UserInterfaceEditPart;
 import org.w3c.dom.Document;
 
 @SuppressWarnings("unchecked")
@@ -98,8 +98,6 @@ public class InMemoryNotationResource extends CSSNotationResource{
 				if(ite.getActiveTransaction() != null && ite.getActiveTransaction().isActive()){
 					if(!ite.getActiveTransaction().isReadOnly()){
 						modelSet.getWindowsManager().getPageList().getAvailablePage().add(pageRef);
-					}else{
-						System.out.println();
 					}
 				}else{
 					try{
@@ -133,7 +131,9 @@ public class InMemoryNotationResource extends CSSNotationResource{
 					boolean ignore = false;
 					if(activeEditor != null && activeEditor instanceof PapyrusMultiDiagramEditor){
 						PapyrusMultiDiagramEditor mm = (PapyrusMultiDiagramEditor) activeEditor;
-						if(diagram != null && mm.getDiagram() == diagram){
+						PageRef        rawModel = (PageRef) mm.getISashWindowsContainer().getActiveSashWindowsPage().getRawModel();
+						if(diagram != null && rawModel.getEmfPageIdentifier() == diagram){
+							System.out.println("##### Ignoring current diagram");
 							ignore = true;
 						}
 					}
@@ -153,7 +153,7 @@ public class InMemoryNotationResource extends CSSNotationResource{
 	}
 	public void populatePage(Page page,Diagram diagram){
 		diagram.setElement(page);
-		diagram.setType(UserInterfaceEditPart.MODEL_ID);
+		diagram.setType(PageEditPart.MODEL_ID);
 		diagram.setName(page.getName());
 		diagram.setMutable(true);
 		diagram.setMeasurementUnit(MeasurementUnit.PIXEL_LITERAL);

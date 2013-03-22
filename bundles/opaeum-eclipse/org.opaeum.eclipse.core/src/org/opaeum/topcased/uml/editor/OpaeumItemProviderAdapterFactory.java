@@ -24,6 +24,7 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.Component;
@@ -57,6 +58,7 @@ import org.eclipse.uml2.uml.TimeObservation;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.edit.providers.ActivityItemProvider;
+import org.eclipse.uml2.uml.edit.providers.ActorItemProvider;
 import org.eclipse.uml2.uml.edit.providers.AssociationItemProvider;
 import org.eclipse.uml2.uml.edit.providers.CallBehaviorActionItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ClassItemProvider;
@@ -236,6 +238,20 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			};
 		}
 		return opaqueExpressionItemProvider;
+	}
+	@Override
+	public Adapter createActorAdapter(){
+		if (actorItemProvider == null) {
+			actorItemProvider = new ActorItemProvider(this){
+				@Override
+				public String getText(Object object){
+					Actor a=(Actor) object;
+					return "<Business Actor> " + a.getName();
+				}
+			};
+		}
+		
+		return actorItemProvider;
 	}
 	@Override
 	public Adapter createReceptionAdapter(){

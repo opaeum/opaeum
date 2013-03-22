@@ -22,9 +22,6 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 	}
 	public OJAnnotatedOperation(String string){
 		super(string);
-		if(string.equals("getFamilyHasFamilyMember_familyMember")){
-			System.out.println();
-		}
 	}
 	public OJAnnotatedOperation getCopy(){
 		OJAnnotatedOperation oper = new OJAnnotatedOperation(getName());
@@ -57,9 +54,6 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 	}
 	@Override
 	public String toJavaString(){
-		if(getName().equals("populateReferences")){
-			System.out.println();
-		}
 		StringBuilder result = new StringBuilder();
 		if(!getComment().equals("")){
 			addJavaDocComment(result);
@@ -107,9 +101,6 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 			result.append("\n}\n");
 		}
 		String string = result.toString();
-		if(string.contains("new ArrayList<IRatePerTimeUnit>new ArrayList<RatePerTimeUnit>())")){
-			System.out.println();
-		}
 		return string;
 	}
 	public void renameAll(Set<OJPathName> renamePathNames,String suffix){

@@ -19,7 +19,8 @@ import org.opaeum.uim.component.UimContainer;
 /**
  * @generated
  */
-public class TransitionButtonCreateCommand extends EditElementCommand{
+public class TransitionButtonCreateCommand extends EditElementCommand {
+
 	/**
 	 * @generated
 	 */
@@ -28,68 +29,94 @@ public class TransitionButtonCreateCommand extends EditElementCommand{
 	 * @generated
 	 */
 	private EObject eObject = null;
+
 	/**
 	 * @generated
 	 */
-	public TransitionButtonCreateCommand(CreateElementRequest req,EObject eObject){
+	public TransitionButtonCreateCommand(CreateElementRequest req,
+			EObject eObject) {
 		super(req.getLabel(), null, req);
 		this.eObject = eObject;
 		this.eClass = eObject != null ? eObject.eClass() : null;
 	}
+
 	/**
 	 * @generated
 	 */
-	public static TransitionButtonCreateCommand create(CreateElementRequest req,EObject eObject){
+	public static TransitionButtonCreateCommand create(
+			CreateElementRequest req, EObject eObject) {
 		return new TransitionButtonCreateCommand(req, eObject);
 	}
+
 	/**
 	 * @generated
 	 */
-	public TransitionButtonCreateCommand(CreateElementRequest req){
+	public TransitionButtonCreateCommand(CreateElementRequest req) {
 		super(req.getLabel(), null, req);
 	}
+
 	/**
 	 * FIXME: replace with setElementToEdit()
 	 * @generated
 	 */
-	protected EObject getElementToEdit(){
-		EObject container = ((CreateElementRequest) getRequest()).getContainer();
-		if(container instanceof View){
+	protected EObject getElementToEdit() {
+
+		EObject container = ((CreateElementRequest) getRequest())
+				.getContainer();
+		if (container instanceof View) {
 			container = ((View) container).getElement();
 		}
-		if(container != null){
+		if (container != null) {
 			return container;
 		}
 		return eObject;
 	}
+
 	/**
 	 * @generated
 	 */
-	public boolean canExecute(){
+	public boolean canExecute() {
+
 		return true;
+
 	}
+
 	/**
 	 * @generated
 	 */
-	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,IAdaptable info) throws ExecutionException{
-		TransitionButton newElement = ActionFactory.eINSTANCE.createTransitionButton();
+	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
+			IAdaptable info) throws ExecutionException {
+
+		TransitionButton newElement = ActionFactory.eINSTANCE
+				.createTransitionButton();
+
 		UimContainer owner = (UimContainer) getElementToEdit();
 		owner.getChildren().add(newElement);
+
 		doConfigure(newElement, monitor, info);
+
 		((CreateElementRequest) getRequest()).setNewElement(newElement);
 		return CommandResult.newOKCommandResult(newElement);
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void doConfigure(TransitionButton newElement,IProgressMonitor monitor,IAdaptable info) throws ExecutionException{
-		IElementType elementType = ((CreateElementRequest) getRequest()).getElementType();
-		ConfigureRequest configureRequest = new ConfigureRequest(getEditingDomain(), newElement, elementType);
-		configureRequest.setClientContext(((CreateElementRequest) getRequest()).getClientContext());
+	protected void doConfigure(TransitionButton newElement,
+			IProgressMonitor monitor, IAdaptable info)
+			throws ExecutionException {
+		IElementType elementType = ((CreateElementRequest) getRequest())
+				.getElementType();
+		ConfigureRequest configureRequest = new ConfigureRequest(
+				getEditingDomain(), newElement, elementType);
+		configureRequest.setClientContext(((CreateElementRequest) getRequest())
+				.getClientContext());
 		configureRequest.addParameters(getRequest().getParameters());
-		ICommand configureCommand = elementType.getEditCommand(configureRequest);
-		if(configureCommand != null && configureCommand.canExecute()){
+		ICommand configureCommand = elementType
+				.getEditCommand(configureRequest);
+		if (configureCommand != null && configureCommand.canExecute()) {
 			configureCommand.execute(monitor, info);
 		}
 	}
+
 }

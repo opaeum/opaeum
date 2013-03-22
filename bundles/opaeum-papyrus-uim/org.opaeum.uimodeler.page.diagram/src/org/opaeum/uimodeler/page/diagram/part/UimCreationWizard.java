@@ -12,12 +12,11 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 /**
  * @generated
  */
-public class UimCreationWizard extends Wizard implements INewWizard{
+public class UimCreationWizard extends Wizard implements INewWizard {
 	/**
 	 * @generated
 	 */
@@ -42,94 +41,122 @@ public class UimCreationWizard extends Wizard implements INewWizard{
 	 * @generated
 	 */
 	private boolean openNewlyCreatedDiagramEditor = true;
+
 	/**
 	 * @generated
 	 */
-	public IWorkbench getWorkbench(){
+	public IWorkbench getWorkbench() {
 		return workbench;
 	}
+
 	/**
 	 * @generated
 	 */
-	public IStructuredSelection getSelection(){
+	public IStructuredSelection getSelection() {
 		return selection;
 	}
+
 	/**
 	 * @generated
 	 */
-	public final Resource getDiagram(){
+	public final Resource getDiagram() {
 		return diagram;
 	}
+
 	/**
 	 * @generated
 	 */
-	public final boolean isOpenNewlyCreatedDiagramEditor(){
+	public final boolean isOpenNewlyCreatedDiagramEditor() {
 		return openNewlyCreatedDiagramEditor;
 	}
+
 	/**
 	 * @generated
 	 */
-	public void setOpenNewlyCreatedDiagramEditor(boolean openNewlyCreatedDiagramEditor){
+	public void setOpenNewlyCreatedDiagramEditor(
+			boolean openNewlyCreatedDiagramEditor) {
 		this.openNewlyCreatedDiagramEditor = openNewlyCreatedDiagramEditor;
 	}
+
 	/**
 	 * @generated
 	 */
-	public void init(IWorkbench workbench,IStructuredSelection selection){
+	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.workbench = workbench;
 		this.selection = selection;
 		setWindowTitle(Messages.UimCreationWizardTitle);
-		setDefaultPageImageDescriptor(UimDiagramEditorPlugin.getBundledImageDescriptor("icons/wizban/NewUimWizard.gif")); //$NON-NLS-1$
+		setDefaultPageImageDescriptor(UimDiagramEditorPlugin
+				.getBundledImageDescriptor("icons/wizban/NewUimWizard.gif")); //$NON-NLS-1$
 		setNeedsProgressMonitor(true);
 	}
+
 	/**
 	 * @generated
 	 */
-	public void addPages(){
-		diagramModelFilePage = new UimCreationWizardPage("DiagramModelFile", getSelection(), "uim_diagram"); //$NON-NLS-1$ //$NON-NLS-2$
-		diagramModelFilePage.setTitle(Messages.UimCreationWizard_DiagramModelFilePageTitle);
-		diagramModelFilePage.setDescription(Messages.UimCreationWizard_DiagramModelFilePageDescription);
+	public void addPages() {
+		diagramModelFilePage = new UimCreationWizardPage(
+				"DiagramModelFile", getSelection(), "uim_diagram"); //$NON-NLS-1$ //$NON-NLS-2$
+		diagramModelFilePage
+				.setTitle(Messages.UimCreationWizard_DiagramModelFilePageTitle);
+		diagramModelFilePage
+				.setDescription(Messages.UimCreationWizard_DiagramModelFilePageDescription);
 		addPage(diagramModelFilePage);
-		domainModelFilePage = new UimCreationWizardPage("DomainModelFile", getSelection(), "uim"){ //$NON-NLS-1$ //$NON-NLS-2$
-			public void setVisible(boolean visible){
-				if(visible){
+
+		domainModelFilePage = new UimCreationWizardPage(
+				"DomainModelFile", getSelection(), "uim") { //$NON-NLS-1$ //$NON-NLS-2$
+
+			public void setVisible(boolean visible) {
+				if (visible) {
 					String fileName = diagramModelFilePage.getFileName();
-					fileName = fileName.substring(0, fileName.length() - ".uim_diagram".length()); //$NON-NLS-1$
-					setFileName(UimDiagramEditorUtil.getUniqueFileName(getContainerFullPath(), fileName, "uim")); //$NON-NLS-1$
+					fileName = fileName.substring(0, fileName.length()
+							- ".uim_diagram".length()); //$NON-NLS-1$
+					setFileName(UimDiagramEditorUtil.getUniqueFileName(
+							getContainerFullPath(), fileName, "uim")); //$NON-NLS-1$
 				}
 				super.setVisible(visible);
 			}
 		};
-		domainModelFilePage.setTitle(Messages.UimCreationWizard_DomainModelFilePageTitle);
-		domainModelFilePage.setDescription(Messages.UimCreationWizard_DomainModelFilePageDescription);
+		domainModelFilePage
+				.setTitle(Messages.UimCreationWizard_DomainModelFilePageTitle);
+		domainModelFilePage
+				.setDescription(Messages.UimCreationWizard_DomainModelFilePageDescription);
 		addPage(domainModelFilePage);
 	}
+
 	/**
 	 * @generated
 	 */
-	public boolean performFinish(){
-		IRunnableWithProgress op = new WorkspaceModifyOperation(null){
-			protected void execute(IProgressMonitor monitor) throws CoreException,InterruptedException{
-				diagram = UimDiagramEditorUtil.createDiagram(diagramModelFilePage.getURI(), domainModelFilePage.getURI(), monitor);
-				if(isOpenNewlyCreatedDiagramEditor() && diagram != null){
-					try{
+	public boolean performFinish() {
+		IRunnableWithProgress op = new IRunnableWithProgress() {
+
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException, InterruptedException {
+				diagram = UimDiagramEditorUtil.createDiagram(
+						diagramModelFilePage.getURI(),
+						domainModelFilePage.getURI(), monitor);
+				if (isOpenNewlyCreatedDiagramEditor() && diagram != null) {
+					try {
 						UimDiagramEditorUtil.openDiagram(diagram);
-					}catch(PartInitException e){
-						ErrorDialog.openError(getContainer().getShell(), Messages.UimCreationWizardOpenEditorError, null, e.getStatus());
+					} catch (PartInitException e) {
+						ErrorDialog.openError(getContainer().getShell(),
+								Messages.UimCreationWizardOpenEditorError,
+								null, e.getStatus());
 					}
 				}
 			}
 		};
-		try{
+		try {
 			getContainer().run(false, true, op);
-		}catch(InterruptedException e){
+		} catch (InterruptedException e) {
 			return false;
-		}catch(InvocationTargetException e){
-			if(e.getTargetException() instanceof CoreException){
-				ErrorDialog.openError(getContainer().getShell(), Messages.UimCreationWizardCreationError, null,
+		} catch (InvocationTargetException e) {
+			if (e.getTargetException() instanceof CoreException) {
+				ErrorDialog.openError(getContainer().getShell(),
+						Messages.UimCreationWizardCreationError, null,
 						((CoreException) e.getTargetException()).getStatus());
-			}else{
-				UimDiagramEditorPlugin.getInstance().logError("Error creating diagram", e.getTargetException()); //$NON-NLS-1$
+			} else {
+				UimDiagramEditorPlugin.getInstance().logError(
+						"Error creating diagram", e.getTargetException()); //$NON-NLS-1$
 			}
 			return false;
 		}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_UOm9aJCnEeKgxI_HkCdpZw" umlElementUid="252060@_7c1tYF13EeGKRdKItFLDfg" name="I person node User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_UOm9aZCnEeKgxI_HkCdpZw" name="Edit IPersonNode" umlElementUid="252060@_7c1tYF13EeGKRdKItFLDfg">
+    <superUserInterfaces href="252060@_Gxs5AO0kEeGN-aZ7URyUbw.uim#_UOdMVpCnEeKgxI_HkCdpZw"/>
+    <pageOrdering xmi:id="_UOnkZpCnEeKgxI_HkCdpZw" page="_UOnkZZCnEeKgxI_HkCdpZw"/>
+    <pages xmi:id="_UOnkZZCnEeKgxI_HkCdpZw" name="Edit I person node" umlElementUid="252060@_7c1tYF13EeGKRdKItFLDfg">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UOnkZ5CnEeKgxI_HkCdpZw" name="IPersonNode" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_UOnkaJCnEeKgxI_HkCdpZw" name="Preferred notification type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_UOnkaZCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UP0eR5CnEeKgxI_HkCdpZw" umlElementUid="252060@_nqIHkO0kEeGN-aZ7URyUbw"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOnka5CnEeKgxI_HkCdpZw" name="Preferred e mail address type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_UOnkbJCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UP0eSJCnEeKgxI_HkCdpZw" umlElementUid="252060@_5anGoO0kEeGN-aZ7URyUbw"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOnkbpCnEeKgxI_HkCdpZw" name="Preferred phone number type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_UOnkb5CnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UP0eSZCnEeKgxI_HkCdpZw" umlElementUid="252060@_6H5DYO0kEeGN-aZ7URyUbw"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOnkcZCnEeKgxI_HkCdpZw" name="Preferred e mail address" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_UOnkcpCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UP0eSpCnEeKgxI_HkCdpZw" umlElementUid="252060@_jUSd0O0mEeGN-aZ7URyUbw"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOnkdJCnEeKgxI_HkCdpZw" name="Preferred phone number" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_UOnkdZCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UP0eS5CnEeKgxI_HkCdpZw" umlElementUid="252060@_v3024O0mEeGN-aZ7URyUbw"/>
+        </children>
+      </panel>
+    </pages>
+    <actionBar xmi:id="_UOnkd5CnEeKgxI_HkCdpZw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UOnkeJCnEeKgxI_HkCdpZw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UOnkeZCnEeKgxI_HkCdpZw" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_UOoLcJCnEeKgxI_HkCdpZw" name="Create IPersonNode" umlElementUid="252060@_7c1tYF13EeGKRdKItFLDfg">
+    <superUserInterfaces href="252060@_Gxs5AO0kEeGN-aZ7URyUbw.uim#_UOiE35CnEeKgxI_HkCdpZw"/>
+    <pageOrdering xmi:id="_UOoLd5CnEeKgxI_HkCdpZw" page="_UOoLdpCnEeKgxI_HkCdpZw"/>
+    <pages xmi:id="_UOoLdpCnEeKgxI_HkCdpZw" name="CreateI person node" umlElementUid="252060@_7c1tYF13EeGKRdKItFLDfg">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UOoLeJCnEeKgxI_HkCdpZw" name="IPersonNode" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_UOoLeZCnEeKgxI_HkCdpZw" name="Preferred notification type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_UOoLepCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UP2TeJCnEeKgxI_HkCdpZw" umlElementUid="252060@_nqIHkO0kEeGN-aZ7URyUbw"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOoLfJCnEeKgxI_HkCdpZw" name="Preferred e mail address type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_UOoLfZCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UP2TeZCnEeKgxI_HkCdpZw" umlElementUid="252060@_5anGoO0kEeGN-aZ7URyUbw"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOoLf5CnEeKgxI_HkCdpZw" name="Preferred phone number type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_UOoLgJCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UP2TepCnEeKgxI_HkCdpZw" umlElementUid="252060@_6H5DYO0kEeGN-aZ7URyUbw"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOoLgpCnEeKgxI_HkCdpZw" name="Preferred e mail address" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_UOoLg5CnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UP2Te5CnEeKgxI_HkCdpZw" umlElementUid="252060@_jUSd0O0mEeGN-aZ7URyUbw"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOoLhZCnEeKgxI_HkCdpZw" name="Preferred phone number" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_UOoLhpCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UP2TfJCnEeKgxI_HkCdpZw" umlElementUid="252060@_v3024O0mEeGN-aZ7URyUbw"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

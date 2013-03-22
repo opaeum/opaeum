@@ -37,11 +37,11 @@ import org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorPlugin;
 /**
  * @generated
  */
-public class UimFieldEditPart extends ShapeNodeEditPart{
+public class UimFieldEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public static final int VISUAL_ID = 3001;
+	public static final int VISUAL_ID = 3028;
 	/**
 	 * @generated
 	 */
@@ -50,76 +50,99 @@ public class UimFieldEditPart extends ShapeNodeEditPart{
 	 * @generated
 	 */
 	protected IFigure primaryShape;
+
 	/**
 	 * @generated
 	 */
-	public UimFieldEditPart(View view){
+	public UimFieldEditPart(View view) {
 		super(view);
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void createDefaultEditPolicies(){
+	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
-		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new UimFieldItemSemanticEditPolicy());
+		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
+				new UimFieldItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
 		// XXX need an SCR to runtime to have another abstract superclass that would let children add reasonable editpolicies
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
 	}
+
 	/**
 	 * @generated
 	 */
-	protected LayoutEditPolicy createLayoutEditPolicy(){
-		FlowLayoutEditPolicy lep = new FlowLayoutEditPolicy(){
-			protected Command createAddCommand(EditPart child,EditPart after){
+	protected LayoutEditPolicy createLayoutEditPolicy() {
+
+		FlowLayoutEditPolicy lep = new FlowLayoutEditPolicy() {
+
+			protected Command createAddCommand(EditPart child, EditPart after) {
 				return null;
 			}
-			protected Command createMoveChildCommand(EditPart child,EditPart after){
+
+			protected Command createMoveChildCommand(EditPart child,
+					EditPart after) {
 				return null;
 			}
-			protected Command getCreateCommand(CreateRequest request){
+
+			protected Command getCreateCommand(CreateRequest request) {
 				return null;
 			}
 		};
 		return lep;
 	}
+
 	@Override
-	public void refreshVisuals(){
+	public void refreshVisuals() {
 		super.refreshVisuals();
 	}
+
 	@Override
-	protected void handleNotificationEvent(Notification notification){
+	protected void handleNotificationEvent(Notification notification) {
 		super.handleNotificationEvent(notification);
 	}
+
 	@Override
-	public void setModel(Object model){
+	public void setModel(Object model) {
 		super.setModel(model);
 	}
+
 	/**
 	 * @generated NOT
 	 */
-	protected IFigure createNodeShape(){
-		return primaryShape = new CustomUimFieldFigure(UimFigureUtil.getNearestComposite(getParent()));
+	protected IFigure createNodeShape() {
+		return primaryShape = new CustomUimFieldFigure(
+				UimFigureUtil.getNearestComposite(getParent()));
 	}
+
 	/**
 	 * @generated NOT
 	 */
-	public CustomUimFieldFigure getPrimaryShape(){
+	public CustomUimFieldFigure getPrimaryShape() {
 		return (CustomUimFieldFigure) primaryShape;
 	}
+
 	/**
 	 * @generated
 	 */
-	protected NodeFigure createNodePlate(){
+	protected NodeFigure createNodePlate() {
 		String prefElementId = "UimField";
-		IPreferenceStore store = UimDiagramEditorPlugin.getInstance().getPreferenceStore();
-		String preferenceConstantWitdh = PreferenceInitializerForElementHelper.getpreferenceKey(getNotationView(), prefElementId,
-				PreferenceConstantHelper.WIDTH);
-		String preferenceConstantHeight = PreferenceInitializerForElementHelper.getpreferenceKey(getNotationView(), prefElementId,
-				PreferenceConstantHelper.HEIGHT);
-		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(store.getInt(preferenceConstantWitdh), store.getInt(preferenceConstantHeight));
+		IPreferenceStore store = UimDiagramEditorPlugin.getInstance()
+				.getPreferenceStore();
+		String preferenceConstantWitdh = PreferenceInitializerForElementHelper
+				.getpreferenceKey(getNotationView(), prefElementId,
+						PreferenceConstantHelper.WIDTH);
+		String preferenceConstantHeight = PreferenceInitializerForElementHelper
+				.getpreferenceKey(getNotationView(), prefElementId,
+						PreferenceConstantHelper.HEIGHT);
+		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(
+				store.getInt(preferenceConstantWitdh),
+				store.getInt(preferenceConstantHeight));
+
 		return result;
 	}
+
 	/**
 	 * Creates figure for this edit part.
 	 * 
@@ -127,7 +150,7 @@ public class UimFieldEditPart extends ShapeNodeEditPart{
 	 * 
 	 * @generated NOT
 	 */
-	protected NodeFigure createNodeFigure(){
+	protected NodeFigure createNodeFigure() {
 		IFigure shape = createNodeShape();
 		NodeFigure figure = new HackedDefaultSizeNodeFigure(getPrimaryShape());
 		figure.setLayoutManager(new StackLayout());
@@ -136,6 +159,7 @@ public class UimFieldEditPart extends ShapeNodeEditPart{
 		new UimFieldEventAdapter(this, (CustomUimFieldFigure) shape);
 		return figure;
 	}
+
 	/**
 	 * Default implementation treats passed figure as content pane. Respects layout one may have set for generated figure.
 	 * 
@@ -143,108 +167,143 @@ public class UimFieldEditPart extends ShapeNodeEditPart{
 	 *          instance of generated figure class
 	 * @generated
 	 */
-	protected IFigure setupContentPane(IFigure nodeShape){
+	protected IFigure setupContentPane(IFigure nodeShape) {
 		return nodeShape; // use nodeShape itself as contentPane
 	}
+
 	/**
 	 * @generated
 	 */
-	public IFigure getContentPane(){
-		if(contentPane != null){
+	public IFigure getContentPane() {
+		if (contentPane != null) {
 			return contentPane;
 		}
 		return super.getContentPane();
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void setForegroundColor(Color color){
-		if(primaryShape != null){
+	protected void setForegroundColor(Color color) {
+		if (primaryShape != null) {
 			primaryShape.setForegroundColor(color);
 		}
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void setLineWidth(int width){
-		if(primaryShape instanceof Shape){
+	protected void setLineWidth(int width) {
+		if (primaryShape instanceof Shape) {
 			((Shape) primaryShape).setLineWidth(width);
 		}
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void setLineType(int style){
-		if(primaryShape instanceof Shape){
+	protected void setLineType(int style) {
+		if (primaryShape instanceof Shape) {
 			((Shape) primaryShape).setLineStyle(style);
 		}
 	}
+
 	/**
 	 * @generated
 	 */
-	public class UimFieldFigure extends RectangleFigure{
+	public class UimFieldFigure extends RectangleFigure {
 		/**
 		 * @generated
 		 */
 		private WrappingLabel fFigureUimFieldNameFigure;
+
 		/**
 		 * @generated
 		 */
-		public UimFieldFigure(){
+		public UimFieldFigure() {
+
 			FlowLayout layoutThis = new FlowLayout();
 			layoutThis.setStretchMinorAxis(false);
 			layoutThis.setMinorAlignment(FlowLayout.ALIGN_LEFTTOP);
+
 			layoutThis.setMajorAlignment(FlowLayout.ALIGN_LEFTTOP);
 			layoutThis.setMajorSpacing(5);
 			layoutThis.setMinorSpacing(5);
 			layoutThis.setHorizontal(true);
+
 			this.setLayoutManager(layoutThis);
+
 			createContents();
 		}
+
 		/**
 		 * @generated
 		 */
-		private void createContents(){
+		private void createContents() {
+
 			fFigureUimFieldNameFigure = new WrappingLabel();
+
 			fFigureUimFieldNameFigure.setText("<...>");
+
 			this.add(fFigureUimFieldNameFigure);
+
 		}
+
 		/**
 		 * @generated
 		 */
-		public WrappingLabel getFigureUimFieldNameFigure(){
+		public WrappingLabel getFigureUimFieldNameFigure() {
 			return fFigureUimFieldNameFigure;
 		}
 	}
+
 	/**
 	 * @generated
 	 */
 	@Override
-	public Object getPreferredValue(EStructuralFeature feature){
-		IPreferenceStore preferenceStore = (IPreferenceStore) getDiagramPreferencesHint().getPreferenceStore();
+	public Object getPreferredValue(EStructuralFeature feature) {
+		IPreferenceStore preferenceStore = (IPreferenceStore) getDiagramPreferencesHint()
+				.getPreferenceStore();
 		Object result = null;
-		if(feature == NotationPackage.eINSTANCE.getLineStyle_LineColor() || feature == NotationPackage.eINSTANCE.getFontStyle_FontColor()
-				|| feature == NotationPackage.eINSTANCE.getFillStyle_FillColor()){
+
+		if (feature == NotationPackage.eINSTANCE.getLineStyle_LineColor()
+				|| feature == NotationPackage.eINSTANCE
+						.getFontStyle_FontColor()
+				|| feature == NotationPackage.eINSTANCE
+						.getFillStyle_FillColor()) {
 			String prefColor = null;
-			if(feature == NotationPackage.eINSTANCE.getLineStyle_LineColor()){
-				prefColor = PreferenceConstantHelper.getElementConstant("UimField", PreferenceConstantHelper.COLOR_LINE);
-			}else if(feature == NotationPackage.eINSTANCE.getFontStyle_FontColor()){
-				prefColor = PreferenceConstantHelper.getElementConstant("UimField", PreferenceConstantHelper.COLOR_FONT);
-			}else if(feature == NotationPackage.eINSTANCE.getFillStyle_FillColor()){
-				prefColor = PreferenceConstantHelper.getElementConstant("UimField", PreferenceConstantHelper.COLOR_FILL);
+			if (feature == NotationPackage.eINSTANCE.getLineStyle_LineColor()) {
+				prefColor = PreferenceConstantHelper.getElementConstant(
+						"UimField", PreferenceConstantHelper.COLOR_LINE);
+			} else if (feature == NotationPackage.eINSTANCE
+					.getFontStyle_FontColor()) {
+				prefColor = PreferenceConstantHelper.getElementConstant(
+						"UimField", PreferenceConstantHelper.COLOR_FONT);
+			} else if (feature == NotationPackage.eINSTANCE
+					.getFillStyle_FillColor()) {
+				prefColor = PreferenceConstantHelper.getElementConstant(
+						"UimField", PreferenceConstantHelper.COLOR_FILL);
 			}
-			result = FigureUtilities.RGBToInteger(PreferenceConverter.getColor((IPreferenceStore) preferenceStore, prefColor));
-		}else if(feature == NotationPackage.eINSTANCE.getFillStyle_Transparency()
-				|| feature == NotationPackage.eINSTANCE.getFillStyle_Gradient()){
-			String prefGradient = PreferenceConstantHelper.getElementConstant("UimField", PreferenceConstantHelper.COLOR_GRADIENT);
-			GradientPreferenceConverter gradientPreferenceConverter = new GradientPreferenceConverter(preferenceStore.getString(prefGradient));
-			if(feature == NotationPackage.eINSTANCE.getFillStyle_Transparency()){
-				result = new Integer(gradientPreferenceConverter.getTransparency());
-			}else if(feature == NotationPackage.eINSTANCE.getFillStyle_Gradient()){
+			result = FigureUtilities.RGBToInteger(PreferenceConverter.getColor(
+					(IPreferenceStore) preferenceStore, prefColor));
+		} else if (feature == NotationPackage.eINSTANCE
+				.getFillStyle_Transparency()
+				|| feature == NotationPackage.eINSTANCE.getFillStyle_Gradient()) {
+			String prefGradient = PreferenceConstantHelper.getElementConstant(
+					"UimField", PreferenceConstantHelper.COLOR_GRADIENT);
+			GradientPreferenceConverter gradientPreferenceConverter = new GradientPreferenceConverter(
+					preferenceStore.getString(prefGradient));
+			if (feature == NotationPackage.eINSTANCE
+					.getFillStyle_Transparency()) {
+				result = new Integer(
+						gradientPreferenceConverter.getTransparency());
+			} else if (feature == NotationPackage.eINSTANCE
+					.getFillStyle_Gradient()) {
 				result = gradientPreferenceConverter.getGradientData();
 			}
 		}
-		if(result == null){
+
+		if (result == null) {
 			result = getStructuralFeatureValue(feature);
 		}
 		return result;

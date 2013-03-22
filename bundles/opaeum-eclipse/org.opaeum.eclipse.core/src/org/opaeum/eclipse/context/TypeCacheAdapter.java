@@ -163,7 +163,6 @@ public class TypeCacheAdapter implements Adapter.Internal{
 			TreeIterator<EObject> allContents = rs.getAllContents();
 			while(allContents.hasNext()){
 				EObject next = (EObject) allContents.next();
-				System.out.println(next.getClass());
 				addObjectInCache(next);
 			}
 		}

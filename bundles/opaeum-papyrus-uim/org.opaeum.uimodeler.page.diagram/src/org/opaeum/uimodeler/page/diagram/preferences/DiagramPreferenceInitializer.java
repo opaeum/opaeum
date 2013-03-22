@@ -7,27 +7,39 @@ import org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorPlugin;
 /**
  * @generated
  */
-public class DiagramPreferenceInitializer extends AbstractPreferenceInitializer{
+public class DiagramPreferenceInitializer extends AbstractPreferenceInitializer {
 	/**
 	 * @generated
 	 */
-	public void initializeDefaultPreferences(){
+	public void initializeDefaultPreferences() {
 		IPreferenceStore store = getPreferenceStore();
+
 		LinkToQueryPreferencePage.initDefaults(store);
+
 		GridPanelPreferencePage.initDefaults(store);
+
 		BuiltInActionButtonPreferencePage.initDefaults(store);
+
 		UimDataTablePreferencePage.initDefaults(store);
-		InvocationButtonPreferencePage.initDefaults(store);
+
 		UimFieldPreferencePage.initDefaults(store);
+
+		InvocationButtonPreferencePage.initDefaults(store);
+
 		BuiltInLinkPreferencePage.initDefaults(store);
+
 		VerticalPanelPreferencePage.initDefaults(store);
+
 		TransitionButtonPreferencePage.initDefaults(store);
+
 		HorizontalPanelPreferencePage.initDefaults(store);
+
 	}
+
 	/**
 	 * @generated
 	 */
-	protected IPreferenceStore getPreferenceStore(){
+	protected IPreferenceStore getPreferenceStore() {
 		return UimDiagramEditorPlugin.getInstance().getPreferenceStore();
 	}
 }

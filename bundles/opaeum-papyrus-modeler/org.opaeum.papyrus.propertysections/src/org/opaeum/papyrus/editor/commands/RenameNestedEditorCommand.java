@@ -34,7 +34,6 @@ public class RenameNestedEditorCommand extends AbstractHandler {
 	 */
 	@Override
 	public void setEnabled(Object evaluationContext) {
-		//		System.out.println("call to CloseDiagramCommand.setEnable(" + evaluationContext + ")");
 	}
 
 	/**

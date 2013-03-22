@@ -22,7 +22,10 @@ Require-Bundle: org.eclipse.ui,
  org.opaeum.eclipse.core,
  org.opaeum.eclipse.uml.propertysections,
  org.opaeum.compilation.ocltojava,
- org.opaeum.linkage.validation
+ org.opaeum.linkage.validation,
+ org.eclipse.papyrus.infra.core,
+ org.eclipse.emf.edit,
+ org.eclipse.ui.ide
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.simulation.actions

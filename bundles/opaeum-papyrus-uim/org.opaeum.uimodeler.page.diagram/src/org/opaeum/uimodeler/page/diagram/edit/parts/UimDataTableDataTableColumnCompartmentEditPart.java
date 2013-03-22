@@ -15,6 +15,7 @@ import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.uml.diagram.common.editpolicies.DuplicatePasteEditPolicy;
+import org.eclipse.papyrus.uml.diagram.common.editpolicies.PapyrusCreationEditPolicy;
 import org.eclipse.swt.widgets.Composite;
 import org.opaeum.uim.figures.CustomDataTableColumnCompartmentFigure;
 import org.opaeum.uimodeler.common.UimFigureUtil;
@@ -24,87 +25,111 @@ import org.opaeum.uimodeler.page.diagram.part.Messages;
 /**
  * @generated
  */
-public class UimDataTableDataTableColumnCompartmentEditPart extends ShapeCompartmentEditPart{
+public class UimDataTableDataTableColumnCompartmentEditPart extends
+		ShapeCompartmentEditPart {
 	/**
 	 * @generated
 	 */
-	public static final int VISUAL_ID = 7002;
+	public static final int VISUAL_ID = 7006;
+
 	/**
 	 * @generated
 	 */
-	public UimDataTableDataTableColumnCompartmentEditPart(View view){
+	public UimDataTableDataTableColumnCompartmentEditPart(View view) {
 		super(view);
 	}
+
 	/**
 	 * @generated
 	 */
-	public String getCompartmentName(){
+	public String getCompartmentName() {
 		return Messages.UimDataTableDataTableColumnCompartmentEditPart_title;
 	}
+
 	/**
 	 * @generated NOT
 	 */
-	public IFigure createFigure(){
-		if(getParent() == null){
+	public IFigure createFigure() {
+		if (getParent() == null) {
 			return new ResizableCompartmentFigure("dummy", getMapMode());
 			// WhyIdon'tknow, but it happens
-		}else{
-			Composite nearestComposite = UimFigureUtil.getNearestComposite(getParent());
-			ResizableCompartmentFigure scf = new CustomDataTableColumnCompartmentFigure(getCompartmentName(), getMapMode(), nearestComposite);
+		} else {
+			Composite nearestComposite = UimFigureUtil
+					.getNearestComposite(getParent());
+			ResizableCompartmentFigure scf = new CustomDataTableColumnCompartmentFigure(
+					getCompartmentName(), getMapMode(), nearestComposite);
 			scf.getContentPane().setLayoutManager(getLayoutManager());
 			ResizableCompartmentFigure result = (ResizableCompartmentFigure) scf;
 			result.setTitleVisibility(false);
 			return result;
 		}
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void createDefaultEditPolicies(){
+	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
-		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new UimDataTableDataTableColumnCompartmentItemSemanticEditPolicy());
-		installEditPolicy(EditPolicyRoles.CREATION_ROLE, new CreationEditPolicy());
-		installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE, new DragDropEditPolicy());
-		installEditPolicy(DuplicatePasteEditPolicy.PASTE_ROLE, new DuplicatePasteEditPolicy());
-		// in Papyrus diagrams are not strongly synchronised
-		// installEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CANONICAL_ROLE, new
-		// org.opaeum.uimodeler.page.diagram.edit.policies.UimDataTableDataTableColumnCompartmentCanonicalEditPolicy());
+		installEditPolicy(
+				EditPolicyRoles.SEMANTIC_ROLE,
+				new UimDataTableDataTableColumnCompartmentItemSemanticEditPolicy());
+		installEditPolicy(EditPolicyRoles.CREATION_ROLE,
+				new PapyrusCreationEditPolicy());
+		installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE,
+				new DragDropEditPolicy());
+		installEditPolicy(DuplicatePasteEditPolicy.PASTE_ROLE,
+				new DuplicatePasteEditPolicy());
+
+		//in Papyrus diagrams are not strongly synchronised
+		//installEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CANONICAL_ROLE, new org.opaeum.uimodeler.page.diagram.edit.policies.UimDataTableDataTableColumnCompartmentCanonicalEditPolicy());
+
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void setRatio(Double ratio){
-		if(getFigure().getParent().getLayoutManager() instanceof ConstrainedToolbarLayout){
+	protected void setRatio(Double ratio) {
+		if (getFigure().getParent().getLayoutManager() instanceof ConstrainedToolbarLayout) {
 			super.setRatio(ratio);
 		}
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void handleNotificationEvent(Notification notification){
+	protected void handleNotificationEvent(Notification notification) {
 		Object feature = notification.getFeature();
-		if(NotationPackage.eINSTANCE.getSize_Width().equals(feature) || NotationPackage.eINSTANCE.getSize_Height().equals(feature)
-				|| NotationPackage.eINSTANCE.getLocation_X().equals(feature) || NotationPackage.eINSTANCE.getLocation_Y().equals(feature)){
+		if (NotationPackage.eINSTANCE.getSize_Width().equals(feature)
+				|| NotationPackage.eINSTANCE.getSize_Height().equals(feature)
+				|| NotationPackage.eINSTANCE.getLocation_X().equals(feature)
+				|| NotationPackage.eINSTANCE.getLocation_Y().equals(feature)) {
 			refreshBounds();
 		}
 		super.handleNotificationEvent(notification);
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void refreshBounds(){
-		int width = ((Integer) getStructuralFeatureValue(NotationPackage.eINSTANCE.getSize_Width())).intValue();
-		int height = ((Integer) getStructuralFeatureValue(NotationPackage.eINSTANCE.getSize_Height())).intValue();
+	protected void refreshBounds() {
+		int width = ((Integer) getStructuralFeatureValue(NotationPackage.eINSTANCE
+				.getSize_Width())).intValue();
+		int height = ((Integer) getStructuralFeatureValue(NotationPackage.eINSTANCE
+				.getSize_Height())).intValue();
 		Dimension size = new Dimension(width, height);
-		int x = ((Integer) getStructuralFeatureValue(NotationPackage.eINSTANCE.getLocation_X())).intValue();
-		int y = ((Integer) getStructuralFeatureValue(NotationPackage.eINSTANCE.getLocation_Y())).intValue();
+		int x = ((Integer) getStructuralFeatureValue(NotationPackage.eINSTANCE
+				.getLocation_X())).intValue();
+		int y = ((Integer) getStructuralFeatureValue(NotationPackage.eINSTANCE
+				.getLocation_Y())).intValue();
 		Point loc = new Point(x, y);
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), new Rectangle(loc, size));
+		((GraphicalEditPart) getParent()).setLayoutConstraint(this,
+				getFigure(), new Rectangle(loc, size));
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void refreshVisuals(){
+	protected void refreshVisuals() {
 		super.refreshVisuals();
 		refreshBounds();
 	}

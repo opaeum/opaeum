@@ -112,7 +112,7 @@ public class UimFieldName2EditPart extends PapyrusCompartmentEditPart implements
 		super.createDefaultEditPolicies();
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new UimTextSelectionEditPolicy());
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
-		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE, new UserInterfaceEditPart.NodeLabelDragPolicy());
+		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE, new PageEditPart.NodeLabelDragPolicy());
 	}
 	/**
 	 * @generated
@@ -295,7 +295,7 @@ public class UimFieldName2EditPart extends PapyrusCompartmentEditPart implements
 	 */
 	public IParser getParser(){
 		if(parser == null){
-			parser = UimParserProvider.getParser(UimElementTypes.UimField_3010, getParserElement(),
+			parser = UimParserProvider.getParser(UimElementTypes.UimField_3037, getParserElement(),
 					UimVisualIDRegistry.getType(org.opaeum.uimodeler.page.diagram.edit.parts.UimFieldName2EditPart.VISUAL_ID));
 		}
 		return parser;

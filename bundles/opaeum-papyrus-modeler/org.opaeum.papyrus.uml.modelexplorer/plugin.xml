@@ -37,7 +37,7 @@ icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id=
                </instanceof>
             </or>
          </possibleChildren>
-         <actionProvider class="org.eclipse.papyrus.views.modelexplorer.actionprovider.GenericTransformActionProvider" id="org.opaeum.papyrus.views.modelexplorer.actionprovider.GenericTransformActionProvider">
+         <actionProvider class="org.eclipse.papyrus.views.modelexplorer.actionprovider.GenericTransformActionProvider" id="org.eclipse.papyrus.views.modelexplorer.actionprovider.GenericTransformActionProvider">
             <enablement>
                <or>
                   <adapt type="org.eclipse.emf.ecore.EObject">
@@ -45,7 +45,7 @@ icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id=
                </or>
             </enablement>
          </actionProvider>
-         <actionProvider class="org.eclipse.papyrus.views.modelexplorer.actionprovider.EditingDomainActionProvider" id="org.opaeum.papyrus.views.modelexplorer.actionprovider.EditingDomainActionProvider">
+         <actionProvider class="org.eclipse.papyrus.views.modelexplorer.actionprovider.EditingDomainActionProvider" id="org.eclipse.papyrus.views.modelexplorer.actionprovider.EditingDomainActionProvider">
             <enablement>
                <and>
                   <not>
@@ -57,7 +57,7 @@ icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id=
                </and>
             </enablement>
          </actionProvider>
-         <dropAssistant class="org.eclipse.papyrus.views.modelexplorer.dnd.CommonDropAdapterAssistant" id="org.opaeum.papyrus.views.modelexplorer.dnd.CommonDropAdapterAssistant">
+         <dropAssistant class="org.eclipse.papyrus.views.modelexplorer.dnd.CommonDropAdapterAssistant" id="org.eclipse.papyrus.views.modelexplorer.dnd.CommonDropAdapterAssistant">
             <possibleDropTargets>
                <or>
                   <instanceof value="org.eclipse.gmf.runtime.notation.Diagram">
@@ -74,12 +74,8 @@ icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id=
 	<startup class="org.opaeum.papyrus.uml.modelexplorer.Activator"/>
 </extension>
 <extension point="org.eclipse.core.runtime.adapters">
-   <factory adaptableType="org.eclipse.emf.facet.infra.browser.uicore.internal.model.ModelElementItem" class="org.opaeum.papyrus.uml.modelexplorer.factory.ModelElementItemFactory">
+   <factory adaptableType="org.eclipse.emf.facet.infra.browser.uicore.internal.model.ModelElementItem" class="org.eclipse.papyrus.uml.modelexplorer.factory.ModelElementItemFactory">
       <adapter type="org.eclipse.uml2.uml.NamedElement">
-      </adapter>
-   </factory>
-   <factory adaptableType="org.eclipse.emf.facet.infra.browser.uicore.internal.model.LinkItem" class="org.eclipse.papyrus.views.modelexplorer.LinkNodeAdapterFactory">
-      <adapter type="org.eclipse.papyrus.views.modelexplorer.LinkNode">
       </adapter>
    </factory>
 </extension>
@@ -89,12 +85,8 @@ icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id=
       </facetset>
    </extension>
    <extension point="org.eclipse.emf.facet.infra.browser.custom.core.registration">
-      <browserCustomization
-            file="resource/UMLFacetDefaultBrowserCustomization.uiCustom"
-            loadByDefault="true"/>
-      <browserCustomization
-            file="resource/NotationCustomization.uiCustom"
-            loadByDefault="true">
+      <browserCustomization file="resource/UMLFacetDefaultBrowserCustomization.uiCustom" loadByDefault="true"/>
+      <browserCustomization file="resource/NotationCustomization.uiCustom" loadByDefault="true">
       </browserCustomization>
    </extension>
    <!--extension
@@ -165,59 +157,6 @@ icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id=
       </viewerContentBinding>
       <dragAssistant class="org.eclipse.papyrus.views.modelexplorer.dnd.EObjectDragAdapterAssistant" viewerId="org.opaeum.papyrus.uml.modelexplorer">
       </dragAssistant>
-   </extension>
-      <extension point="org.eclipse.ui.navigator.navigatorContent">
-      <navigatorContent activeByDefault="false" contentProvider="org.eclipse.papyrus.infra.emf.providers.MoDiscoContentProvider" id="org.opaeum.papyrus.views.modelexplorer.navigatorContent" labelProvider="org.eclipse.papyrus.views.modelexplorer.MoDiscoLabelProvider" name="Model Contents" priority="lowest">
-         <triggerPoints>
-            <or>
-               <instanceof value="org.eclipse.emf.ecore.EObject">
-               </instanceof>
-               <adapt type="org.eclipse.emf.ecore.EObject">
-               </adapt>
-               <instanceof value="java.lang.Object">
-               </instanceof>
-            </or>
-         </triggerPoints>
-         <possibleChildren>
-            <or>
-               <instanceof value="org.eclipse.gmf.runtime.notation.impl.DiagramImpl">
-               </instanceof>
-               <instanceof value="org.eclipse.emf.facet.infra.browser.uicore.internal.model.ModelElementItem"/>
-            </or>
-         </possibleChildren>
-         <actionProvider class="org.eclipse.papyrus.views.modelexplorer.actionprovider.GenericTransformActionProvider" id="org.eclipse.papyrus.views.modelexplorer.actionprovider.GenericTransformActionProvider">
-            <enablement>
-               <or>
-                  <adapt type="org.eclipse.emf.ecore.EObject">
-                  </adapt>
-               </or>
-            </enablement>
-         </actionProvider>
-          
-         <actionProvider class="org.eclipse.papyrus.views.modelexplorer.actionprovider.EditingDomainActionProvider" id="org.eclipse.papyrus.views.modelexplorer.actionprovider.EditingDomainActionProvider">
-                  <enablement>
-               <and>
-                  <not>
-                     <instanceof value="org.eclipse.gmf.runtime.notation.Diagram">
-                     </instanceof>
-                  </not>
-                  <adapt type="org.eclipse.emf.ecore.EObject">
-                  </adapt>
-               </and>
-            </enablement>
-         </actionProvider>
-         <dropAssistant class="org.eclipse.papyrus.views.modelexplorer.dnd.CommonDropAdapterAssistant" id="org.eclipse.papyrus.views.modelexplorer.dnd.CommonDropAdapterAssistant">
-            <possibleDropTargets>
-               <or>
-                  <instanceof value="org.eclipse.gmf.runtime.notation.impl.DiagramImpl">
-                  </instanceof>
-                  <adapt type="org.eclipse.emf.ecore.EObject">
-                  </adapt>
-               </or>
-            </possibleDropTargets>
-         </dropAssistant>
-    
-      </navigatorContent>
    </extension>
    <extension point="org.eclipse.ui.commands">
 

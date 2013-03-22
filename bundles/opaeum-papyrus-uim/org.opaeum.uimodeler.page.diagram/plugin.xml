@@ -109,7 +109,6 @@
             class="org.opaeum.uimodeler.page.diagram.sheet.UimPropertySection">
             <input type="org.eclipse.gmf.runtime.notation.View"/>
             <input type="org.eclipse.gef.EditPart"/>
-            <input type="org.opaeum.uimodeler.page.diagram.navigator.UimAbstractNavigatorItem"/>
          </propertySection>
       </propertySections>
    </extension>
@@ -119,7 +118,7 @@
       <viewProvider class="org.opaeum.uimodeler.page.diagram.providers.UimViewProvider">
          <Priority name="Lowest"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="userinterface"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2002,2003,3001,3018,3003,3004,3019,3020,3021,3022,3009,3010,3023,3024,3025,3026,3027,3017"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2002,2003,3028,3029,3030,3031,3032,3033,3034,3035,3036,3037,3038,3039,3040,3041,3042,3043"/>
       </viewProvider>
    </extension>
 
@@ -131,16 +130,16 @@
             <method name="getType()" value="userinterface"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
-            <method name="getType()" value="2001,2002,2003,3001,3018,3003,3004,3019,3020,3021,3022,3009,3010,3023,3024,3025,3026,3027,3017"/>
+            <method name="getType()" value="2001,2002,2003,3028,3029,3030,3031,3032,3033,3034,3035,3036,3037,3038,3039,3040,3041,3042,3043"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
             <method name="getType()" value=""/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-labels">
-            <method name="getType()" value="5011,5015,5016,5017,5018,5019,5014"/>
+            <method name="getType()" value="5011,5020,5021,5022,5023,5024,5025"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-compartments">
-            <method name="getType()" value="7001,7002,7003,7005"/>
+            <method name="getType()" value="7001,7006,7007,7008"/>
          </object>
          <context views="generated-diagram,generated-nodes,generated-links,generated-labels,generated-compartments"/>
       </editpartProvider>
@@ -150,11 +149,27 @@
       <?gmfgen generated="true"?>
       <modelingAssistantProvider class="org.opaeum.uimodeler.page.diagram.providers.UimModelingAssistantProvider">
          <Priority name="Lowest"/>
-         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.UserInterfaceEditPart" id="UserInterface_1000"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.PageEditPart" id="Page_1000"/>
          <object class="org.opaeum.uimodeler.page.diagram.edit.parts.GridPanelEditPart" id="GridPanel_2001"/>
          <object class="org.opaeum.uimodeler.page.diagram.edit.parts.HorizontalPanelEditPart" id="HorizontalPanel_2002"/>
          <object class="org.opaeum.uimodeler.page.diagram.edit.parts.VerticalPanelEditPart" id="VerticalPanel_2003"/>
-         <context elements="UserInterface_1000,GridPanel_2001,HorizontalPanel_2002,VerticalPanel_2003"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.UimFieldEditPart" id="UimField_3028"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInActionButtonEditPart" id="BuiltInActionButton_3029"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.HorizontalPanel2EditPart" id="HorizontalPanel_3030"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.VerticalPanel2EditPart" id="VerticalPanel_3031"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.TransitionButtonEditPart" id="TransitionButton_3032"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButtonEditPart" id="InvocationButton_3033"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.LinkToQueryEditPart" id="LinkToQuery_3034"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInLinkEditPart" id="BuiltInLink_3035"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.UimDataTableEditPart" id="UimDataTable_3036"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.UimField2EditPart" id="UimField_3037"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInActionButton2EditPart" id="BuiltInActionButton_3038"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButton2EditPart" id="InvocationButton_3039"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInActionButton3EditPart" id="BuiltInActionButton_3040"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.InvocationButton3EditPart" id="InvocationButton_3041"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.BuiltInLink2EditPart" id="BuiltInLink_3042"/>
+         <object class="org.opaeum.uimodeler.page.diagram.edit.parts.GridPanel2EditPart" id="GridPanel_3043"/>
+         <context elements="Page_1000,GridPanel_2001,HorizontalPanel_2002,VerticalPanel_2003,UimField_3028,BuiltInActionButton_3029,HorizontalPanel_3030,VerticalPanel_3031,TransitionButton_3032,InvocationButton_3033,LinkToQuery_3034,BuiltInLink_3035,UimDataTable_3036,UimField_3037,BuiltInActionButton_3038,InvocationButton_3039,BuiltInActionButton_3040,InvocationButton_3041,BuiltInLink_3042,GridPanel_3043"/>
       </modelingAssistantProvider>
    </extension>
 
@@ -176,11 +191,11 @@
       <?gmfgen generated="true"?>
       <metamodel nsURI="http://opaeum.org/uimetamodel/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.page.diagram.UserInterface_1000"
-               name="%metatype.name.UserInterface_1000"
+               id="org.opaeum.uimodeler.page.diagram.Page_1000"
+               name="%metatype.name.Page_1000"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
                eclass="Page"
-               edithelper="org.opaeum.uimodeler.page.diagram.edit.helpers.UserInterfaceEditHelper">
+               edithelper="org.opaeum.uimodeler.page.diagram.edit.helpers.PageEditHelper">
             <param name="semanticHint" value="1000"/>
          </metamodelType>
       </metamodel>
@@ -199,7 +214,7 @@
                id="org.opaeum.uimodeler.page.diagram.HorizontalPanel_2002"
                name="%metatype.name.HorizontalPanel_2002"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
-            <specializes id="org.opaeum.uimodeler.page.diagram.HorizontalPanel_3003"/>
+            <specializes id="org.opaeum.uimodeler.page.diagram.HorizontalPanel_3030"/>
             <param name="semanticHint" value="2002"/>
          </specializationType>
       </metamodel>
@@ -208,161 +223,161 @@
                id="org.opaeum.uimodeler.page.diagram.VerticalPanel_2003"
                name="%metatype.name.VerticalPanel_2003"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
-            <specializes id="org.opaeum.uimodeler.page.diagram.VerticalPanel_3004"/>
+            <specializes id="org.opaeum.uimodeler.page.diagram.VerticalPanel_3031"/>
             <param name="semanticHint" value="2003"/>
          </specializationType>
       </metamodel>
-      <metamodel nsURI="http://opaeum.org/uimetamodel/1.0">
+      <metamodel nsURI="http://opaeum.org/uimetamodel/component/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.page.diagram.UimField_3001"
-               name="%metatype.name.UimField_3001"
+               id="org.opaeum.uimodeler.page.diagram.UimField_3028"
+               name="%metatype.name.UimField_3028"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
                eclass="UimField"
                edithelper="org.opaeum.uimodeler.page.diagram.edit.helpers.UimFieldEditHelper">
-            <param name="semanticHint" value="3001"/>
+            <param name="semanticHint" value="3028"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3018"
-               name="%metatype.name.BuiltInActionButton_3018"
+               id="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3029"
+               name="%metatype.name.BuiltInActionButton_3029"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
                eclass="BuiltInActionButton"
                edithelper="org.opaeum.uimodeler.page.diagram.edit.helpers.BuiltInActionButtonEditHelper">
-            <param name="semanticHint" value="3018"/>
+            <param name="semanticHint" value="3029"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/panel/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.page.diagram.HorizontalPanel_3003"
-               name="%metatype.name.HorizontalPanel_3003"
+               id="org.opaeum.uimodeler.page.diagram.HorizontalPanel_3030"
+               name="%metatype.name.HorizontalPanel_3030"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
                eclass="HorizontalPanel"
                edithelper="org.opaeum.uimodeler.page.diagram.edit.helpers.HorizontalPanelEditHelper">
-            <param name="semanticHint" value="3003"/>
+            <param name="semanticHint" value="3030"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/panel/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.page.diagram.VerticalPanel_3004"
-               name="%metatype.name.VerticalPanel_3004"
+               id="org.opaeum.uimodeler.page.diagram.VerticalPanel_3031"
+               name="%metatype.name.VerticalPanel_3031"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
                eclass="VerticalPanel"
                edithelper="org.opaeum.uimodeler.page.diagram.edit.helpers.VerticalPanelEditHelper">
-            <param name="semanticHint" value="3004"/>
+            <param name="semanticHint" value="3031"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.page.diagram.TransitionButton_3019"
-               name="%metatype.name.TransitionButton_3019"
+               id="org.opaeum.uimodeler.page.diagram.TransitionButton_3032"
+               name="%metatype.name.TransitionButton_3032"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
                eclass="TransitionButton"
                edithelper="org.opaeum.uimodeler.page.diagram.edit.helpers.TransitionButtonEditHelper">
-            <param name="semanticHint" value="3019"/>
+            <param name="semanticHint" value="3032"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.page.diagram.InvocationButton_3020"
-               name="%metatype.name.InvocationButton_3020"
+               id="org.opaeum.uimodeler.page.diagram.InvocationButton_3033"
+               name="%metatype.name.InvocationButton_3033"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
                eclass="InvocationButton"
                edithelper="org.opaeum.uimodeler.page.diagram.edit.helpers.InvocationButtonEditHelper">
-            <param name="semanticHint" value="3020"/>
+            <param name="semanticHint" value="3033"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.page.diagram.LinkToQuery_3021"
-               name="%metatype.name.LinkToQuery_3021"
+               id="org.opaeum.uimodeler.page.diagram.LinkToQuery_3034"
+               name="%metatype.name.LinkToQuery_3034"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
                eclass="LinkToQuery"
                edithelper="org.opaeum.uimodeler.page.diagram.edit.helpers.LinkToQueryEditHelper">
-            <param name="semanticHint" value="3021"/>
+            <param name="semanticHint" value="3034"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.page.diagram.BuiltInLink_3022"
-               name="%metatype.name.BuiltInLink_3022"
+               id="org.opaeum.uimodeler.page.diagram.BuiltInLink_3035"
+               name="%metatype.name.BuiltInLink_3035"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
                eclass="BuiltInLink"
                edithelper="org.opaeum.uimodeler.page.diagram.edit.helpers.BuiltInLinkEditHelper">
-            <param name="semanticHint" value="3022"/>
+            <param name="semanticHint" value="3035"/>
          </metamodelType>
       </metamodel>
-      <metamodel nsURI="http://opaeum.org/uimetamodel/1.0">
+      <metamodel nsURI="http://opaeum.org/uimetamodel/component/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.page.diagram.UimDataTable_3009"
-               name="%metatype.name.UimDataTable_3009"
+               id="org.opaeum.uimodeler.page.diagram.UimDataTable_3036"
+               name="%metatype.name.UimDataTable_3036"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
                eclass="UimDataTable"
                edithelper="org.opaeum.uimodeler.page.diagram.edit.helpers.UimDataTableEditHelper">
-            <param name="semanticHint" value="3009"/>
+            <param name="semanticHint" value="3036"/>
          </metamodelType>
       </metamodel>
-      <metamodel nsURI="http://opaeum.org/uimetamodel/1.0">
+      <metamodel nsURI="http://opaeum.org/uimetamodel/component/1.0">
          <specializationType
-               id="org.opaeum.uimodeler.page.diagram.UimField_3010"
-               name="%metatype.name.UimField_3010"
+               id="org.opaeum.uimodeler.page.diagram.UimField_3037"
+               name="%metatype.name.UimField_3037"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
-            <specializes id="org.opaeum.uimodeler.page.diagram.UimField_3001"/>
-            <param name="semanticHint" value="3010"/>
+            <specializes id="org.opaeum.uimodeler.page.diagram.UimField_3028"/>
+            <param name="semanticHint" value="3037"/>
          </specializationType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
          <specializationType
-               id="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3023"
-               name="%metatype.name.BuiltInActionButton_3023"
+               id="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3038"
+               name="%metatype.name.BuiltInActionButton_3038"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
-            <specializes id="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3018"/>
-            <param name="semanticHint" value="3023"/>
+            <specializes id="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3029"/>
+            <param name="semanticHint" value="3038"/>
          </specializationType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
          <specializationType
-               id="org.opaeum.uimodeler.page.diagram.InvocationButton_3024"
-               name="%metatype.name.InvocationButton_3024"
+               id="org.opaeum.uimodeler.page.diagram.InvocationButton_3039"
+               name="%metatype.name.InvocationButton_3039"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
-            <specializes id="org.opaeum.uimodeler.page.diagram.InvocationButton_3020"/>
-            <param name="semanticHint" value="3024"/>
+            <specializes id="org.opaeum.uimodeler.page.diagram.InvocationButton_3033"/>
+            <param name="semanticHint" value="3039"/>
          </specializationType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
          <specializationType
-               id="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3025"
-               name="%metatype.name.BuiltInActionButton_3025"
+               id="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3040"
+               name="%metatype.name.BuiltInActionButton_3040"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
-            <specializes id="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3018"/>
-            <param name="semanticHint" value="3025"/>
+            <specializes id="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3029"/>
+            <param name="semanticHint" value="3040"/>
          </specializationType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
          <specializationType
-               id="org.opaeum.uimodeler.page.diagram.InvocationButton_3026"
-               name="%metatype.name.InvocationButton_3026"
+               id="org.opaeum.uimodeler.page.diagram.InvocationButton_3041"
+               name="%metatype.name.InvocationButton_3041"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
-            <specializes id="org.opaeum.uimodeler.page.diagram.InvocationButton_3020"/>
-            <param name="semanticHint" value="3026"/>
+            <specializes id="org.opaeum.uimodeler.page.diagram.InvocationButton_3033"/>
+            <param name="semanticHint" value="3041"/>
          </specializationType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
          <specializationType
-               id="org.opaeum.uimodeler.page.diagram.BuiltInLink_3027"
-               name="%metatype.name.BuiltInLink_3027"
+               id="org.opaeum.uimodeler.page.diagram.BuiltInLink_3042"
+               name="%metatype.name.BuiltInLink_3042"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
-            <specializes id="org.opaeum.uimodeler.page.diagram.BuiltInLink_3022"/>
-            <param name="semanticHint" value="3027"/>
+            <specializes id="org.opaeum.uimodeler.page.diagram.BuiltInLink_3035"/>
+            <param name="semanticHint" value="3042"/>
          </specializationType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/panel/1.0">
          <specializationType
-               id="org.opaeum.uimodeler.page.diagram.GridPanel_3017"
-               name="%metatype.name.GridPanel_3017"
+               id="org.opaeum.uimodeler.page.diagram.GridPanel_3043"
+               name="%metatype.name.GridPanel_3043"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
             <specializes id="org.opaeum.uimodeler.page.diagram.GridPanel_2001"/>
-            <param name="semanticHint" value="3017"/>
+            <param name="semanticHint" value="3043"/>
          </specializationType>
       </metamodel>
    </extension>
@@ -377,143 +392,33 @@
          </enablement>
       </clientContext> 
       <binding context="org.opaeum.uimodeler.page.diagram.TypeContext">
-         <elementType ref="org.opaeum.uimodeler.page.diagram.UserInterface_1000"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.Page_1000"/>
          <elementType ref="org.opaeum.uimodeler.page.diagram.GridPanel_2001"/>
          <elementType ref="org.opaeum.uimodeler.page.diagram.HorizontalPanel_2002"/>
          <elementType ref="org.opaeum.uimodeler.page.diagram.VerticalPanel_2003"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.UimField_3001"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3018"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.HorizontalPanel_3003"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.VerticalPanel_3004"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.TransitionButton_3019"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.InvocationButton_3020"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.LinkToQuery_3021"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.BuiltInLink_3022"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.UimDataTable_3009"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.UimField_3010"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3023"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.InvocationButton_3024"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3025"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.InvocationButton_3026"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.BuiltInLink_3027"/>
-         <elementType ref="org.opaeum.uimodeler.page.diagram.GridPanel_3017"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.UimField_3028"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3029"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.HorizontalPanel_3030"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.VerticalPanel_3031"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.TransitionButton_3032"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.InvocationButton_3033"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.LinkToQuery_3034"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.BuiltInLink_3035"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.UimDataTable_3036"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.UimField_3037"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3038"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.InvocationButton_3039"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.BuiltInActionButton_3040"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.InvocationButton_3041"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.BuiltInLink_3042"/>
+         <elementType ref="org.opaeum.uimodeler.page.diagram.GridPanel_3043"/>
          <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>
       </binding>
    </extension>
-	   <extension point="org.eclipse.core.expressions.propertyTesters" id="navigator-proptest.isURIEditorInput">
-      <?gmfgen generated="true"?>
-       <propertyTester
-           id="org.opaeum.uimodeler.page.diagram.URIEditorInputPropertyTester"
-           type="org.eclipse.emf.common.ui.URIEditorInput"
-           namespace="org.opaeum.uimodeler.page.diagram"
-           properties="isURIEditorInput"
-           class="org.opaeum.uimodeler.page.diagram.part.UimUriEditorInputTester">
-       </propertyTester>
-   </extension>
-
-	   <extension point="org.eclipse.ui.navigator.viewer" id="navigator-viewbinding">
-      <?gmfgen generated="true"?>
-      <viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
-         <includes>
-            <contentExtension pattern="org.opaeum.uimodeler.page.diagram.resourceContent"/>
-			<contentExtension pattern="org.opaeum.uimodeler.page.diagram.domainResourceContent"/>
-            <contentExtension pattern="org.opaeum.uimodeler.page.diagram.navigatorLinkHelper"/>
-         </includes>
-      </viewerContentBinding>
-      <viewerActionBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
-         <includes>
-            <actionExtension pattern="org.opaeum.uimodeler.page.diagram.navigatorActionProvider"/>
-         </includes>
-      </viewerActionBinding>
-   </extension>
-
-   <extension point="org.eclipse.ui.navigator.navigatorContent" id="navigator-content">
-      <?gmfgen generated="true"?>
-      <navigatorContent
-            id="org.opaeum.uimodeler.page.diagram.resourceContent" 
-            name="%navigatorContentName" 
-            priority="normal" 
-            contentProvider="org.opaeum.uimodeler.page.diagram.navigator.UimNavigatorContentProvider" 
-            labelProvider="org.opaeum.uimodeler.page.diagram.navigator.UimNavigatorLabelProvider"
-            icon="icons/obj16/UimDiagramFile.gif"
-            activeByDefault="true">
-         <triggerPoints>
-            <or>
-	           <and>
-    	          <instanceof value="org.eclipse.core.resources.IFile"/>
-        	      <test property="org.eclipse.core.resources.extension" value="uim_diagram"/>
-               </and>
-               <instanceof value="org.opaeum.uimodeler.page.diagram.navigator.UimAbstractNavigatorItem"/>
-            </or>
-         </triggerPoints>
-         <possibleChildren>
-            <or>
-         	   <instanceof value="org.opaeum.uimodeler.page.diagram.navigator.UimAbstractNavigatorItem"/>
-            </or>
-         </possibleChildren>
-         <commonSorter 
-               id="org.opaeum.uimodeler.page.diagram.navigatorSorter" 
-               class="org.opaeum.uimodeler.page.diagram.navigator.UimNavigatorSorter">
-            <parentExpression>
-               <or>
-	              <and>
-    	             <instanceof value="org.eclipse.core.resources.IFile"/>
-        	         <test property="org.eclipse.core.resources.extension" value="uim_diagram"/>
-                  </and>
-                  <instanceof value="org.opaeum.uimodeler.page.diagram.navigator.UimAbstractNavigatorItem"/>
-               </or>
-            </parentExpression>
-         </commonSorter>
-      </navigatorContent>
-      <navigatorContent
-            id="org.opaeum.uimodeler.page.diagram.domainResourceContent" 
-            name="%domainNavigatorContentName" 
-            priority="normal" 
-            contentProvider="org.opaeum.uimodeler.page.diagram.navigator.UimDomainNavigatorContentProvider" 
-            labelProvider="org.opaeum.uimodeler.page.diagram.navigator.UimDomainNavigatorLabelProvider"
-            icon="icons/obj16/UimDiagramFile.gif"
-            activeByDefault="true">
-         <triggerPoints>
-            <or>
-	           <and>
-    	          <instanceof value="org.eclipse.core.resources.IFile"/>
-        	      <test property="org.eclipse.core.resources.extension" value="uim"/>
-               </and>
-               <instanceof value="org.opaeum.uimodeler.page.diagram.navigator.UimDomainNavigatorItem"/>
-            </or>
-         </triggerPoints>
-         <possibleChildren>
-            <instanceof value="org.opaeum.uimodeler.page.diagram.navigator.UimDomainNavigatorItem"/>
-         </possibleChildren>
-      </navigatorContent>
-      <actionProvider
-            id="org.opaeum.uimodeler.page.diagram.navigatorActionProvider"
-            class="org.opaeum.uimodeler.page.diagram.navigator.UimNavigatorActionProvider">
-         <enablement>
-            <or>
-               <instanceof value="org.opaeum.uimodeler.page.diagram.navigator.UimAbstractNavigatorItem"/>
-            </or>
-         </enablement>
-      </actionProvider>
-   </extension>
-   
-	   <extension point="org.eclipse.ui.navigator.linkHelper" id="navigator-linkhelper">
-      <?gmfgen generated="true"?>
-      <linkHelper
-            id="org.opaeum.uimodeler.page.diagram.navigatorLinkHelper"
-            class="org.opaeum.uimodeler.page.diagram.navigator.UimNavigatorLinkHelper">
-         <editorInputEnablement>
-            <and>
-               <instanceof value="org.eclipse.emf.common.ui.URIEditorInput"/>
-               <test property="org.opaeum.uimodeler.page.diagram.isURIEditorInput"/>
-            </and>
-         </editorInputEnablement>
-         <selectionEnablement>
-            <instanceof value="org.opaeum.uimodeler.page.diagram.navigator.UimAbstractNavigatorItem"/>
-         </selectionEnablement>
-      </linkHelper>
-   </extension>
-   <extension point="org.eclipse.ui.commands" id="update-cmd">
+	   
+	   
+      
+	      <extension point="org.eclipse.ui.commands" id="update-cmd">
       <?gmfgen generated="true"?>
       <command
          categoryId="org.eclipse.ui.category.edit"
@@ -544,7 +449,7 @@
                <and>
                   <with variable="activePartId"><equals value="org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorID"/></with>
                   <with variable="selection"><iterate ifEmpty="false"> 
-                     <instanceof value="org.opaeum.uimodeler.page.diagram.edit.parts.UserInterfaceEditPart"/>
+                     <instanceof value="org.opaeum.uimodeler.page.diagram.edit.parts.PageEditPart"/>
                   </iterate></with>
                </and>
             </visibleWhen>
@@ -625,9 +530,9 @@
        id="createField1CreationTool"
        kind="tool"
        label="Field"
-		large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/UimField.gif"
+       large_icon=""
        path=""
-       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/UimField.gif">
+       small_icon="">
  	</entry>
 	<entry
        defineOnly="true"
@@ -635,9 +540,9 @@
        id="createDataTable2CreationTool"
        kind="tool"
        label="DataTable"
-       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/UimDataTable.gif"
+       large_icon=""
        path=""
-       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/UimDataTable.gif">
+       small_icon="">
  	</entry>
 	<entry
        defineOnly="true"
@@ -645,9 +550,9 @@
        id="createGridPanel1CreationTool"
        kind="tool"
        label="GridPanel"
-       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/GridPanel.gif"
+       large_icon=""
        path=""
-       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/GridPanel.gif">
+       small_icon="">
  	</entry>
 	<entry
        defineOnly="true"
@@ -655,9 +560,9 @@
        id="createVerticalPanel2CreationTool"
        kind="tool"
        label="VerticalPanel"
-       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/GridPanel.gif"
+       large_icon=""
        path=""
-       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/GridPanel.gif">
+       small_icon="">
  	</entry>
 	<entry
        defineOnly="true"
@@ -665,9 +570,9 @@
        id="createHorizontalPanel3CreationTool"
        kind="tool"
        label="HorizontalPanel"
-       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/GridPanel.gif"
+       large_icon=""
        path=""
-       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/GridPanel.gif">
+       small_icon="">
  	</entry>
 	<entry
        defineOnly="true"
@@ -675,9 +580,9 @@
        id="createBuiltInActionButton1CreationTool"
        kind="tool"
        label="BuiltInActionButton"
-       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/BuiltInActionButton.gif"
+       large_icon=""
        path=""
-       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/BuiltInActionButton.gif">
+       small_icon="">
  	</entry>
 	<entry
        defineOnly="true"
@@ -685,9 +590,9 @@
        id="createTransitionButton2CreationTool"
        kind="tool"
        label="TransitionButton"
-       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/TransitionButton.gif"
+       large_icon=""
        path=""
-       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/TransitionButton.gif">
+       small_icon="">
  	</entry>
 	<entry
        defineOnly="true"
@@ -695,9 +600,9 @@
        id="createInvocationButton3CreationTool"
        kind="tool"
        label="InvocationButton"
-       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif"
+       large_icon=""
        path=""
-       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/InvocationButton.gif">
+       small_icon="">
  	</entry>
 	<entry
        defineOnly="true"
@@ -705,9 +610,9 @@
        id="createLinkToQuery4CreationTool"
        kind="tool"
        label="LinkToQuery"
-       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/LinkToQuery.gif"
+       large_icon=""
        path=""
-       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/LinkToQuery.gif">
+       small_icon="">
  	</entry>
 	<entry
        defineOnly="true"
@@ -715,9 +620,9 @@
        id="createBuiltInLink5CreationTool"
        kind="tool"
        label="BuiltInLink"
-       large_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/BuiltInLink.gif"
+       large_icon=""
        path=""
-       small_icon="platform:/plugin/org.opaeum.uimodeler.edit/icons/full/obj16/BuiltInLink.gif">
+       small_icon="">
  	</entry>
 
 			</contribution>
@@ -743,9 +648,9 @@
        id="createGeneral1Group"
        kind="drawer"
        label="General"
-       large_icon="platform:/plugin/org.opaeum.uimodeler.editor/icons/full/obj16/ComponentModelFile.gif"
+       large_icon=""
        path="/"
-       small_icon="platform:/plugin/org.opaeum.uimodeler.editor/icons/full/obj16/ComponentModelFile.gif">
+       small_icon="">
        <expand
               force="true">
        </expand>
@@ -773,9 +678,9 @@
        id="createLayoutPanels2Group"
        kind="drawer"
        label="LayoutPanels"
-       large_icon="platform:/plugin/org.opaeum.uimodeler.editor/icons/full/obj16/PanelModelFile.gif"
+       large_icon=""
        path="/"
-       small_icon="platform:/plugin/org.opaeum.uimodeler.editor/icons/full/obj16/PanelModelFile.gif">
+       small_icon="">
        <expand
               force="true">
        </expand>
@@ -799,9 +704,9 @@
        id="createLinksandButtons3Group"
        kind="drawer"
        label="Links and Buttons"
-       large_icon="platform:/plugin/org.opaeum.uimodeler.editor/icons/full/obj16/ActionModelFile.gif"
+       large_icon=""
        path="/"
-       small_icon="platform:/plugin/org.opaeum.uimodeler.editor/icons/full/obj16/ActionModelFile.gif">
+       small_icon="">
        <expand
               force="true">
        </expand>
@@ -869,16 +774,16 @@
 		
 	<?gmfgen generated="true"?>
 	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.userinterface"
-			class="org.opaeum.uimodeler.page.diagram.preferences.InvocationButtonPreferencePage"
-            id="org.opaeum.uimodeler.page.diagram.preferences.InvocationButtonPreferencePage"
-            name="InvocationButton Node" />
+			class="org.opaeum.uimodeler.page.diagram.preferences.UimFieldPreferencePage"
+            id="org.opaeum.uimodeler.page.diagram.preferences.UimFieldPreferencePage"
+            name="UimField Node" />
 	
 		
 	<?gmfgen generated="true"?>
 	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.userinterface"
-			class="org.opaeum.uimodeler.page.diagram.preferences.UimFieldPreferencePage"
-            id="org.opaeum.uimodeler.page.diagram.preferences.UimFieldPreferencePage"
-            name="UimField Node" />
+			class="org.opaeum.uimodeler.page.diagram.preferences.InvocationButtonPreferencePage"
+            id="org.opaeum.uimodeler.page.diagram.preferences.InvocationButtonPreferencePage"
+            name="InvocationButton Node" />
 	
 		
 	<?gmfgen generated="true"?>
@@ -912,6 +817,83 @@
 
 
 </extension>
+<extension id="userinterfaceApplication" point="org.eclipse.core.runtime.applications">
+      <?gmfgen generated="true"?>
+      <application>
+         <run class="org.opaeum.uimodeler.page.diagram.application.UimApplication"/>
+      </application>
+   </extension>
+
+<extension point="org.eclipse.ui.perspectives" id="rcp-perspective">
+      <?gmfgen generated="true"?>
+      <perspective
+            id="org.opaeum.uimodeler.page.diagram.userinterfacePerspective"
+            name="%perspectiveName"
+            class="org.opaeum.uimodeler.page.diagram.application.DiagramEditorPerspective">
+      </perspective>
+   </extension>
+
+<extension point="org.eclipse.ui.commands" id="rcp-menu-commands">
+      <?gmfgen generated="true"?>
+      <command
+            name="%openURIActionLabel"
+            description="%openURIActionDescription"
+            categoryId="org.eclipse.ui.category.file"
+            id="org.opaeum.uimodeler.page.diagram.OpenURICommand"/>  
+      <command
+            name="%openActionLabel"
+            description="%openActionDescription"
+            categoryId="org.eclipse.ui.category.file"
+            id="org.opaeum.uimodeler.page.diagram.OpenCommand"/>  
+   </extension>
+
+<extension point="org.eclipse.ui.bindings" id="rcp-command-bindings">
+      <?gmfgen generated="true"?>
+      <key
+            commandId="org.opaeum.uimodeler.page.diagram.OpenURICommand"
+            sequence="M1+U"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+      <key
+            commandId="org.opaeum.uimodeler.page.diagram.OpenCommand"
+            sequence="M1+O"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+   </extension>
+
+<extension point="org.eclipse.ui.actionSets" id="rcp-actions">
+      <?gmfgen generated="true"?>
+      <actionSet
+            label="%applicationActionSetLabel"
+            visible="true"
+            id="org.opaeum.uimodeler.page.diagram.ActionSet">
+         <action
+               label="%newDiagramActionLabel"
+               class="org.opaeum.uimodeler.page.diagram.application.DiagramEditorActionBarAdvisor$NewDiagramAction"
+               menubarPath="file/new/additions"
+               id="org.opaeum.uimodeler.page.diagram.NewDiagramAction">
+         </action>
+         <action
+               label="%aboutActionLabel"
+               class="org.opaeum.uimodeler.page.diagram.application.DiagramEditorActionBarAdvisor$AboutAction"
+               menubarPath="help/additions"
+               id="org.opaeum.uimodeler.page.diagram.AboutAction">
+         </action>
+         <action
+               label="%openURIActionLabel"
+               definitionId="org.opaeum.uimodeler.page.diagram.OpenURICommand"
+               class="org.opaeum.uimodeler.page.diagram.application.DiagramEditorActionBarAdvisor$OpenURIAction"
+               menubarPath="file/additions"
+               id="org.opaeum.uimodeler.page.diagram.OpenURIAction">
+         </action>
+         <action
+               label="%openActionLabel"
+               definitionId="org.opaeum.uimodeler.page.diagram.OpenCommand"
+               class="org.opaeum.uimodeler.page.diagram.application.DiagramEditorActionBarAdvisor$OpenAction"
+               menubarPath="file/additions"
+               id="org.opaeum.uimodeler.page.diagram.OpenAction">
+         </action>
+      </actionSet>
+   </extension>
+
 
 
 

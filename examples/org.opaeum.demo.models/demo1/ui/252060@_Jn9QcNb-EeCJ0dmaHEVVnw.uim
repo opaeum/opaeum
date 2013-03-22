@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:ClassUserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_UOzKk5CnEeKgxI_HkCdpZw" umlElementUid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw" name="Work day User Interface Model" linkedUmlResource="OpaeumBPM.library.uml">
+  <primaryEditor xmi:id="_UOzKlJCnEeKgxI_HkCdpZw" name="Edit WorkDay" umlElementUid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw">
+    <pageOrdering xmi:id="_UOzKlpCnEeKgxI_HkCdpZw" page="_UOzKlZCnEeKgxI_HkCdpZw"/>
+    <pageOrdering xmi:id="_UOzKmZCnEeKgxI_HkCdpZw" page="_UOzKmJCnEeKgxI_HkCdpZw" position="1"/>
+    <pageOrdering xmi:id="_UOzxpJCnEeKgxI_HkCdpZw" page="_UOzxo5CnEeKgxI_HkCdpZw" position="2"/>
+    <pages xmi:id="_UOzKlZCnEeKgxI_HkCdpZw" name="Edit Work day" umlElementUid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UOzKl5CnEeKgxI_HkCdpZw" name="WorkDay" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_UOzxspCnEeKgxI_HkCdpZw" name="Minutes per day" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_UOzxs5CnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UOzxtJCnEeKgxI_HkCdpZw" umlElementUid="252060@_vEgCENcMEeCnccVVb6bGDQ"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOzxtZCnEeKgxI_HkCdpZw" name="Kind" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_UOzxtpCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UOzxt5CnEeKgxI_HkCdpZw" umlElementUid="252060@_LrAGRNb-EeCJ0dmaHEVVnw"/>
+        </children>
+      </panel>
+    </pages>
+    <pages xmi:id="_UOzKmJCnEeKgxI_HkCdpZw" name="Start time" umlElementUid="252060@_xyUUMNcBEeCJ0dmaHEVVnw">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UOzKmpCnEeKgxI_HkCdpZw" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_UOzKm5CnEeKgxI_HkCdpZw" name="Hours" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_UOzKnJCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UOzKnZCnEeKgxI_HkCdpZw" umlElementUid="252060@_xyUUMNcBEeCJ0dmaHEVVnw">
+            <next xmi:id="_UOzKnpCnEeKgxI_HkCdpZw" umlElementUid="252060@_WB_50Nb_EeCJ0dmaHEVVnw"/>
+          </binding>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOzKn5CnEeKgxI_HkCdpZw" name="Minutes" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_UOzKoJCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UOzKoZCnEeKgxI_HkCdpZw" umlElementUid="252060@_xyUUMNcBEeCJ0dmaHEVVnw">
+            <next xmi:id="_UOzKopCnEeKgxI_HkCdpZw" umlElementUid="252060@_XW53QNb_EeCJ0dmaHEVVnw"/>
+          </binding>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOzKo5CnEeKgxI_HkCdpZw" name="Minute of day" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_UOzxoJCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UOzxoZCnEeKgxI_HkCdpZw" umlElementUid="252060@_xyUUMNcBEeCJ0dmaHEVVnw">
+            <next xmi:id="_UOzxopCnEeKgxI_HkCdpZw" umlElementUid="252060@_MUFl4NcGEeCOrPzFUqsJFw"/>
+          </binding>
+        </children>
+      </panel>
+    </pages>
+    <pages xmi:id="_UOzxo5CnEeKgxI_HkCdpZw" name="End time" umlElementUid="252060@_5xvo4NcBEeCJ0dmaHEVVnw">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UOzxpZCnEeKgxI_HkCdpZw" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_UOzxppCnEeKgxI_HkCdpZw" name="Hours" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_UOzxp5CnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UOzxqJCnEeKgxI_HkCdpZw" umlElementUid="252060@_5xvo4NcBEeCJ0dmaHEVVnw">
+            <next xmi:id="_UOzxqZCnEeKgxI_HkCdpZw" umlElementUid="252060@_WB_50Nb_EeCJ0dmaHEVVnw"/>
+          </binding>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOzxqpCnEeKgxI_HkCdpZw" name="Minutes" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_UOzxq5CnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UOzxrJCnEeKgxI_HkCdpZw" umlElementUid="252060@_5xvo4NcBEeCJ0dmaHEVVnw">
+            <next xmi:id="_UOzxrZCnEeKgxI_HkCdpZw" umlElementUid="252060@_XW53QNb_EeCJ0dmaHEVVnw"/>
+          </binding>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOzxrpCnEeKgxI_HkCdpZw" name="Minute of day" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_UOzxr5CnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UOzxsJCnEeKgxI_HkCdpZw" umlElementUid="252060@_5xvo4NcBEeCJ0dmaHEVVnw">
+            <next xmi:id="_UOzxsZCnEeKgxI_HkCdpZw" umlElementUid="252060@_MUFl4NcGEeCOrPzFUqsJFw"/>
+          </binding>
+        </children>
+      </panel>
+    </pages>
+    <actionBar xmi:id="_UOzxuJCnEeKgxI_HkCdpZw" name="ActionBar">
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UOzxuZCnEeKgxI_HkCdpZw" name="Update"/>
+      <children xsi:type="action:BuiltInActionButton" xmi:id="_UOzxupCnEeKgxI_HkCdpZw" name="Delete" kind="delete"/>
+    </actionBar>
+  </primaryEditor>
+  <newObjectWizard xmi:id="_UOzxu5CnEeKgxI_HkCdpZw" name="Create WorkDay" umlElementUid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw">
+    <pageOrdering xmi:id="_UOzxvZCnEeKgxI_HkCdpZw" page="_UOzxvJCnEeKgxI_HkCdpZw"/>
+    <pageOrdering xmi:id="_UOzxwJCnEeKgxI_HkCdpZw" page="_UOzxv5CnEeKgxI_HkCdpZw" position="1"/>
+    <pageOrdering xmi:id="_UOzxz5CnEeKgxI_HkCdpZw" page="_UOzxzpCnEeKgxI_HkCdpZw" position="2"/>
+    <pages xmi:id="_UOzxvJCnEeKgxI_HkCdpZw" name="CreateWork day" umlElementUid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UOzxvpCnEeKgxI_HkCdpZw" name="WorkDay" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_UO0YuJCnEeKgxI_HkCdpZw" name="Minutes per day" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_UO0YuZCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UO0YupCnEeKgxI_HkCdpZw" umlElementUid="252060@_vEgCENcMEeCnccVVb6bGDQ"/>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UO0Yu5CnEeKgxI_HkCdpZw" name="Kind" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimDropdown" xmi:id="_UO0YvJCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UO0YvZCnEeKgxI_HkCdpZw" umlElementUid="252060@_LrAGRNb-EeCJ0dmaHEVVnw"/>
+        </children>
+      </panel>
+    </pages>
+    <pages xmi:id="_UOzxv5CnEeKgxI_HkCdpZw" name="Start time" umlElementUid="252060@_xyUUMNcBEeCJ0dmaHEVVnw">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UOzxwZCnEeKgxI_HkCdpZw" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_UOzxwpCnEeKgxI_HkCdpZw" name="Hours" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_UOzxw5CnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UOzxxJCnEeKgxI_HkCdpZw" umlElementUid="252060@_xyUUMNcBEeCJ0dmaHEVVnw">
+            <next xmi:id="_UOzxxZCnEeKgxI_HkCdpZw" umlElementUid="252060@_WB_50Nb_EeCJ0dmaHEVVnw"/>
+          </binding>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOzxxpCnEeKgxI_HkCdpZw" name="Minutes" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_UOzxx5CnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UOzxyJCnEeKgxI_HkCdpZw" umlElementUid="252060@_xyUUMNcBEeCJ0dmaHEVVnw">
+            <next xmi:id="_UOzxyZCnEeKgxI_HkCdpZw" umlElementUid="252060@_XW53QNb_EeCJ0dmaHEVVnw"/>
+          </binding>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UOzxypCnEeKgxI_HkCdpZw" name="Minute of day" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_UOzxy5CnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UOzxzJCnEeKgxI_HkCdpZw" umlElementUid="252060@_xyUUMNcBEeCJ0dmaHEVVnw">
+            <next xmi:id="_UOzxzZCnEeKgxI_HkCdpZw" umlElementUid="252060@_MUFl4NcGEeCOrPzFUqsJFw"/>
+          </binding>
+        </children>
+      </panel>
+    </pages>
+    <pages xmi:id="_UOzxzpCnEeKgxI_HkCdpZw" name="End time" umlElementUid="252060@_5xvo4NcBEeCJ0dmaHEVVnw">
+      <panel xsi:type="panel:GridPanel" xmi:id="_UOzx0JCnEeKgxI_HkCdpZw" numberOfColumns="1">
+        <children xsi:type="comp:UimField" xmi:id="_UOzx0ZCnEeKgxI_HkCdpZw" name="Hours" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_UOzx0pCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UOzx05CnEeKgxI_HkCdpZw" umlElementUid="252060@_5xvo4NcBEeCJ0dmaHEVVnw">
+            <next xmi:id="_UOzx1JCnEeKgxI_HkCdpZw" umlElementUid="252060@_WB_50Nb_EeCJ0dmaHEVVnw"/>
+          </binding>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UO0YsJCnEeKgxI_HkCdpZw" name="Minutes" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_UO0YsZCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UO0YspCnEeKgxI_HkCdpZw" umlElementUid="252060@_5xvo4NcBEeCJ0dmaHEVVnw">
+            <next xmi:id="_UO0Ys5CnEeKgxI_HkCdpZw" umlElementUid="252060@_XW53QNb_EeCJ0dmaHEVVnw"/>
+          </binding>
+        </children>
+        <children xsi:type="comp:UimField" xmi:id="_UO0YtJCnEeKgxI_HkCdpZw" name="Minute of day" preferredHeight="25" fillHorizontally="true" controlKind="numberScroller" minimumLabelWidth="195">
+          <control xsi:type="ctl:UimNumberScroller" xmi:id="_UO0YtZCnEeKgxI_HkCdpZw"/>
+          <binding xmi:id="_UO0YtpCnEeKgxI_HkCdpZw" umlElementUid="252060@_5xvo4NcBEeCJ0dmaHEVVnw">
+            <next xmi:id="_UO0Yt5CnEeKgxI_HkCdpZw" umlElementUid="252060@_MUFl4NcGEeCOrPzFUqsJFw"/>
+          </binding>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</model:ClassUserInteractionModel>

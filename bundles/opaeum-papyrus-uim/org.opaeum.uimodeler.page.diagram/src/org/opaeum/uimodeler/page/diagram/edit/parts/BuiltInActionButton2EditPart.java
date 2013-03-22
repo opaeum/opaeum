@@ -10,6 +10,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
+import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
@@ -37,11 +38,11 @@ import org.opaeum.uimodeler.page.diagram.part.UimDiagramEditorPlugin;
 /**
  * @generated
  */
-public class BuiltInActionButton2EditPart extends ShapeNodeEditPart{
+public class BuiltInActionButton2EditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public static final int VISUAL_ID = 3023;
+	public static final int VISUAL_ID = 3038;
 	/**
 	 * @generated
 	 */
@@ -50,68 +51,87 @@ public class BuiltInActionButton2EditPart extends ShapeNodeEditPart{
 	 * @generated
 	 */
 	protected IFigure primaryShape;
+
 	/**
 	 * @generated
 	 */
-	public BuiltInActionButton2EditPart(View view){
+	public BuiltInActionButton2EditPart(View view) {
 		super(view);
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void createDefaultEditPolicies(){
+	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
-		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new BuiltInActionButton2ItemSemanticEditPolicy());
+		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
+				new BuiltInActionButton2ItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
 		// XXX need an SCR to runtime to have another abstract superclass that would let children add reasonable editpolicies
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
 	}
+
 	/**
 	 * @generated NOT
 	 */
-	protected LayoutEditPolicy createLayoutEditPolicy(){
-		org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy lep = new org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy(){
-			protected EditPolicy createChildEditPolicy(EditPart child){
-				EditPolicy result = child.getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
-				if(result == null){
+	protected LayoutEditPolicy createLayoutEditPolicy() {
+		org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy lep = new org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy() {
+			protected EditPolicy createChildEditPolicy(EditPart child) {
+				EditPolicy result = child
+						.getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
+				if (result == null) {
 					result = new ResizableEditPolicy();
 				}
 				return result;
 			}
-			protected Command getMoveChildrenCommand(Request request){
+
+			protected Command getMoveChildrenCommand(Request request) {
 				return null;
 			}
-			protected Command getCreateCommand(CreateRequest request){
+
+			protected Command getCreateCommand(CreateRequest request) {
 				return null;
 			}
 		};
 		return lep;
 	}
+
 	/**
 	 * @generated NOT
 	 */
-	protected IFigure createNodeShape(){
-		return primaryShape = new CustomBuiltInActionColumnFigure((UimDataTableComposite) UimFigureUtil.getNearestComposite(getParent()));
+	protected IFigure createNodeShape() {
+		return primaryShape = new CustomBuiltInActionColumnFigure(
+				(UimDataTableComposite) UimFigureUtil
+						.getNearestComposite(getParent()));
 	}
+
 	/**
 	 * @generated NOT
 	 */
-	public CustomBuiltInActionColumnFigure getPrimaryShape(){
+	public CustomBuiltInActionColumnFigure getPrimaryShape() {
 		return (CustomBuiltInActionColumnFigure) primaryShape;
 	}
+
 	/**
 	 * @generated
 	 */
-	protected NodeFigure createNodePlate(){
+	protected NodeFigure createNodePlate() {
 		String prefElementId = "BuiltInActionButton";
-		IPreferenceStore store = UimDiagramEditorPlugin.getInstance().getPreferenceStore();
-		String preferenceConstantWitdh = PreferenceInitializerForElementHelper.getpreferenceKey(getNotationView(), prefElementId,
-				PreferenceConstantHelper.WIDTH);
-		String preferenceConstantHeight = PreferenceInitializerForElementHelper.getpreferenceKey(getNotationView(), prefElementId,
-				PreferenceConstantHelper.HEIGHT);
-		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(store.getInt(preferenceConstantWitdh), store.getInt(preferenceConstantHeight));
+		IPreferenceStore store = UimDiagramEditorPlugin.getInstance()
+				.getPreferenceStore();
+		String preferenceConstantWitdh = PreferenceInitializerForElementHelper
+				.getpreferenceKey(getNotationView(), prefElementId,
+						PreferenceConstantHelper.WIDTH);
+		String preferenceConstantHeight = PreferenceInitializerForElementHelper
+				.getpreferenceKey(getNotationView(), prefElementId,
+						PreferenceConstantHelper.HEIGHT);
+		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(
+				store.getInt(preferenceConstantWitdh),
+				store.getInt(preferenceConstantHeight));
+
 		return result;
 	}
+
 	/**
 	 * Creates figure for this edit part.
 	 * 
@@ -120,7 +140,7 @@ public class BuiltInActionButton2EditPart extends ShapeNodeEditPart{
 	 * 
 	 * @generated NOT
 	 */
-	protected NodeFigure createNodeFigure(){
+	protected NodeFigure createNodeFigure() {
 		IFigure shape = createNodeShape();
 		NodeFigure figure = new HackedDefaultSizeNodeFigure(getPrimaryShape());
 		figure.setLayoutManager(new StackLayout());
@@ -129,106 +149,142 @@ public class BuiltInActionButton2EditPart extends ShapeNodeEditPart{
 		new BuiltinActionButtonEventAdapter(this, getPrimaryShape());
 		return figure;
 	}
+
 	/**
 	 * Default implementation treats passed figure as content pane.
 	 * Respects layout one may have set for generated figure.
 	 * @param nodeShape instance of generated figure class
 	 * @generated
 	 */
-	protected IFigure setupContentPane(IFigure nodeShape){
+	protected IFigure setupContentPane(IFigure nodeShape) {
 		return nodeShape; // use nodeShape itself as contentPane
 	}
+
 	/**
 	 * @generated
 	 */
-	public IFigure getContentPane(){
-		if(contentPane != null){
+	public IFigure getContentPane() {
+		if (contentPane != null) {
 			return contentPane;
 		}
 		return super.getContentPane();
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void setForegroundColor(Color color){
-		if(primaryShape != null){
+	protected void setForegroundColor(Color color) {
+		if (primaryShape != null) {
 			primaryShape.setForegroundColor(color);
 		}
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void setLineWidth(int width){
-		if(primaryShape instanceof Shape){
+	protected void setLineWidth(int width) {
+		if (primaryShape instanceof Shape) {
 			((Shape) primaryShape).setLineWidth(width);
 		}
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void setLineType(int style){
-		if(primaryShape instanceof Shape){
+	protected void setLineType(int style) {
+		if (primaryShape instanceof Shape) {
 			((Shape) primaryShape).setLineStyle(style);
 		}
 	}
+
 	/**
 	 * @generated
 	 */
-	public class BuiltInButtonColumnFigure extends RectangleFigure{
+	public class BuiltInButtonColumnFigure extends RectangleFigure {
 		/**
 		 * @generated
 		 */
 		private WrappingLabel fFigureBuiltInActionColumnNameFigure;
+
 		/**
 		 * @generated
 		 */
-		public BuiltInButtonColumnFigure(){
+		public BuiltInButtonColumnFigure() {
 			createContents();
 		}
+
 		/**
 		 * @generated
 		 */
-		private void createContents(){
+		private void createContents() {
+
 			fFigureBuiltInActionColumnNameFigure = new WrappingLabel();
+
 			fFigureBuiltInActionColumnNameFigure.setText("<..>");
+
 			this.add(fFigureBuiltInActionColumnNameFigure);
+
 		}
+
 		/**
 		 * @generated
 		 */
-		public WrappingLabel getFigureBuiltInActionColumnNameFigure(){
+		public WrappingLabel getFigureBuiltInActionColumnNameFigure() {
 			return fFigureBuiltInActionColumnNameFigure;
 		}
 	}
+
 	/**
 	 * @generated
 	 */
 	@Override
-	public Object getPreferredValue(EStructuralFeature feature){
-		IPreferenceStore preferenceStore = (IPreferenceStore) getDiagramPreferencesHint().getPreferenceStore();
+	public Object getPreferredValue(EStructuralFeature feature) {
+		IPreferenceStore preferenceStore = (IPreferenceStore) getDiagramPreferencesHint()
+				.getPreferenceStore();
 		Object result = null;
-		if(feature == NotationPackage.eINSTANCE.getLineStyle_LineColor() || feature == NotationPackage.eINSTANCE.getFontStyle_FontColor()
-				|| feature == NotationPackage.eINSTANCE.getFillStyle_FillColor()){
+
+		if (feature == NotationPackage.eINSTANCE.getLineStyle_LineColor()
+				|| feature == NotationPackage.eINSTANCE
+						.getFontStyle_FontColor()
+				|| feature == NotationPackage.eINSTANCE
+						.getFillStyle_FillColor()) {
 			String prefColor = null;
-			if(feature == NotationPackage.eINSTANCE.getLineStyle_LineColor()){
-				prefColor = PreferenceConstantHelper.getElementConstant("BuiltInActionButton", PreferenceConstantHelper.COLOR_LINE);
-			}else if(feature == NotationPackage.eINSTANCE.getFontStyle_FontColor()){
-				prefColor = PreferenceConstantHelper.getElementConstant("BuiltInActionButton", PreferenceConstantHelper.COLOR_FONT);
-			}else if(feature == NotationPackage.eINSTANCE.getFillStyle_FillColor()){
-				prefColor = PreferenceConstantHelper.getElementConstant("BuiltInActionButton", PreferenceConstantHelper.COLOR_FILL);
+			if (feature == NotationPackage.eINSTANCE.getLineStyle_LineColor()) {
+				prefColor = PreferenceConstantHelper.getElementConstant(
+						"BuiltInActionButton",
+						PreferenceConstantHelper.COLOR_LINE);
+			} else if (feature == NotationPackage.eINSTANCE
+					.getFontStyle_FontColor()) {
+				prefColor = PreferenceConstantHelper.getElementConstant(
+						"BuiltInActionButton",
+						PreferenceConstantHelper.COLOR_FONT);
+			} else if (feature == NotationPackage.eINSTANCE
+					.getFillStyle_FillColor()) {
+				prefColor = PreferenceConstantHelper.getElementConstant(
+						"BuiltInActionButton",
+						PreferenceConstantHelper.COLOR_FILL);
 			}
-			result = FigureUtilities.RGBToInteger(PreferenceConverter.getColor((IPreferenceStore) preferenceStore, prefColor));
-		}else if(feature == NotationPackage.eINSTANCE.getFillStyle_Transparency()
-				|| feature == NotationPackage.eINSTANCE.getFillStyle_Gradient()){
-			String prefGradient = PreferenceConstantHelper.getElementConstant("BuiltInActionButton", PreferenceConstantHelper.COLOR_GRADIENT);
-			GradientPreferenceConverter gradientPreferenceConverter = new GradientPreferenceConverter(preferenceStore.getString(prefGradient));
-			if(feature == NotationPackage.eINSTANCE.getFillStyle_Transparency()){
-				result = new Integer(gradientPreferenceConverter.getTransparency());
-			}else if(feature == NotationPackage.eINSTANCE.getFillStyle_Gradient()){
+			result = FigureUtilities.RGBToInteger(PreferenceConverter.getColor(
+					(IPreferenceStore) preferenceStore, prefColor));
+		} else if (feature == NotationPackage.eINSTANCE
+				.getFillStyle_Transparency()
+				|| feature == NotationPackage.eINSTANCE.getFillStyle_Gradient()) {
+			String prefGradient = PreferenceConstantHelper.getElementConstant(
+					"BuiltInActionButton",
+					PreferenceConstantHelper.COLOR_GRADIENT);
+			GradientPreferenceConverter gradientPreferenceConverter = new GradientPreferenceConverter(
+					preferenceStore.getString(prefGradient));
+			if (feature == NotationPackage.eINSTANCE
+					.getFillStyle_Transparency()) {
+				result = new Integer(
+						gradientPreferenceConverter.getTransparency());
+			} else if (feature == NotationPackage.eINSTANCE
+					.getFillStyle_Gradient()) {
 				result = gradientPreferenceConverter.getGradientData();
 			}
 		}
-		if(result == null){
+
+		if (result == null) {
 			result = getStructuralFeatureValue(feature);
 		}
 		return result;

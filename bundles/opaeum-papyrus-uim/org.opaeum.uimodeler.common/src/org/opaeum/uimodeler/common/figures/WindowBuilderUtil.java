@@ -39,7 +39,6 @@ public class WindowBuilderUtil{
 	}
 	private static void markSecondLevelImageRequirement(Control root){
 		if(root.getData(SECOND_LEVEL_NEED_IMAGE) != null){
-			System.out.println("###"+root);
 			root.setData(SECOND_LEVEL_NEED_IMAGE, null);
 			root.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 		}

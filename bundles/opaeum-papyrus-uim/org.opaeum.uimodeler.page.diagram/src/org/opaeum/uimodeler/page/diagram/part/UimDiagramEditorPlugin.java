@@ -23,9 +23,12 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.opaeum.uim.action.provider.ActionItemProviderAdapterFactory;
 import org.opaeum.uim.binding.provider.BindingItemProviderAdapterFactory;
+import org.opaeum.uim.component.provider.ComponentItemProviderAdapterFactory;
 import org.opaeum.uim.constraint.provider.ConstraintItemProviderAdapterFactory;
 import org.opaeum.uim.control.provider.ControlItemProviderAdapterFactory;
+import org.opaeum.uim.cube.provider.CubeItemProviderAdapterFactory;
 import org.opaeum.uim.editor.provider.EditorItemProviderAdapterFactory;
+import org.opaeum.uim.model.provider.ModelItemProviderAdapterFactory;
 import org.opaeum.uim.panel.provider.PanelItemProviderAdapterFactory;
 import org.opaeum.uim.perspective.provider.PerspectiveItemProviderAdapterFactory;
 import org.opaeum.uim.provider.UimItemProviderAdapterFactory;
@@ -37,7 +40,7 @@ import org.osgi.framework.BundleContext;
 /**
  * @generated
  */
-public class UimDiagramEditorPlugin extends AbstractUIPlugin{
+public class UimDiagramEditorPlugin extends AbstractUIPlugin {
 	/**
 	 * @generated
 	 */
@@ -45,7 +48,8 @@ public class UimDiagramEditorPlugin extends AbstractUIPlugin{
 	/**
 	 * @generated
 	 */
-	public static final PreferencesHint DIAGRAM_PREFERENCES_HINT = new PreferencesHint(ID);
+	public static final PreferencesHint DIAGRAM_PREFERENCES_HINT = new PreferencesHint(
+			ID);
 	/**
 	 * @generated
 	 */
@@ -62,57 +66,65 @@ public class UimDiagramEditorPlugin extends AbstractUIPlugin{
 	 * @generated
 	 */
 	private ElementInitializers initializers;
+
 	/**
 	 * @generated
 	 */
-	public UimDiagramEditorPlugin(){
+	public UimDiagramEditorPlugin() {
 	}
+
 	/**
 	 * @generated
 	 */
-	public void start(BundleContext context) throws Exception{
+	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		instance = this;
-		PreferencesHint.registerPreferenceStore(DIAGRAM_PREFERENCES_HINT, getPreferenceStore());
+		PreferencesHint.registerPreferenceStore(DIAGRAM_PREFERENCES_HINT,
+				getPreferenceStore());
 		adapterFactory = createAdapterFactory();
 		DiagramPreferenceInitializer diagramPreferenceInitializer = new DiagramPreferenceInitializer();
 		diagramPreferenceInitializer.initializeDefaultPreferences();
 	}
+
 	/**
 	 * @generated
 	 */
-	public void stop(BundleContext context) throws Exception{
+	public void stop(BundleContext context) throws Exception {
 		adapterFactory.dispose();
 		adapterFactory = null;
 		initializers = null;
 		instance = null;
 		super.stop(context);
 	}
+
 	/**
 	 * @generated
 	 */
-	public static UimDiagramEditorPlugin getInstance(){
+	public static UimDiagramEditorPlugin getInstance() {
 		return instance;
 	}
+
 	/**
 	 * @generated
 	 */
-	public IPreferenceStore getPreferenceStore(){
+	public IPreferenceStore getPreferenceStore() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		return store;
 	}
+
 	/**
 	 * @generated
 	 */
-	protected ComposedAdapterFactory createAdapterFactory(){
+	protected ComposedAdapterFactory createAdapterFactory() {
 		ArrayList<AdapterFactory> factories = new ArrayList<AdapterFactory>();
 		fillItemProviderFactories(factories);
 		return new ComposedAdapterFactory(factories);
 	}
+
 	/**
 	 * @generated
 	 */
-	protected void fillItemProviderFactories(List<AdapterFactory> factories){
+	protected void fillItemProviderFactories(List<AdapterFactory> factories) {
 		factories.add(new UimItemProviderAdapterFactory());
 		factories.add(new ControlItemProviderAdapterFactory());
 		factories.add(new EditorItemProviderAdapterFactory());
@@ -122,26 +134,34 @@ public class UimDiagramEditorPlugin extends AbstractUIPlugin{
 		factories.add(new PanelItemProviderAdapterFactory());
 		factories.add(new WizardItemProviderAdapterFactory());
 		factories.add(new PerspectiveItemProviderAdapterFactory());
+		factories.add(new CubeItemProviderAdapterFactory());
+		factories.add(new ModelItemProviderAdapterFactory());
+		factories.add(new ComponentItemProviderAdapterFactory());
 		factories.add(new EcoreItemProviderAdapterFactory());
 		factories.add(new ResourceItemProviderAdapterFactory());
 		factories.add(new ReflectiveItemProviderAdapterFactory());
 	}
+
 	/**
 	 * @generated
 	 */
-	public AdapterFactory getItemProvidersAdapterFactory(){
+	public AdapterFactory getItemProvidersAdapterFactory() {
 		return adapterFactory;
 	}
+
 	/**
 	 * @generated
 	 */
-	public ImageDescriptor getItemImageDescriptor(Object item){
-		IItemLabelProvider labelProvider = (IItemLabelProvider) adapterFactory.adapt(item, IItemLabelProvider.class);
-		if(labelProvider != null){
-			return ExtendedImageRegistry.getInstance().getImageDescriptor(labelProvider.getImage(item));
+	public ImageDescriptor getItemImageDescriptor(Object item) {
+		IItemLabelProvider labelProvider = (IItemLabelProvider) adapterFactory
+				.adapt(item, IItemLabelProvider.class);
+		if (labelProvider != null) {
+			return ExtendedImageRegistry.getInstance().getImageDescriptor(
+					labelProvider.getImage(item));
 		}
 		return null;
 	}
+
 	/**
 	 * Returns an image descriptor for the image file at the given
 	 * plug-in relative path.
@@ -150,9 +170,10 @@ public class UimDiagramEditorPlugin extends AbstractUIPlugin{
 	 * @param path the path
 	 * @return the image descriptor
 	 */
-	public static ImageDescriptor getBundledImageDescriptor(String path){
+	public static ImageDescriptor getBundledImageDescriptor(String path) {
 		return AbstractUIPlugin.imageDescriptorFromPlugin(ID, path);
 	}
+
 	/**
 	 * Respects images residing in any plug-in. If path is relative,
 	 * then this bundle is looked up for the image, otherwise, for absolute 
@@ -162,14 +183,16 @@ public class UimDiagramEditorPlugin extends AbstractUIPlugin{
 	 * @param path the path to image, either absolute (with plug-in id as first segment), or relative for bundled images
 	 * @return the image descriptor
 	 */
-	public static ImageDescriptor findImageDescriptor(String path){
+	public static ImageDescriptor findImageDescriptor(String path) {
 		final IPath p = new Path(path);
-		if(p.isAbsolute() && p.segmentCount() > 1){
-			return AbstractUIPlugin.imageDescriptorFromPlugin(p.segment(0), p.removeFirstSegments(1).makeAbsolute().toString());
-		}else{
+		if (p.isAbsolute() && p.segmentCount() > 1) {
+			return AbstractUIPlugin.imageDescriptorFromPlugin(p.segment(0), p
+					.removeFirstSegments(1).makeAbsolute().toString());
+		} else {
 			return getBundledImageDescriptor(p.makeAbsolute().toString());
 		}
 	}
+
 	/**
 	 * Returns an image for the image file at the given plug-in relative path.
 	 * Client do not need to dispose this image. Images will be disposed automatically.
@@ -178,86 +201,99 @@ public class UimDiagramEditorPlugin extends AbstractUIPlugin{
 	 * @param path the path
 	 * @return image instance
 	 */
-	public Image getBundledImage(String path){
+	public Image getBundledImage(String path) {
 		Image image = getImageRegistry().get(path);
-		if(image == null){
+		if (image == null) {
 			getImageRegistry().put(path, getBundledImageDescriptor(path));
 			image = getImageRegistry().get(path);
 		}
 		return image;
 	}
+
 	/**
 	 * Returns string from plug-in's resource bundle
 	 *
 	 * @generated
 	 */
-	public static String getString(String key){
+	public static String getString(String key) {
 		return Platform.getResourceString(getInstance().getBundle(), "%" + key); //$NON-NLS-1$
 	}
+
 	/**
 	 * @generated
 	 */
-	public UimDocumentProvider getDocumentProvider(){
-		if(documentProvider == null){
+	public UimDocumentProvider getDocumentProvider() {
+		if (documentProvider == null) {
 			documentProvider = new UimDocumentProvider();
 		}
 		return documentProvider;
 	}
+
 	/**
 	 * @generated
 	 */
-	public ElementInitializers getElementInitializers(){
+	public ElementInitializers getElementInitializers() {
 		return initializers;
 	}
+
 	/**
 	 * @generated
 	 */
-	public void setElementInitializers(ElementInitializers i){
+	public void setElementInitializers(ElementInitializers i) {
 		this.initializers = i;
 	}
+
 	/**
 	 * @generated
 	 */
-	public void logError(String error){
+	public void logError(String error) {
 		logError(error, null);
 	}
+
 	/**
 	 * @generated
 	 */
-	public void logError(String error,Throwable throwable){
-		if(error == null && throwable != null){
+	public void logError(String error, Throwable throwable) {
+		if (error == null && throwable != null) {
 			error = throwable.getMessage();
 		}
-		getLog().log(new Status(IStatus.ERROR, UimDiagramEditorPlugin.ID, IStatus.OK, error, throwable));
+		getLog().log(
+				new Status(IStatus.ERROR, UimDiagramEditorPlugin.ID,
+						IStatus.OK, error, throwable));
 		debug(error, throwable);
 	}
+
 	/**
 	 * @generated
 	 */
-	public void logInfo(String message){
+	public void logInfo(String message) {
 		logInfo(message, null);
 	}
+
 	/**
 	 * @generated
 	 */
-	public void logInfo(String message,Throwable throwable){
-		if(message == null && throwable != null){
+	public void logInfo(String message, Throwable throwable) {
+		if (message == null && throwable != null) {
 			message = throwable.getMessage();
 		}
-		getLog().log(new Status(IStatus.INFO, UimDiagramEditorPlugin.ID, IStatus.OK, message, throwable));
+		getLog().log(
+				new Status(IStatus.INFO, UimDiagramEditorPlugin.ID, IStatus.OK,
+						message, throwable));
 		debug(message, throwable);
 	}
+
 	/**
 	 * @generated
 	 */
-	private void debug(String message,Throwable throwable){
-		if(!isDebugging()){
+	private void debug(String message, Throwable throwable) {
+		if (!isDebugging()) {
 			return;
 		}
-		if(message != null){
+		if (message != null) {
 			System.err.println(message);
 		}
-		if(throwable != null){
+		if (throwable != null) {
 			throwable.printStackTrace();
 		}
 	}

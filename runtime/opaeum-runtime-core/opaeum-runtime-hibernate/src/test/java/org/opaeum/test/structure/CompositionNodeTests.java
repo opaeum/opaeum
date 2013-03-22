@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.opaeum.runtime.hibernate.test.HibernatePersistenceTestHelper;
 import org.opaeum.test.Aunt;
 import org.opaeum.test.Brother;
 import org.opaeum.test.Family;
@@ -12,10 +11,8 @@ import org.opaeum.test.Father;
 import org.opaeum.test.Mother;
 import org.opaeum.test.Sister;
 import org.opaeum.test.StepBrother;
-
 public class CompositionNodeTests {
-	protected PotentialPersistenceTestHelper helper = new PotentialPersistenceTestHelper();
-
+	@Test
 	public void testNonAssociationClassOneToManyOwnership() {
 		Family family = new Family();
 		Sister sister = new Sister(family, "Savanna");
@@ -33,15 +30,11 @@ public class CompositionNodeTests {
 		}
 		brother.setName("John");
 		brother.addToOwningObject();
-		helper.persist(family);
 		assertSisterAndBrotherInFamily(family, sister, brother);
 	}
 
-	private void assertSisterAndBrotherInFamily(Family family, Sister sister,
+	public  void assertSisterAndBrotherInFamily(Family family, Sister sister,
 			Brother brother) {
-		family = helper.read(family);
-		sister = helper.read(sister);
-		brother = helper.read(brother);
 
 		Assert.assertTrue(family.getChild().contains(brother));
 		brother.removeFromOwningObject();
@@ -72,30 +65,45 @@ public class CompositionNodeTests {
 		// TODO OneToOne without associationClass
 		// TODO OneToMany with associationClass
 		sister.addToYounberSiblings(brother);
-		helper.persist(family, aunt);
-		Assert.assertEquals(father, sister.getSurnameProvider());
-		Assert.assertEquals(father, sister.getFather());
-		Assert.assertEquals(sister, brother.getFirstBornSibling());
-		Assert.assertTrue(sister.getYounberSiblings().contains(brother));
-		Assert.assertTrue(father.getChild().contains(sister));
-		Assert.assertTrue(father.getSurnameCarryingDaughter().contains(sister));
-		Assert.assertTrue(sister.getBrother().contains(brother));
-		Assert.assertTrue(sister.getGodParent().contains(aunt));
-		Assert.assertTrue(brother.getSister().contains(sister));
-		Assert.assertTrue(aunt.getChild().contains(sister));
+		assertSisterAddedToSurnameProvider(sister, father);
+		assertBrotherAddedToYoungerSiblings(sister, brother);
+		assertSisterAddedToFathersChild(sister, father);
+		assertSisterAddedToBrother(sister, brother);
+		assertSisterAddedToGodParent(sister, aunt);
 		// ### mark deleted#####//
+		
 		sister.markDeleted();
-		helper.synch();
 		assertSisterRemovedFromReferences(family, sister, father, brother, aunt);
 	}
 
-	private void assertSisterRemovedFromReferences(Family family,
+	public void assertSisterAddedToBrother(Sister sister, Brother brother) {
+		Assert.assertTrue(sister.getBrother().contains(brother));
+		Assert.assertTrue(brother.getSister().contains(sister));
+	}
+
+	public void assertSisterAddedToGodParent(Sister sister, Aunt aunt) {
+		Assert.assertTrue(sister.getGodParent().contains(aunt));
+		Assert.assertTrue(aunt.getChild().contains(sister));
+	}
+
+	public void assertSisterAddedToFathersChild(Sister sister, Father father) {
+		Assert.assertEquals(father, sister.getFather());
+		Assert.assertTrue(father.getChild().contains(sister));
+	}
+
+	public void assertBrotherAddedToYoungerSiblings(Sister sister,
+			Brother brother) {
+		Assert.assertEquals(sister, brother.getFirstBornSibling());
+		Assert.assertTrue(sister.getYounberSiblings().contains(brother));
+	}
+
+	public void assertSisterAddedToSurnameProvider(Sister sister, Father father) {
+		Assert.assertEquals(father, sister.getSurnameProvider());
+		Assert.assertTrue(father.getSurnameCarryingDaughter().contains(sister));
+	}
+
+	public  void assertSisterRemovedFromReferences(Family family,
 			Sister sister, Father father, Brother brother, Aunt aunt) {
-		family = helper.read(family);
-		sister = helper.read(sister);
-		father = helper.read(father);
-		brother = helper.read(brother);
-		aunt = helper.read(aunt);
 		Assert.assertEquals(sister, sister
 				.getSurnameProviderHasDaughter_surnameProvider()
 				.getSurnameCarryingDaughter());
@@ -128,29 +136,53 @@ public class CompositionNodeTests {
 	public void testMarkDeletedWithAssociationClassManyChild() {
 		Family family = new Family();
 		StepBrother stepBrother = new StepBrother(family, "Savanna");
-		Assert.assertTrue(family.getStepChild().contains(stepBrother));
-		Assert.assertEquals(family, stepBrother.getFamily());
+		assertStepBrotherAdded(family, stepBrother);
 		// TODO ManyToOne without associationClass
 		// TODO ManyToMany without associationClass
 		// ManyToMany with associationClass
 		Brother brother = new Brother(family, "John");
 		stepBrother.addToStepSibling(brother);
-		Assert.assertTrue(brother.getStepSibling().contains(stepBrother));
-		Assert.assertTrue(stepBrother.getStepSibling().contains(brother));
+		assertBrotherAddedToStepSibling(stepBrother, brother);
 		// ManyToone with associationClass
 		Mother mother = new Mother(family);
 		stepBrother.setStepMother(mother);
-		Assert.assertTrue(mother.getStepChild().contains(stepBrother));
-		Assert.assertEquals(mother, stepBrother.getStepMother());
+		assertStepBrotherAddedToMother(stepBrother, mother);
 		//
 		stepBrother.markDeleted();
+		assertStepBrotherRemovedFromReferences(family, stepBrother, brother,
+				mother);
+
+	}
+
+	protected void assertStepBrotherRemovedFromReferences(Family family,
+			StepBrother stepBrother, Brother brother, Mother mother) {
 		Assert.assertEquals(mother, stepBrother.getStepMother());
 		Assert.assertFalse(mother.getStepChild().contains(stepBrother));
 		Assert.assertEquals(family, stepBrother.getFamily());
 		Assert.assertFalse(family.getStepChild().contains(stepBrother));
 		Assert.assertFalse(brother.getStepSibling().contains(stepBrother));
 		// Retained info because of AssociationClass
-		Assert.assertTrue(stepBrother.getStepSibling().contains(brother));
+		Assert.assertEquals(isPojo(), stepBrother.getStepSibling().contains(brother));
+	}
 
+	public boolean isPojo() {
+		return true;
+	}
+
+	protected void assertStepBrotherAddedToMother(StepBrother stepBrother,
+			Mother mother) {
+		Assert.assertTrue(mother.getStepChild().contains(stepBrother));
+		Assert.assertEquals(mother, stepBrother.getStepMother());
+	}
+
+	protected void assertBrotherAddedToStepSibling(StepBrother stepBrother,
+			Brother brother) {
+		Assert.assertTrue(brother.getStepSibling().contains(stepBrother));
+		Assert.assertTrue(stepBrother.getStepSibling().contains(brother));
+	}
+
+	public  void assertStepBrotherAdded(Family family, StepBrother stepBrother) {
+		Assert.assertTrue(family.getStepChild().contains(stepBrother));
+		Assert.assertEquals(family, stepBrother.getFamily());
 	}
 }

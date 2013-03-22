@@ -49,9 +49,6 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 		ClassifierMap map = ojUtil.buildClassifierMap(stereotype, (CollectionKind) null);
 		OJAnnotationValue an = new OJAnnotationValue(map.javaTypePath());
 		for(Property property:stereotype.getAllAttributes()){
-			if(property.getName().equals("groups")){
-				System.out.println();
-			}
 			if(!(property.getName().startsWith("base_") || stereotype.getDefinition().getEStructuralFeature(property.getName()) == null)){
 				PropertyMap sfm = ojUtil.buildStructuralFeatureMap(property);
 				OJAnnotationAttributeValue aa = new OJAnnotationAttributeValue(sfm.umlName());

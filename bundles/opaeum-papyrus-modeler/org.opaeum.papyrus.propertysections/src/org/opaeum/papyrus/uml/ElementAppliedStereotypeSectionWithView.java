@@ -1,20 +1,8 @@
 package org.opaeum.papyrus.uml;
 
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart;
-import org.eclipse.gmf.runtime.notation.View;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.papyrus.uml.profile.tree.objects.StereotypedElementTreeObject;
+import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 //import org.opaeum.papyrus.propertysections.profile.ui.compositeforview.AppliedStereotypeCompositeWithView;
 //import org.opaeum.papyrus.propertysections.profile.ui.compositeforview.AppliedStereotypePropertyCompositeWithView;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
-import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.eclipse.uml2.uml.Association;
-import org.eclipse.uml2.uml.Element;
 //import org.eclipse.papyrus.uml.profile.ui.compositeforview.AppliedStereotypeCompositeWithView;
 //import org.eclipse.papyrus.uml.profile.ui.compositeforview.AppliedStereotypePropertyCompositeWithView;
 

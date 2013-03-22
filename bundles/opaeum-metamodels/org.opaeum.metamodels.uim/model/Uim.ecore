@@ -216,8 +216,7 @@
   </eSubpackages>
   <eSubpackages name="action" nsURI="http://opaeum.org/uimetamodel/action/1.0" nsPrefix="action">
     <eClassifiers xsi:type="ecore:EClass" name="BuiltInActionButton" eSuperTypes="#//action/AbstractActionButton">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//action/ActionKind"
-          defaultValueLiteral="null"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//action/ActionKind"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="labels" eType="#//Labels"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AbstractActionButton" abstract="true"
@@ -264,8 +263,7 @@
       </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BuiltInLink" eSuperTypes="#//action/AbstractLink">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//action/BuiltInLinkKind"
-          defaultValueLiteral="null"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//action/BuiltInLinkKind"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="labels" eType="#//Labels"
           containment="true"/>
     </eClassifiers>
@@ -447,8 +445,7 @@
       </eOperations>
       <eOperations name="hashCode" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
       <eOperations name="toString" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="aggregationFormula" eType="#//cube/AggregationFormula"
-          defaultValueLiteral="null"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="aggregationFormula" eType="#//cube/AggregationFormula"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CubeQueryEditor" eSuperTypes="#//UmlReference #//UserInterfaceRoot">
       <eStructuralFeatures xsi:type="ecore:EReference" name="queries" upperBound="-1"
@@ -502,14 +499,12 @@
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
           eType="#//control/UimControl" containment="true" eOpposite="#//control/UimControl/field"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlKind" eType="#//control/ControlKind"
-          defaultValueLiteral="null"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlKind" eType="#//control/ControlKind"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="minimumLabelWidth" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"
           defaultValueLiteral="200"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="binding" lowerBound="1"
           eType="#//binding/FieldBinding" containment="true" eOpposite="#//binding/FieldBinding/field"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" eType="#//panel/Orientation"
-          defaultValueLiteral="null"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" eType="#//panel/Orientation"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UimComponent" abstract="true" eSuperTypes="#//UserInteractionElement #//constraint/ConstrainedObject #//LabelContainer">
       <eOperations name="getParent" eType="#//component/UimContainer"/>

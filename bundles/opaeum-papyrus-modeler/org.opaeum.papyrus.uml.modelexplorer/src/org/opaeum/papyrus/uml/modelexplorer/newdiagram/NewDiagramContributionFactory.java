@@ -38,7 +38,6 @@ public class NewDiagramContributionFactory extends ExtensionContributionFactory{
 	public void maybeAddMenu(MenuManager menuManager,ICompoundContributionItem menu){
 		IContributionItem[] contributionItems = menu.getContributionItems();
 		if(contributionItems.length>0){
-			System.out.println("asdfasdfsadf");
 			menuManager.add(menu);
 		}
 	}

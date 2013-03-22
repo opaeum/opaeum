@@ -3,9 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: opaeum-runtime-hibernate
 Bundle-SymbolicName: opaeum-runtime-hibernate
 Bundle-Version: 1.0.0.qualifier
-Export-Package: model,
- model.util,
- org.opaeum.audit,
+Export-Package: org.opaeum.audit,
  org.opaeum.hibernate.domain,
  org.opaeum.opaeum_hibernate_tests.util,
  org.opaeum.runtime.bpm.opaeumsimpletypes,

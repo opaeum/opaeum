@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:EmbeddedTaskEditor xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://opaeum.org/uimetamodel/action/1.0" xmlns:comp="http://opaeum.org/uimetamodel/component/1.0" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_UR460JCnEeKgxI_HkCdpZw" name="Embedded single screen task1 Editor" umlElementUid="914890@_stDmcIZlEeKl5Yrckb2lnw" linkedUmlResource="BusinessStructureModel.uml">
+  <pageOrdering xmi:id="_UR460pCnEeKgxI_HkCdpZw" page="_UR460ZCnEeKgxI_HkCdpZw"/>
+  <pageOrdering xmi:id="_UR5h4ZCnEeKgxI_HkCdpZw" page="_UR5h4JCnEeKgxI_HkCdpZw" position="1"/>
+  <pages xmi:id="_UR460ZCnEeKgxI_HkCdpZw" name="Task: Embedded single screen task1" umlElementUid="914890@_stDmcIZlEeKl5Yrckb2lnw">
+    <panel xsi:type="panel:GridPanel" xmi:id="_UR4605CnEeKgxI_HkCdpZw" name="EmbeddedSingleScreenTask1" numberOfColumns="1">
+      <children xsi:type="comp:UimField" xmi:id="_UR461JCnEeKgxI_HkCdpZw" name="New ocl input" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDatePopup" xmi:id="_UR461ZCnEeKgxI_HkCdpZw"/>
+        <binding xmi:id="_UR461pCnEeKgxI_HkCdpZw" umlElementUid="914890@_E2NMwIbfEeKaabxC0z_X2w"/>
+      </children>
+    </panel>
+  </pages>
+  <pages xmi:id="_UR5h4JCnEeKgxI_HkCdpZw" name="New object input" umlElementUid="914890@_aTM9AIbjEeKzPol3fMhdGg">
+    <panel xsi:type="panel:GridPanel" xmi:id="_UR5h4pCnEeKgxI_HkCdpZw" numberOfColumns="1">
+      <children xsi:type="comp:UimField" xmi:id="_UR5h45CnEeKgxI_HkCdpZw" name="Document type" preferredHeight="25" fillHorizontally="true" controlKind="dropdown" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDropdown" xmi:id="_UR5h5JCnEeKgxI_HkCdpZw"/>
+        <binding xmi:id="_UR5h5ZCnEeKgxI_HkCdpZw" umlElementUid="914890@_aTM9AIbjEeKzPol3fMhdGg">
+          <next xmi:id="_UR5h5pCnEeKgxI_HkCdpZw" umlElementUid="252060@_3FqBQF9lEeG3X_yvufTVmw"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" xmi:id="_UR5h55CnEeKgxI_HkCdpZw" name="Id number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimText" xmi:id="_UR5h6JCnEeKgxI_HkCdpZw"/>
+        <binding xmi:id="_UR5h6ZCnEeKgxI_HkCdpZw" umlElementUid="914890@_aTM9AIbjEeKzPol3fMhdGg">
+          <next xmi:id="_UR5h6pCnEeKgxI_HkCdpZw" umlElementUid="914890@_SoyjIHpiEeGlh5y8zQdYBA"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" xmi:id="_UR5h65CnEeKgxI_HkCdpZw" name="Full names" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimText" xmi:id="_UR5h7JCnEeKgxI_HkCdpZw"/>
+        <binding xmi:id="_UR5h7ZCnEeKgxI_HkCdpZw" umlElementUid="914890@_aTM9AIbjEeKzPol3fMhdGg">
+          <next xmi:id="_UR5h7pCnEeKgxI_HkCdpZw" umlElementUid="914890@_U5_wwHpiEeGlh5y8zQdYBA"/>
+        </binding>
+      </children>
+      <children xsi:type="comp:UimField" xmi:id="_UR5h75CnEeKgxI_HkCdpZw" name="Date of birth" preferredHeight="25" fillHorizontally="true" minimumLabelWidth="195">
+        <control xsi:type="ctl:UimDatePopup" xmi:id="_UR5h8JCnEeKgxI_HkCdpZw"/>
+        <binding xmi:id="_UR5h8ZCnEeKgxI_HkCdpZw" umlElementUid="914890@_aTM9AIbjEeKzPol3fMhdGg">
+          <next xmi:id="_UR5h8pCnEeKgxI_HkCdpZw" umlElementUid="914890@_aFhacHpiEeGlh5y8zQdYBA"/>
+        </binding>
+      </children>
+    </panel>
+  </pages>
+  <actionBar xmi:id="_UR5h85CnEeKgxI_HkCdpZw" name="ActionBar">
+    <children xsi:type="action:BuiltInActionButton" xmi:id="_UR5h9JCnEeKgxI_HkCdpZw" name="Claim task" kind="claimTask"/>
+    <children xsi:type="action:BuiltInActionButton" xmi:id="_UR5h9ZCnEeKgxI_HkCdpZw" name="Delegate task" kind="delegateTask"/>
+    <children xsi:type="action:BuiltInActionButton" xmi:id="_UR5h9pCnEeKgxI_HkCdpZw" name="Forward task" kind="forwardTask"/>
+    <children xsi:type="action:BuiltInActionButton" xmi:id="_UR5h95CnEeKgxI_HkCdpZw" name="Suspend" kind="suspend"/>
+    <children xsi:type="action:BuiltInActionButton" xmi:id="_UR5h-JCnEeKgxI_HkCdpZw" name="Skip" kind="skip"/>
+    <children xsi:type="action:BuiltInActionButton" xmi:id="_UR5h-ZCnEeKgxI_HkCdpZw" name="Abort" kind="abort"/>
+    <children xsi:type="action:BuiltInActionButton" xmi:id="_UR5h-pCnEeKgxI_HkCdpZw" name="Resume" kind="resume"/>
+  </actionBar>
+</model:EmbeddedTaskEditor>

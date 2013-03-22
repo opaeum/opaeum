@@ -25,9 +25,6 @@ public class GetContainedUimDiagrams implements IJavaModelQuery<UserInterfaceRoo
 	public Collection<Diagram> evaluate(final UserInterfaceRoot context,final ParameterValueList parameterValues)
 			throws ModelQueryExecutionException{
 		UimModelSet modelSet = (UimModelSet) context.eResource().getResourceSet();
-		if("Edit ApplianceModel".equals(context.getName())){
-			System.out.println();
-		}
 		EList<EObject> eContents = context.eContents();
 		Map<Page,Diagram> map = new HashMap<Page,Diagram>();
 		Collection<Diagram> result = new ArrayList<Diagram>();
@@ -37,8 +34,6 @@ public class GetContainedUimDiagrams implements IJavaModelQuery<UserInterfaceRoo
 				Diagram dgn = modelSet.getInMemoryNotationResource().getDiagram(page);
 				if(dgn != null){
 					map.put(page, dgn);
-				}else{
-					System.out.println(modelSet.getInMemoryNotationResource().getDiagram(page));
 				}
 			}else if(eObject instanceof ActionBar){
 				ActionBar bar = (ActionBar) eObject;
@@ -55,10 +50,13 @@ public class GetContainedUimDiagrams implements IJavaModelQuery<UserInterfaceRoo
 				return o1.getPosition() - o2.getPosition();
 			}
 		});
+		
 		for(PageOrdering pe:pageOrdering){
+			pe.eSetDeliver(false);
 			if(map.containsKey(pe.getPage())){
 				result.add(map.get(pe.getPage()));
 			}
+			pe.eSetDeliver(true);
 		}
 		return result;
 	}

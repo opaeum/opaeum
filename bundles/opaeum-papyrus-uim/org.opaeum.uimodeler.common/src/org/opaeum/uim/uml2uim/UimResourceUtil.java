@@ -21,9 +21,6 @@ public class UimResourceUtil{
 		return getUimResource(e, rst, dirUri3, id);
 	}
 	public static Resource getUimResource(Element e,ResourceSet rst,URI dirUri3,String id){
-		if(e instanceof Interface){
-			System.out.println();
-		}
 		URI[] dirUris = buildPotentialDirectoriesByPriority(e, rst, dirUri3);
 		URI formUri = null;
 		for(URI uri:dirUris){

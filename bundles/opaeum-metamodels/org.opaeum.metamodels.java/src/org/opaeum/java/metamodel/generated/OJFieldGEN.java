@@ -20,9 +20,6 @@ abstract public class OJFieldGEN extends OJVisibleElement {
 	}
 	
 	public void setInitExp(String element) {
-		if(element !=null && element.contains("new ArrayList<IRatePerTimeUnit>new ArrayList<RatePerTimeUnit>())")){
-			System.out.println();
-		}
 		if ( f_initExp != element ) {
 			f_initExp = element;
 		}

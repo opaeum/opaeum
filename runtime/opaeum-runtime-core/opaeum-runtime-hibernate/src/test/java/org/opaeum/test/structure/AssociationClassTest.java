@@ -13,9 +13,7 @@ import org.opaeum.test.Father;
 import org.opaeum.test.Marriage;
 import org.opaeum.test.Mother;
 import org.opaeum.test.StepBrother;
-
 public class AssociationClassTest {
-	protected PotentialPersistenceTestHelper helper = new PotentialPersistenceTestHelper();
 
 	@Test
 	public void testManyToManySideOne() {
@@ -32,8 +30,7 @@ public class AssociationClassTest {
 		aunt.setSurname("McGilliguddy");
 		aunt.setDateOfBirth(new Date());
 		aunt.addToFamilyMember(family, "John", brother);
-		helper.persist(aunt, family);
-		assertManyToManyConditions(helper.read(aunt), helper.read(brother));
+		assertManyToManyConditions(aunt, brother);
 	}
 
 	@Test
@@ -42,8 +39,7 @@ public class AssociationClassTest {
 		Family family = new Family();
 		Brother brother = new Brother(family, "John");
 		brother.addToRelation("Clotilda", "McGilliguddy", new Date(), aunt);
-		helper.persist(aunt, family);
-		assertManyToManyConditions(helper.read(aunt), helper.read(brother));
+		assertManyToManyConditions(aunt, brother);
 	}
 
 	protected void assertManyToManyConditions(Aunt aunt, Brother brother) {
@@ -78,12 +74,12 @@ public class AssociationClassTest {
 		}
 		sb.setName("Peter Peter pumpkin eater");
 		sb.setFamily(family);
-		helper.persist(family);
-		assertOneToManyConditions(family, sb);
+		FamilyStepChild link = assertStepBrotherAdded(family, sb);
+		family.removeFromStepChild(sb.getName(), sb);
+		assertStepBrotherRemoved(family, sb, link);
 		Family family2 = new Family();
-		FamilyStepChild oldLink = sb.getFamilyStepChild_family();
 		sb.setFamily(family2);
-		assertStepBrotherAddedToNewFamily(family, sb, family2, oldLink);
+		assertStepBrotherAddedToNewFamily(family, sb, family2, link);
 	}
 
 	@Test
@@ -92,39 +88,26 @@ public class AssociationClassTest {
 		StepBrother sb = new StepBrother();
 		family.addToStepChild("Peter Peter pumpkin eater", sb);
 		sb.setFamily(family);
-		helper.persist(family);
-		assertOneToManyConditions(family, sb);
+		FamilyStepChild link = assertStepBrotherAdded(family, sb);
+		family.removeFromStepChild(sb.getName(), sb);
+		assertStepBrotherRemoved(family, sb, link);
 		Family family2 = new Family();
-		FamilyStepChild oldLink = sb.getFamilyStepChild_family();
 		family2.addToStepChild(sb.getName(), sb);
 
-		assertStepBrotherAddedToNewFamily(family, sb, family2, oldLink);
+		assertStepBrotherAddedToNewFamily(family, sb, family2, link);
 	}
 
-	private void assertStepBrotherAddedToNewFamily(Family family,
+	protected void assertStepBrotherAddedToNewFamily(Family family,
 			StepBrother sb, Family family2, FamilyStepChild oldLink) {
-		helper.persist(family2);
-		helper.synch();
-
 		Assert.assertNotSame(sb.getFamily(), family);
 		Assert.assertNotSame(sb.getFamilyStepChild_family(), oldLink);
 		Assert.assertEquals(0, family.getFamilyStepChild_stepChild().size());
 		Assert.assertEquals(0, family.getStepChild().size());
 		Assert.assertNotSame(sb.getFamilyStepChild_family(), family);
-		assertOneToManyConditions(family2, sb);
 	}
 
-	protected void assertOneToManyConditions(Family family, StepBrother sb) {
-		FamilyStepChild link = assertStepBrotherAdded(family, sb);
-		family.removeFromStepChild(sb.getName(), sb);
-		helper.synch();
-		assertStepBrotherRemoved(family, sb, link);
-	}
-
-	private void assertStepBrotherRemoved(Family family, StepBrother sb,
+	protected void assertStepBrotherRemoved(Family family, StepBrother sb,
 			FamilyStepChild link) {
-		sb = helper.read(sb);
-		family = helper.read(family);
 		Assert.assertNull(sb.getFamilyStepChild_family());
 		Assert.assertNull(link.getFamily());
 		Assert.assertNull(link.getStepChild());
@@ -135,8 +118,6 @@ public class AssociationClassTest {
 
 	protected FamilyStepChild assertStepBrotherAdded(Family family,
 			StepBrother sb) {
-		sb = helper.read(sb);
-		family = helper.read(family);
 		FamilyStepChild link = sb.getFamilyStepChild_family();
 		Assert.assertNotNull(link);
 		Assert.assertSame(family, link.getFamily());
@@ -151,13 +132,10 @@ public class AssociationClassTest {
 		Mother mother = new Mother();
 		Father father = new Father();
 		mother.setSurnameProvider(father);
-		helper.persist(mother,father);
 		Marriage marriage_spouse = father.getMarriage_spouse();
 		assertOneToOneConditions(mother, father);
 		Father father2 = new Father();
 		mother.setSurnameProvider(father2);
-		helper.persist(father2);
-		helper.synch();
 		Assert.assertNull(marriage_spouse.getSpouse());
 		Assert.assertNull(marriage_spouse.getSurnameProvider());
 		Assert.assertNull(father.getSpouse());
@@ -167,8 +145,6 @@ public class AssociationClassTest {
 	}
 
 	protected void assertOneToOneConditions(Mother mother, Father father) {
-		mother=helper.read(mother);
-		father=helper.read(father);
 		Assert.assertEquals(mother, father.getSpouse());
 		Assert.assertEquals(father, mother.getSurnameProvider());
 		Assert.assertNotNull(father.getMarriage_spouse());

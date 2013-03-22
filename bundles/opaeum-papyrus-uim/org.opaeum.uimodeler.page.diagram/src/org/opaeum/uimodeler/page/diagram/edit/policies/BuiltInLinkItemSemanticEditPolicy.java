@@ -16,32 +16,40 @@ import org.opaeum.uimodeler.page.diagram.providers.UimElementTypes;
 /**
  * @generated
  */
-public class BuiltInLinkItemSemanticEditPolicy extends UimBaseItemSemanticEditPolicy{
+public class BuiltInLinkItemSemanticEditPolicy extends
+		UimBaseItemSemanticEditPolicy {
+
 	/**
 	 * @generated
 	 */
-	public BuiltInLinkItemSemanticEditPolicy(){
-		super(UimElementTypes.BuiltInLink_3022);
+	public BuiltInLinkItemSemanticEditPolicy() {
+		super(UimElementTypes.BuiltInLink_3035);
 	}
+
 	/**
 	 * @generated
 	 */
-	protected Command getDestroyElementCommand(DestroyElementRequest req){
+	protected Command getDestroyElementCommand(DestroyElementRequest req) {
 		View view = (View) getHost().getModel();
-		CompositeTransactionalCommand cmd = new CompositeTransactionalCommand(getEditingDomain(), null);
+		CompositeTransactionalCommand cmd = new CompositeTransactionalCommand(
+				getEditingDomain(), null);
 		cmd.setTransactionNestingEnabled(true);
+
 		EAnnotation annotation = view.getEAnnotation("Shortcut"); //$NON-NLS-1$
-		if(annotation == null){
+		if (annotation == null) {
 			// there are indirectly referenced children, need extra commands: false
 			addDestroyShortcutsCommand(cmd, view);
 			// delete host element
 			List<EObject> todestroy = new ArrayList<EObject>();
 			todestroy.add(req.getElementToDestroy());
 			//cmd.add(new org.eclipse.gmf.runtime.emf.type.core.commands.DestroyElementCommand(req));
-			cmd.add(new EMFtoGMFCommandWrapper(new DeleteCommand(getEditingDomain(), todestroy)));
-		}else{
-			cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), view));
+			cmd.add(new EMFtoGMFCommandWrapper(new DeleteCommand(
+					getEditingDomain(), todestroy)));
+		} else {
+			cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(
+					getEditingDomain(), view));
 		}
 		return getGEFWrapper(cmd.reduce());
 	}
+
 }

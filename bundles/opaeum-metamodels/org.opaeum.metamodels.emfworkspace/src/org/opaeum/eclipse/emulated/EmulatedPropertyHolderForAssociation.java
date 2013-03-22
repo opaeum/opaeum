@@ -24,9 +24,6 @@ public class EmulatedPropertyHolderForAssociation extends EmulatedPropertyHolder
 			EndToAssociationClass thisEnd = new EndToAssociationClass(p);
 			endsToAssociationClass.add(thisEnd);
 			Property emulatedAttribute = getEmulatedAttribute(p.getOtherEnd());
-			if(!(emulatedAttribute instanceof AssociationClassToEnd)){
-				System.out.println();
-			}
 			AssociationClassToEnd associationToEnd = (AssociationClassToEnd) emulatedAttribute;
 			thisEnd.setOtherEnd(associationToEnd);
 			associationToEnd.setOtherEnd(thisEnd);
