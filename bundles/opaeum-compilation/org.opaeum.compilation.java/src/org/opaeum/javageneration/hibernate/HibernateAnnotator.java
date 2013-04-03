@@ -24,6 +24,7 @@ import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.StepDependency.StrategyRequirement;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
@@ -45,6 +46,8 @@ import org.opaeum.java.metamodel.generated.OJVisibilityKindGEN;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
+import org.opaeum.javageneration.basicjava.AttributeStrategy;
+import org.opaeum.javageneration.basicjava.DefaultAttributeStrategy;
 import org.opaeum.javageneration.composition.CompositionNodeImplementor;
 import org.opaeum.javageneration.oclexpressions.UtilCreator;
 import org.opaeum.javageneration.persistence.JpaAnnotator;
@@ -56,13 +59,13 @@ import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {PersistentObjectImplementor.class,JpaAnnotator.class,UtilCreator.class,HibernateAttributeImplementor.class},after = {
+@StepDependency(phase = JavaTransformationPhase.class,requires = {PersistentObjectImplementor.class,JpaAnnotator.class,UtilCreator.class},after = {
 		JpaAnnotator.class,UtilCreator.class,CompositionNodeImplementor.class,PersistentObjectImplementor.class/*
 																																																						 * Dependendent on the
 																																																						 * markDelete method being
 																																																						 * created
 																																																						 */
-},before = {})
+},before = {},strategyRequirement=@StrategyRequirement(strategyContract=AttributeStrategy.class,replaces=DefaultAttributeStrategy.class,requires=HibernateAttributeStrategy.class))
 public class HibernateAnnotator extends AbstractStructureVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitEnumeration(Enumeration e){

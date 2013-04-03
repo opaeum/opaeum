@@ -14,7 +14,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.TestModelValueStrategy;
 import org.opaeum.javageneration.basicjava.AttributeInJava;
-import org.opaeum.javageneration.basicjava.AttributeStrategy;
+import org.opaeum.javageneration.basicjava.SimpleTypeAttributeStrategy;
 import org.opaeum.javageneration.basicjava.FormatterStrategy;
 import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opaeum.javageneration.persistence.JpaStrategy;
@@ -45,7 +45,7 @@ public class LocaleStrategyFactory extends AbstractStrategyFactory{
 			format.initializeResultVariable("value==null?\"\":value.toString()");
 		}
 	}
-	public static class MyAttributeStrategy implements AttributeStrategy{
+	public static class MyAttributeStrategy implements SimpleTypeAttributeStrategy{
 		@Override
 		public void applyTo(OJUtil ojUtil,OJAnnotatedClass owner,AttributeInJava a, PropertyMap property){
 			owner.addToImports(Environment.class.getName());

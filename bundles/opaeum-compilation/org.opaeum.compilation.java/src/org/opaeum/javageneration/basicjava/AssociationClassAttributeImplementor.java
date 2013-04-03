@@ -4,10 +4,8 @@ import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
 
 import org.eclipse.uml2.uml.Association;
-import org.eclipse.uml2.uml.AssociationClass;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
-import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.emulated.EmulatedPropertyHolderForAssociation;
 import org.opaeum.feature.StepDependency;
@@ -80,6 +78,7 @@ public class AssociationClassAttributeImplementor extends AbstractAttributeImple
 	}
 	@Override
 	protected void visitProperty(OJAnnotatedClass owner,Classifier umlOwner,PropertyMap map){
+		strategy.beforeProperty(owner, umlOwner, map);
 	}
 	@Override
 	public void visitAssociationClassProperty(Classifier c,AssociationClassEndMap aMap){
@@ -99,6 +98,7 @@ public class AssociationClassAttributeImplementor extends AbstractAttributeImple
 				buildAdder(owner, aMap);
 				buildRemover(owner, aMap);
 			}
+			strategy.beforeProperty(owner, c, aMap.getEndToAssocationClassMap());
 			buildInternalAdder(owner, aMap.getEndToAssocationClassMap());
 			buildInternalRemover(owner, aMap.getEndToAssocationClassMap());
 			buildField(owner, aMap.getEndToAssocationClassMap());
@@ -227,10 +227,10 @@ public class AssociationClassAttributeImplementor extends AbstractAttributeImple
 					if(isMap(map.getProperty())){
 						OJAnnotatedOperation getterFor = new OJAnnotatedOperation(map.getter(), map.javaBaseTypePath());
 						owner.addToOperations(getterFor);
-						addQualifierParamsAndBuildKeyVariable(getterFor, map.getProperty().getQualifiers());
+						addQualifierParameters(map,getterFor);
 						getterFor.initializeResultVariable("null");
 						OJAnnotatedField link = new OJAnnotatedField("link", aMap.getEndToAssocationClassMap().javaBaseTypePath());
-						link.setInitExp(getReferencePrefix(owner, map) + map.getAssocationClassMap().getEndToAssocationClassMap().fieldname() + ".get(key.toString())");
+						link.setInitExp(getReferencePrefix(owner, map) + map.getAssocationClassMap().getEndToAssocationClassMap().getter() + "For("+ojUtil.delegateQualifierArguments(map.getProperty().getQualifiers())+")");
 						getterFor.getBody().addToLocals(link);
 						getterFor.getBody().addToStatements(
 								"result= link==null || link." + aMap.getAssocationClassToOtherEndMap().getter() + "()==null?null:link." + aMap.getAssocationClassToOtherEndMap().getter()
@@ -258,6 +258,8 @@ public class AssociationClassAttributeImplementor extends AbstractAttributeImple
 		owner.addToOperations(setter);
 		if(!(owner instanceof OJAnnotatedInterface)){
 			setter.setStatic(map.isStatic());
+			strategy.startSetter(owner, setter, map);
+
 			setter.setVisibility(prop.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			removeFromPropertiesQualifiedByThisProperty(map, setter);
 			PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(prop.getOtherEnd());

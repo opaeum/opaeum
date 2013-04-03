@@ -3,32 +3,21 @@ package org.opaeum.javageneration.rap;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
-
 import org.eclipse.uml2.uml.Classifier;
 import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.StepDependency.StrategyRequirement;
 import org.opaeum.java.metamodel.OJPathName;
-import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.hibernate.HibernateAttributeImplementor;
+import org.opaeum.javageneration.basicjava.AttributeImplementor;
+import org.opaeum.javageneration.basicjava.AttributeStrategy;
+import org.opaeum.javageneration.hibernate.HibernateAttributeStrategy;
 
-@StepDependency(phase = JavaTransformationPhase.class,replaces = HibernateAttributeImplementor.class)
-public class RapAttributeImplementor extends HibernateAttributeImplementor{
-	@Override
-	protected OJAnnotatedOperation buildSetter(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map){
-		OJAnnotatedOperation setter = super.buildSetter(umlOwner, owner, map);
-		if(!map.isStatic()){
-			if(owner.findField("propertyChangeSupport") != null){
-				setter.getBody().addToStatements(0,
-						new OJSimpleStatement("propertyChangeSupport.firePropertyChange(\"" + map.umlName() + "\"," + map.getter() + "()," + map.fieldname() + ")"));
-			}
-		}
-		return setter;
-	}
+@StepDependency(phase = JavaTransformationPhase.class,replaces = AttributeImplementor.class,strategyRequirement = @StrategyRequirement(strategyContract = AttributeStrategy.class,replaces = HibernateAttributeStrategy.class,requires = RapAttributeStrategy.class))
+public class RapAttributeImplementor extends AttributeImplementor{
 	@Override
 	protected boolean visitComplexStructure(OJAnnotatedClass ojClass,Classifier umlOwner){
 		OJAnnotatedField support = new OJAnnotatedField("propertyChangeSupport", new OJPathName(PropertyChangeSupport.class.getName()));

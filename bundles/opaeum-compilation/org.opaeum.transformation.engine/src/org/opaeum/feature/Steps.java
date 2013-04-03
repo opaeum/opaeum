@@ -7,7 +7,7 @@ public class Steps extends SequenceCalculator<ITransformationStep>{
 	@Override
 	public void initializeFromClasses(Set<Class<? extends ITransformationStep>> selectedExecutionUnits){
 		super.initializeFromClasses(selectedExecutionUnits);
-		super.initializeFromClasses(selectedExecutionUnits);
+//		super.initializeFromClasses(selectedExecutionUnits);
 		performReplacements(selectedExecutionUnits);
 	}
 	private void performReplacements(Set<Class<? extends ITransformationStep>> selectedExecutionUnits){
@@ -45,13 +45,14 @@ public class Steps extends SequenceCalculator<ITransformationStep>{
 	}
 	private int indexOfItemToReplace(Class<? extends ITransformationStep> currentStep,Set<ITransformationStep> itemsToRemove){
 		StepDependency ann = currentStep.getAnnotation(StepDependency.class);
-		for(Class<? extends ITransformationStep> class1:ann.replaces()){
+		for(Class<? extends ITransformationStep> replacedStepClass:ann.replaces()){
 			for(int i = 0;i < super.executionUnits.size();i++){
-				ITransformationStep step = super.executionUnits.get(i);
-				if(class1.equals(step.getClass())){
-					itemsToRemove.add(step);
-					if(step.getClass().getAnnotation(StepDependency.class).replaces().length > 0){
-						int index = indexOfItemToReplace(step.getClass(), itemsToRemove);
+				ITransformationStep replacedStepInstance = super.executionUnits.get(i);
+				if(replacedStepClass.equals(replacedStepInstance.getClass())){
+					itemsToRemove.add(replacedStepInstance);
+					if(replacedStepInstance.getClass().getAnnotation(StepDependency.class).replaces().length > 0){
+						//Recursively look for steps to replace
+						int index = indexOfItemToReplace(replacedStepInstance.getClass(), itemsToRemove);
 						if(index == -1){
 							// Not found, take current steps index
 							return i;
@@ -65,7 +66,7 @@ public class Steps extends SequenceCalculator<ITransformationStep>{
 				}
 			}
 		}
-		// NOt found in configured steps, check if transitive replacements are in configured steps
+		// Replaced step not found in configured steps, check if transitive replacements are in configured steps
 		for(Class<? extends ITransformationStep> class1:ann.replaces()){
 			int indexOfItemToReplace = indexOfItemToReplace(class1, itemsToRemove);
 			if(indexOfItemToReplace > -1){

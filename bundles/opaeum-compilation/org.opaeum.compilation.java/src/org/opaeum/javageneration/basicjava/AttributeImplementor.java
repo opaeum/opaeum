@@ -3,12 +3,9 @@ package org.opaeum.javageneration.basicjava;
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Property;
-import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
@@ -30,6 +27,7 @@ public class AttributeImplementor extends AbstractAttributeImplementer{
 	@Override
 	protected void visitProperty(OJAnnotatedClass owner,Classifier umlOwner,PropertyMap map){
 		Property p = map.getProperty();
+		strategy.beforeProperty(owner, umlOwner, map);
 		if(!OJUtil.isBuiltIn(p) && !isInvolvedInAnAssociationClass(map)){
 			if(StereotypesHelper.hasStereotype(map.getBaseType(), StereotypeNames.HELPER)){
 				buildSetter(umlOwner, owner, map);
@@ -90,7 +88,7 @@ public class AttributeImplementor extends AbstractAttributeImplementer{
 				}
 			}
 			if(map.getBaseType() instanceof DataType){
-				AttributeStrategy s = EmfClassifierUtil.getStrategy((DataType) map.getBaseType(), AttributeStrategy.class);
+				SimpleTypeAttributeStrategy s = EmfClassifierUtil.getStrategy((DataType) map.getBaseType(), SimpleTypeAttributeStrategy.class);
 				if(s != null){
 					s.applyTo(ojUtil, owner, a, map);
 				}
@@ -175,13 +173,17 @@ public class AttributeImplementor extends AbstractAttributeImplementer{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			setter.setStatic(map.isStatic());
 			setter.setVisibility(prop.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
+			strategy.startSetter(owner, setter, map);
 			removeFromPropertiesQualifiedByThisProperty(map, setter);
 			if(StereotypesHelper.hasStereotype(map.getBaseType(), StereotypeNames.HELPER)){
 				setter.getBody().addToStatements("this." + map.fieldname() + "=" + map.fieldname());
 			}else if(isOtherEndModifiable(prop)){
 				PropertyMap otherMap = ojUtil.buildStructuralFeatureMap(prop.getOtherEnd());
 				if(map.isManyToOne()){
-					String args = buildQualifiedArgumentStringForOtherEnd(prop);
+					String args = "(this)";
+					if(isMap(prop.getOtherEnd())){
+						args = "(" + ojUtil.addQualifierArguments(prop.getOtherEnd().getQualifiers(), "this") + "this)";
+					}
 					// remove "this" from existing reference
 					OJIfStatement ifCurrentValueNotNull = new OJIfStatement();
 					ifCurrentValueNotNull.setCondition(getReferencePrefix(owner, map) + map.getter() + "()!=null");

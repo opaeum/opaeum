@@ -31,7 +31,7 @@ public class TransformationProcess{
 	}
 	Set<Object> models = new HashSet<Object>();
 	Set<Class<? extends ITransformationStep>> actualClasses = new HashSet<Class<? extends ITransformationStep>>();
-	Map<Class<?>,StrategyRequirement> strategies = new HashMap<Class<?>,StrategyRequirement>();
+	StrategyCalculator strategies;
 	private Phases phases;
 	private OpaeumConfig config;
 	public void integrate(TransformationProgressLog log){
@@ -121,15 +121,7 @@ public class TransformationProcess{
 		this.actualClasses = new HashSet<Class<? extends ITransformationStep>>();
 		this.phases = new Phases();
 		this.actualClasses = ensurePresenceOfDependencies(proposedStepClasses);
-		for(Class<? extends ITransformationStep> c:this.actualClasses){
-			for(StrategyRequirement sr:c.getAnnotation(StepDependency.class).strategyRequirement()){
-				StrategyRequirement existing = strategies.get(sr.strategyContract());
-				if(existing == null || overrides(sr, existing)){
-					strategies.put(sr.strategyContract(), sr);
-				}
-			}
-			
-		}
+		strategies=new StrategyCalculator(actualClasses);
 		phases.initializeFromClasses(getPhaseClassesFor(actualClasses));
 		List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
 		for(TransformationPhase<? extends ITransformationStep,?> phase:phaseList){
@@ -273,16 +265,6 @@ public class TransformationProcess{
 			}
 		}
 	}
-	private boolean overrides(StrategyRequirement sr,StrategyRequirement existing){
-		//TODO implement recursion to replace transitive replacements 
-		Class<?>[] replaces = sr.replaces();
-		for(Class<?> class1:replaces){
-			if(class1.getName().equals(existing.requires().getName())){//There may be classLoader issues
-				return true;
-			}
-		}
-		return false;
-	}
 	public synchronized void removeModel(Class<?> class1){
 		if(this.models.size() > 0){
 			// CHeck for size as there is some weird negative array size problem that emerges
@@ -313,7 +295,6 @@ public class TransformationProcess{
 		this.phases = null;
 	}
 	public <T> T getStrategy(Class<T> class1){
-		StrategyRequirement strategyRequirement = strategies.get(class1);
-		return (T) IntrospectionUtil.newInstance(strategyRequirement.requires());
+		return strategies.newInstance(class1);
 	}
 }

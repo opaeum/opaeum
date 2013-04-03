@@ -16,7 +16,7 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public abstract class EmfElementVisitor extends VisitorAdapter<Element,EmfWorkspace>{
 	private ThreadLocal<Package> currentRootObject = new ThreadLocal<Package>();
-	protected final Package getCurrentRootObject(){
+	public final Package getCurrentRootObject(){
 		return currentRootObject.get();
 	}
 	protected final void setCurrentRootObject(Package currentRootObject){

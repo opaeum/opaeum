@@ -197,7 +197,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	 * @param property
 	 * @return
 	 */
-	protected final boolean isMap(Property property){
+	public final boolean isMap(Property property){
 		
 		return property.getQualifiers().size() > 0
 				&& (property.getName().equals("updateChangeLog") || property.getName().equals("user") || property.getName().equals("userGroup") || !EmfElementFinder.getRootObject(property)

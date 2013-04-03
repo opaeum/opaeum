@@ -2,12 +2,9 @@ package org.opaeum.feature;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
-import org.opaeum.feature.StepDependency.StrategyRequirement;
 import org.opaeum.feature.TransformationProcess.TransformationProgressLog;
-import org.opaeum.runtime.domain.IntrospectionUtil;
 
 public class TransformationContext {
 	boolean isIntegrationPhase;
@@ -19,14 +16,14 @@ public class TransformationContext {
 	}
 
 	TransformationProgressLog log;
-	private Map<Class<?>,StrategyRequirement> strategies;
+	private StrategyCalculator strategies;
 
-	public TransformationContext(Set<Class<? extends ITransformationStep>> selectedFeatures,boolean isIntegrationPhase,TransformationProgressLog log, Map<Class<?>,StrategyRequirement> strategies) {
+	public TransformationContext(Set<Class<? extends ITransformationStep>> selectedFeatures,boolean isIntegrationPhase,TransformationProgressLog log, StrategyCalculator strategies2) {
 		super();
 		this.selectedFeatures = selectedFeatures;
 		this.isIntegrationPhase=isIntegrationPhase;
 		this.log=log;
-		this.strategies=strategies;
+		this.strategies=strategies2;
 				
 	}
 
@@ -73,6 +70,6 @@ public class TransformationContext {
 	}
 
 	public <T> T getStrategy(Class<T> class1){
-		return (T) IntrospectionUtil.newInstance(strategies.get(class1).requires());
+		return strategies.newInstance(class1);
 	}
 }

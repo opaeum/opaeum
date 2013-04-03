@@ -21,7 +21,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.Java6ModelGenerator;
-import org.opaeum.javageneration.hibernate.HibernateAttributeImplementor;
+import org.opaeum.javageneration.hibernate.HibernateAttributeStrategy;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,after = Java6ModelGenerator.class)
