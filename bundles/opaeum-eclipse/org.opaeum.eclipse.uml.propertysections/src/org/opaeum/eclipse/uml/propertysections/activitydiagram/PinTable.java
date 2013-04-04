@@ -26,28 +26,21 @@ import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Pin;
-import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
-import org.eclipse.uml2.uml.util.UMLUtil;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfValidationUtil;
 import org.opaeum.eclipse.EmfValueSpecificationUtil;
 import org.opaeum.eclipse.ImageManager;
-import org.opaeum.eclipse.commands.AddStereotypeValueCommand;
-import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
 import org.opaeum.eclipse.uml.editingsupport.EditingDomainEditingSupport;
 import org.opaeum.eclipse.uml.editingsupport.MultiplicityElementUpperValueEditingSupport;
 import org.opaeum.eclipse.uml.editingsupport.NamedElementNameEditingSupport;
 import org.opaeum.eclipse.uml.editingsupport.OpaqueExpressionPropertyEditingSupport;
 import org.opaeum.eclipse.uml.editingsupport.TypedElementTypeEditingSupport;
 import org.opaeum.eclipse.uml.propertysections.core.AbstractTableComposite;
-import org.opaeum.eclipse.uml.propertysections.ocl.OclBodyComposite;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.metamodel.core.internal.TagNames;
-import org.opaeum.validation.OclValidator;
 
 public class PinTable extends AbstractTableComposite<InputPin>{
 	public PinTable(Composite parent,int style,TabbedPropertySheetWidgetFactory widgetFactory,EStructuralFeature feature){

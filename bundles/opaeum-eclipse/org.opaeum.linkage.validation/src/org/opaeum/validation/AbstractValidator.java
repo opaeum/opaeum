@@ -13,7 +13,6 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.ObjectNode;
-import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Pin;
@@ -22,16 +21,16 @@ import org.opaeum.EmfElementVisitor;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.visit.VisitSpec;
 import org.opaeum.metamodel.validation.ErrorMap;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractValidator extends EmfElementVisitor implements ITransformationStep{
-	protected ModelWorkspace workspace;
+	protected EmfWorkspace workspace;
 	protected OpaeumConfig config;
 	protected TransformationContext transformationContext;
 	protected OpaeumLibrary getLibrary(){
@@ -108,13 +107,13 @@ public abstract class AbstractValidator extends EmfElementVisitor implements ITr
 	}
 	@Override
 	public Collection<Element> getChildren(Element root){
-		if(root instanceof ModelWorkspace){
-			return new ArrayList<Element>(((ModelWorkspace) root).getRootObjects());
+		if(root instanceof EmfWorkspace){
+			return new ArrayList<Element>(((EmfWorkspace) root).getRootObjects());
 		}else{
 			return EmfElementFinder.getCorrectOwnedElements(root);
 		}
 	}
-	public void initialize(ModelWorkspace workspace,OpaeumConfig config){
+	public void initialize(EmfWorkspace workspace,OpaeumConfig config){
 		this.workspace = workspace;
 		this.config = config;
 	}

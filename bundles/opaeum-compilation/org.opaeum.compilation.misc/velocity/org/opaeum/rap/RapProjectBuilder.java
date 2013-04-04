@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 import org.opaeum.bootstrap.AbstractBootstrapStep;
 import org.opaeum.bootstrap.BootstrapGenerationPhase;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolder;
@@ -16,7 +16,7 @@ import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 @StepDependency(phase = BootstrapGenerationPhase.class)
 public class RapProjectBuilder extends AbstractBootstrapStep{
 	@VisitBefore
-	public void beforeWorkspace(ModelWorkspace w){
+	public void beforeWorkspace(EmfWorkspace w){
 		if(transformationContext.isIntegrationPhase()){
 			HashMap<String,Object> vars = new HashMap<String,Object>();
 			vars.put("workspace", workspace);

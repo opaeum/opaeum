@@ -3,7 +3,6 @@ package org.opaeum.eclipse.uml.propertysections.base;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.ChangeEvent;

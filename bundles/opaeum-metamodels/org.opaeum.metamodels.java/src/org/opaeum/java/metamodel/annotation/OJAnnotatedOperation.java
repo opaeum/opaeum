@@ -122,6 +122,9 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 	}
 	public void initializeResultVariable(String initialValue){
 		if(initialValue == null){
+			if(getName().equals("getIUmtsNeighbour")){
+				System.out.println();
+			}
 			resultVariable = null;
 		}else{
 			resultVariable = new OJAnnotatedField("result", getReturnType().getCopy());

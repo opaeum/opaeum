@@ -1,10 +1,7 @@
 package org.opaeum.javageneration.oclexpressions;
 
-import java.util.Collection;
-
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
-import org.eclipse.ocl.uml.OCLExpression;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Model;

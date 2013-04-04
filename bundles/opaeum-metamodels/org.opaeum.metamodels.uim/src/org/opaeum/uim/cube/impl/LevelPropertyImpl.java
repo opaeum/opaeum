@@ -2,11 +2,7 @@
  */
 package org.opaeum.uim.cube.impl;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.opaeum.uim.UimPackage;
-import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.cube.CubePackage;
 import org.opaeum.uim.cube.LevelProperty;
 import org.opaeum.uim.impl.LabeledElementImpl;

@@ -42,6 +42,19 @@ import org.opaeum.runtime.domain.ExceptionAnalyser;
  */
 public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 	public static ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(8);
+	public static Map<Class<?>, Integer> counts=new HashMap<Class<?>,Integer>();
+	{
+		Integer i = counts.get(getClass());
+		i=i==null?0:i+1;
+		counts.put(getClass(),i);
+	}
+	public void finalize() throws Throwable {
+		Integer i = counts.get(getClass().getName());
+		i=i==null?0:i-1;
+		counts.put(getClass(),i);
+	};
+
+
 	private Throwable throwable;
 	int depth = 0;
 	static Map<Class<?>,MethodInvokers> metaInfoMap = new HashMap<Class<?>,VisitorAdapter.MethodInvokers>();

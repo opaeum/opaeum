@@ -5,7 +5,6 @@ import org.eclipse.emf.facet.infra.browser.uicore.internal.model.LinkItem;
 import org.eclipse.emf.facet.infra.browser.uicore.internal.model.ModelElementItem;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.notation.View;
-import org.eclipse.papyrus.infra.core.editor.IMultiDiagramEditor;
 import org.eclipse.papyrus.infra.core.utils.EditorUtils;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;

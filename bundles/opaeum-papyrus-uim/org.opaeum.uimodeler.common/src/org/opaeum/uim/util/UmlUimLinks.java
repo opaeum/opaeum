@@ -2,8 +2,10 @@ package org.opaeum.uim.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.WeakHashMap;
 
 import org.eclipse.emf.common.util.EList;
@@ -45,11 +47,30 @@ import org.opaeum.uim.model.QueryInvoker;
 
 public class UmlUimLinks{
 	private EmfWorkspace primaryEmfWorkspace;
-	//TODO memory leak - primarEmfWorkspace points to the resource?
+	// TODO memory leak - primarEmfWorkspace points to the resource?
 	static Map<Resource,UmlUimLinks> linksMap = new WeakHashMap<Resource,UmlUimLinks>();
+	static{
+		new Thread(){
+			@Override
+			public void run(){
+				Iterator<Entry<Resource,UmlUimLinks>> i = linksMap.entrySet().iterator();
+				while(i.hasNext()){
+					Map.Entry<Resource,UmlUimLinks> entry = i.next();
+					if(entry.getValue().isReleased()){
+						System.out.println("Removing UmlUimLinks" + entry.getValue().primaryEmfWorkspace.getIdentifier());
+						i.remove();
+					}
+				}
+				super.run();
+			}
+		}.start();
+	}
 	public UmlUimLinks(Resource uimResource,EmfWorkspace map){
 		linksMap.put(uimResource, this);
 		this.primaryEmfWorkspace = map;
+	}
+	public boolean isReleased(){
+		return primaryEmfWorkspace.isReleased();
 	}
 	public Element getUmlElement(UmlReference uIMBinding){
 		if(uIMBinding.getUmlElementUid() == null){
@@ -112,14 +133,14 @@ public class UmlUimLinks{
 		return typedElement;
 	}
 	public Classifier getNearestClass(EObject uc){
-			UimDataTable nearestTable = getNearestTable(uc);
-			if(nearestTable != null){
-				if(nearestTable.getBinding() != null && getTypedElement(nearestTable.getBinding()) != null){
-					return (Classifier) getBindingType(nearestTable.getBinding());
-				}
+		UimDataTable nearestTable = getNearestTable(uc);
+		if(nearestTable != null){
+			if(nearestTable.getBinding() != null && getTypedElement(nearestTable.getBinding()) != null){
+				return (Classifier) getBindingType(nearestTable.getBinding());
 			}
-				UserInterfaceRoot uf = getNearestUserInterfaceRoot(uc);
-				return getRepresentedClass(uf);
+		}
+		UserInterfaceRoot uf = getNearestUserInterfaceRoot(uc);
+		return getRepresentedClass(uf);
 	}
 	private Classifier getBindingType(UimBinding b){
 		if(b.getNext() == null || getProperty(b.getNext()) == null){
@@ -136,11 +157,11 @@ public class UmlUimLinks{
 		}
 	}
 	public UimDataTable getNearestTable(EObject uc){
-		while(!(uc instanceof UimDataTable ||uc == null)){
+		while(!(uc instanceof UimDataTable || uc == null)){
 			if(uc.eContainer() instanceof UimComponent){
 				uc = (UimComponent) uc.eContainer();
 			}else{
-				uc= null;
+				uc = null;
 			}
 		}
 		return (UimDataTable) uc;
@@ -188,8 +209,7 @@ public class UmlUimLinks{
 			return delegateToContextIfRequired((Classifier) rc);
 		}else if(rc instanceof Operation){
 			return (Classifier) rc.getOwner();
-				
-		}else {
+		}else{
 			return null;
 		}
 	}
@@ -205,14 +225,14 @@ public class UmlUimLinks{
 		}
 	}
 	private Classifier delegateToContextIfRequired(Classifier rc){
-		return rc;//TODO figure out the side effects/
-//		if((rc instanceof Behavior)){
-//			Behavior b = (Behavior) rc;
-//			if(b.getContext() != null && b.getContext().getClassifierBehavior() == b){
-//				return (Classifier) b.getContext();
-//			}
-//		}
-//		return rc;
+		return rc;// TODO figure out the side effects/
+		// if((rc instanceof Behavior)){
+		// Behavior b = (Behavior) rc;
+		// if(b.getContext() != null && b.getContext().getClassifierBehavior() == b){
+		// return (Classifier) b.getContext();
+		// }
+		// }
+		// return rc;
 	}
 	public Classifier getType(UimBinding binding){
 		if(binding == null || getTypedElement(binding) == null){

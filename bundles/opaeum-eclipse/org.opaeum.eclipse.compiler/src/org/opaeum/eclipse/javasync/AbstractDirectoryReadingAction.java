@@ -14,7 +14,6 @@ import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.javageneration.util.PropertyStrategy;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 public abstract class AbstractDirectoryReadingAction extends AbstractOpaeumAction{

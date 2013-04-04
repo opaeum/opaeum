@@ -17,7 +17,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.Package;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpenUmlFile;
@@ -28,8 +27,6 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.javageneration.util.PropertyStrategy;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextWorkspace;
 

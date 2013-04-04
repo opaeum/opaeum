@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.papyrus.infra.core.sashwindows.di.DiFactory;
 import org.eclipse.papyrus.infra.core.sashwindows.di.SashWindowsMngr;
-import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;
 import org.eclipse.uml2.uml.Behavior;

@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.opaeum.uim.constraint.UserInteractionConstraint;
 import org.opaeum.uim.perspective.ClassNavigationConstraint;
 import org.opaeum.uim.perspective.MultiplicityElementNavigationConstraint;
 import org.opaeum.uim.perspective.NavigationConstraint;

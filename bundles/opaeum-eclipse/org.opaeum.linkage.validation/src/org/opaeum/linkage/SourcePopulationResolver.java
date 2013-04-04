@@ -5,20 +5,15 @@ import static org.opaeum.metamodel.core.internal.StereotypeNames.HIERARCHY;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.uml.OCL;
-import org.eclipse.ocl.uml.OCLExpression;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
-import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Enumeration;
-import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueAction;
@@ -42,7 +37,6 @@ import org.opaeum.ocl.uml.OclQueryContext;
 import org.opaeum.validation.AbstractValidator;
 import org.opaeum.validation.LinkagePhase;
 import org.opaeum.validation.OpaeumValidationPlugin;
-import org.opaeum.validation.ValidationPhase;
 
 @StepDependency(phase = LinkagePhase.class,after = {},requires = {},before = {})
 public class SourcePopulationResolver extends AbstractValidator{

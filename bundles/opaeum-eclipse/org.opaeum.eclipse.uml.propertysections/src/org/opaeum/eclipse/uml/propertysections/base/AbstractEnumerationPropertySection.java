@@ -12,7 +12,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 
 public abstract class AbstractEnumerationPropertySection extends AbstractOpaeumPropertySection{
 	private Group combo;

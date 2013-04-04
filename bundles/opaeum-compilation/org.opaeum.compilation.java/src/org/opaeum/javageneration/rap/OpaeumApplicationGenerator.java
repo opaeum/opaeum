@@ -6,7 +6,6 @@ import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -21,7 +20,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.Java6ModelGenerator;
-import org.opaeum.javageneration.hibernate.HibernateAttributeStrategy;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,after = Java6ModelGenerator.class)

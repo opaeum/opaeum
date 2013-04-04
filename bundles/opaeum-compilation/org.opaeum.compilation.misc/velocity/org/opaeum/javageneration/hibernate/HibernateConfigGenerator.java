@@ -4,9 +4,9 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
 import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class HibernateConfigGenerator extends AbstractPersistenceConfigGenerator{
@@ -17,7 +17,7 @@ public class HibernateConfigGenerator extends AbstractPersistenceConfigGenerator
 		if(model instanceof Model){
 			return EmfPackageUtil.getIdentifier((Package) model) + "-hibernate.cfg.xml";
 		}else{
-			return ((ModelWorkspace) model).getIdentifier() + "-hibernate.cfg.xml";
+			return ((EmfWorkspace) model).getIdentifier() + "-hibernate.cfg.xml";
 		}
 	}
 	protected String getConfigName(Element model){

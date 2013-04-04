@@ -3,7 +3,6 @@
 package org.opaeum.uim.component;
 
 import org.eclipse.emf.common.util.EList;
-import org.opaeum.uim.Labels;
 import org.opaeum.uim.action.AbstractActionButton;
 import org.opaeum.uim.binding.TableBinding;
 import org.opaeum.uim.panel.Outlayable;

@@ -21,7 +21,6 @@ import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
-import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfActionUtil;
 import org.opaeum.eclipse.EmfActivityUtil;

@@ -57,13 +57,16 @@ public class AssociationClassAttributeImplementor extends AbstractAttributeImple
 					clear.getBody().addToStatements("this." + mapToEnd1.internalRemover() + "(" + mapToEnd1.getter() + "())");
 				}
 			}
+			strategy.beforeProperty(ojOwner, umlOwner, mapToEnd1);
 			buildField(ojOwner, mapToEnd1);
-			buildField(ojOwner, mapToEnd2);
 			buildInternalAdder(ojOwner, mapToEnd1);
-			buildInternalAdder(ojOwner, mapToEnd2);
 			buildInternalRemover(ojOwner, mapToEnd1);
-			buildInternalRemover(ojOwner, mapToEnd2);
 			buildGetter(umlOwner, ojOwner, mapToEnd1, false);
+			
+			strategy.beforeProperty(ojOwner, umlOwner, mapToEnd1);
+			buildField(ojOwner, mapToEnd2);
+			buildInternalAdder(ojOwner, mapToEnd2);
+			buildInternalRemover(ojOwner, mapToEnd2);
 			buildGetter(umlOwner, ojOwner, mapToEnd2, false);
 			if(end1 != null && isMap(end1)){
 				PropertyMap otherMAp = ojUtil.buildStructuralFeatureMap(end1);
@@ -128,6 +131,7 @@ public class AssociationClassAttributeImplementor extends AbstractAttributeImple
 			PropertyMap mapToAssociation = aMap.getEndToAssocationClassMap();
 			OJAnnotatedField link = new OJAnnotatedField("newLink", mapToAssociation.javaBaseTypePath());
 			ifNotNull.getThenPart().addToLocals(link);
+			owner.addToImports(aMap.getAssociationClassToThisEndMap().javaBaseTypePath());
 			link.setInitExp("new " + mapToAssociation.javaBaseType() + "((" + aMap.getAssociationClassToThisEndMap().javaType() + ")this,("
 					+ aMap.getAssocationClassToOtherEndMap().javaType() + ")" + map.fieldname() + ")");
 			if(isOtherEndModifiable(map)){

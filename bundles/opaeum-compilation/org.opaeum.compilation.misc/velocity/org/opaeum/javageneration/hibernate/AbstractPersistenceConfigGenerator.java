@@ -34,8 +34,6 @@ import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationStep;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
-import org.opaeum.rap.RapCapabilities;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
@@ -51,7 +49,7 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 	}
 	@SuppressWarnings({"unchecked","rawtypes"})
 	@VisitBefore
-	public void visitWorkspace(ModelWorkspace workspace){
+	public void visitWorkspace(EmfWorkspace workspace){
 		if(shouldProcessWorkspace()){
 			Collection<Package> rootObjects = (Collection) workspace.getOwnedElements();
 			generateConfigAndEnvironment(rootObjects, TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, true, workspace);

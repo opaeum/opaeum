@@ -4,7 +4,6 @@ import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;

@@ -34,7 +34,9 @@ public class DefaultAttributeStrategy implements AttributeStrategy{
 		if(getter == null){
 			// Could exist in the case of DerivedUnion from an Interface with the same name as the implementing property
 			// In this case we need to ovverride it
+			
 			getter = new OJAnnotatedOperation(map.getter(), map.javaTypePath());
+			getter.initializeResultVariable("null");
 			owner.addToOperations(getter);
 		}else{
 			if(map.getProperty().isDerivedUnion()){

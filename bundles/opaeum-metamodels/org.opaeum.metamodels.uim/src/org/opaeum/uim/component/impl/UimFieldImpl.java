@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.opaeum.uim.LabelContainer;
-import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInteractionElement;

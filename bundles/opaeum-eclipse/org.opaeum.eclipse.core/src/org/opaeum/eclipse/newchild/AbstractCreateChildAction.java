@@ -7,7 +7,6 @@ import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.CreateStereotypedChildAction;
-import org.opaeum.eclipse.OpaeumEclipsePlugin;
 
 public abstract class AbstractCreateChildAction implements ICreateChildAction{
 	private MatchingOwner[] matchingOwners;

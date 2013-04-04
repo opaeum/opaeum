@@ -10,7 +10,6 @@ import org.eclipse.papyrus.infra.extendedtypes.util.ElementTypeUtils;
 import org.eclipse.papyrus.uml.diagram.activity.edit.parts.ActivityActivityContentCompartmentEditPart;
 import org.eclipse.papyrus.uml.diagram.activity.edit.policies.CustomActivityActivityContentCompartmentItemSemanticEditPolicy;
 import org.eclipse.papyrus.uml.diagram.activity.providers.UMLElementTypes;
-import org.eclipse.uml2.uml.AddStructuralFeatureValueAction;
 import org.opaeum.papyrus.uml.diagram.businessprocess.edit.commands.OpaeumCallBehaviorActionCreateCommand;
 
 public final class OpaeumActivityActivityContentCompartmentEditPart extends ActivityActivityContentCompartmentEditPart{

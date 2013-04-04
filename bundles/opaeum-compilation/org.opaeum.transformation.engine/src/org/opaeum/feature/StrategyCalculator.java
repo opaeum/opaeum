@@ -15,13 +15,15 @@ public class StrategyCalculator{
 		super();
 		this.actualClasses = actualClasses;
 		for(Class<? extends ITransformationStep> c:this.actualClasses){
-			for(StrategyRequirement sr:c.getAnnotation(StepDependency.class).strategyRequirement()){
-				holders.put(sr.requires(), new StrategyRequirementHolder(sr));
-			}
+			addRequiredStrategiesRecursively(c);
 		}
 		for(StrategyRequirementHolder h:holders.values()){
 			for(Class<?> replacedClass:h.getReplacedStrategyClasses()){
-				h.addReplaces(holders.get(replacedClass));
+				StrategyRequirementHolder holder = holders.get(replacedClass);
+				if(holder!=null){
+					//Replaced strategy may not have been selected in the transformation process 
+					h.addReplaces(holder);
+				}
 			}
 		}
 		this.strategies = new HashMap<Class<?>,StepDependency.StrategyRequirement>();
@@ -32,6 +34,15 @@ public class StrategyCalculator{
 					strategies.put(sr.strategyContract(), sr);
 				}
 			}
+		}
+	}
+	private void addRequiredStrategiesRecursively(Class<? extends ITransformationStep> c){
+		StepDependency sd = c.getAnnotation(StepDependency.class);
+		for(StrategyRequirement sr:sd.strategyRequirement()){
+			holders.put(sr.requires(), new StrategyRequirementHolder(sr));
+		}
+		for(Class<? extends ITransformationStep> replacedTransformation:sd.replaces()){
+			addRequiredStrategiesRecursively(replacedTransformation);
 		}
 	}
 	private boolean overrides(StrategyRequirement sr,StrategyRequirement existing){

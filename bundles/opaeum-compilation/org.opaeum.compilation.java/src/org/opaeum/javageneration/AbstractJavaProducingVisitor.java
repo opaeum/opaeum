@@ -15,7 +15,6 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Package;

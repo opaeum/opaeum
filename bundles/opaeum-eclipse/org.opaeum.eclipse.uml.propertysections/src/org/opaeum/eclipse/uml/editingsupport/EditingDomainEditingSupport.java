@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;

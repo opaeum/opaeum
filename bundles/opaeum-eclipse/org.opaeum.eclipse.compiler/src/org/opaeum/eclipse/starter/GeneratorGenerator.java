@@ -3,6 +3,7 @@ package org.opaeum.eclipse.starter;
 import java.util.Set;
 
 import org.opaeum.eclipse.javasync.JavaTransformationProcessManager;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -19,13 +20,12 @@ import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class GeneratorGenerator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	@VisitBefore
-	public void visitWorkspace(ModelWorkspace workspace){
+	public void visitWorkspace(EmfWorkspace workspace){
 		OJPackage pkg = findOrCreatePackage(new OJPathName(config.getMavenGroupId() + ".generator"));
 		buildGeneratorClass(pkg);
 	}

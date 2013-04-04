@@ -1,7 +1,5 @@
 package org.opaeum.eclipse.uml.propertysections.standardprofile;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractStringOnStereotypeSection;
 import org.opaeum.metamodel.core.internal.StereotypeNames;

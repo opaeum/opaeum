@@ -2,13 +2,11 @@ package org.opaeum.javageneration.oclexpressions;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.ocl.uml.CollectionType;
-import org.eclipse.ocl.uml.OCLExpression;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;

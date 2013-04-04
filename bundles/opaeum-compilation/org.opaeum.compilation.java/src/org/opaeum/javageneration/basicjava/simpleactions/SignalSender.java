@@ -23,7 +23,6 @@ import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
-import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;

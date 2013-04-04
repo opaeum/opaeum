@@ -6,9 +6,9 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 
 public class JaxbAnnotator{
 	public static void addXmlTransient(OJAnnotatedField o){
-		if(!o.isTransient()){
+//		if(!o.isTransient()){
 			OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlTransient"));
 			o.addAnnotationIfNew(column);
-		}
+//		}
 	}
 }

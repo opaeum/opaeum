@@ -2,7 +2,6 @@
  */
 package org.opaeum.uim.component;
 
-import org.opaeum.uim.Labels;
 import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.control.ControlKind;

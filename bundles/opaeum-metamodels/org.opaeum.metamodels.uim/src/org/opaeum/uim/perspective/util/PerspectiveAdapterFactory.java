@@ -12,7 +12,6 @@ import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.constraint.RootUserInteractionConstraint;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
-import org.opaeum.uim.perspective.*;
 import org.opaeum.uim.perspective.BehaviorNavigationConstraint;
 import org.opaeum.uim.perspective.ClassNavigationConstraint;
 import org.opaeum.uim.perspective.EditorConfiguration;

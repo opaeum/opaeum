@@ -22,7 +22,6 @@ import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.MemoryUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.TransformationProcess;
-import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.validation.LinkagePhase;
 
 public class RecompileModelDirectoryAction extends AbstractDirectoryReadingAction{
@@ -40,6 +39,7 @@ public class RecompileModelDirectoryAction extends AbstractDirectoryReadingActio
 			@Override
 			protected IStatus run(final IProgressMonitor monitor){
 				TransformationProcess p = null;
+				EmfWorkspace mw=null;
 				try{
 					monitor.beginTask("Loading All Models", 1000);
 					p = prepareDirectoryForTransformation(folder, monitor);
@@ -51,7 +51,7 @@ public class RecompileModelDirectoryAction extends AbstractDirectoryReadingActio
 					monitor.subTask("Generating text files");
 					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 400), p, true);
 					currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
-					EmfWorkspace mw = p.findModel(EmfWorkspace.class);
+					mw = p.findModel(EmfWorkspace.class);
 					TreeIterator<Notifier> iter = mw.getResourceSet().getAllContents();
 					Map<Long,Element> ids = new HashMap<Long,Element>();
 					int duplicates = 0;
@@ -81,6 +81,9 @@ public class RecompileModelDirectoryAction extends AbstractDirectoryReadingActio
 				}finally{
 					if(p != null){
 						p.release();
+					}
+					if(mw!=null){
+						mw.release();
 					}
 					monitor.done();
 					MemoryUtil.printMemoryUsage();

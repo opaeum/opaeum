@@ -16,7 +16,6 @@ import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
 import org.opaeum.eclipse.uml.propertysections.subsections.AbstractDetailsSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.ChooserSubsection;
-import org.opaeum.eclipse.uml.propertysections.subsections.InstanceValueSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.OclExpressionSubsection;
 
 public class OclConstraintDetailsComposite extends AbstractDetailsSubsection<Constraint>{

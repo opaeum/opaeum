@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
@@ -41,7 +40,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.java.metamodel.annotation.OJEnumLiteral;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.javageneration.util.OJUtill;
 import org.opaeum.javageneration.util.PojoPropertyStrategy;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.environment.Environment;

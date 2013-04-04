@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.uml2.uml.Element;
+import org.opaeum.emf.extraction.AbstractEmfPhase;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.IntegrationPhase;
@@ -22,7 +23,7 @@ import org.opaeum.textmetamodel.TextWorkspace;
 },after = {
 	JavaTransformationPhase.class
 })
-public class BootstrapGenerationPhase implements TransformationPhase<AbstractBootstrapStep,Element>,IntegrationPhase{
+public class BootstrapGenerationPhase extends AbstractEmfPhase implements TransformationPhase<AbstractBootstrapStep,Element>,IntegrationPhase{
 	private OpaeumConfig config;
 	@InputModel
 	private TextWorkspace textWorkspace;
@@ -73,5 +74,9 @@ public class BootstrapGenerationPhase implements TransformationPhase<AbstractBoo
 			}
 		}
 		return null;
+	}
+	@Override
+	protected EmfWorkspace getModelWorkspace(){
+		return workspace;
 	}
 }

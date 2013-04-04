@@ -1,19 +1,11 @@
 package org.opaeum.javageneration.persistence;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 
 import javax.persistence.GenerationType;
-import javax.persistence.spi.PersistenceUnitInfo;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
-import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.uml2.uml.Action;
-import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Class;
@@ -22,33 +14,19 @@ import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
-import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PrimitiveType;
-import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.StructuredActivityNode;
-import org.eclipse.uml2.uml.Type;
 import org.opaeum.eclipse.CodeGenerationStrategy;
-import org.opaeum.eclipse.EmfActionUtil;
-import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfAssociationUtil;
-import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfElementUtil;
-import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
-import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.StepDependency.StrategyRequirement;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJPathName;
-import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
@@ -58,20 +36,12 @@ import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
-import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opaeum.javageneration.hibernate.EnumResolverImplementor;
 import org.opaeum.javageneration.util.JpaPropertyStrategy;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.javageneration.util.PojoPropertyStrategy;
 import org.opaeum.javageneration.util.PropertyStrategy;
 import org.opaeum.metamodel.name.NameWrapper;
-import org.opaeum.runtime.domain.IPersistentObject;
-import org.opaeum.runtime.environment.Environment;
-import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
-import org.opaeum.textmetamodel.PropertiesSource;
-import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
-import org.opaeum.util.SortedProperties;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {AttributeImplementor.class,JpaEnvironmentBuilder.class},after = {
 		AttributeImplementor.class,JpaEnvironmentBuilder.class},strategyRequirement={@StrategyRequirement(strategyContract=PropertyStrategy.class, requires=JpaPropertyStrategy.class, replaces=PojoPropertyStrategy.class)})

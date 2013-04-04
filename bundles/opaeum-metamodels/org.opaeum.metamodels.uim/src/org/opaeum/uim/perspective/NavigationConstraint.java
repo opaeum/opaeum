@@ -3,7 +3,6 @@
 package org.opaeum.uim.perspective;
 
 import org.opaeum.uim.LabeledElement;
-
 import org.opaeum.uim.constraint.UserInteractionConstraint;
 
 /**

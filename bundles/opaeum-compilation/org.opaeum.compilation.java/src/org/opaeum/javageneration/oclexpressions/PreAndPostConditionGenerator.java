@@ -16,10 +16,13 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfOperationUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
@@ -27,9 +30,11 @@ import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.basicjava.SpecificationImplementor;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.ocl.uml.AbstractOclContext;
 import org.opaeum.ocl.uml.OpaqueBehaviorContext;
 import org.opaeum.ocl.uml.OpaqueExpressionContext;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 //TODO implement post conditions 
 //as a method similar to "checkInvariants" on operations that are represented as classifiers/ tuples
@@ -39,6 +44,12 @@ import org.opaeum.ocl.uml.OpaqueExpressionContext;
 /* Need the sequence of the ocl generating steps to be repeatable to ensure minimal deviations from previous generation */
 })
 public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
+	OperationAnnotator operationAnnotator=new OperationAnnotator();
+	@Override
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,EmfWorkspace workspace,OJUtil ojUtil){
+		super.initialize(pac, config, textWorkspace, workspace, ojUtil);
+		operationAnnotator.initialize(pac, config, textWorkspace, workspace, ojUtil);
+	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitBehavioredClassifier(BehavioredClassifier bc){
 		for(Behavior b:bc.getOwnedBehaviors()){
@@ -96,6 +107,10 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 				OJAnnotatedClass javaContext = findJavaClass(behavior.getContext());
 				OperationMap map = ojUtil.buildOperationMap(behavior);
 				OJAnnotatedOperation oper = (OJAnnotatedOperation) javaContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
+				if(oper==null){
+					//TODO investigate why this happens whith selection behaviors on simple activities
+					oper=this.operationAnnotator.findOrCreateOperation(behavior.getContext(), javaContext, map, false);
+				}
 				this.addBody(oper, map, oclBehaviorContext);
 			}
 		}

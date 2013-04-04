@@ -3,33 +3,22 @@ package org.opaeum.papyrus.uml.modelexplorer.newdiagram;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CompoundContributionItem;
-import org.eclipse.ui.activities.WorkbenchActivityHelper;
-import org.eclipse.ui.internal.IWorkbenchGraphicConstants;
-import org.eclipse.ui.internal.WorkbenchImages;
 import org.eclipse.ui.menus.CommandContributionItem;
 import org.eclipse.ui.menus.CommandContributionItemParameter;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.PackageImport;
 import org.eclipse.uml2.uml.StateMachine;
 import org.opaeum.eclipse.EmfBehaviorUtil;
-import org.opaeum.eclipse.EmfPackageUtil;
-import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.menu.ICompoundContributionItem;
-import org.opaeum.emf.extraction.AbstractEmfPhase;
-import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.papyrus.uml.modelexplorer.Activator;
 
 public class DynamicNewDiagramMenu extends CompoundContributionItem implements ICompoundContributionItem{

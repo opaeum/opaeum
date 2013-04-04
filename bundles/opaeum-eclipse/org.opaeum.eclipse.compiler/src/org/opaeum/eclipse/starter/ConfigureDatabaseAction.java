@@ -1,27 +1,18 @@
 package org.opaeum.eclipse.starter;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.datatools.connectivity.ConnectionProfileException;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.ProfileManager;
 import org.eclipse.datatools.connectivity.internal.ConnectionProfile;
-import org.eclipse.datatools.connectivity.internal.ConnectionProfileManager;
 import org.eclipse.datatools.connectivity.oda.design.ui.profile.db.wizards.NewDbDataSourceWizard;
-import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage;
 import org.eclipse.datatools.connectivity.ui.wizards.NewConnectionProfileWizard;
-import org.eclipse.datatools.connectivity.ui.wizards.NewConnectionProfileWizardPage;
-import org.eclipse.jface.dialogs.IDialogBlockedHandler;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.menu.AbstractOpaeumAction;
 

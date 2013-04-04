@@ -92,7 +92,9 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 		return isNormalPropertyOverride;
 	}
 	public void visitAssociationClassProperty(Classifier c,AssociationClassEndMap map){
+		if(!(c instanceof Interface)){
 		visitProperty(findJavaClass(c), c, map.getMap());
+		}
 	}
 	private void addSubsetToUnion(Classifier owner,PropertyMap subsettingMap,OJClass c,PropertyMap derivedUnionMap,OJAnnotatedOperation getter){
 		if(isNormalPropertyOverride(subsettingMap, derivedUnionMap)){

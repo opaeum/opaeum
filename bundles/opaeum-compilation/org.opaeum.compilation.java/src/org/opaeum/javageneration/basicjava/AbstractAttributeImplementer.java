@@ -1,8 +1,6 @@
 package org.opaeum.javageneration.basicjava;
 
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
@@ -145,7 +143,8 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 		super();
 	}
 	protected final OJAnnotatedOperation buildGetter(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map,boolean derived){
-		return strategy.buildGetter(umlOwner, owner, map, derived);
+		OJAnnotatedOperation getter = strategy.buildGetter(umlOwner, owner, map, derived);
+		return getter;
 	}
 	protected final OJAnnotatedOperation buildInternalRemover(OJAnnotatedClass owner,PropertyMap map){
 		return strategy.buildInternalRemover(owner, map);
@@ -180,7 +179,9 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 	}
 	protected OJOperation buildRemoveAll(OJAnnotatedClass owner,PropertyMap map){
 		OJOperation removeAll = new OJAnnotatedOperation(map.removeAll());
-		removeAll.addParam(map.fieldname(), map.javaTypePath());
+		OJPathName type = map.javaTypePath().getDeepCopy();
+		type.markAsExtendingElement(type.getElementTypes().get(0));
+		removeAll.addParam(map.fieldname(), type);
 		if(!(owner instanceof OJAnnotatedInterface)){
 			removeAll.setStatic(map.isStatic());
 			removeAll.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);

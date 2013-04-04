@@ -10,7 +10,6 @@ import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.ocl.types.CollectionType;
 import org.eclipse.ocl.types.TupleType;
 import org.eclipse.ocl.util.OCLStandardLibraryUtil;
-import org.eclipse.ocl.utilities.TypedElement;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;

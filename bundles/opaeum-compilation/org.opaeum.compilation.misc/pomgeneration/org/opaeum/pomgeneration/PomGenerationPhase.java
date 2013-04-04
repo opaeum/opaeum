@@ -37,12 +37,14 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
 import org.opaeum.bootstrap.BootstrapGenerationPhase;
 import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.emf.extraction.AbstractEmfPhase;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.IntegrationPhase;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.PhaseDependency;
-import org.opaeum.feature.StepDependency.StrategyRequirement;
+import org.opaeum.feature.StrategyCalculator;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.feature.TransformationProcess.TransformationProgressLog;
@@ -50,7 +52,6 @@ import org.opaeum.filegeneration.FileGenerationPhase;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.migration.MigrationGenerationPhase;
 import org.opaeum.metamodel.workspace.MigrationWorkspace;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
@@ -60,9 +61,9 @@ import org.opaeum.textmetamodel.TextWorkspace;
 },before = {
 	FileGenerationPhase.class
 })
-public class PomGenerationPhase implements TransformationPhase<PomGenerationStep,Element>,IntegrationPhase{
+public class PomGenerationPhase extends AbstractEmfPhase implements TransformationPhase<PomGenerationStep,Element>,IntegrationPhase{
 	@InputModel
-	private ModelWorkspace workspace;
+	private EmfWorkspace workspace;
 	@InputModel
 	private TextWorkspace textWorkspace;
 	@InputModel(optional = true)
@@ -117,6 +118,8 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 				while((line = ignoreReader.readLine()) != null){
 					ignores.add(line);
 				}
+				ignoreReader.close();
+				
 			}
 		}catch(IOException e){
 			throw new RuntimeException(e);
@@ -174,6 +177,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 				fw.println(s);
 			}
 			fw.flush();
+			fw.close();
 		}catch(IOException e){
 			throw new RuntimeException(e);
 		}
@@ -416,9 +420,8 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		appendVersionSuffix(true);
 		Set<Class<? extends ITransformationStep>> emptySet = Collections.emptySet();
 		initialize(config, (List<PomGenerationStep>) features);
-		Map<Class<?>,StrategyRequirement> emptyMap = Collections.emptyMap();
-		execute(new TransformationContext(emptySet, false, log,emptyMap));
-		execute(new TransformationContext(emptySet, true, log,emptyMap));
+		execute(new TransformationContext(emptySet, false, log,new StrategyCalculator(emptySet)));
+		execute(new TransformationContext(emptySet, true, log,new StrategyCalculator(emptySet)));
 		appendVersionSuffix(false);
 		this.isGeneratingRelease = false;
 	}
@@ -435,5 +438,9 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		for(PomGenerationStep p:this.features){
 			p.release();
 		}
+	}
+	@Override
+	protected EmfWorkspace getModelWorkspace(){
+		return workspace;
 	}
 }

@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.opaeum.uim.constraint.UserInteractionConstraint;
 import org.opaeum.uim.perspective.ClassNavigationConstraint;
 import org.opaeum.uim.perspective.NavigationConstraint;
 import org.opaeum.uim.perspective.OperationNavigationConstraint;

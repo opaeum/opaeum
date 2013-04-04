@@ -11,7 +11,6 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.uml.propertysections.common.TextChangeHelper;
 

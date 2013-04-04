@@ -13,7 +13,6 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.fieldassist.ContentAssistCommandAdapter;
-import org.opaeum.eclipse.uml.propertysections.common.ChooserContentAssistHelper.ChooserContentProposalProvider;
 
 public abstract class AbstractContentAssistHelper{
 	protected Text text;

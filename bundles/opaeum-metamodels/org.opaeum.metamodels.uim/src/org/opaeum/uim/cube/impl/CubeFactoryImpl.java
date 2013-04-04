@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.opaeum.uim.cube.*;
 import org.opaeum.uim.cube.AggregationFormula;
 import org.opaeum.uim.cube.ColumnAxisEntry;
 import org.opaeum.uim.cube.CubeFactory;

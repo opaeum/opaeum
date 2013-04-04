@@ -3,7 +3,6 @@ package org.opaeum.eclipse.uml.filters.compositestructures;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Port;
-import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.uml.filters.core.AbstractFilter;
 
 public class InterfacesFilter extends AbstractFilter{

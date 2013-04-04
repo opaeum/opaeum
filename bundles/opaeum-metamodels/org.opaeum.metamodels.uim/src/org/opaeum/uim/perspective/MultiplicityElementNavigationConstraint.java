@@ -2,7 +2,6 @@
  */
 package org.opaeum.uim.perspective;
 
-import org.opaeum.uim.constraint.UserInteractionConstraint;
 
 /**
  * <!-- begin-user-doc -->

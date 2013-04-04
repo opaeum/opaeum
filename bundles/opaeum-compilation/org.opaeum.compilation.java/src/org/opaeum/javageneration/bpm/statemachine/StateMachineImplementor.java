@@ -60,7 +60,6 @@ import org.opaeum.javageneration.bpm.activity.ActivityProcessImplementor;
 import org.opaeum.javageneration.hibernate.HibernateUtil;
 import org.opaeum.javageneration.oclexpressions.CodeCleanup;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.name.NameConverter;
 import org.opaeum.ocl.uml.OpaqueBehaviorContext;
 import org.opaeum.ocl.uml.OpaqueExpressionContext;

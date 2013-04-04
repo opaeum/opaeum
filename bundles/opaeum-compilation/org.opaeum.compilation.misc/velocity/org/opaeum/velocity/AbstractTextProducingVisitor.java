@@ -24,7 +24,6 @@ import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.name.NameConverter;
 import org.opaeum.textmetamodel.CharArrayTextSource;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
@@ -51,7 +50,7 @@ public class AbstractTextProducingVisitor extends TextFileGeneratingVisitor{
 			OJPathName utilPath = ojUtil.packagePathname(pkg).getCopy();
 			utilPath.append("util");
 			UtilityCreator.setUtilPathName(utilPath);
-		}else if(o instanceof ModelWorkspace){
+		}else if(o instanceof EmfWorkspace){
 			OJPathName utilPath = new OJPathName(config.getMavenGroupId() + ".util");
 			UtilityCreator.setUtilPathName(utilPath);
 		}
@@ -114,8 +113,8 @@ public class AbstractTextProducingVisitor extends TextFileGeneratingVisitor{
 	}
 	@Override
 	public Collection<Element> getChildren(Element root){
-		if(root instanceof ModelWorkspace){
-			return new ArrayList<Element>(((ModelWorkspace) root).getGeneratingModelsOrProfiles());
+		if(root instanceof EmfWorkspace){
+			return new ArrayList<Element>(((EmfWorkspace) root).getGeneratingModelsOrProfiles());
 		}else{
 			return super.getChildren(root);
 		}

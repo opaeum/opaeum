@@ -19,7 +19,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 
 public abstract class AbstractComboPropertySection extends AbstractOpaeumPropertySection{

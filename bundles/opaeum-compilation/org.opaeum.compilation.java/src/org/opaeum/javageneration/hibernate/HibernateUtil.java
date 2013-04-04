@@ -23,7 +23,6 @@ import org.opaeum.hibernate.domain.ReturnInfo;
 import org.opaeum.hibernate.domain.StateMachineToken;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
-import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;

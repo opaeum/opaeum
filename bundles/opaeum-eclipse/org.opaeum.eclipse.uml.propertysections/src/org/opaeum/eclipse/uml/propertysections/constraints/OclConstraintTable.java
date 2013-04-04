@@ -1,26 +1,16 @@
 package org.opaeum.eclipse.uml.propertysections.constraints;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ICellEditorListener;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.uml.editingsupport.AbstractCellEditorListener;
 import org.opaeum.eclipse.uml.editingsupport.NamedElementNameEditingSupport;
 import org.opaeum.eclipse.uml.editingsupport.OpaqueExpressionPropertyEditingSupport;
-import org.opaeum.eclipse.uml.propertysections.RecursiveAdapter;
 import org.opaeum.eclipse.uml.propertysections.core.AbstractTableComposite;
 
 public class OclConstraintTable extends AbstractTableComposite<Constraint>{

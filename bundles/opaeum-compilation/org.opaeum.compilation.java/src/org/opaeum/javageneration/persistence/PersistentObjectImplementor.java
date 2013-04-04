@@ -1,6 +1,5 @@
 package org.opaeum.javageneration.persistence;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import javax.persistence.Transient;
@@ -15,7 +14,6 @@ import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;

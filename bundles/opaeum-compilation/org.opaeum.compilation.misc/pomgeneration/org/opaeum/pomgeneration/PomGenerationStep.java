@@ -16,10 +16,10 @@ import org.apache.maven.pom.Resource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.uml2.uml.Package;
 import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.metamodel.workspace.MigrationWorkspace;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 
@@ -27,7 +27,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 	protected static final String HIBERNATE_VERSION = "3.4.0.GA";
 	public static final String ARQUILLIAN_VERSION = "1.0.0.Alpha4";
 	protected OpaeumConfig config;
-	protected ModelWorkspace workspace;
+	protected EmfWorkspace workspace;
 	protected Package model;
 	private boolean shouldAppendVersionSuffix;
 	protected MigrationWorkspace migrationWorkspace;
@@ -38,7 +38,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 	public void appendVersionSuffix(boolean b){
 		this.shouldAppendVersionSuffix = b;
 	}
-	public void initialize(OpaeumConfig config,ModelWorkspace workspace,MigrationWorkspace migrationWorkspace){
+	public void initialize(OpaeumConfig config,EmfWorkspace workspace,MigrationWorkspace migrationWorkspace){
 		this.config = config;
 		this.workspace = workspace;
 		this.migrationWorkspace = migrationWorkspace;

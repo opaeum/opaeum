@@ -4,8 +4,6 @@ package org.opaeum.uim.perspective;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.opaeum.uim.constraint.UserInteractionConstraint;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Operation Navigation Constraint</b></em>'.

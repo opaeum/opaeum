@@ -27,6 +27,7 @@ public class AttributeImplementor extends AbstractAttributeImplementer{
 	@Override
 	protected void visitProperty(OJAnnotatedClass owner,Classifier umlOwner,PropertyMap map){
 		Property p = map.getProperty();
+
 		strategy.beforeProperty(owner, umlOwner, map);
 		if(!OJUtil.isBuiltIn(p) && !isInvolvedInAnAssociationClass(map)){
 			if(StereotypesHelper.hasStereotype(map.getBaseType(), StereotypeNames.HELPER)){

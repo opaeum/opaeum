@@ -1,13 +1,10 @@
 package org.opaeum.eclipse.uml.propertysections;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;

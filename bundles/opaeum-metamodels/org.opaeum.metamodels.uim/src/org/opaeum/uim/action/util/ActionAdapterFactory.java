@@ -10,7 +10,6 @@ import org.opaeum.uim.LabelContainer;
 import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
-import org.opaeum.uim.action.*;
 import org.opaeum.uim.action.AbstractActionButton;
 import org.opaeum.uim.action.AbstractLink;
 import org.opaeum.uim.action.ActionPackage;

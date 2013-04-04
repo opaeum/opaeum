@@ -1,7 +1,5 @@
 package org.opaeum.javageneration.persistence;
 
-import javax.persistence.TableGenerator;
-
 import org.eclipse.uml2.uml.Classifier;
 import org.opaeum.eclipse.PersistentNameUtil;
 import org.opaeum.java.metamodel.OJPathName;

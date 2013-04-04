@@ -5,8 +5,6 @@ package org.opaeum.uim.model.impl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.opaeum.uim.UimPackage;
-import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.editor.impl.AbstractEditorImpl;
 import org.opaeum.uim.model.AbstractUserInteractionModel;
 import org.opaeum.uim.model.EmbeddedTaskEditor;

@@ -14,7 +14,6 @@ import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterfaceRoot;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
-import org.opaeum.uim.wizard.*;
 import org.opaeum.uim.wizard.AbstractWizard;
 import org.opaeum.uim.wizard.BehaviorInvocationWizard;
 import org.opaeum.uim.wizard.InvocationWizard;

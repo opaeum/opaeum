@@ -19,7 +19,6 @@ import org.eclipse.gmf.runtime.draw2d.ui.render.factory.RenderedImageFactory;
 import org.eclipse.gmf.runtime.draw2d.ui.render.internal.RenderHelper;
 import org.eclipse.gmf.runtime.draw2d.ui.render.internal.RenderingListener;
 import org.eclipse.gmf.runtime.draw2d.ui.render.internal.graphics.RenderedMapModeGraphics;
-import org.eclipse.papyrus.uml.diagram.common.figure.node.CompartmentFigure;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;

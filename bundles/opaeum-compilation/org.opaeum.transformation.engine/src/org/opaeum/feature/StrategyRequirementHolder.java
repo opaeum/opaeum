@@ -20,6 +20,9 @@ public class StrategyRequirementHolder{
 		return strategyRequirement.replaces();
 	}
 	public void addReplaces(StrategyRequirementHolder holder){
+		if(holder==null){
+			System.out.println();
+		}
 		replaces.add(holder);
 	}
 	public boolean replaces(StrategyRequirementHolder other){

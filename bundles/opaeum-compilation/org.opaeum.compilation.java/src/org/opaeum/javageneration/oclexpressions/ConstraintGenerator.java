@@ -12,7 +12,6 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.opaeum.eclipse.EmfConstraintUtil;
 import org.opaeum.eclipse.EmfElementUtil;
-import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJField;

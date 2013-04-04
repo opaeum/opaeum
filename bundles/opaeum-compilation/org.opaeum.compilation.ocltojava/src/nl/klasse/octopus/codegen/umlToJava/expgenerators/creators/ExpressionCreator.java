@@ -37,7 +37,6 @@ import org.opaeum.eclipse.EmfActivityUtil;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
-import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJOperation;

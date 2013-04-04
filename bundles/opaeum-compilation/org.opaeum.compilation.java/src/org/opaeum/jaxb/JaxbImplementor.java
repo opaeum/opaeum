@@ -10,6 +10,7 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Property;
+import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
@@ -119,10 +120,10 @@ public class JaxbImplementor extends AbstractStructureVisitor{
 			}
 			for(Property p:diattrs){
 				PropertyMap map = ojUtil.buildStructuralFeatureMap(p);
-				if(map.getProperty().isComposite() && EmfClassifierUtil.isCompositionParticipant(map.getBaseType() ) && !EmfPropertyUtil.isDerived(p)){
+				if(map.getProperty().isComposite() && EmfClassifierUtil.isCompositionParticipant(map.getBaseType() ) && !EmfPropertyUtil.isDerived(p) && !EmfAssociationUtil.isClass(p.getAssociation())){
 					PropertyMap otherMap=null;
 					if(map.getProperty().getOtherEnd()!=null && map.getProperty().getOtherEnd().isNavigable()){
-					otherMap=ojUtil.buildStructuralFeatureMap(map.getProperty().getOtherEnd());
+						otherMap=ojUtil.buildStructuralFeatureMap(map.getProperty().getOtherEnd());
 					}
 					if(map.isOne()){
 						OJIfStatement ifNoNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "().fixJaxbRedefinitionBug()");

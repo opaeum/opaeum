@@ -13,7 +13,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 
 public abstract class AbstractBooleanPropertySection extends AbstractOpaeumPropertySection{
 	protected Button check;

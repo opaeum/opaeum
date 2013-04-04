@@ -50,7 +50,6 @@ public class OpaeumEclipseContext{
 	private OpaeumErrorMarker errorMarker;
 	private boolean isLoading;
 	private boolean newlyCreated;
-	private EmfWorkspace dew;
 	private OpaeumConfig config;
 	public OpaeumEclipseContext(OpaeumConfig cfg,IContainer umlDirectory,boolean newlyCreated){
 		super();
@@ -81,7 +80,6 @@ public class OpaeumEclipseContext{
 			config.calculateOutputRoot(umlDirectory.getProject().getLocation().toFile());
 		}
 		config.getSourceFolderStrategy().defineSourceFolders(config);
-		this.dew = null;
 		ArrayList<OpenUmlFile> arrayList = new ArrayList<OpenUmlFile>(openUmlFiles.values());
 		this.openUmlFiles.clear();
 		for(OpenUmlFile editingContext:arrayList){
@@ -118,7 +116,6 @@ public class OpaeumEclipseContext{
 			if(openUmlFile != null){
 				openUmlFile.setDirty(false);
 				openUmlFile.onSave(monitor);
-				dew = null;
 			}
 			getUmlDirectory().refreshLocal(1, null);
 		}catch(CoreException e){
@@ -145,7 +142,7 @@ public class OpaeumEclipseContext{
 			rst = new ResourceSetImpl();
 			URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
 			// if(dew == null){
-			dew = new EmfWorkspace(uri, rst, getConfig().getVersion(), getConfig().getApplicationIdentifier(), getConfig().getMavenGroupId());
+			EmfWorkspace dew = new EmfWorkspace(uri, rst, getConfig().getVersion(), getConfig().getApplicationIdentifier(), getConfig().getMavenGroupId());
 			dew.setUriToFileConverter(new EclipseUriToFileConverter());
 			dew.setName(getConfig().getApplicationName());
 			for(IResource r:umlDirectory.members()){
@@ -162,6 +159,7 @@ public class OpaeumEclipseContext{
 		}catch(Exception e){
 			throw new RuntimeException(e);
 		}finally{
+			//TODO get rid of DEW - memory leak
 			this.isLoading = false;
 			monitor.done();
 		}

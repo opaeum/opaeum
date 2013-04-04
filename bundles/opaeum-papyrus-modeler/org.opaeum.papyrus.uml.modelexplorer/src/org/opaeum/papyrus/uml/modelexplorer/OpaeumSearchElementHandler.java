@@ -18,7 +18,6 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.papyrus.views.modelexplorer.LinkNode;
 import org.eclipse.papyrus.views.modelexplorer.dialog.NavigatorSearchDialog;
 import org.eclipse.papyrus.views.modelexplorer.handler.SearchElementHandler;
 import org.eclipse.swt.events.KeyEvent;

@@ -2,7 +2,6 @@
  */
 package org.opaeum.uim;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->

@@ -27,7 +27,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
-import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opaeum.javageneration.hibernate.HibernateUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;

@@ -6,7 +6,6 @@ import java.util.Set;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
-import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
@@ -79,7 +78,7 @@ public class ComponentInitializer extends AbstractStructureVisitor{
 									init.getBody().addToStatements(whileIter);
 								}
 							}
-						}else if(map.isOne() && (np.isComposite() && np.getLower() == 1) && !(map.getBaseType() instanceof Association)){
+						}else if(map.isOne() && (np.isComposite() && np.getLower() == 1) && !map.isInvolvedInAssociationClass()){
 							OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", map.setter() + "(new " + map.javaBaseType() + "())");
 							createComponents.getBody().addToStatements(ifNull);
 							if(EmfClassifierUtil.isCompositionParticipant((Classifier) map.getBaseType())&& auto){

@@ -7,8 +7,8 @@ import org.eclipse.uml2.uml.Element;
 import org.opaeum.EmfElementVisitor;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPackageUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
@@ -21,7 +21,7 @@ public abstract class TextFileGeneratingEmfVisitor extends EmfElementVisitor{
 	protected TextWorkspace textWorkspace;
 	protected Set<TextOutputNode> textFiles;
 	protected OpaeumConfig config;
-	protected ModelWorkspace workspace;
+	protected EmfWorkspace workspace;
 	protected String getProjectName(SourceFolderDefinition outputRoot,Element p){
 		return outputRoot.generateProjectName(workspace.getIdentifier(), config.getMavenGroupId(),
 				getRootObjectIdentifier(p));

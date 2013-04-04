@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-
 import nl.klasse.octopus.codegen.umlToJava.maps.PropertyMap;
 
 import org.eclipse.uml2.uml.AcceptCallAction;

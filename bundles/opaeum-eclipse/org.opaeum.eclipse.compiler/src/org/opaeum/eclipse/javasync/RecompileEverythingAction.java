@@ -35,10 +35,11 @@ public class RecompileEverythingAction extends AbstractDirectoryReadingAction{
 			@Override
 			protected IStatus run(final IProgressMonitor monitor){
 				TransformationProcess p = null;
+				EmfWorkspace mw=null;
 				try{
 					monitor.beginTask("Loading All Models", 1000);
 					p = prepareDirectoryForTransformation(folder, monitor);
-					EmfWorkspace mw = p.findModel(EmfWorkspace.class);
+					mw = p.findModel(EmfWorkspace.class);
 					for(Package pkg:mw.getRootObjects()){
 						if(pkg instanceof Model && EmfPackageUtil.isRegeneratingLibrary((Model) pkg)){
 							mw.addGeneratingModelOrProfile(pkg);
@@ -57,6 +58,9 @@ public class RecompileEverythingAction extends AbstractDirectoryReadingAction{
 				}finally{
 					if(p != null){
 						p.release();
+					}
+					if(mw != null){
+						mw.release();
 					}
 					monitor.done();
 					MemoryUtil.printMemoryUsage();

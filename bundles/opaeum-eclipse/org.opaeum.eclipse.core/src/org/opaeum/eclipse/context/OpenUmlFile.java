@@ -54,10 +54,7 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.Steps;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.feature.TransformationProcess;
-import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.persistence.JpaAnnotator;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.javageneration.util.PropertyStrategy;
 import org.opaeum.linkage.SourcePopulationResolver;
 import org.opaeum.validation.AbstractValidator;
 import org.opaeum.validation.ValidationPhase;
@@ -332,6 +329,7 @@ public class OpenUmlFile extends EContentAdapter{
 		this.synchronizationListener.clear();
 		ojUtil = null;
 		emfWorkspace.getResourceSet().eAdapters().remove(this);
+		emfWorkspace.release();
 		emfWorkspace = null;
 		this.editingDomain = null;
 		this.transformationProcess = null;

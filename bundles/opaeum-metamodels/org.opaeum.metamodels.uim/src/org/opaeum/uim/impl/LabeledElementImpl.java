@@ -12,7 +12,6 @@ import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.Labels;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UmlReference;
-import org.opaeum.uim.UserInteractionElement;
 
 /**
  * <!-- begin-user-doc -->

@@ -15,7 +15,6 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractMasterDetailSection;
 import org.opaeum.eclipse.uml.propertysections.core.AbstractTableComposite;
-import org.opaeum.eclipse.uml.propertysections.event.AbsoluteTimeEventDetailsComposite;
 import org.opaeum.eclipse.uml.propertysections.subsections.IDetailsSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.StackDetailsSubsection;
 import org.opaeum.metamodel.core.internal.TagNames;

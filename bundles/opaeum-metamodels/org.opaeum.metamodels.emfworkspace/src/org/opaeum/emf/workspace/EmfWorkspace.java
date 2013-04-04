@@ -50,7 +50,6 @@ import org.opaeum.eclipse.emulated.IEmulatedElement;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.validation.ErrorMap;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.runtime.environment.VersionNumber;
 
@@ -58,9 +57,14 @@ import org.opaeum.runtime.environment.VersionNumber;
  * Represents the concept of multiple emf models as one root nakedWorkspace. Hacked to implement Element because of visitor constraints
  * 
  */
-public class EmfWorkspace implements Element,ModelWorkspace{
+public class EmfWorkspace implements Element{
+	public static int instanceCount=0;
+	{
+		instanceCount++;
+	}
+	private boolean isReleased=false;
 	private String prefix;
-	ErrorMap errorMap;
+	private ErrorMap errorMap;
 	private OpaeumLibrary library;
 	private Map<String,Resource> resources = new HashMap<String,Resource>();
 	private Set<Package> generatingModels = new HashSet<Package>();
@@ -80,6 +84,9 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 	public EmfWorkspace(Package model,VersionNumber version,String identifier,String prefix){
 		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), version, identifier, prefix);
 		addGeneratingModelOrProfile(model);
+	}
+	public boolean isReleased(){
+		return isReleased;
 	}
 	public ECrossReferenceAdapter getCrossReferenceAdapter(){
 		if(crossReferenceAdaptor == null){
@@ -115,7 +122,6 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 			}
 		});
 	}
-	@Override
 	public ErrorMap getErrorMap(){
 		return errorMap;
 	}
@@ -525,7 +531,6 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 			return uid;
 		}
 	}
-	@Override
 	public boolean isPrimaryModel(Package rootObject){
 		return isPrimaryModelOrProfile(rootObject, directoryUri);
 	}
@@ -615,5 +620,30 @@ public class EmfWorkspace implements Element,ModelWorkspace{
 			}
 		}
 		return potentialGeneratingModels;
+	}
+	public void release(){
+		prefix=null;
+		errorMap=null;
+		library=null;
+		resources = null;
+		generatingModels = null;
+		potentialGeneratingModels=null;
+		primaryModels=null;
+		resourceSet=null;
+		directoryUri=null;
+		identifier=null;
+		libraries = null;
+		uriToFileConverter = null;
+		name=null;
+		applicationRoot=null;
+		crossReferenceAdaptor=null;
+		applicationListener = null;
+		version=null;
+		isReleased=true;
+	}
+	@Override
+	public void finalize() throws Throwable{
+		instanceCount--;
+		super.finalize();
 	}
 }

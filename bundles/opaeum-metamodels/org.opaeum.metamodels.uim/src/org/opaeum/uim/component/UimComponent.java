@@ -3,7 +3,6 @@
 package org.opaeum.uim.component;
 
 import org.opaeum.uim.LabelContainer;
-import org.opaeum.uim.LabeledElement;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.constraint.ConstrainedObject;
 

@@ -50,7 +50,6 @@ import org.opaeum.javageneration.persistence.JpaUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.core.internal.TagNames;
-import org.opaeum.metamodel.workspace.ModelWorkspace;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.TimeUnit;
 import org.opaeum.textmetamodel.CharArrayTextSource;
@@ -96,7 +95,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		}
 	}
 	@VisitAfter
-	public void afterWorkspace(ModelWorkspace w){
+	public void afterWorkspace(EmfWorkspace w){
 		try{
 			TransformerFactory transfac = TransformerFactory.newInstance();
 			Transformer trans = transfac.newTransformer();

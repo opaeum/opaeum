@@ -1,7 +1,9 @@
 package org.opaeum.emf.extraction;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
@@ -34,6 +36,18 @@ import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.emf.workspace.EmfWorkspace;
 
 public abstract class AbstractEmfPhase{
+	public static Map<Class<?>, Integer> counts=new HashMap<Class<?>,Integer>();
+	{
+		Integer i = counts.get(getClass());
+		i=i==null?0:i+1;
+		counts.put(getClass(),i);
+	}
+	public void finalize() throws Throwable {
+		Integer i = counts.get(getClass().getName());
+		i=i==null?0:i-1;
+		counts.put(getClass(),i);
+	};
+
 	public AbstractEmfPhase(){
 		super();
 	}

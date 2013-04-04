@@ -45,7 +45,6 @@ import org.opaeum.javageneration.JavaSourceKind;
 import org.opaeum.javageneration.JavaTextSource;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.maps.SignalMap;
-import org.opaeum.javageneration.util.JpaPropertyStrategy;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.javageneration.util.PojoPropertyStrategy;
 import org.opaeum.javageneration.util.PropertyStrategy;

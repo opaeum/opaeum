@@ -16,7 +16,7 @@ public class PojoPropertyStrategy implements PropertyStrategy{
 
 	public OJAnnotatedField addTransientProperty(OJClassifier ojClass,String name,OJPathName type,boolean withBody){
 		OJAnnotatedField result = addProperty(ojClass, name, type, withBody);
-		result.setTransient(true);
+//		result.setTransient(true);
 		return result;
 	}
 

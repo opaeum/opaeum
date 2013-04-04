@@ -29,7 +29,6 @@ import org.opaeum.visitor.TextFileGeneratingVisitor;
 
 @PhaseDependency(after = {LinkagePhase.class},before = {})
 public class JavaTransformationPhase extends AbstractEmfPhase implements TransformationPhase<JavaTransformationStep,Element>,IntegrationPhase{
-	private static JavaTransformationPhase INSTANCE = new JavaTransformationPhase();
 	@InputModel
 	protected EmfWorkspace modelWorkspace;
 
@@ -48,9 +47,6 @@ public class JavaTransformationPhase extends AbstractEmfPhase implements Transfo
 	@Override
 	protected EmfWorkspace getModelWorkspace(){
 		return modelWorkspace;
-	}
-	public static TextWorkspace getTextWorkspace(){
-		return INSTANCE.getTextWorkspaceInternal();
 	}
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){

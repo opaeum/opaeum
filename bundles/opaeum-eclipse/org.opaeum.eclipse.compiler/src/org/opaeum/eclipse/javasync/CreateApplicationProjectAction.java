@@ -3,8 +3,6 @@ package org.opaeum.eclipse.javasync;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
@@ -34,16 +32,9 @@ import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.MemoryUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.feature.ITransformationStep;
-import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationProcess;
-import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.javageneration.rap.OpaeumApplicationGenerator;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.rap.RapCapabilities;
-import org.opaeum.rap.RapProjectBuilder;
-import org.opaeum.textmetamodel.TextWorkspace;
 
 public class CreateApplicationProjectAction extends AbstractDirectoryReadingAction{
 	public CreateApplicationProjectAction(IStructuredSelection selection2){

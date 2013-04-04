@@ -14,7 +14,6 @@ import org.opaeum.uim.component.UimComponent;
 import org.opaeum.uim.component.UimContainer;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
-import org.opaeum.uim.panel.*;
 import org.opaeum.uim.panel.AbstractPanel;
 import org.opaeum.uim.panel.CollapsiblePanel;
 import org.opaeum.uim.panel.GridPanel;

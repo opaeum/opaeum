@@ -7,8 +7,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gmf.runtime.diagram.ui.requests.EditCommandRequestWrapper;
-import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.uml.diagram.clazz.edit.parts.ClassEditPart;
 import org.eclipse.papyrus.uml.diagram.common.figure.node.ClassifierFigure;

@@ -7,6 +7,7 @@ import org.eclipse.ocl.expressions.CollectionKind;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.StructuralFeature;
+import org.opaeum.eclipse.EmfAssociationUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.PersistentNameUtil;
@@ -298,5 +299,8 @@ public final class PropertyMap extends PackageableElementMap{
 	}
 	public boolean isAssociationClassToEnd(){
 		return property instanceof AssociationClassToEnd;
+	}
+	public boolean isInvolvedInAssociationClass(){
+		return isAssociationClassToEnd() || isEndToAssociationClass() || EmfAssociationUtil.isClass(property.getAssociation());
 	}
 }

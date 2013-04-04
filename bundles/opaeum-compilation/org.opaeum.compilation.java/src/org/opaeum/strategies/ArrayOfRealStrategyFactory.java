@@ -1,7 +1,6 @@
 package org.opaeum.strategies;
 
 
-import javax.persistence.Lob;
 import javax.persistence.Transient;
 
 import org.eclipse.uml2.uml.DataType;

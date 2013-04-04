@@ -1,14 +1,11 @@
 package org.opaeum.eclipse.uml.propertysections.core;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Stereotype;
 
 public abstract class AbstractStereotypePropertyTableComposite<T extends EObject> extends AbstractTableComposite<T>{

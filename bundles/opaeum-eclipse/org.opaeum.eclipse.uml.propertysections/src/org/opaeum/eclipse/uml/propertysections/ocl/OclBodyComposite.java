@@ -1,7 +1,7 @@
 package org.opaeum.eclipse.uml.propertysections.ocl;
 
-import java.util.Map.Entry;
 import java.util.HashSet;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.draw2d.ColorConstants;

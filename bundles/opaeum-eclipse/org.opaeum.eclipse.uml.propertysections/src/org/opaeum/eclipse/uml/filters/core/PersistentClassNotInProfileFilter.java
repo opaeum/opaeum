@@ -5,7 +5,6 @@ import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Type;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfClassifierUtil;

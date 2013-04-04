@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.java.metamodel.generated.OJClassifierGEN;
 import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 import org.opaeum.java.metamodel.utilities.JavaUtil;

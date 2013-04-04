@@ -51,9 +51,9 @@ public class OJAnnotatedField extends OJField implements OJAnnotatedElement{
 			sb.append("\n");
 		}
 		if(this.getOwner() != null){ // field is part of block statement
-			if(isTransient){
-				sb.append("transient ");
-			}
+//			if(isTransient){
+//				sb.append("transient ");
+//			}
 			sb.append(visToJava(this));
 		}
 		if(sb.length() > 0){

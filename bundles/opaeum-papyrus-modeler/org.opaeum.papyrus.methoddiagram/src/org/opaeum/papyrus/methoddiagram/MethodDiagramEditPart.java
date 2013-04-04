@@ -3,8 +3,6 @@ package org.opaeum.papyrus.methoddiagram;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
@@ -16,11 +14,8 @@ import org.eclipse.gmf.runtime.diagram.ui.editpolicies.NonResizableLabelEditPoli
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.uml.diagram.activity.edit.policies.ActivityDiagramItemSemanticEditPolicy;
 import org.eclipse.papyrus.uml.diagram.activity.edit.policies.RemoveOrphanViewPolicy;
-import org.eclipse.papyrus.uml.diagram.activity.part.UMLVisualIDRegistry;
 import org.eclipse.papyrus.uml.diagram.common.editpolicies.DuplicatePasteEditPolicy;
 import org.eclipse.papyrus.uml.diagram.common.editpolicies.PapyrusCreationEditPolicy;
-import org.eclipse.papyrus.uml.diagram.common.providers.ViewInfo;
-import org.eclipse.papyrus.uml.diagram.common.util.MDTUtil;
 
 public class MethodDiagramEditPart extends DiagramEditPart{
 	public final static String MODEL_ID = "PapyrusUMLMethodDiagram"; //$NON-NLS-1$

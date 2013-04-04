@@ -7,8 +7,6 @@ import java.lang.reflect.TypeVariable;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.IFilter;
-import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.UMLFactory;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 

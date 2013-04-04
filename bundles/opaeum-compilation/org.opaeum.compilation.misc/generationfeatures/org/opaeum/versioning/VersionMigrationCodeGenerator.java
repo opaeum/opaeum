@@ -1,8 +1,8 @@
 package org.opaeum.versioning;
 
-import org.opaeum.metamodel.workspace.ModelWorkspace;
+import org.opaeum.emf.workspace.EmfWorkspace;
 
 public class VersionMigrationCodeGenerator{
-	ModelWorkspace fromWorkspace;
-	ModelWorkspace toWorkspace;
+	EmfWorkspace fromWorkspace;
+	EmfWorkspace toWorkspace;
 }
