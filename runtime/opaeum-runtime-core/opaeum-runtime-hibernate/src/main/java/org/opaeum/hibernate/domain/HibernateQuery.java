@@ -21,11 +21,12 @@ public class HibernateQuery implements Query{
 		return delegate.list();
 	}
 	@Override
-	public void setParameter(String name,Object value){
+	public Query setParameter(String name,Object value){
 		if(value instanceof Date){
 			delegate.setDate(name, (Date) value);
 		}else{
 			delegate.setParameter(name, value);
 		}
+		return this;
 	}
 }

@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.ExceptionAnalyser;
@@ -27,10 +28,7 @@ import org.opaeum.runtime.persistence.UmtPersistence;
 
 public abstract class Environment{
 	public static final String HIBERNATE_CONFIG_NAME = "opaeum.hibernate.config.name";
-	public static final String JBPM_KNOWLEDGE_BASE_IMPLEMENTATION = "opaeum.jbpm.knowledgebase.implementation";
-	public static final String ENVIRONMENT_IMPLEMENTATION = "opaeum.environment.implementation";
 	public static final String PROPERTIES_FILE_NAME = "opaeum.env.properties";
-	public static final String PERSISTENT_NAME_CLASS_MAP = "opaeum.persistentname.classmap.implementation";
 	public static final String DB_USER = "opaeum.database.user";
 	public static final String DB_PASSWORD = "opaeum.database.pwd";
 	public static final String JDBC_CONNECTION_URL = "opaeum.jdbc.connection.url";
@@ -41,6 +39,7 @@ public abstract class Environment{
 	public static final String DEV_USERNAME = "opaeum.developer.username";
 	public static final String UPDATE_DB_DEF = "opaeum.update.db.definition";
 	public static final String DEV_UI_DIR = "opaeum.development.ui.directory";
+	public static final String REFRESH_INTERVAL = "opaeum.development.ui.refresh.interval";
 	protected static final Map<String,Environment> instanceMap = Collections.synchronizedMap(new HashMap<String,Environment>());
 	protected static final Map<Class<? extends Environment>,Environment> classInstanceMap = Collections
 			.synchronizedMap(new HashMap<Class<? extends Environment>,Environment>());
@@ -50,15 +49,15 @@ public abstract class Environment{
 	private static final String DEFAULT_ENVIRONMENT = "opaeum.default.environment";
 	public static final String SHOW_SQL = "opaeum.hibernate.show.sql";
 	private final EventService EVENT_SERVICE = new EventService(this);
-	private long lastRefresh = System.currentTimeMillis();
+	private volatile long lastRefresh = System.currentTimeMillis() - 5000l;
 	protected Properties properties;
 	private DatabaseManagementSystem dbms;
 	private long refreshInterval = 5000;
 	private Locale defaultLocale;
 	private ThreadLocal<IAnyValue> currentUser = new ThreadLocal<IAnyValue>();
 	private ThreadLocal<IAnyValue> currentRole = new ThreadLocal<IAnyValue>();
-	private ThreadLocal<Locale> userPreferredLocal=new ThreadLocal<Locale>();
-	static Map<Locale,Properties> messages = new HashMap<Locale,Properties>();
+	private ThreadLocal<Locale> userPreferredLocal = new ThreadLocal<Locale>();
+	private Map<Locale,Properties> messages = new ConcurrentHashMap<Locale,Properties>();
 	// static private Map<String,Class<?>> classes = new HashMap<String,Class<?>>();
 	private static Map<String,Locale> localeMap;
 	static{
@@ -74,6 +73,7 @@ public abstract class Environment{
 	protected abstract <T>T getComponentImpl(Class<T> clazz,Annotation qualifiers);
 	public abstract <T>Class<T> getImplementationClass(T o);
 	protected Environment(){
+		maybeRefresh();
 	}
 	public void register(){
 		instanceMap.put(getApplicationIdentifier(), this);
@@ -104,6 +104,15 @@ public abstract class Environment{
 		}
 		return dbms;
 	}
+	public String getDbConnectionUrl(){
+		return getProperty(JDBC_CONNECTION_URL, "sa");
+	}
+	public String getDbUser(){
+		return getProperty(DB_USER, "sa");
+	}
+	public String getDbPassword(){
+		return getProperty(DB_PASSWORD, "");
+	}
 	public String getProperty(String...name){
 		maybeRefresh();
 		if(name.length == 1){
@@ -114,8 +123,16 @@ public abstract class Environment{
 	}
 	private void maybeRefresh(){
 		if(System.currentTimeMillis() - lastRefresh > refreshInterval){
+			synchronized(DBMS){
+			}
 			properties = loadProperties(PROPERTIES_FILE_NAME, getClass());
 			messages.clear();
+			lastRefresh = System.currentTimeMillis();
+			try{
+				refreshInterval = Long.valueOf(getProperty(REFRESH_INTERVAL, "5000"));
+			}catch(Exception e){
+				refreshInterval = 5000;
+			}
 		}
 	}
 	protected static Properties loadProperties(String propertiesFileName,Class<?> referenceClass){
@@ -226,13 +243,12 @@ public abstract class Environment{
 		if(result == null){
 			Properties props = loadProperties(Environment.PROPERTIES_FILE_NAME, referenceClass);
 			String defaultEnv = props.getProperty(DEFAULT_ENVIRONMENT);
-			result=Environment.getEnvironment(defaultEnv);
-			if(result==null){
-				//Maybe a classname
+			result = Environment.getEnvironment(defaultEnv);
+			if(result == null){
+				// Maybe a classname
 				try{
-					result= getEnvironment((Class<? extends Environment>)IntrospectionUtil.classForName(defaultEnv));
+					result = getEnvironment((Class<? extends Environment>) IntrospectionUtil.classForName(defaultEnv));
 				}catch(Exception e){
-					
 				}
 			}
 			classDefaultEnvironmentMap.put(referenceClass, result);

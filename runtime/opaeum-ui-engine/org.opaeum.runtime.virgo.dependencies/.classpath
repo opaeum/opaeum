@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry including="**/*.java" kind="src" output="target/classes" path="src">
 		<attributes>
@@ -30,5 +29,10 @@
 	<classpathentry exported="true" kind="lib" path="target/alternateLocation/postgresql-9.1-901.jdbc4.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/alternateLocation/hibernate-validator-4.3.1.Final.jar" sourcepath="/home/ampie/.m2/repository/org/hibernate/hibernate-validator/4.3.1.Final/hibernate-validator-4.3.1.Final-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/alternateLocation/jboss-logging-3.1.0.CR2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

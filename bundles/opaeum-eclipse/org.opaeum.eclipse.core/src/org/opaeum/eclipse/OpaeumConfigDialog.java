@@ -67,6 +67,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	public OpaeumConfigDialog(Shell shell,OpaeumConfig config,IContainer modelDir){
 		super(shell);
 		this.config = config;
+		this.config.reload();
 		this.modelDir = modelDir;
 	}
 	protected Control createContents(Composite parent){

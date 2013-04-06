@@ -1,9 +1,15 @@
 package org.opaeum.runtime.jpa;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -35,7 +41,7 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 	}
 	public DataSource getNonJtaDataSource(){
 		try{
-			return (DataSource) new InitialContext().lookup(getDatasourceUrl()+"NonXA");
+			return (DataSource) new InitialContext().lookup(getDatasourceUrl() + "NonXA");
 		}catch(NamingException e){
 			return null;
 		}
@@ -60,18 +66,18 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 	public String getPersistenceXMLSchemaVersion(){
 		return "2.0";
 	}
-//	public SharedCacheMode getSharedCacheMode(){
-//		return SharedCacheMode.NONE;
-//	}
+	// public SharedCacheMode getSharedCacheMode(){
+	// return SharedCacheMode.NONE;
+	// }
 	public PersistenceUnitTransactionType getTransactionType(){
 		if(env.isInJee()){
-//			return PersistenceUnitTransactionType.JTA;
+			 return PersistenceUnitTransactionType.JTA;
 		}
 		return PersistenceUnitTransactionType.RESOURCE_LOCAL;
 	}
-//	public ValidationMode getValidationMode(){
-//		return ValidationMode.NONE;
-//	}
+	// public ValidationMode getValidationMode(){
+	// return ValidationMode.NONE;
+	// }
 	public String getPersistenceUnitName(){
 		return null;
 	}
@@ -81,18 +87,14 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 	public Properties getProperties(){
 		Properties props = new Properties();
 		props.put("hibernate.dialect", getHibernateDialect());
-		// props.put("hibernate.cache.use_second_level_cache"
-		// ,"false" );
-		// props.put("hibernate.cache.use_query_cache","false" );
-		// props.put("hibernate.default_batch_fetch_size","8" );
-		// props.put("hibernate.order_updates","true" );
-		// props.put("hibernate.order_inserts","true" );
-		// props.put("hibernate.jdbc.batch_size","20" );
-		// props.put("hibernate.max_fetch_depth","1" );
-		// #if($requiresAuditing)
-//		props.put("hibernate.hbm2ddl.auto","update" );
-		props.put("hibernate.show_sql",env.getProperty(Environment.SHOW_SQL, "true") );
-
+		props.put("hibernate.cache.use_second_level_cache", "false");
+		props.put("hibernate.cache.use_query_cache", "false");
+		props.put("hibernate.default_batch_fetch_size", "8");
+		props.put("hibernate.order_updates", "true");
+		props.put("hibernate.order_inserts", "true");
+		props.put("hibernate.jdbc.batch_size", "20");
+		props.put("hibernate.max_fetch_depth", "1");
+		props.put("hibernate.show_sql", env.getProperty(Environment.SHOW_SQL, "true"));
 		if(isJpa2()){
 			props.put("hibernate.ejb.event.post-load", "org.opaeum.audit.AuditListener");
 			props.put("hibernate.ejb.event.post-insert", "org.opaeum.audit.AuditListener");
@@ -100,6 +102,7 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 			props.put("hibernate.ejb.event.flush-entity", "org.opaeum.audit.AuditListener");
 			props.put("hibernate.ejb.event.flush", "org.opaeum.audit.AuditListener");
 			props.put("hibernate.ejb.event.create-onflush", "org.opaeum.audit.AuditListener");
+			props.put("hibernate.ejb.event.create", "org.opaeum.audit.AuditListener");
 			props.put("hibernate.ejb.event.pre-update", "org.opaeum.audit.AuditListener");
 		}else{
 			props.put("hibernate.ejb.event.post-load", "org.hibernate.ejb.event.EJB3PostLoadEventListener,org.opaeum.audit.AuditListener");
@@ -110,6 +113,7 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 			props.put("hibernate.ejb.event.flush", "org.opaeum.audit.AuditListener");
 			props.put("hibernate.ejb.event.create-onflush",
 					"org.hibernate.ejb.event.EJB3PersistOnFlushEventListener,org.opaeum.audit.AuditListener");
+			props.put("hibernate.ejb.event.create", "org.hibernate.ejb.event.EJB3PersistOnFlushEventListener,org.opaeum.audit.AuditListener");
 		}
 		if(env.isInJee()){
 			props.put("connection.datasource", getDatasourceUrl());
@@ -130,8 +134,8 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 			}
 			props.put("hibernate.connection.driver_class", env.getProperty(Environment.JDBC_DRIVER_CLASS));
 			props.put("hibernate.connection.url", env.getProperty(Environment.JDBC_CONNECTION_URL));
-			props.put("hibernate.connection.username", env.getProperty(Environment.DB_USER));
-			props.put("hibernate.connection.password", env.getProperty(Environment.DB_PASSWORD));
+			props.put("hibernate.connection.username", env.getDbUser());
+			props.put("hibernate.connection.password", env.getDbPassword());
 		}
 		return props;
 	}
@@ -149,7 +153,7 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 	protected String getHibernateDialect(){
 		switch(env.getDatabaseManagementSystem()){
 		case POSTGRESQL:
-//			return PostgreSQL82Dialect.class.getName();
+			// return PostgreSQL82Dialect.class.getName();
 			return PostgreSQLDialect.class.getName();
 		case HSQL:
 			return HSQLDialect.class.getName();
@@ -159,5 +163,21 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 	}
 	public ClassLoader getClassLoader(){
 		return getClass().getClassLoader();
+	}
+	protected Collection readClassNames(String string){
+		Set<String> result = new HashSet<String>();
+		try{
+			InputStream is = getClass().getResourceAsStream("/" + string);
+			if(is != null){
+				BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				String c = null;
+				while((c = br.readLine()) != null){
+					result.add(c);
+				}
+			}
+		}catch(Exception e){
+			throw new RuntimeException(e);
+		}
+		return result;
 	}
 }

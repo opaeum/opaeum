@@ -1,18 +1,24 @@
 package org.opaeum.javageneration.persistence;
 
+import java.io.CharArrayWriter;
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.spi.PersistenceUnitInfo;
 
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.StructuredActivityNode;
@@ -40,8 +46,10 @@ import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.Java6ModelGenerator;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
+import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.textmetamodel.CharArrayTextSource;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opaeum.textmetamodel.PropertiesSource;
@@ -52,6 +60,48 @@ import org.opaeum.util.SortedProperties;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {Java6ModelGenerator.class},after = {Java6ModelGenerator.class})
 public class JpaEnvironmentBuilder extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	public static boolean DEVELOPMENT_MODE = true;
+	@VisitBefore
+	public void visitModel(Model m){
+		if(!transformationContext.isIntegrationPhase()){
+			if(isGeneratingModel(m)){
+				TreeIterator<EObject> iter = m.eAllContents();
+				Set<OJPathName> classes = new HashSet<OJPathName>();
+				while(iter.hasNext()){
+					Notifier n = iter.next();
+					if(n instanceof Element){
+						Element e = (Element) n;
+						if(e instanceof Classifier && EmfClassifierUtil.isComplexStructure((Classifier) e) && EmfClassifierUtil.isPersistent((Type) e)){
+							classes.add(ojUtil.classifierPathname((Classifier) e));
+							if(e instanceof Behavior && EmfBehaviorUtil.isProcess((Behavior) e)){
+								classes.add(ojUtil.tokenPathName((Behavior) e));
+							}
+						}else if(e instanceof Operation && EmfBehaviorUtil.isLongRunning(((Operation) e))){
+							classes.add(ojUtil.classifierPathname((Operation) e));
+						}else if(e instanceof Enumeration && ojUtil.getCodeGenerationStrategy((Classifier) e) == CodeGenerationStrategy.ALL
+								&& !(EmfElementFinder.getRootObject(e) instanceof Profile)){
+							classes.add(ojUtil.classifierPathname((Enumeration) e));
+						}else if(e instanceof Action && EmfActionUtil.isEmbeddedTask((ActivityNode) e)){
+							classes.add(ojUtil.classifierPathname(((Action) e)));
+						}else if(e instanceof StructuredActivityNode
+								&& EmfBehaviorUtil.hasExecutionInstance(EmfActivityUtil.getContainingActivity(((StructuredActivityNode) e)))){
+							classes.add(ojUtil.classifierPathname((StructuredActivityNode) e));
+							classes.add(ojUtil.tokenPathName((StructuredActivityNode) e));
+						}
+					}
+				}
+				CharArrayWriter caw = new CharArrayWriter();
+				for(OJPathName ojPathName:classes){
+					caw.append(ojPathName.toJavaString());
+					caw.append('\n');
+				}
+				String fileName = fileName(m);
+				createTextPath(TextSourceFolderIdentifier.DOMAIN_GEN_RESOURCE, Arrays.asList(fileName)).setTextSource(new CharArrayTextSource(caw));
+			}
+		}
+	}
+	private String fileName(Model m){
+		return NameConverter.toJavaVariableName(m.getName()).toLowerCase() + ".persistent.classes";
+	}
 	@VisitBefore()
 	public void visitWorkspace(EmfWorkspace ew){
 		if(transformationContext.isIntegrationPhase()){
@@ -68,8 +118,8 @@ public class JpaEnvironmentBuilder extends AbstractJavaProducingVisitor implemen
 			envClass.addToFields(instance);
 			OJAnnotatedOperation register = new OJAnnotatedOperation("register");
 			envClass.addToOperations(register);
+			register.getBody().addToStatements("INSTANCE=this");
 			register.getBody().addToStatements("super.register()");
-			register.getBody().addToStatements("INSTANCE=new " + pathName.getLast() + "()");
 			OJAnnotatedOperation unregister = new OJAnnotatedOperation("unregister");
 			envClass.addToOperations(unregister);
 			unregister.getBody().addToStatements("super.unregister()");
@@ -97,7 +147,8 @@ public class JpaEnvironmentBuilder extends AbstractJavaProducingVisitor implemen
 			}
 			properties.setProperty(Environment.UPDATE_DB_DEF, "false");
 			findOrCreateTextFile(properties, TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, Environment.PROPERTIES_FILE_NAME);
-			OJAnnotatedOperation getPersistenceUnitInfo = new OJAnnotatedOperation("getPersistenceUnitInfo", new OJPathName(PersistenceUnitInfo.class.getName()));
+			OJAnnotatedOperation getPersistenceUnitInfo = new OJAnnotatedOperation("getPersistenceUnitInfo", new OJPathName(
+					PersistenceUnitInfo.class.getName()));
 			OJPathName pui = ojUtil.utilClass(workspace, "PersistenceUnitInfo");
 			getPersistenceUnitInfo.initializeResultVariable("new " + pui + "(this)");
 			envClass.addToOperations(getPersistenceUnitInfo);
@@ -124,6 +175,12 @@ public class JpaEnvironmentBuilder extends AbstractJavaProducingVisitor implemen
 			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.hibernate.domain.EventOccurrence\")");
 			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.hibernate.domain.AbstractPersistentEnum\")");
 			getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.hibernate.domain.AbstractPersistentOpaeumIdEnum\")");
+			Collection<Model> ownedModels = ew.getOwnedModels();
+			for(Model model:ownedModels){
+				if(isGeneratingModel(model)){
+					getManagedClassNames.getBody().addToStatements("result.addAll(readClassNames(\"" + fileName(model) + "\"))");
+				}
+			}
 			// getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.AuditEntry\")");
 			// getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.AuditEntryPropertyChange\")");
 			// getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.EntityPropertyChange\")");
@@ -136,36 +193,11 @@ public class JpaEnvironmentBuilder extends AbstractJavaProducingVisitor implemen
 			// getManagedClassNames.getBody().addToStatements("result.add(\"org.opaeum.audit.NullPropertyChange\")");
 			getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.utilPackagePath(ew) + "\")");
 			// CLasses across multiple jars need to be registered explicitly
-			TreeIterator<Notifier> iter = workspace.getResourceSet().getAllContents();
-			while(iter.hasNext()){
-				Notifier n = iter.next();
-				if(n instanceof Element){
-					Element e = (Element) n;
-					if(e instanceof Classifier && EmfClassifierUtil.isComplexStructure((Classifier) e) && EmfClassifierUtil.isPersistent((Type) e)
-							&& isGeneratingElement(e)){
-						getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.classifierPathname((Classifier) e) + "\")");
-						if(e instanceof Behavior && EmfBehaviorUtil.isProcess((Behavior) e)){
-							getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.tokenPathName((Behavior) e) + "\")");
-						}
-					}else if(e instanceof Operation && EmfBehaviorUtil.isLongRunning(((Operation) e)) && isGeneratingElement(e)){
-						getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.classifierPathname((Operation) e) + "\")");
-					}else if(e instanceof Enumeration && isGeneratingElement(e) && ojUtil.getCodeGenerationStrategy((Classifier) e) == CodeGenerationStrategy.ALL
-							&& !(EmfElementFinder.getRootObject(e) instanceof Profile)){
-						getManagedClassNames.getBody().addToStatements("result.add(\"" + new OJPathName(ojUtil.classifierPathname((Enumeration) e) + "Entity") + "\")");
-					}else if(e instanceof Action && EmfActionUtil.isEmbeddedTask((ActivityNode) e) && isGeneratingElement(e)){
-						getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.classifierPathname(((Action) e)) + "\")");
-					}else if(e instanceof StructuredActivityNode
-							&& EmfBehaviorUtil.hasExecutionInstance(EmfActivityUtil.getContainingActivity(((StructuredActivityNode) e))) && isGeneratingElement(e)){
-						getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.classifierPathname((StructuredActivityNode) e) + "\")");
-						getManagedClassNames.getBody().addToStatements("result.add(\"" + ojUtil.tokenPathName((StructuredActivityNode) e) + "\")");
-					}
-				}
-			}
 			getManagedClassNames.initializeResultVariable("new ArrayList<String>()");
 		}
 	}
-	private boolean isGeneratingElement(Element e){
-		return e.getModel() != null && (workspace.getPrimaryRootObjects().contains(e.getModel()) || EmfPackageUtil.isRegeneratingLibrary(e.getModel()));
+	private boolean isGeneratingModel(Model model){
+		return model != null && (workspace.getPrimaryRootObjects().contains(model) || EmfPackageUtil.isRegeneratingLibrary(model));
 	}
 	public void findOrCreateTextFile(SortedProperties outputBuilder,ISourceFolderIdentifier outputRootId,String...names){
 		createTextPath(outputRootId, Arrays.asList(names)).setTextSource(new PropertiesSource(outputBuilder));

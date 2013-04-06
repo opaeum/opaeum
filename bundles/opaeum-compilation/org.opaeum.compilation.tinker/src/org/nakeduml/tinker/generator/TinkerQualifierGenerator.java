@@ -13,9 +13,10 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
+import org.opaeum.javageneration.basicjava.AttributeImplementor;
 import org.opaeum.name.NameConverter;
 
-@StepDependency(phase = JavaTransformationPhase.class,after = {TinkerAttributeImplementor.class})
+@StepDependency(phase = JavaTransformationPhase.class,after = {AttributeImplementor.class})
 public class TinkerQualifierGenerator extends AbstractStructureVisitor{
 	@Override
 	protected void visitProperty(OJAnnotatedClass ojOwner,Classifier owner,PropertyMap map){

@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/google-api-client-1.6.0-beta.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/google-api-client-extensions-1.6.0-beta.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/google-collect-1.0-rc1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/google-http-client-1.6.0-beta.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/google-http-client-extensions-1.6.0-beta.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/google-oauth-client-1.6.0-beta.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/google-oauth-client-extensions-1.6.0-beta.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsr305.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>

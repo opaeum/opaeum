@@ -20,12 +20,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableColumn;
 import org.opaeum.annotation.BusinessActor;
-import org.opaeum.rap.runtime.IOpaeumApplication;
-import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.organization.IBusinessActorBase;
 import org.opaeum.runtime.organization.IBusinessCollaborationBase;
 import org.opaeum.runtime.organization.IPersonNode;
+import org.opaeum.runtime.rwt.IOpaeumApplication;
 
 import com.google.gdata.data.contacts.ContactEntry;
 

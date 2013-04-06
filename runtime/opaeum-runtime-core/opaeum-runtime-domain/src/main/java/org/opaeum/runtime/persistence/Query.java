@@ -7,5 +7,5 @@ import org.opaeum.runtime.domain.IPersistentObject;
 public interface Query{
 	int executeUpdate();
 	<T extends IPersistentObject> List<T> executeQuery();
-	void setParameter(String name, Object value);
+	Query setParameter(String name, Object value);
 }

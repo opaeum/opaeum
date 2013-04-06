@@ -15,7 +15,6 @@ import java.util.TreeMap;
 
 import org.opaeum.annotation.BusinessComponent;
 import org.opaeum.annotation.PropertyMetaInfo;
-import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.runtime.contact.IPersonEMailAddress;
 import org.opaeum.runtime.contact.IPersonPhoneNumber;
 import org.opaeum.runtime.contact.PersonEMailAddressType;
@@ -27,6 +26,7 @@ import org.opaeum.runtime.organization.IBusinessComponentBase;
 import org.opaeum.runtime.organization.IBusinessNetwork;
 import org.opaeum.runtime.organization.IBusinessRoleBase;
 import org.opaeum.runtime.organization.IPersonNode;
+import org.opaeum.runtime.rwt.IOpaeumApplication;
 
 import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.contacts.ContactEntry;

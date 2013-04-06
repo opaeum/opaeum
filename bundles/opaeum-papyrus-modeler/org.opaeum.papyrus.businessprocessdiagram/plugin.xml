@@ -2719,6 +2719,32 @@ self.structuralFeature.oclAsType(Property).opposite.type = self.object.type]]>
       <clientContext id="org.eclipse.papyrus.uml.diagram.activityDefaultCtx"/>
    </extension>
 
+   <extension point="org.eclipse.ui.preferencePages" id="prefpages">
+      <?gmfgen generated="true"?>
+      <page
+            id="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.PapyrusUMLActivityDiagram"
+            name="PapyrusUMLActivityDiagram Diagram"
+            category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams"
+            class="org.eclipse.papyrus.uml.diagram.activity.preferences.DiagramGeneralPreferencePage">
+      </page>
+      
+
+
+      <page
+            id="org.eclipse.papyrus.uml.diagram.activity.preferences.DiagramPrintingPreferencePage"
+            name="%prefpage.org.eclipse.uml2.uml.diagram.printing"
+            category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.PapyrusUMLActivityDiagram"
+            class="org.eclipse.papyrus.uml.diagram.activity.preferences.DiagramPrintingPreferencePage">
+      </page>
+
+      <page
+            id="org.eclipse.papyrus.uml.diagram.activity.preferences.DiagramRulersAndGridPreferencePage"
+            name="%prefpage.org.eclipse.uml2.uml.diagram.rulersAndGrid"
+            category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.PapyrusUMLActivityDiagram"
+            class="org.eclipse.papyrus.uml.diagram.activity.preferences.DiagramRulersAndGridPreferencePage">
+      </page>
+
+   </extension>
 
 <extension point="org.eclipse.ui.preferencePages">
 

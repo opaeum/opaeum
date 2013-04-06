@@ -177,7 +177,9 @@
          </propertySection>
       </propertySections>
    </extension>
-
+
+
+
    <extension point="org.eclipse.gmf.runtime.diagram.core.viewProviders" id="view-provider">
       <?gmfgen generated="true"?>
       <viewProvider class="org.eclipse.papyrus.uml.diagram.usecase.providers.UMLViewProvider">
@@ -190,7 +192,7 @@
 
    <extension point="org.eclipse.gmf.runtime.diagram.ui.editpartProviders" id="ep-provider">
       <?gmfgen generated="true"?>
-      <editpartProvider class="org.opaeum.papyrus.usecasediagram.providers.UMLEditPartProvider">
+      <editpartProvider class="org.eclipse.papyrus.uml.diagram.usecase.providers.UMLEditPartProvider">
          <Priority name="Lowest"/>
          <object class="org.eclipse.gmf.runtime.notation.Diagram" id="generated-diagram">
             <method name="getType()" value="UseCase"/>
@@ -227,7 +229,19 @@
          <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.DefaultNamedElementEditPartTN" id="NamedElement_2022"/>
          <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.ShapeNamedElementEditPart" id="NamedElement_2023"/>
          <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.ShortCutDiagramEditPart" id="Diagram_2019"/>
-         <context elements="Package_1000,Actor_2011,Actor_2012,UseCase_2013,UseCase_2014,Classifier_2015,Package_2016,Constraint_2017,Comment_2018,NamedElement_2022,NamedElement_2023,Diagram_2019"/>
+         <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.ExtensionPointEditPart" id="ExtensionPoint_3007"/>
+         <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.ExtensionPointInRectangleEditPart" id="ExtensionPoint_3008"/>
+         <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.UseCaseInComponentEditPart" id="UseCase_3009"/>
+         <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.ComponentInComponentEditPart" id="Component_3016"/>
+         <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.CommentEditPartCN" id="Comment_3015"/>
+         <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.ConstraintInComponentEditPart" id="Constraint_3017"/>
+         <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.ActorInComponentEditPart" id="Actor_3018"/>
+         <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.ConstraintInPackageEditPart" id="Constraint_3010"/>
+         <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.ActorInPackageEditPart" id="Actor_3011"/>
+         <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.UseCaseInPackageEditPart" id="UseCase_3012"/>
+         <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.ComponentInPackageEditPart" id="Component_3013"/>
+         <object class="org.eclipse.papyrus.uml.diagram.usecase.edit.parts.PackageEditPartCN" id="Package_3014"/>
+         <context elements="Package_1000,Actor_2011,Actor_2012,UseCase_2013,UseCase_2014,Classifier_2015,Package_2016,Constraint_2017,Comment_2018,NamedElement_2022,NamedElement_2023,Diagram_2019,ExtensionPoint_3007,ExtensionPoint_3008,UseCase_3009,Component_3016,Comment_3015,Constraint_3017,Actor_3018,Constraint_3010,Actor_3011,UseCase_3012,Component_3013,Package_3014"/>
       </modelingAssistantProvider>
    </extension>
 
@@ -749,9 +763,9 @@
 		
 	<?gmfgen generated="true"?>
 	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.UseCase"
-			class="org.eclipse.papyrus.uml.diagram.usecase.preferences.SubjectPreferencePage"
+			class="org.eclipse.papyrus.uml.diagram.usecase.preferences.ClassifierPreferencePage"
             id="org.eclipse.papyrus.uml.diagram.usecase.preferences.ClassifierPreferencePage"
-            name="Subject Node" />
+            name="Classifier Node" />
 	
 		
 	<?gmfgen generated="true"?>
@@ -895,259 +909,6 @@
 		
 
 </extension>
-<extension point="org.eclipse.gmf.runtime.common.ui.services.markerNavigationProviders" id="markers-navigation">
-      <?gmfgen generated="true"?>
-      <MarkerNavigationProvider class="org.eclipse.papyrus.uml.diagram.usecase.providers.UMLMarkerNavigationProvider">
-         <MarkerType name="org.eclipse.papyrus.uml.diagram.usecase.diagnostic"/>
-         <Priority name="Lowest"/>
-      </MarkerNavigationProvider>
-   </extension>
-
-<extension id="diagnostic" name="Papyrus useCase editor Plugin problems" point="org.eclipse.core.resources.markers">
-      <?gmfgen generated="true"?>
-      <super type="org.eclipse.core.resources.problemmarker"/>
-      <super type="org.eclipse.gmf.runtime.common.ui.services.marker"/>
-      <persistent value="true"/>
-   </extension><extension id="validationDecoratorProvider" name="ValidationDecorations" point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
-      <?gmfgen generated="true"?>
-      <decoratorProvider class="org.eclipse.papyrus.uml.diagram.usecase.providers.UMLValidationDecoratorProvider">
-         <Priority name="Lowest"/>
-         <object class="org.eclipse.gmf.runtime.diagram.ui.editparts.IPrimaryEditPart(org.eclipse.gmf.runtime.diagram.ui)" id="PRIMARY_VIEW"/>
-         <context decoratorTargets="PRIMARY_VIEW"/>
-      </decoratorProvider>
-   </extension>
-   
-   
-  <extension
-         point="org.eclipse.gmf.runtime.diagram.ui.editpolicyProviders">
-         <editpolicyProvider
-               class="org.eclipse.papyrus.uml.diagram.usecase.providers.CustomEditPolicyProvider">
-               <Priority
-                     name="Lowest">
-               </Priority>
-          </editpolicyProvider>
-  </extension>
-  
-  <!-- Custom extension point-->
-  <extension
-       id="ep-provider"
-       point="org.eclipse.gmf.runtime.diagram.ui.editpartProviders">
-       <editpartProvider
-            class="org.eclipse.papyrus.uml.diagram.usecase.providers.CustomEditPartProvider">
-            <Priority name="Medium"/>
-	
-			<object
-	     		class="org.eclipse.gmf.runtime.notation.Node(org.eclipse.gmf.runtime.notation)"
-		    	id="org.eclipse.papyrus.uml.diagram.usecase.editpart.AppliedStereotypeContainer">
-			    <method name="getType()" value="AppliedStereotypeContainer,AppliedStereotypeProperty"/>
-		   </object>
-	   </editpartProvider>
-   </extension>
-<extension point="org.eclipse.core.expressions.propertyTesters" id="navigator-proptest.isURIEditorInput">
-      <?gmfgen generated="true"?>
-       <propertyTester
-           id="org.eclipse.papyrus.uml.diagram.usecase.URIEditorInputPropertyTester"
-           type="org.eclipse.emf.common.ui.URIEditorInput"
-           namespace="org.eclipse.papyrus.uml.diagram.usecase"
-           properties="isURIEditorInput"
-           class="org.eclipse.papyrus.uml.diagram.usecase.part.UMLUriEditorInputTester">
-       </propertyTester>
-   </extension>
-
-<extension point="org.eclipse.ui.navigator.viewer" id="navigator-viewbinding">
-      <?gmfgen generated="true"?>
-      <viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
-         <includes>
-            <contentExtension pattern="org.eclipse.papyrus.uml.diagram.usecase.resourceContent"/>
-			<contentExtension pattern="org.eclipse.papyrus.uml.diagram.usecase.domainResourceContent"/>
-            <contentExtension pattern="org.eclipse.papyrus.uml.diagram.usecase.navigatorLinkHelper"/>
-         </includes>
-      </viewerContentBinding>
-      <viewerActionBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
-         <includes>
-            <actionExtension pattern="org.eclipse.papyrus.uml.diagram.usecase.navigatorActionProvider"/>
-         </includes>
-      </viewerActionBinding>
-   </extension>
-
-<extension point="org.eclipse.ui.navigator.navigatorContent" id="navigator-content">
-      <?gmfgen generated="true"?>
-      <navigatorContent
-            id="org.eclipse.papyrus.uml.diagram.usecase.resourceContent" 
-            name="%navigatorContentName" 
-            priority="normal" 
-            contentProvider="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLNavigatorContentProvider" 
-            labelProvider="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLNavigatorLabelProvider"
-            icon="icons/obj16/UMLDiagramFile.gif"
-            activeByDefault="true">
-         <triggerPoints>
-            <or>
-	           <and>
-    	          <instanceof value="org.eclipse.core.resources.IFile"/>
-        	      <test property="org.eclipse.core.resources.extension" value="PapyrusUMLUsecase_diagram"/>
-               </and>
-               <instanceof value="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLAbstractNavigatorItem"/>
-            </or>
-         </triggerPoints>
-         <possibleChildren>
-            <or>
-         	   <instanceof value="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLAbstractNavigatorItem"/>
-            </or>
-         </possibleChildren>
-         <commonSorter 
-               id="org.eclipse.papyrus.uml.diagram.usecase.navigatorSorter" 
-               class="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLNavigatorSorter">
-            <parentExpression>
-               <or>
-	              <and>
-    	             <instanceof value="org.eclipse.core.resources.IFile"/>
-        	         <test property="org.eclipse.core.resources.extension" value="PapyrusUMLUsecase_diagram"/>
-                  </and>
-                  <instanceof value="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLAbstractNavigatorItem"/>
-               </or>
-            </parentExpression>
-         </commonSorter>
-      </navigatorContent>
-      <navigatorContent
-            id="org.eclipse.papyrus.uml.diagram.usecase.domainResourceContent" 
-            name="%domainNavigatorContentName" 
-            priority="normal" 
-            contentProvider="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLDomainNavigatorContentProvider" 
-            labelProvider="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLDomainNavigatorLabelProvider"
-            icon="icons/obj16/UMLDiagramFile.gif"
-            activeByDefault="true">
-         <triggerPoints>
-            <or>
-	           <and>
-    	          <instanceof value="org.eclipse.core.resources.IFile"/>
-        	      <test property="org.eclipse.core.resources.extension" value="PapyrusUMLUsecase"/>
-               </and>
-               <instanceof value="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLDomainNavigatorItem"/>
-            </or>
-         </triggerPoints>
-         <possibleChildren>
-            <instanceof value="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLDomainNavigatorItem"/>
-         </possibleChildren>
-      </navigatorContent>
-      <actionProvider
-            id="org.eclipse.papyrus.uml.diagram.usecase.navigatorActionProvider"
-            class="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLNavigatorActionProvider">
-         <enablement>
-            <or>
-               <instanceof value="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLAbstractNavigatorItem"/>
-            </or>
-         </enablement>
-      </actionProvider>
-   </extension>
-
-<extension point="org.eclipse.ui.navigator.linkHelper" id="navigator-linkhelper">
-      <?gmfgen generated="true"?>
-      <linkHelper
-            id="org.eclipse.papyrus.uml.diagram.usecase.navigatorLinkHelper"
-            class="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLNavigatorLinkHelper">
-         <editorInputEnablement>
-            <and>
-               <instanceof value="org.eclipse.emf.common.ui.URIEditorInput"/>
-               <test property="org.eclipse.papyrus.uml.diagram.usecase.isURIEditorInput"/>
-            </and>
-         </editorInputEnablement>
-         <selectionEnablement>
-            <instanceof value="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLAbstractNavigatorItem"/>
-         </selectionEnablement>
-      </linkHelper>
-   </extension>
-<extension
-      point="org.eclipse.ui.menus">
-   <menuContribution
-         allPopups="false"
-         locationURI="popup:org.eclipse.papyrus.uml.diagram.ui.popupmenu.format">
-      <command
-            commandId="org.eclipse.papyrus.diagram.usecase.displayasdefaultnamedelement.popup"
-            id="displayasdefaultnamedelement.popup"
-            label="Display as default NameElement"
-            style="push"
-            tooltip="Display as default NameElement">
-         <visibleWhen
-               checkEnabled="true">
-         </visibleWhen>
-      </command>
-      <command
-            commandId="org.eclipse.papyrus.diagram.usecase.displayassubject.popup"
-            id="displayassubject.popup"
-            label="Display as a subject"
-            style="push"
-            tooltip="Display as a subject">
-         <visibleWhen
-               checkEnabled="true">
-         </visibleWhen>
-      </command>
-      <command
-            commandId="org.eclipse.papyrus.diagram.usecase.displayusecaseasclassifier.popup"
-            id="displayusecaseasclassifier.popup"
-            label="Display use case as classifier"
-            style="push"
-            tooltip="Display use case as classifier">
-         <visibleWhen
-               checkEnabled="true">
-         </visibleWhen>
-      </command>
-      <command
-            commandId="org.eclipse.papyrus.diagram.usecase.displayactorasstickman.popup"
-            id="displayactorasstickman.popup"
-            label="Display actor as stickman"
-            style="push"
-            tooltip="Display actor as stickman">
-         <visibleWhen
-               checkEnabled="true">
-         </visibleWhen>
-      </command>
-   </menuContribution>
-</extension>
-<extension
-      point="org.eclipse.ui.commands">
-   <command
-         categoryId="org.eclipse.papyrus.editor.category"
-         defaultHandler="org.eclipse.papyrus.uml.diagram.usecase.handler.DefaultNamedElementHandler"
-         id="org.eclipse.papyrus.diagram.usecase.displayasdefaultnamedelement.popup"
-         name="Display as default NamedElement">
-   </command>
-   <command
-         categoryId="org.eclipse.papyrus.editor.category"
-         defaultHandler="org.eclipse.papyrus.uml.diagram.usecase.handler.SubjectHandler"
-         id="org.eclipse.papyrus.diagram.usecase.displayassubject.popup"
-         name="Display as subject">
-   </command>
-   <command
-         categoryId="org.eclipse.papyrus.editor.category"
-         defaultHandler="org.eclipse.papyrus.uml.diagram.usecase.handler.UseCaseToClassiferHandler"
-         id="org.eclipse.papyrus.diagram.usecase.displayusecaseasclassifier.popup"
-         name="Display use case as classifier">
-   </command>
-   <command
-         categoryId="org.eclipse.papyrus.editor.category"
-         defaultHandler="org.eclipse.papyrus.uml.diagram.usecase.handler.ChangetoActorShapeHandler"
-         id="org.eclipse.papyrus.diagram.usecase.displayactorasstickman.popup"
-         name="Display actor as stickman">
-   </command>
-</extension>
-<!-- Custom extension point editpart provider for editing properties of stereotype-->
-  
-  
-  <extension
-       id="stereotype-ep-provider"
-       point="org.eclipse.gmf.runtime.diagram.ui.editpartProviders">
-       <editpartProvider
-            class="org.eclipse.papyrus.uml.diagram.usecase.providers.StereotypePropertiesEditPartProvider">
-            <Priority name="Medium"/>
-	
-			<object
-	     		class="org.eclipse.gmf.runtime.notation.Node(org.eclipse.gmf.runtime.notation)"
-		    	id="org.eclipse.papyrus.uml.diagram.clazz.editpart.AppliedStereotypeContainer">
-			    <method name="getType()" value="AppliedStereotypeContainer,AppliedStereotypeProperty,AppliedStereotypesComment,AppliedStereotypesCommentLink"/>
-		   </object>
-	   </editpartProvider>
-   </extension>
-
 <extension
 		id="Papyrus useCase editor Plugin.palettedefinition"
 		name="Papyrus useCase editor Plugin Predefined Entries"
@@ -1157,7 +918,7 @@
 		<paletteProvider class="org.eclipse.gmf.runtime.diagram.ui.providers.DefaultPaletteProvider">
 			<Priority name="Lowest"/>
       		<contribution
-            	factoryClass="org.opaeum.papyrus.usecasediagram.part.UseCasePaletteFactory">
+            	factoryClass="org.eclipse.papyrus.uml.diagram.usecase.part.UMLPaletteFactory">
      			<predefinedEntry id="standardGroup/noteStack/noteTool" remove="true"/> 
 				<predefinedEntry id="standardGroup/noteStack/textTool" remove="true"/> 
 				<predefinedEntry id="standardGroup/noteStack/noteattachmentTool" remove="true"/>
@@ -1173,30 +934,30 @@
  	</entry>
 	<entry
        defineOnly="true"
-       description="Create Business Under Discussion"
-       id="usecase.tool.businesscomponent"
+       description="Create Subject"
+       id="usecase.tool.subject"
        kind="tool"
-       label="Business Under Discussion"
+       label="Subject"
        large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Component.gif"
        path=""
        small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Component.gif">
  	</entry>
 	<entry
        defineOnly="true"
-       description="Create Business Actor"
-       id="usecase.tool.businessactor"
+       description="Create Actor"
+       id="usecase.tool.actor"
        kind="tool"
-       label="Business Actor"
+       label="Actor"
        large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Actor.gif"
        path=""
        small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Actor.gif">
  	</entry>
 	<entry
        defineOnly="true"
-       description="Create Business Use Case"
-       id="usecase.tool.businessusecase"
+       description="Create Use Case"
+       id="usecase.tool.usecase"
        kind="tool"
-       label="Business Use Case"
+       label="Use Case"
        large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/UseCase.gif"
        path=""
        small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/UseCase.gif">
@@ -1388,15 +1149,15 @@
           path="/usecase.group.nodes">
     </predefinedEntry>
  	<predefinedEntry
-          id="usecase.tool.businesscomponent"
+          id="usecase.tool.subject"
           path="/usecase.group.nodes">
     </predefinedEntry>
  	<predefinedEntry
-          id="usecase.tool.businessactor"
+          id="usecase.tool.actor"
           path="/usecase.group.nodes">
     </predefinedEntry>
  	<predefinedEntry
-          id="usecase.tool.businessusecase"
+          id="usecase.tool.usecase"
           path="/usecase.group.nodes">
     </predefinedEntry>
  	<predefinedEntry
@@ -1443,7 +1204,7 @@
           id="usecase.tool.association"
           path="/usecase.group.links">
     </predefinedEntry>
- 	<!--predefinedEntry
+ 	<predefinedEntry
           id="usecase.tool.generalization"
           path="/usecase.group.links">
     </predefinedEntry>
@@ -1466,7 +1227,7 @@
  	<predefinedEntry
           id="usecase.tool.packagemerge"
           path="/usecase.group.links">
-    </predefinedEntry-->
+    </predefinedEntry>
  	<predefinedEntry
           id="usecase.tool.packageimport"
           path="/usecase.group.links">
@@ -1479,10 +1240,10 @@
           id="usecase.tool.extend"
           path="/usecase.group.links">
     </predefinedEntry>
- 	<!--predefinedEntry
+ 	<predefinedEntry
           id="usecase.tool.constraintlink"
           path="/usecase.group.links">
-    </predefinedEntry-->
+    </predefinedEntry>
  	<predefinedEntry
           id="usecase.tool.commentlink"
           path="/usecase.group.links">
@@ -1494,5 +1255,218 @@
 		</paletteProvider>	
 			
 	</extension>
+<extension point="org.eclipse.gmf.runtime.common.ui.services.markerNavigationProviders" id="markers-navigation">
+      <?gmfgen generated="true"?>
+      <MarkerNavigationProvider class="org.eclipse.papyrus.uml.diagram.usecase.providers.UMLMarkerNavigationProvider">
+         <MarkerType name="org.eclipse.papyrus.uml.diagram.usecase.diagnostic"/>
+         <Priority name="Lowest"/>
+      </MarkerNavigationProvider>
+   </extension>
+
+<extension id="diagnostic" name="Papyrus useCase editor Plugin problems" point="org.eclipse.core.resources.markers">
+      <?gmfgen generated="true"?>
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <super type="org.eclipse.gmf.runtime.common.ui.services.marker"/>
+      <persistent value="true"/>
+   </extension><extension id="validationDecoratorProvider" name="ValidationDecorations" point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
+      <?gmfgen generated="true"?>
+      <decoratorProvider class="org.eclipse.papyrus.uml.diagram.usecase.providers.UMLValidationDecoratorProvider">
+         <Priority name="Lowest"/>
+         <object class="org.eclipse.gmf.runtime.diagram.ui.editparts.IPrimaryEditPart(org.eclipse.gmf.runtime.diagram.ui)" id="PRIMARY_VIEW"/>
+         <context decoratorTargets="PRIMARY_VIEW"/>
+      </decoratorProvider>
+   </extension>
+  
+  <!-- Custom extension point-->
+<extension point="org.eclipse.core.expressions.propertyTesters" id="navigator-proptest.isURIEditorInput">
+      <?gmfgen generated="true"?>
+       <propertyTester
+           id="org.eclipse.papyrus.uml.diagram.usecase.URIEditorInputPropertyTester"
+           type="org.eclipse.emf.common.ui.URIEditorInput"
+           namespace="org.eclipse.papyrus.uml.diagram.usecase"
+           properties="isURIEditorInput"
+           class="org.eclipse.papyrus.uml.diagram.usecase.part.UMLUriEditorInputTester">
+       </propertyTester>
+   </extension>
+
+<extension point="org.eclipse.ui.navigator.viewer" id="navigator-viewbinding">
+      <?gmfgen generated="true"?>
+      <viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <contentExtension pattern="org.eclipse.papyrus.uml.diagram.usecase.resourceContent"/>
+			<contentExtension pattern="org.eclipse.papyrus.uml.diagram.usecase.domainResourceContent"/>
+            <contentExtension pattern="org.eclipse.papyrus.uml.diagram.usecase.navigatorLinkHelper"/>
+         </includes>
+      </viewerContentBinding>
+      <viewerActionBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <actionExtension pattern="org.eclipse.papyrus.uml.diagram.usecase.navigatorActionProvider"/>
+         </includes>
+      </viewerActionBinding>
+   </extension>
+
+<extension point="org.eclipse.ui.navigator.navigatorContent" id="navigator-content">
+      <?gmfgen generated="true"?>
+      <navigatorContent
+            id="org.eclipse.papyrus.uml.diagram.usecase.resourceContent" 
+            name="%navigatorContentName" 
+            priority="normal" 
+            contentProvider="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLNavigatorContentProvider" 
+            labelProvider="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLNavigatorLabelProvider"
+            icon="icons/obj16/UMLDiagramFile.gif"
+            activeByDefault="true">
+         <triggerPoints>
+            <or>
+	           <and>
+    	          <instanceof value="org.eclipse.core.resources.IFile"/>
+        	      <test property="org.eclipse.core.resources.extension" value="PapyrusUMLUsecase_diagram"/>
+               </and>
+               <instanceof value="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLAbstractNavigatorItem"/>
+            </or>
+         </triggerPoints>
+         <possibleChildren>
+            <or>
+         	   <instanceof value="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLAbstractNavigatorItem"/>
+            </or>
+         </possibleChildren>
+         <commonSorter 
+               id="org.eclipse.papyrus.uml.diagram.usecase.navigatorSorter" 
+               class="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLNavigatorSorter">
+            <parentExpression>
+               <or>
+	              <and>
+    	             <instanceof value="org.eclipse.core.resources.IFile"/>
+        	         <test property="org.eclipse.core.resources.extension" value="PapyrusUMLUsecase_diagram"/>
+                  </and>
+                  <instanceof value="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLAbstractNavigatorItem"/>
+               </or>
+            </parentExpression>
+         </commonSorter>
+      </navigatorContent>
+      <navigatorContent
+            id="org.eclipse.papyrus.uml.diagram.usecase.domainResourceContent" 
+            name="%domainNavigatorContentName" 
+            priority="normal" 
+            contentProvider="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLDomainNavigatorContentProvider" 
+            labelProvider="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLDomainNavigatorLabelProvider"
+            icon="icons/obj16/UMLDiagramFile.gif"
+            activeByDefault="true">
+         <triggerPoints>
+            <or>
+	           <and>
+    	          <instanceof value="org.eclipse.core.resources.IFile"/>
+        	      <test property="org.eclipse.core.resources.extension" value="PapyrusUMLUsecase"/>
+               </and>
+               <instanceof value="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLDomainNavigatorItem"/>
+            </or>
+         </triggerPoints>
+         <possibleChildren>
+            <instanceof value="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLDomainNavigatorItem"/>
+         </possibleChildren>
+      </navigatorContent>
+      <actionProvider
+            id="org.eclipse.papyrus.uml.diagram.usecase.navigatorActionProvider"
+            class="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLNavigatorActionProvider">
+         <enablement>
+            <or>
+               <instanceof value="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLAbstractNavigatorItem"/>
+            </or>
+         </enablement>
+      </actionProvider>
+   </extension>
+
+<extension point="org.eclipse.ui.navigator.linkHelper" id="navigator-linkhelper">
+      <?gmfgen generated="true"?>
+      <linkHelper
+            id="org.eclipse.papyrus.uml.diagram.usecase.navigatorLinkHelper"
+            class="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLNavigatorLinkHelper">
+         <editorInputEnablement>
+            <and>
+               <instanceof value="org.eclipse.emf.common.ui.URIEditorInput"/>
+               <test property="org.eclipse.papyrus.uml.diagram.usecase.isURIEditorInput"/>
+            </and>
+         </editorInputEnablement>
+         <selectionEnablement>
+            <instanceof value="org.eclipse.papyrus.uml.diagram.usecase.navigator.UMLAbstractNavigatorItem"/>
+         </selectionEnablement>
+      </linkHelper>
+   </extension>
+<extension
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         allPopups="false"
+         locationURI="popup:org.eclipse.papyrus.uml.diagram.ui.popupmenu.format">
+      <command
+            commandId="org.eclipse.papyrus.diagram.usecase.displayasdefaultnamedelement.popup"
+            id="displayasdefaultnamedelement.popup"
+            label="Display as default NameElement"
+            style="push"
+            tooltip="Display as default NameElement">
+         <visibleWhen
+               checkEnabled="true">
+         </visibleWhen>
+      </command>
+      <command
+            commandId="org.eclipse.papyrus.diagram.usecase.displayassubject.popup"
+            id="displayassubject.popup"
+            label="Display as a subject"
+            style="push"
+            tooltip="Display as a subject">
+         <visibleWhen
+               checkEnabled="true">
+         </visibleWhen>
+      </command>
+      <command
+            commandId="org.eclipse.papyrus.diagram.usecase.displayusecaseasclassifier.popup"
+            id="displayusecaseasclassifier.popup"
+            label="Display use case as classifier"
+            style="push"
+            tooltip="Display use case as classifier">
+         <visibleWhen
+               checkEnabled="true">
+         </visibleWhen>
+      </command>
+      <command
+            commandId="org.eclipse.papyrus.diagram.usecase.displayactorasstickman.popup"
+            id="displayactorasstickman.popup"
+            label="Display actor as stickman"
+            style="push"
+            tooltip="Display actor as stickman">
+         <visibleWhen
+               checkEnabled="true">
+         </visibleWhen>
+      </command>
+   </menuContribution>
+</extension>
+<extension
+      point="org.eclipse.ui.commands">
+   <command
+         categoryId="org.eclipse.papyrus.editor.category"
+         defaultHandler="org.eclipse.papyrus.uml.diagram.usecase.handler.DefaultNamedElementHandler"
+         id="org.eclipse.papyrus.diagram.usecase.displayasdefaultnamedelement.popup"
+         name="Display as default NamedElement">
+   </command>
+   <command
+         categoryId="org.eclipse.papyrus.editor.category"
+         defaultHandler="org.eclipse.papyrus.uml.diagram.usecase.handler.SubjectHandler"
+         id="org.eclipse.papyrus.diagram.usecase.displayassubject.popup"
+         name="Display as subject">
+   </command>
+   <command
+         categoryId="org.eclipse.papyrus.editor.category"
+         defaultHandler="org.eclipse.papyrus.uml.diagram.usecase.handler.UseCaseToClassiferHandler"
+         id="org.eclipse.papyrus.diagram.usecase.displayusecaseasclassifier.popup"
+         name="Display use case as classifier">
+   </command>
+   <command
+         categoryId="org.eclipse.papyrus.editor.category"
+         defaultHandler="org.eclipse.papyrus.uml.diagram.usecase.handler.ChangetoActorShapeHandler"
+         id="org.eclipse.papyrus.diagram.usecase.displayactorasstickman.popup"
+         name="Display actor as stickman">
+   </command>
+</extension>
+<!-- Custom extension point editpart provider for editing properties of stereotype-->
+  
+  
 
 </plugin>

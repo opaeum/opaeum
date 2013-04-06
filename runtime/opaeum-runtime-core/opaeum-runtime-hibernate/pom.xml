@@ -7,7 +7,6 @@
 		<relativePath>../../../releng/org.opaeum.runtime.core.releng/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.opaeum</groupId>
 	<artifactId>opaeum-runtime-hibernate</artifactId>
 	<packaging>jar</packaging>
 	<name>Opaeum Hibernate Runtime</name>

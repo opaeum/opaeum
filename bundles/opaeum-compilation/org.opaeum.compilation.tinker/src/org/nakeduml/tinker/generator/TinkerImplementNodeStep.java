@@ -25,7 +25,7 @@ import org.opaeum.javageneration.basicjava.HashcodeBuilder;
 import org.opaeum.javageneration.basicjava.ToXmlStringBuilder;
 import org.opaeum.javageneration.composition.CompositionNodeImplementor;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {TinkerAttributeImplementor.class,HashcodeBuilder.class},after = {
+@StepDependency(phase = JavaTransformationPhase.class,requires = {HashcodeBuilder.class},after = {
 		HashcodeBuilder.class,ToXmlStringBuilder.class,CompositionNodeImplementor.class})
 public class TinkerImplementNodeStep extends StereotypeAnnotator{
 	@VisitAfter(matchSubclasses = true)

@@ -3,15 +3,11 @@ package org.opaeum.rap.login;
 import java.net.URL;
 import java.util.Date;
 
-import org.opaeum.rap.runtime.IOpaeumApplication;
-import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.organization.IPersonNode;
+import org.opaeum.runtime.rwt.IOpaeumApplication;
+import org.opaeum.runtime.rwt.OpaeumRapSession;
 
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.gdata.client.contacts.ContactQuery;
 import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.Person;

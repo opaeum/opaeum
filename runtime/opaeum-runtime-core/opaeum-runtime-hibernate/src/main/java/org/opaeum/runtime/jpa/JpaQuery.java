@@ -22,7 +22,8 @@ public class JpaQuery implements Query{
 		return query.getResultList();
 	}
 	@Override
-	public void setParameter(String name,Object value){
+	public Query setParameter(String name,Object value){
 		query.setParameter(name, value);
+		return this;
 	}
 }

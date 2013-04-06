@@ -399,7 +399,7 @@ public class OpaeumConfig{
 			StringBuilder sb = new StringBuilder();
 			for(String string:cs){
 				sb.append(string);
-				sb.append(",");
+				sb.append(";");
 			}
 			this.props.setProperty(ADDITIONAL_PERSISTENT_CLASSES, sb.substring(0, sb.length() - 1));
 		}

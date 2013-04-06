@@ -197,7 +197,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 	protected final OJPackage findOrCreatePackage(OJPathName packageName){
 		return this.javaModel.findOrCreatePackage(packageName);
 	}
-	protected OJAnnotatedClass findJavaClass(Classifier classifier){
+	public OJAnnotatedClass findJavaClass(Classifier classifier){
 		OJPathName path = ojUtil.classifierPathname(classifier);
 		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findClass(path);
 		if(owner == null){

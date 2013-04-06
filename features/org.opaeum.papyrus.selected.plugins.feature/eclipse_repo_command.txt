@@ -1,0 +1,1 @@
+./eclipse -debug -consolelog -nosplash -verbose -application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher -metadataRepository file:/home/ampie/repo43 -artifactRepository file:/home/ampie/keplerrepo -source ~/repo43 -compress -append -publishArtifacts

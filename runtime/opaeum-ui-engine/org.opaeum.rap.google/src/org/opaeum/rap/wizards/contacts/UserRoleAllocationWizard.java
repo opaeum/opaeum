@@ -2,7 +2,7 @@ package org.opaeum.rap.wizards.contacts;
 
 import org.eclipse.jface.wizard.Wizard;
 import org.opaeum.rap.login.GoogleOpaeumRapSession;
-import org.opaeum.rap.runtime.IOpaeumApplication;
+import org.opaeum.runtime.rwt.IOpaeumApplication;
 
 public class UserRoleAllocationWizard extends Wizard{
 	UserRoleAllocationWizardData model;
