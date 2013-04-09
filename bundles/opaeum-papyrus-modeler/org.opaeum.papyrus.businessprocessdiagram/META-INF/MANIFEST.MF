@@ -64,7 +64,7 @@ Require-Bundle: org.opaeum.metamodels.emfworkspace,
  org.eclipse.gmf.tooling.runtime;bundle-version="3.0.0"
 Bundle-Vendor: Opaeum
 Eclipse-LazyStart: true
-Bundle-Version: 1.0.2.qualifier
+Bundle-Version: 1.0.3.qualifier
 Bundle-ManifestVersion: 2
 Bundle-Activator: org.eclipse.papyrus.uml.diagram.activity.part.UMLDiagramEditorPlugin
 Bundle-SymbolicName: org.opaeum.papyrus.businessprocessdiagram;singleton:=true

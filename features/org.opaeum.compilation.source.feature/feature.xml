@@ -2,7 +2,7 @@
 <feature
       id="org.opaeum.compilation.source.feature"
       label="Opaeum Model Compilation Source Feature"
-      version="1.0.2.qualifier">
+      version="1.0.3.qualifier">
 
   <description url="%license">
       Opaeum Model Compilation Source Feature
@@ -39,13 +39,6 @@
 
    <plugin
          id="org.opaeum.compilation.ocltojava.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opaeum.compilation.tinker.source"
          download-size="0"
          install-size="0"
          version="0.0.0"

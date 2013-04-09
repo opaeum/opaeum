@@ -2,7 +2,7 @@
 <feature
       id="org.opaeum.compilation.feature"
       label="Opaeum Model Compilation Feature"
-      version="1.0.2.qualifier"
+      version="1.0.3.qualifier"
       provider-name="opaeum.org">
 
    <description url="%license">
@@ -25,7 +25,7 @@ from the Opaeum Metamodel to the various implementation platforms.
       <import plugin="org.opaeum.metamodels.java"/>
       <import plugin="org.opaeum.metamodels.emfworkspace"/>
       <import plugin="org.opaeum.metamodels.maven"/>
-      <import feature="org.opaeum.metamodels.feature" version="1.0.2.qualifier"/>
+      <import feature="org.opaeum.metamodels.feature" version="1.0.3.qualifier"/>
       <import plugin="org.eclipse.uml2.uml"/>
       <import plugin="org.eclipse.ocl.uml"/>
       <import plugin="org.eclipse.ocl"/>
@@ -43,13 +43,6 @@ from the Opaeum Metamodel to the various implementation platforms.
 
    <plugin
          id="org.opaeum.compilation.java"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opaeum.compilation.tinker"
          download-size="0"
          install-size="0"
          version="0.0.0"

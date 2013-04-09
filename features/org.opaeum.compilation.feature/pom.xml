@@ -3,14 +3,13 @@
 	<parent>
 		<artifactId>org.opaeum.tooling-parent</artifactId>
 		<groupId>org.opaeum</groupId>
-		<version>1.0.2-SNAPSHOT</version>
+		<version>1.0.3-SNAPSHOT</version>
 		<relativePath>../../releng/org.opaeum.tooling.releng/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.opaeum</groupId>
 	<artifactId>org.opaeum.compilation.feature</artifactId>
 	<packaging>eclipse-feature</packaging>
-	<name>Opaeum CompilerFeature</name>
+	<name>Opaeum Compiler Feature</name>
 	<build>
 		<plugins>
 			<plugin>

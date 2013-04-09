@@ -324,9 +324,6 @@
    <feature url="features/org.eclipse.mylyn.git_1.1.0.I20130205-1655.jar" id="org.eclipse.mylyn.git" version="1.1.0.I20130205-1655">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.github.feature_2.3.0.201302060400-rc1.jar" id="org.eclipse.mylyn.github.feature" version="2.3.0.201302060400-rc1">
-      <category name="mylyn"/>
-   </feature>
    <feature url="features/org.eclipse.mylyn.ide_feature_3.9.0.I20130205-1655.jar" id="org.eclipse.mylyn.ide_feature" version="3.9.0.I20130205-1655">
       <category name="mylyn"/>
    </feature>
@@ -365,12 +362,6 @@
    </feature>
    <feature url="features/org.eclipse.team.svn.mylyn_1.0.0.I20121109-1700.jar" id="org.eclipse.team.svn.mylyn" version="1.0.0.I20121109-1700">
       <category name="mylyn"/>
-   </feature>
-   <feature url="features/org.eclipse.egit_2.3.0.201302060400-rc1.jar" id="org.eclipse.egit" version="2.3.0.201302060400-rc1">
-      <category name="scm"/>
-   </feature>
-   <feature url="features/org.eclipse.jgit_2.3.0.201302060400-rc1.jar" id="org.eclipse.jgit" version="2.3.0.201302060400-rc1">
-      <category name="scm"/>
    </feature>
    <feature url="features/org.eclipse.team.svn_1.0.0.I20121228-1700.jar" id="org.eclipse.team.svn" version="1.0.0.I20121228-1700">
       <category name="scm"/>
@@ -777,7 +768,7 @@
    <feature url="features/org.eclipse.birt.source_4.3.0.v201303181854-ClBK9lGZcVSop8Rgz0z0NJ_uJz00.jar" id="org.eclipse.birt.source" version="4.3.0.v201303181854-ClBK9lGZcVSop8Rgz0z0NJ_uJz00">
       <category name="birt"/>
    </feature>
-   <feature url="features/org.opaeum.papyrus.selected.plugins.feature_1.0.3.201304061504.jar" id="org.opaeum.papyrus.selected.plugins.feature" version="1.0.3.201304061504">
+   <feature url="../../feature/org.opaeum.papyrus.selected.plugins.feature_1.0.3.qualifier.jar" id="org.opaeum.papyrus.selected.plugins.feature" version="1.0.3.qualifier">
       <category name="papyrus"/>
    </feature>
    <feature url="features/org.eclipse.net4j.db.h2_4.2.0.v20130316-1201.jar" id="org.eclipse.net4j.db.h2" version="4.2.0.v20130316-1201">
@@ -800,6 +791,27 @@
    </feature>
    <feature url="features/org.jboss.tools.maven.hibernate.feature_1.4.0.Final-v20121206-0227-B96.jar" id="org.jboss.tools.maven.hibernate.feature" version="1.4.0.Final-v20121206-0227-B96">
       <category name="jboss"/>
+   </feature>
+   <feature url="features/org.eclipse.platform_4.3.0.v20130314-1730.jar" id="org.eclipse.platform" version="4.3.0.v20130314-1730">
+      <category name="m2eclipse"/>
+   </feature>
+   <feature url="features/org.eclipse.egit_2.3.1.201302201838-r.jar" id="org.eclipse.egit" version="2.3.1.201302201838-r">
+      <category name="scm"/>
+   </feature>
+   <feature url="features/org.eclipse.egit.import_2.3.1.201302201838-r.jar" id="org.eclipse.egit.import" version="2.3.1.201302201838-r">
+      <category name="scm"/>
+   </feature>
+   <feature url="features/org.eclipse.egit.mylyn_2.3.1.201302201838-r.jar" id="org.eclipse.egit.mylyn" version="2.3.1.201302201838-r">
+      <category name="mylyn"/>
+   </feature>
+   <feature url="features/org.eclipse.mylyn.github.feature_2.3.0.201302130906.jar" id="org.eclipse.mylyn.github.feature" version="2.3.0.201302130906">
+      <category name="mylyn"/>
+   </feature>
+   <feature url="features/org.eclipse.epp.mpc_1.2.0.I20130320-1535.jar" id="org.eclipse.epp.mpc" version="1.2.0.I20130320-1535">
+      <category name="marketplace"/>
+   </feature>
+   <feature url="features/org.eclipse.jgit_2.3.1.201302201838-r.jar" id="org.eclipse.jgit" version="2.3.1.201302201838-r">
+      <category name="scm"/>
    </feature>
    <category-def name="jboss" label="JBoss">
       <description>
@@ -856,4 +868,5 @@
          Papyrus
       </description>
    </category-def>
+   <category-def name="marketplace" label="Eclipse Marketplace"/>
 </site>

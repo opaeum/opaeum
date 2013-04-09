@@ -1,0 +1,13 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>org.opaeum.tooling-parent</artifactId>
+		<groupId>org.opaeum</groupId>
+		<version>1.0.3-SNAPSHOT</version>
+		<relativePath>../org.opaeum.tooling.releng/pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>org.opaeum.tooling.target</artifactId>
+	<packaging>eclipse-target-definition</packaging>
+	<name>Opaeum Tooling Target</name>
+</project>

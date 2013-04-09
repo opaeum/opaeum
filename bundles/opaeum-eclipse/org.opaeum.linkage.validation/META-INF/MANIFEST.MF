@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.opaeum.linkage.validation
 Bundle-SymbolicName: org.opaeum.linkage.validation;singleton:=true
-Bundle-Version: 1.0.2.qualifier
+Bundle-Version: 1.0.3.qualifier
 Require-Bundle: org.eclipse.uml2.uml;visibility:=reexport,
  org.eclipse.uml2.uml.resources;visibility:=reexport,
  org.junit4,

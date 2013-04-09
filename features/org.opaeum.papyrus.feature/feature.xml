@@ -2,75 +2,19 @@
 <feature
       id="org.opaeum.papyrus.feature"
       label="Opaeum Papyrus Feature"
-      version="1.0.2.qualifier">
+      version="1.0.3.qualifier">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright url="%copyrightURL">
+      %copyright
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="%licenseURL">
+      %license
    </license>
-
-   <includes
-         id="org.eclipse.gmf.runtime.notation"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.papyrus.editor.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.papyrus.infra.core.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.papyrus.infra.discovery.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.papyrus.infra.emf.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.papyrus.infra.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.papyrus.infra.gmfdiag.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.papyrus.infra.queries.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.papyrus.infra.services.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.papyrus.infra.table.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.papyrus.infra.widget.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.papyrus.views.modelexplorer.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.papyrus.views.properties.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.papyrus.xwt.feature"
-         version="0.0.0"/>
 
    <requires>
       <import plugin="org.eclipse.core.expressions"/>
@@ -232,168 +176,14 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.papyrus.uml.commands"
+         id="org.opaeum.papyrus.methoddiagram"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.papyrus.uml.controlmode.profile"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.common"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.common.groups"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.common.palette.customaction"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.communication"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.component"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.composite"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.deployment"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.emftree"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.icons"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.menu"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.navigation"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.paletteconfiguration"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.paletteconfiguration.edit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.profile"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.diagram.statemachine"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.extensionpoints"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.icons"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.profile"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.table.default"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.table.widgets.celleditors"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.tools"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.papyrus.uml.tools.utils"
+         id="org.opaeum.papyrus.businessprocessdiagram"
          download-size="0"
          install-size="0"
          version="0.0.0"

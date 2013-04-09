@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.opaeum.compilation.misc
 Bundle-SymbolicName: org.opaeum.compilation.misc
-Bundle-Version: 1.0.2.qualifier
+Bundle-Version: 1.0.3.qualifier
 Require-Bundle: org.opaeum.compilation.java,
  org.opaeum.metamodels.emfworkspace,
  org.opaeum.metamodels.text,

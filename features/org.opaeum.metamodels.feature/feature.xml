@@ -2,7 +2,7 @@
 <feature
       id="org.opaeum.metamodels.feature"
       label="Opaeum Metamodels"
-      version="1.0.2.qualifier">
+      version="1.0.3.qualifier">
 
    <description url="%license">
       Opaeum Metamodels Feature provides all the metamodels required as targets or sources of transformations in Opaeum.

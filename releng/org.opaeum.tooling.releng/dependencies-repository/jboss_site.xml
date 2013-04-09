@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.jboss.ide.eclipse.archives.feature_3.4.0.Final-v20121205-2029-B41.jar" id="org.jboss.ide.eclipse.archives.feature" version="3.4.0.Final-v20121205-2029-B41">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.ide.eclipse.as.archives.integration.feature_2.4.0.Final-v20121205-2029-B41.jar" id="org.jboss.ide.eclipse.as.archives.integration.feature" version="2.4.0.Final-v20121205-2029-B41">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.ide.eclipse.as.feature_2.4.0.Final-v20121205-2029-B41.jar" id="org.jboss.ide.eclipse.as.feature" version="2.4.0.Final-v20121205-2029-B41">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.ide.eclipse.as.jmx.integration.feature_2.4.0.Final-v20121205-2029-B41.jar" id="org.jboss.ide.eclipse.as.jmx.integration.feature" version="2.4.0.Final-v20121205-2029-B41">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.ide.eclipse.as.server.rse.integration.feature_2.4.0.Final-v20121205-2029-B41.jar" id="org.jboss.ide.eclipse.as.server.rse.integration.feature" version="2.4.0.Final-v20121205-2029-B41">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.ide.eclipse.as.serverAdapter.wtp.feature_2.4.0.Final-v20121205-2029-B41.jar" id="org.jboss.ide.eclipse.as.serverAdapter.wtp.feature" version="2.4.0.Final-v20121205-2029-B41">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.ide.eclipse.freemarker.feature_1.3.0.Final-v20121205-1934-B70.jar" id="org.jboss.ide.eclipse.freemarker.feature" version="1.3.0.Final-v20121205-1934-B70">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.cdi.seam.feature_1.4.0.Final-v20121205-2220-B66.jar" id="org.jboss.tools.cdi.seam.feature" version="1.4.0.Final-v20121205-2220-B66">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.central.themes.feature_1.1.0.Final-v20121206-0227-B96.jar" id="org.jboss.tools.central.themes.feature" version="1.1.0.Final-v20121206-0227-B96">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.common.core.feature_3.4.0.Final-v20121206-1757-B38.jar" id="org.jboss.tools.common.core.feature" version="3.4.0.Final-v20121206-1757-B38">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.common.feature_3.4.0.Final-v20121206-1757-B38.jar" id="org.jboss.tools.common.feature" version="3.4.0.Final-v20121206-1757-B38">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.common.jdt.feature_3.4.0.Final-v20121206-1757-B38.jar" id="org.jboss.tools.common.jdt.feature" version="3.4.0.Final-v20121206-1757-B38">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.common.text.ext.feature_3.4.0.Final-v20121206-1757-B38.jar" id="org.jboss.tools.common.text.ext.feature" version="3.4.0.Final-v20121206-1757-B38">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.common.ui.feature_3.4.0.Final-v20121206-1757-B38.jar" id="org.jboss.tools.common.ui.feature" version="3.4.0.Final-v20121206-1757-B38">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.common.verification.feature_3.4.0.Final-v20121206-1757-B38.jar" id="org.jboss.tools.common.verification.feature" version="3.4.0.Final-v20121206-1757-B38">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.forge.feature_1.1.0.Final-v20121205-1934-B69.jar" id="org.jboss.tools.forge.feature" version="1.1.0.Final-v20121205-1934-B69">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.jmx.feature_1.4.0.Final-v20121205-2029-B41.jar" id="org.jboss.tools.jmx.feature" version="1.4.0.Final-v20121205-2029-B41">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.jsf.feature_3.4.0.Final-v20121205-2220-B66.jar" id="org.jboss.tools.jsf.feature" version="3.4.0.Final-v20121205-2220-B66">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.jst.feature_3.4.0.Final-v20121205-1935-B70.jar" id="org.jboss.tools.jst.feature" version="3.4.0.Final-v20121205-1935-B70">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.maven.cdi.feature_1.4.0.Final-v20121206-0227-B96.jar" id="org.jboss.tools.maven.cdi.feature" version="1.4.0.Final-v20121206-0227-B96">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.maven.jdt.feature_1.4.0.Final-v20121206-0227-B96.jar" id="org.jboss.tools.maven.jdt.feature" version="1.4.0.Final-v20121206-0227-B96">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.maven.sourcelookup.feature_1.4.0.Final-v20121206-0227-B96.jar" id="org.jboss.tools.maven.sourcelookup.feature" version="1.4.0.Final-v20121206-0227-B96">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.project.examples.feature_1.4.0.Final-v20121206-0227-B96.jar" id="org.jboss.tools.project.examples.feature" version="1.4.0.Final-v20121206-0227-B96">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.richfaces.feature_3.4.0.Final-v20121205-2220-B66.jar" id="org.jboss.tools.richfaces.feature" version="3.4.0.Final-v20121205-2220-B66">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.runtime.core.feature_2.0.0.Final-v20121206-1757-B38.jar" id="org.jboss.tools.runtime.core.feature" version="2.0.0.Final-v20121206-1757-B38">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.vpe.browsersim.feature_3.4.0.Final-v20121205-1952-B75.jar" id="org.jboss.tools.vpe.browsersim.feature" version="3.4.0.Final-v20121205-1952-B75">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.vpe.feature_3.4.0.Final-v20121205-1952-B75.jar" id="org.jboss.tools.vpe.feature" version="3.4.0.Final-v20121205-1952-B75">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.ws.feature_1.4.0.Final-v20121205-2151-B95.jar" id="org.jboss.tools.ws.feature" version="1.4.0.Final-v20121205-2151-B95">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.ws.jaxrs.feature_1.4.0.Final-v20121205-2151-B95.jar" id="org.jboss.tools.ws.jaxrs.feature" version="1.4.0.Final-v20121205-2151-B95">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.hibernate.eclipse.feature_3.6.0.Final-v20121205-1936-B77.jar" id="org.hibernate.eclipse.feature" version="3.6.0.Final-v20121205-1936-B77">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.eclipse.jpt.common.feature_1.3.0.v201210121950-67A-AkF7BI7PAP7BHD.jar" id="org.eclipse.jpt.common.feature" version="1.3.0.v201210121950-67A-AkF7BI7PAP7BHD">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.eclipse.jpt.jaxb.feature_1.3.0.v201210121950-57A-AkF7BI7OAO8KFK.jar" id="org.eclipse.jpt.jaxb.feature" version="1.3.0.v201210121950-57A-AkF7BI7OAO8KFK">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.eclipse.jpt.jpa.feature_3.3.0.v201303140022-7W7d8hFC7sRe2TCbQUM3ACI79.jar" id="org.eclipse.jpt.jpa.feature" version="3.3.0.v201303140022-7W7d8hFC7sRe2TCbQUM3ACI79">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.eclipse.jpt.jpadiagrameditor.feature_1.2.0.v201303120344-45-9oB58C78AP7QHB.jar" id="org.eclipse.jpt.jpadiagrameditor.feature" version="1.2.0.v201303120344-45-9oB58C78AP7QHB">
+      <category name="jboss"/>
+   </feature>
+   <feature url="features/org.jboss.tools.maven.hibernate.feature_1.4.0.Final-v20121206-0227-B96.jar" id="org.jboss.tools.maven.hibernate.feature" version="1.4.0.Final-v20121206-0227-B96">
+      <category name="jboss"/>
+   </feature>
+   <category-def name="jboss" label="JBoss">
+      <description>
+         JBoss
+      </description>
+   </category-def>
+</site>

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Full Opaeum RAP Runtime
 Bundle-SymbolicName: org.opaeum.runtime.rap.ui;singleton:=true
-Bundle-Version: 1.0.2.qualifier
+Bundle-Version: 1.0.3.qualifier
 Require-Bundle: org.eclipse.core.databinding,
  org.eclipse.core.databinding.beans,
  org.eclipse.rap.jface.databinding,

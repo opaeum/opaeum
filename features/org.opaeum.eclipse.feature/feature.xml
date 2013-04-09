@@ -2,7 +2,7 @@
 <feature
       id="org.opaeum.eclipse.feature"
       label="Opaeum Core Eclipse Feature"
-      version="1.0.2.qualifier"
+      version="1.0.3.qualifier"
       provider-name="opaeum.org">
 
    <description url="%license">
@@ -17,262 +17,6 @@
       %license
    </license>
 
-   <includes
-         id="org.eclipse.datatools.common.doc.user"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.connectivity.doc.user"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.connectivity.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.connectivity.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.connectivity.oda.designer.core.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.connectivity.oda.designer.core.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.connectivity.oda.designer.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.connectivity.oda.designer.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.connectivity.oda.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.connectivity.oda.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.doc.user"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.apache.derby.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.apache.derby.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.hsqldb.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.hsqldb.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.ibm.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.ibm.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.ingres.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.ingres.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.jdbc.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.jdbc.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.jdt.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.jdt.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.msft.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.msft.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.mysql.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.mysql.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.oda.designer.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.oda.designer.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.oda.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.oda.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.oracle.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.oracle.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.postgresql.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.postgresql.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.sap.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.sap.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.sdk.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.sqlite.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.sqlite.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.sybase.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.enablement.sybase.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.intro"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.modelbase.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.modelbase.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sdk.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.data.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.data.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.ddl.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.ddl.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.ddlgen.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.ddlgen.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.parsers.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.parsers.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.results.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.results.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.sqlbuilder.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqldevtools.sqlbuilder.feature.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.datatools.sqltools.doc.user"
-         version="0.0.0"/>
-
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
@@ -281,15 +25,15 @@
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.emf.edit"/>
       <import plugin="org.opaeum.metamodels.emfworkspace"/>
-      <import plugin="org.opaeum.linkage.validation"/>
       <import plugin="org.opaeum.transformation.engine"/>
       <import plugin="org.opaeum.compilation.java"/>
-      <import plugin="org.eclipse.emf.transaction" version="1.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.transaction"/>
       <import plugin="org.eclipse.emf.edit.ui"/>
       <import plugin="org.eclipse.uml2.uml.edit"/>
       <import plugin="org.eclipse.ocl.uml"/>
       <import plugin="org.opaeum.compilation.ocltojava"/>
-      <import plugin="org.eclipse.ui.ide" version="3.7.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.views.properties.tabbed"/>
       <import plugin="org.eclipse.uml2"/>
       <import plugin="org.eclipse.emf"/>
       <import plugin="org.eclipse.draw2d"/>
@@ -298,74 +42,126 @@
       <import plugin="org.eclipse.ocl.ecore"/>
       <import plugin="com.ibm.icu"/>
       <import plugin="org.apache.ant"/>
-      <import plugin="org.eclipse.ui.views.properties.tabbed"/>
       <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.emf.codegen.ecore.ui"/>
       <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.emf.facet.infra.browser"/>
       <import plugin="org.eclipse.emf.facet.infra.browser.uicore"/>
+      <import plugin="org.eclipse.datatools.sqltools.sqleditor"/>
+      <import plugin="org.eclipse.datatools.sqltools.data.core"/>
+      <import plugin="org.eclipse.datatools.sqltools.editor.core"/>
+      <import plugin="org.eclipse.datatools.sqltools.common.ui"/>
       <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.junit4"/>
       <import plugin="org.eclipse.jdt.launching"/>
       <import plugin="org.eclipse.jdt.ui"/>
       <import plugin="org.eclipse.jdt.core.manipulation"/>
       <import plugin="org.opaeum.compilation.filegeneration"/>
       <import plugin="org.opaeum.compilation.misc"/>
-      <import plugin="org.opaeum.compilation.tinker"/>
       <import plugin="org.opaeum.metamodels.java"/>
       <import plugin="org.opaeum.metamodels.maven"/>
       <import plugin="org.opaeum.metamodels.text"/>
       <import plugin="org.opaeum.metamodels.uim"/>
       <import plugin="org.eclipse.core.filesystem"/>
+      <import plugin="org.opaeum.metamodels.simulation"/>
+      <import plugin="org.opaeum.simulation.actions"/>
+      <import plugin="org.eclipse.datatools.common.doc.user"/>
+      <import plugin="org.eclipse.datatools.connectivity"/>
+      <import plugin="org.eclipse.datatools.connectivity.apache.derby"/>
+      <import plugin="org.eclipse.datatools.connectivity.apache.derby.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.connectivity.apache.derby.ui"/>
+      <import plugin="org.eclipse.datatools.connectivity.console.profile"/>
+      <import plugin="org.eclipse.datatools.connectivity.db.generic"/>
+      <import plugin="org.eclipse.datatools.connectivity.db.generic.ui"/>
+      <import plugin="org.eclipse.datatools.connectivity.dbdefinition.genericJDBC"/>
+      <import plugin="org.eclipse.datatools.connectivity.doc.user"/>
+      <import plugin="org.eclipse.datatools.connectivity.doc.user.contexts"/>
       <import plugin="org.eclipse.datatools.connectivity.oda"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda.consumer"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda.design"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda.design.ui"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda.flatfile"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda.flatfile.ui"/>
       <import plugin="org.eclipse.datatools.connectivity.oda.profile"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda.template.ui"/>
       <import plugin="org.eclipse.datatools.connectivity.sqm.core"/>
-      <import plugin="org.eclipse.datatools.modelbase.sql"/>
-      <import plugin="org.eclipse.platform"/>
-      <import plugin="org.eclipse.emf.ecore.edit"/>
+      <import plugin="org.eclipse.datatools.connectivity.sqm.core.ui"/>
+      <import plugin="org.eclipse.datatools.connectivity.sqm.server.ui"/>
+      <import plugin="org.eclipse.datatools.connectivity.ui"/>
       <import plugin="org.eclipse.datatools.connectivity.ui.dse"/>
-      <import plugin="org.eclipse.datatools.enablement.postgresql"/>
-      <import plugin="org.eclipse.datatools.enablement.postgresql.dbdefinition"/>
-      <import plugin="org.eclipse.datatools.enablement.postgresql.ui"/>
+      <import plugin="org.eclipse.datatools.connectivity.ui.templates"/>
+      <import plugin="org.eclipse.datatools.doc.isv"/>
+      <import plugin="org.eclipse.datatools.doc.user"/>
+      <import plugin="org.eclipse.datatools.enablement.finfo"/>
       <import plugin="org.eclipse.datatools.enablement.hsqldb"/>
       <import plugin="org.eclipse.datatools.enablement.hsqldb.dbdefinition"/>
       <import plugin="org.eclipse.datatools.enablement.hsqldb.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.db2.iseries"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.db2.iseries.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.db2.luw"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.db2.luw.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.db2.zseries"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.db2.zseries.ui"/>
       <import plugin="org.eclipse.datatools.enablement.ibm.informix"/>
-      <import plugin="org.eclipse.datatools.enablement.ibm.informix.dbdefinition" />
+      <import plugin="org.eclipse.datatools.enablement.ibm.informix.dbdefinition"/>
       <import plugin="org.eclipse.datatools.enablement.ibm.informix.ui"/>
       <import plugin="org.eclipse.datatools.enablement.ibm.ui"/>
       <import plugin="org.eclipse.datatools.enablement.ingres"/>
       <import plugin="org.eclipse.datatools.enablement.ingres.dbdefinition"/>
       <import plugin="org.eclipse.datatools.enablement.ingres.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.jdt.classpath"/>
       <import plugin="org.eclipse.datatools.enablement.msft.sqlserver"/>
       <import plugin="org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition"/>
       <import plugin="org.eclipse.datatools.enablement.msft.sqlserver.ui"/>
       <import plugin="org.eclipse.datatools.enablement.mysql"/>
       <import plugin="org.eclipse.datatools.enablement.mysql.dbdefinition"/>
       <import plugin="org.eclipse.datatools.enablement.mysql.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.oda.ws"/>
+      <import plugin="org.eclipse.datatools.enablement.oda.ws.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.oda.xml"/>
+      <import plugin="org.eclipse.datatools.enablement.oda.xml.ui"/>
       <import plugin="org.eclipse.datatools.enablement.oracle"/>
       <import plugin="org.eclipse.datatools.enablement.oracle.dbdefinition"/>
       <import plugin="org.eclipse.datatools.enablement.oracle.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.postgresql"/>
+      <import plugin="org.eclipse.datatools.enablement.postgresql.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.enablement.postgresql.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.sap.maxdb"/>
+      <import plugin="org.eclipse.datatools.enablement.sap.maxdb.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.enablement.sap.maxdb.ui"/>
       <import plugin="org.eclipse.datatools.enablement.sqlite"/>
       <import plugin="org.eclipse.datatools.enablement.sqlite.dbdefinition"/>
       <import plugin="org.eclipse.datatools.enablement.sqlite.ui"/>
       <import plugin="org.eclipse.datatools.enablement.sybase"/>
+      <import plugin="org.eclipse.datatools.enablement.sybase.asa"/>
+      <import plugin="org.eclipse.datatools.enablement.sybase.asa.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.enablement.sybase.asa.models"/>
+      <import plugin="org.eclipse.datatools.enablement.sybase.asa.schemaobjecteditor.examples"/>
+      <import plugin="org.eclipse.datatools.enablement.sybase.asa.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.sybase.ase"/>
+      <import plugin="org.eclipse.datatools.enablement.sybase.ase.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.enablement.sybase.ase.models"/>
+      <import plugin="org.eclipse.datatools.enablement.sybase.ase.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.sybase.models"/>
       <import plugin="org.eclipse.datatools.enablement.sybase.ui"/>
-      <import plugin="org.eclipse.datatools.sqltools.ddlgen.ui"/>
+      <import plugin="org.eclipse.datatools.help"/>
+      <import plugin="org.eclipse.datatools.intro"/>
+      <import plugin="org.eclipse.datatools.modelbase.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.modelbase.derby"/>
+      <import plugin="org.eclipse.datatools.modelbase.sql"/>
       <import plugin="org.eclipse.datatools.modelbase.sql.edit"/>
-      <import feature="org.opaeum.compilation.feature" version="1.0.2.qualifier"/>
-      <import feature="org.opaeum.metamodels.feature" version="1.0.2.qualifier"/>
-      <import feature="org.eclipse.datatools.sqldevtools.data.feature" />
-      <import feature="org.eclipse.datatools.sqldevtools.ddl.feature" />
-      <import feature="org.eclipse.datatools.sqldevtools.ddlgen.feature" />
-      <import feature="org.eclipse.datatools.sqldevtools.feature" />
-      <import feature="org.eclipse.datatools.sqldevtools.parsers.feature" />
-      <import feature="org.eclipse.datatools.sqldevtools.results.feature" />
-      <import feature="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature" />
-      <import feature="org.eclipse.datatools.sqldevtools.sqlbuilder.feature"/>
-      <import plugin="org.eclipse.datatools.sqltools.sqleditor"/>
-      <import plugin="org.eclipse.datatools.sqltools.data.core"/>
-      <import plugin="org.eclipse.datatools.sqltools.editor.core"/>
-      <import plugin="org.eclipse.datatools.sqltools.common.ui"/>
+      <import plugin="org.eclipse.datatools.modelbase.sql.query"/>
+      <import plugin="org.eclipse.datatools.modelbase.sql.query.edit"/>
+      <import plugin="org.eclipse.datatools.modelbase.sql.xml.query"/>
+      <import plugin="org.eclipse.datatools.oda.cshelp"/>
+      <import plugin="org.eclipse.datatools.sdk"/>
+      <import plugin="org.eclipse.platform"/>
+      <import plugin="org.eclipse.emf.ecore.edit"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.informix.dbdefinition" version="1.0.4" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.datatools.sqltools.ddlgen.ui"/>
       <import plugin="org.eclipse.datatools.sqltools.sql"/>
       <import plugin="org.eclipse.datatools.sqltools.sql.ui"/>
    </requires>
@@ -407,6 +203,13 @@
 
    <plugin
          id="org.opaeum.eclipse.reverse.db"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opaeum.eclipse.jdbc.drivers"
          download-size="0"
          install-size="0"
          version="0.0.0"

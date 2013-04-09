@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: UIM Runtime Common
 Bundle-SymbolicName: org.opaeum.runtime.uim.common
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.3.qualifier
 Bundle-Activator: org.opaeum.uim.swt.UimRuntimeActivator
 Export-Package: org.opaeum.uim.swt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

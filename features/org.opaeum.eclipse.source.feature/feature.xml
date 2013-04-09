@@ -2,7 +2,7 @@
 <feature
       id="org.opaeum.eclipse.source.feature"
       label="Opaeum Core Eclipse Source Feature"
-      version="1.0.2.qualifier">
+      version="1.0.3.qualifier">
 
   <description url="%license">
       Opaeum Core Eclipse Source Feature
@@ -19,13 +19,6 @@
    <requires>
 
    </requires>
-   <plugin
-         id="org.opaeum.linkage.validation.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
 
    <plugin
          id="org.opaeum.eclipse.core.source"
@@ -49,10 +42,30 @@
          unpack="false"/>
 
    <plugin
+         id="org.opaeum.linkage.validation.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.opaeum.eclipse.compiler.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
-</feature>
+   <plugin
+         id="org.opaeum.eclipse.reverse.db.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opaeum.eclipse.jdbc.drivers.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+  </feature>

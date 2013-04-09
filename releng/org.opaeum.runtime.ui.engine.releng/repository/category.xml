@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.opaeum.rap.runtime.feature_1.0.2.qualifier.jar" id="org.opaeum.rap.runtime.feature" version="1.0.2.qualifier">
+   <feature url="features/org.opaeum.rap.runtime.feature_1.0.3.qualifier.jar" id="org.opaeum.rap.runtime.feature" version="1.0.3.qualifier">
       <category name="org.opaeum.rap.runtime"/>
    </feature>
    <category-def name="org.opaeum.rap.runtime" label="Opaeum Runtime"/>

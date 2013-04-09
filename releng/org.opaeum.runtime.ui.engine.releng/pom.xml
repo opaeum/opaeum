@@ -19,7 +19,7 @@
 		<signing-plugin-version>1.0.5</signing-plugin-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<bundle.repo.location>file:/home/ampie/repository</bundle.repo.location>
-		<opaeum.version>1.0.2-SNAPSHOT</opaeum.version>
+		<opaeum.version>1.0.3-SNAPSHOT</opaeum.version>
 		<mirror.repo.root>file:///home/ampie/EclipseProducts</mirror.repo.root>
 	</properties>
 

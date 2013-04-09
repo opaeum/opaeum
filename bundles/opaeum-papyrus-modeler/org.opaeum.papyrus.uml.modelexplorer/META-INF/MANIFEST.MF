@@ -50,7 +50,7 @@ Bundle-Vendor: Opaeum
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  plugins/org.eclipse.papyrus.uml.modelexplorer_0.10.0.opaeum.jar
-Bundle-Version: 1.0.2.qualifier
+Bundle-Version: 1.0.3.qualifier
 Bundle-Name: Opaeum Model Explorer for Papyrus
 Bundle-ManifestVersion: 2
 Bundle-Activator: org.opaeum.papyrus.uml.modelexplorer.Activator

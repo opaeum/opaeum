@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.opaeum.metamodels.java
 Bundle-Symbolic: org.opaeum.java.metamodel;singleton:=true
-Bundle-Version: 1.0.2.qualifier
+Bundle-Version: 1.0.3.qualifier
 Bundle-SymbolicName: org.opaeum.metamodels.java;singleton:=true
 Bundle-ClassPath: .
 Bundle-Vendor: Opaeum

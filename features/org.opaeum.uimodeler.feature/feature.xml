@@ -2,18 +2,17 @@
 <feature
       id="org.opaeum.uimodeler.feature"
       label="Opaeum UIModeler Feature"
-      version="1.0.2.qualifier">
+      version="1.0.3.qualifier">
 
    <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+      Opaeum User Interface Modeler Feature
    </description>
-
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright url="%copyrightURL">
+      %copyright
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="%licenseURL">
+      %license
    </license>
 
    <includes
