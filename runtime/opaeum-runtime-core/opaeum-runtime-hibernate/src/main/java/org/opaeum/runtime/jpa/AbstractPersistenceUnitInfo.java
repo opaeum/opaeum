@@ -21,6 +21,7 @@ import javax.sql.DataSource;
 import org.hibernate.dialect.HSQLDialect;
 import org.hibernate.dialect.PostgreSQLDialect;
 import org.hibernate.ejb.HibernatePersistence;
+import org.opaeum.hibernate.domain.EventDispatcher;
 import org.opaeum.runtime.environment.Environment;
 
 public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
@@ -85,36 +86,12 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 		return null;
 	}
 	public Properties getProperties(){
-		Properties props = new Properties();
-		props.put("hibernate.dialect", getHibernateDialect());
-		props.put("hibernate.cache.use_second_level_cache", "false");
-		props.put("hibernate.cache.use_query_cache", "false");
-		props.put("hibernate.default_batch_fetch_size", "8");
-		props.put("hibernate.order_updates", "true");
-		props.put("hibernate.order_inserts", "true");
-		props.put("hibernate.jdbc.batch_size", "20");
-		props.put("hibernate.max_fetch_depth", "1");
-		props.put("hibernate.show_sql", env.getProperty(Environment.SHOW_SQL, "true"));
-		if(isJpa2()){
-			props.put("hibernate.ejb.event.post-load", "org.opaeum.audit.AuditListener");
-			props.put("hibernate.ejb.event.post-insert", "org.opaeum.audit.AuditListener");
-			props.put("hibernate.ejb.event.post-update", "org.opaeum.audit.AuditListener");
-			props.put("hibernate.ejb.event.flush-entity", "org.opaeum.audit.AuditListener");
-			props.put("hibernate.ejb.event.flush", "org.opaeum.audit.AuditListener");
-			props.put("hibernate.ejb.event.create-onflush", "org.opaeum.audit.AuditListener");
-			props.put("hibernate.ejb.event.create", "org.opaeum.audit.AuditListener");
-			props.put("hibernate.ejb.event.pre-update", "org.opaeum.audit.AuditListener");
-		}else{
-			props.put("hibernate.ejb.event.post-load", "org.hibernate.ejb.event.EJB3PostLoadEventListener,org.opaeum.audit.AuditListener");
-			props.put("hibernate.ejb.event.post-insert", "org.hibernate.ejb.event.EJB3PostInsertEventListener,org.opaeum.audit.AuditListener");
-			props.put("hibernate.ejb.event.post-update", "org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.opaeum.audit.AuditListener");
-			props.put("hibernate.ejb.event.pre-update", "org.opaeum.audit.AuditListener");
-			props.put("hibernate.ejb.event.flush-entity", "org.hibernate.ejb.event.EJB3FlushEntityEventListener,org.opaeum.audit.AuditListener");
-			props.put("hibernate.ejb.event.flush", "org.opaeum.audit.AuditListener");
-			props.put("hibernate.ejb.event.create-onflush",
-					"org.hibernate.ejb.event.EJB3PersistOnFlushEventListener,org.opaeum.audit.AuditListener");
-			props.put("hibernate.ejb.event.create", "org.hibernate.ejb.event.EJB3PersistOnFlushEventListener,org.opaeum.audit.AuditListener");
-		}
+		Properties props = getBasicProperties();
+		addEventListeners(props);
+		configureConnectivityAndTransactioning(props);
+		return props;
+	}
+	protected void configureConnectivityAndTransactioning(Properties props) {
 		if(env.isInJee()){
 			props.put("connection.datasource", getDatasourceUrl());
 			// props.put("hibernate.format_sql","true" );
@@ -132,12 +109,49 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 			}else{
 				props.put("hibernate.transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory");
 			}
-			props.put("hibernate.connection.driver_class", env.getProperty(Environment.JDBC_DRIVER_CLASS));
-			props.put("hibernate.connection.url", env.getProperty(Environment.JDBC_CONNECTION_URL));
+			props.put("hibernate.connection.driver_class", env.getProperty(Environment.JDBC_DRIVER_CLASS, "org.postgres.Driver"));
+			props.put("hibernate.connection.url", env.getDbConnectionUrl());
 			props.put("hibernate.connection.username", env.getDbUser());
 			props.put("hibernate.connection.password", env.getDbPassword());
 		}
+	}
+	protected void addEventListeners(Properties props) {
+		if(isJpa2()){
+			props.put("hibernate.ejb.event.post-load", getListenerClass().getName());
+			props.put("hibernate.ejb.event.post-insert", getListenerClass().getName());
+			props.put("hibernate.ejb.event.post-update", getListenerClass().getName());
+			props.put("hibernate.ejb.event.flush-entity", getListenerClass().getName());
+			props.put("hibernate.ejb.event.flush", getListenerClass().getName());
+			props.put("hibernate.ejb.event.create-onflush", getListenerClass().getName());
+			props.put("hibernate.ejb.event.create", getListenerClass().getName());
+			props.put("hibernate.ejb.event.pre-update", getListenerClass().getName());
+		}else{
+			props.put("hibernate.ejb.event.post-load", "org.hibernate.ejb.event.EJB3PostLoadEventListener,"+getListenerClass().getName());
+			props.put("hibernate.ejb.event.post-insert", "org.hibernate.ejb.event.EJB3PostInsertEventListener,"+getListenerClass().getName());
+			props.put("hibernate.ejb.event.post-update", "org.hibernate.ejb.event.EJB3PostUpdateEventListener,"+getListenerClass().getName());
+			props.put("hibernate.ejb.event.pre-update", getListenerClass().getName());
+			props.put("hibernate.ejb.event.flush-entity", "org.hibernate.ejb.event.EJB3FlushEntityEventListener,"+getListenerClass().getName());
+			props.put("hibernate.ejb.event.flush", getListenerClass().getName());
+			props.put("hibernate.ejb.event.create-onflush",
+					"org.hibernate.ejb.event.EJB3PersistOnFlushEventListener,"+getListenerClass().getName());
+			props.put("hibernate.ejb.event.create", "org.hibernate.ejb.event.EJB3PersistOnFlushEventListener,"+getListenerClass().getName());
+		}
+	}
+	protected Properties getBasicProperties() {
+		Properties props = new Properties();
+		props.put("hibernate.dialect", getHibernateDialect());
+		props.put("hibernate.cache.use_second_level_cache", "false");
+		props.put("hibernate.cache.use_query_cache", "false");
+		props.put("hibernate.default_batch_fetch_size", "8");
+		props.put("hibernate.order_updates", "true");
+		props.put("hibernate.order_inserts", "true");
+		props.put("hibernate.jdbc.batch_size", "20");
+		props.put("hibernate.max_fetch_depth", "1");
+		props.put("hibernate.show_sql", env.getProperty(Environment.SHOW_SQL, "false"));
 		return props;
+	}
+	protected Class<? extends EventDispatcher> getListenerClass() {
+		return EventDispatcher.class;
 	}
 	private boolean isJpa2(){
 		try{
@@ -153,7 +167,6 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 	protected String getHibernateDialect(){
 		switch(env.getDatabaseManagementSystem()){
 		case POSTGRESQL:
-			// return PostgreSQL82Dialect.class.getName();
 			return PostgreSQLDialect.class.getName();
 		case HSQL:
 			return HSQLDialect.class.getName();

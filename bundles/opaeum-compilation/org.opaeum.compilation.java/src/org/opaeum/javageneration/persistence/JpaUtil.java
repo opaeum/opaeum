@@ -53,6 +53,7 @@ public class JpaUtil{
 		RESERVED_NAMES.add("int");
 		RESERVED_NAMES.add("timestamp");
 		RESERVED_NAMES.add("datetime");
+		RESERVED_NAMES.add("status");
 	}
 	public static String getNearestSchema(Namespace ns){
 		while(!(ns == null || isSchema(ns))){
@@ -93,11 +94,11 @@ public class JpaUtil{
 			table.putAttribute(new OJAnnotationAttributeValue("name", BACKTICK + tableName + BACKTICK));
 		}
 	}
-	public static String getValidSqlName(String tableName){
-		if(RESERVED_NAMES.contains(tableName.toLowerCase())){
-			return '`' + tableName + '`';
+	public static String getValidSqlName(String ddlName){
+		if(ddlName.charAt(0)=='_' || RESERVED_NAMES.contains(ddlName.toLowerCase())){
+			return '`' + ddlName + '`';
 		}else{
-			return tableName;
+			return ddlName;
 		}
 	}
 	public static void fetchLazy(OJAnnotationValue a){

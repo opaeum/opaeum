@@ -78,7 +78,9 @@ public class DatabasePreparer{
 			}
 		}
 		EntityManagerFactoryImpl emf = (EntityManagerFactoryImpl) configured.buildEntityManagerFactory();
-		ensureIndexPresence(emf);
+		if(issueDdl){
+			ensurePresenceOfIndices(emf);
+		}
 		return emf;
 	}
 	private void closeConnection(Connection connection){
@@ -97,13 +99,14 @@ public class DatabasePreparer{
 		}catch(SQLException e){
 			connection.close();
 			connection = getUnmanagedConnection();
+			log("DDL execution failed: " + sql);
 			log(e);
 		}finally{
 			st.close();
 		}
 		return connection;
 	}
-	private void ensureIndexPresence(EntityManagerFactoryImpl emf){
+	private void ensurePresenceOfIndices(EntityManagerFactoryImpl emf){
 		Collection<ClassMetadata> values = emf.getSessionFactory().getAllClassMetadata().values();
 		Connection connection = null;
 		try{
@@ -191,7 +194,7 @@ public class DatabasePreparer{
 		}
 	}
 	private void log(SQLException e){
-		logger.error("Error updating db",e);
+		logger.error(e.getClass().getName() + ":"+ e.toString());
 	}
 	private void log(String sql){
 		logger.info(sql);

@@ -57,13 +57,15 @@ public class AssociationClassAttributeImplementor extends AbstractAttributeImple
 					clear.getBody().addToStatements("this." + mapToEnd1.internalRemover() + "(" + mapToEnd1.getter() + "())");
 				}
 			}
+			//End1
 			strategy.beforeProperty(ojOwner, umlOwner, mapToEnd1);
 			buildField(ojOwner, mapToEnd1);
 			buildInternalAdder(ojOwner, mapToEnd1);
 			buildInternalRemover(ojOwner, mapToEnd1);
 			buildGetter(umlOwner, ojOwner, mapToEnd1, false);
 			
-			strategy.beforeProperty(ojOwner, umlOwner, mapToEnd1);
+			//End2
+			strategy.beforeProperty(ojOwner, umlOwner, mapToEnd2);
 			buildField(ojOwner, mapToEnd2);
 			buildInternalAdder(ojOwner, mapToEnd2);
 			buildInternalRemover(ojOwner, mapToEnd2);

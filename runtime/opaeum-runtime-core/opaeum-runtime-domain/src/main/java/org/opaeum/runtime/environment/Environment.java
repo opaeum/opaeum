@@ -105,7 +105,7 @@ public abstract class Environment{
 		return dbms;
 	}
 	public String getDbConnectionUrl(){
-		return getProperty(JDBC_CONNECTION_URL, "sa");
+		return getProperty(JDBC_CONNECTION_URL, "jdbc:hsqldb:mem:test");
 	}
 	public String getDbUser(){
 		return getProperty(DB_USER, "sa");

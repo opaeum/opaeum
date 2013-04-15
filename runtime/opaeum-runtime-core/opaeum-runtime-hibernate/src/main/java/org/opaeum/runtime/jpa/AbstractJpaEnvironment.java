@@ -58,7 +58,7 @@ public abstract class AbstractJpaEnvironment extends Environment{
 		if(isInJee()){
 			return getPersistenceUnitInfo().getNonJtaDataSource().getConnection();
 		}else{
-			Connection connection = DriverManager.getConnection(super.getDbConnectionUrl(), getDbUser(),
+			Connection connection = DriverManager.getConnection(getDbConnectionUrl(), getDbUser(),
 					getDbPassword());
 			return connection;
 		}
