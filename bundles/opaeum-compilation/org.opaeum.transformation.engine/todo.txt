@@ -1,5 +1,5 @@
 RAP
-Set currentRole when opening an entity,starting a task
+Set currentRole when opening an entity, starting a task
 
 Eclipse
 Take all model modifications out of the transformation so that we can do stuf asynchronously without a transaction
@@ -101,6 +101,18 @@ Allow operations and responsibilities to be invoked on the propertyNode as well.
 
 On execution of InvocationButtons - prompt the user to save first - invocation could fail and then the entire session is in an invalid state -should happen in seperate session
 
+Simplifications:
+Fuck connectors:
+BusinessRole behaviors can implement businessPort:exposedBusinessService->operations
+BusinessRole has access to all businessPort:requiredBusinessService->operations (groupOwnership rule, requiredRole further restricts)
+BusinessProcess in Business can call behaviours on businessRoles
+
+Business/BusinessComponent should be a direct node in the network, not just "linked" to a node. TOo abstract. The matrix org can rather be achieved through the BusinessRole concept
+ 
+
+
+New ideas
+Business Services should define their own cubeQueries too
 
 
 

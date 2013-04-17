@@ -28,25 +28,28 @@ public class HibernatePersistenceTestHelper {
 
 	public void synch() {
 		writePersistence.flush();
-		Map<ChangedEntity, IPersistentObject> conflicts = readPersistence
-				.synchronizeWithDatabaseAndFindConflicts();
+		Map<ChangedEntity, IPersistentObject> conflicts = readPersistence.synchronizeWithDatabaseAndFindConflicts();
 		readPersistence.overwriteConflictsFromDatabase(conflicts);
 	}
 
 	public <T extends IPersistentObject> T read(T t) {
-		return readPersistence.find(IntrospectionUtil.getOriginalClass(t),
-				t.getId());
+		return readPersistence.find(IntrospectionUtil.getOriginalClass(t), t.getId());
 	}
 
-	public void persist(IPersistentObject o1) {
-		IPersistentObject o = o1;
-		if (o instanceof CompositionNode) {
-			CompositionNode cn = (CompositionNode) o;
-			while (cn.getOwningObject() != null) {
-				cn = cn.getOwningObject();
+	public void persist(IPersistentObject[] o1) {
+		// Needs to happen in a transaction for some reason
+		for (IPersistentObject o : o1) {
+
+			if (o instanceof CompositionNode) {
+				CompositionNode cn = (CompositionNode) o;
+				while (cn.getOwningObject() != null) {
+					cn = cn.getOwningObject();
+				}
+				o = (IPersistentObject) cn;
+				if(o.getId()==null){
+					writePersistence.persist(o);
+				}
 			}
-			o = (IPersistentObject) cn;
-			writePersistence.persist(o);
 		}
 	}
 }

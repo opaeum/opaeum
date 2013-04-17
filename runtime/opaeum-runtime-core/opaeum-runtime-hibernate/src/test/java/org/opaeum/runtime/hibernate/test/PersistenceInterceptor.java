@@ -69,14 +69,19 @@ public class PersistenceInterceptor extends BlockJUnit4ClassRunner {
 
 					}
 					sb.append("){\n");
-					sb.append("System.out.println(\"asdfasdfsadfasdfasdfasdfa\");\n");
+					StringBuilder persistArgs=new StringBuilder();
 					for (int i = 0; i < parameterTypes.length; i++) {
 						if (!parameterTypes[i].isPrimitive()
 								&& parameterTypes[i]
 										.subtypeOf(iPersistentObject)) {
-							sb.append("if(param" + i + ".getId()==null){"
-									+ "helper.persist(param" + i + ");}\n");
+							persistArgs.append("param" + i + ",");
 						}
+					}
+					if(persistArgs.length()>1){
+						 sb.append("helper.persist(new org.opaeum.runtime.domain.IPersistentObject[]{");
+						 sb.append(persistArgs.substring(0, persistArgs.length()-1));
+						 sb.append("});\n");
+						
 					}
 					 sb.append("helper.synch();\n");
 					// for (int i = 0; i < parameterTypes.length; i++) {

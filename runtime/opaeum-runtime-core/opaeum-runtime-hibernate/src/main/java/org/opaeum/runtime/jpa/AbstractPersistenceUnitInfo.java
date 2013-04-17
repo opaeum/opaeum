@@ -107,9 +107,9 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 			if(isJpa2()){
 				props.put("hibernate.transaction.factory_class", "org.hibernate.engine.transaction.internal.jdbc.JdbcTransactionFactory");
 			}else{
-				props.put("hibernate.transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory");
+//				props.put("hibernate.transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory");
 			}
-			props.put("hibernate.connection.driver_class", env.getProperty(Environment.JDBC_DRIVER_CLASS, "org.postgres.Driver"));
+			props.put("hibernate.connection.driver_class", env.getProperty(Environment.JDBC_DRIVER_CLASS, "org.postgresql.Driver"));
 			props.put("hibernate.connection.url", env.getDbConnectionUrl());
 			props.put("hibernate.connection.username", env.getDbUser());
 			props.put("hibernate.connection.password", env.getDbPassword());
@@ -134,7 +134,7 @@ public class AbstractPersistenceUnitInfo implements PersistenceUnitInfo{
 			props.put("hibernate.ejb.event.flush", getListenerClass().getName());
 			props.put("hibernate.ejb.event.create-onflush",
 					"org.hibernate.ejb.event.EJB3PersistOnFlushEventListener,"+getListenerClass().getName());
-			props.put("hibernate.ejb.event.create", "org.hibernate.ejb.event.EJB3PersistOnFlushEventListener,"+getListenerClass().getName());
+			props.put("hibernate.ejb.event.create", "org.hibernate.ejb.event.EJB3PersistEventListener,"+getListenerClass().getName());
 		}
 	}
 	protected Properties getBasicProperties() {

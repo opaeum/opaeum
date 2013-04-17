@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.activities">
+      <activity
+            id="org.opaeum.papyrus.disablement.activity"
+            name="Crap To Disable">
+      </activity>
+      <activityPatternBinding
+            activityId="org.opaeum.papyrus.disablement.activity"
+            isEqualityPattern="false"
+            pattern="org\.eclipse\.datatools\..*/.*">
+      </activityPatternBinding>
+      <category
+            id="org.opaeum.papyrus.disablement.category"
+            name="Opaeum">
+      </category>
+      <categoryActivityBinding
+            activityId="org.opaeum.papyrus.disablement.activity"
+            categoryId="org.opaeum.papyrus.disablement.category">
+      </categoryActivityBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="org.opaeum.disablement.Startup">
+      </startup>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.opaeum.disablement.Activate"
+            commandId="org.opaeum.papyrus.disablement.command1">
+      </handler>
+   </extension>
+   <extension
+         id="deaasdfasdf"
+         name="Deactivate DEX"
+         point="org.eclipse.ui.commands">
+      <command
+            id="org.opaeum.papyrus.disablement.command1"
+            name="name">
+      </command>
+   </extension>
+
+</plugin>

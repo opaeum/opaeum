@@ -217,6 +217,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			// implementNode(oper, block,
 			// first.getDefaultOutgoing().iterator().next().getEffectiveTarget());
 			OJBlock elseBlock = block;
+			if(cn.getIncomings().size()>0){
 			ActivityEdge incomingEdge = cn.getIncomings().iterator().next();
 			if(incomingEdge instanceof ObjectFlow){
 				// TODO the originatingOBjectNode my not have the correct type after transformations and selections
@@ -228,7 +229,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 					decisionNodeVar.setInitExp(expressor.expressFeedingNodeForObjectFlowGuard(block, (ObjectFlow) incomingEdge));
 					elseBlock.addToLocals(decisionNodeVar);
 				}
-			}
+			}}
 			OJIfStatement ifStatement = null;
 			for(ActivityEdge edge:EmfActivityUtil.getConditionalOutgoing(cn)){
 				ifStatement = new OJIfStatement();
