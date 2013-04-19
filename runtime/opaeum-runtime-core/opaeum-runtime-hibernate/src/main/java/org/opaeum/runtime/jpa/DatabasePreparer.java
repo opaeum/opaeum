@@ -42,7 +42,7 @@ public class DatabasePreparer{
 		String upperCase = sql.toUpperCase();
 		if(upperCase.contains("FOREIGN KEY")){
 			for(String[] s:foreignKeys){
-				if(upperCase.contains(s[0].toUpperCase()) && upperCase.contains(s[1].toUpperCase())){
+				if(upperCase.contains(s[0].toUpperCase()) && upperCase.contains(s[1].toUpperCase()) || upperCase.contains("WORKSPACE_ELEMENT")){
 					shouldCreateForeignKey = false;
 					break;
 				}

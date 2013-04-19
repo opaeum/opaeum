@@ -1,3 +1,3 @@
 ./eclipse -debug -consolelog -nosplash -verbose -application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher -metadataRepository file:/home/ampie/keplerrepo -artifactRepository file:/home/ampie/keplerrepo -source ~/repo43 -compress -append -publishArtifacts
 
-./eclipse -nosplash -verbose -application org.eclipse.equinox.p2.artifact.repository.mirrorApplication -source http://download.eclipse.org/releases/kepler -destination file:/home/ampie/keplerrepo
+./eclipse -nosplash -verbose -application org.eclipse.equinox.p2.artifact.repository.mirrorApplication -source http://download.eclipse.org/releases/kepler -destination file:/home/ampie/god-repo

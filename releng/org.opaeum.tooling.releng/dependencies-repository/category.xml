@@ -1,94 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.jboss.ide.eclipse.archives.feature_3.4.0.Final-v20121205-2029-B41.jar" id="org.jboss.ide.eclipse.archives.feature" version="3.4.0.Final-v20121205-2029-B41">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.ide.eclipse.as.archives.integration.feature_2.4.0.Final-v20121205-2029-B41.jar" id="org.jboss.ide.eclipse.as.archives.integration.feature" version="2.4.0.Final-v20121205-2029-B41">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.ide.eclipse.as.feature_2.4.0.Final-v20121205-2029-B41.jar" id="org.jboss.ide.eclipse.as.feature" version="2.4.0.Final-v20121205-2029-B41">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.ide.eclipse.as.jmx.integration.feature_2.4.0.Final-v20121205-2029-B41.jar" id="org.jboss.ide.eclipse.as.jmx.integration.feature" version="2.4.0.Final-v20121205-2029-B41">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.ide.eclipse.as.server.rse.integration.feature_2.4.0.Final-v20121205-2029-B41.jar" id="org.jboss.ide.eclipse.as.server.rse.integration.feature" version="2.4.0.Final-v20121205-2029-B41">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.ide.eclipse.as.serverAdapter.wtp.feature_2.4.0.Final-v20121205-2029-B41.jar" id="org.jboss.ide.eclipse.as.serverAdapter.wtp.feature" version="2.4.0.Final-v20121205-2029-B41">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.ide.eclipse.freemarker.feature_1.3.0.Final-v20121205-1934-B70.jar" id="org.jboss.ide.eclipse.freemarker.feature" version="1.3.0.Final-v20121205-1934-B70">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.cdi.seam.feature_1.4.0.Final-v20121205-2220-B66.jar" id="org.jboss.tools.cdi.seam.feature" version="1.4.0.Final-v20121205-2220-B66">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.central.themes.feature_1.1.0.Final-v20121206-0227-B96.jar" id="org.jboss.tools.central.themes.feature" version="1.1.0.Final-v20121206-0227-B96">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.common.core.feature_3.4.0.Final-v20121206-1757-B38.jar" id="org.jboss.tools.common.core.feature" version="3.4.0.Final-v20121206-1757-B38">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.common.feature_3.4.0.Final-v20121206-1757-B38.jar" id="org.jboss.tools.common.feature" version="3.4.0.Final-v20121206-1757-B38">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.common.jdt.feature_3.4.0.Final-v20121206-1757-B38.jar" id="org.jboss.tools.common.jdt.feature" version="3.4.0.Final-v20121206-1757-B38">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.common.text.ext.feature_3.4.0.Final-v20121206-1757-B38.jar" id="org.jboss.tools.common.text.ext.feature" version="3.4.0.Final-v20121206-1757-B38">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.common.ui.feature_3.4.0.Final-v20121206-1757-B38.jar" id="org.jboss.tools.common.ui.feature" version="3.4.0.Final-v20121206-1757-B38">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.common.verification.feature_3.4.0.Final-v20121206-1757-B38.jar" id="org.jboss.tools.common.verification.feature" version="3.4.0.Final-v20121206-1757-B38">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.forge.feature_1.1.0.Final-v20121205-1934-B69.jar" id="org.jboss.tools.forge.feature" version="1.1.0.Final-v20121205-1934-B69">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.jmx.feature_1.4.0.Final-v20121205-2029-B41.jar" id="org.jboss.tools.jmx.feature" version="1.4.0.Final-v20121205-2029-B41">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.jsf.feature_3.4.0.Final-v20121205-2220-B66.jar" id="org.jboss.tools.jsf.feature" version="3.4.0.Final-v20121205-2220-B66">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.jst.feature_3.4.0.Final-v20121205-1935-B70.jar" id="org.jboss.tools.jst.feature" version="3.4.0.Final-v20121205-1935-B70">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.maven.cdi.feature_1.4.0.Final-v20121206-0227-B96.jar" id="org.jboss.tools.maven.cdi.feature" version="1.4.0.Final-v20121206-0227-B96">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.maven.jdt.feature_1.4.0.Final-v20121206-0227-B96.jar" id="org.jboss.tools.maven.jdt.feature" version="1.4.0.Final-v20121206-0227-B96">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.maven.sourcelookup.feature_1.4.0.Final-v20121206-0227-B96.jar" id="org.jboss.tools.maven.sourcelookup.feature" version="1.4.0.Final-v20121206-0227-B96">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.project.examples.feature_1.4.0.Final-v20121206-0227-B96.jar" id="org.jboss.tools.project.examples.feature" version="1.4.0.Final-v20121206-0227-B96">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.richfaces.feature_3.4.0.Final-v20121205-2220-B66.jar" id="org.jboss.tools.richfaces.feature" version="3.4.0.Final-v20121205-2220-B66">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.runtime.core.feature_2.0.0.Final-v20121206-1757-B38.jar" id="org.jboss.tools.runtime.core.feature" version="2.0.0.Final-v20121206-1757-B38">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.vpe.browsersim.feature_3.4.0.Final-v20121205-1952-B75.jar" id="org.jboss.tools.vpe.browsersim.feature" version="3.4.0.Final-v20121205-1952-B75">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.vpe.feature_3.4.0.Final-v20121205-1952-B75.jar" id="org.jboss.tools.vpe.feature" version="3.4.0.Final-v20121205-1952-B75">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.ws.feature_1.4.0.Final-v20121205-2151-B95.jar" id="org.jboss.tools.ws.feature" version="1.4.0.Final-v20121205-2151-B95">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.jboss.tools.ws.jaxrs.feature_1.4.0.Final-v20121205-2151-B95.jar" id="org.jboss.tools.ws.jaxrs.feature" version="1.4.0.Final-v20121205-2151-B95">
-      <category name="jboss"/>
-   </feature>
-   <feature url="features/org.hibernate.eclipse.feature_3.6.0.Final-v20121205-1936-B77.jar" id="org.hibernate.eclipse.feature" version="3.6.0.Final-v20121205-1936-B77">
-      <category name="jboss"/>
+   <feature url="features/org.eclipse.m2e.feature_1.4.0.20130318-1103.jar" id="org.eclipse.m2e.feature" version="1.4.0.20130318-1103">
+      <category name="maven"/>
    </feature>
    <feature url="features/org.eclipse.datatools.common.doc.user_1.11.0.v201302211047-26-311A16321A3557.jar" id="org.eclipse.datatools.common.doc.user" version="1.11.0.v201302211047-26-311A16321A3557">
       <category name="datatools"/>
@@ -282,52 +195,85 @@
    <feature url="features/org.eclipse.datatools.sqltools.doc.user_1.11.0.v201302211047-37D-7733L3D753L7BBF.jar" id="org.eclipse.datatools.sqltools.doc.user" version="1.11.0.v201302211047-37D-7733L3D753L7BBF">
       <category name="datatools"/>
    </feature>
-   <feature url="features/org.eclipse.m2e.feature_1.4.0.20130318-1103.jar" id="org.eclipse.m2e.feature" version="1.4.0.20130318-1103">
-      <category name="m2eclipse"/>
+   <feature url="features/org.eclipse.team.svn_1.0.1.I20130306-1700.jar" id="org.eclipse.team.svn" version="1.0.1.I20130306-1700">
+      <category name="scm"/>
    </feature>
-   <feature url="features/org.eclipse.m2e.logback.feature_1.4.0.20130318-1103.jar" id="org.eclipse.m2e.logback.feature" version="1.4.0.20130318-1103">
-      <category name="m2eclipse"/>
+   <feature url="features/org.eclipse.egit_2.3.1.201302201838-r.jar" id="org.eclipse.egit" version="2.3.1.201302201838-r">
+      <category name="scm"/>
    </feature>
-   <feature url="features/org.eclipse.m2e.wtp.feature_0.18.0.20130315-1346.jar" id="org.eclipse.m2e.wtp.feature" version="0.18.0.20130315-1346">
-      <category name="m2eclipse"/>
+   <feature url="features/org.eclipse.egit.import_2.3.1.201302201838-r.jar" id="org.eclipse.egit.import" version="2.3.1.201302201838-r">
+      <category name="scm"/>
    </feature>
-   <feature url="features/org.eclipse.m2e.wtp.jaxrs.feature_0.18.0.20130315-1346.jar" id="org.eclipse.m2e.wtp.jaxrs.feature" version="0.18.0.20130315-1346">
-      <category name="m2eclipse"/>
+   <feature url="features/org.eclipse.cdt.mylyn_5.5.0.I20130319-0842.jar" id="org.eclipse.cdt.mylyn" version="5.5.0.I20130319-0842">
+      <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.m2e.wtp.jsf.feature_0.18.0.20130315-1346.jar" id="org.eclipse.m2e.wtp.jsf.feature" version="0.18.0.20130315-1346">
-      <category name="m2eclipse"/>
+   <feature url="features/org.eclipse.egit.mylyn_2.3.1.201302201838-r.jar" id="org.eclipse.egit.mylyn" version="2.3.1.201302201838-r">
+      <category name="mylyn"/>
    </feature>
-   <feature url="features/org.sonatype.m2e.mavenarchiver.feature_0.15.0.201207090125-signed-201209140800.jar" id="org.sonatype.m2e.mavenarchiver.feature" version="0.15.0.201207090125-signed-201209140800">
-      <category name="m2eclipse"/>
+   <feature url="features/org.eclipse.mylyn.bugzilla_feature_3.9.0.I20130319-0842.jar" id="org.eclipse.mylyn.bugzilla_feature" version="3.9.0.I20130319-0842">
+      <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.bugzilla_feature_3.9.0.I20130205-1655.jar" id="org.eclipse.mylyn.bugzilla_feature" version="3.9.0.I20130205-1655">
+   <feature url="features/org.eclipse.mylyn.builds_1.1.0.I20130319-0842.jar" id="org.eclipse.mylyn.builds" version="1.1.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
    <feature url="features/org.eclipse.mylyn.commons_3.9.0.I20130319-0842.jar" id="org.eclipse.mylyn.commons" version="3.9.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.commons.identity_1.1.0.I20130205-1655.jar" id="org.eclipse.mylyn.commons.identity" version="1.1.0.I20130205-1655">
+   <feature url="features/org.eclipse.mylyn.commons.identity_1.1.0.I20130319-0842.jar" id="org.eclipse.mylyn.commons.identity" version="1.1.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.commons.notifications_1.1.0.I20130205-1655.jar" id="org.eclipse.mylyn.commons.notifications" version="1.1.0.I20130205-1655">
+   <feature url="features/org.eclipse.mylyn.commons.notifications_1.1.0.I20130319-0842.jar" id="org.eclipse.mylyn.commons.notifications" version="1.1.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.commons.repositories_1.1.0.I20130205-1655.jar" id="org.eclipse.mylyn.commons.repositories" version="1.1.0.I20130205-1655">
+   <feature url="features/org.eclipse.mylyn.commons.repositories_1.1.0.I20130319-0842.jar" id="org.eclipse.mylyn.commons.repositories" version="1.1.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.context_feature_3.9.0.I20130205-1655.jar" id="org.eclipse.mylyn.context_feature" version="3.9.0.I20130205-1655">
+   <feature url="features/org.eclipse.mylyn.commons.repositories.http_1.1.0.I20130319-0842.jar" id="org.eclipse.mylyn.commons.repositories.http" version="1.1.0.I20130319-0842">
+      <category name="mylyn"/>
+   </feature>
+   <feature url="features/org.eclipse.mylyn.context_feature_3.9.0.I20130319-0842.jar" id="org.eclipse.mylyn.context_feature" version="3.9.0.I20130319-0842">
+      <category name="mylyn"/>
+   </feature>
+   <feature url="features/org.eclipse.mylyn.cvs_1.1.0.I20130319-0842.jar" id="org.eclipse.mylyn.cvs" version="1.1.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
    <feature url="features/org.eclipse.mylyn.discovery_3.9.0.I20130319-0842.jar" id="org.eclipse.mylyn.discovery" version="3.9.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.git_1.1.0.I20130205-1655.jar" id="org.eclipse.mylyn.git" version="1.1.0.I20130205-1655">
+   <feature url="features/org.eclipse.mylyn.docs.intent.bridge.java.feature_0.8.0.201303191526.jar" id="org.eclipse.mylyn.docs.intent.bridge.java.feature" version="0.8.0.201303191526">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.ide_feature_3.9.0.I20130205-1655.jar" id="org.eclipse.mylyn.ide_feature" version="3.9.0.I20130205-1655">
+   <feature url="features/org.eclipse.mylyn.docs.intent.cdo.feature_0.8.0.201303191526.jar" id="org.eclipse.mylyn.docs.intent.cdo.feature" version="0.8.0.201303191526">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.java_feature_3.9.0.I20130205-1655.jar" id="org.eclipse.mylyn.java_feature" version="3.9.0.I20130205-1655">
+   <feature url="features/org.eclipse.mylyn.docs.intent.exporter.feature_0.8.0.201303191526.jar" id="org.eclipse.mylyn.docs.intent.exporter.feature" version="0.8.0.201303191526">
+      <category name="mylyn"/>
+   </feature>
+   <feature url="features/org.eclipse.mylyn.docs.intent.feature_0.8.0.201303191526.jar" id="org.eclipse.mylyn.docs.intent.feature" version="0.8.0.201303191526">
+      <category name="mylyn"/>
+   </feature>
+   <feature url="features/org.eclipse.mylyn.docs.intent.markup.feature_0.8.0.201303191526.jar" id="org.eclipse.mylyn.docs.intent.markup.feature" version="0.8.0.201303191526">
+      <category name="mylyn"/>
+   </feature>
+   <feature url="features/org.eclipse.mylyn.docs.intent.workspace.feature_0.8.0.201303191526.jar" id="org.eclipse.mylyn.docs.intent.workspace.feature" version="0.8.0.201303191526">
+      <category name="mylyn"/>
+   </feature>
+   <feature url="features/org.eclipse.mylyn.gerrit.feature_2.0.0.I20130319-0842.jar" id="org.eclipse.mylyn.gerrit.feature" version="2.0.0.I20130319-0842">
+      <category name="mylyn"/>
+   </feature>
+   <feature url="features/org.eclipse.mylyn.git_1.1.0.I20130319-0842.jar" id="org.eclipse.mylyn.git" version="1.1.0.I20130319-0842">
+      <category name="mylyn"/>
+   </feature>
+   <feature url="features/org.eclipse.mylyn.github.feature_2.3.0.201302130906.jar" id="org.eclipse.mylyn.github.feature" version="2.3.0.201302130906">
+      <category name="mylyn"/>
+   </feature>
+   <feature url="features/org.eclipse.mylyn.hudson_1.1.0.I20130319-0842.jar" id="org.eclipse.mylyn.hudson" version="1.1.0.I20130319-0842">
+      <category name="mylyn"/>
+   </feature>
+   <feature url="features/org.eclipse.mylyn.ide_feature_3.9.0.I20130319-0842.jar" id="org.eclipse.mylyn.ide_feature" version="3.9.0.I20130319-0842">
+      <category name="mylyn"/>
+   </feature>
+   <feature url="features/org.eclipse.mylyn.java_feature_3.9.0.I20130319-0842.jar" id="org.eclipse.mylyn.java_feature" version="3.9.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
    <feature url="features/org.eclipse.mylyn.mft.ecoretools_0.9.1.I20120907-1845.jar" id="org.eclipse.mylyn.mft.ecoretools" version="0.9.1.I20120907-1845">
@@ -339,534 +285,557 @@
    <feature url="features/org.eclipse.mylyn.mft.gmf_0.9.1.I20120907-1845.jar" id="org.eclipse.mylyn.mft.gmf" version="0.9.1.I20120907-1845">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.mft.uml2_0.9.1.I20120907-1845.jar" id="org.eclipse.mylyn.mft.uml2" version="0.9.1.I20120907-1845">
+   <feature url="features/org.eclipse.mylyn.monitor_3.9.0.I20130319-0842.jar" id="org.eclipse.mylyn.monitor" version="3.9.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.monitor_3.9.0.I20130205-1655.jar" id="org.eclipse.mylyn.monitor" version="3.9.0.I20130205-1655">
+   <feature url="features/org.eclipse.mylyn.pde_feature_3.9.0.I20130319-0842.jar" id="org.eclipse.mylyn.pde_feature" version="3.9.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.tasks.ide_3.9.0.I20130205-1655.jar" id="org.eclipse.mylyn.tasks.ide" version="3.9.0.I20130205-1655">
+   <feature url="features/org.eclipse.mylyn.reviews.feature_2.0.0.I20130319-0842.jar" id="org.eclipse.mylyn.reviews.feature" version="2.0.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.team_feature_3.9.0.I20130205-1655.jar" id="org.eclipse.mylyn.team_feature" version="3.9.0.I20130205-1655">
+   <feature url="features/org.eclipse.mylyn.tasks.ide_3.9.0.I20130319-0842.jar" id="org.eclipse.mylyn.tasks.ide" version="3.9.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.versions_1.1.0.I20130205-1655.jar" id="org.eclipse.mylyn.versions" version="1.1.0.I20130205-1655">
+   <feature url="features/org.eclipse.mylyn.team_feature_3.9.0.I20130319-0842.jar" id="org.eclipse.mylyn.team_feature" version="3.9.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.wikitext_feature_1.8.0.I20130205-1655.jar" id="org.eclipse.mylyn.wikitext_feature" version="1.8.0.I20130205-1655">
+   <feature url="features/org.eclipse.mylyn.trac_feature_3.9.0.I20130319-0842.jar" id="org.eclipse.mylyn.trac_feature" version="3.9.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn_feature_3.9.0.I20130205-1655.jar" id="org.eclipse.mylyn_feature" version="3.9.0.I20130205-1655">
+   <feature url="features/org.eclipse.mylyn.versions_1.1.0.I20130319-0842.jar" id="org.eclipse.mylyn.versions" version="1.1.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.team.svn.mylyn_1.0.0.I20121109-1700.jar" id="org.eclipse.team.svn.mylyn" version="1.0.0.I20121109-1700">
+   <feature url="features/org.eclipse.mylyn.wikitext_feature_1.8.0.I20130319-0842.jar" id="org.eclipse.mylyn.wikitext_feature" version="1.8.0.I20130319-0842">
       <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.team.svn_1.0.0.I20121228-1700.jar" id="org.eclipse.team.svn" version="1.0.0.I20121228-1700">
-      <category name="scm"/>
+   <feature url="features/org.eclipse.mylyn_feature_3.9.0.I20130319-0842.jar" id="org.eclipse.mylyn_feature" version="3.9.0.I20130319-0842">
+      <category name="mylyn"/>
    </feature>
-   <feature url="features/org.eclipse.team.svn.revision.graph_1.0.0.I20120601-1700.jar" id="org.eclipse.team.svn.revision.graph" version="1.0.0.I20120601-1700">
-      <category name="scm"/>
+   <feature url="features/org.eclipse.team.svn.mylyn_1.0.0.I20130122-1700.jar" id="org.eclipse.team.svn.mylyn" version="1.0.0.I20130122-1700">
+      <category name="mylyn"/>
    </feature>
-   <feature url="features/org.polarion.eclipse.team.svn.connector_3.0.1.I20130301-1700.jar" id="org.polarion.eclipse.team.svn.connector" version="3.0.1.I20130301-1700">
-      <category name="scm"/>
+   <feature url="features/org.opaeum.papyrus.selected.plugins.feature_1.0.3.qualifier.jar" id="org.opaeum.papyrus.selected.plugins.feature" version="1.0.3.qualifier">
+      <category name="papyus"/>
    </feature>
-   <feature url="features/org.polarion.eclipse.team.svn.connector.svnkit17_3.0.1.I20130301-1700.jar" id="org.polarion.eclipse.team.svn.connector.svnkit17" version="3.0.1.I20130301-1700">
-      <category name="scm"/>
+   <feature url="features/org.eclipse.emf_2.9.0.v20130318-0639.jar" id="org.eclipse.emf" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.wst.common.fproj_3.4.0.v201202292300-377F8N8s735555393B7B.jar" id="org.eclipse.wst.common.fproj" version="3.4.0.v201202292300-377F8N8s735555393B7B">
-      <category name="wst"/>
+   <feature url="features/org.eclipse.emf.codegen_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.codegen" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.wst.common_core.feature_3.5.0.v201303130500-7B7EFR8F7RZHOnInPxR2QS.jar" id="org.eclipse.wst.common_core.feature" version="3.5.0.v201303130500-7B7EFR8F7RZHOnInPxR2QS">
-      <category name="wst"/>
+   <feature url="features/org.eclipse.emf.codegen.ecore_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.codegen.ecore" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.wst.common_ui.feature_3.5.0.v201303130500-7C7BFeDEdhOawiz0hCnQfyoJoQyS3RT.jar" id="org.eclipse.wst.common_ui.feature" version="3.5.0.v201303130500-7C7BFeDEdhOawiz0hCnQfyoJoQyS3RT">
-      <category name="wst"/>
+   <feature url="features/org.eclipse.emf.codegen.ecore.source_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.codegen.ecore.source" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.wst.jsdt.feature_1.5.0.v201301022000-7H7DFhZFC7sReqSz-frflXk.jar" id="org.eclipse.wst.jsdt.feature" version="1.5.0.v201301022000-7H7DFhZFC7sReqSz-frflXk">
-      <category name="wst"/>
+   <feature url="features/org.eclipse.emf.codegen.ecore.ui_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.codegen.ecore.ui" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.wst.server_adapters.feature_3.2.203.v20130123_1813-7L3FA4CcNBGVCZL_l8OCG.jar" id="org.eclipse.wst.server_adapters.feature" version="3.2.203.v20130123_1813-7L3FA4CcNBGVCZL_l8OCG">
-      <category name="wst"/>
+   <feature url="features/org.eclipse.emf.codegen.ecore.ui.source_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.codegen.ecore.ui.source" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.wst.server_core.feature_3.3.201.v20130412_1040-34Et8s7357395Ha212A.jar" id="org.eclipse.wst.server_core.feature" version="3.3.201.v20130412_1040-34Et8s7357395Ha212A">
-      <category name="wst"/>
+   <feature url="features/org.eclipse.emf.codegen.source_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.codegen.source" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.wst.server_ui.feature_3.3.203.v20130413_1400-7B7AFM_AtNduZxaId1JfOVC87BG.jar" id="org.eclipse.wst.server_ui.feature" version="3.3.203.v20130413_1400-7B7AFM_AtNduZxaId1JfOVC87BG">
-      <category name="wst"/>
+   <feature url="features/org.eclipse.emf.codegen.ui_2.7.0.v20130318-0639.jar" id="org.eclipse.emf.codegen.ui" version="2.7.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.wst.server_userdoc.feature_3.3.200.v20120830_2320-20Eo7w31231941a3363.jar" id="org.eclipse.wst.server_userdoc.feature" version="3.3.200.v20120830_2320-20Eo7w31231941a3363">
-      <category name="wst"/>
+   <feature url="features/org.eclipse.emf.codegen.ui.source_2.7.0.v20130318-0639.jar" id="org.eclipse.emf.codegen.ui.source" version="2.7.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.wst.web_core.feature_3.5.0.v201209252144-7E7KFXOAJz0mwC1z-1z0MIOyUiUsuukEVV.jar" id="org.eclipse.wst.web_core.feature" version="3.5.0.v201209252144-7E7KFXOAJz0mwC1z-1z0MIOyUiUsuukEVV">
-      <category name="wst"/>
+   <feature url="features/org.eclipse.emf.common_2.9.0.v20130314-0814.jar" id="org.eclipse.emf.common" version="2.9.0.v20130314-0814">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.wst.web_ui.feature_3.5.0.v201209252144-7O7QG-6EMkBQ38QbjcZ0w2Iyj1kPm5hMQiOwS5ip.jar" id="org.eclipse.wst.web_ui.feature" version="3.5.0.v201209252144-7O7QG-6EMkBQ38QbjcZ0w2Iyj1kPm5hMQiOwS5ip">
-      <category name="wst"/>
+   <feature url="features/org.eclipse.emf.common.ui_2.8.0.v20130318-0639.jar" id="org.eclipse.emf.common.ui" version="2.8.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.wst.web_userdoc.feature_3.3.0.v201102200555-31Eo8s734B3E4H7799.jar" id="org.eclipse.wst.web_userdoc.feature" version="3.3.0.v201102200555-31Eo8s734B3E4H7799">
-      <category name="wst"/>
-   </feature>
-   <feature url="features/org.eclipse.wst.ws_core.feature_3.5.0.v201303141425-7L7SFpmFGtGd00j0wz-sI422766.jar" id="org.eclipse.wst.ws_core.feature" version="3.5.0.v201303141425-7L7SFpmFGtGd00j0wz-sI422766">
-      <category name="wst"/>
-   </feature>
-   <feature url="features/org.eclipse.wst.ws_ui.feature_3.5.0.v201303130455-7I7EFkYEtEo_L098-I7p2B4kKz-2RpqYy5Sl_RjU.jar" id="org.eclipse.wst.ws_ui.feature" version="3.5.0.v201303130455-7I7EFkYEtEo_L098-I7p2B4kKz-2RpqYy5Sl_RjU">
-      <category name="wst"/>
-   </feature>
-   <feature url="features/org.eclipse.wst.ws_userdoc.feature_3.1.300.v201102200555-44FR79oB5855Q8IBD7G.jar" id="org.eclipse.wst.ws_userdoc.feature" version="3.1.300.v201102200555-44FR79oB5855Q8IBD7G">
-      <category name="wst"/>
-   </feature>
-   <feature url="features/org.eclipse.wst.ws_wsdl15.feature_1.5.301.v201102200555-2407w312123151655.jar" id="org.eclipse.wst.ws_wsdl15.feature" version="1.5.301.v201102200555-2407w312123151655">
-      <category name="wst"/>
-   </feature>
-   <feature url="features/org.eclipse.wst.xml_core.feature_3.5.0.v201209252144-7C7OFttF7RZHQWIcMANz-Tj.jar" id="org.eclipse.wst.xml_core.feature" version="3.5.0.v201209252144-7C7OFttF7RZHQWIcMANz-Tj">
-      <category name="wst"/>
-   </feature>
-   <feature url="features/org.eclipse.wst.xml_ui.feature_3.5.0.v201301022000-7H7IFisDxumVsz0U7pjYVjTsxJcZQiTZKpRz-T4S.jar" id="org.eclipse.wst.xml_ui.feature" version="3.5.0.v201301022000-7H7IFisDxumVsz0U7pjYVjTsxJcZQiTZKpRz-T4S">
-      <category name="wst"/>
-   </feature>
-   <feature url="features/org.eclipse.wst.xml_userdoc.feature_3.3.0.v201102071641-50FYwAkF7B77UBZFDBL.jar" id="org.eclipse.wst.xml_userdoc.feature" version="3.3.0.v201102071641-50FYwAkF7B77UBZFDBL">
-      <category name="wst"/>
-   </feature>
-   <feature url="features/org.eclipse.emf_2.9.0.v20130204-1146.jar" id="org.eclipse.emf" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.emf.codegen_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.codegen" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.emf.codegen.ecore_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.codegen.ecore" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.emf.codegen.ecore.source_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.codegen.ecore.source" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.emf.codegen.ecore.ui_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.codegen.ecore.ui" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.emf.codegen.ecore.ui.source_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.codegen.ecore.ui.source" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.emf.codegen.source_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.codegen.source" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.emf.codegen.ui_2.7.0.v20130204-1146.jar" id="org.eclipse.emf.codegen.ui" version="2.7.0.v20130204-1146">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.emf.codegen.ui.source_2.7.0.v20130204-1146.jar" id="org.eclipse.emf.codegen.ui.source" version="2.7.0.v20130204-1146">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.emf.common_2.9.0.v20130204-1140.jar" id="org.eclipse.emf.common" version="2.9.0.v20130204-1140">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.emf.common.ui_2.8.0.v20130204-1146.jar" id="org.eclipse.emf.common.ui" version="2.8.0.v20130204-1146">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.emf.common.ui.source_2.8.0.v20130204-1146.jar" id="org.eclipse.emf.common.ui.source" version="2.8.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.common.ui.source_2.8.0.v20130318-0639.jar" id="org.eclipse.emf.common.ui.source" version="2.8.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.compare_2.1.0.201303191750.jar" id="org.eclipse.emf.compare" version="2.1.0.201303191750">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.compare.diagram.gmf_2.1.0.201303191750.jar" id="org.eclipse.emf.compare.diagram.gmf" version="2.1.0.201303191750">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.compare.ide.ui_2.1.0.201303191750.jar" id="org.eclipse.emf.compare.ide.ui" version="2.1.0.201303191750">
-      <category name="modelling"/>
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.compare.ide.ui.source_2.1.0.201303191750.jar" id="org.eclipse.emf.compare.ide.ui.source" version="2.1.0.201303191750">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.compare.source_2.1.0.201303191750.jar" id="org.eclipse.emf.compare.source" version="2.1.0.201303191750">
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.compare.uml2_2.1.0.201303191750.jar" id="org.eclipse.emf.compare.uml2" version="2.1.0.201303191750">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.converter_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.converter" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.converter_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.converter" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.converter.source_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.converter.source" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.converter.source_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.converter.source" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.databinding_1.3.0.v20130204-1146.jar" id="org.eclipse.emf.databinding" version="1.3.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.databinding_1.3.0.v20130318-0639.jar" id="org.eclipse.emf.databinding" version="1.3.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.databinding.edit_1.3.0.v20130204-1146.jar" id="org.eclipse.emf.databinding.edit" version="1.3.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.databinding.edit_1.3.0.v20130318-0639.jar" id="org.eclipse.emf.databinding.edit" version="1.3.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.databinding.edit.source_1.3.0.v20130204-1146.jar" id="org.eclipse.emf.databinding.edit.source" version="1.3.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.databinding.edit.source_1.3.0.v20130318-0639.jar" id="org.eclipse.emf.databinding.edit.source" version="1.3.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.databinding.source_1.3.0.v20130204-1146.jar" id="org.eclipse.emf.databinding.source" version="1.3.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.databinding.source_1.3.0.v20130318-0639.jar" id="org.eclipse.emf.databinding.source" version="1.3.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.doc_2.8.0.v20130204-1146.jar" id="org.eclipse.emf.doc" version="2.8.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.diffmerge.sdk.feature_0.1.0.v20121203-0924.jar" id="org.eclipse.emf.diffmerge.sdk.feature" version="0.1.0.v20121203-0924">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.doc.source_2.8.0.v20130204-1146.jar" id="org.eclipse.emf.doc.source" version="2.8.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.diffmerge.sdk.source.feature_0.1.0.v20121203-0924.jar" id="org.eclipse.emf.diffmerge.sdk.source.feature" version="0.1.0.v20121203-0924">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.ecore_2.9.0.v20130204-1140.jar" id="org.eclipse.emf.ecore" version="2.9.0.v20130204-1140">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.doc_2.8.0.v20130318-0639.jar" id="org.eclipse.emf.doc" version="2.8.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.ecore.edit_2.8.0.v20130204-1146.jar" id="org.eclipse.emf.ecore.edit" version="2.8.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.doc.source_2.8.0.v20130318-0639.jar" id="org.eclipse.emf.doc.source" version="2.8.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.ecore.edit.source_2.8.0.v20130204-1146.jar" id="org.eclipse.emf.ecore.edit.source" version="2.8.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.ecore_2.9.0.v20130314-0814.jar" id="org.eclipse.emf.ecore" version="2.9.0.v20130314-0814">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.ecore.editor_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.ecore.editor" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.ecore.edit_2.8.0.v20130318-0639.jar" id="org.eclipse.emf.ecore.edit" version="2.8.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.ecore.editor.source_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.ecore.editor.source" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.ecore.edit.source_2.8.0.v20130318-0639.jar" id="org.eclipse.emf.ecore.edit.source" version="2.8.0.v20130318-0639">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.ecore.editor_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.ecore.editor" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.ecore.editor.source_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.ecore.editor.source" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.ecore.xcore_1.1.0.v20130320-1001.jar" id="org.eclipse.emf.ecore.xcore" version="1.1.0.v20130320-1001">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.ecore.xcore.lib_1.1.0.v20130320-1001.jar" id="org.eclipse.emf.ecore.xcore.lib" version="1.1.0.v20130320-1001">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.ecore.xcore.sdk_1.1.0.v20130320-1001.jar" id="org.eclipse.emf.ecore.xcore.sdk" version="1.1.0.v20130320-1001">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.ecore.xcore.source_1.1.0.v20130320-1001.jar" id="org.eclipse.emf.ecore.xcore.source" version="1.1.0.v20130320-1001">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.ecore.xcore.ui_1.1.0.v20130320-1001.jar" id="org.eclipse.emf.ecore.xcore.ui" version="1.1.0.v20130320-1001">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.ecore.xcore.ui.source_1.1.0.v20130320-1001.jar" id="org.eclipse.emf.ecore.xcore.ui.source" version="1.1.0.v20130320-1001">
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.ecoretools_1.2.0.201301291331.jar" id="org.eclipse.emf.ecoretools" version="1.2.0.201301291331">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.edit_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.edit" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.ecoretools.sdk_1.2.0.201301291331.jar" id="org.eclipse.emf.ecoretools.sdk" version="1.2.0.201301291331">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.edit.source_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.edit.source" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.edit_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.edit" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.edit.ui_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.edit.ui" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.edit.source_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.edit.source" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.edit.ui.source_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.edit.ui.source" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.edit.ui_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.edit.ui" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.eef.codegen.ecore-feature_1.1.1.201206051542.jar" id="org.eclipse.emf.eef.codegen.ecore-feature" version="1.1.1.201206051542">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.edit.ui.source_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.edit.ui.source" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.eef.codegen.ecore-feature_1.2.0.201301111054.jar" id="org.eclipse.emf.eef.codegen.ecore-feature" version="1.2.0.201301111054">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.eef.edt-feature_1.2.0.201301111054.jar" id="org.eclipse.emf.eef.edt-feature" version="1.2.0.201301111054">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.eef.extended-feature_1.2.0.201301111054.jar" id="org.eclipse.emf.eef.extended-feature" version="1.2.0.201301111054">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.eef.runtime-feature_1.2.0.201301111054.jar" id="org.eclipse.emf.eef.runtime-feature" version="1.2.0.201301111054">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.eef.sdk-feature_1.2.0.201301111054.jar" id="org.eclipse.emf.eef.sdk-feature" version="1.2.0.201301111054">
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.facet.common.feature_0.3.0.v201212172149.jar" id="org.eclipse.emf.facet.common.feature" version="0.3.0.v201212172149">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.facet.common.source_0.3.0.v201212172149.jar" id="org.eclipse.emf.facet.common.source" version="0.3.0.v201212172149">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.facet.examples.feature_0.3.0.v201212172149.jar" id="org.eclipse.emf.facet.examples.feature" version="0.3.0.v201212172149">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.facet.examples.source_0.3.0.v201212172149.jar" id="org.eclipse.emf.facet.examples.source" version="0.3.0.v201212172149">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.facet.infra.feature_0.3.0.v201212172149.jar" id="org.eclipse.emf.facet.infra.feature" version="0.3.0.v201212172149">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.facet.infra.source_0.3.0.v201212172149.jar" id="org.eclipse.emf.facet.infra.source" version="0.3.0.v201212172149">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.facet.sdk.feature_0.3.0.v201212172149.jar" id="org.eclipse.emf.facet.sdk.feature" version="0.3.0.v201212172149">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.facet.sdk.source_0.3.0.v201212172149.jar" id="org.eclipse.emf.facet.sdk.source" version="0.3.0.v201212172149">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.facet.util.feature_0.3.0.v201212172149.jar" id="org.eclipse.emf.facet.util.feature" version="0.3.0.v201212172149">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.facet.util.source_0.3.0.v201212172149.jar" id="org.eclipse.emf.facet.util.source" version="0.3.0.v201212172149">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.facet.widgets.feature_0.3.0.v201212172149.jar" id="org.eclipse.emf.facet.widgets.feature" version="0.3.0.v201212172149">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.facet.widgets.source_0.3.0.v201212172149.jar" id="org.eclipse.emf.facet.widgets.source" version="0.3.0.v201212172149">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.mapping_2.7.0.v20130204-1146.jar" id="org.eclipse.emf.mapping" version="2.7.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.mapping_2.7.0.v20130318-0639.jar" id="org.eclipse.emf.mapping" version="2.7.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.mapping.ecore_2.7.0.v20130204-1146.jar" id="org.eclipse.emf.mapping.ecore" version="2.7.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.mapping.ecore_2.7.0.v20130318-0639.jar" id="org.eclipse.emf.mapping.ecore" version="2.7.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.mapping.ecore.editor_2.8.0.v20130204-1146.jar" id="org.eclipse.emf.mapping.ecore.editor" version="2.8.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.mapping.ecore.editor_2.8.0.v20130318-0639.jar" id="org.eclipse.emf.mapping.ecore.editor" version="2.8.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.mapping.ecore.editor.source_2.8.0.v20130204-1146.jar" id="org.eclipse.emf.mapping.ecore.editor.source" version="2.8.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.mapping.ecore.editor.source_2.8.0.v20130318-0639.jar" id="org.eclipse.emf.mapping.ecore.editor.source" version="2.8.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.mapping.ecore.source_2.7.0.v20130204-1146.jar" id="org.eclipse.emf.mapping.ecore.source" version="2.7.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.mapping.ecore.source_2.7.0.v20130318-0639.jar" id="org.eclipse.emf.mapping.ecore.source" version="2.7.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.mapping.source_2.7.0.v20130204-1146.jar" id="org.eclipse.emf.mapping.source" version="2.7.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.mapping.source_2.7.0.v20130318-0639.jar" id="org.eclipse.emf.mapping.source" version="2.7.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.mapping.ui_2.7.0.v20130204-1146.jar" id="org.eclipse.emf.mapping.ui" version="2.7.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.mapping.ui_2.7.0.v20130318-0639.jar" id="org.eclipse.emf.mapping.ui" version="2.7.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.mapping.ui.source_2.7.0.v20130204-1146.jar" id="org.eclipse.emf.mapping.ui.source" version="2.7.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.mapping.ui.source_2.7.0.v20130318-0639.jar" id="org.eclipse.emf.mapping.ui.source" version="2.7.0.v20130318-0639">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.sdk_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.sdk" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.mwe.core_1.3.0.v201303191413.jar" id="org.eclipse.emf.mwe.core" version="1.3.0.v201303191413">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.source_2.9.0.v20130204-1146.jar" id="org.eclipse.emf.source" version="2.9.0.v20130204-1146">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.mwe.core.source_1.3.0.v201303191413.jar" id="org.eclipse.emf.mwe.core.source" version="1.3.0.v201303191413">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.emf.transaction_1.7.0.201212181754.jar" id="org.eclipse.emf.transaction" version="1.7.0.201212181754">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.mwe.doc_1.2.1.v201303191413.jar" id="org.eclipse.emf.mwe.doc" version="1.2.1.v201303191413">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.mwe.sdk_1.3.0.v201303191413.jar" id="org.eclipse.emf.mwe.sdk" version="1.3.0.v201303191413">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.mwe.ui_1.2.1.v201303191413.jar" id="org.eclipse.emf.mwe.ui" version="1.2.1.v201303191413">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.mwe.ui.source_1.2.1.v201303191413.jar" id="org.eclipse.emf.mwe.ui.source" version="1.2.1.v201303191413">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.mwe2.language.sdk_2.4.0.v201303191501.jar" id="org.eclipse.emf.mwe2.language.sdk" version="2.4.0.v201303191501">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.mwe2.language.sdk.source_2.4.0.v201303191501.jar" id="org.eclipse.emf.mwe2.language.sdk.source" version="2.4.0.v201303191501">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.mwe2.runtime.sdk_2.4.0.v201303191413.jar" id="org.eclipse.emf.mwe2.runtime.sdk" version="2.4.0.v201303191413">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.mwe2.runtime.sdk.source_2.4.0.v201303191413.jar" id="org.eclipse.emf.mwe2.runtime.sdk.source" version="2.4.0.v201303191413">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.oda_1.2.0.v20130318-0639.jar" id="org.eclipse.emf.oda" version="1.2.0.v20130318-0639">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.oda.ecore_1.2.0.v20130318-0639.jar" id="org.eclipse.emf.oda.ecore" version="1.2.0.v20130318-0639">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.oda.ecore.source_1.2.0.v20130318-0639.jar" id="org.eclipse.emf.oda.ecore.source" version="1.2.0.v20130318-0639">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.oda.ecore.ui_1.1.0.v20130318-0639.jar" id="org.eclipse.emf.oda.ecore.ui" version="1.1.0.v20130318-0639">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.oda.ecore.ui.source_1.1.0.v20130318-0639.jar" id="org.eclipse.emf.oda.ecore.ui.source" version="1.1.0.v20130318-0639">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.oda.sdk_1.2.0.v20130318-0639.jar" id="org.eclipse.emf.oda.sdk" version="1.2.0.v20130318-0639">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.oda.source_1.2.0.v20130318-0639.jar" id="org.eclipse.emf.oda.source" version="1.2.0.v20130318-0639">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.query_1.7.0.201303111638.jar" id="org.eclipse.emf.query" version="1.7.0.201303111638">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.query.doc_1.7.0.201303111638.jar" id="org.eclipse.emf.query.doc" version="1.7.0.201303111638">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.query.examples_1.7.0.201303111638.jar" id="org.eclipse.emf.query.examples" version="1.7.0.201303111638">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.query.ocl_1.7.0.201303111638.jar" id="org.eclipse.emf.query.ocl" version="1.7.0.201303111638">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.query.ocl.source_1.7.0.201303111638.jar" id="org.eclipse.emf.query.ocl.source" version="1.7.0.201303111638">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.query.sdk_1.7.0.201303111638.jar" id="org.eclipse.emf.query.sdk" version="1.7.0.201303111638">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.query.source_1.7.0.201303111638.jar" id="org.eclipse.emf.query.source" version="1.7.0.201303111638">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.sdk_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.sdk" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.source_2.9.0.v20130318-0639.jar" id="org.eclipse.emf.source" version="2.9.0.v20130318-0639">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.transaction_1.7.0.201303111537.jar" id="org.eclipse.emf.transaction" version="1.7.0.201303111537">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.transaction.doc_1.7.0.201303111537.jar" id="org.eclipse.emf.transaction.doc" version="1.7.0.201303111537">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.transaction.examples_1.7.0.201303111537.jar" id="org.eclipse.emf.transaction.examples" version="1.7.0.201303111537">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.transaction.sdk_1.7.0.201303111537.jar" id="org.eclipse.emf.transaction.sdk" version="1.7.0.201303111537">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.transaction.source_1.7.0.201303111537.jar" id="org.eclipse.emf.transaction.source" version="1.7.0.201303111537">
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.validation_1.7.0.201303111617.jar" id="org.eclipse.emf.validation" version="1.7.0.201303111617">
-      <category name="modelling"/>
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.validation.doc_1.7.0.201303111617.jar" id="org.eclipse.emf.validation.doc" version="1.7.0.201303111617">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.validation.examples_1.7.0.201303111617.jar" id="org.eclipse.emf.validation.examples" version="1.7.0.201303111617">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.validation.ocl_1.7.0.201303111617.jar" id="org.eclipse.emf.validation.ocl" version="1.7.0.201303111617">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.validation.ocl.source_1.7.0.201303111617.jar" id="org.eclipse.emf.validation.ocl.source" version="1.7.0.201303111617">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.validation.sdk_1.7.0.201303111617.jar" id="org.eclipse.emf.validation.sdk" version="1.7.0.201303111617">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.validation.source_1.7.0.201303111617.jar" id="org.eclipse.emf.validation.source" version="1.7.0.201303111617">
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.emf.workspace_1.7.0.201303111537.jar" id="org.eclipse.emf.workspace" version="1.7.0.201303111537">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.xtend.typesystem.emf_1.3.0.v201302050805.jar" id="org.eclipse.xtend.typesystem.emf" version="1.3.0.v201302050805">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.workspace.doc_1.7.0.201303111537.jar" id="org.eclipse.emf.workspace.doc" version="1.7.0.201303111537">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.gmf_1.7.0.201212181845.jar" id="org.eclipse.gmf" version="1.7.0.201212181845">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.workspace.examples_1.7.0.201303111537.jar" id="org.eclipse.emf.workspace.examples" version="1.7.0.201303111537">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.gmf.doc_1.4.0.201212181504.jar" id="org.eclipse.gmf.doc" version="1.4.0.201212181504">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.emf.workspace.source_1.7.0.201303111537.jar" id="org.eclipse.emf.workspace.source" version="1.7.0.201303111537">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.gmf.examples.runtime.ui.pde_1.7.0.201212181845.jar" id="org.eclipse.gmf.examples.runtime.ui.pde" version="1.7.0.201212181845">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.xtend.typesystem.emf_1.3.0.v201302260541.jar" id="org.eclipse.xtend.typesystem.emf" version="1.3.0.v201302260541">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.xtend.typesystem.emf.source_1.3.0.v201302260541.jar" id="org.eclipse.xtend.typesystem.emf.source" version="1.3.0.v201302260541">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.gmf_1.7.0.201303111642.jar" id="org.eclipse.gmf" version="1.7.0.201303111642">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.gmf.doc_1.4.0.201303201218.jar" id="org.eclipse.gmf.doc" version="1.4.0.201303201218">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.gmf.examples.runtime_1.7.0.201303111642.jar" id="org.eclipse.gmf.examples.runtime" version="1.7.0.201303111642">
+      <category name="modeling"/>
+   </feature>
+   <feature url="features/org.eclipse.gmf.examples.runtime.ui.pde_1.7.0.201303111642.jar" id="org.eclipse.gmf.examples.runtime.ui.pde" version="1.7.0.201303111642">
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.gmf.runtime.notation_1.7.0.201212181759.jar" id="org.eclipse.gmf.runtime.notation" version="1.7.0.201212181759">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.gmf.runtime.notation.sdk_1.7.0.201212181759.jar" id="org.eclipse.gmf.runtime.notation.sdk" version="1.7.0.201212181759">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.gmf.runtime.notation.source_1.7.0.201212181759.jar" id="org.eclipse.gmf.runtime.notation.source" version="1.7.0.201212181759">
-      <category name="modelling"/>
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.gmf.runtime.sdk_1.7.0.201212181845.jar" id="org.eclipse.gmf.runtime.sdk" version="1.7.0.201212181845">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.gmf.runtime.sdk_1.7.0.201303111642.jar" id="org.eclipse.gmf.runtime.sdk" version="1.7.0.201303111642">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.gmf.runtime.thirdparty_1.7.0.201212181845.jar" id="org.eclipse.gmf.runtime.thirdparty" version="1.7.0.201212181845">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.gmf.runtime.thirdparty_1.7.0.201303111642.jar" id="org.eclipse.gmf.runtime.thirdparty" version="1.7.0.201303111642">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.gmf.runtime.thirdparty.source_1.7.0.201212181845.jar" id="org.eclipse.gmf.runtime.thirdparty.source" version="1.7.0.201212181845">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.gmf.runtime.thirdparty.source_1.7.0.201303111642.jar" id="org.eclipse.gmf.runtime.thirdparty.source" version="1.7.0.201303111642">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.gmf.sdk_3.0.0.201212181504.jar" id="org.eclipse.gmf.sdk" version="3.0.0.201212181504">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.gmf.sdk_3.0.0.201303201218.jar" id="org.eclipse.gmf.sdk" version="3.0.0.201303201218">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.gmf.source_1.7.0.201212181845.jar" id="org.eclipse.gmf.source" version="1.7.0.201212181845">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.gmf.source_1.7.0.201303111642.jar" id="org.eclipse.gmf.source" version="1.7.0.201303111642">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.gmf.tooling_3.0.0.201212181504.jar" id="org.eclipse.gmf.tooling" version="3.0.0.201212181504">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.gmf.tooling_3.0.0.201303201218.jar" id="org.eclipse.gmf.tooling" version="3.0.0.201303201218">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.gmf.tooling.runtime_3.0.0.201212181504.jar" id="org.eclipse.gmf.tooling.runtime" version="3.0.0.201212181504">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.gmf.tooling.runtime_3.0.0.201303201218.jar" id="org.eclipse.gmf.tooling.runtime" version="3.0.0.201303201218">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.gmf.tooling.runtime.source_3.0.0.201212181504.jar" id="org.eclipse.gmf.tooling.runtime.source" version="3.0.0.201212181504">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.gmf.tooling.runtime.source_3.0.0.201303201218.jar" id="org.eclipse.gmf.tooling.runtime.source" version="3.0.0.201303201218">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.gmf.tooling.source_3.0.0.201212181504.jar" id="org.eclipse.gmf.tooling.source" version="3.0.0.201212181504">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.gef_3.9.0.201212170307.jar" id="org.eclipse.gef" version="3.9.0.201212170307">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.xtend_1.3.0.v201302050805.jar" id="org.eclipse.xtend" version="1.3.0.v201302050805">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.xtend.dependencies_1.3.0.v201302050805.jar" id="org.eclipse.xtend.dependencies" version="1.3.0.v201302050805">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.xtext.runtime_2.4.0.v201302051002.jar" id="org.eclipse.xtext.runtime" version="2.4.0.v201302051002">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.xtext.ui_2.4.0.v201302051002.jar" id="org.eclipse.xtext.ui" version="2.4.0.v201302051002">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.xpand_1.3.0.v201302050805.jar" id="org.eclipse.xpand" version="1.3.0.v201302050805">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.ocl_3.3.0.v20130204-1704.jar" id="org.eclipse.ocl" version="3.3.0.v20130204-1704">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.ocl.examples_3.3.0.v20130206-0537.jar" id="org.eclipse.ocl.examples" version="3.3.0.v20130206-0537">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.ocl.examples.source_3.3.0.v20130206-0537.jar" id="org.eclipse.ocl.examples.source" version="3.3.0.v20130206-0537">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.ocl.uml_4.1.0.v20130204-1544.jar" id="org.eclipse.ocl.uml" version="4.1.0.v20130204-1544">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.ocl.uml.source_4.1.0.v20130204-1544.jar" id="org.eclipse.ocl.uml.source" version="4.1.0.v20130204-1544">
-      <category name="modelling"/>
-   </feature>
-   <feature url="features/org.eclipse.uml2_4.1.0.v20130318-0942.jar" id="org.eclipse.uml2" version="4.1.0.v20130318-0942">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.gmf.tooling.source_3.0.0.201303201218.jar" id="org.eclipse.gmf.tooling.source" version="3.0.0.201303201218">
+      <category name="modeling"/>
    </feature>
    <feature url="features/org.eclipse.wb.core.feature_1.5.2.r43x201303061457.jar" id="org.eclipse.wb.core.feature" version="1.5.2.r43x201303061457">
-      <category name="modelling"/>
+      <category name="windowbuilder"/>
    </feature>
-   <feature url="features/org.eclipse.nebula.widgets.grid.feature_1.0.0.201303141537.jar" id="org.eclipse.nebula.widgets.grid.feature" version="1.0.0.201303141537">
-      <category name="modelling"/>
+   <feature url="features/org.eclipse.wb.core.ui.feature_1.5.2.r43x201303071632.jar" id="org.eclipse.wb.core.ui.feature" version="1.5.2.r43x201303071632">
+      <category name="windowbuilder"/>
    </feature>
-   <feature url="features/org.eclipse.virgo.ide.feature_1.0.1.201303191007-SNAPSHOT.jar" id="org.eclipse.virgo.ide.feature" version="1.0.1.201303191007-SNAPSHOT">
-      <category name="virgo"/>
+   <feature url="features/org.eclipse.xpand_1.3.0.v201302260541.jar" id="org.eclipse.xpand" version="1.3.0.v201302260541">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.libra.facet.feature_0.3.0.201212132137.jar" id="org.eclipse.libra.facet.feature" version="0.3.0.201212132137">
-      <category name="virgo"/>
+   <feature url="features/org.eclipse.xpand.doc_1.2.2.v201302260541.jar" id="org.eclipse.xpand.doc" version="1.2.2.v201302260541">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.libra.framework.editor.feature_0.3.0.201212132137.jar" id="org.eclipse.libra.framework.editor.feature" version="0.3.0.201212132137">
-      <category name="virgo"/>
+   <feature url="features/org.eclipse.xpand.examples_1.2.2.v201302260541.jar" id="org.eclipse.xpand.examples" version="1.2.2.v201302260541">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.libra.framework.feature_0.3.0.201212132137.jar" id="org.eclipse.libra.framework.feature" version="0.3.0.201212132137">
-      <category name="virgo"/>
+   <feature url="features/org.eclipse.xpand.examples.source_1.2.2.v201302260541.jar" id="org.eclipse.xpand.examples.source" version="1.2.2.v201302260541">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.libra.warproducts.feature_0.3.0.201212132137.jar" id="org.eclipse.libra.warproducts.feature" version="0.3.0.201212132137">
-      <category name="virgo"/>
+   <feature url="features/org.eclipse.xpand.sdk_1.3.0.v201302260541.jar" id="org.eclipse.xpand.sdk" version="1.3.0.v201302260541">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.jst.common.fproj.enablement.jdt_3.4.0.v201108231500-377DG8s73543J5H6D66.jar" id="org.eclipse.jst.common.fproj.enablement.jdt" version="3.4.0.v201108231500-377DG8s73543J5H6D66">
-      <category name="jst"/>
+   <feature url="features/org.eclipse.xpand.source_1.3.0.v201302260541.jar" id="org.eclipse.xpand.source" version="1.3.0.v201302260541">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.jst.enterprise_core.feature_3.5.0.v201303132100-52FVpAkF7BD7OAP9X98.jar" id="org.eclipse.jst.enterprise_core.feature" version="3.5.0.v201303132100-52FVpAkF7BD7OAP9X98">
-      <category name="jst"/>
+   <feature url="features/org.eclipse.xpand.ui_1.3.0.v201302260541.jar" id="org.eclipse.xpand.ui" version="1.3.0.v201302260541">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.jst.enterprise_ui.feature_3.5.0.v201303132100-7b7KIQiFSK2WPCQQBEtB27X4Tz0Tn.jar" id="org.eclipse.jst.enterprise_ui.feature" version="3.5.0.v201303132100-7b7KIQiFSK2WPCQQBEtB27X4Tz0Tn">
-      <category name="jst"/>
+   <feature url="features/org.eclipse.xpand.ui.source_1.3.0.v201302260541.jar" id="org.eclipse.xpand.ui.source" version="1.3.0.v201302260541">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.jst.enterprise_userdoc.feature_3.3.100.v201105122000-62FUGBgJ9EA9aEeHRHc.jar" id="org.eclipse.jst.enterprise_userdoc.feature" version="3.3.100.v201105122000-62FUGBgJ9EA9aEeHRHc">
-      <category name="jst"/>
+   <feature url="features/org.eclipse.ocl_3.3.0.v20130318-1436.jar" id="org.eclipse.ocl" version="3.3.0.v20130318-1436">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.jst.web_core.feature_3.5.0.v201303132100-7Q7GGb8FE9LeBTMB1mgtJe1k1xz00tJ533877.jar" id="org.eclipse.jst.web_core.feature" version="3.5.0.v201303132100-7Q7GGb8FE9LeBTMB1mgtJe1k1xz00tJ533877">
-      <category name="jst"/>
+   <feature url="features/org.eclipse.ocl.all_4.1.0.v20130318-1436.jar" id="org.eclipse.ocl.all" version="4.1.0.v20130318-1436">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.jst.web_ui.feature_3.5.0.v201303132100-7F7GFUGC27SvlcDqtgi_3_iP75rjOs9WPy-5VkAg.jar" id="org.eclipse.jst.web_ui.feature" version="3.5.0.v201303132100-7F7GFUGC27SvlcDqtgi_3_iP75rjOs9WPy-5VkAg">
-      <category name="jst"/>
+   <feature url="features/org.eclipse.ocl.all.sdk_4.1.0.v20130320-0616.jar" id="org.eclipse.ocl.all.sdk" version="4.1.0.v20130320-0616">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.jst.web_userdoc.feature_3.5.0.v201303142300-23-7w312414252911.jar" id="org.eclipse.jst.web_userdoc.feature" version="3.5.0.v201303142300-23-7w312414252911">
-      <category name="jst"/>
+   <feature url="features/org.eclipse.ocl.core.sdk_4.1.0.v20130318-1436.jar" id="org.eclipse.ocl.core.sdk" version="4.1.0.v20130318-1436">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.jst.webpageeditor.feature_2.5.0.v201303150830-47C-9oB58E5E8K5TE5.jar" id="org.eclipse.jst.webpageeditor.feature" version="2.5.0.v201303150830-47C-9oB58E5E8K5TE5">
-      <category name="jst"/>
+   <feature url="features/org.eclipse.ocl.doc_3.3.0.v20130320-0616.jar" id="org.eclipse.ocl.doc" version="3.3.0.v20130320-0616">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.birt_4.3.0.v201303181854-ClBK9lGZcVSop8Rgz0z0NJ_uJz00.jar" id="org.eclipse.birt" version="4.3.0.v201303181854-ClBK9lGZcVSop8Rgz0z0NJ_uJz00">
-      <category name="birt"/>
+   <feature url="features/org.eclipse.ocl.doc.source_3.3.0.v20130320-0616.jar" id="org.eclipse.ocl.doc.source" version="3.3.0.v20130320-0616">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.cshelp_4.3.0.v201303181854-5117w312413162211.jar" id="org.eclipse.birt.chart.cshelp" version="4.3.0.v201303181854-5117w312413162211">
-      <category name="birt"/>
+   <feature url="features/org.eclipse.ocl.edit_4.0.100.v20130320-0616.jar" id="org.eclipse.ocl.edit" version="4.0.100.v20130320-0616">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.birt.cshelp_4.3.0.v201303181854-5117w312321212544.jar" id="org.eclipse.birt.cshelp" version="4.3.0.v201303181854-5117w312321212544">
-      <category name="birt"/>
+   <feature url="features/org.eclipse.ocl.edit.source_4.0.100.v20130320-0616.jar" id="org.eclipse.ocl.edit.source" version="4.0.100.v20130320-0616">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.birt.doc_4.3.0.v201303181854-5117w312413162211.jar" id="org.eclipse.birt.doc" version="4.3.0.v201303181854-5117w312413162211">
-      <category name="birt"/>
+   <feature url="features/org.eclipse.ocl.examples_3.3.0.v20130320-0616.jar" id="org.eclipse.ocl.examples" version="3.3.0.v20130320-0616">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.birt.example_4.3.0.v201303181854-7T7D7DDZRDKSJGKMKjcc.jar" id="org.eclipse.birt.example" version="4.3.0.v201303181854-7T7D7DDZRDKSJGKMKjcc">
-      <category name="birt"/>
+   <feature url="features/org.eclipse.ocl.examples.source_3.3.0.v20130320-0616.jar" id="org.eclipse.ocl.examples.source" version="3.3.0.v20130320-0616">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.birt.osgi.runtime_4.3.0.v201303181854-ApAZ8nG7JNLecFagCZcRe.jar" id="org.eclipse.birt.osgi.runtime" version="4.3.0.v201303181854-ApAZ8nG7JNLecFagCZcRe">
-      <category name="birt"/>
+   <feature url="features/org.eclipse.ocl.source_3.3.0.v20130318-1436.jar" id="org.eclipse.ocl.source" version="3.3.0.v20130318-1436">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.birt.osgi.runtime.sdk_4.3.0.v201303181854-795-87uDcEqMBURWmjHoXQ8oFx8K.jar" id="org.eclipse.birt.osgi.runtime.sdk" version="4.3.0.v201303181854-795-87uDcEqMBURWmjHoXQ8oFx8K">
-      <category name="birt"/>
+   <feature url="features/org.eclipse.ocl.ui_1.1.0.v20130301-1126.jar" id="org.eclipse.ocl.ui" version="1.1.0.v20130301-1126">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.birt.osgi.runtime.source_4.3.0.v201303181854-ApAZ8nG7JNLecFagCZcRe.jar" id="org.eclipse.birt.osgi.runtime.source" version="4.3.0.v201303181854-ApAZ8nG7JNLecFagCZcRe">
-      <category name="birt"/>
+   <feature url="features/org.eclipse.ocl.ui.source_1.1.0.v20130301-1126.jar" id="org.eclipse.ocl.ui.source" version="1.1.0.v20130301-1126">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.birt.report.designer.editor.xml.wtp_4.3.0.v201303181854-8F8j7cFT0z0-TtIz-YFSt3D.jar" id="org.eclipse.birt.report.designer.editor.xml.wtp" version="4.3.0.v201303181854-8F8j7cFT0z0-TtIz-YFSt3D">
-      <category name="birt"/>
+   <feature url="features/org.eclipse.ocl.uml_4.1.0.v20130318-1436.jar" id="org.eclipse.ocl.uml" version="4.1.0.v20130318-1436">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.birt.source_4.3.0.v201303181854-ClBK9lGZcVSop8Rgz0z0NJ_uJz00.jar" id="org.eclipse.birt.source" version="4.3.0.v201303181854-ClBK9lGZcVSop8Rgz0z0NJ_uJz00">
-      <category name="birt"/>
+   <feature url="features/org.eclipse.ocl.uml.source_4.1.0.v20130318-1436.jar" id="org.eclipse.ocl.uml.source" version="4.1.0.v20130318-1436">
+      <category name="modeling"/>
    </feature>
-   <feature url="../../feature/org.opaeum.papyrus.selected.plugins.feature_1.0.3.qualifier.jar" id="org.opaeum.papyrus.selected.plugins.feature" version="1.0.3.qualifier">
-      <category name="papyrus"/>
+   <feature url="features/org.eclipse.uml2_4.1.0.v20130318-0942.jar" id="org.eclipse.uml2" version="4.1.0.v20130318-0942">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.net4j.db.h2_4.2.0.v20130316-1201.jar" id="org.eclipse.net4j.db.h2" version="4.2.0.v20130316-1201">
-      <category name="datatools"/>
+   <feature url="features/org.eclipse.uml2.doc_4.0.0.v20130318-0942.jar" id="org.eclipse.uml2.doc" version="4.0.0.v20130318-0942">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.net4j.db.h2.source_4.2.0.v20130316-1201.jar" id="org.eclipse.net4j.db.h2.source" version="4.2.0.v20130316-1201">
-      <category name="datatools"/>
+   <feature url="features/org.eclipse.uml2.examples_4.1.0.v20130318-0942.jar" id="org.eclipse.uml2.examples" version="4.1.0.v20130318-0942">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.jpt.common.feature_1.3.0.v201210121950-67A-AkF7BI7PAP7BHD.jar" id="org.eclipse.jpt.common.feature" version="1.3.0.v201210121950-67A-AkF7BI7PAP7BHD">
-      <category name="jboss"/>
+   <feature url="features/org.eclipse.uml2.examples.source_4.1.0.v20130318-0942.jar" id="org.eclipse.uml2.examples.source" version="4.1.0.v20130318-0942">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.jpt.jaxb.feature_1.3.0.v201210121950-57A-AkF7BI7OAO8KFK.jar" id="org.eclipse.jpt.jaxb.feature" version="1.3.0.v201210121950-57A-AkF7BI7OAO8KFK">
-      <category name="jboss"/>
+   <feature url="features/org.eclipse.uml2.sdk_4.1.0.v20130318-0942.jar" id="org.eclipse.uml2.sdk" version="4.1.0.v20130318-0942">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.jpt.jpa.feature_3.3.0.v201303140022-7W7d8hFC7sRe2TCbQUM3ACI79.jar" id="org.eclipse.jpt.jpa.feature" version="3.3.0.v201303140022-7W7d8hFC7sRe2TCbQUM3ACI79">
-      <category name="jboss"/>
+   <feature url="features/org.eclipse.uml2.source_4.1.0.v20130318-0942.jar" id="org.eclipse.uml2.source" version="4.1.0.v20130318-0942">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.jpt.jpadiagrameditor.feature_1.2.0.v201303120344-45-9oB58C78AP7QHB.jar" id="org.eclipse.jpt.jpadiagrameditor.feature" version="1.2.0.v201303120344-45-9oB58C78AP7QHB">
-      <category name="jboss"/>
+   <feature url="features/org.eclipse.xtend.typesystem.uml2_1.3.0.v201302260541.jar" id="org.eclipse.xtend.typesystem.uml2" version="1.3.0.v201302260541">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.jboss.tools.maven.hibernate.feature_1.4.0.Final-v20121206-0227-B96.jar" id="org.jboss.tools.maven.hibernate.feature" version="1.4.0.Final-v20121206-0227-B96">
-      <category name="jboss"/>
+   <feature url="features/org.eclipse.xtend.typesystem.uml2.source_1.3.0.v201302260541.jar" id="org.eclipse.xtend.typesystem.uml2.source" version="1.3.0.v201302260541">
+      <category name="modeling"/>
    </feature>
-   <feature url="features/org.eclipse.platform_4.3.0.v20130314-1730.jar" id="org.eclipse.platform" version="4.3.0.v20130314-1730">
-      <category name="m2eclipse"/>
+   <feature url="features/org.eclipse.wb.core.java.feature_1.5.2.r43x201303061505.jar" id="org.eclipse.wb.core.java.feature" version="1.5.2.r43x201303061505">
+      <category name="windowbuilder"/>
    </feature>
-   <feature url="features/org.eclipse.egit_2.3.1.201302201838-r.jar" id="org.eclipse.egit" version="2.3.1.201302201838-r">
-      <category name="scm"/>
+   <feature url="features/org.eclipse.wb.rcp.feature_1.5.2.r43x201303071659.jar" id="org.eclipse.wb.rcp.feature" version="1.5.2.r43x201303071659">
+      <category name="windowbuilder"/>
    </feature>
-   <feature url="features/org.eclipse.egit.import_2.3.1.201302201838-r.jar" id="org.eclipse.egit.import" version="2.3.1.201302201838-r">
-      <category name="scm"/>
+   <feature url="features/org.eclipse.wb.rcp.doc.user.feature_1.5.2.r43x201303090426.jar" id="org.eclipse.wb.rcp.doc.user.feature" version="1.5.2.r43x201303090426">
+      <category name="windowbuilder"/>
    </feature>
-   <feature url="features/org.eclipse.egit.mylyn_2.3.1.201302201838-r.jar" id="org.eclipse.egit.mylyn" version="2.3.1.201302201838-r">
-      <category name="mylyn"/>
+   <feature url="features/org.eclipse.wb.layout.group.feature_1.5.2.r43x201303071637.jar" id="org.eclipse.wb.layout.group.feature" version="1.5.2.r43x201303071637">
+      <category name="windowbuilder"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.github.feature_2.3.0.201302130906.jar" id="org.eclipse.mylyn.github.feature" version="2.3.0.201302130906">
-      <category name="mylyn"/>
+   <feature url="features/org.eclipse.wb.doc.user.feature_1.5.2.r43x201303081301.jar" id="org.eclipse.wb.doc.user.feature" version="1.5.2.r43x201303081301">
+      <category name="windowbuilder"/>
    </feature>
-   <feature url="features/org.eclipse.epp.mpc_1.2.0.I20130320-1535.jar" id="org.eclipse.epp.mpc" version="1.2.0.I20130320-1535">
-      <category name="marketplace"/>
+   <feature url="features/org.eclipse.wb.swt.feature_1.5.2.r43x201303071650.jar" id="org.eclipse.wb.swt.feature" version="1.5.2.r43x201303071650">
+      <category name="windowbuilder"/>
    </feature>
-   <feature url="features/org.eclipse.jgit_2.3.1.201302201838-r.jar" id="org.eclipse.jgit" version="2.3.1.201302201838-r">
-      <category name="scm"/>
+   <feature url="features/org.eclipse.wb.xwt.feature_1.5.2.r43x201303071709.jar" id="org.eclipse.wb.xwt.feature" version="1.5.2.r43x201303071709">
+      <category name="windowbuilder"/>
    </feature>
-   <category-def name="jboss" label="JBoss">
-      <description>
-         JBoss
-      </description>
-   </category-def>
-   <category-def name="datatools" label="DataTools">
-      <description>
-         Data Tools
-      </description>
-   </category-def>
-   <category-def name="m2eclipse" label="Maven">
-      <description>
-         Maven Tools
-      </description>
-   </category-def>
-   <category-def name="scm" label="SCM">
-      <description>
-         Source Control
-      </description>
-   </category-def>
-   <category-def name="mylyn" label="Mylyn">
-      <description>
-         Mylyn Tasks
-      </description>
-   </category-def>
-   <category-def name="wst" label="Web Standard Tools">
-      <description>
-         Web Standard Tools
-      </description>
-   </category-def>
-   <category-def name="modelling" label="Modelling">
-      <description>
-         Modelling
-      </description>
-   </category-def>
-   <category-def name="virgo" label="Virgo">
-      <description>
-         Virgo
-      </description>
-   </category-def>
-   <category-def name="jst" label="Java Standard Tools">
-      <description>
-         Java Standard Tools
-      </description>
-   </category-def>
-   <category-def name="birt" label="BIRT">
-      <description>
-         Business Intelligence
-      </description>
-   </category-def>
-   <category-def name="papyrus" label="Papyrus">
-      <description>
-         Papyrus
-      </description>
-   </category-def>
-   <category-def name="marketplace" label="Eclipse Marketplace"/>
+   <feature url="features/org.eclipse.wb.core.xml.feature_1.5.2.r43x201303061518.jar" id="org.eclipse.wb.core.xml.feature" version="1.5.2.r43x201303061518">
+      <category name="windowbuilder"/>
+   </feature>
+   <category-def name="maven" label="Maven"/>
+   <category-def name="datatools" label="Data Tools"/>
+   <category-def name="scm" label="Source Control"/>
+   <category-def name="mylyn" label="Mylyn"/>
+   <category-def name="papyus" label="Papyus"/>
+   <category-def name="modeling" label="Modeling"/>
+   <category-def name="windowbuilder" label="WindowBuilder"/>
 </site>
