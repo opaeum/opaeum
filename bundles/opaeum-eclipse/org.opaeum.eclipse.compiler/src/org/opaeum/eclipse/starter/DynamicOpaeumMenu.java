@@ -123,7 +123,7 @@ public class DynamicOpaeumMenu extends CompoundContributionItem implements IComp
 		try{
 			if(firstElement != null){
 				for(IResource r:firstElement.members()){
-					if(r instanceof IFile && r.getFileExtension().equals("uml")){
+					if(r instanceof IFile && r.getFileExtension()!=null &&  r.getFileExtension().equals("uml")){
 						return true;
 					}
 				}

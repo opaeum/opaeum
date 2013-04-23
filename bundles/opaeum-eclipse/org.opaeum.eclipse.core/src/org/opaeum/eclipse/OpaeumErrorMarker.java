@@ -34,7 +34,7 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 	}
 	public void maybeSchedule(final OpenUmlFile file){
 		// if((lastMarked == 0 || lastMarked < System.currentTimeMillis() - 3000)){
-		Display.getDefault(). asyncExec(new Runnable(){
+		Display.getDefault().syncExec(new Runnable(){
 			@Override
 			public void run(){
 				runImpl(file);

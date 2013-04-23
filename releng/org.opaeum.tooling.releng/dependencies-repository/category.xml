@@ -831,6 +831,9 @@
    <feature url="features/org.eclipse.wb.core.xml.feature_1.5.2.r43x201303061518.jar" id="org.eclipse.wb.core.xml.feature" version="1.5.2.r43x201303061518">
       <category name="windowbuilder"/>
    </feature>
+   <feature url="features/org.eclipse.nebula.widgets.grid.feature_1.0.0.201304181950.jar" id="org.eclipse.nebula.widgets.grid.feature" version="1.0.0.201304181950">
+      <category name="windowbuilder"/>
+   </feature>
    <category-def name="maven" label="Maven"/>
    <category-def name="datatools" label="Data Tools"/>
    <category-def name="scm" label="Source Control"/>
