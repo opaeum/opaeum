@@ -28,7 +28,7 @@ public class AttributeImplementor extends AbstractAttributeImplementer{
 	protected void visitProperty(OJAnnotatedClass owner,Classifier umlOwner,PropertyMap map){
 		Property p = map.getProperty();
 
-		strategy.beforeProperty(owner, umlOwner, map);
+		getStrategy().beforeProperty(owner, umlOwner, map);
 		if(!OJUtil.isBuiltIn(p) && !isInvolvedInAnAssociationClass(map)){
 			if(StereotypesHelper.hasStereotype(map.getBaseType(), StereotypeNames.HELPER)){
 				buildSetter(umlOwner, owner, map);
@@ -174,7 +174,7 @@ public class AttributeImplementor extends AbstractAttributeImplementer{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			setter.setStatic(map.isStatic());
 			setter.setVisibility(prop.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
-			strategy.startSetter(owner, setter, map);
+			getStrategy().startSetter(owner, setter, map);
 			removeFromPropertiesQualifiedByThisProperty(map, setter);
 			if(StereotypesHelper.hasStereotype(map.getBaseType(), StereotypeNames.HELPER)){
 				setter.getBody().addToStatements("this." + map.fieldname() + "=" + map.fieldname());

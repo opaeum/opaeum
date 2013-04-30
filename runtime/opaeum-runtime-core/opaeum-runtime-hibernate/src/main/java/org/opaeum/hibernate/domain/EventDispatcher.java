@@ -106,12 +106,14 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 			IPersistentObject entity = (IPersistentObject) event.getEntity();
 			EventSource session = event.getSession();
 			SessionAttachment sa = lazyGetAttachment(session, entity);
-			addChangedEntity(sa, entity, (Long) event.getId(), true);
-			Type[] propertyTypes = event.getPersister().getPropertyTypes();
-			Object[] newState = event.getState();
-			Object[] oldState = event.getOldState();
-			for(int i = 0;i < propertyTypes.length;i++){
-				registerReferencedObjects(sa, propertyTypes[i], oldState[i], newState[i]);
+			if(sa.doInterSessionSynchronization()){
+				addChangedEntity(sa, entity, (Long) event.getId(), true);
+				Type[] propertyTypes = event.getPersister().getPropertyTypes();
+				Object[] newState = event.getState();
+				Object[] oldState = event.getOldState();
+				for(int i = 0;i < propertyTypes.length;i++){
+					registerReferencedObjects(sa, propertyTypes[i], oldState[i], newState[i]);
+				}
 			}
 		}
 	}
@@ -190,11 +192,13 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 	@Override
 	public void onPostInsert(PostInsertEvent event){
 		maybeRegisterEventGenerator(event.getEntity(), event.getSession());
-		Object[] state = event.getState();
-		Type[] propertyTypes = event.getPersister().getPropertyTypes();
 		SessionAttachment sa = lazyGetAttachment(event.getSession(), event.getEntity());
-		for(int i = 0;i < propertyTypes.length;i++){
-			registerReferencedObjects(sa, propertyTypes[i], null, state[i]);
+		if(sa.doInterSessionSynchronization()){
+			Object[] state = event.getState();
+			Type[] propertyTypes = event.getPersister().getPropertyTypes();
+			for(int i = 0;i < propertyTypes.length;i++){
+				registerReferencedObjects(sa, propertyTypes[i], null, state[i]);
+			}
 		}
 	}
 	protected InternalHibernatePersistence getPersistence(EventSource session,Object o){
@@ -275,7 +279,9 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 			performFlush(event, source);
 			scheduleEvents(sa.getEnvironment(), dispatchEvents);
 			cancelEvents(sa.getEnvironment(), cancelledEvents);
-			registerChangedEntities(sa);
+			if(sa.doInterSessionSynchronization()){
+				registerChangedEntities(sa);
+			}
 			sa.onFlush();
 		}
 	}

@@ -47,7 +47,7 @@ public class OpaeumModelExplorerPage extends ModelExplorerPage{
 							lastTrans = curTrans;
 							PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 								public void run() {
-//									refresh();
+									refresh();
 								}
 							});
 						}

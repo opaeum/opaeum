@@ -229,11 +229,10 @@ public class OpaeumEclipseContext{
 		return result;
 	}
 	public static OpaeumEclipseContext getContextFor(EObject element){
-		Resource eResource = element.eResource();
-		if(eResource == null){
+		if(element==null || element.eResource() == null){
 			return null;
-		}else if(eResource.getResourceSet() instanceof IOpaeumResourceSet){
-			IOpaeumResourceSet rst = (IOpaeumResourceSet) eResource.getResourceSet();
+		}else if(element.eResource().getResourceSet() instanceof IOpaeumResourceSet){
+			IOpaeumResourceSet rst = (IOpaeumResourceSet) element.eResource().getResourceSet();
 			return findOrCreateContextFor(rst.getModelDirectory());
 		}else{
 			EObject rootContainer = EcoreUtil.getRootContainer(element);

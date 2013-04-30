@@ -93,14 +93,20 @@ public class OpenUmlFile extends EContentAdapter{
 	public OpenUmlFile(EditingDomain editingDomain,IFile f,OpaeumConfig cfg){
 		super();
 		Package model = findRootObjectInFile(f, editingDomain.getResourceSet());
+		this.cfg = cfg;
+		if(model==null){
+			//could happen when a new model is being initialised from papyrus
+			//Will add it when papyrus initialises the mode
+			emfWorkspace = new EmfWorkspace(URI.createPlatformResourceURI(f.getParent().getFullPath().toString(),  true),editingDomain.getResourceSet(), this.cfg.getVersion(), cfg.getApplicationIdentifier(), cfg.getMavenGroupId());
+		}else{
+			this.setModel(model);
+			emfWorkspace = new EmfWorkspace(model, this.cfg.getVersion(), cfg.getApplicationIdentifier(), cfg.getMavenGroupId());
+		}
 		this.setEditingDomain(editingDomain);
-		this.setModel(model);
 		this.setFile(f);
 		this.resourceHelper = new EclipseUriToFileConverter();
-		this.cfg = cfg;
 		this.transformationProcess = new TransformationProcess();
 		this.transformationProcess.initialize(cfg, getTransformationSteps(cfg));
-		emfWorkspace = new EmfWorkspace(model, this.cfg.getVersion(), cfg.getApplicationIdentifier(), cfg.getMavenGroupId());
 		this.ojUtil = new OJUtil();
 		this.ojUtil.initialise(emfWorkspace,null);//Does not generat code, no property strategy required
 		emfWorkspace.setUriToFileConverter(new EclipseUriToFileConverter());
@@ -270,6 +276,9 @@ public class OpenUmlFile extends EContentAdapter{
 					synchronizationNow(newObjects);
 				}
 			}
+		}else if(notification.getNewValue() instanceof Model){
+			//Happens on creation of new model
+			emfWorkspace.addGeneratingModelOrProfile((Package) notification.getNewValue());
 		}
 	}
 	private void scheduleSynchronization(EObject o){

@@ -12,7 +12,9 @@ public class ElementComparator implements Comparator<Element>{
 		String id2 = EmfWorkspace.getId(o2);
 		String id1 = EmfWorkspace.getId(o1);
 		if(id1==null){
-			if(id2!=null){
+			if(id1==null){
+				return 0;
+			}else{
 				return -1;
 			}
 		}else {

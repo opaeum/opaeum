@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Opaeum Common Classes for Papyrus
-Bundle-SymbolicName: org.opaeum.papyrus.common
+Bundle-SymbolicName: org.opaeum.papyrus.common;singleton:=true
 Bundle-Version: 1.0.3.qualifier
 Bundle-Activator: org.opaeum.papyrus.common.Activator
 Require-Bundle: org.eclipse.ui,
@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.gmf.runtime.common.ui,
  org.eclipse.gmf.runtime.diagram.ui,
  org.eclipse.gmf.runtime.draw2d.ui.render,
- org.opaeum.metamodels.emfworkspace
+ org.opaeum.metamodels.emfworkspace,
+ org.eclipse.papyrus.uml.diagram.wizards
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.papyrus.common

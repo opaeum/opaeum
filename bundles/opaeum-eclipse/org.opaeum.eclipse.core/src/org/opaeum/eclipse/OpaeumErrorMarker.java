@@ -37,7 +37,9 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 		Display.getDefault().syncExec(new Runnable(){
 			@Override
 			public void run(){
+				if(file.getFile().exists()){
 				runImpl(file);
+				}
 			}
 
 		});
@@ -146,7 +148,11 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
 				marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
 				marker.setAttribute(RULE_ATTRIBUTE, brokenRule.getRule().name());
-				marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(o).toString());
+				try{
+					marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(o).toString());
+				}catch(Exception e){
+					System.out.println();
+				}
 				marker.setAttribute("BROKEN_ELEMENT_ID", brokenRule.getElementId());
 			}
 			if(!message.equals(marker.getAttribute(IMarker.MESSAGE))){

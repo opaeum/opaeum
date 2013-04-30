@@ -270,4 +270,7 @@ public abstract class Environment{
 		return result;
 	}
 	public abstract String getApplicationIdentifier();
+	public boolean doInterPersistenceSynchronization(){
+		return true;
+	}
 }

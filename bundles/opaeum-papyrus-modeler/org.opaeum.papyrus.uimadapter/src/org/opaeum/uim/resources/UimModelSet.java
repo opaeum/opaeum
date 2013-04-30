@@ -139,17 +139,18 @@ public class UimModelSet extends OnDemandLoadingModelSet implements IOpaeumResou
 				public void run(){
 					EcoreUtil.resolveAll(UimModelSet.this);
 					ctx.startSynch(getTransactionalEditingDomain(), getPrimaryFile(), selector);
-					openUmlFile = OpaeumEclipseContext.findOpenUmlFileFor(getRootObject());
+					openUmlFile = OpaeumEclipseContext.findOpenUmlFileFor(getPrimaryFile());
 					HashSet<EClassifier> set = new HashSet<EClassifier>();
 					set.add(UMLPackage.eINSTANCE.getType());
 					set.add(UMLPackage.eINSTANCE.getClassifier());
 					set.add(UMLPackage.eINSTANCE.getInterface());
 					set.add(UMLPackage.eINSTANCE.getSignal());
 					set.add(UMLPackage.eINSTANCE.getOperation());
+					if(getRootObject()!=null){
 					openUmlFile.getTypeCacheAdapter().loadRelevantElements(getRootObject(), set);
 					if(openUmlFile.getConfig().isUiModelerActive()){
 						doOpaeumUimInitialization();
-					}
+					}}
 				}
 			};
 			runnable.run();

@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.ui;visibility:=reexport,
  org.eclipse.ocl.uml,
  org.opaeum.compilation.ocltojava,
  org.eclipse.ui.ide,
- org.eclipse.ui.views.properties.tabbed
+ org.eclipse.ui.views.properties.tabbed,
+ org.eclipse.uml2.uml.editor;bundle-version="4.1.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6 
 Export-Package: org.opaeum.eclipse,

@@ -961,7 +961,9 @@ public class OpaeumElementLinker extends EContentAdapter{
 			switch(notification.getFeatureID(SendSignalAction.class)){
 			case UMLPackage.SEND_SIGNAL_ACTION__SIGNAL:
 				Signal s = (Signal) notification.getNewValue();
-				synchronizeArguments(EmfParameterUtil.getArguments(s), a);
+				if(s!=null){
+					synchronizeArguments(EmfParameterUtil.getArguments(s), a);
+				}
 				break;
 			}
 			return null;

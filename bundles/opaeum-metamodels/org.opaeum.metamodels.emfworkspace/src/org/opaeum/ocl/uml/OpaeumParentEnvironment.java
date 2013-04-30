@@ -7,6 +7,7 @@ import org.opaeum.metamodel.workspace.OpaeumLib;
 public class OpaeumParentEnvironment extends UMLEnvironment{
 	protected OpaeumLib library;
 	public OpaeumParentEnvironment(ResourceSet rst){
+		
 		super(rst.getPackageRegistry(),rst);
 		this.library=new OpaeumLib(rst, getOCLStandardLibrary());
 	}

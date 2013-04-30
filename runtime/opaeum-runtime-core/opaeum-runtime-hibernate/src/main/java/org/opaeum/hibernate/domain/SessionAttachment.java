@@ -185,4 +185,7 @@ public class SessionAttachment{
 		}
 		return result;
 	}
+	public boolean doInterSessionSynchronization(){
+		return environment.doInterPersistenceSynchronization();
+	}
 }

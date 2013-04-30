@@ -17,6 +17,7 @@ import org.eclipse.uml2.uml.Element;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.menu.ApplyProfileMenu;
+import org.opaeum.eclipse.menu.ApplyStereotypeMenu;
 import org.opaeum.eclipse.menu.ICompoundContributionItem;
 import org.opaeum.eclipse.menu.ImportLibraryMenu;
 import org.opaeum.eclipse.newchild.OpaeumEditorMenu;
@@ -55,6 +56,11 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 					MenuManager importLibraryMenu = new MenuManager("Import Library");
 					additions.addContributionItem(importLibraryMenu, visibleWhen);
 					importLibraryMenu.add(new ImportLibraryMenu());
+				}
+				if(element instanceof Element){
+					MenuManager applyStereotypesMenu = new MenuManager("Apply Stereotypes");
+					additions.addContributionItem(applyStereotypesMenu, visibleWhen);
+					applyStereotypesMenu.add(new ApplyStereotypeMenu());
 				}
 			}
 		}

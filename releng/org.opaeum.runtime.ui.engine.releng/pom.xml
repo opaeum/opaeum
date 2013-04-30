@@ -39,32 +39,6 @@
 	</modules>
 
 	<repositories>
-		<repository>
-			<id>eclipse-juno</id>
-			<layout>p2</layout>
-			<url>${mirror.repo.root}/juno</url>
-		</repository>
-		<repository>
-			<id>rap-repository</id>
-			<layout>p2</layout>
-			<url>${mirror.repo.root}/rap/2.0</url>
-		</repository>
-		<repository>
-			<id>rap-runtime-base</id>
-			<layout>p2</layout>
-			<url>${mirror.repo.root}/rap/runtime-base</url>
-		</repository>
-		<repository>
-			<id>opaeum-runtime-core</id>
-			<layout>p2</layout>
-			<url>file://${eclipse.home}/opaeum_runtime_repo</url>
-		</repository>
-		<!-- repository>
-			<id>extra-dependencies-repository</id>
-			<layout>p2</layout>
-			<url>http://build.eclipse.org/rt/rap/base-platforms/1.5/extra-dependencies</url>
-		</repository-->
-
 	</repositories>
 
 	<pluginRepositories>

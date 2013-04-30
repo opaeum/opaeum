@@ -58,14 +58,14 @@ public class AssociationClassAttributeImplementor extends AbstractAttributeImple
 				}
 			}
 			//End1
-			strategy.beforeProperty(ojOwner, umlOwner, mapToEnd1);
+			getStrategy().beforeProperty(ojOwner, umlOwner, mapToEnd1);
 			buildField(ojOwner, mapToEnd1);
 			buildInternalAdder(ojOwner, mapToEnd1);
 			buildInternalRemover(ojOwner, mapToEnd1);
 			buildGetter(umlOwner, ojOwner, mapToEnd1, false);
 			
 			//End2
-			strategy.beforeProperty(ojOwner, umlOwner, mapToEnd2);
+			getStrategy().beforeProperty(ojOwner, umlOwner, mapToEnd2);
 			buildField(ojOwner, mapToEnd2);
 			buildInternalAdder(ojOwner, mapToEnd2);
 			buildInternalRemover(ojOwner, mapToEnd2);
@@ -83,7 +83,7 @@ public class AssociationClassAttributeImplementor extends AbstractAttributeImple
 	}
 	@Override
 	protected void visitProperty(OJAnnotatedClass owner,Classifier umlOwner,PropertyMap map){
-		strategy.beforeProperty(owner, umlOwner, map);
+		getStrategy().beforeProperty(owner, umlOwner, map);
 	}
 	@Override
 	public void visitAssociationClassProperty(Classifier c,AssociationClassEndMap aMap){
@@ -103,7 +103,7 @@ public class AssociationClassAttributeImplementor extends AbstractAttributeImple
 				buildAdder(owner, aMap);
 				buildRemover(owner, aMap);
 			}
-			strategy.beforeProperty(owner, c, aMap.getEndToAssocationClassMap());
+			getStrategy().beforeProperty(owner, c, aMap.getEndToAssocationClassMap());
 			buildInternalAdder(owner, aMap.getEndToAssocationClassMap());
 			buildInternalRemover(owner, aMap.getEndToAssocationClassMap());
 			buildField(owner, aMap.getEndToAssocationClassMap());
@@ -264,7 +264,7 @@ public class AssociationClassAttributeImplementor extends AbstractAttributeImple
 		owner.addToOperations(setter);
 		if(!(owner instanceof OJAnnotatedInterface)){
 			setter.setStatic(map.isStatic());
-			strategy.startSetter(owner, setter, map);
+			getStrategy().startSetter(owner, setter, map);
 
 			setter.setVisibility(prop.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			removeFromPropertiesQualifiedByThisProperty(map, setter);

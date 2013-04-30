@@ -43,11 +43,10 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
 	public static final String MANY_INTERNAL_REMOVE_FROM_COLLECTION = "manyInternalRemoveToCollection";
-	AttributeStrategy strategy;
+	private AttributeStrategy strategy;
 	@Override
 	public void startVisiting(EmfWorkspace root){
-		strategy=super.transformationContext.getStrategy(AttributeStrategy.class);
-		strategy.init(this);
+		getStrategy().init(this);
 		super.startVisiting(root);
 	}
 	public static void addPropertyMetaInfo(Classifier owner,OJAnnotatedOperation element,Property property,IPropertyEmulation opaeumLibrary){
@@ -143,17 +142,17 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 		super();
 	}
 	protected final OJAnnotatedOperation buildGetter(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map,boolean derived){
-		OJAnnotatedOperation getter = strategy.buildGetter(umlOwner, owner, map, derived);
+		OJAnnotatedOperation getter = getStrategy().buildGetter(umlOwner, owner, map, derived);
 		return getter;
 	}
 	protected final OJAnnotatedOperation buildInternalRemover(OJAnnotatedClass owner,PropertyMap map){
-		return strategy.buildInternalRemover(owner, map);
+		return getStrategy().buildInternalRemover(owner, map);
 	}
 	protected final OJAnnotatedOperation buildInternalAdder(OJAnnotatedClass owner,PropertyMap map){
-		return strategy.buildInternalAdder(owner, map);
+		return getStrategy().buildInternalAdder(owner, map);
 	}
 	protected final OJAnnotatedField buildField(OJAnnotatedClass owner,PropertyMap map){
-		return strategy.buildField(owner,map);
+		return getStrategy().buildField(owner,map);
 	}
 	protected void applySimnpleTypesAnnotations(OJAnnotatedField field,Classifier baseType){
 		applyStereotypesAsAnnotations(baseType, field);
@@ -291,5 +290,15 @@ public abstract class AbstractAttributeImplementer extends AbstractStructureVisi
 	}
 	public OJUtil getOjUtil(){
 		return ojUtil;
+	}
+	protected AttributeStrategy getStrategy() {
+		if(strategy==null){
+			strategy=super.transformationContext.getStrategy(AttributeStrategy.class);
+			strategy.init(this);
+		}
+		return strategy;
+	}
+	void setStrategy(AttributeStrategy strategy) {
+		this.strategy = strategy;
 	}
 }

@@ -13,12 +13,12 @@
 		<repository>
 			<id>eclipse-kepler</id>
 			<layout>p2</layout>
-			<url>file:/home/ampie/NewWorkspaces/opaeum/releng/org.opaeum.tooling.releng/dependencies-repository/target/repository</url>
+			<url>file:/home/ampie/god-repo</url>
 <!-- 			<url>http://rtfwitvh1.rorotika/pub/cm/opaeum-build-repo/</url> -->
 		</repository>
 	</repositories>
 	<properties>
-		<tycho-version>0.16.0</tycho-version>
+		<tycho-version>0.17.0</tycho-version>
 		<signing-plugin-version>1.0.5</signing-plugin-version>
 		<surefire-version>2.9</surefire-version>
 		<junit-version>3.8.2</junit-version>
@@ -76,6 +76,7 @@
 		<module>../../features/org.opaeum.simulation.source.feature</module>
 		<module>../../features/org.opaeum.eclipse.feature</module>
 		<module>../../features/org.opaeum.eclipse.source.feature</module>
+		<module>../../features/org.opaeum.papyrus.selected.plugins.feature</module>
 		<module>../../features/org.opaeum.papyrus.feature</module>
 		<module>../../features/org.opaeum.papyrus.source.feature</module>
 		<module>../../features/org.opaeum.uimodeler.feature</module>
