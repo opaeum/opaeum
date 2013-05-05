@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="org.opaeum.rwt.runtime">
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <wb-resource deploy-path="/META-INF" source-path="/META-INF"/>
-        <property name="java-output-path" value="/org.opaeum.rwt.runtime/bin"/>
-        <property name="context-root" value="/test"/>
-    </wb-module>
-</project-modules>
