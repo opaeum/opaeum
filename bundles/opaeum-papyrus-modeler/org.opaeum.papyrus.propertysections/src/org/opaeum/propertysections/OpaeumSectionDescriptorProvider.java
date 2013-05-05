@@ -216,6 +216,7 @@ public class OpaeumSectionDescriptorProvider extends AbstractSectionDescriptorPr
 		addBasic(new InstanceSpecificationNoEnumerationLiteralFilter(), new InstanceSpecificationClassifierSection());
 		addBasic(InstanceSpecification.class, new InstanceSpecificationSlotsSection());
 		addBasic(InterfaceRealization.class, new InterfaceRealizationContractSection());
+		addBasic(TypedElement.class, new TypedElementTypeSection());
 		addBasic(MultiplicityElement.class, new MultiplicityElementFeaturesSection());
 		addBasic(new OclBehaviorFilter(), new OpaqueBehaviorBodySection());
 		addBasic(OpaqueExpression.class, new OpaqueExpressionBodySection());
@@ -226,7 +227,6 @@ public class OpaeumSectionDescriptorProvider extends AbstractSectionDescriptorPr
 		addBasic(ProfileApplication.class, new ProfileApplicationAppliedProfileSection());
 		addBasic(Reception.class, new ReceptionSignalSection());
 		addBasic(Slot.class, new SlotFeatureSection());
-		addBasic(TypedElement.class, new TypedElementTypeSection());
 		addBasic(new AssociationEndFilter(), new AssociationEndNavigabilityAndCompositionSection());
 		addBasic(new BehavioredClassifierNotBehaviorFilter(), new BehavioredClassifierClassifierBehaviorSection());
 		// Constraints

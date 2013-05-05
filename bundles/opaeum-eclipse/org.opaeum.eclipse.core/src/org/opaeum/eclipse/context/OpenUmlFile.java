@@ -29,7 +29,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.transaction.impl.ResourceSetManager;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.ide.ResourceUtil;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
@@ -39,6 +41,7 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 import org.eclipse.uml2.uml.util.UMLUtil;
 import org.opaeum.eclipse.EclipseUriToFileConverter;
 import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfReceptionUtil;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.OpaeumElementLinker;
 import org.opaeum.eclipse.OpaeumScheduler;
@@ -54,6 +57,7 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.Steps;
 import org.opaeum.feature.TransformationPhase;
 import org.opaeum.feature.TransformationProcess;
+import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.SourcePopulationResolver;
 import org.opaeum.validation.AbstractValidator;
@@ -232,8 +236,11 @@ public class OpenUmlFile extends EContentAdapter{
 							&& notification.getOldValue() instanceof Element){
 						// Deletion
 						final Element oldValue = (Element) notification.getOldValue();
-						final Resource eResource = ((EObject) notification.getNotifier()).eResource();
-						storeTempId(oldValue, eResource);
+						if(oldValue.eResource()==null){
+							//detached, fully removed from model
+							final Resource eResource = ((EObject) notification.getNotifier()).eResource();
+							storeTempId(oldValue, eResource);
+						}
 						scheduleSynchronization(oldValue);
 					}else if(notification.getNotifier() instanceof DynamicEObjectImpl){
 						scheduleSynchronization((Element) UMLUtil.getBaseElement((EObject) notification.getNotifier()));
@@ -248,9 +255,10 @@ public class OpenUmlFile extends EContentAdapter{
 	private void storeTempId(final Element ne,final Resource eResource){
 		final StringBuilder uriFragment = new StringBuilder();
 		// STore it temporarily for EmfWorkspace.getId()
-		uriFragment.append(DETACHED_EOBJECT_TO_ID_MAP.get(ne));
+		String cachedId = DETACHED_EOBJECT_TO_ID_MAP.get(ne);
+		uriFragment.append(cachedId);
 		final String id = EmfWorkspace.getResourceId(eResource) + "@" + uriFragment.toString();
-		StereotypesHelper.findOrCreateNumlAnnotation(ne).getDetails().put("opaeumId", id);
+		StereotypesHelper.findOrCreateNumlAnnotation(ne).getDetails().put("tempIdStoredOnDeletion", id);
 		for(Element element:EmfElementFinder.getCorrectOwnedElements(ne)){
 			storeTempId(element, eResource);
 		}

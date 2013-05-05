@@ -6,9 +6,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -99,6 +101,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.eclipse.uml2.uml.resource.UMLResource;
 import org.eclipse.uml2.uml.util.UMLSwitch;
 import org.eclipse.uml2.uml.util.UMLUtil;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
@@ -110,6 +113,10 @@ public class OpaeumElementLinker extends EContentAdapter{
 	public void notifyChanged(final Notification not){
 		if(not.getEventType() == Notification.ADD || not.getEventType() == Notification.ADD_MANY || not.getEventType() == Notification.REMOVE
 				|| not.getEventType() == Notification.REMOVE_MANY || not.getEventType() == Notification.SET){
+			if(not.getNotifier() instanceof UMLResource && not.getNewValue() instanceof Model){
+				Model model=(Model) not.getNewValue();
+				model.createEAnnotation(StereotypeNames.NUML_ANNOTATION).getDetails().put("uuid", UUID.randomUUID().toString());
+			}
 			if(not.getNotifier() instanceof Element){
 				EmfUmlElementLinker emfUmlElementLinker = new EmfUmlElementLinker(not);
 				emfUmlElementLinker.doSwitch((Element) not.getNotifier());

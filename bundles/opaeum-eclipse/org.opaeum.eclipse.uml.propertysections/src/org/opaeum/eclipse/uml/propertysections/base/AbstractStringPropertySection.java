@@ -57,7 +57,7 @@ public abstract class AbstractStringPropertySection extends AbstractOpaeumProper
 	}
 	@Override
 	public void populateControls(){
-		if(text != null){
+		if(text != null && !text.isDisposed()){
 			Set<String> values = new HashSet<String>();
 			List<EObject> eObjectList = getEObjectList();
 			for(EObject eObject:eObjectList){

@@ -523,8 +523,8 @@ public class EmfWorkspace implements Element{
 			if(object.eResource() != null){
 				uid = getResourceId(object.eResource()) + "@" + object.eResource().getURIFragment(object);
 			}else if(object instanceof EModelElement && ((EModelElement) object).getEAnnotation(StereotypeNames.NUML_ANNOTATION) != null){
-				// Deleted in realtime - See UmlElementCache.notifyChanged
-				return ((EModelElement) object).getEAnnotation(StereotypeNames.NUML_ANNOTATION).getDetails().get("opaeumId");
+				// Deleted in realtime - See org.opaeum.eclipse.context.OpenUmlFile.storeTempId(Element, Resource)
+				return ((EModelElement) object).getEAnnotation(StereotypeNames.NUML_ANNOTATION).getDetails().get("tempIdStoredOnDeletion");
 			}else{
 				uid = object.hashCode() + "";
 			}

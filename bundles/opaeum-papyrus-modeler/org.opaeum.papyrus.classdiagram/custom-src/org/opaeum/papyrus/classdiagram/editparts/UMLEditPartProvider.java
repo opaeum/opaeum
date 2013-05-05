@@ -10,6 +10,7 @@ import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
@@ -400,7 +401,8 @@ public class UMLEditPartProvider extends CUMLEditPartProvider{
 				case AssociationMultiplicitySourceEditPart.VISUAL_ID:
 					return new AssociationMultiplicitySourceEditPart(view);
 				case AssociationMultiplicityTargetEditPart.VISUAL_ID:
-					return new AssociationMultiplicityTargetEditPart(view);
+					return new AssociationMultiplicityTargetEditPart(view){
+					};
 				case AssociationBranchEditPart.VISUAL_ID:
 					return new AssociationBranchEditPart(view);
 				case AssociationBranchRoleEditPart.VISUAL_ID:
@@ -412,7 +414,16 @@ public class UMLEditPartProvider extends CUMLEditPartProvider{
 				case AppliedStereotyperGeneralizationEditPart.VISUAL_ID:
 					return new AppliedStereotyperGeneralizationEditPart(view);
 				case InterfaceRealizationEditPart.VISUAL_ID:
-					return new InterfaceRealizationEditPart(view);
+					return new InterfaceRealizationEditPart(view){
+						@Override
+						protected boolean addFixedChild(EditPart childEditPart){
+							if(childEditPart instanceof InterfaceRealizationName2EditPart) {
+								((InterfaceRealizationName2EditPart)childEditPart).setLabel(getPrimaryShape().getNameLabel());
+								return true;
+							}
+							return super.addFixedChild(childEditPart);
+						}
+					};
 				case AppliedStereotypeInterfaceRealizationEditPart.VISUAL_ID:
 					return new AppliedStereotypeInterfaceRealizationEditPart(view);
 				case InterfaceRealizationName2EditPart.VISUAL_ID:
