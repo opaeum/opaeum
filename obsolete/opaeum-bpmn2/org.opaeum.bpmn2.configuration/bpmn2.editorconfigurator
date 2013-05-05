@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<editorconfigurator:EditorConfiguration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:editorconfigurator="http://www.topcased.org/editorconfigurator/0.10" xmi:id="_TOHkEe2UEeCpD96aiHpgMA" name="BPM2 Model Editor" projectName="org.opaeum.bpmn2.modeleditor">
-  <genModel href="../org.eclipse.bpmn2/model/BPMN20.genmodel#/"/>
-</editorconfigurator:EditorConfiguration>

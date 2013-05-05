@@ -63,8 +63,6 @@
       <import plugin="org.opaeum.metamodels.text"/>
       <import plugin="org.opaeum.metamodels.uim"/>
       <import plugin="org.eclipse.core.filesystem"/>
-      <import plugin="org.opaeum.metamodels.simulation"/>
-      <import plugin="org.opaeum.simulation.actions"/>
       <import plugin="org.eclipse.datatools.common.doc.user"/>
       <import plugin="org.eclipse.datatools.connectivity"/>
       <import plugin="org.eclipse.datatools.connectivity.apache.derby"/>

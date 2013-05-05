@@ -15,12 +15,6 @@
    <feature url="../../feature/org.opaeum.compilation.source.feature" id="org.opaeum.compilation.source.feature" version="1.0.3.qualifier">
       <category name="org.opaeum.tooling.category"/>
    </feature>
-   <feature url="../../feature/org.opaeum.simulation.source.feature" id="org.opaeum.simulation.source.feature" version="1.0.3.qualifier">
-      <category name="org.opaeum.tooling.category"/>
-   </feature>
-   <feature url="../../feature/org.opaeum.simulation.feature" id="org.opaeum.simulation.feature" version="1.0.3.qualifier">
-      <category name="org.opaeum.tooling.category"/>
-   </feature>
    <feature url="../../feature/org.opaeum.eclipse.source.feature" id="org.opaeum.eclipse.source.feature" version="1.0.3.qualifier">
       <category name="org.opaeum.tooling.category"/>
    </feature>

@@ -102,7 +102,6 @@
       <import plugin="org.eclipse.search"/>
       <import plugin="org.eclipse.jdt.ui"/>
       <import plugin="org.eclipse.debug.ui"/>
-      <import plugin="org.opaeum.metamodels.simulation"/>
       <import plugin="org.eclipse.emf.facet.infra.browser"/>
       <import plugin="org.eclipse.emf.facet.infra.browser.custom"/>
       <import plugin="org.eclipse.emf.facet.infra.browser.custom.core"/>

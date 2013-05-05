@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ZcGd6IGpEeK6sqz3aegUOg" name="activate" umlElementUid="252060@_3USwcKDGEeCv9IRqC7lfYw" linkedUmlResource="OpaeumBPM.library.uml">
-  <pageOrdering xmi:id="_Zc0Pl4GpEeK6sqz3aegUOg" page="_Zc0PloGpEeK6sqz3aegUOg"/>
-  <pages xmi:id="_Zc0PloGpEeK6sqz3aegUOg" name="Operation: Activate" umlElementUid="252060@_3USwcKDGEeCv9IRqC7lfYw">
-    <panel xsi:type="panel:GridPanel" xmi:id="_Zc0PmIGpEeK6sqz3aegUOg" name="Activate" numberOfColumns="1"/>
-  </pages>
-</model:OperationInvocationWizard>

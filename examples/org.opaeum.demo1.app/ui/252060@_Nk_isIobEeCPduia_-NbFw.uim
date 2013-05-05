@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ZcHE9IGpEeK6sqz3aegUOg" name="claim" umlElementUid="252060@_Nk_isIobEeCPduia_-NbFw" linkedUmlResource="OpaeumBPM.library.uml">
-  <pageOrdering xmi:id="_ZczBeoGpEeK6sqz3aegUOg" page="_ZczBeYGpEeK6sqz3aegUOg"/>
-  <pages xmi:id="_ZczBeYGpEeK6sqz3aegUOg" name="Operation: Claim" umlElementUid="252060@_Nk_isIobEeCPduia_-NbFw">
-    <panel xsi:type="panel:GridPanel" xmi:id="_ZczBe4GpEeK6sqz3aegUOg" name="Claim" numberOfColumns="1"/>
-  </pages>
-</model:OperationInvocationWizard>

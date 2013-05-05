@@ -34,16 +34,12 @@
 		<module>../../bundles/opaeum-metamodels/org.opaeum.metamodels.java</module>
 		<module>../../bundles/opaeum-metamodels/org.opaeum.metamodels.text</module>
 		<module>../../bundles/opaeum-metamodels/org.opaeum.metamodels.maven</module>
-		<module>../../bundles/opaeum-metamodels/org.opaeum.metamodels.simulation</module>
 		<module>../../bundles/opaeum-compilation/org.opaeum.transformation.engine</module>
 		<module>../../bundles/opaeum-compilation/org.opaeum.compilation.ocltojava</module>
 		<module>../../bundles/opaeum-compilation/org.opaeum.compilation.java</module>
 		<module>../../bundles/opaeum-compilation/org.opaeum.compilation.misc</module>
 		<module>../../bundles/opaeum-compilation/org.opaeum.compilation.filegeneration</module>
 		<module>../../bundles/opaeum-compilation/org.opaeum.compilation.tinker</module>
-		<module>../../bundles/opaeum-simulation/org.opaeum.simulation.edit</module>
-		<module>../../bundles/opaeum-simulation/org.opaeum.simulation.editor</module>
-		<module>../../bundles/opaeum-simulation/org.opaeum.simulation.actions</module>
 		<module>../../bundles/opaeum-eclipse/org.opaeum.eclipse.core</module>
 		<module>../../bundles/opaeum-eclipse/org.opaeum.eclipse.reverse</module>
 		<module>../../bundles/opaeum-eclipse/org.opaeum.eclipse.reverse.db</module>
@@ -72,8 +68,6 @@
 		<module>../../features/org.opaeum.metamodels.source.feature</module>
 		<module>../../features/org.opaeum.compilation.feature</module>
 		<module>../../features/org.opaeum.compilation.source.feature</module>
-		<module>../../features/org.opaeum.simulation.feature</module>
-		<module>../../features/org.opaeum.simulation.source.feature</module>
 		<module>../../features/org.opaeum.eclipse.feature</module>
 		<module>../../features/org.opaeum.eclipse.source.feature</module>
 		<module>../../features/org.opaeum.papyrus.selected.plugins.feature</module>

@@ -1,9 +1,0 @@
-.classpath
-.project
-.settings
-src/main/generated-java
-src/main/generated-resources
-src/test/generated-java
-src/test/generated-resources
-target
-test-output

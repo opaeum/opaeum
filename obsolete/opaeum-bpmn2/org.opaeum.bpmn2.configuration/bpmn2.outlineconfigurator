@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<outlineconfigurator:OutlineConfiguration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:outlineconfigurator="http://www.topcased.org/OutlineConfigurator/1.0" name="BPMN2Outline" projectName="org.opaeum.bpmn2.outline" package="org.opaeum.bpmn2.outline" pluginClassName="Bmpn2OutlinePlugin">
-  <createChild className="BPMN2CreateChildMenu">
-    <items xsi:type="outlineconfigurator:CreateChildAction">
-      <class href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/MessageFlow"/>
-    </items>
-  </createChild>
-  <genPackage href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2"/>
-</outlineconfigurator:OutlineConfiguration>

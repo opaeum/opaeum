@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_UOUpdpCnEeKgxI_HkCdpZw" name="stop" umlElementUid="252060@_GRVH0IobEeCPduia_-NbFw" linkedUmlResource="OpaeumBPM.library.uml">
-  <pageOrdering xmi:id="_URVhT5CnEeKgxI_HkCdpZw" page="_URVhTpCnEeKgxI_HkCdpZw"/>
-  <pages xmi:id="_URVhTpCnEeKgxI_HkCdpZw" name="Operation: Stop" umlElementUid="252060@_GRVH0IobEeCPduia_-NbFw">
-    <panel xsi:type="panel:GridPanel" xmi:id="_URVhUJCnEeKgxI_HkCdpZw" name="Stop" numberOfColumns="1"/>
-  </pages>
-</model:OperationInvocationWizard>

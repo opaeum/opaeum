@@ -29,8 +29,6 @@ import org.opaeum.eclipse.javasync.RecompileModelDirectoryAction;
 import org.opaeum.eclipse.javasync.RecompileModelLibraryAction;
 import org.opaeum.eclipse.javasync.ToggleAutomaticSynchronization;
 import org.opaeum.eclipse.menu.ICompoundContributionItem;
-import org.opaeum.eclipse.simulation.GenerateSimulationCodeAction;
-import org.opaeum.eclipse.simulation.GenerateSimulationModelAction;
 import org.opaeum.eclipse.versioning.CompileVersionAction;
 import org.opaeum.eclipse.versioning.GenerateMigrationProjectAction;
 import org.opaeum.eclipse.versioning.VersionAction;
@@ -87,7 +85,6 @@ public class DynamicOpaeumMenu extends CompoundContributionItem implements IComp
 								actions.add(new ActionContributionItem(new CompileVersionAction(selection)));
 								actions.add(new ActionContributionItem(new GenerateMigrationProjectAction(selection)));
 								actions.add(new ActionContributionItem(new GenerateBusinessIntelligenceSchemaAction(selection)));
-								actions.add(new ActionContributionItem(new GenerateSimulationModelAction(selection)));
 							}
 						}else{
 							action.setText("Convert to  Opaeum Model Directory");
@@ -97,9 +94,6 @@ public class DynamicOpaeumMenu extends CompoundContributionItem implements IComp
 			}else{
 				firstElement = getElementFrom();
 				if(firstElement != null){
-					if(firstElement.getClass().getSimpleName().equals("SimulationModelImpl")){
-						actions.add(new ActionContributionItem(new GenerateSimulationCodeAction(selection)));
-					}else{
 						if(firstElement instanceof Model){
 							actions.add(new ActionContributionItem(new RecompileModelAction(selection)));
 						}else if(firstElement instanceof PackageImport && ((PackageImport) firstElement).getImportedPackage() instanceof Model){
@@ -112,7 +106,6 @@ public class DynamicOpaeumMenu extends CompoundContributionItem implements IComp
 								actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
 							}
 						}
-					}
 				}
 			}
 		}

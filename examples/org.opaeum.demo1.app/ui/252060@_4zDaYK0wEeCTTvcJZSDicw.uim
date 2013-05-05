@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_ZcMkh4GpEeK6sqz3aegUOg" name="abort" umlElementUid="252060@_4zDaYK0wEeCTTvcJZSDicw" linkedUmlResource="OpaeumBPM.library.uml">
-  <pageOrdering xmi:id="_Zc1dvYGpEeK6sqz3aegUOg" page="_Zc1dvIGpEeK6sqz3aegUOg"/>
-  <pages xmi:id="_Zc1dvIGpEeK6sqz3aegUOg" name="Operation: Abort" umlElementUid="252060@_4zDaYK0wEeCTTvcJZSDicw">
-    <panel xsi:type="panel:GridPanel" xmi:id="_Zc1dvoGpEeK6sqz3aegUOg" name="Abort" numberOfColumns="1"/>
-  </pages>
-</model:OperationInvocationWizard>

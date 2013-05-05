@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<model:OperationInvocationWizard xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://opaeum.org/uimetamodel/model/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmi:id="_UOV3kJCnEeKgxI_HkCdpZw" name="suspend" umlElementUid="252060@_ov5DMIoaEeCPduia_-NbFw" linkedUmlResource="OpaeumBPM.library.uml">
-  <pageOrdering xmi:id="_URWvUZCnEeKgxI_HkCdpZw" page="_URWvUJCnEeKgxI_HkCdpZw"/>
-  <pages xmi:id="_URWvUJCnEeKgxI_HkCdpZw" name="Operation: Suspend" umlElementUid="252060@_ov5DMIoaEeCPduia_-NbFw">
-    <panel xsi:type="panel:GridPanel" xmi:id="_URWvUpCnEeKgxI_HkCdpZw" name="Suspend" numberOfColumns="1"/>
-  </pages>
-</model:OperationInvocationWizard>
