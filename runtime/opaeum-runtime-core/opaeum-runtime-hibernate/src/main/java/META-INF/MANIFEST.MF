@@ -1,11 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: opaeum-runtime-hibernate
-Bundle-SymbolicName: opaeum-runtime-hibernate
-Bundle-Version: 1.0.0.qualifier
-Export-Package: model,
- model.util,
- org.opaeum.audit,
+Bundle-Name: org.opaeum.runtime.hibernate
+Bundle-SymbolicName: org.opaeum.runtime.hibernate
+Bundle-Version: 1.0.3.qualifier
+Export-Package: org.opaeum.audit,
  org.opaeum.hibernate.domain,
  org.opaeum.opaeum_hibernate_tests.util,
  org.opaeum.runtime.bpm.opaeumsimpletypes,
@@ -15,7 +13,7 @@ Export-Package: model,
  org.opaeum.runtime.event,
  org.opaeum.runtime.hibernate.test,
  org.opaeum.runtime.jpa
-Require-Bundle: opaeum-runtime-domain
+Require-Bundle: org.opaeum.runtime.domain
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: javassist,
  javassist.bytecode,
@@ -32,7 +30,6 @@ Import-Package: javassist,
  javassist.tools.web,
  javassist.util,
  javassist.util.proxy,
- javax.ejb,
  javax.naming,
  javax.naming.directory,
  javax.naming.event,
@@ -199,7 +196,6 @@ Import-Package: javassist,
  org.postgresql.jdbc2,
  org.postgresql.jdbc2.optional,
  org.postgresql.jdbc3,
- org.postgresql.jdbc3g,
  org.postgresql.jdbc4,
  org.postgresql.largeobject,
  org.postgresql.ssl,
