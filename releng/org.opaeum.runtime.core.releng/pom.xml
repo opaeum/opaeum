@@ -388,9 +388,6 @@
 		</dependencies>
 	</dependencyManagement>
 	<properties>
-		<eclipse.home>/home/ampie/EclipseProducts/JunoModelling4.2.1</eclipse.home>
-		<eclipse.build>1.3.0.v20120522-1813</eclipse.build>
-		<tycho-version>0.16.0</tycho-version>
-
+		<tycho-version>0.17.0</tycho-version>
 	</properties>
 </project>

@@ -7,8 +7,8 @@
 		<relativePath>../../../releng/org.opaeum.runtime.core.releng/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>opaeum-runtime-hibernate</artifactId>
-	<packaging>jar</packaging>
+	<artifactId>${opaeum.artifact.id}</artifactId>
+	<packaging>${packaging.type}</packaging>
 	<name>Opaeum Hibernate Runtime</name>
 	<build>
 		<plugins>
@@ -124,6 +124,7 @@
 			</build>
 			<properties>
 				<packaging.type>eclipse-plugin</packaging.type>
+				<opaeum.artifact.id>org.opaeum.runtime.hibernate</opaeum.artifact.id>
 			</properties>
 		</profile>
 		<profile>
@@ -131,9 +132,6 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-			<properties>
-				<packaging.type>jar</packaging.type>
-			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -165,6 +163,11 @@
 
 				</plugins>
 			</build>
+			<properties>
+				<packaging.type>jar</packaging.type>
+				<opaeum.artifact.id>opaeum-runtime-hibernate</opaeum.artifact.id>
+			</properties>
+			
 		</profile>
 	</profiles>
 	<dependencies>
