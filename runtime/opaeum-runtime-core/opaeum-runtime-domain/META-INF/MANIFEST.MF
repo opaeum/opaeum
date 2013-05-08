@@ -1,5 +1,4 @@
 Manifest-Version: 1.0
-Tool: Bundlor 1.1.0.RELEAS
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Name: org.opaeum.runtime.domain
 Bundle-SymbolicName: org.opaeum.runtime.domain
