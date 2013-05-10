@@ -20,11 +20,12 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Package;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
+import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.menu.AbstractReverseEngineerAction;
 
-public class ReverseEngineerClassesAction extends AbstractReverseEngineerAction{
-	public ReverseEngineerClassesAction(IStructuredSelection selection){
-		super(selection, "Reverse Engineer Java");
+public abstract class AbstractReverseEngineerJavaAction extends AbstractReverseEngineerAction{
+	public AbstractReverseEngineerJavaAction(IStructuredSelection selection,String name){
+		super(selection, name);
 	}
 	private static CompilationUnit parse(ICompilationUnit unit){
 		ASTParser parser = ASTParser.newParser(AST.JLS4);
@@ -68,6 +69,7 @@ public class ReverseEngineerClassesAction extends AbstractReverseEngineerAction{
 			}
 		}
 	}
+
 	@Override
 	protected Command buildCommand(final Package model){
 		try{
@@ -80,8 +82,9 @@ public class ReverseEngineerClassesAction extends AbstractReverseEngineerAction{
 				@Override
 				public void execute(){
 					try{
-						new UmlGenerator().generateUml(types, model);
+						createGenerator().generateUml(types, model);
 					}catch(Exception e){
+						OpaeumEclipsePlugin.logError("Could not reverse Java classes", e);
 						MessageDialog.openError(Display.getCurrent().getActiveShell(), "Reverse Engineering Failed", e.toString());
 					}
 				}
@@ -94,4 +97,5 @@ public class ReverseEngineerClassesAction extends AbstractReverseEngineerAction{
 			return DO_NOTHING;
 		}
 	}
+	protected abstract AbstractUmlGenerator createGenerator();
 }

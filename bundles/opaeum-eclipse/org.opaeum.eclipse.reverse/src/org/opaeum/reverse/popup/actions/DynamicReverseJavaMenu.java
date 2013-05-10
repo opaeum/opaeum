@@ -23,7 +23,9 @@ public class DynamicReverseJavaMenu extends CompoundContributionItem implements 
 				return new IContributionItem[0];
 			}
 		}
-		return new IContributionItem[]{new ActionContributionItem(new ReverseEngineerClassesAction(selection))};
+		return new IContributionItem[]{new ActionContributionItem(new ReverseEngineerAnnotationsToProfileAction(selection)),
+				new ActionContributionItem(new ReverseEngineerJpaClassesAction(selection)),
+				new ActionContributionItem(new ReverseEngineerSimpleClassesAction(selection))};
 	}
 	private boolean canReverse(Object object){
 		return object instanceof ICompilationUnit || object instanceof IPackageFragment || object instanceof IClassFile;

@@ -1,0 +1,21 @@
+split into 3 functions:
+Reverse engineer normal java
+  Do annotations -- later
+Reverse engineer profile  
+  Check for profile
+  Only do annotations and enums
+  Do attributes that are annotations as compositional, non association attributes of the type of the annotation 
+  Support the "Class" type (with type arguments  -- later)
+Reverse engineer JPA
+  Import JPA profile
+  Do checks for Sets for uniques and (INDEXED arrayLists) for ordered (simply annotate sorted dudes)
+  Create a stereotype attribute for imported java code
+  Remember Constructors
+  
+Forward engineer Java code:
+  If any javax.persistence annotation is present, skip hibernate and jpa annotators
+  Generate stored code for custom methods
+  Create an extremely simple attribute implementor
+  Remember Constructors
+  
+  

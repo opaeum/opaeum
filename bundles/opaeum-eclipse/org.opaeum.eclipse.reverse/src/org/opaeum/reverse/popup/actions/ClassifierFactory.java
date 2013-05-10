@@ -260,6 +260,9 @@ public class ClassifierFactory{
 		if(javaClass.isAnnotation()){
 			return((Profile) model);
 		}else{
+			if(javaClass==null || javaClass.getPackage()==null){
+				System.out.println();
+			}
 			StringTokenizer st = new StringTokenizer(javaClass.getPackage().getName(), ".");
 			Namespace currentPackage = null;
 			String name = st.nextToken();
@@ -309,12 +312,14 @@ public class ClassifierFactory{
 		this.classMap.put("short", integerPrimitiveType);
 		this.classMap.put(Byte.class.getName(), integerPrimitiveType);
 		this.classMap.put("byte", integerPrimitiveType);
-		Package ecoreLibrary = getImportedPackage(model, UMLResource.JAVA_PRIMITIVE_TYPES_LIBRARY_URI);
-		this.classMap.put(BigDecimal.class.getName(), (Classifier) ecoreLibrary.getOwnedMember("double"));
-		this.classMap.put(Double.class.getName(), (Classifier) ecoreLibrary.getOwnedMember("double"));
-		this.classMap.put("double", (Classifier) ecoreLibrary.getOwnedMember("double"));
-		this.classMap.put(Float.class.getName(), (Classifier) ecoreLibrary.getOwnedMember("double"));
-		this.classMap.put("float", (Classifier) ecoreLibrary.getOwnedMember("double"));
+		Package javaLibrary = getImportedPackage(model, UMLResource.JAVA_PRIMITIVE_TYPES_LIBRARY_URI);
+		this.classMap.put(BigDecimal.class.getName(), (Classifier) javaLibrary.getOwnedMember("double"));
+		this.classMap.put(Double.class.getName(), (Classifier) javaLibrary.getOwnedMember("double"));
+		this.classMap.put("double", (Classifier) javaLibrary.getOwnedMember("double"));
+		this.classMap.put(Float.class.getName(), (Classifier) javaLibrary.getOwnedMember("double"));
+		this.classMap.put("float", (Classifier) javaLibrary.getOwnedMember("double"));
+		this.classMap.put(Character.class.getName(), (Classifier) javaLibrary.getOwnedMember("char"));
+		this.classMap.put("char", (Classifier) javaLibrary.getOwnedMember("char"));
 		DataType dateTimeType = (DataType) findInImports(model, "DateTime");
 		if(dateTimeType != null){
 			this.classMap.put("java.util.Date", dateTimeType);

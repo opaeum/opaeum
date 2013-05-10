@@ -19,6 +19,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
+import org.eclipse.uml2.uml.Model;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpenUmlFile;
 
@@ -47,8 +48,9 @@ public abstract class AbstractReverseEngineerAction extends AbstractOpaeumAction
 							if(editorInput.getFile().getParent().findMember("opaeum.properties") != null){
 								OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(editorInput.getFile().getParent());
 								for(IResource r:editorInput.getFile().getParent().members()){
-									if(r.getName().endsWith(".uml")){
-										if(ctx.getOpenUmlFileFor((IFile) r) != null){
+									if(r.getName().endsWith(".uml") ){
+										OpenUmlFile ouf = ctx.getOpenUmlFileFor((IFile) r);
+										if(ouf != null && canReverseInto(ouf)){
 											files.add((IFile) r);
 										}
 									}
@@ -91,6 +93,9 @@ public abstract class AbstractReverseEngineerAction extends AbstractOpaeumAction
 				e.printStackTrace();
 			}
 		}
+	}
+	protected boolean canReverseInto(OpenUmlFile ouf){
+		return ouf.getModel() instanceof Model;
 	}
 	protected abstract Command buildCommand(org.eclipse.uml2.uml.Package model);
 }
