@@ -4,32 +4,37 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 
 public abstract class AbstractUmlGenerator{
 	protected ClassifierFactory factory;
-	public abstract void generateUml(Collection<ITypeBinding> selection,Package library) throws Exception;
-	protected boolean shouldReverseType(ITypeBinding t){
-		return t.isAnnotation() || t.isEnum();
-	}
+	public abstract void generateUml(Map<ITypeBinding,AbstractTypeDeclaration> types,Package library,IProgressMonitor m) throws Exception;
 	public Package getRootPackage(Resource resource){
 		EList<EObject> contents = resource.getContents();
 		for(EObject eObject:contents){
@@ -39,21 +44,10 @@ public abstract class AbstractUmlGenerator{
 		}
 		return null;
 	}
-	protected void populateOperations(Package modelOrProfile,Classifier owner,ITypeBinding beanInfo){
-		IMethodBinding[] mds = beanInfo.getDeclaredMethods();
+	protected void populateOperations(Package modelOrProfile,Classifier owner,Entry<ITypeBinding,AbstractTypeDeclaration> t){
+		IMethodBinding[] mds = t.getKey().getDeclaredMethods();
 		for(IMethodBinding md:mds){
-			if(md.isAnnotationMember()){
-				ITypeBinding propertyType = md.getReturnType();
-				if(propertyType.isArray()){
-					propertyType = propertyType.getComponentType();
-				}
-				Classifier classifierFor = factory.getClassifierFor(propertyType);
-				Property p = ((Stereotype) owner).getOwnedAttribute(md.getName(), classifierFor, true, UMLPackage.eINSTANCE.getProperty(), true);
-				if(md.getReturnType().isArray()){
-					LiteralUnlimitedNatural lit = (LiteralUnlimitedNatural) p.createUpperValue("upper", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural());
-					lit.setValue(-1);
-				}
-			}else if(Modifier.isPublic(md.getModifiers()) && !md.isConstructor() && !hasOperation(modelOrProfile, owner, md) && !isAccessor(md)){
+			if(Modifier.isPublic(md.getModifiers()) && !md.isConstructor() && !hasOperation(modelOrProfile, owner, md) && !isAccessor(md)){
 				Operation oper = createOperation(owner, md);
 				oper.setIsStatic(Modifier.isStatic(md.getModifiers()));
 				ITypeBinding returnType = md.getReturnType();
@@ -72,6 +66,28 @@ public abstract class AbstractUmlGenerator{
 						umlParameter.setName("parm" + i);
 					}
 				}
+				if(!(owner instanceof Interface)){
+					if(t.getValue() instanceof TypeDeclaration){
+						TypeDeclaration td = (TypeDeclaration) t.getValue();
+						for(MethodDeclaration m:td.getMethods()){
+							IMethod iMethod = (IMethod) md.getMethodDeclaration().getJavaElement();
+							try{
+								if(m.getStartPosition() == iMethod.getSourceRange().getOffset()){
+									oper.setBodyCondition(UMLFactory.eINSTANCE.createConstraint());
+									oper.getBodyCondition().setName("javaBody");
+									OpaqueExpression oe = UMLFactory.eINSTANCE.createOpaqueExpression();
+									oper.getBodyCondition().setSpecification(oe);
+									oe.getLanguages().add("java");
+									oper.setIsQuery(true);
+									String s = m.getBody().toString();
+									oe.getBodies().add(s);
+								}
+							}catch(Exception e){
+								System.out.println(e);
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -85,7 +101,8 @@ public abstract class AbstractUmlGenerator{
 		for(Operation oper:intfce.getOperations()){
 			List<Parameter> args = new ArrayList<Parameter>();
 			for(Parameter parameter:oper.getOwnedParameters()){
-				if(parameter.getDirection() == ParameterDirectionKind.IN_LITERAL || parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL){
+				if(parameter.getDirection() == ParameterDirectionKind.IN_LITERAL
+						|| parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL){
 					args.add(parameter);
 				}
 			}
@@ -105,8 +122,8 @@ public abstract class AbstractUmlGenerator{
 		}
 		return false;
 	}
-	protected void populateAttributes(Package modelOrProfile,Classifier classifier,ITypeBinding binding){
-		Collection<PropertyDescriptor> fields = PropertyDescriptor.getPropertyDescriptors(binding);
+	protected void populateAttributes(Package modelOrProfile,Classifier classifier,Entry<ITypeBinding,AbstractTypeDeclaration> t){
+		Collection<PropertyDescriptor> fields = PropertyDescriptor.getPropertyDescriptors(t.getKey());
 		for(PropertyDescriptor pd:fields){
 			Property found = findProperty(classifier, pd);
 			if(found == null){
@@ -146,12 +163,14 @@ public abstract class AbstractUmlGenerator{
 	protected Property createAttribute(Classifier cls,PropertyDescriptor pd){
 		Property attr = null;
 		if(cls instanceof Interface){
-			attr = ((Interface) cls).getOwnedAttribute(pd.getName(), factory.getClassifierFor(pd.getBaseType()), false, UMLPackage.eINSTANCE.getProperty(), true);
+			attr = ((Interface) cls).getOwnedAttribute(pd.getName(), factory.getClassifierFor(pd.getBaseType()), false,
+					UMLPackage.eINSTANCE.getProperty(), true);
 		}else if(cls instanceof org.eclipse.uml2.uml.Class){
-			attr = ((org.eclipse.uml2.uml.Class) cls).getOwnedAttribute(pd.getName(), factory.getClassifierFor(pd.getBaseType()), false, UMLPackage.eINSTANCE.getProperty(),
-					true);
+			attr = ((org.eclipse.uml2.uml.Class) cls).getOwnedAttribute(pd.getName(), factory.getClassifierFor(pd.getBaseType()), false,
+					UMLPackage.eINSTANCE.getProperty(), true);
 		}else if(cls instanceof DataType){
-			attr = ((DataType) cls).getOwnedAttribute(pd.getName(), factory.getClassifierFor(pd.getBaseType()), false, UMLPackage.eINSTANCE.getProperty(), true);
+			attr = ((DataType) cls).getOwnedAttribute(pd.getName(), factory.getClassifierFor(pd.getBaseType()), false,
+					UMLPackage.eINSTANCE.getProperty(), true);
 		}
 		return attr;
 	}

@@ -29,17 +29,17 @@ public class ImportPackageFromWorkspaceAction extends AbstractOpaeumAction{
 		ResourceDialog rd = new ResourceDialog(Display.getCurrent().getActiveShell(), "Import model", SWT.OPEN | SWT.SINGLE);
 		if(rd.open() == Dialog.OK){
 			Object firstElement = super.selection.getFirstElement();
-			Namespace eObject = (Namespace) EmfElementFinder.adaptObject(firstElement);
+			Namespace namespace = (Namespace) EmfElementFinder.adaptObject(firstElement);
 			List<URI> urIs = rd.getURIs();
-			OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(eObject);
+			OpenUmlFile ouf = OpaeumEclipseContext.findOpenUmlFileFor(namespace);
 			for(URI uri:urIs){
-				Resource resource = eObject.eResource().getResourceSet().getResource(uri, true);
+				Resource resource = namespace.eResource().getResourceSet().getResource(uri, true);
 				if(resource.getContents().size() > 0 && resource.getContents().get(0) instanceof Package){
 					Package library = (Package) resource.getContents().get(0);
-					if(!library.getImportedPackages().contains(library)){
+					if(!namespace.getImportedPackages().contains(library)){
 						PackageImport pi = UMLFactory.eINSTANCE.createPackageImport();
 						pi.setImportedPackage(library);
-						ouf.executeAndForget(AddCommand.create(ouf.getEditingDomain(), eObject, UMLPackage.eINSTANCE.getNamespace_PackageImport(), pi));
+						ouf.executeAndForget(AddCommand.create(ouf.getEditingDomain(), namespace, UMLPackage.eINSTANCE.getNamespace_PackageImport(), pi));
 					}
 				}else{
 					MessageDialog.openError(Display.getCurrent().getActiveShell(), "Failed", "No valid package found in " + uri.toPlatformString(true));

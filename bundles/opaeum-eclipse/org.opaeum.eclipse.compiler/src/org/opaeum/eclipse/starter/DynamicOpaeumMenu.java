@@ -17,6 +17,8 @@ import org.eclipse.ui.actions.CompoundContributionItem;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.PackageImport;
+import org.eclipse.uml2.uml.Profile;
+import org.eclipse.uml2.uml.editor.actions.DefineProfileAction;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.javasync.GenerateBusinessIntelligenceSchemaAction;
@@ -104,6 +106,9 @@ public class DynamicOpaeumMenu extends CompoundContributionItem implements IComp
 						}else if((firstElement instanceof Element)){
 							if(AbstractEmfPhase.canBeProcessedIndividually((EObject) firstElement)){
 								actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
+							}
+							if(firstElement instanceof Profile){
+								actions.add(new ActionContributionItem(new OpaeumDefineProfileAction(selection)));
 							}
 						}
 				}

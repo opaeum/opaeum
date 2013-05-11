@@ -122,7 +122,8 @@ Require-Bundle: org.opaeum.eclipse.core,
  org.eclipse.datatools.modelbase.sql.query.edit,
  org.eclipse.datatools.modelbase.sql.xml.query,
  org.eclipse.datatools.oda.cshelp,
- org.eclipse.datatools.sdk
+ org.eclipse.datatools.sdk,
+ org.eclipse.uml2.uml.editor
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.eclipse.javasync,

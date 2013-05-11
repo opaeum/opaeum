@@ -23,16 +23,24 @@ public class PropertyDescriptor{
 	private String mappedBy;
 	public PropertyDescriptor(IMethodBinding getter){
 		this.getter = getter;
-		this.name = propertyName(getter);
+		if(getter.isAnnotationMember()){
+			this.name = getter.getName();
+		}else{
+			this.name = propertyName(getter);
+		}
 	}
 	public boolean isComposite(){
-		String attributeName = "cascade";
-		Class<Object[]> attributeType = Object[].class;
-		Object[] cascade = findAnnotationAttributeValue(attributeName, attributeType);
-		if(cascade!=null &&  cascade.length==1 && ((IVariableBinding)cascade[0]).getName().equals("ALL")){
+		if(getter != null && getter.isAnnotationMember()){
 			return true;
+		}else{
+			String attributeName = "cascade";
+			Class<Object[]> attributeType = Object[].class;
+			Object[] cascade = findAnnotationAttributeValue(attributeName, attributeType);
+			if(cascade != null && cascade.length == 1 && ((IVariableBinding) cascade[0]).getName().equals("ALL")){
+				return true;
+			}
+			return false;
 		}
-		return false;
 	}
 	private <T>T findAnnotationAttributeValue(String attributeName,Class<T> attributeType){
 		T cascade = null;
@@ -83,7 +91,7 @@ public class PropertyDescriptor{
 		return mappedBy;
 	}
 	public static String propertyName(IMethodBinding getter){
-		return Introspector.decapitalize(getter.getName().substring(3));
+		return getter.isAnnotationMember()?getter.getName(): Introspector.decapitalize(getter.getName().substring(3));
 	}
 	public String getName(){
 		return name;
@@ -102,7 +110,6 @@ public class PropertyDescriptor{
 			}else if(type.isArray()){
 				return type.getComponentType();
 			}else{
-				System.out.println();
 				return type;
 			}
 		}else{
@@ -134,12 +141,16 @@ public class PropertyDescriptor{
 		Map<String,PropertyDescriptor> results = new HashMap<String,PropertyDescriptor>();
 		for(IMethodBinding getter:methods){
 			boolean match = name == null || propertyName(getter).equalsIgnoreCase(name);
-			if(Modifier.isPublic(getter.getModifiers()) && isGetter(getter) && match){
+			if(isGetter(getter) && match){
 				PropertyDescriptor pd = new PropertyDescriptor(getter);
 				results.put(pd.getName().toLowerCase(), pd);
-				for(IMethodBinding setter:methods){
-					if(isSetterFor(setter, pd.getter)){
-						pd.isReadOnly = false;
+				if(getter.isAnnotationMember()){
+					pd.isReadOnly = false;
+				}else{
+					for(IMethodBinding setter:methods){
+						if(isSetterFor(setter, pd.getter)){
+							pd.isReadOnly = false;
+						}
 					}
 				}
 			}
@@ -154,7 +165,7 @@ public class PropertyDescriptor{
 		return results.values();
 	}
 	protected static boolean isGetter(IMethodBinding method){
-		return method.getName().startsWith("get") && !method.getReturnType().getName().equals("void") && method.getParameterTypes().length == 0;
+		return method.isAnnotationMember() ||  ( Modifier.isPublic(method.getModifiers()) && method.getName().startsWith("get") && !method.getReturnType().getName().equals("void") && method.getParameterTypes().length == 0);
 	}
 	protected static boolean isSetterFor(IMethodBinding setter,IMethodBinding getter){
 		boolean nameOK = setter.getName().startsWith("set") && setter.getName().substring(3).equals(getter.getName().substring(3));

@@ -22,6 +22,7 @@ public class ApplyProfileMenu extends CompoundContributionItem{
 		for(ModelLibrary uri:profiles){
 			actions.add(new ActionContributionItem(new ApplyProfileAction(selection, uri)));
 		}
+		actions.add(new ActionContributionItem(new ApplyProfileFromWorkspaceAction(selection)));
 		return (IContributionItem[]) actions.toArray(new IContributionItem[actions.size()]);
 	}
 }

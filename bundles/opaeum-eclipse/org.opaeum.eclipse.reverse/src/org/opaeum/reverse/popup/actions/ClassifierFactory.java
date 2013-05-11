@@ -13,6 +13,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMemberValuePairBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
@@ -31,7 +32,9 @@ import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.VisibilityKind;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
 public class ClassifierFactory{
@@ -50,7 +53,8 @@ public class ClassifierFactory{
 		this.helperStereotype = findInProfiles(model, "Helper");
 		importPrimitiveTypes(model);
 		if(model instanceof Profile){
-			umlMetaModel = (Model) model.eResource().getResourceSet().getResource(URI.createURI(UMLResource.UML_METAMODEL_URI), true).getContents().get(0);
+			umlMetaModel = (Model) model.eResource().getResourceSet().getResource(URI.createURI(UMLResource.UML_METAMODEL_URI), true)
+					.getContents().get(0);
 			classMetaClass = (org.eclipse.uml2.uml.Class) umlMetaModel.getOwnedType("Class");
 			propertyMetaClass = (org.eclipse.uml2.uml.Class) umlMetaModel.getOwnedType("Property");
 			operationMetaClass = (org.eclipse.uml2.uml.Class) umlMetaModel.getOwnedType("Operation");
@@ -63,10 +67,11 @@ public class ClassifierFactory{
 	}
 	public Classifier getClassifierFor(ITypeBinding returnType){
 		try{
+			//TODO cleanup sometimes forces creates, sometimes returns null
 			if(returnType == null){
 				return null;
 			}
-			Classifier classifier;
+			Classifier classifier=null;
 			if(isCollection(returnType) && returnType.getTypeArguments().length == 1){
 				returnType = returnType.getTypeArguments()[0];
 			}else{
@@ -88,43 +93,16 @@ public class ClassifierFactory{
 					}
 				}
 				Namespace pkg = getPackageFor(returnType, model);
-				classifier = (Classifier) pkg.getOwnedMember(returnType.getName());
-				if(classifier == null){
-					classifier = createClassifier(returnType);
-					mappedTypes.put(classifier.getQualifiedName(), returnType.getQualifiedName());
-				}
-				if(classifier instanceof Stereotype){
-					Stereotype st=(Stereotype) classifier ;
-					//TODO move this section to createSTereotype
-					for(IAnnotationBinding ab:returnType.getAnnotations()){
-						if(ab.getAnnotationType().getBinaryName().equals(Target.class.getName())){
-							for(IMemberValuePairBinding mvp:ab.getAllMemberValuePairs()){
-								Object val = mvp.getValue();
-								if(mvp.getName().equals("value") && val instanceof Object[]){
-									for(Object o:(Object[]) val){
-										IVariableBinding elementType = (IVariableBinding) o;
-										if(elementType.getName().equals("TYPE") && !st.getAllExtendedMetaclasses().contains(classMetaClass)){
-											st.createExtension(classMetaClass, false);
-										}else if(elementType.getName().equals("FIELD") && !st.getAllExtendedMetaclasses().contains(propertyMetaClass)){
-											st.createExtension(propertyMetaClass, false);
-										}else if(elementType.getName().equals("METHOD")&&!st.getAllExtendedMetaclasses().contains(operationMetaClass)){
-											st.createExtension(operationMetaClass, false);
-										}
-									}
-									Type pt = umlMetaModel.getOwnedType("PrimitiveType");
-									Type dt = umlMetaModel.getOwnedType("DataType");
-									if(!(st.getAllExtendedMetaclasses().contains(pt) || st.getAllExtendedMetaclasses().contains(dt))){
-										st.createExtension((Class) dt, false);
-										st.createExtension((Class) pt, false);
-
-									}
-								}
-							}
-						}
+				if(pkg != null){
+					classifier = (Classifier) pkg.getOwnedMember(returnType.getName());
+					if(model instanceof Model && returnType.isAnnotation()){
+						return classifier;// no lazy creation
+					}else if(classifier == null){
+						classifier = createClassifier(returnType);
+						mappedTypes.put(classifier.getQualifiedName(), returnType.getQualifiedName());
 					}
-					
+					classMap.put(returnType.getQualifiedName(), classifier);
 				}
-				classMap.put(returnType.getQualifiedName(), classifier);
 			}
 			return classifier;
 		}catch(IntrospectionException e){
@@ -132,7 +110,8 @@ public class ClassifierFactory{
 		}
 	}
 	public boolean isCollection(ITypeBinding returnType){
-		return (returnType.isParameterizedType() && returnType.getQualifiedName().contains("java.util.Collection")) || isSet(returnType) || isList(returnType);
+		return (returnType.isParameterizedType() && returnType.getQualifiedName().contains("java.util.Collection")) || isSet(returnType)
+				|| isList(returnType);
 	}
 	private Classifier createClassifier(ITypeBinding returnType) throws IntrospectionException{
 		Classifier classifier = null;
@@ -161,14 +140,40 @@ public class ClassifierFactory{
 				classifier = createEntity(returnType);
 			}
 		}
-		if(!(returnType.getSuperclass() == null || returnType.getSuperclass().getQualifiedName().equals("java.lang.Object") || returnType.isEnum() || returnType
-				.isAnnotation())){
+		if(!(returnType.getSuperclass() == null || returnType.getSuperclass().getQualifiedName().equals("java.lang.Object")
+				|| returnType.isEnum() || returnType.isAnnotation())){
 			classifier.createGeneralization(getClassifierFor(returnType.getSuperclass()));
 		}
 		return classifier;
 	}
 	private Classifier createStereotype(ITypeBinding type){
 		Stereotype st = (Stereotype) createType(type, UMLPackage.eINSTANCE.getStereotype());
+		// TODO move this section to createSTereotype
+		for(IAnnotationBinding ab:type.getAnnotations()){
+			if(ab.getAnnotationType().getBinaryName().equals(Target.class.getName())){
+				for(IMemberValuePairBinding mvp:ab.getDeclaredMemberValuePairs()){
+					Object val = mvp.getValue();
+					if(mvp.getName().equals("value") && val instanceof Object[]){
+						for(Object o:(Object[]) val){
+							IVariableBinding elementType = (IVariableBinding) o;
+							if(elementType.getName().equals("TYPE") && !st.getAllExtendedMetaclasses().contains(classMetaClass)){
+								st.createExtension(classMetaClass, false);
+							}else if(elementType.getName().equals("FIELD") && !st.getAllExtendedMetaclasses().contains(propertyMetaClass)){
+								st.createExtension(propertyMetaClass, false);
+							}else if(elementType.getName().equals("METHOD") && !st.getAllExtendedMetaclasses().contains(operationMetaClass)){
+								st.createExtension(operationMetaClass, false);
+							}
+						}
+						Type pt = umlMetaModel.getOwnedType("PrimitiveType");
+						Type dt = umlMetaModel.getOwnedType("DataType");
+						if(!(st.getAllExtendedMetaclasses().contains(pt) || st.getAllExtendedMetaclasses().contains(dt))){
+							st.createExtension((Class) dt, false);
+							st.createExtension((Class) pt, false);
+						}
+					}
+				}
+			}
+		}
 		return st;
 	}
 	public boolean implementsInterface(ITypeBinding returnType,String intfName){
@@ -200,7 +205,7 @@ public class ClassifierFactory{
 		org.eclipse.uml2.uml.Class umlClass = (Class) createType(returnType, UMLPackage.eINSTANCE.getClass_());
 		ITypeBinding[] interfaces = returnType.getInterfaces();
 		for(ITypeBinding intfce:interfaces){
-			if(!intfce.getQualifiedName().startsWith("net.sf.opaeum")){
+			if(!intfce.getQualifiedName().startsWith("org.opaeum")){
 				umlClass.createInterfaceRealization(intfce.getName(), (Interface) getClassifierFor(intfce));
 			}
 		}
@@ -210,11 +215,11 @@ public class ClassifierFactory{
 		Interface umlInterface = (Interface) createType(returnType, UMLPackage.eINSTANCE.getInterface());
 		ITypeBinding[] interfaces = returnType.getInterfaces();
 		for(ITypeBinding intfce:interfaces){
-			if(!intfce.getQualifiedName().startsWith("net.sf.opaeum")){
+			if(!intfce.getQualifiedName().startsWith("org.opaeum")){
 				umlInterface.createGeneralization(getClassifierFor(intfce));
 			}
 		}
-		IAnnotationBinding ann = Annotations.getAnnotationAttribute("net.sf.opaeum.annotation.HelperInterface", returnType.getAnnotations());
+		IAnnotationBinding ann = Annotations.getAnnotationAttribute("org.opaeum.annotation.HelperInterface", returnType.getAnnotations());
 		if(ann != null){
 			umlInterface.applyStereotype(helperStereotype);
 			umlInterface.setValue(helperStereotype, "name", Annotations.getAnnotationAttribute(ann, "name").getValue());
@@ -258,18 +263,55 @@ public class ClassifierFactory{
 	}
 	private Namespace getPackageFor(ITypeBinding javaClass,Namespace ecoreModelOrProfile){
 		if(javaClass.isAnnotation()){
-			return((Profile) model);
-		}else{
-			if(javaClass==null || javaClass.getPackage()==null){
-				System.out.println();
+			if(ecoreModelOrProfile instanceof Profile){
+				return ecoreModelOrProfile;// Probably to be created
+			}else{
+				// to be looked up
+				// TODO clean this up it is unnecessary
+				// Do this lookup in getClassifierFor insteads
+				EList<Resource> resources = ecoreModelOrProfile.eResource().getResourceSet().getResources();
+				for(Resource resource:resources){
+					if(resource.getContents().size() > 0 && resource.getContents().get(0) instanceof Profile){
+						Profile p = (Profile) resource.getContents().get(0);
+						if(p.getOwnedStereotype(javaClass.getName()) != null){
+							return p;
+						}
+					}
+				}
+				return null;
 			}
+		}else{
 			StringTokenizer st = new StringTokenizer(javaClass.getPackage().getName(), ".");
 			Namespace currentPackage = null;
 			String name = st.nextToken();
 			if(name.equalsIgnoreCase(ecoreModelOrProfile.getName())){
 				currentPackage = ecoreModelOrProfile;
 			}else{
-				currentPackage = findOrCreateChild(ecoreModelOrProfile, name);
+				if(ecoreModelOrProfile instanceof Profile && !javaClass.isAnnotation()){
+					Resource res = ecoreModelOrProfile.eResource();
+					EList<Resource> resources = res.getResourceSet().getResources();
+					outer:for(Resource resource:resources){
+						for(EObject eObject:resource.getContents()){
+							if(eObject instanceof Model && ((Model) eObject).getName().equals(name)){
+								currentPackage = model;
+								break outer;
+							}
+						}
+					}
+					if(currentPackage == null){
+						URI uri = res.getURI().trimFileExtension().trimSegments(1).appendSegment(name).appendFileExtension("uml");
+						currentPackage = UMLFactory.eINSTANCE.createModel();
+						currentPackage.setName(name);
+						Resource newRes = res.getResourceSet().createResource(uri);
+						res.getResourceSet().getResources().add(newRes);
+						newRes.getContents().add(currentPackage);
+						ecoreModelOrProfile.createPackageImport((Package) currentPackage, VisibilityKind.PUBLIC_LITERAL);
+					}
+				}else{
+					// just create it in the current model
+					// TODOmaybe revisit in future
+					currentPackage = findOrCreateChild(ecoreModelOrProfile, name);
+				}
 			}
 			while(st.hasMoreTokens()){
 				name = st.nextToken();
@@ -338,7 +380,7 @@ public class ClassifierFactory{
 			}
 		}
 		EList<EObject> contents = ecoreProfile.eResource().getResourceSet().getResource(uri, true).getContents();
-		if(contents.size()==0){
+		if(contents.size() == 0){
 			return null;
 		}
 		Model umlLibrary = (Model) contents.get(0);

@@ -36,8 +36,13 @@ public class OpaeumStartup implements IStartup{
 		private void maybeSetCurrentEditContext(IWorkbenchPart part){
 			IEditorPart editor = part.getSite().getWorkbenchWindow().getActivePage().getActiveEditor();
 			if(editor instanceof PapyrusMultiDiagramEditor){
-				PapyrusMultiDiagramEditor papyrusEditor = (PapyrusMultiDiagramEditor) editor;
-				associateOpaeumContext(papyrusEditor);
+				if(editor.getClass() == PapyrusMultiDiagramEditor.class){
+					//OPaeumEditor not loaded
+					part.getSite().getWorkbenchWindow().getActivePage().closeEditor(editor, false);
+				}else{
+					PapyrusMultiDiagramEditor papyrusEditor = (PapyrusMultiDiagramEditor) editor;
+					associateOpaeumContext(papyrusEditor);
+				}
 			}
 		}
 		public void partClosed(IWorkbenchPart part){
@@ -112,11 +117,11 @@ public class OpaeumStartup implements IStartup{
 					public void run(){
 						try{
 							// TODO Auto-generated method stub
-//							workbenchWindow.getActivePage().showView("org.opaeum.papyrus.uml.modelexplorer");
-//							IViewPart ex = workbenchWindow.getActivePage().findView("org.eclipse.papyrus.views.modelexplorer.modelexplorer");
-//							if(ex != null){
-//								workbenchWindow.getActivePage().hideView(ex);
-//							}
+							// workbenchWindow.getActivePage().showView("org.opaeum.papyrus.uml.modelexplorer");
+							// IViewPart ex = workbenchWindow.getActivePage().findView("org.eclipse.papyrus.views.modelexplorer.modelexplorer");
+							// if(ex != null){
+							// workbenchWindow.getActivePage().hideView(ex);
+							// }
 						}catch(Exception e1){
 							// nice to have
 						}
@@ -126,11 +131,11 @@ public class OpaeumStartup implements IStartup{
 		}
 		IWorkbenchActivitySupport activitySupport = PlatformUI.getWorkbench().getActivitySupport();
 		Set<String> enabledActivities = new HashSet<String>();
-//		String id = "org.opaeum.papyrus.uimadapter.activity";
-//		IActivity activity = activitySupport.getActivityManager().getActivity(id);
-//		if(activity.isDefined()){
-//			activitySupport.setEnabledActivityIds(enabledActivities);
-//		}
+		// String id = "org.opaeum.papyrus.uimadapter.activity";
+		// IActivity activity = activitySupport.getActivityManager().getActivity(id);
+		// if(activity.isDefined()){
+		// activitySupport.setEnabledActivityIds(enabledActivities);
+		// }
 		// IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		// if(window instanceof WorkbenchWindow){
 		// ICoolBarManager coolBarManager = null;

@@ -1,7 +1,8 @@
 package org.opaeum.reverse.popup.actions;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.Command;
@@ -16,11 +17,11 @@ import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Package;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
-import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.menu.AbstractReverseEngineerAction;
 
 public abstract class AbstractReverseEngineerJavaAction extends AbstractReverseEngineerAction{
@@ -41,15 +42,15 @@ public abstract class AbstractReverseEngineerJavaAction extends AbstractReverseE
 		parser.setResolveBindings(true);
 		return (CompilationUnit) parser.createAST(null); // parse
 	}
-	private List<ITypeBinding> selectTypeDeclarations(IStructuredSelection selection) throws JavaModelException{
+	private Map<ITypeBinding,AbstractTypeDeclaration> selectTypeDeclarations(IStructuredSelection selection) throws JavaModelException{
 		Object[] selections = selection.toArray();
-		List<ITypeBinding> types = new ArrayList<ITypeBinding>();
+		Map<ITypeBinding,AbstractTypeDeclaration> types = new HashMap<ITypeBinding,AbstractTypeDeclaration>();
 		for(Object object:selections){
 			addTypesIn(types, object);
 		}
 		return types;
 	}
-	protected void addTypesIn(List<ITypeBinding> types,Object object) throws JavaModelException{
+	protected void addTypesIn(Map<ITypeBinding,AbstractTypeDeclaration> types,Object object) throws JavaModelException{
 		CompilationUnit cu = null;
 		if(object instanceof ICompilationUnit){
 			cu = parse(((ICompilationUnit) object));
@@ -65,15 +66,14 @@ public abstract class AbstractReverseEngineerJavaAction extends AbstractReverseE
 			@SuppressWarnings("unchecked")
 			List<AbstractTypeDeclaration> typeDeclarations = cu.types();
 			for(AbstractTypeDeclaration type:typeDeclarations){
-				types.add(type.resolveBinding());
+				types.put(type.resolveBinding(),type);
 			}
 		}
 	}
-
 	@Override
 	protected Command buildCommand(final Package model){
 		try{
-			final List<ITypeBinding> types = selectTypeDeclarations(selection);
+			final Map<ITypeBinding,AbstractTypeDeclaration> types = selectTypeDeclarations(selection);
 			return new AbstractCommand(){
 				@Override
 				public boolean canExecute(){
@@ -81,11 +81,22 @@ public abstract class AbstractReverseEngineerJavaAction extends AbstractReverseE
 				}
 				@Override
 				public void execute(){
+					ProgressMonitorDialog dlg = null;
 					try{
-						createGenerator().generateUml(types, model);
+						dlg = new ProgressMonitorDialog(Display.getCurrent().getActiveShell());
+						dlg.setBlockOnOpen(false);
+						dlg.open();
+						createGenerator().generateUml(types, model, dlg.getProgressMonitor());
 					}catch(Exception e){
 						OpaeumEclipsePlugin.logError("Could not reverse Java classes", e);
 						MessageDialog.openError(Display.getCurrent().getActiveShell(), "Reverse Engineering Failed", e.toString());
+					}finally{
+						if(dlg != null){
+							if(dlg.getProgressMonitor() != null){
+								dlg.getProgressMonitor().done();
+							}
+							dlg.close();
+						}
 					}
 				}
 				@Override

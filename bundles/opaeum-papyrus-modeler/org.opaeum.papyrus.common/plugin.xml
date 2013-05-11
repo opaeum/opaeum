@@ -9,5 +9,11 @@
              language="uml"
              name="Basic Model">
        </template>
+       <template
+             file="models/templates/profile.uml"
+             id="org.opaeum.plugin.template2"
+             language="uml"
+             name="Basic Profile">
+       </template>
     </extension>
 </plugin>

@@ -25,7 +25,7 @@ public class EmfValueSpecificationUtil{
 				}
 			}
 		}
-		if(result == null && bodies.size() == 1){
+		if(result == null && bodies.size() == 1 && languages.isEmpty()){
 			result = bodies.get(0);
 		}
 		return result;

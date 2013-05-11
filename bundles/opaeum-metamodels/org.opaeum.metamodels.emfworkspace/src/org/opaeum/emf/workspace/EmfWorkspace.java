@@ -54,7 +54,7 @@ import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.runtime.environment.VersionNumber;
 
 /**
- * Represents the concept of multiple emf models as one root nakedWorkspace. Hacked to implement Element because of visitor constraints
+ * Represents the concept of multiple emf models as one root workspace. Hacked to implement Element because of visitor constraints
  * 
  */
 public class EmfWorkspace implements Element{
@@ -200,7 +200,7 @@ public class EmfWorkspace implements Element{
 	}
 	public static boolean isUtilzedModel(Package pkg){
 		boolean isUtilizedModel = false;
-		if(pkg != null && (pkg.getName() == null || (!pkg.eResource().getURI().toString().contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore")))
+		if(pkg != null && (pkg.eResource()==null /*new*/||  pkg.getName() == null || (!pkg.eResource().getURI().toString().contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore")))
 				&& isRootObject(pkg)){
 			// NB!! this is sometimes called during resourceloading which causes a concurrentmod ex here... not clear why
 			boolean hasStereotype = false;

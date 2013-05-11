@@ -241,16 +241,15 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 	}
 	@Override
 	public Adapter createActorAdapter(){
-		if (actorItemProvider == null) {
+		if(actorItemProvider == null){
 			actorItemProvider = new ActorItemProvider(this){
 				@Override
 				public String getText(Object object){
-					Actor a=(Actor) object;
+					Actor a = (Actor) object;
 					return "<Business Actor> " + a.getName();
 				}
 			};
 		}
-		
 		return actorItemProvider;
 	}
 	@Override
@@ -623,6 +622,8 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 						Association a = (Association) object;
 						if(StereotypesHelper.hasStereotype(a, "CmAssociation")){
 							return "<Topology> " + a.getName();
+						}else if(a.getMembers().size() >= 2 && (a.getMemberEnds().get(0).isComposite() || a.getMemberEnds().get(1).isComposite())){
+							return "<Composition> " + a.getName();
 						}else{
 							return "<Association> " + a.getName();
 						}
