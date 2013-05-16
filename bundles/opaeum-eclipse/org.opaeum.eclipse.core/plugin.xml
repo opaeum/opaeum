@@ -8,6 +8,7 @@
    <extension-point id="org.opaeum.eclipse.core.strategyFactory" name="StrategyFactory" schema="schema/strategyFactory.exsd"/>
    <extension-point id="org.opaeum.eclipse.core.createChildAction" name="CreateChildAction" schema="schema/createChildAction.exsd"/>
    <extension-point id="createChildActionProvider" name="CreateChildActionProvider" schema="schema/createChildActionProvider.exsd"/>
+   <extension-point id="org.opaeum.eclipse.core.diagramCreator" name="DiagramCreator" schema="schema/diagramCreator.exsd"/>
    <extension
          point="org.opaeum.eclipse.core.createChildActionProvider">
       <createChildActionProvider

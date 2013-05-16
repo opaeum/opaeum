@@ -21,13 +21,15 @@ public class PropertyDescriptor{
 	private Boolean isBidirectional;
 	private PropertyDescriptor otherEnd;
 	private String mappedBy;
-	public PropertyDescriptor(IMethodBinding getter){
+	private JavaDescriptorFactory factory;
+	public PropertyDescriptor(IMethodBinding getter, JavaDescriptorFactory f){
 		this.getter = getter;
 		if(getter.isAnnotationMember()){
 			this.name = getter.getName();
 		}else{
 			this.name = propertyName(getter);
 		}
+		this.factory=f;
 	}
 	public boolean isComposite(){
 		if(getter != null && getter.isAnnotationMember()){
@@ -61,7 +63,7 @@ public class PropertyDescriptor{
 		if(isBidirectional == null){
 			String mappedBy = getMappedBy();
 			if(mappedBy.isEmpty()){
-				for(PropertyDescriptor pd:getPropertyDescriptors(getBaseType())){// mmm memory??
+				for(PropertyDescriptor pd:factory.getClassDescriptor(getBaseType()).getPropertyDescriptors().values()){// mmm memory??
 					if(pd.getMappedBy().equals(getName()) && pd.getBaseType().equals(getBaseType())){
 						this.otherEnd = pd;
 						isBidirectional = Boolean.TRUE;
@@ -69,18 +71,22 @@ public class PropertyDescriptor{
 				}
 			}else{
 				isBidirectional = Boolean.TRUE;
-				this.otherEnd = getPropertyDescriptor(getBaseType(), mappedBy);
+				this.otherEnd = factory.getClassDescriptor(getBaseType()).getPropertyDescriptors().get(mappedBy);
 			}
 			if(isBidirectional == null){
 				isBidirectional = Boolean.FALSE;
 			}
+			if(otherEnd!=null){
+				otherEnd.otherEnd=this;
+				otherEnd.isBidirectional=Boolean.TRUE;
+			}
 		}
 		return this.otherEnd;
 	}
-	private PropertyDescriptor getPropertyDescriptor(ITypeBinding baseType,String mappedBy2){
-		Collection<PropertyDescriptor> r = getPropertyDescriptors(baseType, null);
-		return r.isEmpty() ? null : r.iterator().next();
-	}
+//	private PropertyDescriptor getPropertyDescriptor(ITypeBinding baseType,JavaDescriptorFactory factor){
+//		Collection<PropertyDescriptor> r = getPropertyDescriptors(baseType);
+//		return r.isEmpty() ? null : r.iterator().next();
+//	}
 	private String getMappedBy(){
 		if(mappedBy == null){
 			mappedBy = findAnnotationAttributeValue("mappedBy", String.class);
@@ -131,18 +137,18 @@ public class PropertyDescriptor{
 		}
 	}
 	private static final Class<?> classOf(ITypeBinding b){
-		return IntrospectionUtil.classForName(b.getQualifiedName());
+		String qualifiedName = b.getQualifiedName();
+		return IntrospectionUtil.classForName(b.getBinaryName());
 	}
-	public static Collection<PropertyDescriptor> getPropertyDescriptors(ITypeBinding type){
-		return getPropertyDescriptors(type, null);
-	}
-	public static Collection<PropertyDescriptor> getPropertyDescriptors(ITypeBinding type,String name){
+//	public static Collection<PropertyDescriptor> getPropertyDescriptors(ITypeBinding type){
+//		return getPropertyDescriptors(type, null);
+//	}
+	public static Collection<PropertyDescriptor> getPropertyDescriptors(ITypeBinding type, JavaDescriptorFactory f){
 		IMethodBinding[] methods = type.getDeclaredMethods();
 		Map<String,PropertyDescriptor> results = new HashMap<String,PropertyDescriptor>();
 		for(IMethodBinding getter:methods){
-			boolean match = name == null || propertyName(getter).equalsIgnoreCase(name);
-			if(isGetter(getter) && match){
-				PropertyDescriptor pd = new PropertyDescriptor(getter);
+			if(isGetter(getter)){
+				PropertyDescriptor pd = new PropertyDescriptor(getter,f);
 				results.put(pd.getName().toLowerCase(), pd);
 				if(getter.isAnnotationMember()){
 					pd.isReadOnly = false;

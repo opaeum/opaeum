@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.ui,
  org.opaeum.eclipse.core,
  org.opaeum.metamodels.emfworkspace,
  org.opaeum.linkage.validation,
- org.eclipse.ui.ide
+ org.eclipse.ui.ide,
+ org.opaeum.metamodels.maven
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.reverse,

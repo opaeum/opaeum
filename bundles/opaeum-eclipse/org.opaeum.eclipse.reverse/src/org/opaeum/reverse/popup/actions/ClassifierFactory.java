@@ -5,8 +5,10 @@ import java.lang.annotation.Target;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.eclipse.emf.common.util.EList;
@@ -46,6 +48,7 @@ public class ClassifierFactory{
 	private Class operationMetaClass;
 	private Class propertyMetaClass;
 	private Class classMetaClass;
+	private Set<Classifier> newClassifiers = new HashSet<Classifier>();
 	public ClassifierFactory(Package model){
 		// TODO got through all libraries and read previously mapped types as
 		// well, and load them into classMap
@@ -123,9 +126,9 @@ public class ClassifierFactory{
 			classifier = createInterface(returnType);
 		}else{
 			IAnnotationBinding[] anns = returnType.getAnnotations();
-			IAnnotationBinding entity = Annotations.getAnnotationAttribute("javax.persistence.Entity", anns);
+			IAnnotationBinding entity = Annotations.getAnnotation("javax.persistence.Entity", anns);
 			if(entity == null){
-				IAnnotationBinding name = Annotations.getAnnotationAttribute("org.jboss.seam.annotations.Name", anns);
+				IAnnotationBinding name = Annotations.getAnnotation("org.jboss.seam.annotations.Name", anns);
 				if(name == null){
 					String intfName = "java.io.Serializable";
 					if(implementsInterface(returnType, intfName)){
@@ -144,6 +147,7 @@ public class ClassifierFactory{
 				|| returnType.isEnum() || returnType.isAnnotation())){
 			classifier.createGeneralization(getClassifierFor(returnType.getSuperclass()));
 		}
+		newClassifiers.add(classifier);
 		return classifier;
 	}
 	private Classifier createStereotype(ITypeBinding type){
@@ -219,7 +223,7 @@ public class ClassifierFactory{
 				umlInterface.createGeneralization(getClassifierFor(intfce));
 			}
 		}
-		IAnnotationBinding ann = Annotations.getAnnotationAttribute("org.opaeum.annotation.HelperInterface", returnType.getAnnotations());
+		IAnnotationBinding ann = Annotations.getAnnotation("org.opaeum.annotation.HelperInterface", returnType.getAnnotations());
 		if(ann != null){
 			umlInterface.applyStereotype(helperStereotype);
 			umlInterface.setValue(helperStereotype, "name", Annotations.getAnnotationAttribute(ann, "name").getValue());
@@ -395,5 +399,8 @@ public class ClassifierFactory{
 	}
 	public Properties getMappedTypes(){
 		return mappedTypes;
+	}
+	public Set<Classifier> getNewClassifiers(){
+		return newClassifiers;
 	}
 }

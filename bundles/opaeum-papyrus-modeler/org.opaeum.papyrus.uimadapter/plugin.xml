@@ -70,5 +70,11 @@
             isEqualityPattern="false"
             pattern="org\.eclipse\.papyrus\.uml\.diagram\.menu/*">
       </activityPatternBinding>
-         </extension>   
+         </extension>
+   <extension
+         point="org.opaeum.eclipse.core.diagramCreator">
+      <diagramCreator
+            className="org.opaeum.papyrus.PapyrusDiagramCreator">
+      </diagramCreator>
+   </extension>   
 </plugin>

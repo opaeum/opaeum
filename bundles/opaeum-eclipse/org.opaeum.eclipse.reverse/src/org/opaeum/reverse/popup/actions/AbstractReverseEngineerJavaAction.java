@@ -1,8 +1,10 @@
 package org.opaeum.reverse.popup.actions;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.Command;
@@ -20,9 +22,13 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.menu.AbstractReverseEngineerAction;
+import org.opaeum.eclipse.newchild.IDiagramCreator;
+import org.opaeum.eclipse.newchild.RelationshipDirection;
 
 public abstract class AbstractReverseEngineerJavaAction extends AbstractReverseEngineerAction{
 	public AbstractReverseEngineerJavaAction(IStructuredSelection selection,String name){
@@ -86,7 +92,13 @@ public abstract class AbstractReverseEngineerJavaAction extends AbstractReverseE
 						dlg = new ProgressMonitorDialog(Display.getCurrent().getActiveShell());
 						dlg.setBlockOnOpen(false);
 						dlg.open();
-						createGenerator().generateUml(types, model, dlg.getProgressMonitor());
+						Collection<Element> elements = createGenerator().generateUml(types, model, dlg.getProgressMonitor());
+						Set<IDiagramCreator> diagramCreators = OpaeumEclipsePlugin.getDefault().getDiagramCreators();
+						for(IDiagramCreator c:diagramCreators){
+							if(c.matches(selectedEditor)){
+								c.createDiagram(" Overview", elements, selectedEditor, RelationshipDirection.BOTH, UMLPackage.eINSTANCE.getAssociation());
+							}
+						}
 					}catch(Exception e){
 						OpaeumEclipsePlugin.logError("Could not reverse Java classes", e);
 						MessageDialog.openError(Display.getCurrent().getActiveShell(), "Reverse Engineering Failed", e.toString());

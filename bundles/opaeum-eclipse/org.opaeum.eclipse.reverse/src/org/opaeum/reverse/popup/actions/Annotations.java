@@ -15,7 +15,7 @@ public class Annotations {
 		return null;
 	}
 
-	public static IAnnotationBinding getAnnotationAttribute(String name, IAnnotationBinding[] anns) {
+	public static IAnnotationBinding getAnnotation(String name, IAnnotationBinding[] anns) {
 		IAnnotationBinding entity = null;
 		for (IAnnotationBinding ann : anns) {
 			if (ann.getAnnotationType().getQualifiedName().equals(name)) {

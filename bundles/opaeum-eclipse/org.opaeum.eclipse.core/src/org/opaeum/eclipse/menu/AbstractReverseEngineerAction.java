@@ -12,6 +12,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
@@ -24,6 +25,7 @@ import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.context.OpenUmlFile;
 
 public abstract class AbstractReverseEngineerAction extends AbstractOpaeumAction{
+	protected IEditorPart selectedEditor;
 	protected static Command DO_NOTHING = new AbstractCommand(){
 		@Override
 		public void redo(){
@@ -83,6 +85,7 @@ public abstract class AbstractReverseEngineerAction extends AbstractOpaeumAction
 				final OpenUmlFile ouf = ctx.getOpenUmlFileFor(file);
 				if(ouf != null){
 					ouf.suspend();
+					setSelectedEditor(file.getName());
 					ouf.getEditingDomain().getCommandStack().execute(buildCommand(ouf.getModel()));
 					ouf.resumeAndCatchUp();
 				}
@@ -96,6 +99,32 @@ public abstract class AbstractReverseEngineerAction extends AbstractOpaeumAction
 	}
 	protected boolean canReverseInto(OpenUmlFile ouf){
 		return ouf.getModel() instanceof Model;
+	}
+	private void setSelectedEditor(String fileName){
+		outer:for(IWorkbenchWindow w:PlatformUI.getWorkbench().getWorkbenchWindows()){
+			for(IWorkbenchPage p:w.getPages()){
+				for(IEditorReference e:p.getEditorReferences()){
+					try{
+						if(e.getEditorInput() instanceof IFileEditorInput){
+							IFileEditorInput editorInput = (IFileEditorInput) e.getEditorInput();
+							if(editorInput.getFile().getParent().findMember("opaeum.properties") != null){
+								for(IResource r:editorInput.getFile().getParent().members()){
+									if(r.getName().equals(fileName)){
+										selectedEditor=e.getEditor(true);
+										break outer;
+									}
+								}
+							}
+						}
+					}catch(PartInitException e1){
+						e1.printStackTrace();
+					}catch(CoreException e2){
+						e2.printStackTrace();
+					}
+				}
+			}
+		}
+
 	}
 	protected abstract Command buildCommand(org.eclipse.uml2.uml.Package model);
 }

@@ -46,7 +46,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ocl.uml,
  org.eclipse.papyrus.infra.widgets,
  org.eclipse.papyrus.infra.gmfdiag.commands,
- org.eclipse.papyrus.uml.tools
+ org.eclipse.papyrus.uml.tools,
+ org.eclipse.papyrus.uml.diagram.clazz,
+ org.eclipse.papyrus.infra.gmfdiag.common,
+ org.eclipse.papyrus.uml.diagram.menu;bundle-version="0.10.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.opaeum.papyrus.uimadapter.actions,
  org.opaeum.uim.queries,

@@ -16,6 +16,7 @@ import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.StateMachine;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.menu.ICompoundContributionItem;
@@ -76,6 +77,12 @@ public class DynamicNewDiagramMenu extends CompoundContributionItem implements I
 			}else if(selectedObject instanceof StateMachine){
 				String cdid = "org.eclipse.papyrus.uml.diagram.statemachine.CreationCommand";
 				ImageDescriptor cdimg = Activator.imageDescriptorFromPlugin("org.eclipse.papyrus.uml.diagram.statemachine", "icons/obj16/Diagram_StateMachine.gif");
+				actions.add(new CommandContributionItem(new CommandContributionItemParameter(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), cdid,
+						cdid, null, cdimg, null, null, null, null, null, CommandContributionItem.STYLE_PUSH, null, false)));
+
+			}else if(selectedObject instanceof Interaction){
+				String cdid = "org.eclipse.papyrus.uml.diagram.sequence.CreateSequenceDiagramCommand";
+				ImageDescriptor cdimg = Activator.imageDescriptorFromPlugin("org.eclipse.papyrus.uml.diagram.sequence", "icons/obj16/Diagram_Sequence.gif");
 				actions.add(new CommandContributionItem(new CommandContributionItemParameter(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), cdid,
 						cdid, null, cdimg, null, null, null, null, null, CommandContributionItem.STYLE_PUSH, null, false)));
 

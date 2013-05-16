@@ -147,7 +147,7 @@ icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id=
       </view>
    </extension>
    <extension point="org.eclipse.ui.navigator.viewer">
-      <viewer popupMenuId="org.opaeum.papyrus.uml.modelexplorer.popup" viewerId="org.opaeum.papyrus.uml.modelexplorer">
+      <viewer popupMenuId="org.opaeum.papyrus.uml.modelexplorer.popup" viewerId="org.opaeum.papyrus.uml.modelexplorer" >
       </viewer>
       <viewerContentBinding viewerId="org.opaeum.papyrus.uml.modelexplorer">
          <includes>
@@ -208,14 +208,14 @@ icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id=
 <extension point="org.eclipse.ui.menus">
 
 	<!-- ModelExplorer toolbar -->
-	<menuContribution allPopups="false" locationURI="toolbar:org.opaeum.papyrus.uml.modelexplorer.popup">
+	<menuContribution allPopups="false" locationURI="toolbar:org.opaeum.papyrus.uml.modelexplorer">
 
 		<!-- Load modisco browser customization command -->		
 		<command commandId="org.eclipse.papyrus.views.modelexplorer.LoadBrowserCustomization" icon="icons/etool16/uiCustom.gif" label="Load browser customization" style="push">
 		</command>
 
 		<!-- Search element command -->	
-		<command commandId="org.eclipse.papyrus.views.modelexplorer.searchelement" icon="icons/etool16/search.gif" label="Search element" style="push">
+		<command commandId="org.opaeum.papyrus.views.modelexplorer.searchelement" icon="icons/etool16/search.gif" label="Search element" style="push">
 		</command>
 		
 		<!-- Sort elements command -->	

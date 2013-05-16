@@ -36,6 +36,9 @@ import org.opaeum.ocl.uml.OpaqueExpressionContext;
 public class OclValidator extends AbstractValidator{
 	@VisitBefore
 	public void visitOpaqueExpression(OpaqueExpression p){
+		if(p.getLanguages().size()==1 && !p.getLanguages().get(0).equalsIgnoreCase("OCL")){
+			return;
+		}
 		if(!EmfElementUtil.isMarkedForDeletion(p)){
 			OpaqueExpressionContext ctx = getLibrary().getOclExpressionContext(p);
 			putErrors(p, ctx);
@@ -100,6 +103,9 @@ public class OclValidator extends AbstractValidator{
 	}
 	@VisitBefore
 	public void visitOpaqueBehavior(OpaqueBehavior p){
+		if(p.getLanguages().size()==1 && !p.getLanguages().get(0).equalsIgnoreCase("OCL")){
+			return;
+		}
 		if(!StereotypesHelper.hasStereotype(p, StereotypeNames.STANDALONE_SINGLE_SCREEN_TASK)){
 			putErrors(p, getLibrary().getOclBehaviorContext(p));
 		}

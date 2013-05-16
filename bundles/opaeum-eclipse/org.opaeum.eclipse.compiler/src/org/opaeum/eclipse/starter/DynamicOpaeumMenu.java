@@ -107,6 +107,8 @@ public class DynamicOpaeumMenu extends CompoundContributionItem implements IComp
 							if(AbstractEmfPhase.canBeProcessedIndividually((EObject) firstElement)){
 								actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
 							}
+							actions.add(new ActionContributionItem(new VisualizeClassesAction(selection)));
+							actions.add(new ActionContributionItem(new VisualizePackageDependenciesAction(selection)));
 							if(firstElement instanceof Profile){
 								actions.add(new ActionContributionItem(new OpaeumDefineProfileAction(selection)));
 							}

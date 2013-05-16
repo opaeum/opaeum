@@ -18,6 +18,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.opaeum.eclipse.newchild.ICreateChildAction;
 import org.opaeum.eclipse.newchild.ICreateChildActionProvider;
+import org.opaeum.eclipse.newchild.IDiagramCreator;
 import org.opaeum.feature.ISourceFolderStrategy;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
@@ -46,12 +47,14 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 	private static final String STRATEGY_FACTORY_EXTENSION_POINT_ID = "strategyFactory";
 	private static final String CREATE_CHILD_ACTION = "createChildAction";
 	private static final String CREATE_CHILD_ACTION_PROVIDER = "createChildActionProvider";
+	private static final String DIAGRAM_CREATOR = "diagramCreator";
 	private static OpaeumEclipsePlugin plugin;
 	private ResourceBundle resourceBundle;
 	private Set<Class<? extends ITransformationStep>> transformationSteps = new HashSet<Class<? extends ITransformationStep>>();
 	private Set<Class<? extends ISourceFolderStrategy>> sourceFolderStrategies = new HashSet<Class<? extends ISourceFolderStrategy>>();
 	private Set<Class<? extends AbstractStrategyFactory>> strategyFactories = new HashSet<Class<? extends AbstractStrategyFactory>>();
 	private Set<ICreateChildAction> createChildActions = new HashSet<ICreateChildAction>();
+	private Set<IDiagramCreator> diagramCreators = new HashSet<IDiagramCreator>();
 	private Set<ICreateChildActionProvider> createChildActionProviders = new HashSet<ICreateChildActionProvider>();
 	private Set<ModelLibrary> modelLibraries = new HashSet<ModelLibrary>();
 	private Set<ModelLibrary> profiles = new HashSet<ModelLibrary>();
@@ -78,6 +81,7 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 		OpaeumConfig.registerClass(CumulativeDurationStrategyFactory.class);
 		IExtensionRegistry r = Platform.getExtensionRegistry();
 		addCreateChildActions(r.getConfigurationElementsFor(PLUGIN_ID, CREATE_CHILD_ACTION));
+		addDiagramCreators(r.getConfigurationElementsFor(PLUGIN_ID, DIAGRAM_CREATOR));
 		addCreateChildActionProviders(r.getConfigurationElementsFor(PLUGIN_ID, CREATE_CHILD_ACTION_PROVIDER));
 		registerExtensions(r.getConfigurationElementsFor(PLUGIN_ID, TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);
 		registerExtensions(r.getConfigurationElementsFor(PLUGIN_ID, SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID),
@@ -91,6 +95,16 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 		for(IConfigurationElement e:configurationElementsFor){
 			try{
 				createChildActions.add((ICreateChildAction) e.createExecutableExtension("class"));
+			}catch(CoreException e1){
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
+	protected void addDiagramCreators(IConfigurationElement[] configurationElementsFor){
+		for(IConfigurationElement e:configurationElementsFor){
+			try{
+				diagramCreators.add((IDiagramCreator) e.createExecutableExtension("className"));
 			}catch(CoreException e1){
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -150,6 +164,10 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 			IConfigurationElement[] configurationElements = ed.getExtension().getConfigurationElements();
 			addCreateChildActionProviders(configurationElements);
 		}
+		for(IExtensionDelta ed:event.getExtensionDeltas(ORG_OPAEUM_ECLIPSE, DIAGRAM_CREATOR)){
+			IConfigurationElement[] configurationElements = ed.getExtension().getConfigurationElements();
+			addDiagramCreators(configurationElements);
+		}
 	}
 	public void registerExtensionDeltas(IExtensionDelta[] extensionDeltas,@SuppressWarnings("rawtypes")
 	Set transformationSteps2){
@@ -199,22 +217,23 @@ public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryCh
 	}
 	public Set<ICreateChildActionProvider> getCreateChildActionProviders(){
 		return this.createChildActionProviders;
-		
 	}
 	public Set<ICreateChildAction> getCreateChildActions(){
 		HashSet<ICreateChildAction> result = new HashSet<ICreateChildAction>(createChildActions);
 		return result;
 	}
 	public static void logWarning(String msg){
-		getDefault().getLog().log(new Status(IStatus.WARNING,PLUGIN_ID,msg));
+		getDefault().getLog().log(new Status(IStatus.WARNING, PLUGIN_ID, msg));
 	}
 	public static void logInfo(String msg){
-		getDefault().getLog().log(new Status(IStatus.INFO,PLUGIN_ID,msg));
+		getDefault().getLog().log(new Status(IStatus.INFO, PLUGIN_ID, msg));
 	}
 	public static IStatus logError(String message,Throwable t){
 		Status result = new Status(IStatus.ERROR, PLUGIN_ID, message, t);
 		getDefault().getLog().log(result);
 		return result;
 	}
-
+	public Set<IDiagramCreator> getDiagramCreators(){
+		return diagramCreators;
+	}
 }

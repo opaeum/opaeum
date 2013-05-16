@@ -20,6 +20,7 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
 import org.eclipse.uml2.uml.OpaqueExpression;
@@ -34,7 +35,8 @@ import org.eclipse.uml2.uml.UMLPackage;
 
 public abstract class AbstractUmlGenerator{
 	protected ClassifierFactory factory;
-	public abstract void generateUml(Map<ITypeBinding,AbstractTypeDeclaration> types,Package library,IProgressMonitor m) throws Exception;
+	protected JavaDescriptorFactory javaDescriptorFactory = new JavaDescriptorFactory();
+	public abstract Collection<Element> generateUml(Map<ITypeBinding,AbstractTypeDeclaration> types,Package library,IProgressMonitor m) throws Exception;
 	public Package getRootPackage(Resource resource){
 		EList<EObject> contents = resource.getContents();
 		for(EObject eObject:contents){
@@ -123,7 +125,7 @@ public abstract class AbstractUmlGenerator{
 		return false;
 	}
 	protected void populateAttributes(Package modelOrProfile,Classifier classifier,Entry<ITypeBinding,AbstractTypeDeclaration> t){
-		Collection<PropertyDescriptor> fields = PropertyDescriptor.getPropertyDescriptors(t.getKey());
+		Collection<PropertyDescriptor> fields = javaDescriptorFactory.getClassDescriptor(t.getKey()).getPropertyDescriptors().values();
 		for(PropertyDescriptor pd:fields){
 			Property found = findProperty(classifier, pd);
 			if(found == null){
@@ -171,6 +173,9 @@ public abstract class AbstractUmlGenerator{
 		}else if(cls instanceof DataType){
 			attr = ((DataType) cls).getOwnedAttribute(pd.getName(), factory.getClassifierFor(pd.getBaseType()), false,
 					UMLPackage.eINSTANCE.getProperty(), true);
+		}
+		if(attr!=null && attr.getAssociation()!=null && attr.getAssociation().getMemberEnds().size()==1){
+			System.out.println();
 		}
 		return attr;
 	}

@@ -70,6 +70,7 @@ public class CreateChildActions implements ICreateChildActionProvider{
 	private static final MatchingOwner DURATION_OBSERVATION = new MatchingOwner(pkg.getDurationObservation(),
 			StereotypeNames.BUSINESS_DURATION_OBSERVATION);
 	private static final MatchingOwner ENTITY = new MatchingOwner(pkg.getClass_());
+	private static final MatchingOwner INTERACTION = new MatchingOwner(pkg.getInteraction());
 	private static final MatchingOwner BUSINESS_COMPONENT = new MatchingOwner(pkg.getComponent(), StereotypeNames.BUSINESS_COMPONENT);
 	private static final MatchingOwner BUSINESS_DOCUMENT = new MatchingOwner(pkg.getClass_(), StereotypeNames.BUSINESS_DOCUMENT);
 	private static final MatchingOwner BUSINESS_ROLE = new MatchingOwner(pkg.getClass_(), StereotypeNames.BUSINESS_ROLE);
@@ -123,6 +124,7 @@ public class CreateChildActions implements ICreateChildActionProvider{
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getClass_(), StereotypeNames.BUSINESS_COMPONENT);
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getInterface(), StereotypeNames.BUSINESS_SERVICE);
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getInterface());
+		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getInteraction());
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getClass_());
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getEnumeration());
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getDataType(), StereotypeNames.STRUCTURED_DATA_TYPE);
