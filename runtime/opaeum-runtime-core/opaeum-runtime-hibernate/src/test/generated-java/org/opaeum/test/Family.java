@@ -51,7 +51,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="Family")
 public class Family implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	@Transient
-	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="family",targetEntity=Child.class)
@@ -79,7 +79,7 @@ public class Family implements IPersistentObject, IEventGenerator, HibernateEnti
 	@Column(name="object_version")
 	private int objectVersion;
 	@Transient
-	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private InternalHibernatePersistence persistence;
 	static final private long serialVersionUID = 1554804427498750475l;
@@ -316,7 +316,6 @@ public class Family implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public FamilyMember getFamilyMember(String name) {
 		FamilyMember result = null;
-		String key = ModelFormatter.getInstance().formatStringQualifier(name);
 		for ( FamilyMember elem : getFamilyMember() ) {
 			if ( elem.getName()!=null && elem.getName().equals(name)  ) {
 				result=elem;
@@ -327,6 +326,7 @@ public class Family implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6185468265608250139l,opposite="family",uuid="Structures.uml@_N7V4EI08EeKHBNiW4NWnIg")
+	@NumlMetaInfo(uuid="Structures.uml@_N7V4EI08EeKHBNiW4NWnIg")
 	public Set<? extends FamilyMember> getFamilyMember() {
 		Set result = new HashSet<FamilyMember>();
 		result.addAll(this.getChild());
@@ -395,8 +395,7 @@ public class Family implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public StepChild getStepChild(String name) {
 		StepChild result = null;
-		String key = ModelFormatter.getInstance().formatStringQualifier(name);
-		FamilyStepChild link = this.familyStepChild_stepChild.get(key.toString());
+		FamilyStepChild link = this.getFamilyStepChild_stepChildFor(name,);
 		result= link==null || link.getStepChild()==null?null:link.getStepChild();
 		return result;
 	}
@@ -513,14 +512,14 @@ public class Family implements IPersistentObject, IEventGenerator, HibernateEnti
 		}
 	}
 	
-	public void removeAllFromChild(Set<Child> child) {
+	public void removeAllFromChild(Set<? extends Child> child) {
 		Set<Child> tmp = new HashSet<Child>(child);
 		for ( Child o : tmp ) {
 			removeFromChild(o.getName(),o);
 		}
 	}
 	
-	public void removeAllFromStepChild(Set<StepChild> stepChild) {
+	public void removeAllFromStepChild(Set<? extends StepChild> stepChild) {
 		Set<StepChild> tmp = new HashSet<StepChild>(stepChild);
 		for ( StepChild o : tmp ) {
 			removeFromStepChild(o.getName(),o);
@@ -682,7 +681,7 @@ public class Family implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public void z_internalAddToChild(String name, Child child) {
 		String key = ModelFormatter.getInstance().formatStringQualifier(name);
-		if ( getChild().contains(child) ) {
+		if ( this.child.containsValue(child) ) {
 			return;
 		}
 		child.z_internalAddToName(name);
@@ -701,14 +700,14 @@ public class Family implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void z_internalAddToFather(Father father) {
-		if ( father.equals(getFather()) ) {
+		if ( father.equals(this.father) ) {
 			return;
 		}
 		this.father=father;
 	}
 	
 	public void z_internalAddToMother(Mother mother) {
-		if ( mother.equals(getMother()) ) {
+		if ( mother.equals(this.mother) ) {
 			return;
 		}
 		this.mother=mother;

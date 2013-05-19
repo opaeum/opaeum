@@ -1,0 +1,13 @@
+bpmmodel.Customer
+bpmmodel.custom.CustomOrganizationNode
+bpmmodel.mybusiness.preparequoteimpl.Call_Customer
+bpmmodel.BackOfficeWorker
+bpmmodel.Supplier
+bpmmodel.Product
+bpmmodel.SalesPerson
+bpmmodel.mybusiness.PrepareQuote
+bpmmodel.MyBusiness
+bpmmodel.mybusiness.PrepareQuoteImplToken
+bpmmodel.custom.CustomBusinessNetwork
+bpmmodel.mybusiness.PrepareQuoteImpl
+bpmmodel.BusinessCollaboration1

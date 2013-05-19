@@ -42,4 +42,11 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.virgo.ide.facet.core.bundlenature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/test/lib-models/models</name>
+			<type>2</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bundles/opaeum-compilation/org.opaeum.transformation.engine/models</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

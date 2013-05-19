@@ -59,7 +59,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="Mother")
 public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	@Transient
-	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(fetch=javax.persistence.FetchType.LAZY,mappedBy="mother",targetEntity=Child.class)
@@ -106,7 +106,7 @@ public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersisten
 	@Column(name="object_version")
 	private int objectVersion;
 	@Transient
-	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private InternalHibernatePersistence persistence;
 	static final private long serialVersionUID = 2128003045175769585l;
@@ -534,8 +534,7 @@ public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersisten
 	
 	public Relation getRelation(String firstName, String surname, Date dateOfBirth) {
 		Relation result = null;
-		String key = ModelFormatter.getInstance().formatStringQualifier(firstName)+ModelFormatter.getInstance().formatStringQualifier(surname)+ModelFormatter.getInstance().formatDateQualifier(dateOfBirth);
-		FamilyMemberHasRelation link = this.familyMemberHasRelation_relation.get(key.toString());
+		FamilyMemberHasRelation link = this.getFamilyMemberHasRelation_relationFor(firstName,surname,dateOfBirth,);
 		result= link==null || link.getRelation()==null?null:link.getRelation();
 		return result;
 	}
@@ -577,8 +576,7 @@ public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersisten
 	
 	public Sister getSurnameCarryingDaughter(String name) {
 		Sister result = null;
-		String key = ModelFormatter.getInstance().formatStringQualifier(name);
-		SurnameProviderHasDaughter link = this.surnameProviderHasDaughter_surnameCarryingDaughter.get(key.toString());
+		SurnameProviderHasDaughter link = this.getSurnameProviderHasDaughter_surnameCarryingDaughterFor(name,);
 		result= link==null || link.getSurnameCarryingDaughter()==null?null:link.getSurnameCarryingDaughter();
 		return result;
 	}
@@ -816,35 +814,35 @@ public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersisten
 		}
 	}
 	
-	public void removeAllFromChild(Set<Child> child) {
+	public void removeAllFromChild(Set<? extends Child> child) {
 		Set<Child> tmp = new HashSet<Child>(child);
 		for ( Child o : tmp ) {
 			removeFromChild(o.getName(),o);
 		}
 	}
 	
-	public void removeAllFromRelation(Set<Relation> relation) {
+	public void removeAllFromRelation(Set<? extends Relation> relation) {
 		Set<Relation> tmp = new HashSet<Relation>(relation);
 		for ( Relation o : tmp ) {
 			removeFromRelation(o.getFirstName(),o.getSurname(),o.getDateOfBirth(),o);
 		}
 	}
 	
-	public void removeAllFromStepChild(Set<StepChild> stepChild) {
+	public void removeAllFromStepChild(Set<? extends StepChild> stepChild) {
 		Set<StepChild> tmp = new HashSet<StepChild>(stepChild);
 		for ( StepChild o : tmp ) {
 			removeFromStepChild(o);
 		}
 	}
 	
-	public void removeAllFromSurnameCarryingDaughter(Set<Sister> surnameCarryingDaughter) {
+	public void removeAllFromSurnameCarryingDaughter(Set<? extends Sister> surnameCarryingDaughter) {
 		Set<Sister> tmp = new HashSet<Sister>(surnameCarryingDaughter);
 		for ( Sister o : tmp ) {
 			removeFromSurnameCarryingDaughter(o.getName(),o);
 		}
 	}
 	
-	public void removeAllFromSurnameCarryingSon(Set<Brother> surnameCarryingSon) {
+	public void removeAllFromSurnameCarryingSon(Set<? extends Brother> surnameCarryingSon) {
 		Set<Brother> tmp = new HashSet<Brother>(surnameCarryingSon);
 		for ( Brother o : tmp ) {
 			removeFromSurnameCarryingSon(o);
@@ -1135,7 +1133,7 @@ public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersisten
 	
 	public void z_internalAddToChild(String name, Child child) {
 		String key = ModelFormatter.getInstance().formatStringQualifier(name);
-		if ( getChild().contains(child) ) {
+		if ( this.child.containsValue(child) ) {
 			return;
 		}
 		child.z_internalAddToName(name);
@@ -1144,7 +1142,7 @@ public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersisten
 	}
 	
 	public void z_internalAddToFamily(Family family) {
-		if ( family.equals(getFamily()) ) {
+		if ( family.equals(this.family) ) {
 			return;
 		}
 		this.family=family;
@@ -1163,14 +1161,14 @@ public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersisten
 	}
 	
 	public void z_internalAddToFirstname(String firstname) {
-		if ( firstname.equals(getFirstname()) ) {
+		if ( firstname.equals(this.firstname) ) {
 			return;
 		}
 		this.firstname=firstname;
 	}
 	
 	public void z_internalAddToHusband(Father husband) {
-		if ( husband.equals(getHusband()) ) {
+		if ( husband.equals(this.husband) ) {
 			return;
 		}
 		this.husband=husband;
@@ -1198,7 +1196,7 @@ public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersisten
 	}
 	
 	public void z_internalAddToSurname(String surname) {
-		if ( surname.equals(getSurname()) ) {
+		if ( surname.equals(this.surname) ) {
 			return;
 		}
 		this.surname=surname;

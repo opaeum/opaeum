@@ -1,7 +1,6 @@
 package org.opaeum.test;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,10 +14,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.MapKey;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
@@ -31,9 +33,7 @@ import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
-import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.test.util.ModelFormatter;
 import org.opaeum.test.util.Stdlib;
@@ -45,7 +45,10 @@ import org.w3c.dom.NodeList;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="sister")
+@Table(name="sister",uniqueConstraints=
+	@UniqueConstraint(columnNames={"surname_provider","surname_provider_type","name","deleted_on"}))
+@NamedQueries(value=
+	@NamedQuery(name="QuerySisterWithNameForSurnameProvider",query="from Sister a where a.surnameProvider = :surnameProvider and a.name = :name"))
 @Entity(name="Sister")
 @DiscriminatorValue(	"sister")
 public class Sister extends Child implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
@@ -58,14 +61,14 @@ public class Sister extends Child implements IPersistentObject, IEventGenerator,
 		@JoinColumn(name="sister_id"),name="brother_has_sister")
 	protected Map<String, Brother> brother = new HashMap<String,Brother>();
 	@Transient
-	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
 	static private Set<? extends Sister> mockedAllInstances;
 	@Transient
-	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private InternalHibernatePersistence persistence;
 	static final private long serialVersionUID = 8714499026471153695l;
@@ -405,7 +408,7 @@ public class Sister extends Child implements IPersistentObject, IEventGenerator,
 		}
 	}
 	
-	public void removeAllFromBrother(Set<Brother> brother) {
+	public void removeAllFromBrother(Set<? extends Brother> brother) {
 		Set<Brother> tmp = new HashSet<Brother>(brother);
 		for ( Brother o : tmp ) {
 			removeFromBrother(o.getName(),o);
@@ -532,7 +535,7 @@ public class Sister extends Child implements IPersistentObject, IEventGenerator,
 	
 	public void z_internalAddToBrother(String name, Brother brother) {
 		String key = ModelFormatter.getInstance().formatStringQualifier(name);
-		if ( getBrother().contains(brother) ) {
+		if ( this.brother.containsValue(brother) ) {
 			return;
 		}
 		brother.z_internalAddToName(name);

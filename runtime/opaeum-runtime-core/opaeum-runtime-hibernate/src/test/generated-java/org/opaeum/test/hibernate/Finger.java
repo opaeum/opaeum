@@ -1,9 +1,7 @@
 package org.opaeum.test.hibernate;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -33,9 +31,7 @@ import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
-import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.test.hibernate.util.ModelFormatter;
 import org.opaeum.test.hibernate.util.Stdlib;
@@ -51,7 +47,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="Finger")
 public class Finger implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	@Transient
-	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -72,7 +68,7 @@ public class Finger implements IPersistentObject, IEventGenerator, HibernateEnti
 	@Column(name="object_version")
 	private int objectVersion;
 	@Transient
-	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private InternalHibernatePersistence persistence;
 	static final private long serialVersionUID = 3402930467607875873l;
@@ -298,14 +294,14 @@ public class Finger implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void z_internalAddToHand(Hand hand) {
-		if ( hand.equals(getHand()) ) {
+		if ( hand.equals(this.hand) ) {
 			return;
 		}
 		this.hand=hand;
 	}
 	
 	public void z_internalAddToName(String name) {
-		if ( name.equals(getName()) ) {
+		if ( name.equals(this.name) ) {
 			return;
 		}
 		this.name=name;

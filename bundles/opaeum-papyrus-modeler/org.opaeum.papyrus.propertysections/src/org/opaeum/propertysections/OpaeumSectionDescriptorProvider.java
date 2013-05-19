@@ -37,6 +37,7 @@ import org.eclipse.uml2.uml.Reception;
 import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.State;
+import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuralFeatureAction;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.TimeObservation;
@@ -99,6 +100,7 @@ import org.opaeum.eclipse.uml.propertysections.activitydiagram.SendSignalActionS
 import org.opaeum.eclipse.uml.propertysections.activitydiagram.StructuralFeatureActionFeatureSection;
 import org.opaeum.eclipse.uml.propertysections.activitydiagram.TimeObservationEventSection;
 import org.opaeum.eclipse.uml.propertysections.activitydiagram.VariableActionVariableSection;
+import org.opaeum.eclipse.uml.propertysections.base.StereotypeExtendedMetaclassesSection;
 import org.opaeum.eclipse.uml.propertysections.bpmprofile.AcceptDeadlineDeadlineSection;
 import org.opaeum.eclipse.uml.propertysections.bpmprofile.AcceptTaskEventActionTaskEventSection;
 import org.opaeum.eclipse.uml.propertysections.bpmprofile.BusinessDocumentDocumentTypeSection;
@@ -208,6 +210,7 @@ public class OpaeumSectionDescriptorProvider extends AbstractSectionDescriptorPr
 		addBasic(EObject.class, new EObjectErrorSection());
 		addBasic(NamedElement.class, new NamedElementNameSection());
 		addBasic(Classifier.class, new ClassifierIsAbstractSection());
+		addBasic(Stereotype.class, new StereotypeExtendedMetaclassesSection());
 		addBasic(TimeEvent.class, new TimeEventWhenSection());
 		addBasic(new ConstraintFilter(), new ConstraintValueSpecificationSection());
 		addBasic(ElementImport.class, new ElementImportAliasSection());

@@ -1,7 +1,6 @@
 package org.opaeum.test;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +10,6 @@ import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
-import org.opaeum.test.util.ModelFormatter;
 import org.w3c.dom.Element;
 
 @NumlMetaInfo(applicationIdentifier="opaeum_hibernate_tests",uuid="Structures.uml@_uAFMoIhqEeK4s7QGypAJBA")
@@ -23,6 +21,7 @@ public interface FamilyMember extends HibernateEntity, CompositionNode, Serializ
 	public void clearRelation();
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6736659446556850677l,opposite="familyMember",uuid="Structures.uml@_N7WfIY08EeKHBNiW4NWnIg")
+	@NumlMetaInfo(uuid="Structures.uml@_N7WfIY08EeKHBNiW4NWnIg")
 	public Family getFamily();
 	
 	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5718737559910777343l,opposite="familyMember",uuid="Structures.uml@_wPOkwIhqEeK4s7QGypAJBA")

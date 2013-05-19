@@ -34,7 +34,7 @@ public class VisualizePackageDependenciesAction extends AbstractOpaeumAction{
 		IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		for(IDiagramCreator c:diagramCreators){
 			if(c.matches(activeEditor)){
-				c.createDiagram( " Package Dependencies", elements, activeEditor, RelationshipDirection.BOTH, UMLPackage.eINSTANCE.getPackageImport());
+				c.createDiagram( "Package Dependencies", elements, activeEditor, RelationshipDirection.BOTH, UMLPackage.eINSTANCE.getPackageImport());
 			}
 		}
 	}

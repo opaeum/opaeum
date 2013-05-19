@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.emf.common.command.AbstractCommand;
@@ -39,14 +38,14 @@ public class CreateClassDiagramNotationElements extends AbstractCommand{
 	private Map<Element,Shape> shapes = new HashMap<Element,Shape>();
 	private String suffix;
 	public CreateClassDiagramNotationElements(Collection<? extends Element> elements2,ModelSet modelSet,EClass[] relationshipTypes,
-			RelationshipDirection d, String suffix){
+			RelationshipDirection d,String suffix){
 		super();
 		relationshipExtractor = new RelationshipExtractor(relationshipTypes, d);
 		this.elements = elements2;
 		this.notationModel = (NotationModel) modelSet.getModel(NotationModel.MODEL_ID);
 		Resource rst = ((SashModel) modelSet.getModel(DiModel.MODEL_ID)).getResource();
 		this.sashWindowsMngr = (SashWindowsMngr) rst.getContents().get(0);
-		this.suffix=suffix;
+		this.suffix = suffix;
 	}
 	@Override
 	public void execute(){
@@ -59,7 +58,7 @@ public class CreateClassDiagramNotationElements extends AbstractCommand{
 		dgm.setType(ModelEditPart.MODEL_ID);
 		dgm.setMeasurementUnit(MeasurementUnit.PIXEL_LITERAL);
 		dgm.setElement(pkg);
-		dgm.setName(NameConverter.capitalize(pkg.getName() + " " +suffix));
+		dgm.setName(NameConverter.capitalize(pkg.getName() + " " + suffix));
 		notationModel.getResource().getContents().add(dgm);
 		PageRef page = DiFactory.eINSTANCE.createPageRef();
 		page.setEmfPageIdentifier(dgm);
@@ -67,6 +66,8 @@ public class CreateClassDiagramNotationElements extends AbstractCommand{
 		diagrams.add(dgm);
 		for(Element type:elements){
 			relationshipExtractor.doSwitch(type);
+		}
+		for(Element type:relationshipExtractor.getNodeElements()){
 			Shape shape = shapeBuilder.doSwitch(type);
 			if(shape != null){
 				shapes.put(type, shape);
@@ -82,23 +83,31 @@ public class CreateClassDiagramNotationElements extends AbstractCommand{
 		}
 	}
 	private Package getMostCommonPackage(){
-		Map<Package,Integer> pkgs = new HashMap<Package,Integer>();
-		for(Element e:elements){
-			Integer integer = pkgs.get(e.getNearestPackage());
-			if(integer == null){
-				pkgs.put(e.getNearestPackage(), 1);
-			}else{
-				pkgs.put(e.getNearestPackage(), integer + 1);
+		Set<Package> pkgs = collectPackages();
+		for(Package pkg2:pkgs){
+			while(pkg2!=null){
+				if(containsAll(pkg2,pkgs)){
+					return pkg2;
+				}
+				pkg2=pkg2.getNestingPackage();
 			}
 		}
-		Set<Entry<Package,Integer>> entrySet = pkgs.entrySet();
-		Entry<Package,Integer> max1 = null;
-		for(Entry<Package,Integer> entry:entrySet){
-			if(max1 == null || entry.getValue() > max1.getValue()){
-				max1 = entry;
+		return null;
+	}
+	private boolean containsAll(Package potentialParent,Set<Package> pkgs){
+		for(Package p:pkgs){
+			if(!p.getQualifiedName().contains(potentialParent.getQualifiedName())){
+				return false;
 			}
 		}
-		return max1.getKey();
+		return true;
+	}
+	private Set<Package> collectPackages(){
+		Set<Package> pkgs = new HashSet<Package>();
+		for(Element element:elements){
+			pkgs.add(element.getNearestPackage());
+		}
+		return pkgs;
 	}
 	@Override
 	public boolean canExecute(){

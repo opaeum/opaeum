@@ -62,7 +62,7 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class Child implements FamilyMember, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	@Transient
-	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="child",targetEntity=ChildHasRelation.class)
@@ -110,7 +110,7 @@ public class Child implements FamilyMember, IPersistentObject, IEventGenerator, 
 	@Column(name="object_version")
 	private int objectVersion;
 	@Transient
-	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private InternalHibernatePersistence persistence;
 	static final private long serialVersionUID = 1446520852367386199l;
@@ -387,8 +387,7 @@ public class Child implements FamilyMember, IPersistentObject, IEventGenerator, 
 	
 	public Relation getGodParent(String firstName, String surname, Date dateOfBirth) {
 		Relation result = null;
-		String key = ModelFormatter.getInstance().formatStringQualifier(firstName)+ModelFormatter.getInstance().formatStringQualifier(surname)+ModelFormatter.getInstance().formatDateQualifier(dateOfBirth);
-		ChildHasRelation link = this.childHasRelation_godParent.get(key.toString());
+		ChildHasRelation link = this.getChildHasRelation_godParentFor(firstName,surname,dateOfBirth,);
 		result= link==null || link.getGodParent()==null?null:link.getGodParent();
 		return result;
 	}
@@ -436,8 +435,7 @@ public class Child implements FamilyMember, IPersistentObject, IEventGenerator, 
 	
 	public Relation getRelation(String firstName, String surname, Date dateOfBirth) {
 		Relation result = null;
-		String key = ModelFormatter.getInstance().formatStringQualifier(firstName)+ModelFormatter.getInstance().formatStringQualifier(surname)+ModelFormatter.getInstance().formatDateQualifier(dateOfBirth);
-		FamilyMemberHasRelation link = this.familyMemberHasRelation_relation.get(key.toString());
+		FamilyMemberHasRelation link = this.getFamilyMemberHasRelation_relationFor(firstName,surname,dateOfBirth,);
 		result= link==null || link.getRelation()==null?null:link.getRelation();
 		return result;
 	}
@@ -648,28 +646,28 @@ public class Child implements FamilyMember, IPersistentObject, IEventGenerator, 
 		}
 	}
 	
-	public void removeAllFromGodParent(Set<Relation> godParent) {
+	public void removeAllFromGodParent(Set<? extends Relation> godParent) {
 		Set<Relation> tmp = new HashSet<Relation>(godParent);
 		for ( Relation o : tmp ) {
 			removeFromGodParent(o.getFirstName(),o.getSurname(),o.getDateOfBirth(),o);
 		}
 	}
 	
-	public void removeAllFromRelation(Set<Relation> relation) {
+	public void removeAllFromRelation(Set<? extends Relation> relation) {
 		Set<Relation> tmp = new HashSet<Relation>(relation);
 		for ( Relation o : tmp ) {
 			removeFromRelation(o.getFirstName(),o.getSurname(),o.getDateOfBirth(),o);
 		}
 	}
 	
-	public void removeAllFromStepSibling(Set<StepChild> stepSibling) {
+	public void removeAllFromStepSibling(Set<? extends StepChild> stepSibling) {
 		Set<StepChild> tmp = new HashSet<StepChild>(stepSibling);
 		for ( StepChild o : tmp ) {
 			removeFromStepSibling(o);
 		}
 	}
 	
-	public void removeAllFromYounberSiblings(Set<Child> younberSiblings) {
+	public void removeAllFromYounberSiblings(Set<? extends Child> younberSiblings) {
 		Set<Child> tmp = new HashSet<Child>(younberSiblings);
 		for ( Child o : tmp ) {
 			removeFromYounberSiblings(o);
@@ -972,14 +970,14 @@ public class Child implements FamilyMember, IPersistentObject, IEventGenerator, 
 	}
 	
 	public void z_internalAddToDateOfBirth(Date dateOfBirth) {
-		if ( dateOfBirth.equals(getDateOfBirth()) ) {
+		if ( dateOfBirth.equals(this.dateOfBirth) ) {
 			return;
 		}
 		this.dateOfBirth=dateOfBirth;
 	}
 	
 	public void z_internalAddToFamily(Family family) {
-		if ( family.equals(getFamily()) ) {
+		if ( family.equals(this.family) ) {
 			return;
 		}
 		this.family=family;
@@ -998,28 +996,28 @@ public class Child implements FamilyMember, IPersistentObject, IEventGenerator, 
 	}
 	
 	public void z_internalAddToFather(Father father) {
-		if ( father.equals(getFather()) ) {
+		if ( father.equals(this.father) ) {
 			return;
 		}
 		this.father=father;
 	}
 	
 	public void z_internalAddToFirstBornSibling(Child firstBornSibling) {
-		if ( firstBornSibling.equals(getFirstBornSibling()) ) {
+		if ( firstBornSibling.equals(this.firstBornSibling) ) {
 			return;
 		}
 		this.firstBornSibling=firstBornSibling;
 	}
 	
 	public void z_internalAddToMother(Mother mother) {
-		if ( mother.equals(getMother()) ) {
+		if ( mother.equals(this.mother) ) {
 			return;
 		}
 		this.mother=mother;
 	}
 	
 	public void z_internalAddToName(String name) {
-		if ( name.equals(getName()) ) {
+		if ( name.equals(this.name) ) {
 			return;
 		}
 		this.name=name;
@@ -1033,7 +1031,7 @@ public class Child implements FamilyMember, IPersistentObject, IEventGenerator, 
 	}
 	
 	public void z_internalAddToYounberSiblings(Child younberSiblings) {
-		if ( getYounberSiblings().contains(younberSiblings) ) {
+		if ( this.younberSiblings.contains(younberSiblings) ) {
 			return;
 		}
 		this.younberSiblings.add(younberSiblings);

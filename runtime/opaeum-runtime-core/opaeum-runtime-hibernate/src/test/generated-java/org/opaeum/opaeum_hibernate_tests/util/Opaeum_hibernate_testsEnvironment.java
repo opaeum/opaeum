@@ -2,7 +2,6 @@ package org.opaeum.opaeum_hibernate_tests.util;
 
 import javax.persistence.spi.PersistenceUnitInfo;
 
-import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.jpa.AbstractJpaEnvironment;
 
 public class Opaeum_hibernate_testsEnvironment extends AbstractJpaEnvironment {
@@ -31,8 +30,8 @@ public class Opaeum_hibernate_testsEnvironment extends AbstractJpaEnvironment {
 	}
 	
 	public void register() {
+		INSTANCE=this;
 		super.register();
-		INSTANCE=new Opaeum_hibernate_testsEnvironment();
 	}
 	
 	public void unregister() {

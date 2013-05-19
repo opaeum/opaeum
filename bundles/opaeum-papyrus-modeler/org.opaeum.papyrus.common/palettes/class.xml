@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<paletteDefinition>
+	<content>
+		<drawer iconpath="/icons/drawer.gif" id="drawer_1368691238224"
+			name="Features">
+			<aspectTool description="Create an enumeration literal"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/EnumerationLiteral.gif"
+				id="clazz.tool.enumerationliteral_1368691254633" name="Enumeration literal"
+				refToolId="clazz.tool.enumerationliteral" />
+			<aspectTool description="Create a new Property"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/Property.gif"
+				id="clazz.tool.property_1368691260798" name="Property" refToolId="clazz.tool.property" />
+			<aspectTool description="Create an operation"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/Operation.gif"
+				id="clazz.tool.operation_1368691263927" name="Operation" refToolId="clazz.tool.operation" />
+		</drawer>
+		<drawer iconpath="/icons/drawer.gif" id="drawer_1368691267047"
+			name="Types">
+			<aspectTool description="Create a new Class"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/Class.gif"
+				id="clazz.tool.class_1368691278773" name="Class" refToolId="clazz.tool.class" />
+			<aspectTool description="Create a new DataType"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/DataType.gif"
+				id="clazz.tool.datatype_1368691283974" name="DataType" refToolId="clazz.tool.datatype" />
+			<aspectTool description="Create an enumeration"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/Enumeration.gif"
+				id="clazz.tool.enumeration_1368691285694" name="Enumeration"
+				refToolId="clazz.tool.enumeration" />
+			<aspectTool description="Create an interface"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/Interface.gif"
+				id="clazz.tool.interface_1368691288510" name="Interface" refToolId="clazz.tool.interface" />
+			<aspectTool description="Create a Primitivetype"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/PrimitiveType.gif"
+				id="clazz.tool.primitivetype_1368691295853" name="PrimitiveType"
+				refToolId="clazz.tool.primitivetype" />
+		</drawer>
+		<drawer iconpath="/icons/drawer.gif" id="drawer_1368691297529"
+			name="Packages">
+			<aspectTool description="Create new Package"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/Package.gif"
+				id="clazz.tool.package_1368691303918" name="Package" refToolId="clazz.tool.package" />
+			<aspectTool description="Create a component"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/Component.gif"
+				id="clazz.tool.component_1368691308565" name="Component" refToolId="clazz.tool.component" />
+			<aspectTool description="Create a model"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/Model.gif"
+				id="clazz.tool.model_1368691316165" name="Model" refToolId="clazz.tool.model" />
+		</drawer>
+		<drawer iconpath="/icons/drawer.gif" id="drawer_1368691321373"
+			name="Relationships">
+			<aspectTool description="Create an association"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/Association.gif"
+				id="clazz.tool.association_1368691342973" name="Association"
+				refToolId="clazz.tool.association" />
+			<aspectTool description="Create a dependency"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/Dependency.gif"
+				id="clazz.tool.dependency_1368691347516" name="Dependency"
+				refToolId="clazz.tool.dependency" />
+			<aspectTool description="Create a generalization"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/Generalization.gif"
+				id="clazz.tool.generalization_1368691350243" name="Generalization"
+				refToolId="clazz.tool.generalization" />
+			<aspectTool description="GeneralizationSet"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/GeneralizationSet.gif"
+				id="clazz.tool.generalizationset_1368691351741" name="GeneralizationSet"
+				refToolId="clazz.tool.generalizationset" />
+			<aspectTool description="Create an InterfaceRealization"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/InterfaceRealization.gif"
+				id="clazz.tool.interfacerealization_1368691354451" name="InterfaceRealization"
+				refToolId="clazz.tool.interfacerealization" />
+			<aspectTool description="Create a packageImport"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/PackageImport.gif"
+				id="clazz.tool.packageimport_1368691356035" name="PackageImport"
+				refToolId="clazz.tool.packageimport" />
+			<aspectTool description="Create a packageMerge"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/PackageMerge.gif"
+				id="clazz.tool.packagemerge_1368691357420" name="PackageMerge"
+				refToolId="clazz.tool.packagemerge" />
+			<aspectTool description="Create a profileApplication"
+				iconpath="bundleentry://854.fwk1412670249/icons/full/obj16/ProfileApplication.gif"
+				id="clazz.tool.profileapplication_1368691361339" name="ProfileApplication"
+				refToolId="clazz.tool.profileapplication" />
+		</drawer>
+	</content>
+</paletteDefinition>

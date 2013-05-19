@@ -1,7 +1,6 @@
 package org.opaeum.test;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,9 +28,7 @@ import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
-import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.test.util.ModelFormatter;
 import org.opaeum.test.util.Stdlib;
@@ -48,14 +45,14 @@ import org.w3c.dom.NodeList;
 @DiscriminatorValue(	"brother")
 public class Brother extends Child implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	@Transient
-	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
 	static private Set<? extends Brother> mockedAllInstances;
 	@Transient
-	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private InternalHibernatePersistence persistence;
 	static final private long serialVersionUID = 5473144541454217719l;
@@ -404,7 +401,7 @@ public class Brother extends Child implements IPersistentObject, IEventGenerator
 		}
 	}
 	
-	public void removeAllFromSister(Set<Sister> sister) {
+	public void removeAllFromSister(Set<? extends Sister> sister) {
 		Set<Sister> tmp = new HashSet<Sister>(sister);
 		for ( Sister o : tmp ) {
 			removeFromSister(o.getName(),o);
@@ -523,7 +520,7 @@ public class Brother extends Child implements IPersistentObject, IEventGenerator
 	
 	public void z_internalAddToSister(String name, Sister sister) {
 		String key = ModelFormatter.getInstance().formatStringQualifier(name);
-		if ( getSister().contains(sister) ) {
+		if ( this.sister.containsValue(sister) ) {
 			return;
 		}
 		sister.z_internalAddToName(name);

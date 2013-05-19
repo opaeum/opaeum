@@ -1,7 +1,6 @@
 package org.opaeum.test;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,10 +32,7 @@ import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.InterfaceValueOwner;
-import org.opaeum.runtime.domain.IntrospectionUtil;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
-import org.opaeum.test.util.ModelFormatter;
 import org.opaeum.test.util.Stdlib;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

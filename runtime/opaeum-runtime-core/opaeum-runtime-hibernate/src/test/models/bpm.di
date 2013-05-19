@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ASCII"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <di:SashWindowsMngr xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.eclipse.org/papyrus/0.7.0/sashdi">
   <pageList>
     <availablePage>
@@ -16,12 +16,15 @@
     <availablePage>
       <emfPageIdentifier href="bpm.notation#_rjLB4JBYEeKoCK1-ZvrleA"/>
     </availablePage>
+    <availablePage>
+      <emfPageIdentifier href="bpm.notation#_yydRIMB-EeKVzPWAF6TUwg"/>
+    </availablePage>
   </pageList>
   <sashModel currentSelection="//@sashModel/@windows.0/@children.0">
     <windows>
       <children xsi:type="di:TabFolder">
         <children>
-          <emfPageIdentifier href="bpm.notation#_rjLB4JBYEeKoCK1-ZvrleA"/>
+          <emfPageIdentifier href="bpm.notation#_yydRIMB-EeKVzPWAF6TUwg"/>
         </children>
       </children>
     </windows>

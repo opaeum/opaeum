@@ -1,6 +1,5 @@
 package org.opaeum.test.util;
 
-import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.JavaMetaInfoMap;
 
 public class ModelJavaMetaInfoMap extends JavaMetaInfoMap {
@@ -9,13 +8,13 @@ public class ModelJavaMetaInfoMap extends JavaMetaInfoMap {
 	/** Constructor for ModelJavaMetaInfoMap
 	 */
 	public ModelJavaMetaInfoMap() {
+		putClass(bpmmodel.mybusiness.PrepareQuote.class,"bpm.uml@_D4xCQI_hEeK855GX2Z3x4Q@MT");
 		putClass(org.opaeum.test.Aunt.class,"Structures.uml@_edqnoIhqEeK4s7QGypAJBA");
 		putClass(org.opaeum.test.Brother.class,"Structures.uml@_bzlKgIhrEeK4s7QGypAJBA");
 		putClass(org.opaeum.test.Child.class,"Structures.uml@_V2hysIhqEeK4s7QGypAJBA");
 		putClass(org.opaeum.test.ChildHasRelation.class,"Structures.uml@_I7GooIhrEeK4s7QGypAJBA");
 		putClass(org.opaeum.test.Cousin.class,"Structures.uml@_htfZoIhqEeK4s7QGypAJBA");
 		putClass(org.opaeum.test.Family.class,"Structures.uml@_TL7NoIhqEeK4s7QGypAJBA");
-		putClass(org.opaeum.test.FamilyHasFamilyMember.class,"Structures.uml@_N7WfII08EeKHBNiW4NWnIg");
 		putClass(org.opaeum.test.FamilyMember.class,"Structures.uml@_uAFMoIhqEeK4s7QGypAJBA");
 		putClass(org.opaeum.test.FamilyMemberHasRelation.class,"Structures.uml@_wPOkwIhqEeK4s7QGypAJBA");
 		putClass(org.opaeum.test.FamilyStepChild.class,"Structures.uml@_0vhRgIlZEeKhILqZBrW9Hg");

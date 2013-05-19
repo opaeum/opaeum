@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfValueSpecificationUtil;
 import org.opaeum.eclipse.uml.propertysections.ocl.OpaqueExpressionComposite;
@@ -49,10 +50,23 @@ public abstract class RecreatingOpaqueExpressionSection extends AbstractOpaeumPr
 	@Override
 	public void populateControls(){
 		EObject featureOwner = getFeatureOwner(getSelectedObject());
+		ValueSpecification vs = (ValueSpecification) featureOwner.eGet(getFeature());
 		if(featureOwner instanceof NamedElement){
-			oclComposite.setOclContext((NamedElement) featureOwner, (OpaqueExpression) featureOwner.eGet(getFeature()));
+			if(vs instanceof OpaqueExpression){
+				oclComposite.setEnabled(false);
+				oclComposite.setOclContext((NamedElement) featureOwner, (OpaqueExpression) vs);
+			}else{
+				oclComposite.setEnabled(true);
+				oclComposite.setOclContext((NamedElement) featureOwner, null);
+			}
 		}else{
-			oclComposite.setOclContext((NamedElement) getSelectedObject(), (OpaqueExpression) featureOwner.eGet(getFeature()));
+			if(vs instanceof OpaqueExpression){
+				oclComposite.setEnabled(true);
+				oclComposite.setOclContext((NamedElement) getSelectedObject(), (OpaqueExpression) vs);
+			}else{
+				oclComposite.setEnabled(false);
+				oclComposite.setOclContext((NamedElement) getSelectedObject(), null);
+			}
 		}
 	}
 	@Override
@@ -67,11 +81,11 @@ public abstract class RecreatingOpaqueExpressionSection extends AbstractOpaeumPr
 	public void textChanged(TextChangedEvent event){
 		EObject fo = getFeatureOwner(getSelectedObject());
 		while(!(fo instanceof NamedElement)){
-			fo=EmfElementFinder.getContainer(fo);
+			fo = EmfElementFinder.getContainer(fo);
 		}
-		updateModel(EmfValueSpecificationUtil.buildOpaqueExpression((NamedElement) fo,
-				getFeature().getName(), oclComposite.getTextControl().getText()));
-		populateControls();//NB!!! we need to associate the newly created OpaqueExpression with the oclBodyComposite
+		updateModel(EmfValueSpecificationUtil.buildOpaqueExpression((NamedElement) fo, getFeature().getName(), oclComposite.getTextControl()
+				.getText()));
+		populateControls();// NB!!! we need to associate the newly created OpaqueExpression with the oclBodyComposite
 	}
 	@Override
 	public void textSet(TextChangedEvent event){

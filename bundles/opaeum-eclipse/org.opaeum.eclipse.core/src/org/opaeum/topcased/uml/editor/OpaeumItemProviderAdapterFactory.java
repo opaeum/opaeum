@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
@@ -14,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -40,11 +42,13 @@ import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.OutputPin;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Port;
 import org.eclipse.uml2.uml.Property;
@@ -53,6 +57,7 @@ import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
+import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.TimeObservation;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -79,6 +84,7 @@ import org.eclipse.uml2.uml.edit.providers.OpaqueBehaviorItemProvider;
 import org.eclipse.uml2.uml.edit.providers.OpaqueExpressionItemProvider;
 import org.eclipse.uml2.uml.edit.providers.OperationItemProvider;
 import org.eclipse.uml2.uml.edit.providers.OutputPinItemProvider;
+import org.eclipse.uml2.uml.edit.providers.PackageItemProvider;
 import org.eclipse.uml2.uml.edit.providers.PortItemProvider;
 import org.eclipse.uml2.uml.edit.providers.PrimitiveTypeItemProvider;
 import org.eclipse.uml2.uml.edit.providers.PropertyItemProvider;
@@ -607,6 +613,20 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			};
 		}
 		return modelItemProvider;
+	}
+	@Override
+	public Adapter createPackageAdapter(){
+		if (packageItemProvider == null) {
+			packageItemProvider = new PackageItemProvider(this){
+				@Override
+				public String getText(Object object){
+					Package pkg=(Package) object;
+					return getTypeString(pkg)+pkg.getName();
+				}
+			};
+		}
+		
+		return packageItemProvider;
 	}
 	@Override
 	public Adapter createAssociationAdapter(){
@@ -1148,6 +1168,29 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 			return children;
 		}else{
 			return children;
+		}
+	}
+	private static String getTypeString(NamedElement ne){
+		Set<String> names=new HashSet<String>();
+		EClass  clss=ne.eClass();
+		for(Stereotype st:ne.getAppliedStereotypes()){
+			names.add(st.getName());
+		}
+		names.remove(clss.getName());
+		removeSuperTypes(names, clss);
+		String result;
+		if(names.size()==1){
+			result= names.iterator().next();
+		}else{
+			result= ne.eClass().getName();
+		}
+		return "<"+result+"> ";
+	}
+	private static void removeSuperTypes(Set<String> names,EClass clss){
+		EList<EClass> eSuperTypes = clss.getESuperTypes();
+		for(EClass eClass:eSuperTypes){
+			names.remove(eClass);
+			removeSuperTypes(names, eClass);
 		}
 	}
 }

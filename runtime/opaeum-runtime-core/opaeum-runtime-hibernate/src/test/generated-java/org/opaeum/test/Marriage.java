@@ -1,7 +1,6 @@
 package org.opaeum.test;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,9 +34,7 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.InterfaceValueOwner;
-import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.strategy.DateStrategyFactory;
 import org.opaeum.test.util.ModelFormatter;
@@ -62,7 +59,7 @@ public class Marriage implements InterfaceValueOwner, IPersistentObject, IEventG
 	}
 	
 	@Transient
-	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -79,7 +76,7 @@ public class Marriage implements InterfaceValueOwner, IPersistentObject, IEventG
 	@Column(name="object_version")
 	private int objectVersion;
 	@Transient
-	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private InternalHibernatePersistence persistence;
 	static final private long serialVersionUID = 7663862196920060032l;
@@ -339,7 +336,7 @@ public class Marriage implements InterfaceValueOwner, IPersistentObject, IEventG
 	}
 	
 	public void z_internalAddToInitiationDate(Date initiationDate) {
-		if ( initiationDate.equals(getInitiationDate()) ) {
+		if ( initiationDate.equals(this.initiationDate) ) {
 			return;
 		}
 		this.initiationDate=initiationDate;

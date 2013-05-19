@@ -8,30 +8,83 @@
 	<persistence-unit name="cm">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:/cmDatasource</jta-data-source>
-		<class>org.opaeum.test.Aunt</class>
-		<class>org.opaeum.test.Brother</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.WorkDay</class>
+		<class>org.opaeum.runtime.bpm.costing.QuantifiedResourcePricePerUnit</class>
 		<class>org.opaeum.test.Uncle</class>
-		<class>org.opaeum.test.FamilyHasFamilyMember</class>
-		<class>org.opaeum.runtime.bpm.opaeumsimpletypes.DayOfWeekEntity</class>
-		<class>org.opaeum.test.Sister</class>
-		<class>org.opaeum.test.hibernate.Hand</class>
-		<class>org.opaeum.test.Marriage</class>
 		<class>org.opaeum.test.Child</class>
-		<class>org.opaeum.test.SiblingStepSibling</class>
 		<class>org.opaeum.test.Father</class>
 		<class>org.opaeum.test.Cousin</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.WorkDayKindEntity</class>
+		<class>org.opaeum.runtime.bpm.request.ProcessRequest</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar</class>
+		<class>bpmmodel.mybusiness.preparequoteimpl.Call_Customer</class>
+		<class>org.opaeum.runtime.bpm.request.TaskRequest</class>
+		<class>org.opaeum.runtime.bpm.contact.PhysicalAddress</class>
+		<class>org.opaeum.runtime.bpm.organization.BusinessNetwork</class>
+		<class>org.opaeum.test.SurnameProviderHasDaughter</class>
+		<class>org.opaeum.runtime.bpm.request.AbstractRequest</class>
+		<class>org.opaeum.test.StepBrother</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.OnceOffHoliday</class>
+		<class>bpmmodel.mybusiness.PrepareQuote</class>
+		<class>org.opaeum.test.SurnameProviderHasSon</class>
+		<class>org.opaeum.test.ChildHasRelation</class>
+		<class>org.opaeum.test.StepSister</class>
+		<class>bpmmodel.custom.CustomBusinessNetwork</class>
+		<class>org.opaeum.runtime.bpm.contact.OrganizationEMailAddress</class>
+		<class>bpmmodel.BackOfficeWorker</class>
+		<class>org.opaeum.runtime.bpm.contact.PersonPhoneNumber</class>
+		<class>bpmmodel.Product</class>
+		<class>org.opaeum.runtime.bpm.organization.PersonFullfillsActorRole</class>
+		<class>org.opaeum.runtime.bpm.organization.OrganizationFullfillsActorRole</class>
+		<class>org.opaeum.runtime.bpm.organization.OrganizationAsBusinessComponent</class>
+		<class>org.opaeum.test.hibernate.Hand</class>
+		<class>org.opaeum.runtime.bpm.contact.OrganizationPhoneNumberTypeEntity</class>
 		<class>org.opaeum.test.FamilyStepChild</class>
 		<class>org.opaeum.test.hibernate.Finger</class>
-		<class>org.opaeum.test.MotherStepChildren</class>
-		<class>org.opaeum.test.SurnameProviderHasDaughter</class>
-		<class>org.opaeum.test.StepBrother</class>
-		<class>org.opaeum.runtime.bpm.opaeumsimpletypes.MonthEntity</class>
+		<class>org.opaeum.runtime.bpm.costing.RatePerTimeUnit</class>
+		<class>org.opaeum.runtime.bpm.organization.Leave</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.TimeOfDay</class>
+		<class>org.opaeum.runtime.bpm.request.ParticipationInTask</class>
+		<class>org.opaeum.runtime.bpm.contact.OrganizationPhoneNumber</class>
+		<class>org.opaeum.runtime.bpm.request.Participation</class>
 		<class>org.opaeum.test.Mother</class>
-		<class>org.opaeum.test.SurnameProviderHasSon</class>
-		<class>org.opaeum.test.Family</class>
-		<class>org.opaeum.test.ChildHasRelation</class>
+		<class>org.opaeum.runtime.bpm.costing.PricePerUnit</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.RecurringHoliday</class>
+		<class>org.opaeum.test.Aunt</class>
+		<class>org.opaeum.runtime.bpm.request.RequestParticipationKindEntity</class>
+		<class>org.opaeum.runtime.bpm.opaeumsimpletypes.DayOfWeekEntity</class>
+		<class>org.opaeum.test.Sister</class>
+		<class>org.opaeum.runtime.bpm.contact.PersonEMailAddress</class>
+		<class>org.opaeum.test.SiblingStepSibling</class>
+		<class>org.opaeum.runtime.bpm.costing.TimedResourceRatePerTimeUnit</class>
+		<class>org.opaeum.runtime.bpm.request.AbstractRequestToken</class>
+		<class>bpmmodel.BusinessCollaboration1</class>
+		<class>org.opaeum.runtime.bpm.organization.OrganizationNode</class>
+		<class>bpmmodel.custom.CustomOrganizationNode</class>
+		<class>org.opaeum.test.MotherStepChildren</class>
+		<class>org.opaeum.runtime.bpm.organization.PersonNode</class>
+		<class>bpmmodel.MyBusiness</class>
+		<class>bpmmodel.mybusiness.PrepareQuoteImplToken</class>
+		<class>org.opaeum.runtime.bpm.request.ParticipationInRequest</class>
 		<class>org.opaeum.test.FamilyMemberHasRelation</class>
-		<class>org.opaeum.test.StepSister</class>
+		<class>org.opaeum.runtime.bpm.organization.PersonInBusinessRole</class>
+		<class>org.opaeum.runtime.bpm.contact.OrganizationEMailAddressTypeEntity</class>
+		<class>bpmmodel.mybusiness.PrepareQuoteImpl</class>
+		<class>org.opaeum.runtime.bpm.request.TaskParticipationKindEntity</class>
+		<class>bpmmodel.Customer</class>
+		<class>org.opaeum.test.Brother</class>
+		<class>org.opaeum.runtime.bpm.request.TaskRequestToken</class>
+		<class>bpmmodel.SalesPerson</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.CronExpression</class>
+		<class>org.opaeum.test.Marriage</class>
+		<class>org.opaeum.runtime.bpm.contact.PostalAddress</class>
+		<class>org.opaeum.runtime.bpm.request.ParticipationParticipant</class>
+		<class>bpmmodel.Supplier</class>
+		<class>org.opaeum.runtime.bpm.organization.BusinessNetworkFacilatatesCollaboration</class>
+		<class>org.opaeum.runtime.bpm.opaeumsimpletypes.MonthEntity</class>
+		<class>org.opaeum.runtime.bpm.contact.Address</class>
+		<class>org.opaeum.test.Family</class>
+		<class>org.opaeum.runtime.bpm.request.ProcessRequestToken</class>
 		<class>org.opaeum.opaeum_hibernate_tests.util</class>
 		<class>org.opaeum.hibernate.domain.EventOccurrence</class>
 		<class>org.opaeum.audit.AbstractPersistentEnum</class>

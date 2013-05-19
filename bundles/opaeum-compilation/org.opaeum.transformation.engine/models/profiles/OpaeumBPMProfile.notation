@@ -316,6 +316,10 @@
       </eAnnotations>
       <children xmi:type="notation:DecorationNode" xmi:id="_4pu5ll9ZEeG3X_yvufTVmw" type="1034"/>
       <children xmi:type="notation:BasicCompartment" xmi:id="_4pu5l19ZEeG3X_yvufTVmw" type="1071">
+        <children xmi:type="notation:Shape" xmi:id="_euFAAMCCEeK84NVlcj42fQ" type="3002">
+          <element xmi:type="uml:Property" href="OpaeumBPMProfile.uml#_etJy8MCCEeK84NVlcj42fQ"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_euFAAcCCEeK84NVlcj42fQ"/>
+        </children>
         <styles xmi:type="notation:TitleStyle" xmi:id="_4pu5mF9ZEeG3X_yvufTVmw"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_4pu5mV9ZEeG3X_yvufTVmw"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_4pu5ml9ZEeG3X_yvufTVmw"/>

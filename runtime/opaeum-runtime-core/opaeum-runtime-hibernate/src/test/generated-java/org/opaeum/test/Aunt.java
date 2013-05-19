@@ -54,7 +54,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="Aunt")
 public class Aunt implements Relation, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	@Transient
-	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Where(clause="god_parent_type='Structures.uml@_edqnoIhqEeK4s7QGypAJBA'")
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
@@ -88,7 +88,7 @@ public class Aunt implements Relation, IPersistentObject, IEventGenerator, Hiber
 	@Column(name="object_version")
 	private int objectVersion;
 	@Transient
-	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private InternalHibernatePersistence persistence;
 	static final private long serialVersionUID = 5674612196249131985l;
@@ -259,8 +259,7 @@ public class Aunt implements Relation, IPersistentObject, IEventGenerator, Hiber
 	
 	public Child getChild(String name, Date dateOfBirth) {
 		Child result = null;
-		String key = ModelFormatter.getInstance().formatStringQualifier(name)+ModelFormatter.getInstance().formatDateQualifier(dateOfBirth);
-		ChildHasRelation link = this.childHasRelation_child.get(key.toString());
+		ChildHasRelation link = this.getChildHasRelation_childFor(name,dateOfBirth,);
 		result= link==null || link.getChild()==null?null:link.getChild();
 		return result;
 	}
@@ -312,8 +311,7 @@ public class Aunt implements Relation, IPersistentObject, IEventGenerator, Hiber
 	
 	public FamilyMember getFamilyMember(Family family, String name) {
 		FamilyMember result = null;
-		String key = family.getUid()+ModelFormatter.getInstance().formatStringQualifier(name);
-		FamilyMemberHasRelation link = this.familyMemberHasRelation_familyMember.get(key.toString());
+		FamilyMemberHasRelation link = this.getFamilyMemberHasRelation_familyMemberFor(family,name,);
 		result= link==null || link.getFamilyMember()==null?null:link.getFamilyMember();
 		return result;
 	}
@@ -463,14 +461,14 @@ public class Aunt implements Relation, IPersistentObject, IEventGenerator, Hiber
 		}
 	}
 	
-	public void removeAllFromChild(Set<Child> child) {
+	public void removeAllFromChild(Set<? extends Child> child) {
 		Set<Child> tmp = new HashSet<Child>(child);
 		for ( Child o : tmp ) {
 			removeFromChild(o.getName(),o.getDateOfBirth(),o);
 		}
 	}
 	
-	public void removeAllFromFamilyMember(Set<FamilyMember> familyMember) {
+	public void removeAllFromFamilyMember(Set<? extends FamilyMember> familyMember) {
 		Set<FamilyMember> tmp = new HashSet<FamilyMember>(familyMember);
 		for ( FamilyMember o : tmp ) {
 			removeFromFamilyMember(o.getFamily(),o.getName(),o);
@@ -643,7 +641,7 @@ public class Aunt implements Relation, IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void z_internalAddToDateOfBirth(Date dateOfBirth) {
-		if ( dateOfBirth.equals(getDateOfBirth()) ) {
+		if ( dateOfBirth.equals(this.dateOfBirth) ) {
 			return;
 		}
 		this.dateOfBirth=dateOfBirth;
@@ -665,14 +663,14 @@ public class Aunt implements Relation, IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void z_internalAddToFirstName(String firstName) {
-		if ( firstName.equals(getFirstName()) ) {
+		if ( firstName.equals(this.firstName) ) {
 			return;
 		}
 		this.firstName=firstName;
 	}
 	
 	public void z_internalAddToSurname(String surname) {
-		if ( surname.equals(getSurname()) ) {
+		if ( surname.equals(this.surname) ) {
 			return;
 		}
 		this.surname=surname;

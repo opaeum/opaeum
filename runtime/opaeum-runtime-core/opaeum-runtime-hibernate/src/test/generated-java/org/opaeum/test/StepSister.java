@@ -3,7 +3,6 @@ package org.opaeum.test;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -15,12 +14,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -37,7 +39,6 @@ import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.test.util.ModelFormatter;
 import org.opaeum.test.util.Stdlib;
@@ -49,11 +50,14 @@ import org.w3c.dom.NodeList;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="step_sister")
+@Table(name="step_sister",uniqueConstraints=
+	@UniqueConstraint(columnNames={"family_id","name","deleted_on"}))
+@NamedQueries(value=
+	@NamedQuery(name="QueryStepSisterWithNameForFamily",query="from StepSister a where a.family = :family and a.name = :name"))
 @Entity(name="StepSister")
 public class StepSister implements StepChild, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	@Transient
-	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -76,7 +80,7 @@ public class StepSister implements StepChild, IPersistentObject, IEventGenerator
 	@Column(name="object_version")
 	private int objectVersion;
 	@Transient
-	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private InternalHibernatePersistence persistence;
 	static final private long serialVersionUID = 6013251805696522269l;
@@ -405,7 +409,7 @@ public class StepSister implements StepChild, IPersistentObject, IEventGenerator
 		}
 	}
 	
-	public void removeAllFromStepSibling(Set<Child> stepSibling) {
+	public void removeAllFromStepSibling(Set<? extends Child> stepSibling) {
 		Set<Child> tmp = new HashSet<Child>(stepSibling);
 		for ( Child o : tmp ) {
 			removeFromStepSibling(o);
@@ -544,7 +548,7 @@ public class StepSister implements StepChild, IPersistentObject, IEventGenerator
 	}
 	
 	public void z_internalAddToName(String name) {
-		if ( name.equals(getName()) ) {
+		if ( name.equals(this.name) ) {
 			return;
 		}
 		this.name=name;

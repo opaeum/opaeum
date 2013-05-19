@@ -275,7 +275,7 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 				if(owner != null){
 					// Owner could be null for lazy creation
 					f = getFeature(owner);
-					oldValue = owner.eGet(f);
+					oldValue = getExistingFeatureValue(owner, f);
 				}else{
 					// Fallback
 					f = getFeature();
@@ -285,6 +285,11 @@ public abstract class AbstractOpaeumPropertySection extends AbstractPropertySect
 			editingDomain.getCommandStack().execute(compoundCommand);
 			isUpdatingModel=false;
 		}
+	}
+	protected Object getExistingFeatureValue(EObject owner,EStructuralFeature f){
+		Object oldValue;
+		oldValue = owner.eGet(f);
+		return oldValue;
 	}
 	protected void maybeAppendCommand(EditingDomain editingDomain,CompoundCommand compoundCommand,Object selectedObject,EObject featureOwner,
 			EStructuralFeature f,Object oldValue,Object newValue){

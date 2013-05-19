@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -45,7 +46,7 @@ public class ReverseEngineerMavenProjectsAction extends AbstractReverseEngineerA
 						Set<IDiagramCreator> diagramCreators = OpaeumEclipsePlugin.getDefault().getDiagramCreators();
 						for(IDiagramCreator c:diagramCreators){
 							if(c.matches(selectedEditor)){
-								c.createDiagram("Overview", elements, selectedEditor,RelationshipDirection.BOTH,UMLPackage.eINSTANCE.getAssociation());
+								c.createDiagram("Overview", elements, selectedEditor,RelationshipDirection.BOTH,UMLPackage.eINSTANCE.getPackageImport());
 							}
 						}
 					}catch(Exception e){
@@ -73,8 +74,16 @@ public class ReverseEngineerMavenProjectsAction extends AbstractReverseEngineerA
 		Object[] array = selection.toArray();
 		Collection<IContainer> result=new HashSet<IContainer>();
 		for(Object object:array){
-			if(object instanceof IContainer){
-				IContainer c = (IContainer) object;
+			IResource r = null;
+			if(object instanceof IResource){
+				r = (IResource) object;
+			}else if(object instanceof IAdaptable){
+				IAdaptable a = (IAdaptable) object;
+				r = (IResource) a.getAdapter(IResource.class);
+			}
+			
+			if(r instanceof IContainer){
+				IContainer c = (IContainer) r;
 				IResource p = c.findMember("pom.xml");
 				if(p!=null && p.exists()){
 					result.add(c);

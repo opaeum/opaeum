@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.ElementImport;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.uml.propertysections.base.AbstractChooserPropertySection;
+import org.opaeum.emf.extraction.StereotypesHelper;
 
 public class ElementImportImportedElementSection extends AbstractChooserPropertySection{
 	ElementImport getElementImport(){
@@ -28,7 +32,15 @@ public class ElementImportImportedElementSection extends AbstractChooserProperty
 			if(notifier instanceof NamedElement && !(notifier instanceof org.eclipse.uml2.uml.Package)){
 				NamedElement ne = (NamedElement) notifier;
 				if(ne.getModel() != null){
-					if(ne.getModel().getAppliedProfile("Ecore") == null){
+					boolean b = getElementImport().getNearestPackage() instanceof Profile && ne.getModel().getName().equals("UML");
+					if(b){
+						if(StereotypesHelper.hasStereotype(ne, "Metaclass")){
+							b=true;
+						}else{
+							b=false;
+						}
+					}
+					if(ne.getModel().getAppliedProfile("Ecore") == null || b){
 						result.add(notifier);
 					}
 				}

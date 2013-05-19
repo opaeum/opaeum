@@ -3,7 +3,6 @@ package org.opaeum.test.hibernate;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -34,7 +33,6 @@ import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.test.hibernate.util.ModelFormatter;
 import org.opaeum.test.hibernate.util.Stdlib;
@@ -50,7 +48,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="Hand")
 public class Hand implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	@Transient
-	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -71,7 +69,7 @@ public class Hand implements IPersistentObject, IEventGenerator, HibernateEntity
 	@Column(name="object_version")
 	private int objectVersion;
 	@Transient
-	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private InternalHibernatePersistence persistence;
 	static final private long serialVersionUID = 8911816607800989409l;
@@ -273,7 +271,7 @@ public class Hand implements IPersistentObject, IEventGenerator, HibernateEntity
 		}
 	}
 	
-	public void removeAllFromFinger(Set<Finger> finger) {
+	public void removeAllFromFinger(Set<? extends Finger> finger) {
 		Set<Finger> tmp = new HashSet<Finger>(finger);
 		for ( Finger o : tmp ) {
 			removeFromFinger(o);
@@ -353,14 +351,14 @@ public class Hand implements IPersistentObject, IEventGenerator, HibernateEntity
 	}
 	
 	public void z_internalAddToFinger(Finger finger) {
-		if ( getFinger().contains(finger) ) {
+		if ( this.finger.contains(finger) ) {
 			return;
 		}
 		this.finger.add(finger);
 	}
 	
 	public void z_internalAddToName(String name) {
-		if ( name.equals(getName()) ) {
+		if ( name.equals(this.name) ) {
 			return;
 		}
 		this.name=name;

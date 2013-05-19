@@ -114,7 +114,7 @@ public class CreateChildActions implements ICreateChildActionProvider{
 		CONTROLLED_FEATURES.add(pkg.getNamespace_OwnedRule());
 		CONTROLLED_FEATURES.add(pkg.getNamespace_OwnedRule());
 		add(PROFILE, pkg.getPackage_OwnedType().getName(), pkg.getStereotype());
-		add(PROFILE, pkg.getPackage_OwnedType().getName(), pkg.getEnumeration());
+		add(PROFILE, pkg.getPackage_OwnedType().getName(), pkg.getStereotype());
 		add(PACKAGES, pkg.getPackage_PackagedElement().getName(), pkg.getInstanceSpecification());
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getSignal());
 		add(PACKAGES, pkg.getPackage_OwnedType().getName(), pkg.getUseCase(), StereotypeNames.BUSINESS_USE_CASE);

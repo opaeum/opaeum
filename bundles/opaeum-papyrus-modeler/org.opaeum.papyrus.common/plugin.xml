@@ -16,4 +16,18 @@
              name="Basic Profile">
        </template>
     </extension>
+<extension point="org.eclipse.papyrus.uml.diagram.common.paletteDefinition"
+	name="UML_Package">
+	
+	<paletteDefinition ID="simpleClasses"
+		class="org.eclipse.papyrus.uml.diagram.common.service.PluginPaletteProvider"
+		name="Simple Classes" icon="platform:/plugin/org.eclipse.gmf.runtime.diagram.ui/icons/group.gif" 
+		path="palettes/class.xml"
+		provider="Ampie">
+		<Priority name="Low"/>
+		
+		<!-- Specify diagram this palette tools relate to -->						
+		<editor id="org.eclipse.papyrus.uml.diagram.clazz"/>
+	</paletteDefinition>
+</extension>
 </plugin>

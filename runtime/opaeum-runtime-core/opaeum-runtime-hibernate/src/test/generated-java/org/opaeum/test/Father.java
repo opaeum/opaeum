@@ -57,7 +57,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="Father")
 public class Father implements SurnameProvider, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	@Transient
-	transient private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(fetch=javax.persistence.FetchType.LAZY,mappedBy="father",targetEntity=Child.class)
@@ -83,7 +83,7 @@ public class Father implements SurnameProvider, IPersistentObject, IEventGenerat
 	@Column(name="object_version")
 	private int objectVersion;
 	@Transient
-	transient private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	private InternalHibernatePersistence persistence;
 	static final private long serialVersionUID = 3913937104705735364l;
@@ -356,8 +356,7 @@ public class Father implements SurnameProvider, IPersistentObject, IEventGenerat
 	
 	public Sister getSurnameCarryingDaughter(String name) {
 		Sister result = null;
-		String key = ModelFormatter.getInstance().formatStringQualifier(name);
-		SurnameProviderHasDaughter link = this.surnameProviderHasDaughter_surnameCarryingDaughter.get(key.toString());
+		SurnameProviderHasDaughter link = this.getSurnameProviderHasDaughter_surnameCarryingDaughterFor(name,);
 		result= link==null || link.getSurnameCarryingDaughter()==null?null:link.getSurnameCarryingDaughter();
 		return result;
 	}
@@ -530,21 +529,21 @@ public class Father implements SurnameProvider, IPersistentObject, IEventGenerat
 		}
 	}
 	
-	public void removeAllFromChild(Set<Child> child) {
+	public void removeAllFromChild(Set<? extends Child> child) {
 		Set<Child> tmp = new HashSet<Child>(child);
 		for ( Child o : tmp ) {
 			removeFromChild(o.getName(),o);
 		}
 	}
 	
-	public void removeAllFromSurnameCarryingDaughter(Set<Sister> surnameCarryingDaughter) {
+	public void removeAllFromSurnameCarryingDaughter(Set<? extends Sister> surnameCarryingDaughter) {
 		Set<Sister> tmp = new HashSet<Sister>(surnameCarryingDaughter);
 		for ( Sister o : tmp ) {
 			removeFromSurnameCarryingDaughter(o.getName(),o);
 		}
 	}
 	
-	public void removeAllFromSurnameCarryingSon(Set<Brother> surnameCarryingSon) {
+	public void removeAllFromSurnameCarryingSon(Set<? extends Brother> surnameCarryingSon) {
 		Set<Brother> tmp = new HashSet<Brother>(surnameCarryingSon);
 		for ( Brother o : tmp ) {
 			removeFromSurnameCarryingSon(o);
@@ -733,7 +732,7 @@ public class Father implements SurnameProvider, IPersistentObject, IEventGenerat
 	
 	public void z_internalAddToChild(String name, Child child) {
 		String key = ModelFormatter.getInstance().formatStringQualifier(name);
-		if ( getChild().contains(child) ) {
+		if ( this.child.containsValue(child) ) {
 			return;
 		}
 		child.z_internalAddToName(name);
@@ -742,7 +741,7 @@ public class Father implements SurnameProvider, IPersistentObject, IEventGenerat
 	}
 	
 	public void z_internalAddToFamily(Family family) {
-		if ( family.equals(getFamily()) ) {
+		if ( family.equals(this.family) ) {
 			return;
 		}
 		this.family=family;
@@ -773,7 +772,7 @@ public class Father implements SurnameProvider, IPersistentObject, IEventGenerat
 	}
 	
 	public void z_internalAddToWife(Mother wife) {
-		if ( wife.equals(getWife()) ) {
+		if ( wife.equals(this.wife) ) {
 			return;
 		}
 		this.wife=wife;

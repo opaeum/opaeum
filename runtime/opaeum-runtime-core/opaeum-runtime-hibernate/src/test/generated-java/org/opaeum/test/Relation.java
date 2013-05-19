@@ -1,7 +1,6 @@
 package org.opaeum.test;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +11,6 @@ import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.strategy.DateStrategyFactory;
-import org.opaeum.test.util.ModelFormatter;
 import org.w3c.dom.Element;
 
 @NumlMetaInfo(applicationIdentifier="opaeum_hibernate_tests",uuid="Structures.uml@_bVPeIIhqEeK4s7QGypAJBA")

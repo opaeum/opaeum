@@ -1,102 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpaeumBPMProfile="http:///schemas/OpaeumBPMProfile/1.0.0.6" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xsi:schemaLocation="http:///schemas/OpaeumBPMProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.uml#_2agDYNfJEeCXQPv0AMhLcg http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg">
   <uml:Model xmi:id="_AsPu0I_UEeKprosbV7yAPA" name="bpmmodel">
-    <packageImport xmi:id="_zMUsYI_bEeKWQLWOG6WHmA">
+    <packageImport xmi:type="uml:PackageImport" xmi:id="_zMUsYI_bEeKWQLWOG6WHmA">
       <importedPackage xmi:type="uml:Model" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_qb8akM37EdqwVrslYOdUDA"/>
     </packageImport>
     <packagedElement xmi:type="uml:UseCase" xmi:id="_U7VPkI_aEeKegMV1G5cVQA" name="Buy Stuff">
-      <eAnnotations xmi:id="_U7oKgI_aEeKegMV1G5cVQA" source="http://www.opaeum.org">
-        <details xmi:id="_U7oKgY_aEeKegMV1G5cVQA" key="BusinessUseCase" value=""/>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_U7oKgI_aEeKegMV1G5cVQA" source="http://www.opaeum.org">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_U7oKgY_aEeKegMV1G5cVQA" key="BusinessUseCase" value=""/>
       </eAnnotations>
     </packagedElement>
     <packagedElement xmi:type="uml:Actor" xmi:id="_FEtqQI_cEeKWQLWOG6WHmA" clientDependency="_FFJIEI_cEeKWQLWOG6WHmA" name="Customer">
-      <interfaceRealization xmi:id="_FFJIEI_cEeKWQLWOG6WHmA" name="isAIBusinessActor" client="_FEtqQI_cEeKWQLWOG6WHmA">
+      <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_FFJIEI_cEeKWQLWOG6WHmA" name="isAIBusinessActor" client="_FEtqQI_cEeKWQLWOG6WHmA">
         <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_AN3QcEtxEeGElKTCe2jfDw"/>
-        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_AN3QcEtxEeGElKTCe2jfDw"/>
+        <contract xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_AN3QcEtxEeGElKTCe2jfDw"/>
       </interfaceRealization>
     </packagedElement>
     <packagedElement xmi:type="uml:Actor" xmi:id="_F-ntwI_cEeKWQLWOG6WHmA" clientDependency="_F-z7AY_cEeKWQLWOG6WHmA" name="Supplier">
-      <interfaceRealization xmi:id="_F-z7AY_cEeKWQLWOG6WHmA" name="isAIBusinessActor" client="_F-ntwI_cEeKWQLWOG6WHmA">
+      <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_F-z7AY_cEeKWQLWOG6WHmA" name="isAIBusinessActor" client="_F-ntwI_cEeKWQLWOG6WHmA">
         <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_AN3QcEtxEeGElKTCe2jfDw"/>
-        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_AN3QcEtxEeGElKTCe2jfDw"/>
+        <contract xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_AN3QcEtxEeGElKTCe2jfDw"/>
       </interfaceRealization>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_U5X10I_cEeKWQLWOG6WHmA" name="A_customer_buy stuff" memberEnd="_U5X10Y_cEeKWQLWOG6WHmA _U5X11I_cEeKWQLWOG6WHmA">
-      <ownedEnd xmi:id="_U5X10Y_cEeKWQLWOG6WHmA" name="customer" type="_FEtqQI_cEeKWQLWOG6WHmA" association="_U5X10I_cEeKWQLWOG6WHmA">
+      <ownedEnd xmi:type="uml:Property" xmi:id="_U5X10Y_cEeKWQLWOG6WHmA" name="customer" type="_FEtqQI_cEeKWQLWOG6WHmA" association="_U5X10I_cEeKWQLWOG6WHmA">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_U5X10o_cEeKWQLWOG6WHmA" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_U5X104_cEeKWQLWOG6WHmA" value="1"/>
       </ownedEnd>
-      <ownedEnd xmi:id="_U5X11I_cEeKWQLWOG6WHmA" name="buy stuff" type="_U7VPkI_aEeKegMV1G5cVQA" association="_U5X10I_cEeKWQLWOG6WHmA">
+      <ownedEnd xmi:type="uml:Property" xmi:id="_U5X11I_cEeKWQLWOG6WHmA" name="buy stuff" type="_U7VPkI_aEeKegMV1G5cVQA" association="_U5X10I_cEeKWQLWOG6WHmA">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_U5X11Y_cEeKWQLWOG6WHmA" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_U5X11o_cEeKWQLWOG6WHmA" value="1"/>
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_VHQg0I_cEeKWQLWOG6WHmA" name="A_supplier_buy stuff" memberEnd="_VHQg0Y_cEeKWQLWOG6WHmA _VHQg1I_cEeKWQLWOG6WHmA">
-      <ownedEnd xmi:id="_VHQg0Y_cEeKWQLWOG6WHmA" name="supplier" type="_F-ntwI_cEeKWQLWOG6WHmA" association="_VHQg0I_cEeKWQLWOG6WHmA">
+      <ownedEnd xmi:type="uml:Property" xmi:id="_VHQg0Y_cEeKWQLWOG6WHmA" name="supplier" type="_F-ntwI_cEeKWQLWOG6WHmA" association="_VHQg0I_cEeKWQLWOG6WHmA">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_VHQg0o_cEeKWQLWOG6WHmA" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VHQg04_cEeKWQLWOG6WHmA" value="1"/>
       </ownedEnd>
-      <ownedEnd xmi:id="_VHQg1I_cEeKWQLWOG6WHmA" name="buy stuff" type="_U7VPkI_aEeKegMV1G5cVQA" association="_VHQg0I_cEeKWQLWOG6WHmA">
+      <ownedEnd xmi:type="uml:Property" xmi:id="_VHQg1I_cEeKWQLWOG6WHmA" name="buy stuff" type="_U7VPkI_aEeKegMV1G5cVQA" association="_VHQg0I_cEeKWQLWOG6WHmA">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_VHQg1Y_cEeKWQLWOG6WHmA" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VHQg1o_cEeKWQLWOG6WHmA" value="1"/>
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Collaboration" xmi:id="_WOOI4I_cEeKWQLWOG6WHmA" clientDependency="_WORzQY_cEeKWQLWOG6WHmA" name="BusinessCollaboration1">
-      <ownedAttribute xmi:id="_dNVQEI_cEeKWQLWOG6WHmA" name="myBusiness" type="_b9ZSMI_cEeKWQLWOG6WHmA" aggregation="composite" association="_neO4II_cEeKWQLWOG6WHmA">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_dNVQEI_cEeKWQLWOG6WHmA" name="myBusiness" type="_b9ZSMI_cEeKWQLWOG6WHmA" aggregation="composite" association="_neO4II_cEeKWQLWOG6WHmA">
         <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_eK_yMI_cEeKWQLWOG6WHmA" value="1"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_fb8csI_cEeKWQLWOG6WHmA" name="customer" type="_FEtqQI_cEeKWQLWOG6WHmA" aggregation="composite" association="_mw3b0I_cEeKWQLWOG6WHmA"/>
-      <ownedAttribute xmi:id="_iMQoMI_cEeKWQLWOG6WHmA" name="supplier" type="_F-ntwI_cEeKWQLWOG6WHmA" aggregation="composite" association="_nJG8sI_cEeKWQLWOG6WHmA">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_fb8csI_cEeKWQLWOG6WHmA" name="customer" type="_FEtqQI_cEeKWQLWOG6WHmA" aggregation="composite" association="_mw3b0I_cEeKWQLWOG6WHmA"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_iMQoMI_cEeKWQLWOG6WHmA" name="supplier" type="_F-ntwI_cEeKWQLWOG6WHmA" aggregation="composite" association="_nJG8sI_cEeKWQLWOG6WHmA">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kDG1EI_cEeKWQLWOG6WHmA" value="*"/>
       </ownedAttribute>
-      <ownedConnector xmi:id="_lpmRwI_cEeKWQLWOG6WHmA" name="Connector1">
-        <end xmi:id="_lpp8II_cEeKWQLWOG6WHmA" role="_fb8csI_cEeKWQLWOG6WHmA">
+      <ownedConnector xmi:type="uml:Connector" xmi:id="_lpmRwI_cEeKWQLWOG6WHmA" name="Connector1">
+        <end xmi:type="uml:ConnectorEnd" xmi:id="_lpp8II_cEeKWQLWOG6WHmA" role="_fb8csI_cEeKWQLWOG6WHmA">
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lpp8IY_cEeKWQLWOG6WHmA" value="1"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lpp8Io_cEeKWQLWOG6WHmA" value="1"/>
         </end>
-        <end xmi:id="_lpp8I4_cEeKWQLWOG6WHmA" role="_dNVQEI_cEeKWQLWOG6WHmA">
+        <end xmi:type="uml:ConnectorEnd" xmi:id="_lpp8I4_cEeKWQLWOG6WHmA" role="_dNVQEI_cEeKWQLWOG6WHmA">
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lpp8JI_cEeKWQLWOG6WHmA" value="1"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lpp8JY_cEeKWQLWOG6WHmA" value="1"/>
         </end>
       </ownedConnector>
-      <ownedConnector xmi:id="_mGNVQI_cEeKWQLWOG6WHmA" name="Connector2">
-        <end xmi:id="_mGNVQY_cEeKWQLWOG6WHmA" role="_dNVQEI_cEeKWQLWOG6WHmA">
+      <ownedConnector xmi:type="uml:Connector" xmi:id="_mGNVQI_cEeKWQLWOG6WHmA" name="Connector2">
+        <end xmi:type="uml:ConnectorEnd" xmi:id="_mGNVQY_cEeKWQLWOG6WHmA" role="_dNVQEI_cEeKWQLWOG6WHmA">
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mGN8UI_cEeKWQLWOG6WHmA" value="1"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mGN8UY_cEeKWQLWOG6WHmA" value="1"/>
         </end>
-        <end xmi:id="_mGN8Uo_cEeKWQLWOG6WHmA" role="_iMQoMI_cEeKWQLWOG6WHmA">
+        <end xmi:type="uml:ConnectorEnd" xmi:id="_mGN8Uo_cEeKWQLWOG6WHmA" role="_iMQoMI_cEeKWQLWOG6WHmA">
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mGN8U4_cEeKWQLWOG6WHmA" value="1"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mGN8VI_cEeKWQLWOG6WHmA" value="1"/>
         </end>
       </ownedConnector>
-      <interfaceRealization xmi:id="_WORzQY_cEeKWQLWOG6WHmA" name="isAIBusinessCollaboration" client="_WOOI4I_cEeKWQLWOG6WHmA">
+      <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_WORzQY_cEeKWQLWOG6WHmA" name="isAIBusinessCollaboration" client="_WOOI4I_cEeKWQLWOG6WHmA">
         <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_zGMYgEvREeGmqIr8YsFD4g"/>
-        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_zGMYgEvREeGmqIr8YsFD4g"/>
+        <contract xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_zGMYgEvREeGmqIr8YsFD4g"/>
       </interfaceRealization>
     </packagedElement>
     <packagedElement xmi:type="uml:Component" xmi:id="_b9ZSMI_cEeKWQLWOG6WHmA" clientDependency="_b9fY0Y_cEeKWQLWOG6WHmA" name="MyBusiness">
-      <ownedAttribute xmi:id="_yTM5wI_gEeK855GX2Z3x4Q" name="salesPerson" type="_qPapgI_gEeK855GX2Z3x4Q" aggregation="composite" association="_yTNg0I_gEeK855GX2Z3x4Q">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_yTM5wI_gEeK855GX2Z3x4Q" name="salesPerson" type="_qPapgI_gEeK855GX2Z3x4Q" aggregation="composite" association="_yTNg0I_gEeK855GX2Z3x4Q">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_yTM5wY_gEeK855GX2Z3x4Q" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_yTM5wo_gEeK855GX2Z3x4Q" value="1"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_yhvsEI_gEeK855GX2Z3x4Q" name="backOfficeWorker" type="_ur_igI_gEeK855GX2Z3x4Q" aggregation="composite" association="_yhwTII_gEeK855GX2Z3x4Q">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_yhvsEI_gEeK855GX2Z3x4Q" name="backOfficeWorker" type="_ur_igI_gEeK855GX2Z3x4Q" aggregation="composite" association="_yhwTII_gEeK855GX2Z3x4Q">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_yhvsEY_gEeK855GX2Z3x4Q" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0CCaII_gEeK855GX2Z3x4Q" value="*"/>
       </ownedAttribute>
-      <interfaceRealization xmi:id="_b9fY0Y_cEeKWQLWOG6WHmA" name="isAIBusinessComponent" client="_b9ZSMI_cEeKWQLWOG6WHmA">
+      <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_b9fY0Y_cEeKWQLWOG6WHmA" name="isAIBusinessComponent" client="_b9ZSMI_cEeKWQLWOG6WHmA">
         <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
-        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
+        <contract xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
       </interfaceRealization>
       <ownedBehavior xmi:type="uml:Activity" xmi:id="_Gld5EI_hEeK855GX2Z3x4Q" clientDependency="_GliKgI_hEeK855GX2Z3x4Q" name="PrepareQuoteImpl" specification="_D4xCQI_hEeK855GX2Z3x4Q" node="_t4NmoJBYEeKoCK1-ZvrleA _v6iqwJBYEeKoCK1-ZvrleA _2g7v8JBYEeKoCK1-ZvrleA _LZvx4JBZEeKoCK1-ZvrleA">
-        <interfaceRealization xmi:id="_GliKgI_hEeK855GX2Z3x4Q" name="isAIBusinessProcess" client="_Gld5EI_hEeK855GX2Z3x4Q">
+        <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_GliKgI_hEeK855GX2Z3x4Q" name="isAIBusinessProcess" client="_Gld5EI_hEeK855GX2Z3x4Q">
           <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pD_mkPNQEeGhGoYzbfvy4A"/>
-          <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pD_mkPNQEeGhGoYzbfvy4A"/>
+          <contract xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pD_mkPNQEeGhGoYzbfvy4A"/>
         </interfaceRealization>
-        <ownedParameter xmi:id="_KczXAI_hEeK855GX2Z3x4Q" name="product" type="_Obc94I_hEeK855GX2Z3x4Q"/>
-        <ownedParameter xmi:id="_40zJEI_hEeK855GX2Z3x4Q" name="quantity">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_KczXAI_hEeK855GX2Z3x4Q" name="product" type="_Obc94I_hEeK855GX2Z3x4Q"/>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_40zJEI_hEeK855GX2Z3x4Q" name="quantity">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
-        <ownedParameter xmi:id="_6TAMcI_hEeK855GX2Z3x4Q" name="requiredByDate">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_6TAMcI_hEeK855GX2Z3x4Q" name="requiredByDate">
           <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_qJQboNcCEeCJ0dmaHEVVnw"/>
         </ownedParameter>
         <edge xmi:type="uml:ControlFlow" xmi:id="_QHR4AJBZEeKoCK1-ZvrleA" name="ControlFlow1" source="_2g7v8JBYEeKoCK1-ZvrleA" target="_LZvx4JBZEeKoCK1-ZvrleA">
@@ -115,71 +115,102 @@
       <ownedBehavior xmi:type="uml:Activity" xmi:id="_fa3IgI_lEeK7E8hdca0nfw" name="Method1" node="_O3FwkJBbEeK79Jq66d7X7w">
         <node xmi:type="uml:DecisionNode" xmi:id="_O3FwkJBbEeK79Jq66d7X7w" name="DecisionNode1"/>
       </ownedBehavior>
-      <ownedOperation xmi:id="_D4xCQI_hEeK855GX2Z3x4Q" name="prepareQuote" method="_Gld5EI_hEeK855GX2Z3x4Q">
-        <ownedParameter xmi:id="_Kcyv8I_hEeK855GX2Z3x4Q" name="product" type="_Obc94I_hEeK855GX2Z3x4Q">
-          <eAnnotations xmi:id="_Kcyv8Y_hEeK855GX2Z3x4Q" source="http://www.opaeum.org" references="_KczXAI_hEeK855GX2Z3x4Q"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_D4xCQI_hEeK855GX2Z3x4Q" name="prepareQuote" method="_Gld5EI_hEeK855GX2Z3x4Q">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_Kcyv8I_hEeK855GX2Z3x4Q" name="product" type="_Obc94I_hEeK855GX2Z3x4Q">
+          <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Kcyv8Y_hEeK855GX2Z3x4Q" source="http://www.opaeum.org" references="_KczXAI_hEeK855GX2Z3x4Q"/>
         </ownedParameter>
-        <ownedParameter xmi:id="_40ws0I_hEeK855GX2Z3x4Q" name="quantity">
-          <eAnnotations xmi:id="_40yiAI_hEeK855GX2Z3x4Q" source="http://www.opaeum.org" references="_40zJEI_hEeK855GX2Z3x4Q"/>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_40ws0I_hEeK855GX2Z3x4Q" name="quantity">
+          <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_40yiAI_hEeK855GX2Z3x4Q" source="http://www.opaeum.org" references="_40zJEI_hEeK855GX2Z3x4Q"/>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
-        <ownedParameter xmi:id="_6S-XQI_hEeK855GX2Z3x4Q" name="requiredByDate">
-          <eAnnotations xmi:id="_6S_lYI_hEeK855GX2Z3x4Q" source="http://www.opaeum.org" references="_6TAMcI_hEeK855GX2Z3x4Q"/>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_6S-XQI_hEeK855GX2Z3x4Q" name="requiredByDate">
+          <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6S_lYI_hEeK855GX2Z3x4Q" source="http://www.opaeum.org" references="_6TAMcI_hEeK855GX2Z3x4Q"/>
           <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_qJQboNcCEeCJ0dmaHEVVnw"/>
         </ownedParameter>
       </ownedOperation>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_mw3b0I_cEeKWQLWOG6WHmA" name="BusinessCollaboration1Customer" memberEnd="_mw3b0Y_cEeKWQLWOG6WHmA _fb8csI_cEeKWQLWOG6WHmA" navigableOwnedEnd="_mw3b0Y_cEeKWQLWOG6WHmA">
-      <ownedEnd xmi:id="_mw3b0Y_cEeKWQLWOG6WHmA" name="businessCollaboration1" type="_WOOI4I_cEeKWQLWOG6WHmA" association="_mw3b0I_cEeKWQLWOG6WHmA">
+      <ownedEnd xmi:type="uml:Property" xmi:id="_mw3b0Y_cEeKWQLWOG6WHmA" name="businessCollaboration1" type="_WOOI4I_cEeKWQLWOG6WHmA" association="_mw3b0I_cEeKWQLWOG6WHmA">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mw3b0o_cEeKWQLWOG6WHmA" value="1"/>
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_nJG8sI_cEeKWQLWOG6WHmA" name="BusinessCollaboration1Supplier" memberEnd="_nJG8sY_cEeKWQLWOG6WHmA _iMQoMI_cEeKWQLWOG6WHmA" navigableOwnedEnd="_nJG8sY_cEeKWQLWOG6WHmA">
-      <ownedEnd xmi:id="_nJG8sY_cEeKWQLWOG6WHmA" name="businessCollaboration1" type="_WOOI4I_cEeKWQLWOG6WHmA" association="_nJG8sI_cEeKWQLWOG6WHmA">
+      <ownedEnd xmi:type="uml:Property" xmi:id="_nJG8sY_cEeKWQLWOG6WHmA" name="businessCollaboration1" type="_WOOI4I_cEeKWQLWOG6WHmA" association="_nJG8sI_cEeKWQLWOG6WHmA">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nJG8so_cEeKWQLWOG6WHmA" value="1"/>
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_neO4II_cEeKWQLWOG6WHmA" name="BusinessCollaboration1MyBusiness" memberEnd="_neO4IY_cEeKWQLWOG6WHmA _dNVQEI_cEeKWQLWOG6WHmA" navigableOwnedEnd="_neO4IY_cEeKWQLWOG6WHmA">
-      <ownedEnd xmi:id="_neO4IY_cEeKWQLWOG6WHmA" name="businessCollaboration1" type="_WOOI4I_cEeKWQLWOG6WHmA" association="_neO4II_cEeKWQLWOG6WHmA">
+      <ownedEnd xmi:type="uml:Property" xmi:id="_neO4IY_cEeKWQLWOG6WHmA" name="businessCollaboration1" type="_WOOI4I_cEeKWQLWOG6WHmA" association="_neO4II_cEeKWQLWOG6WHmA">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_neO4Io_cEeKWQLWOG6WHmA" value="1"/>
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_qPapgI_gEeK855GX2Z3x4Q" clientDependency="_r6SP4I_gEeK855GX2Z3x4Q" name="SalesPerson">
-      <interfaceRealization xmi:id="_r6SP4I_gEeK855GX2Z3x4Q" name="isAIBusinessRole" client="_qPapgI_gEeK855GX2Z3x4Q">
+      <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_r6SP4I_gEeK855GX2Z3x4Q" name="isAIBusinessRole" client="_qPapgI_gEeK855GX2Z3x4Q">
         <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
-        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
+        <contract xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
       </interfaceRealization>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_ur_igI_gEeK855GX2Z3x4Q" clientDependency="_veunAY_gEeK855GX2Z3x4Q" name="BackOfficeWorker">
-      <interfaceRealization xmi:id="_veunAY_gEeK855GX2Z3x4Q" name="isAIBusinessRole" client="_ur_igI_gEeK855GX2Z3x4Q">
+      <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_veunAY_gEeK855GX2Z3x4Q" name="isAIBusinessRole" client="_ur_igI_gEeK855GX2Z3x4Q">
         <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
-        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
+        <contract xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
       </interfaceRealization>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_yTNg0I_gEeK855GX2Z3x4Q" name="myBusiness_salesPerson_1" memberEnd="_yTNg0Y_gEeK855GX2Z3x4Q _yTM5wI_gEeK855GX2Z3x4Q" navigableOwnedEnd="_yTNg0Y_gEeK855GX2Z3x4Q">
-      <ownedEnd xmi:id="_yTNg0Y_gEeK855GX2Z3x4Q" name="myBusiness" type="_b9ZSMI_cEeKWQLWOG6WHmA" association="_yTNg0I_gEeK855GX2Z3x4Q">
+      <ownedEnd xmi:type="uml:Property" xmi:id="_yTNg0Y_gEeK855GX2Z3x4Q" name="myBusiness" type="_b9ZSMI_cEeKWQLWOG6WHmA" association="_yTNg0I_gEeK855GX2Z3x4Q">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_yTNg0o_gEeK855GX2Z3x4Q" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_yTNg04_gEeK855GX2Z3x4Q" value="1"/>
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_yhwTII_gEeK855GX2Z3x4Q" name="myBusiness_backOfficeWorker_1" memberEnd="_yhwTIY_gEeK855GX2Z3x4Q _yhvsEI_gEeK855GX2Z3x4Q" navigableOwnedEnd="_yhwTIY_gEeK855GX2Z3x4Q">
-      <ownedEnd xmi:id="_yhwTIY_gEeK855GX2Z3x4Q" name="myBusiness" type="_b9ZSMI_cEeKWQLWOG6WHmA" association="_yhwTII_gEeK855GX2Z3x4Q">
+      <ownedEnd xmi:type="uml:Property" xmi:id="_yhwTIY_gEeK855GX2Z3x4Q" name="myBusiness" type="_b9ZSMI_cEeKWQLWOG6WHmA" association="_yhwTII_gEeK855GX2Z3x4Q">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_yhwTIo_gEeK855GX2Z3x4Q" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_yhwTI4_gEeK855GX2Z3x4Q" value="1"/>
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_Obc94I_hEeK855GX2Z3x4Q" name="Product"/>
-    <profileApplication xmi:id="_BSU9wI_cEeKWQLWOG6WHmA">
-      <eAnnotations xmi:id="_BSsxMI_cEeKWQLWOG6WHmA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <packagedElement xmi:type="uml:Package" xmi:id="_wXEz0MB-EeKVzPWAF6TUwg" name="custom">
+      <packagedElement xmi:type="uml:Class" xmi:id="_qYfVgMB-EeKVzPWAF6TUwg" name="CustomBusinessNetwork">
+        <generalization xmi:type="uml:Generalization" xmi:id="_E6RyIMB_EeKVzPWAF6TUwg">
+          <general xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_NRu9QFYjEeGJUqEGX7bKSg"/>
+        </generalization>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_9d9xkMB-EeKVzPWAF6TUwg" name="customOrganizationNode" type="_2nyj8MB-EeKVzPWAF6TUwg" aggregation="composite" association="_9eFGUMB-EeKVzPWAF6TUwg">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9d9xkcB-EeKVzPWAF6TUwg" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9d9xksB-EeKVzPWAF6TUwg" value="1"/>
+          <qualifier xmi:type="uml:Property" xmi:id="_W0JWsMB_EeKVzPWAF6TUwg" name="name">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </qualifier>
+          <redefinedProperty xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_4uZ-MEvREeGmqIr8YsFD4g"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_2nyj8MB-EeKVzPWAF6TUwg" name="CustomOrganizationNode">
+        <generalization xmi:type="uml:Generalization" xmi:id="_Hd2iIMB_EeKVzPWAF6TUwg">
+          <general xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pZdQEEtmEeGd4cpyhpib9Q"/>
+        </generalization>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_OM83YMB_EeKVzPWAF6TUwg" name="name">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          <redefinedProperty xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_OorfwEtnEeGd4cpyhpib9Q"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_9eFGUMB-EeKVzPWAF6TUwg" name="customBusinessNetwork_customOrganizationNode_1" memberEnd="_9eFGUcB-EeKVzPWAF6TUwg _9d9xkMB-EeKVzPWAF6TUwg" navigableOwnedEnd="_9eFGUcB-EeKVzPWAF6TUwg">
+        <ownedEnd xmi:type="uml:Property" xmi:id="_9eFGUcB-EeKVzPWAF6TUwg" name="customBusinessNetwork" type="_qYfVgMB-EeKVzPWAF6TUwg" association="_9eFGUMB-EeKVzPWAF6TUwg">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9eFGUsB-EeKVzPWAF6TUwg" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9eFGU8B-EeKVzPWAF6TUwg" value="1"/>
+          <redefinedProperty xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_4uxKkUvREeGmqIr8YsFD4g"/>
+        </ownedEnd>
+      </packagedElement>
+    </packagedElement>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_BSU9wI_cEeKWQLWOG6WHmA">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_BSsxMI_cEeKWQLWOG6WHmA" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.uml#_2agDYNfJEeCXQPv0AMhLcg"/>
       </eAnnotations>
-      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
-    <profileApplication xmi:id="_ObkSoI_hEeK855GX2Z3x4Q">
-      <eAnnotations xmi:id="_Ob-iUI_hEeK855GX2Z3x4Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_ObkSoI_hEeK855GX2Z3x4Q">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Ob-iUI_hEeK855GX2Z3x4Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
       </eAnnotations>
-      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
   </uml:Model>
   <OpaeumBPMProfile:BusinessActor xmi:id="_FE6ekI_cEeKWQLWOG6WHmA" base_Actor="_FEtqQI_cEeKWQLWOG6WHmA"/>

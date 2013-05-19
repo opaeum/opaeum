@@ -19,7 +19,7 @@ public class ImportLibraryAction extends AbstractOpaeumAction{
 	}
 	@Override
 	public void run(){
-		final Model model = (Model) getElementFrom();
+		final org.eclipse.uml2.uml.Package model = (org.eclipse.uml2.uml.Package) getElementFrom();
 		final OpenUmlFile currentContext = OpaeumEclipseContext.findOpenUmlFileFor(model);
 		PackageImport pi = UMLFactory.eINSTANCE.createPackageImport();
 		Resource resource = model.eResource().getResourceSet().getResource(library.getUri(), true);
