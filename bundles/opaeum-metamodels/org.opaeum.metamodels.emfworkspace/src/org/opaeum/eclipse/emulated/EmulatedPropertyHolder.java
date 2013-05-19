@@ -89,7 +89,10 @@ public class EmulatedPropertyHolder extends AdapterImpl implements IEmulatedProp
 	@Override
 	public Property getEmulatedAttribute(Element originalElement){
 		for(Property p:emulatedAttributes){
-			if(((IEmulatedElement) p).getOriginalElement() == originalElement){
+			Element originalElement2 = ((IEmulatedElement) p).getOriginalElement();
+			if(originalElement2 == originalElement){
+				return p;
+			}else if(originalElement2 instanceof IEmulatedElement && ((IEmulatedElement) originalElement2).getOriginalElement()==originalElement){
 				return p;
 			}
 		}

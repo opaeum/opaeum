@@ -112,7 +112,16 @@ public class DefaultAttributeStrategy implements AttributeStrategy{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			adder.setStatic(map.isStatic());
 			if(map.isMany()){
-				OJIfStatement ifSet = new OJIfStatement(map.getter() + "().contains(" + map.fieldname() + ")", "return");
+				String containsStatement=null;
+				if(map.isAssociationClassToEnd() || map.isEndToAssociationClass()){
+					//TODO fix this for redefined associations remember
+					containsStatement=map.getter() + "().contains(" + map.fieldname() + ")";
+				}else if(isMap(map)){
+					containsStatement=AbstractAttributeImplementer.getReferencePrefix(owner, map)+map.fieldname() + ".containsValue(" + map.fieldname() + ")";
+				}else{
+					containsStatement=AbstractAttributeImplementer.getReferencePrefix(owner, map)+map.fieldname() + ".contains(" + map.fieldname() + ")";
+				}
+				OJIfStatement ifSet = new OJIfStatement(containsStatement, "return");
 				adder.getBody().addToStatements(ifSet);
 				if(isMap(map)){
 					String targetExpression = map.fieldname();
@@ -144,13 +153,22 @@ public class DefaultAttributeStrategy implements AttributeStrategy{
 					adder.getBody().addToStatements(AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + ".add(" + map.fieldname() + ")");
 				}
 			}else{
-				OJIfStatement ifSet = new OJIfStatement(map.fieldname() + ".equals(" + map.getter() + "())", "return");
+				String currentValue = readCurrentSingleValueFieldValue(owner,map);
+				OJIfStatement ifSet = new OJIfStatement(map.fieldname() + ".equals(" + currentValue + ")", "return");
 				adder.getBody().addToStatements(ifSet);
 				adder.getBody().addToStatements(AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + "=" + map.fieldname() + "");
 			}
 		}
 		adder.addParam(map.fieldname(), map.javaBaseTypePath());
 		return adder;
+	}
+	protected String readCurrentSingleValueFieldValue(OJAnnotatedClass owner,PropertyMap map){
+		String currentValue=AbstractAttributeImplementer.getReferencePrefix(owner, map)+map.fieldname();
+		if(map.isAssociationClassToEnd() || map.isEndToAssociationClass()){
+			//TODO fix this for redefined associations remember
+			currentValue=map.getter() + "()";
+		}
+		return currentValue;
 	}
 	@Override
 	public void init(AbstractAttributeImplementer source){

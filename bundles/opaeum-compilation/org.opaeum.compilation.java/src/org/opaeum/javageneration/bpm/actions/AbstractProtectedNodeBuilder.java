@@ -93,7 +93,7 @@ public abstract class AbstractProtectedNodeBuilder<T extends Action> extends Jbp
 		OJIfStatement ifFound = new OJIfStatement("callingToken.isActive()");
 		complete.getBody().addToStatements(ifFound);
 		implementConditions(complete, ifFound.getThenPart(), node, false);
-		if(callMap.isOne()){
+		if(callMap ==null /**/ || callMap.isOne()){
 			// continue with process
 		}else{
 			// continue with process only if all tasks are complete

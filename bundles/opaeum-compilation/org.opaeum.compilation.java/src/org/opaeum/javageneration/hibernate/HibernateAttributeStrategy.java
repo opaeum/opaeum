@@ -31,7 +31,7 @@ public class HibernateAttributeStrategy extends DefaultAttributeStrategy{
 	@Override
 	public OJAnnotatedOperation buildGetter(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map,boolean derived){
 		if(isInterfaceValue.get() || isExternalValue.get()){
-			return getFromInterfaceValue(umlOwner, owner, map, isExternalValue.get(), attributeImplementer. getLibrary());
+			return getFromInterfaceValue(umlOwner, owner, map, isExternalValue.get(), attributeImplementer.getLibrary());
 		}else{
 			return super.buildGetter(umlOwner, owner, map, derived);
 		}
@@ -60,7 +60,8 @@ public class HibernateAttributeStrategy extends DefaultAttributeStrategy{
 			return super.buildField(owner, map);
 		}
 	}
-	private OJAnnotatedOperation getFromInterfaceValue(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map,Boolean isExternalValue2,OpaeumLibrary library){
+	private OJAnnotatedOperation getFromInterfaceValue(Classifier umlOwner,OJAnnotatedClass owner,PropertyMap map,Boolean isExternalValue2,
+			OpaeumLibrary library){
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 		getter.setReturnType(map.javaTypePath());
 		owner.addToOperations(getter);
@@ -68,8 +69,8 @@ public class HibernateAttributeStrategy extends DefaultAttributeStrategy{
 		String string = buildAnyMappingInit(map, isExternalValue2);
 		String init = string;
 		getter.getBody().addToStatements(
-				new OJIfStatement(AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + "==null", AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname()
-						+ "=" + init));
+				new OJIfStatement(AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + "==null",
+						AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + "=" + init));
 		getter.getBody().addToStatements(
 				"result=(" + map.javaType() + ")" + AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + ".getValue("
 						+ (EmfClassifierUtil.isPersistent(umlOwner) ? "persistence" : "null") + ")");
@@ -78,7 +79,6 @@ public class HibernateAttributeStrategy extends DefaultAttributeStrategy{
 		OJUtil.addMetaInfo(getter, property);
 		return getter;
 	}
-
 	private OJAnnotatedField putField(OJAnnotatedClass owner,PropertyMap map,Boolean isExternal){
 		OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), calculateAnyMappingType(map, isExternal));
 		field.setVisibility(OJVisibilityKind.PROTECTED);
@@ -94,7 +94,7 @@ public class HibernateAttributeStrategy extends DefaultAttributeStrategy{
 			return new OJPathName("org.opaeum.hibernate.domain.UiidBasedInterfaceValue");
 		}
 	}
-	protected  String buildAnyMappingInit(PropertyMap map,boolean isExternalValue){
+	protected String buildAnyMappingInit(PropertyMap map,boolean isExternalValue){
 		if(isExternalValue){
 			return "new ExternalValue()";
 		}else if(map.getProperty().isComposite()){
@@ -103,20 +103,28 @@ public class HibernateAttributeStrategy extends DefaultAttributeStrategy{
 			return "new UiidBasedInterfaceValue()";
 		}
 	}
-	public   OJAnnotatedOperation addToInterfaceValue(OJAnnotatedClass owner,PropertyMap map,Boolean isExternalValue2){
+	public OJAnnotatedOperation addToInterfaceValue(OJAnnotatedClass owner,PropertyMap map,Boolean isExternalValue2){
 		OJAnnotatedOperation adder = new OJAnnotatedOperation(map.internalAdder());
 		adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
-		OJIfStatement ifSet = new OJIfStatement(map.fieldname() + ".equals("+ map.getter()+"())", "return");
+		OJIfStatement ifSet = new OJIfStatement(map.fieldname() + ".equals(" + map.getter() + "())", "return");
 		adder.getBody().addToStatements(ifSet);
-	
 		String init = buildAnyMappingInit(map, isExternalValue2);
 		adder.getBody().addToStatements(
-				new OJIfStatement(AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + "==null", AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname()
-						+ "=" + init));
-		adder.getBody().addToStatements(AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + ".setValue(" + map.fieldname() + ")");
+				new OJIfStatement(AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + "==null",
+						AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + "=" + init));
+		adder.getBody().addToStatements(
+				AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() + ".setValue(" + map.fieldname() + ")");
 		adder.addParam(map.fieldname(), map.javaBaseTypePath());
 		owner.addToOperations(adder);
 		return adder;
 	}
-
+	@Override
+	protected String readCurrentSingleValueFieldValue(OJAnnotatedClass owner, PropertyMap map){
+		if(isInterfaceValue.get() || isExternalValue.get()){
+			return AbstractAttributeImplementer.getReferencePrefix(owner, map) + map.fieldname() +"==null?null:this."+map.fieldname() +".getValue("
+					+ (EmfClassifierUtil.isPersistent(map.getDefiningClassifier()) ? "persistence" : "null") + ")";
+		}else{
+			return super.readCurrentSingleValueFieldValue(owner, map);
+		}
+	}
 }
