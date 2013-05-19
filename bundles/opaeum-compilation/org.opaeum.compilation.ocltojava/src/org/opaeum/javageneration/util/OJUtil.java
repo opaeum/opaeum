@@ -63,6 +63,7 @@ import org.opaeum.eclipse.EmfElementUtil;
 import org.opaeum.eclipse.EmfPackageUtil;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.emulated.AbstractEmulatedMessageType;
+import org.opaeum.eclipse.emulated.AbstractEmulatedProperty;
 import org.opaeum.eclipse.emulated.ActionFeatureBridge;
 import org.opaeum.eclipse.emulated.ExpansionRegionMessageType;
 import org.opaeum.eclipse.emulated.IEmulatedElement;
@@ -206,12 +207,12 @@ public class OJUtil extends OJUtill{
 		PropertyMap map = structuralFeatureMaps.get(action);
 		if(map == null){
 			Namespace nearestNodeContainer = EmfActivityUtil.getNearestNodeContainer(action);
-			ActionFeatureBridge bridge = null;
+			AbstractEmulatedProperty bridge = null;
 			if(nearestNodeContainer instanceof Activity){
-				bridge = (ActionFeatureBridge) library.getEmulatedPropertyHolder((Activity) nearestNodeContainer).getEmulatedAttribute(action);
+				bridge = (AbstractEmulatedProperty) library.getEmulatedPropertyHolder((Activity) nearestNodeContainer).getEmulatedAttribute(action);
 			}else{
 				StructuredActivityNodeMessageType msg = (StructuredActivityNodeMessageType) library.getMessageStructure(nearestNodeContainer);
-				bridge = (ActionFeatureBridge) msg.getEmulatedAttribute(action);
+				bridge = (AbstractEmulatedProperty) msg.getEmulatedAttribute(action);
 			}
 			map = new PropertyMap(this, bridge);
 			structuralFeatureMaps.put(action, map);
