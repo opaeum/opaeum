@@ -284,8 +284,6 @@ public class Uncle implements Relation, InterfaceValueOwner, IPersistentObject, 
 	
 	public Child getChild(String name, Date dateOfBirth) {
 		Child result = null;
-		ChildHasRelation link = this.getChildHasRelation_childFor(name,dateOfBirth,);
-		result= link==null || link.getChild()==null?null:link.getChild();
 		return result;
 	}
 	
@@ -336,8 +334,6 @@ public class Uncle implements Relation, InterfaceValueOwner, IPersistentObject, 
 	
 	public FamilyMember getFamilyMember(Family family, String name) {
 		FamilyMember result = null;
-		FamilyMemberHasRelation link = this.getFamilyMemberHasRelation_familyMemberFor(family,name,);
-		result= link==null || link.getFamilyMember()==null?null:link.getFamilyMember();
 		return result;
 	}
 	

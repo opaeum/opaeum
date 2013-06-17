@@ -14,7 +14,7 @@ public class AddableAndRemovableUmlElementFilter extends AbstractEObjectFilter<E
 	public boolean select(Element e){
 		boolean isMapped = e.eResource().getResourceSet() instanceof IUIElementMapMap && ((IUIElementMapMap)e.eResource().getResourceSet()).getElementFor(e)!=null;
 		if(isMapped){
-			if(e instanceof TypedElement && e instanceof MultiplicityElement){
+			if(e instanceof TypedElement && e instanceof MultiplicityElement &&((TypedElement) e).getType()!=null){
 				return EmfClassifierUtil.isPersistentComplexStructure(((TypedElement) e).getType());
 			}
 		}

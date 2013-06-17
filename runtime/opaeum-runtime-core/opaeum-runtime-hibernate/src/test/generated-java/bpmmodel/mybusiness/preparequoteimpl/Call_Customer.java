@@ -237,7 +237,6 @@ public class Call_Customer implements IPersistentObject, IEventGenerator, Hibern
 	}
 	
 	public void execute() throws FailedConstraintsException {
-		evaluatePreconditions();
 		setExecutedOn(new Date());
 		getTaskRequest().execute();
 	}
@@ -382,7 +381,6 @@ public class Call_Customer implements IPersistentObject, IEventGenerator, Hibern
 	}
 	
 	public void onCompleted(IParticipant participant) {
-		getProcessObject().onCall CustomerCompleted(getReturnInfo(), this);
 	}
 	
 	@NumlMetaInfo(uuid="252060@_EE4B0K0OEeCK48ywUpk_rg")

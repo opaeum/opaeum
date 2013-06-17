@@ -356,8 +356,6 @@ public class Father implements SurnameProvider, IPersistentObject, IEventGenerat
 	
 	public Sister getSurnameCarryingDaughter(String name) {
 		Sister result = null;
-		SurnameProviderHasDaughter link = this.getSurnameProviderHasDaughter_surnameCarryingDaughterFor(name,);
-		result= link==null || link.getSurnameCarryingDaughter()==null?null:link.getSurnameCarryingDaughter();
 		return result;
 	}
 	

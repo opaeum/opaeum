@@ -395,8 +395,6 @@ public class Family implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public StepChild getStepChild(String name) {
 		StepChild result = null;
-		FamilyStepChild link = this.getFamilyStepChild_stepChildFor(name,);
-		result= link==null || link.getStepChild()==null?null:link.getStepChild();
 		return result;
 	}
 	

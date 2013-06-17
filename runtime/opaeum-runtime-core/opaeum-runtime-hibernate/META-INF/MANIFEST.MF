@@ -14,6 +14,6 @@ Export-Package: org.opaeum.audit,
  org.opaeum.runtime.hibernate.test,
  org.opaeum.runtime.jpa
 Require-Bundle: org.opaeum.runtime.domain,
- org.pavanecce.virgo.target.dependencies
+ org.vdfp.virgo.target.dependencies
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: junit.framework

@@ -101,7 +101,11 @@ public class AbstractTextProducingVisitor extends TextFileGeneratingVisitor{
 			template.merge(context, contentWriter);
 			this.ve.evaluate(context, fileNameWriter, templateResource,/* logTag */destinationExpression);
 		}catch(Throwable e){
-			transformationContext.getLog().error(templateResource + " could not merge " + ((NamedElement) element).getName(), e);
+			if(element instanceof NamedElement){
+				transformationContext.getLog().error(templateResource + " could not merge " + ((NamedElement) element).getName(), e);
+			}else{
+				transformationContext.getLog().error(templateResource + " could not merge " + element.getClass().getSimpleName(), e);
+			}
 			transformationContext.getLog().info(new String(contentWriter.toCharArray()));
 		}
 		fileNameWriter.close();

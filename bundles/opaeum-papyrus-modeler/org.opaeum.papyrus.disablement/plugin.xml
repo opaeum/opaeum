@@ -10,7 +10,8 @@
       <activityPatternBinding
             activityId="org.opaeum.papyrus.disablement.activity"
             isEqualityPattern="false"
-            pattern="org\.eclipse\.datatools\..*/.*">
+            pattern="orgsadfasdfasdfasdfasdfasd\.eclipse\.datatools\..*/.*">
+            <!--pattern="org\.eclipse\.datatools\..*/.*"-->
       </activityPatternBinding>
       <category
             id="org.opaeum.papyrus.disablement.category"

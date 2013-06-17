@@ -64,4 +64,10 @@ public enum PrepareQuoteImplState implements IProcessStep, IEnum {
 		return null;
 	}
 
+	@Override
+	public long getOpaeumId(){
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

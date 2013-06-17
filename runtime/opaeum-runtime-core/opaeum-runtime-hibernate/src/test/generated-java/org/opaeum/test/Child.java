@@ -387,8 +387,6 @@ public class Child implements FamilyMember, IPersistentObject, IEventGenerator, 
 	
 	public Relation getGodParent(String firstName, String surname, Date dateOfBirth) {
 		Relation result = null;
-		ChildHasRelation link = this.getChildHasRelation_godParentFor(firstName,surname,dateOfBirth,);
-		result= link==null || link.getGodParent()==null?null:link.getGodParent();
 		return result;
 	}
 	
@@ -435,8 +433,6 @@ public class Child implements FamilyMember, IPersistentObject, IEventGenerator, 
 	
 	public Relation getRelation(String firstName, String surname, Date dateOfBirth) {
 		Relation result = null;
-		FamilyMemberHasRelation link = this.getFamilyMemberHasRelation_relationFor(firstName,surname,dateOfBirth,);
-		result= link==null || link.getRelation()==null?null:link.getRelation();
 		return result;
 	}
 	

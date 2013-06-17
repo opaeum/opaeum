@@ -49,7 +49,9 @@ import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.ExceptionHolder;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
+import org.opaeum.runtime.domain.IExecutionElement;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IProcessStep;
 import org.opaeum.runtime.domain.IToken;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
@@ -327,24 +329,10 @@ public class PrepareQuoteImpl extends PrepareQuote implements IPersistentObject,
 	
 	@NumlMetaInfo(uuid="bpm.uml@_v6iqwJBYEeKoCK1-ZvrleA")
 	public void doActivityFinalNode16128872851993182546() {
-		if ( getProcessInstance().getNodeInstances().size()==1 ) {
-			endNodeInPrepareQuoteImpl=PrepareQuoteImplState.ACTIVITYFINALNODE1;
-			completed();
-		}
 	}
 	
 	@NumlMetaInfo(uuid="bpm.uml@_LZvx4JBZEeKoCK1-ZvrleA")
 	public void doCall_Customer8905861491530021382() {
-		List<Call_Customer> call_Customer = new List<Call_Customer>();
-		if ( getProcessInstance().getNodeInstances().size()==1 ) {
-			endNodeInPrepareQuoteImpl=PrepareQuoteImplState.CALL_CUSTOMER;
-			completed();
-		}
-		call_Customer.setReturnInfo(context);
-		((TaskRequest)call_Customer.getRequest()).setDelegation(TaskDelegation.ANYBODY);
-		addToCall_Customer(call_Customer);
-		addToCall_Customer(call_Customer);
-		call_Customer.execute();
 	}
 	
 	public boolean equals(Object other) {
@@ -529,7 +517,7 @@ public class PrepareQuoteImpl extends PrepareQuote implements IPersistentObject,
 		generateOnActivatedEvent(activatedBy);
 	}
 	
-	public void onCall CustomerCompleted(IToken callingToken, Call_Customer completedWorkObject) {
+	public void onCallCustomerCompleted(IToken callingToken, Call_Customer completedWorkObject) {
 		if ( callingToken.isActive() ) {
 		
 		}
@@ -924,6 +912,18 @@ public class PrepareQuoteImpl extends PrepareQuote implements IPersistentObject,
 			this.requiredByDate=null;
 			this.requiredByDate=null;
 		}
+	}
+
+	@Override
+	public boolean isStepActive(Class<? extends IExecutionElement> step){
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public IProcessStep getInnermostNonParallelStep(){
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.opaeum.compilation.misc
-Bundle-SymbolicName: org.opaeum.compilation.misc
+Bundle-SymbolicName: org.opaeum.compilation.misc;singleton:=true
 Bundle-Version: 1.0.3.qualifier
 Require-Bundle: org.opaeum.compilation.java,
  org.opaeum.metamodels.emfworkspace,
@@ -74,3 +74,6 @@ Export-Package: org.apache.commons.collections,
  org.opaeum.versioning,
  org.opaeum.visitor,
  templates.Model
+Bundle-Activator: org.opaeum.velocity.MiscCompilationActivator
+Import-Package: org.osgi.framework
+Bundle-ActivationPolicy: lazy

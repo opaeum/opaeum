@@ -1,6 +1,7 @@
 package org.opaeum.textmetamodel;
 
 public enum TextSourceFolderIdentifier implements ISourceFolderIdentifier{
+	DOMAIN_PROJECT_ROOT,
 	DOMAIN_GEN_RESOURCE,
 	DOMAIN_TEST_RESOURCE,
 	DOMAIN_GEN_TEST_RESOURCE,

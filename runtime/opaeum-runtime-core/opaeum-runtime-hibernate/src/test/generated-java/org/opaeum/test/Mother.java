@@ -534,8 +534,6 @@ public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersisten
 	
 	public Relation getRelation(String firstName, String surname, Date dateOfBirth) {
 		Relation result = null;
-		FamilyMemberHasRelation link = this.getFamilyMemberHasRelation_relationFor(firstName,surname,dateOfBirth,);
-		result= link==null || link.getRelation()==null?null:link.getRelation();
 		return result;
 	}
 	
@@ -576,8 +574,6 @@ public class Mother implements SurnameProvider, Spouse, FamilyMember, IPersisten
 	
 	public Sister getSurnameCarryingDaughter(String name) {
 		Sister result = null;
-		SurnameProviderHasDaughter link = this.getSurnameProviderHasDaughter_surnameCarryingDaughterFor(name,);
-		result= link==null || link.getSurnameCarryingDaughter()==null?null:link.getSurnameCarryingDaughter();
 		return result;
 	}
 	
