@@ -65,7 +65,7 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 				OpaqueExpression oe = (OpaqueExpression) rule.getSpecification();
 				AbstractOclContext oclExpression = getLibrary().getOclExpressionContext(oe);
 				if(!oclExpression.hasErrors()){
-					Classifier et = oclExpression.getExpression().getType();
+					Classifier et = (Classifier) oclExpression.getExpression().getType();
 					Collection<Element> ce = rule.getConstrainedElements();
 					if(et instanceof CollectionType){
 						if(ce.size() > 0 && ce.iterator().next() instanceof TypedElement){

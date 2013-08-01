@@ -53,10 +53,10 @@ public abstract class RecreatingOpaqueExpressionSection extends AbstractOpaeumPr
 		ValueSpecification vs = (ValueSpecification) featureOwner.eGet(getFeature());
 		if(featureOwner instanceof NamedElement){
 			if(vs instanceof OpaqueExpression){
-				oclComposite.setEnabled(false);
+				oclComposite.setEnabled(true);
 				oclComposite.setOclContext((NamedElement) featureOwner, (OpaqueExpression) vs);
 			}else{
-				oclComposite.setEnabled(true);
+				oclComposite.setEnabled(false);
 				oclComposite.setOclContext((NamedElement) featureOwner, null);
 			}
 		}else{

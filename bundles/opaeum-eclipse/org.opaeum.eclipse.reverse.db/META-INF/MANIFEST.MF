@@ -54,7 +54,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.datatools.sqltools.sql,
  org.eclipse.datatools.sqltools.sql.ui,
  org.eclipse.datatools.sqltools.sqleditor,
- org.eclipse.datatools.sqltools.editor.core
+ org.eclipse.datatools.sqltools.editor.core,
+ org.opaeum.metamodels.emfworkspace;bundle-version="1.0.3"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.opaeum.eclipse.reverse.db,

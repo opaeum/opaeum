@@ -105,9 +105,8 @@ public class OpaeumSearchElementHandler extends SearchElementHandler{
 				}
 			}
 		}
-		@Override
 		protected KeyListener getKeyListener(){
-			final KeyListener original = super.getKeyListener();
+			final KeyListener original = null;
 			// TODO Auto-generated method stub
 			return new KeyListener(){
 				long lastEvent = 0;

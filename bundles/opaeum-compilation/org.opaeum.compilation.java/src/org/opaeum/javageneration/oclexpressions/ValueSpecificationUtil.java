@@ -21,6 +21,7 @@ import org.eclipse.uml2.uml.LiteralString;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
+import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -77,7 +78,7 @@ public class ValueSpecificationUtil{
 		AbstractOclContext value = library.getOclExpressionContext((OpaqueExpression) valueSpec);
 		return expressOcl(value, operationContext, expectedType);
 	}
-	public String expressOcl(AbstractOclContext value,OJOperation operationContext,Classifier expectedType){
+	public String expressOcl(AbstractOclContext value,OJOperation operationContext,Type expectedType){
 		String expression;
 		if(value.hasErrors()){
 			return "ERROR IN OCL:" + value.getExpressionString();
@@ -169,7 +170,7 @@ public class ValueSpecificationUtil{
 		}
 		return expression;
 	}
-	String buildTypeCastIfNecessary(String java,OCLExpression expression,Classifier expectedType){
+	String buildTypeCastIfNecessary(String java,OCLExpression expression,Type expectedType){
 		if(expectedType instanceof CollectionType){
 			CollectionKind collectionKind = ((CollectionType) expectedType).getKind();
 			if(expression.getType() instanceof CollectionType){

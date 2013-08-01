@@ -24,8 +24,10 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 
+@SuppressWarnings("unchecked")
 public class UmlGenerator{
 	private ClassifierFactory factory;
+	private INameGenerator nameGenerator = new DefaultNameGenerator();
 	public void generateUml(Collection<JDBCTable> selection,File umlFile) throws Exception{
 		// EmfElementCreator.registerPathmaps(URI.createURI(findUml2ResourceJar()));
 		Package library = null;
@@ -41,7 +43,7 @@ public class UmlGenerator{
 	}
 	public void generateUml(Collection<JDBCTable> selection,Package library){
 		EcoreUtil.resolveAll(library);
-		factory = new ClassifierFactory(library);
+		factory = new ClassifierFactory(library, nameGenerator);
 		for(JDBCTable t:selection){
 			// Only do annotations in profiles
 			Classifier cls = factory.getClassifierFor(t);
@@ -65,31 +67,30 @@ public class UmlGenerator{
 				Property found = findAttribute(c, classifier.getAttributes());
 				if(found == null){
 					Property attr = createAttribute(classifier, c);
-					attr.setIsReadOnly(false);
-					attr.setIsDerived(false);
-					attr.setLower(c.isNullable() ? 0 : 1);
-					attr.setUpper(1);
-					attr.applyStereotype(factory.getPropertyStereotype());
-					attr.setValue(factory.getPropertyStereotype(), "persistentName", c.getName());
+					found = attr;
+					found.applyStereotype(factory.getPropertyStereotype());
+					found.setValue(factory.getPropertyStereotype(), "persistentName", c.getName());
 					if(c.isPartOfPrimaryKey()){
-						attr.setValue(factory.getPropertyStereotype(), "isPrimaryKey", Boolean.TRUE);
+						found.setValue(factory.getPropertyStereotype(), "isPrimaryKey", Boolean.TRUE);
 					}
 				}
+				found.setIsReadOnly(false);
+				found.setIsDerived(false);
+				found.setLower(c.isNullable() ? 0 : 1);
+				found.setUpper(1);
 			}
 		}
 	}
 	protected boolean isIdColumn(JDBCTable binding,Column c){
-		//TODO return false if type is not a number
+		// TODO return false if type is not a number
 		return binding.getPrimaryKey() != null && binding.getPrimaryKey().getMembers().size() == 1 && c.isPartOfPrimaryKey()
 				&& ((Column) binding.getPrimaryKey().getMembers().get(0)).getName().equals("id");
 	}
 	private void populateAssociations(Package modelOrProfile,Classifier classifier,JDBCTable table){
 		List<ForeignKey> foreignKeys = table.getForeignKeys();
 		for(ForeignKey foreignKey:foreignKeys){
-			List<Column> referencedMembers = foreignKey.getReferencedMembers();
 			JDBCTable referencedTable;
 			if(foreignKey.getReferencedTable() == null){
-				referencedMembers = foreignKey.getUniqueConstraint().getMembers();
 				referencedTable = (JDBCTable) foreignKey.getUniqueConstraint().getBaseTable();
 			}else{
 				referencedTable = (JDBCTable) foreignKey.getReferencedTable();
@@ -104,25 +105,34 @@ public class UmlGenerator{
 				throw new IllegalStateException();
 			}
 			EList<Column> members = foreignKey.getMembers();
-			Property toOne = findAssociationEnd(members, ass.getMemberEnds());
+			Property toOne = findAssociationEnd(foreignKey, ass.getMemberEnds());
 			if(toOne == null){
-				toOne = ass.createNavigableOwnedEnd(referenceUmlName(members), factory.getClassifierFor(referencedTable));
-				if(factory.getPropertyStereotype() != null){
+				toOne = ass.createNavigableOwnedEnd(nameGenerator.calcAssociationEndName(foreignKey), factory.getClassifierFor(referencedTable));
+				if(factory.getAssociationEndStereotype() != null){
 					toOne.applyStereotype(factory.getAssociationEndStereotype());
-					List<String> s = (List<String>) toOne.getValue(factory.getAssociationEndStereotype(), "persistentName");
-					for(Column column:members){
-						s.add(column.getName());
-						if(column.isPartOfPrimaryKey()){
-							toOne.setValue(factory.getAssociationEndStereotype(), "isPrimaryKey", Boolean.TRUE);
+					Object value = toOne.getValue(factory.getAssociationEndStereotype(), "persistentName");
+					// Cater for both the single String value profile as well as the multiple string value profile which supported compound foreign
+					// keys
+					if(value instanceof List){
+						List<String> s = (List<String>) value;
+						for(Column column:members){
+							s.add(column.getName());
+							if(column.isPartOfPrimaryKey()){
+								toOne.setValue(factory.getAssociationEndStereotype(), "isPrimaryKey", Boolean.TRUE);
+							}
 						}
+					}else if(members.size() == 1){
+						toOne.setValue(factory.getAssociationEndStereotype(), "persistentName", members.get(0).getName());
+					}else{
+						throw new IllegalStateException("More than one foreign key but profile only supports one");
 					}
 				}
 			}
-			ass.getNavigableOwnedEnd(table.getName(), cls, false, UMLPackage.eINSTANCE.getProperty(), true).setUpper(-1);
+			Property end = ass.getNavigableOwnedEnd(nameGenerator.calcAssociationEndName(table), cls, false, UMLPackage.eINSTANCE.getProperty(),
+					true);
+			end.setLower(0);
+			end.setUpper(-1);
 		}
-	}
-	protected String referenceUmlName(EList<Column> members){
-		return ((Column) members.get(0)).getName();
 	}
 	protected Association findOrCreateAssociation(ForeignKey foreignKey,EList<? extends Type> ownedTypes){
 		Association ass = null;
@@ -136,48 +146,56 @@ public class UmlGenerator{
 		}
 		if(ass == null){
 			ass = UMLFactory.eINSTANCE.createAssociation();
-			// TODO concatenate name from members
-			Column object = (Column) foreignKey.getMembers().get(0);
-			ass.setName(foreignKey.getBaseTable().getName() + object.getName());
+			String value = nameGenerator.calcAssociationName(foreignKey);
+			ass.setName(value);
 			((Collection) ownedTypes).add(ass);
 			ass.applyStereotype(factory.getAssociationStereotype());
 			ass.setValue(factory.getAssociationStereotype(), "persistentName", foreignKey.getName());
 		}
 		return ass;
 	}
-	private Property findAssociationEnd(List<Column> pd,EList<Property> attributes){
+	private Property findAssociationEnd(ForeignKey fk,EList<Property> attributes){
+		String expectedAssociationEndName = nameGenerator.calcAssociationEndName(fk);
 		Set<String> columnNames = new HashSet<String>();
-		for(Column column:pd){
+		for(Column column:(Collection<Column>) fk.getReferencedMembers()){
 			columnNames.add(column.getName());
 		}
 		Property found = null;
 		for(Property property:attributes){
 			if(factory.getAssociationEndStereotype() != null && property.isStereotypeApplied(factory.getAssociationEndStereotype())){
 				Object name = property.getValue(factory.getAssociationEndStereotype(), "persistentName");
-				List<String> names = (List<String>) name;
-				if(names.containsAll(columnNames)){
-					found = property;
-					break;
+				if(name instanceof List){
+					List<String> names = (List<String>) name;
+					if(names.containsAll(columnNames)){
+						found = property;
+						break;
+					}
+				}else{
+					if(columnNames.size() == 1 && columnNames.contains(name)){
+						found = property;
+						break;
+					}
 				}
 			}
-			if(pd.size() == 1 && property.getName().equalsIgnoreCase(pd.get(0).getName())){
+			if(property.getName().equalsIgnoreCase(expectedAssociationEndName)){
 				found = property;
 				break;
 			}
 		}
 		return found;
 	}
-	private Property findAttribute(Column pd,EList<Property> attributes){
+	private Property findAttribute(Column column,EList<Property> attributes){
+		String expectedAttributeName = nameGenerator.calcAttributeName(column);
 		Property found = null;
 		for(Property property:attributes){
 			if(factory.getPropertyStereotype() != null){
 				Object name = property.getValue(factory.getPropertyStereotype(), "persistentName");
-				if(name.equals(pd.getName())){
+				if(name.equals(column.getName())){
 					found = property;
 					break;
 				}
 			}
-			if(property.getName().equalsIgnoreCase(pd.getName())){
+			if(property.getName().equalsIgnoreCase(expectedAttributeName)){
 				found = property;
 				break;
 			}
@@ -187,7 +205,8 @@ public class UmlGenerator{
 	private Property createAttribute(Classifier cls,Column pd){
 		Property attr = null;
 		if(cls instanceof org.eclipse.uml2.uml.Class){
-			attr = ((org.eclipse.uml2.uml.Class) cls).getOwnedAttribute(pd.getName(), factory.getDataTypeFor(pd), false, UMLPackage.eINSTANCE.getProperty(), true);
+			attr = ((org.eclipse.uml2.uml.Class) cls).getOwnedAttribute(nameGenerator.calcAttributeName(pd), factory.getDataTypeFor(pd), false,
+					UMLPackage.eINSTANCE.getProperty(), true);
 		}
 		return attr;
 	}

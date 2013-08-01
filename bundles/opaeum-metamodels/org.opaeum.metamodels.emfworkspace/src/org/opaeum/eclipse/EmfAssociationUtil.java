@@ -31,6 +31,9 @@ public class EmfAssociationUtil{
 			if(a instanceof AssociationClass){
 				return true;
 			}else{
+				if(a.getMembers().size()<2){// happens during deletions
+					return false;
+				}
 				if(a.getMemberEnds().size() > 2){
 					return true;
 				}

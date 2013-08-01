@@ -307,7 +307,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 					OperationMap omap = ojUtil.buildOperationMap(opaqueBehavior);
 					OpaqueBehaviorContext oclBehaviorContext = getLibrary().getOclBehaviorContext((OpaqueBehavior) opaqueBehavior);
 					if(!oclBehaviorContext.hasErrors()){
-						ClassifierMap cMap = ojUtil.buildClassifierMap(oclBehaviorContext.getExpression().getType());
+						ClassifierMap cMap = ojUtil.buildClassifierMap((Classifier) oclBehaviorContext.getExpression().getType());
 						OJAnnotatedOperation selection = new OJAnnotatedOperation(omap.javaOperName(), cMap.javaTypePath());
 						operation.getOwner().addToOperations(selection);
 						Parameter in = omap.getArgumentParameters().get(0);
@@ -322,7 +322,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 						OperationMap omap = ojUtil.buildOperationMap(opaqueBehavior);
 						OpaqueBehaviorContext oclBehaviorContext = getLibrary().getOclBehaviorContext((OpaqueBehavior) opaqueBehavior);
 						if(!oclBehaviorContext.hasErrors()){
-							ClassifierMap cMap = ojUtil.buildClassifierMap(oclBehaviorContext.getExpression().getType());
+							ClassifierMap cMap = ojUtil.buildClassifierMap((Classifier) oclBehaviorContext.getExpression().getType());
 							OJAnnotatedOperation selection = new OJAnnotatedOperation(omap.javaOperName(), cMap.javaTypePath());
 							operation.getOwner().addToOperations(selection);
 							Parameter in = omap.getArgumentParameters().get(0);

@@ -14,6 +14,7 @@ import org.eclipse.datatools.modelbase.sql.datatypes.FixedPrecisionDataType;
 import org.eclipse.datatools.modelbase.sql.datatypes.IntegerDataType;
 import org.eclipse.datatools.modelbase.sql.datatypes.PredefinedDataType;
 import org.eclipse.datatools.modelbase.sql.datatypes.TimeDataType;
+import org.eclipse.datatools.modelbase.sql.schema.impl.ENamedElementImpl;
 import org.eclipse.datatools.modelbase.sql.tables.Column;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -46,8 +47,10 @@ public class ClassifierFactory{
 	private Stereotype associationEndStereotype;
 	private Stereotype associationStereotype;
 	private Stereotype componentStereotype;
-	public ClassifierFactory(Package model){
+	private INameGenerator nameGenerator;
+	public ClassifierFactory(Package model, INameGenerator nameGenerator){
 		this.model = model;
+		this.nameGenerator=nameGenerator;
 		this.packageStereotype = findInProfiles(model, "Package");
 		this.entityStereotype = findInProfiles(model, "Entity");
 		this.propertyStereotype = findInProfiles(model, "Attribute");
@@ -89,6 +92,7 @@ public class ClassifierFactory{
 				String schema = (String) owner.getValue(st, propertyName);
 				if(schema != null){
 					classMap.put(schema + "." + tableName, c);
+					classMap.put(((NamedElement) owner).getName()+ "." + c.getName(), c);
 				}
 				isSchema = true;
 			}
@@ -96,25 +100,36 @@ public class ClassifierFactory{
 		return isSchema;
 	}
 	public Classifier getClassifierFor(JDBCTable returnType){
-		String qName = returnType.getSchema().getName() + "." + returnType.getName();
-		Classifier classifier = classMap.get(qName);
+		String qName1 = calcPackageName(returnType) + "." + calcTypeName(returnType);
+		String qName2 = returnType.getSchema().getName() + "." + returnType.getName();
+		Classifier classifier = classMap.get(qName1);
+		if(classifier == null){
+			classifier = classMap.get(qName2);
+		}
 		if(classifier == null){
 			classifier = (Classifier) createType(returnType, UMLPackage.eINSTANCE.getClass_());
 			if(getEntityStereotype() != null){
 				classifier.applyStereotype(getEntityStereotype());
 				classifier.setValue(getEntityStereotype(), "persistentName", returnType.getName());
 			}
-			classMap.put(qName, classifier);
+			classMap.put(qName1, classifier);
+			classMap.put(qName2, classifier);
 		}
 		return classifier;
+	}
+	public String calcPackageName(JDBCTable returnType){
+		return nameGenerator.calcPackagename(returnType);
 	}
 	protected Type createType(JDBCTable returnType,EClass eTYpe){
 		Namespace ns = getPackageFor(returnType);
 		if(ns instanceof Package){
-			return ((Package) ns).createOwnedType(returnType.getName(), eTYpe);
+			return ((Package) ns).createOwnedType(calcTypeName(returnType), eTYpe);
 		}else{
-			return ((Class) ns).createNestedClassifier(returnType.getName(), eTYpe);
+			return ((Class) ns).createNestedClassifier(calcTypeName(returnType), eTYpe);
 		}
+	}
+	public String calcTypeName(JDBCTable returnType){
+		return this.nameGenerator.calcTypeName(returnType);
 	}
 	private Stereotype findInProfiles(Package model,String name){
 		EList<Profile> pkgs = model.getAppliedProfiles();
@@ -132,7 +147,7 @@ public class ClassifierFactory{
 		return null;
 	}
 	private Namespace getPackageFor(JDBCTable table){
-		String name = table.getSchema().getName();
+		String name = calcPackageName(table);
 		Namespace childPackage = null;
 		EList<NamedElement> members = model.getMembers();
 		for(NamedElement member:members){

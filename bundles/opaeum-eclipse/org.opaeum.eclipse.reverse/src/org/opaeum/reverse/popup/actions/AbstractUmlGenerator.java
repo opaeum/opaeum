@@ -130,9 +130,11 @@ public abstract class AbstractUmlGenerator{
 			Property found = findProperty(classifier, pd);
 			if(found == null){
 				Property attr = createAttribute(classifier, pd);
+				//TODO check nullability/requirement
 				attr.setIsReadOnly(pd.isReadOnly);
 				attr.setIsDerived(pd.isReadOnly);
 				if(pd.isMany()){
+					attr.setLower(0);
 					attr.setUpper(-1);
 				}
 			}

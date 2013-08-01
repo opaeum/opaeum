@@ -1,5 +1,7 @@
 ./eclipse -debug -consolelog -nosplash -verbose -application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher -metadataRepository file:/home/ampie/keplerrepo -artifactRepository file:/home/ampie/keplerrepo -source ~/repo43 -compress -append -publishArtifacts
 
-./eclipse -nosplash -verbose -application org.eclipse.equinox.p2.artifact.repository.mirrorApplication -source http://download.eclipse.org/releases/kepler -destination file:/home/ampie/god-repo
+./eclipse  -nosplash -verbose -application org.eclipse.equinox.p2.artifact.repository.mirrorApplication -source http://download.eclipse.org/releases/kepler -destination file:/home/ampie/kepler-release-repo -eclipse.password ainnikki
+
+./eclipse  -nosplash -verbose -application org.eclipse.equinox.p2.artifact.repository.mirrorApplication -source http://download.eclipse.org/releases/kepler -destination file:/home/ampie/kepler-release-repo -Dhttp.useProxy=true -Dhttp.proxyPort=8080 -Dhttp.proxyHost=proxyo.fnb.co.za -Dhttp.proxyUser=F4673522 -Dhttp.proxyPassword=Ainnikki06
 
 

@@ -35,6 +35,9 @@ public class EmfValidationUtil{
 		}else if(o instanceof BrokenFeature){
 			return " the " + getNameFor(((BrokenFeature) o).getFeature()) +" of "+ getNameFor(((BrokenFeature) o).getOwner());
 		}
+		if(o==null){
+			System.out.println();
+		}
 		return o.toString();
 	}
 	public static final String TYPE_EXPRESSION_HERE = "Type expression here";

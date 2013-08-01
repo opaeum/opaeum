@@ -18,7 +18,7 @@ import org.opaeum.eclipse.uml.propertysections.common.IChoiceProvider;
 import org.opaeum.eclipse.uml.propertysections.subsections.BooleanSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.ChooserSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.IntegerSubsection;
-import org.opaeum.eclipse.uml.propertysections.subsections.LiteralIntegerSubsection;
+import org.opaeum.eclipse.uml.propertysections.subsections.PotentiallyUnlimitedNaturalIntegerSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.StringSubsection;
 import org.opaeum.metamodel.validation.BrokenRule;
 
@@ -39,8 +39,9 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractOpaeum
 		result.setDefaultValue(false);
 		return result;
 	}
-	public LiteralIntegerSubsection createLiteralInteger(EStructuralFeature feature,String labelText,int labelWidth,int controlWidth){
-		LiteralIntegerSubsection result = new LiteralIntegerSubsection(this);
+	public PotentiallyUnlimitedNaturalIntegerSubsection createLiteralInteger(EStructuralFeature feature,String labelText,int labelWidth,int controlWidth){
+		PotentiallyUnlimitedNaturalIntegerSubsection result = new PotentiallyUnlimitedNaturalIntegerSubsection
+				(this);
 		populateSubsection(result, feature, labelText, labelWidth, controlWidth);
 		return result;
 	}

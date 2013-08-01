@@ -179,8 +179,8 @@ public abstract class AbstractDetailsSubsection<T extends EObject> implements IM
 		result.setDefaultValue(false);
 		return result;
 	}
-	public LiteralIntegerSubsection createLiteralInteger(EStructuralFeature feature,String labelText,int labelWidth,int controlWidth){
-		LiteralIntegerSubsection result = new LiteralIntegerSubsection(this);
+	public PotentiallyUnlimitedNaturalIntegerSubsection createLiteralInteger(EStructuralFeature feature,String labelText,int labelWidth,int controlWidth){
+		PotentiallyUnlimitedNaturalIntegerSubsection result = new PotentiallyUnlimitedNaturalIntegerSubsection(this);
 		AbstractMultiFeaturePropertySection.populateSubsection(result, feature, labelText, labelWidth, controlWidth);
 		return result;
 	}

@@ -42,8 +42,8 @@ public class ConnectorBuilder extends UMLSwitch<Connector>{
 					associationConnector.setTarget(shape1);
 					addDecoration(associationConnector, AppliedStereotypeAssociationEditPart.VISUAL_ID + "");
 					addDecoration(associationConnector, AssociationNameEditPart.VISUAL_ID + "");
-					addDecoration(associationConnector, AssociationTargetNameEditPart.VISUAL_ID + "");
-					addDecoration(associationConnector, AssociationSourceNameEditPart.VISUAL_ID + "");
+					addDecoration(associationConnector, AssociationTargetNameEditPart.VISUAL_ID + "",20, 20);
+					addDecoration(associationConnector, AssociationSourceNameEditPart.VISUAL_ID + "",-20, -20);
 					addDecoration(associationConnector, AssociationMultiplicityTargetEditPart.VISUAL_ID + "", 20, 20);
 					addDecoration(associationConnector, AssociationMultiplicitySourceEditPart.VISUAL_ID + "", -20, -20);
 					associationConnector.getStyles().add(NotationFactory.eINSTANCE.createFontStyle());

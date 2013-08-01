@@ -11,7 +11,7 @@ import org.opaeum.eclipse.uml.propertysections.subsections.AbstractDetailsSubsec
 import org.opaeum.eclipse.uml.propertysections.subsections.BooleanSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.ChooserSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.ComboSubsection;
-import org.opaeum.eclipse.uml.propertysections.subsections.LiteralIntegerSubsection;
+import org.opaeum.eclipse.uml.propertysections.subsections.PotentiallyUnlimitedNaturalIntegerSubsection;
 import org.opaeum.eclipse.uml.propertysections.subsections.StringSubsection;
 
 
@@ -20,8 +20,8 @@ public class ParameterComposite extends AbstractDetailsSubsection<Parameter> imp
 	private ChooserSubsection type;
 	private ComboSubsection direction;
 	private BooleanSubsection isException;
-	private LiteralIntegerSubsection from;
-	private LiteralIntegerSubsection to;
+	private PotentiallyUnlimitedNaturalIntegerSubsection from;
+	private PotentiallyUnlimitedNaturalIntegerSubsection to;
 	private BooleanSubsection isUnique;
 	private BooleanSubsection isOrdered;
 
@@ -55,7 +55,7 @@ public class ParameterComposite extends AbstractDetailsSubsection<Parameter> imp
 		isException=createBoolean(UMLPackage.eINSTANCE.getParameter_IsException(), "Is Exception", 120);
 		isException.setColumnSpan(2);
 		from = createLiteralInteger(UMLPackage.eINSTANCE.getMultiplicityElement_LowerValue(), "Number of values:", 120, 50);
-		from.setDefaultValue(0);
+		from.setDefaultValue(1);
 		to = createLiteralInteger(UMLPackage.eINSTANCE.getMultiplicityElement_UpperValue(), "to", 50, 50);
 		to.setDefaultValue(1);
 		isUnique = createBoolean(UMLPackage.eINSTANCE.getMultiplicityElement_IsUnique(), "Every value is unique", 120);
