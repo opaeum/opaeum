@@ -27,16 +27,7 @@
 		<url>git://github.com/opaeum/opaeum.git</url>
 	</scm>
 	<developers>
-		<developer>
-			<id>pietermartin</id>
-			<name>Pieter Martin</name>
-			<email>pieter.martin@gmail.com</email>
-		</developer>
-		<developer>
-			<id>ampie</id>
-			<name>Ampie Barnard</name>
-			<email>ampieb@gmail.com</email>
-		</developer>
+
 	</developers>
 	<repositories>
 
