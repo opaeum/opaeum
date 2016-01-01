@@ -61,7 +61,7 @@ public class Emailler{
 			HtmlEmail htmlEmail = new HtmlEmail();
 			htmlEmail.setHostName("smtp.gmail.com");
 			htmlEmail.setTLS(true);
-			htmlEmail.setAuthentication("ampieb@gmail.com", "Ainn!kk1");
+			htmlEmail.setAuthentication("test@gmail.com", "password");
 			htmlEmail.setSmtpPort(587);
 			if(handler.getFrom() != null && handler.getFrom().getPreferredEMailAddress() != null
 					&& handler.getFrom().getPreferredEMailAddress().getEmailAddress() != null){
