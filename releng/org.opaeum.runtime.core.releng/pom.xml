@@ -254,7 +254,7 @@
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
 				<!--version>4.1.6.Final</version-->
-				<version>3.3.2.GA</version>
+				<version>5.4.24.Final</version>
 				<type>jar</type>
 				<scope>provided</scope>
 				<exclusions>
